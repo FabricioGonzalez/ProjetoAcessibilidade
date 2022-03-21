@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ProjetoAcessibilidade (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ProjetoAcessibilidade (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
