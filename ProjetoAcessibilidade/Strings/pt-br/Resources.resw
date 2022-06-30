@@ -118,34 +118,65 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>Projeto Acessibilidade</value>
+    <value>ProjetoAcessibilidade</value>
   </data>
-  <data name="Shell_Main.Content" xml:space="preserve">
-    <value>Main</value>
+  <data name="AppDescription" xml:space="preserve">
+    <value>ProjetoAcessibilidade</value>
+  </data>
+  <data name="ShellMenuBarItem_File.Title" xml:space="preserve">
+    <value>Arquivos</value>
+  </data>
+  <data name="ShellMenuBarItem_Views.Title" xml:space="preserve">
+    <value>Telas</value>
+  </data>
+  <data name="ShellMenuItem_File_Exit.Text" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="ShellMenuItem_Views_Main.Text" xml:space="preserve">
+    <value>Início</value>
+  </data>
+  <data name="Main_Title.Text" xml:space="preserve">
+    <value>Início</value>
+    <comment>Page title for MainPage</comment>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Personalização</value>
   </data>
   <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>Theme</value>
+    <value>Temas</value>
   </data>
   <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>Light</value>
+    <value>Claro</value>
   </data>
   <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>Dark</value>
+    <value>Escuro</value>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>Padrão</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
-    <value>About this application</value>
+    <value>Sobre esta aplicação</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Settings page placeholder text.  Your app description goes here.</value>
+    <value>TODO: Replace with your app description.</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
-    <value>Privacy Statement</value>
+    <value>Contrato de Privacidade</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://YourPrivacyUrlGoesHere/</value>
-    <comment>Here is your Privacy Statement url for SettingsPage</comment>
+  </data>
+  <data name="ShellMenuBarSettingsButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Settings_Title.Text" xml:space="preserve">
+    <value>Configurações</value>
+    <comment>Page title for SettingsPage</comment>
+  </data>
+  <data name="ShellMenuItem_File_New.Text" xml:space="preserve">
+    <value>Novo Projeto</value>
+  </data>
+  <data name="ShellMenuItem_File_Open.Text" xml:space="preserve">
+    <value>Abrir Projeto</value>
   </data>
 </root>

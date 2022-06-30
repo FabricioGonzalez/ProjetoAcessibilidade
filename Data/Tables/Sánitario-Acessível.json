@@ -1,0 +1,354 @@
+{
+  "item": "Sanitário-Acessivel",
+  "tabela": [
+    {
+      "topico": "Detalhes do(s) sanitário(s) adaptado(s)",
+      "tipo": "checkbox",
+      "checkboxes": [
+        {
+          "topico": "Possui sinalização nas portas?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "1" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "2" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "3"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "4"
+            }
+          ]
+        },
+        {
+          "topico": "Possui sinalização de parede com Braile",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "5" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "6" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "7"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "8"
+            }
+          ]
+        },
+        {
+          "topico": "Possui maçaneta tipo alavanca?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "9" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "10" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "11"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "12"
+            }
+          ]
+        },
+        {
+          "topico": "Possui torneira alavanca?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "13" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "14" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "15"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "16"
+            }
+          ]
+        },
+        {
+          "topico": "Possui chapa anti-impacto na porta?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "17" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "18" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "19"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "20"
+            }
+          ]
+        },
+        {
+          "topico": "Possui 1 barra de segurança na porta?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "21" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "22" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "23"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "24"
+            }
+          ]
+        },
+        {
+          "topico": "Possui 2 barras de segurança no lavatório?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "25" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "26" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "27"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "28"
+            }
+          ]
+        },
+        {
+          "topico": "Possui 2 barras horizontais 80cm de segurança na bacia sanitária?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "29" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "30" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "31"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "32"
+            }
+          ]
+        },
+        {
+          "topico": "Possui 1 barra vertical 70cm de segurança na bacia snitária?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "33" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "34" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "35"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "36"
+            }
+          ]
+        },
+        {
+          "topico": "Possui lavatório?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "37" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "38" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "39"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "40"
+            }
+          ]
+        },
+        {
+          "topico": "Possui bacia sanitária?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "41" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "42" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "43"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "44"
+            }
+          ]
+        },
+        {
+          "topico": "Possui alarme de emergência?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "45" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "46" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "47"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "48"
+            }
+          ]
+        },
+        {
+          "topico": "Possui válvula de descarga atendendo à altura de 1m?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "49" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "50" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "51"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "52"
+            }
+          ]
+        },
+        {
+          "topico": "Possui espelho com base a partir de 90cm de altura?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "53" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "54" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "55"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "56"
+            }
+          ]
+        },
+        {
+          "topico": "Possui acessórios fixados conforme a Norma?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "57" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "58" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "59"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "60"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "observation",
+      "value": ""
+    },
+    {
+      "tipo": "imagem",
+      "images": []
+    }
+  ],
+  "Lei": [
+    {
+      "id": "DECRETO FEDERAL 5296/04",
+      "lei": [
+        "Art. 22. A construção, ampliação ou reforma de edificações de uso público ou de uso coletivo devem dispor de sanitários acessíveis destinados",
+        "ao uso por pessoa portadora de deficiência ou com mobilidade reduzida.",
+        "",
+        "§ 4o Nas edificações de uso coletivo já existentes, onde haja banheiros destinados ao uso público, os sanitários preparados para o uso por",
+        "pessoa portadora de deficiência ou com mobilidade reduzida deverão estar localizados nos pavimentos acessíveis, ter entrada independente dos",
+        "demais sanitários, se houver, e obedecer as normas técnicas de acessibilidade da ABNT"
+      ]
+    },
+    {
+      "id": "NBR9050/20",
+      "lei": [
+        "7.7.2.2.1 Junto à bacia sanitária, quando houver parede lateral, devem ser instaladas barras para apoio e transferência. Uma barra reta horizontal",
+        "com comprimento mínimo de 0,80 m, posicionada horizontalmente, a 0,75 m de altura do piso acabado (medidos pelos eixos de fixação) a uma",
+        "distância de 0,40 m entre o eixo da bacia e a face da barra e deve estar posicionada a uma distância de 0,50 m da borda frontal da bacia. Também",
+        "deve ser instalada uma barra reta com comprimento mínimo de 0,70 m, posicionada verticalmente, a 0,10 m acima da barra horizontal e 0,30 m da",
+        "borda frontal da bacia sanitária, conforme Figuras 106 a 108.",
+        "7.7.2.2.2 Junto à bacia sanitária, na parede do fundo, deve ser instalada uma barra reta com comprimento mínimo de 0,80 m, posicionada",
+        "horizontalmente, a 0,75 m de altura do piso acabado (medido pelos eixos de fixação), com uma distância máxima de 0,11 m da sua face externa à",
+        "parede e estendendo-se 0,30 m além do eixo da bacia em direção à parede lateral, conforme Figuras 106,107 e 109.",
+        "7.7.2.2.3 Para bacias sanitárias com caixa acoplada, que possuam altura que não permita a instalação da barra descrita em 7.7.2.2.2, esta pode",
+        "ser instalada a uma altura de até 0,89 m do piso acabado (medido pelos eixos de fixação), devendo ter uma distância máxima de 0,11 m da sua",
+        "face externa à parede, distância mínima de 0,04 m da superfície superior da tampa da caixa acoplada e 0,30 m além do eixo da bacia em direção à",
+        "parede lateral, conforme Figuras 108 e 110. A barra reta na parede do fundo pode ser substituída por uma barra lateral articulada, desde que a",
+        "extremidade da barra esteja a no mínimo 0,10 m da borda frontal da bacia, conforme Figura 111.",
+        "",
+        "O acionamento da válvula de descarga deve estar a uma altura máxima de 1,00 m, conforme Figura 112, e ser preferencialmente acionado por",
+        "sensores eletrônicos ou dispositivos equivalentes. A força de acionamento deve ser inferior a 23 N. Admite-se outra localização para o",
+        "acionamento com alcance manual, conforme Seção 4.",
+        "",
+        "7.8.1 As barras de apoio dos lavatórios podem ser horizontais e verticais. Quando instaladas, devem ter uma barra de cada lado conforme",
+        "exemplos ilustrados nas Figuras 114, 115 e garantir as seguintes condições:",
+        " a) ter um espaçamento entre a barra e a parede ou de qualquer outro objeto de no mínimo 0,04 m,",
+        "para ser utilizada com conforto;",
+        " b) ser instaladas até no máximo 0,20 m, medido da borda frontal do lavatório até o eixo da barra",
+        "para permitir o alcance;",
+        " c) garantir o alcance manual da torneira de no máximo 0,50 m, medido da borda frontal do lavatório",
+        "até o eixo da torneira, conforme Figura 99 e 114;",
+        " d) as barras horizontais devem ser instaladas a uma altura 0,78 m a 0,80 m, medido a partir do piso",
+        "acabado até a face superior da barra, acompanhando a altura do lavatório;",
+        " e) as barras verticais devem ser instaladas a uma altura de 0,90 m do piso e com comprimento",
+        "mínimo de 0,40 m, garantindo a condição da alínea a);",
+        " f) ter uma distância máxima de 0,50 m do eixo do lavatório ou cuba até o eixo da barra vertical",
+        "instalada na parede lateral ou na parede de fundo para garantir o alcance."
+      ]
+    }
+  ]
+}

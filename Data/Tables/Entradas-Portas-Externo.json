@@ -1,0 +1,265 @@
+{
+  "item": "Entradas(Portas)",
+  "tabela": [
+    {
+      "topico": "Porta possui vão livre de:",
+      "tipo": "texto",
+      "value": "",
+      "id": "1"
+    },
+    {
+      "topico": "Porta Principal:",
+      "tipo": "checkbox",
+      "checkboxes": [
+        {
+          "topico": "Piso tátil no(s) degrau(s)?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "1" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "2" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "3"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "4"
+            }
+          ]
+        },
+        {
+          "topico": "Proteção anti-impacto na porta?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "5" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "6" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "7"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "8"
+            }
+          ]
+        },
+        {
+          "topico": "Adesivo Puxe/Empurre com Braille?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "9" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "10" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "11"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "12"
+            }
+          ]
+        },
+        {
+          "topico": "Adesivo S.I.A. na porta? ",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "13" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "14" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "15"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "16"
+            }
+          ]
+        },
+        {
+          "topico": "Fechadura Eletromagnética?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "17" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "18" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "19"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "20"
+            }
+          ]
+        },
+        {
+          "topico": "Maçanetas tipo alavanca altura entre 0,90m e 1,10m?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "21" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "22" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "23"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "24"
+            }
+          ]
+        },
+        {
+          "topico": "Largura livre mínima de 0,80m e altura de 2,10m?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "25" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "26" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "27"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "28"
+            }
+          ]
+        },
+        {
+          "topico": "Em caso da necessidade de portas giratórias ou catracas, existe outro acesso vinculado à rota acessível?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "29" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "30" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "31"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "32"
+            }
+          ]
+        },
+        {
+          "topico": "Possui largura mínima de 1,50m em frente à porta (sentido da abertura)?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "33" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "34" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "35"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "36"
+            }
+          ]
+        },
+        {
+          "topico": "Possui largura mínima de 1,20m em frente à porta (sentido contrário da abertura)?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "37" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "38" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "39"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "40"
+            }
+          ]
+        },
+        {
+          "topico": "Possui espaço lateral à porta (sentido da abertura) de, no mínimo, 0,60m que possibilite a aproximação à maçaneta?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "41" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "42" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "43"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "44"
+            }
+          ]
+        },
+        {
+          "topico": "Possui espaço lateral à porta (sentido contrário da abertura) de, no mínimo, 0,30m que possibilite a aproximação à maçaneta?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "45" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "46" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "47"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "48"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "observation",
+      "value": ""
+    },
+    {
+      "tipo": "imagem",
+      "images": []
+    }
+  ],
+
+  "Lei": [
+    {
+      "id": "NBR9050/20",
+      "lei": [
+        "4.6.6.1 As maçanetas devem preferencialmente ser do tipo alavanca, possuir pelo menos 100 mm de comprimento e acabamento sem arestas e recurvado na extremidade, apresentando uma distância mínima de 40 mm da superfície da porta. Devem ser instaladas a uma altura que pode variar entre   0,80 m e 1,10 m do piso acabado.",
+        "5.4.1 Sinalização de portas e passagens Portas e passagens devem possuir informação visual, associada a sinalização tátil ou sonora, conforme Tabela 1. Devem ser sinalizadas com números e/ou letras e/ou pictogramas e ter sinais com texto  em relevo, incluindo Braille.",
+        "6.11.2.2 No deslocamento frontal, quando as portas abrirem no sentido do deslocamento do usuário, deve existir um espaço livre de 0,30 m entre a parede e a porta, e quando abrirem no sentido oposto ao deslocamento do usuário, deve existir um espaço livre de 0,60 m, contíguo à maçaneta, conforme a Figura 81. Na impraticabilidade da existência destes espaços livres, deve-se garantir equipamento de automação da abertura e fechamento das portas através de botoeira ou sensor, conforme 6.11.2.9 e 6.11.2.10",
+        "6.11.2.4 As portas, quando abertas, devem ter um vão livre, de no mínimo 0,80 m de largura e 2,10 m   de altura. Em portas de duas ou mais folhas, pelo menos uma delas deve ter o vão livre de 0,80 m."
+      ]
+    }
+  ]
+}

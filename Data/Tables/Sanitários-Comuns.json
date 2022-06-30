@@ -1,0 +1,149 @@
+{
+  "item": "Sanitários-Comuns",
+  "tabela": [
+    {
+      "topico": "",
+      "tipo": "checkbox",
+      "checkboxes": [
+        {
+          "topico": "Porta de acesso possui maçaneta tipo alavanca?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "1" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "2" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "3"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "4"
+            }
+          ]
+        },
+        {
+          "topico": "Porta de acesso possui vão mínimo de 80cm?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "5" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "6" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "7"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "8"
+            }
+          ]
+        },
+        {
+          "topico": "Possui 2 barras (vertical 70cm) ao menos em um mictório?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "9" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "10" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "11"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "12"
+            }
+          ]
+        },
+        {
+          "topico": "Box possui área livre de no mínimo 60cm de diâmetro",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "13" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "14" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "15"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "16"
+            }
+          ]
+        },
+        {
+          "topico": "Porta do box possui vão mínimo de 60cm? (edificação existente)",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": ""
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "observation",
+      "value": ""
+    },
+    {
+      "tipo": "imagem",
+      "images": []
+    }
+  ],
+  "Lei": [
+    {
+      "id": "DECRETO FEDERAL 5296/04",
+      "lei": [
+        "Art.22. A construção, ampliação ou reforma de edificações de uso público ou de uso coletivo devem dispor de sanitários acessíveis destinados",
+        "ao uso por pessoa portadora de deficiência ou com mobilidade reduzida.",
+        "",
+        "§ 4o Nas edificações de uso coletivo já existentes, onde haja banheiros destinados ao uso público, os sanitários preparados para o uso por",
+        "pessoa portadora de deficiência ou com mobilidade reduzida deverão estar localizados nos pavimentos acessíveis, ter entrada independente dos",
+        "demais sanitários, se houver, e obedecer as normas técnicas de acessibilidade da ABNT"
+      ]
+    },
+    {
+      "id": "NBR9050/20",
+      "lei": [
+        "4.6.6.1 As maçanetas devem preferencialmente ser do tipo alavanca, possuir pelo menos 100 mm de comprimento e acabamento sem arestas e",
+        "recurvado na extremidade, apresentando uma distância mínima de 40 mm da superfície da porta. Devem ser instaladas a uma altura que pode",
+        "variar entre 0,80 m e 1,10 m do piso acabado, conforme Figura 16.",
+        "",
+        "7.10.3 Lavatórios em sanitários coletivos Os tampos para lavatórios devem garantir no mínimo uma cuba com superfície superior entre 0,78 m e",
+        "0,80 m, e livre inferior de 0,73 m. Deve ser dotado de barras posicionadas conforme 7.8.1.",
+        "Quando se tratar de bancada com vários lavatórios, as barras de apoio devem estar posicionadas nas extremidades do conjunto, podendo ser em",
+        "apenas uma das extremidades.",
+        "",
+        "7.10.4 Mictório Quando houver pelo menos um mictório em cada sanitário, ele deve atender ao disposto em 7.10.4.1 a 7.10.4.3.",
+        "7.10.4.2 Deve ser equipado com válvula de mictório instalada a uma altura de até 1,00 m do piso acabado, preferencialmente por sensor",
+        "eletrônico ou dispositivos equivalentes ou de fechamento automático, com esforço máximo de 23 N e atendendo a todos os requisitos da ABNT",
+        "NBR 13713. Quando utilizado o sensor de presença fica dispensada a restrição de altura de instalação.",
+        "7.10.4.3 Deve ser dotado de barras de apoio conforme disposto nas Figuras 119 e 120. ",
+        "",
+        "7.4.3 O número mínimo de sanitários acessíveis está definido na Tabela 9 e em 7.4.3.1 a 7.4.3.3.: EDIFÍCIO DE USO COLETIVO EXISTENTE: Uma",
+        "instalação sanitária, onde houver sanitários."
+      ]
+    }
+  ]
+}

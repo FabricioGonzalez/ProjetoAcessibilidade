@@ -1,0 +1,344 @@
+{
+  "item": "Circulação-Vertical",
+  "tabela": [
+    {
+      "topico": "Detalhes do elevador",
+      "tipo": "checkbox",
+      "checkboxes": [
+        {
+          "topico": "Possui elevadores?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "1" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "2" }
+          ]
+        },
+        {
+          "topico": "Situação:",
+          "opcoes": [
+            {
+              "checked": false,
+              "value": "Sim",
+              "opcao": "Em uso",
+              "id": "3"
+            },
+            {
+              "checked": false,
+              "value": "Não",
+              "opcao": "Desativado",
+              "id": "4"
+            }
+          ]
+        },
+        {
+          "topico": "Tipo de elevador:",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Comum", "id": "5" },
+            {
+              "checked": false,
+              "value": "Não",
+              "opcao": "Plataforma",
+              "id": "6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topico": "Se plataforma, indicar o tipo:",
+      "tipo": "texto",
+      "value": "",
+      "id": "7",
+      "unidade": ""
+    },
+    {
+      "topico": "Atende à quais pavimentos? (Ex. subsolo ao térreo, térreo ao segundo, etc.",
+      "tipo": "texto",
+      "value": "",
+      "id": "8",
+      "unidade": ""
+    },
+    {
+      "topico": "Quantidade de paradas:",
+      "tipo": "texto",
+      "value": "",
+      "id": "9",
+      "unidade": "cm"
+    },
+
+    {
+      "topico": "",
+      "tipo": "checkbox",
+      "checkboxes": [
+        {
+          "topico": "Possui identificação externa em braile na botoeira?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "10" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "11" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "12"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "13"
+            }
+          ]
+        },
+        {
+          "topico": "Possui identificação interna em braile nos comandos?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "14" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "15" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "16"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "17"
+            }
+          ]
+        },
+        {
+          "topico": "Possui idenficação externa em braile no batente?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "18" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "19" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "20"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "21"
+            }
+          ]
+        },
+        {
+          "topico": "Possui aviso sonoro?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "22" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "23" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "24"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "25"
+            }
+          ]
+        },
+        {
+          "topico": "Sinalização visual(SIA)",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "26" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "27" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "28"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "29"
+            }
+          ]
+        },
+        {
+          "topico": "Altura dos comandos conforme Norma",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "30" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "31" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "32"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "33"
+            }
+          ]
+        },
+        {
+          "topico": "Espelho",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "34" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "35" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "36"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "37"
+            }
+          ]
+        },
+        {
+          "topico": "Corrimão",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "38" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "39" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "40"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "41"
+            }
+          ]
+        },
+        {
+          "topico": "Botoeira externa",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "42" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "43" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "44"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "45"
+            }
+          ]
+        },
+        {
+          "topico": "Botoeiras de comando internas",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "46" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "47" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "48"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "49"
+            }
+          ]
+        },
+        {
+          "topico": "Sinalização tátil de alerta",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "50" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "51" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "52"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "53"
+            }
+          ]
+        },
+        {
+          "topico": "Sistema de reabertura da porta em caso de obstrução",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "54" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "55" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "56"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "57"
+            }
+          ]
+        },
+        {
+          "topico": "Painel de comando",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "58" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "59" }
+          ],
+          "texto": {
+            "topico": "Onde se localiza",
+            "value": "",
+            "id": "60",
+            "unidade": ""
+          }
+        },
+        {
+          "topico": "Desnível",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "61" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "62" }
+          ],
+          "texto": {
+            "topico": "Desnível:",
+            "value": "",
+            "id": "63",
+            "unidade": "cm"
+          }
+        }
+      ]
+    },
+    {
+      "topico": "Tipo de porta (automática-abertura lateral, automática-abertura central, manual-eixo vertical):",
+      "tipo": "texto",
+      "value": "",
+      "id": "64",
+      "unidade": ""
+    },
+    {
+      "tipo": "observation",
+      "value": ""
+    },
+    {
+      "tipo": "imagem",
+      "images": []
+    }
+  ]
+}
