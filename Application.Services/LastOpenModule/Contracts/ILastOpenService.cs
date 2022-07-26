@@ -1,6 +1,6 @@
 ﻿using Core.Models;
 
-namespace Application.Services.LastOpenModule.Contracts;
+namespace SystemApplication.Services.LastOpenModule.Contracts;
 public interface ILastOpenService
 {
     LastOpenModel[] GetLastOpenItems();

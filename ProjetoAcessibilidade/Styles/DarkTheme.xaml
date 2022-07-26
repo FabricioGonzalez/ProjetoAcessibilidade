@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="BrandedPageBackgroundBrush2" Color="#88555555" />
+    <SolidColorBrush x:Key="NavBarBackgroundBrush" Color="#cc222222" />
+    <SolidColorBrush x:Key="GridCardColor" Color="#55444444" />
+    <SolidColorBrush x:Key="GridLineColor" Color="#88998899" />
+    <SolidColorBrush x:Key="TextBoxColor" Color="#44222222" />
+    <SolidColorBrush x:Key="TextForegroundColor" Color="#ffffff" />
+
+    <LinearGradientBrush x:Key="BrandedPageBackgroundBrush">
+        <GradientStop Offset="0.0" Color="#cc222222" />
+        <GradientStop Offset="0.25" Color="#aa444444" />
+        <GradientStop Offset="0.50" Color="#9f777777" />
+        <GradientStop Offset="0.75" Color="#9f787878" />
+        <GradientStop Offset="1.0" Color="#aa9a9a9a" />
+    </LinearGradientBrush>
+
+    <AcrylicBrush
+        x:Key="NavBarBrush"
+        FallbackColor="#991f1f1f"
+        TintColor="#991f1f1f"
+        TintLuminosityOpacity="0.3"
+        TintOpacity="0.3" />
+</ResourceDictionary>

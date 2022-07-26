@@ -16,4 +16,11 @@ public sealed partial class ProjectPage : Page
         ViewModel = App.GetService<ProjectViewModel>();
         InitializeComponent();
     }
+
+    private void TextBox_LostFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        var result = ((TextBox)e.OriginalSource).Text;
+
+        ViewModel.TextBoxLostFocusCommand.Execute(result);
+    }
 }
