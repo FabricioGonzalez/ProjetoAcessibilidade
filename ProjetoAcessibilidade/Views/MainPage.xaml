@@ -5,6 +5,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="ButtonBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="ButtonForeground" Color="MediumSlateBlue" />
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="MediumSlateBlue" />
+
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#11111111" />
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="MediumSlateBlue" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="MediumSlateBlue" />
+
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#22222222" />
+            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="MediumSlateBlue" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="MediumSlateBlue" />
+
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="LightGray" />
+            <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="LightSteelBlue" />
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
@@ -13,13 +31,13 @@
         </Grid.RowDefinitions>
 
         <TextBlock
-            Grid.Row="0"
             x:Uid="Main_Title"
+            Grid.Row="0"
             Style="{StaticResource PageTitleStyle}" />
 
         <Grid Grid.Row="1">
-			<Button Content="Projeto" Command="{x:Bind ViewModel.NavigateToProjectCommand}"/>
-		</Grid>
-        
+            <Button Command="{x:Bind ViewModel.NavigateToProjectCommand}" Content="Projeto" />
+        </Grid>
+
     </Grid>
 </Page>

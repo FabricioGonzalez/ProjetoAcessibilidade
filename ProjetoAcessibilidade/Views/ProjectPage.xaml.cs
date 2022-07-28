@@ -1,5 +1,8 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using System.Diagnostics;
 
+using Microsoft.UI.Xaml.Controls;
+
+using ProjetoAcessibilidade.TemplateSelector;
 using ProjetoAcessibilidade.ViewModels;
 
 namespace ProjetoAcessibilidade.Views;
@@ -22,5 +25,27 @@ public sealed partial class ProjectPage : Page
         var result = ((TextBox)e.OriginalSource).Text;
 
         ViewModel.TextBoxLostFocusCommand.Execute(result);
+    }
+
+    private void TreeViewItem_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+    {
+        var result = e.OriginalSource;
+
+        if (sender is TreeViewItem item)
+        {
+            Debug.WriteLine((item.DataContext as ExplorerItem).Name);
+            //Debug.WriteLine(sender);
+        }
+    }
+
+    private void TreeViewItem_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+    {
+        var result = e.OriginalSource;
+
+        if (sender is TreeViewItem item)
+        {
+            Debug.WriteLine((item.DataContext as ExplorerItem).Name);
+            //Debug.WriteLine(sender);
+        }
     }
 }
