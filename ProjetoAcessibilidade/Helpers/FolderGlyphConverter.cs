@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 using Microsoft.UI.Xaml.Data;
 
-namespace ProjetoAcessibilidade;
+namespace ProjetoAcessibilidade.Helpers;
 public class FolderGlyphConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if(value is bool val)
+        if (value is bool val)
         {
             return val ? "&#xED43;" : "&#xED41;";
         }
@@ -19,7 +19,7 @@ public class FolderGlyphConverter : IValueConverter
     }
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        if(value is string glyph)
+        if (value is string glyph)
         {
             if (glyph == "&#xED43;")
                 return true;

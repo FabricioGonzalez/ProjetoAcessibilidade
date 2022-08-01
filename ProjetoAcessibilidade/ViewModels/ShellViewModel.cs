@@ -14,6 +14,7 @@ using Projeto.Core.Models;
 
 using ProjetoAcessibilidade.Contracts.Services;
 using ProjetoAcessibilidade.Services;
+using System.Text;
 
 namespace ProjetoAcessibilidade.ViewModels;
 
@@ -65,28 +66,8 @@ public class ShellViewModel : ObservableRecipient
     {
         var result = await fileSelectorService.OpenFile(new string[] { ".prja" });
 
-        if (result is not null)
-        {
-            var folder = await result.GetParentAsync();
-
-            var solution = new ProjectSolutionModel()
-            {
-                FileName = result.Name,
-                FilePath = result.Path,
-                ParentFolderName = folder.Name,
-                ParentFolderPath = folder.Path,
-            };
-
-
-            var data = await result.OpenStreamForReadAsync();
-
-            var resultData = await JsonSerializer.DeserializeAsync<ReportDataModel>(data);
-
-            solution.reportData = resultData;
-            NavigationService.NavigateTo(typeof(ProjectViewModel).FullName, solution);
-
-        }
     }
+
     private async Task OnMenuFileNew()
     {
         var result = await fileSelectorService.SaveFile("Arquivo de Projeto", new string[] { ".prja" }, "");
@@ -101,17 +82,23 @@ public class ShellViewModel : ObservableRecipient
                 FilePath = result.Path,
                 ParentFolderName = folder.Name,
                 ParentFolderPath = folder.Path,
+                reportData = new()
             };
 
+            var writer = await result.OpenStreamForWriteAsync();
 
-            var data = await result.OpenStreamForReadAsync();
+            await writer.WriteAsync(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new ReportDataModel())));
 
-            var resultData = await JsonSerializer.DeserializeAsync<ReportDataModel>(data);
+            var reader = new StreamReader(await result.OpenStreamForReadAsync());
 
-            solution.reportData = resultData;
+            if (await reader.ReadToEndAsync() is string data && data.Length > 0)
+            {
+                var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
 
+                if (resultData is not null)
+                    solution.reportData = resultData;
+            }
             NavigationService.NavigateTo(typeof(ProjectViewModel).FullName, solution);
-
         }
     }
     private void OnMenuFileExit() => Application.Current.Exit();

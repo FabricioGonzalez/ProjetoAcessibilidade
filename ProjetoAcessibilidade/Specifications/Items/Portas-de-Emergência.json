@@ -1,0 +1,33 @@
+{
+  "item": "Portas-De-Emergência",
+  "tabela": [
+    {
+      "topico": "",
+      "tipo": "checkbox",
+      "checkboxes": [
+        {
+          "topico": "Possui porta de emergência?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "1" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "2" }
+          ]
+        },
+        {
+          "topico": "A porta de emergência possui barras antipânico?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "3" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "4" }
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "observation",
+      "value": ""
+    },
+    {
+      "tipo": "imagem",
+      "images": []
+    }
+  ]
+}

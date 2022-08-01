@@ -11,13 +11,21 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <DefaultLanguage>pt-BR</DefaultLanguage>
-    <PackageCertificateThumbprint>9D8B293A323A37F49B770709EA1A14802CBE3C79</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>97B82212FFC1EEC4AF6D67C1116E752FF1DBCE95</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <AppInstallerUri>D:\Programacao\Projetos\Desktop\C#\ProjetoAcessibilidade\Deploy</AppInstallerUri>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Styles\DarkTheme.xaml" />
     <None Remove="Styles\DefaultTheme.xaml" />
     <None Remove="Styles\LightTheme.xaml" />
+    <None Remove="Views\Dialogs\NewItemDialog.xaml" />
     <None Remove="Views\ProjectPage.xaml" />
   </ItemGroup>
 
@@ -43,6 +51,51 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Specifications\Items\Acesso-a-Equipamentos.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Acesso.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Balcão-de-Atendimento-Recepção.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Circulação-Horizontal.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Circulação-Vertical.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Entradas-Portas-Externo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Entradas-Portas-Interno.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Mapa-Tátil.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Mesas.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Piso-Tátil.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Portas-de-Emergência.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Sanitários-Comuns.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Items\Sánitario-Acessível.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Itens.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Update="Views\Dialogs\NewItemDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Styles\DefaultTheme.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

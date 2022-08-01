@@ -23,6 +23,7 @@ namespace ProjetoAcessibilidade.ViewModels;
 
 public class ProjectViewModel : ObservableRecipient, INavigationAware
 {
+    #region Bindings
     private ObservableCollection<TabViewItem> tabViewItems = new();
     public ObservableCollection<TabViewItem> TabViewItems
     {
@@ -30,16 +31,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         set => tabViewItems = value;
     }
 
-    private ICommand _addItemCommand;
-    public ICommand AddItemCommand => _addItemCommand ??= new RelayCommand(OnAddItemCommand);
-
-    private ICommand _textBoxLostFocusCommand;
-    public ICommand TextBoxLostFocusCommand => _textBoxLostFocusCommand ??= new AsyncRelayCommand<string>(OnTextFieldLostFocus);
-
-    private int count = 0;
-
     private ReportDataOutput reportData;
-
     public ReportDataOutput ReportData
     {
         get => reportData;
@@ -49,31 +41,56 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             OnPropertyChanged(nameof(ReportData));
         }
     }
+    
+    private string solutionPath;
+    public string SolutionPath
+    {
+        get => solutionPath;
+        set
+        {
+            solutionPath = value;
+            OnPropertyChanged(nameof(SolutionPath));
+        }
+    }
 
     private ObservableCollection<ExplorerItem> items;
-
     public ObservableCollection<ExplorerItem> Items
     {
         get => items;
         set => SetProperty(ref items, value, nameof(Items));
-    }
+    } 
+    #endregion
 
+    #region Commands
 
-    private void OnAddItemCommand()
+    private ICommand _addItemCommand;
+    public ICommand AddItemCommand => _addItemCommand ??= new RelayCommand<string>(OnAddItemCommand);
+
+    private ICommand _addItemToProjectCommand;
+    public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new RelayCommand<string>(OnAddItemToProjectCommand);
+    
+    private ICommand _addFolderToProjectCommand;
+    public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<string>(OnAddFolderToProjectCommand);
+
+    private ICommand _textBoxLostFocusCommand;
+    public ICommand TextBoxLostFocusCommand => _textBoxLostFocusCommand ??= new AsyncRelayCommand<string>(OnTextFieldLostFocus);
+
+    #endregion
+
+    #region CommandMethods
+    private void OnAddItemCommand(string itemName)
     {
-        count++;
-
         var grid = new Grid()
         {
             Background = new SolidColorBrush() { Color = Colors.Aqua },
             VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
         };
-        grid.Children.Add(new TextBlock() { Text = $"ok {count}" });
+        grid.Children.Add(new TextBlock() { Text = $"{itemName}" });
 
         var item = new TabViewItem()
         {
-            Header = $"project {count}",
+            Header = $"{itemName}",
             Content = grid,
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
             Background = new SolidColorBrush() { Color = Colors.Aqua },
@@ -81,11 +98,27 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         };
         TabViewItems.Add(item);
     }
-
+    private void OnAddItemToProjectCommand(string obj)
+    {
+    }
+    private void OnAddFolderToProjectCommand(string obj)
+    {
+    }
+    private async Task OnTextFieldLostFocus(string data)
+    {
+        await Task.Run(() =>
+        {
+            Debug.WriteLine(data);
+        });
+    }
+    #endregion
+   
+    #region Constructor
     public ProjectViewModel()
     {
         Items = GetData();
-    }
+    } 
+    #endregion
 
     private ObservableCollection<ExplorerItem> GetData()
     {
@@ -167,8 +200,8 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         list.Add(folder2);
         return list;
     }
-
-
+    
+    #region InterfaceImplementedMethods
     public void OnNavigatedFrom()
     {
         return;
@@ -187,10 +220,10 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             ReportData.Endereco = data.reportData.Endereco;
             ReportData.NomeEmpresa = data.reportData.NomeEmpresa;
             ReportData.SolutionName = data.reportData.SolutionName;
+
+            solutionPath = data.ParentFolderPath;
         }
-    }
-    private async Task OnTextFieldLostFocus(string data)
-    {
-        Debug.WriteLine(data);
-    }
+    } 
+    #endregion
+
 }

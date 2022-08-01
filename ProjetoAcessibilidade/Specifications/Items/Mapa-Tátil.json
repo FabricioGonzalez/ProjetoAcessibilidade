@@ -1,0 +1,25 @@
+{
+  "item": "Mapa Tátil",
+  "tabela": [
+    {
+      "tipo": "checkbox",
+      "checkboxes": [
+        {
+          "topico": "Possui?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "1" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "2" }
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "observation",
+      "value": ""
+    },
+    {
+      "tipo": "imagem",
+      "images": []
+    }
+  ]
+}

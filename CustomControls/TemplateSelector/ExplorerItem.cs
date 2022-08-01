@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ProjetoAcessibilidade.TemplateSelector;
+namespace CustomControls.TemplateSelectors;
 public class ExplorerItem : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;

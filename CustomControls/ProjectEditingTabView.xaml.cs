@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -18,7 +19,7 @@ public sealed partial class ProjectEditingTabView : UserControl
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ItemsProperty =
         DependencyProperty.Register("Items", typeof(ObservableCollection<TabViewItem>),
-            typeof(ProjectEditingTabView), new PropertyMetadata (new ObservableCollection<TabViewItem>()));
+            typeof(ProjectEditingTabView), new PropertyMetadata(new ObservableCollection<TabViewItem>()));
 
     private void TabView_AddTabButtonClick(TabView sender, object args)
     {
@@ -35,8 +36,20 @@ public sealed partial class ProjectEditingTabView : UserControl
         Items.Remove(args.Tab);
     }
 
+    private void XmlEditControl_DragEnter(object sender, DragEventArgs e)
+    {
+        Debug.WriteLine("I entered");
+    }
+
+    private void XmlEditControl_DragDrop(object sender, DragEventArgs e)
+    {
+        Debug.WriteLine("I dropped");
+    }
+
     public ProjectEditingTabView()
     {
         InitializeComponent();
+        this.DragEnter += new DragEventHandler(XmlEditControl_DragEnter);
+        this.Drop += new DragEventHandler(this.XmlEditControl_DragDrop);
     }
 }

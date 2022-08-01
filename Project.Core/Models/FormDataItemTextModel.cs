@@ -6,7 +6,7 @@ namespace Core.Models;
 internal class FormDataItemTextModel : IFormDataItemContract
 {
     public string Topic { get; set; } = "";
-    public FormDataItemTypeEnum Type { get; set; } = FormDataItemTypeEnum.undefined;
+    public FormDataItemTypeEnum Type { get; set; } = FormDataItemTypeEnum.Text;
     public string TextData { get; set; } = "";
 
 #nullable enable

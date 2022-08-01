@@ -1,9 +1,7 @@
-﻿namespace Core.Enums
+﻿namespace Core.Enums;
+public enum FormDataItemTypeEnum
 {
-    public enum FormDataItemTypeEnum
-    {
-        checkbox,
-        text,
-        undefined
-    }
+    Checkbox,
+    Text,
+    Undefined
 }

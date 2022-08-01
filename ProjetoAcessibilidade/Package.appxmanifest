@@ -9,7 +9,7 @@
 
   <Identity
     Name="B40F7701-FB91-4FED-8DFA-4C94C620CA1A"
-    Publisher="CN=ti"
+    Publisher="CN=Kurog"
     Version="1.0.0.0" />
 
   <Properties>
@@ -41,6 +41,15 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name=".prja">
+            <uap:SupportedFileTypes>
+              <uap:FileType>.json</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:EditFlags OpenIsSafe="true"/>
+            <uap:DisplayName>.prja</uap:DisplayName>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

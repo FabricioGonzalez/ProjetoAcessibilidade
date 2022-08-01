@@ -7,7 +7,13 @@ namespace Core.Models;
 
 internal class FormDataItemCheckboxModel : IFormDataItemContract
 {
-    public string Topic { get; set; }
-    public FormDataItemTypeEnum Type { get; set; }
-    public IEnumerable<OptionModel> Options { get; set; }
+    public string Topic
+    {
+        get; set;
+    }
+    public FormDataItemTypeEnum Type { get; set; } = FormDataItemTypeEnum.Checkbox;
+    public IEnumerable<OptionModel> Options
+    {
+        get; set;
+    }
 }

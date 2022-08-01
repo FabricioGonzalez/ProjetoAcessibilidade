@@ -1,0 +1,124 @@
+{
+  "item": "Circulação Horizontal",
+  "tabela": [
+    {
+      "topico": "Largura do Corredor:",
+      "tipo": "texto",
+      "value": "",
+      "id": "1",
+      "unidade": "m"
+    },
+    {
+      "topico": "Corredores",
+      "tipo": "checkbox",
+      "checkboxes": [
+        {
+          "topico": "A largura dos corredores é de no mínimo 1.20m?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "2" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "3" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "4"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "5"
+            }
+          ]
+        },
+        {
+          "topico": "É antiderrapante, regular, estável e não trepidante?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "6" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "7" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "8"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "9"
+            }
+          ]
+        },
+        {
+          "topico": "Possui forrações, tapetes e carpetes embutido no piso e nívelados, firmemente fixados ao piso e com felpas de, no máximo, 6mm?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "10" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "11" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "12"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "13"
+            }
+          ]
+        },
+        {
+          "topico": "Largura para transposição de obstáculo, mínimo 80cm?",
+          "opcoes": [
+            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "14" },
+            { "checked": false, "value": "Não", "opcao": "Não", "id": "15" },
+            {
+              "checked": false,
+              "value": "Adequado",
+              "opcao": "Adequado",
+              "id": "16"
+            },
+            {
+              "checked": false,
+              "value": "Inadequado",
+              "opcao": "Inadequado",
+              "id": "17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "observation",
+      "value": ""
+    },
+    {
+      "tipo": "imagem",
+      "images": []
+    }
+  ],
+
+  "Lei": [
+    {
+      "id": "NBR9050/15",
+      "lei": [
+        "6.11.1 Corredores",
+        "Os corredores devem ser dimensionados de acordo com o fluxo de pessoas, assegurando uma faixa livre de barreiras ou",
+        "obstáculos, conforme 6.12.6. As larguras mínimas para corredores em edificações e equipamentos urbanos são:",
+        "a) 0,90m para corredores de uso comum com extensão de 4,00m;",
+        "b) 1,20m para corredores de uso comum com  extensão até 10,0m; e 1,50m para corredores",
+        "com extensão superior a 10,0m;",
+        "c) 1,50m para corredores de uso público;",
+        "d) maior que 1,50m para grandes fluxos de pessoas, conforme aplicação da equação apresentada",
+        "em 6.12.6.",
+        "6.11.1.1 Em edificações e equipamentos urbanos existentes, onde a adequação dos corredores seja impraticável, devem ser",
+        "implantados bolsões de retorno com dimensões que permitam a manobra completa de uma cadeira de rodas (180°), sendo no",
+        "mínimo um bolsão a cada 1,50m para grande fluxos de pessoas, conforme aplicação da equação aprensetada em 6.12.6.",
+        "6.11.1.2 Para transposição de obstáculos, objetos e elementos com no máximo de 0,40m de extensão, a largura mínima do",
+        "corredor deve ser de 0,80m, conforme 4.3.2. Acima de 0,40m de extensão, a largura mínima deve ser de 0,90m."
+      ]
+    }
+  ]
+}

@@ -5,6 +5,8 @@ using Microsoft.UI.Xaml.Controls;
 using ProjetoAcessibilidade.TemplateSelector;
 using ProjetoAcessibilidade.ViewModels;
 
+using Windows.ApplicationModel.DataTransfer;
+
 namespace ProjetoAcessibilidade.Views;
 
 public sealed partial class ProjectPage : Page
@@ -38,7 +40,18 @@ public sealed partial class ProjectPage : Page
         }
     }
 
-    private void TreeViewItem_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+    //private void TreeViewItem_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+    //{
+    //    var result = e.OriginalSource;
+
+    //    if (sender is TreeViewItem item)
+    //    {
+    //        Debug.WriteLine((item.DataContext as ExplorerItem).Name);
+    //        //Debug.WriteLine(sender);
+    //    }
+    //}
+
+    private void ProjectEditingTabView_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
     {
         var result = e.OriginalSource;
 
@@ -47,5 +60,35 @@ public sealed partial class ProjectPage : Page
             Debug.WriteLine((item.DataContext as ExplorerItem).Name);
             //Debug.WriteLine(sender);
         }
+    }
+
+    private void ContentArea_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+    {
+        if (sender is TreeViewItem item)
+        {
+            Debug.WriteLine((item.DataContext as ExplorerItem).Name);
+            //Debug.WriteLine(sender);
+        }
+    }
+
+    private void TreeViewItem_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+    {
+        if (sender is TreeViewItem item)
+        {
+            Debug.WriteLine((item.DataContext as ExplorerItem).Name);
+
+            ViewModel.AddItemCommand.Execute((item.DataContext as ExplorerItem).Name);
+
+        }
+    }
+
+    private void MenuFlyoutItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+
+    }
+
+    private void ContentArea_DropCompleted(Microsoft.UI.Xaml.UIElement sender, Microsoft.UI.Xaml.DropCompletedEventArgs args)
+    {
+        Debug.WriteLine(args.DropResult);
     }
 }
