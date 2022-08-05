@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 
@@ -17,7 +15,17 @@ using Projeto.Core.Models;
 
 using ProjetoAcessibilidade.Contracts.ViewModels;
 using System.Threading.Tasks;
-using ProjetoAcessibilidade.TemplateSelector;
+using CustomControls.TemplateSelectors;
+using CustomControls;
+using System.IO;
+using System.Text.Json;
+using Core.Models;
+using Newtonsoft.Json.Linq;
+using System.Collections;
+using Core.Enums;
+using System;
+using Core.Contracts;
+using System.Collections.Generic;
 
 namespace ProjetoAcessibilidade.ViewModels;
 
@@ -80,18 +88,23 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #region CommandMethods
     private void OnAddItemCommand(string itemName)
     {
-        var grid = new Grid()
+        var projectItemTemplate = new ProjectItemTemplate()
         {
             Background = new SolidColorBrush() { Color = Colors.Aqua },
             VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
         };
-        grid.Children.Add(new TextBlock() { Text = $"{itemName}" });
+
+        var result = new StreamReader("C:\\Users\\ti\\Desktop\\ProjetoAcessibilidade\\ProjetoAcessibilidade\\Specifications\\Items\\Circulação-Horizontal.json");
+
+        JObject resultData = JObject.Parse(result.ReadToEnd());
+
+        var itemData = ProcessArray(resultData["tabela"]?.Values());
 
         var item = new TabViewItem()
         {
             Header = $"{itemName}",
-            Content = grid,
+            Content = projectItemTemplate,
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
             Background = new SolidColorBrush() { Color = Colors.Aqua },
             VerticalContentAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
@@ -112,7 +125,45 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         });
     }
     #endregion
-   
+
+    #region InnerMethods
+
+    private IEnumerable ProcessArray(IJEnumerable<JToken> items)
+    {
+        IFormDataItemContract itemData;
+
+        List<FormDataItemModel> formData = new();
+
+        foreach (var item in items)
+        {
+            var tipo = item.Values();
+
+            Enum.TryParse<FormDataItemTypeEnum>(tipo.ToString(), out var itemType);
+
+            if (itemType == FormDataItemTypeEnum.Text)
+            {
+                itemData = new FormDataItemTextModel();
+
+                formData.Add(new(itemData));
+            } 
+            if (itemType == FormDataItemTypeEnum.Checkbox)
+            {
+                itemData = new FormDataItemCheckboxModel();
+
+                formData.Add(new(itemData));
+            }        
+            if (itemType == FormDataItemTypeEnum.Observation)
+            {
+                itemData = new FormDataItemObservationModel();
+
+                formData.Add(new(itemData));
+            }
+        }
+        return formData;
+    }
+
+    #endregion
+
     #region Constructor
     public ProjectViewModel()
     {

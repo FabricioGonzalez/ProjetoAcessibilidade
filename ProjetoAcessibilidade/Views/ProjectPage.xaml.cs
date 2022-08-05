@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
 
+using CustomControls.TemplateSelectors;
+
 using Microsoft.UI.Xaml.Controls;
 
-using ProjetoAcessibilidade.TemplateSelector;
 using ProjetoAcessibilidade.ViewModels;
-
-using Windows.ApplicationModel.DataTransfer;
 
 namespace ProjetoAcessibilidade.Views;
 

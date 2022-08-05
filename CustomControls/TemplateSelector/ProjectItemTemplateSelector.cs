@@ -24,7 +24,7 @@ public class ProjectItemTemplateSelector : DataTemplateSelector
     {
         var projectItem = (IFormDataItemContract)item;
 
-        if (projectItem.Type == FormDataItemTypeEnum.Undefined)
+        if (projectItem.Type == FormDataItemTypeEnum.Observation)
         {
             return ObservationTemplate;
         }

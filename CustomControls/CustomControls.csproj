@@ -9,6 +9,9 @@
   <ItemGroup>
     <None Remove="ProjectEditingTabView.xaml" />
     <None Remove="ProjectItemTemplate.xaml" />
+    <None Remove="TemplateDefinitions\CheckboxDatatemplate.xaml" />
+    <None Remove="TemplateDefinitions\ObservationDatatemplate.xaml" />
+    <None Remove="TemplateDefinitions\TextboxDatatemplate.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +32,20 @@
   <ItemGroup>
     <Page Update="ProjectEditingTabView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="TemplateDefinitions\TextboxDatatemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TemplateDefinitions\ObservationDatatemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="TemplateDefinitions\CheckboxDatatemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 </Project>

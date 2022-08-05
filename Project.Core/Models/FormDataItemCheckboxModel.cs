@@ -1,11 +1,8 @@
 ﻿using Core.Contracts;
 using Core.Enums;
 
-using System.Collections.Generic;
-
 namespace Core.Models;
-
-internal class FormDataItemCheckboxModel : IFormDataItemContract
+public class FormDataItemCheckboxModel : IFormDataItemContract
 {
     public string Topic
     {
