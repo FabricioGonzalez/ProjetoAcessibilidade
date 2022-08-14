@@ -3,5 +3,7 @@ public enum FormDataItemTypeEnum
 {
     Checkbox,
     Text,
+    Images,
+    Observation,
     Undefined
 }

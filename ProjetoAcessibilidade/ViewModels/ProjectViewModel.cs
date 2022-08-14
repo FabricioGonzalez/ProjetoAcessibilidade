@@ -17,7 +17,8 @@ using Projeto.Core.Models;
 
 using ProjetoAcessibilidade.Contracts.ViewModels;
 using System.Threading.Tasks;
-using ProjetoAcessibilidade.TemplateSelector;
+using CustomControls.TemplateSelectors;
+using CustomControls;
 
 namespace ProjetoAcessibilidade.ViewModels;
 
@@ -41,7 +42,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             OnPropertyChanged(nameof(ReportData));
         }
     }
-    
+
     private string solutionPath;
     public string SolutionPath
     {
@@ -58,7 +59,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     {
         get => items;
         set => SetProperty(ref items, value, nameof(Items));
-    } 
+    }
     #endregion
 
     #region Commands
@@ -68,7 +69,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
 
     private ICommand _addItemToProjectCommand;
     public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new RelayCommand<string>(OnAddItemToProjectCommand);
-    
+
     private ICommand _addFolderToProjectCommand;
     public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<string>(OnAddFolderToProjectCommand);
 
@@ -80,18 +81,13 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #region CommandMethods
     private void OnAddItemCommand(string itemName)
     {
-        var grid = new Grid()
-        {
-            Background = new SolidColorBrush() { Color = Colors.Aqua },
-            VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
-        };
-        grid.Children.Add(new TextBlock() { Text = $"{itemName}" });
+
+        var itemTemplate = new ProjectItemTemplate();
 
         var item = new TabViewItem()
         {
             Header = $"{itemName}",
-            Content = grid,
+            Content = itemTemplate,
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
             Background = new SolidColorBrush() { Color = Colors.Aqua },
             VerticalContentAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
@@ -112,12 +108,12 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         });
     }
     #endregion
-   
+
     #region Constructor
     public ProjectViewModel()
     {
         Items = GetData();
-    } 
+    }
     #endregion
 
     private ObservableCollection<ExplorerItem> GetData()
@@ -200,7 +196,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         list.Add(folder2);
         return list;
     }
-    
+
     #region InterfaceImplementedMethods
     public void OnNavigatedFrom()
     {
@@ -223,7 +219,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
 
             solutionPath = data.ParentFolderPath;
         }
-    } 
+    }
     #endregion
 
 }

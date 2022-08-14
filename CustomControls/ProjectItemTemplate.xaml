@@ -2,14 +2,58 @@
 	x:Class="CustomControls.ProjectItemTemplate"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ProjectItemTemplateSelector="using:CustomControls.TemplateSelectors"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="using:CustomControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="using:Core.Models"
 	mc:Ignorable="d">
+	<UserControl.Resources>
+		<DataTemplate x:Key="TextItemTemplate" x:DataType="models:FormDataItemTextModel">
+			<StackPanel Orientation="Vertical" Spacing="5">
+				<TextBlock Text="{x:Bind Topic}" />
+				<StackPanel Orientation="Horizontal" Spacing="5">
+					<TextBox
+						HorizontalAlignment="Stretch"
+						HorizontalContentAlignment="Stretch"
+						Text="{Binding TextData}" />
+					<TextBlock Text="{Binding MeasurementUnit}" />
+				</StackPanel>
+			</StackPanel>
+		</DataTemplate>
 
+		<DataTemplate x:Key="ObservationItemTemplate" x:DataType="models:FormDataItemObservation">
+			<StackPanel Orientation="Vertical" Spacing="5">
+				<TextBlock Text="{x:Bind Topic}" />
+				<TextBox
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Stretch"
+					Text="{Binding value}" />
+			</StackPanel>
+		</DataTemplate>
+
+		<DataTemplate x:Key="CheckboxItemTemplate" x:DataType="models:FormDataItemCheckboxModel">
+			<StackPanel Orientation="Vertical" Spacing="5">
+				<TextBlock Text="{x:Bind Topic}" />
+				<ListView ItemsSource="{Binding Options}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal" Spacing="5">
+								<TextBlock Text="{Binding Value}" />
+								<CheckBox IsChecked="{Binding IsChecked}" />
+							</StackPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</StackPanel>
+		</DataTemplate>
+
+		<ProjectItemTemplateSelector:ProjectItemTemplateSelector
+			x:Key="ProjectItemTemplateSelector"
+			CheckBoxTemplate="{StaticResource CheckboxItemTemplate}"
+			ObservationTemplate="{StaticResource ObservationItemTemplate}"
+			TextBoxTemplate="{StaticResource TextItemTemplate}" />
+	</UserControl.Resources>
 	<Grid>
-		<ListView>
-			<ListView.ItemTemplateSelector />
-		</ListView>
+		<ListView ItemTemplateSelector="{StaticResource ProjectItemTemplateSelector}" />
 	</Grid>
 </UserControl>

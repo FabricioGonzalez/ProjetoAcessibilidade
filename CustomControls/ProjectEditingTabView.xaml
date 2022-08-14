@@ -14,7 +14,6 @@
 		VerticalAlignment="Stretch"
 		HorizontalContentAlignment="Stretch"
 		VerticalContentAlignment="Stretch"
-		AddTabButtonClick="TabView_AddTabButtonClick"
 		AllowDrop="True"
 		Background="Beige"
 		CanReorderTabs="True"

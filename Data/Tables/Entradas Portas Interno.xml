@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-model href="Table.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<root>
+    <item>Entradas-Portas-Interno</item>
+    <tabela>
+        <topico>Possui vão livre de:</topico>
+        <tipo>texto</tipo>
+        <value />
+        <id>1</id>
+        <unidade>m</unidade>
+    </tabela>
+    <tabela>
+        <tipo>checkbox</tipo>
+        <checkboxes>
+            <topico>Maçanetas tipo alavanca altura entre 0,
+90m,
+1,
+10m?</topico>
+            <opcoes>
+                <checked>false</checked>
+                <value>Sim</value>
+                <opcao>Sim</opcao>
+                <id>2</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Não</value>
+                <opcao>Não</opcao>
+                <id>3</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Adequado</value>
+                <opcao>Adequado</opcao>
+                <id>4</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Inadequado</value>
+                <opcao>Inadequado</opcao>
+                <id>5</id>
+            </opcoes>
+        </checkboxes>
+        <checkboxes>
+            <topico>Largura livre mínima de 0,
+80m e altura de 2,
+10m?</topico>
+            <opcoes>
+                <checked>false</checked>
+                <value>Sim</value>
+                <opcao>Sim</opcao>
+                <id>6</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Não</value>
+                <opcao>Não</opcao>
+                <id>7</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Adequado</value>
+                <opcao>Adequado</opcao>
+                <id>8</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Inadequado</value>
+                <opcao>Inadequado</opcao>
+                <id>9</id>
+            </opcoes>
+        </checkboxes>
+        <checkboxes>
+            <topico>Possui largura mínima de 1,
+50m em frente à porta (sentido da abertura)?</topico>
+            <opcoes>
+                <checked>false</checked>
+                <value>Sim</value>
+                <opcao>Sim</opcao>
+                <id>10</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Não</value>
+                <opcao>Não</opcao>
+                <id>11</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Adequado</value>
+                <opcao>Adequado</opcao>
+                <id>12</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Inadequado</value>
+                <opcao>Inadequado</opcao>
+                <id>13</id>
+            </opcoes>
+        </checkboxes>
+        <checkboxes>
+            <topico>Possui largura mínima de 1,
+20m em frente à porta (sentido contrário da abertura)?</topico>
+            <opcoes>
+                <checked>false</checked>
+                <value>Sim</value>
+                <opcao>Sim</opcao>
+                <id>14</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Não</value>
+                <opcao>Não</opcao>
+                <id>15</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Adequado</value>
+                <opcao>Adequado</opcao>
+                <id>16</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Inadequado</value>
+                <opcao>Inadequado</opcao>
+                <id>17</id>
+            </opcoes>
+        </checkboxes>
+        <checkboxes>
+            <topico>Possui espaço lateral à porta (sentido da abertura) de, no mínima,
+0,
+60m q possibilite a aproximação à maçaneta?</topico>
+            <opcoes>
+                <checked>false</checked>
+                <value>Sim</value>
+                <opcao>Sim</opcao>
+                <id>18</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Não</value>
+                <opcao>Não</opcao>
+                <id>19</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Adequado</value>
+                <opcao>Adequado</opcao>
+                <id>20</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Inadequado</value>
+                <opcao>Inadequado</opcao>
+                <id>21</id>
+            </opcoes>
+        </checkboxes>
+        <checkboxes>
+            <topico>Possui espaço lateral à porta (sentido contrário da abertura) de, no mínimo,
+0,
+30m que possibilite a aproximação à maçaneta?</topico>
+            <opcoes>
+                <checked>false</checked>
+                <value>Sim</value>
+                <opcao>Sim</opcao>
+                <id>22</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Não</value>
+                <opcao>Não</opcao>
+                <id>23</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Adequado</value>
+                <opcao>Adequado</opcao>
+                <id>24</id>
+            </opcoes>
+            <opcoes>
+                <checked>false</checked>
+                <value>Inadequado</value>
+                <opcao>Inadequado</opcao>
+                <id>25</id>
+            </opcoes>
+        </checkboxes>
+    </tabela>
+    <tabela>
+        <tipo>observation</tipo>
+        <value />
+    </tabela>
+    <tabela>
+        <tipo>imagem</tipo>
+    </tabela>
+    <Lei>
+        <id>NBR9050/20</id>
+        <lei>4.6.6.1 As maçanetas devem preferencialmente ser do tipo alavanca, possuir pelo menos 100 mm de comprimento e acabamento sem arestas e</lei>
+        <lei>recurvado na extremidade, apresentando uma distância mínima de 40 mm da superfície da porta. Devem ser instaladas a uma altura que pode</lei>
+        <lei>variar entre 0,
+80 m e 1,
+10 m do piso acabado.</lei>
+        <lei />
+        <lei>5.4.1 Sinalização de portas e passagens Portas e passagens devem possuir informação visual, associada a sinalização tátil ou sonora, conforme</lei>
+        <lei>Tabela 1. Devem ser sinalizadas com números e/ou letras e/ou pictogramas e ter sinais com texto em relevo, incluindo Braille.</lei>
+        <lei />
+        <lei>6.11.2.2 No deslocamento frontal, quando as portas abrirem no sentido do deslocamento do usuário, deve existir um espaço livre de 0,
+30 m entre</lei>
+        <lei />
+    </Lei>
+</root>

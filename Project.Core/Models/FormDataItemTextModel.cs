@@ -3,7 +3,7 @@ using Core.Enums;
 
 namespace Core.Models;
 
-internal class FormDataItemTextModel : IFormDataItemContract
+public class FormDataItemTextModel : IFormDataItemContract
 {
     public string Topic { get; set; } = "";
     public FormDataItemTypeEnum Type { get; set; } = FormDataItemTypeEnum.Text;

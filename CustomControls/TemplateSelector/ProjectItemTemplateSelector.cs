@@ -24,11 +24,20 @@ public class ProjectItemTemplateSelector : DataTemplateSelector
     {
         var projectItem = (IFormDataItemContract)item;
 
-        if (projectItem.Type == FormDataItemTypeEnum.Undefined)
+        if (projectItem.Type == FormDataItemTypeEnum.Observation)
         {
             return ObservationTemplate;
         }
 
-        return projectItem.Type == FormDataItemTypeEnum.Text ? TextBoxTemplate : CheckBoxTemplate;
+        if (projectItem.Type == FormDataItemTypeEnum.Checkbox)
+        {
+            return CheckBoxTemplate;
+        }
+
+        if (projectItem.Type == FormDataItemTypeEnum.Text)
+        {
+            return TextBoxTemplate;
+        }
+        return TextBoxTemplate;
     }
 }
