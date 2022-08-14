@@ -1,6 +1,6 @@
 {
-  "item": "Acesso",
-  "tabela": [
+  "ItemName": "Acesso",
+  "FormData": [
     {
       "topico": "Acesso-Principal:",
       "tipo": "texto",
@@ -21,15 +21,35 @@
         {
           "topico": "Há garantia de pelo menos, um dos acessos ao seu interior, com comunicação com todas as suas dependências e serviços, livre de barreiras e de obstáculos?",
           "opcoes": [
-            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "3" },
-            { "checked": false, "value": "Não", "opcao": "Não", "id": "4" }
+            {
+              "checked": false,
+              "value": "Sim",
+              "opcao": "Sim",
+              "id": "3"
+            },
+            {
+              "checked": false,
+              "value": "Não",
+              "opcao": "Não",
+              "id": "4"
+            }
           ]
         },
         {
           "topico": "Há a possibilidade de ampliação do número de acessos livres de obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há sinalização informativa, indicativa edirecional da localização das entradas acessíveis?",
           "opcoes": [
-            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "5" },
-            { "checked": false, "value": "Não", "opcao": "Não", "id": "6" }
+            {
+              "checked": false,
+              "value": "Sim",
+              "opcao": "Sim",
+              "id": "5"
+            },
+            {
+              "checked": false,
+              "value": "Não",
+              "opcao": "Não",
+              "id": "6"
+            }
           ]
         }
       ]
@@ -41,29 +61,69 @@
         {
           "topico": "antiderrapante?",
           "opcoes": [
-            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "7" },
-            { "checked": false, "value": "Não", "opcao": "Não", "id": "8" }
+            {
+              "checked": false,
+              "value": "Sim",
+              "opcao": "Sim",
+              "id": "7"
+            },
+            {
+              "checked": false,
+              "value": "Não",
+              "opcao": "Não",
+              "id": "8"
+            }
           ]
         },
         {
           "topico": "É regular, estável e não trepidante? ",
           "opcoes": [
-            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "9" },
-            { "checked": false, "value": "Não", "opcao": "Não", "id": "10" }
+            {
+              "checked": false,
+              "value": "Sim",
+              "opcao": "Sim",
+              "id": "9"
+            },
+            {
+              "checked": false,
+              "value": "Não",
+              "opcao": "Não",
+              "id": "10"
+            }
           ]
         },
         {
           "topico": "Possui sinalização informativa e direcional dos acessos da edificação?",
           "opcoes": [
-            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "11" },
-            { "checked": false, "value": "Não", "opcao": "Não", "id": "12" }
+            {
+              "checked": false,
+              "value": "Sim",
+              "opcao": "Sim",
+              "id": "11"
+            },
+            {
+              "checked": false,
+              "value": "Não",
+              "opcao": "Não",
+              "id": "12"
+            }
           ]
         },
         {
           "topico": "Possui sinalização direcional dos acessos da edificação até o balcão de informação?",
           "opcoes": [
-            { "checked": false, "value": "Sim", "opcao": "Sim", "id": "13" },
-            { "checked": false, "value": "Não", "opcao": "Não", "id": "14" }
+            {
+              "checked": false,
+              "value": "Sim",
+              "opcao": "Sim",
+              "id": "13"
+            },
+            {
+              "checked": false,
+              "value": "Não",
+              "opcao": "Não",
+              "id": "14"
+            }
           ]
         }
       ]

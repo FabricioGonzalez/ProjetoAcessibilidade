@@ -6,8 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 
 using ProjetoAcessibilidade.ViewModels;
 
-using Windows.ApplicationModel.DataTransfer;
-
 namespace ProjetoAcessibilidade.Views;
 
 public sealed partial class ProjectPage : Page

@@ -1,26 +1,33 @@
 ﻿<Application
-	x:Class="ProjetoAcessibilidade.App"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:projetoacessibilidade="using:ProjetoAcessibilidade"
-	xmlns:projetoacessibilidade1="using:ProjetoAcessibilidade.Helpers">
-	<Application.Resources>
-		<ResourceDictionary>
-			<projetoacessibilidade1:FolderGlyphConverter x:Key="FolderGlyphConverter" />
-			<ResourceDictionary.MergedDictionaries>
-				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-				<ResourceDictionary Source="/Styles/FontSizes.xaml" />
-				<ResourceDictionary Source="/Styles/Thickness.xaml" />
-				<ResourceDictionary Source="/Styles/TextBlock.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-			<ResourceDictionary.ThemeDictionaries>
-				<ResourceDictionary x:Key="Dark" Source="/Styles/DarkTheme.xaml" />
+    x:Class="ProjetoAcessibilidade.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:projetoacessibilidade="using:ProjetoAcessibilidade.Helpers"
+    xmlns:templatedefinitions="using:CustomControls.TemplateDefinitions"
+    xmlns:templateselectors="using:CustomControls.TemplateSelectors">
+    <Application.Resources>
+        <ResourceDictionary>
+            <projetoacessibilidade:FolderGlyphConverter x:Key="FolderGlyphConverter" />
+            <templateselectors:ExplorerItemTemplateSelector x:Key="ExplorerItemTemplateSelector" />
+            <templateselectors:ProjectItemTemplateSelector x:Key="ProjectItemTemplateSelector" />
 
-				<ResourceDictionary x:Key="Light" Source="/Styles/LightTheme.xaml" />
+            <templatedefinitions:CheckboxDatatemplate x:Key="CheckboxDatatemplate" />
+            <templatedefinitions:ObservationDatatemplate x:Key="ObservationDatatemplate" />
+            <templatedefinitions:TextboxDatatemplate x:Key="TextboxDatatemplate" />
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="/Styles/FontSizes.xaml" />
+                <ResourceDictionary Source="/Styles/Thickness.xaml" />
+                <ResourceDictionary Source="/Styles/TextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark" Source="/Styles/DarkTheme.xaml" />
 
-				<ResourceDictionary x:Key="Default" Source="/Styles/DefaultTheme.xaml" />
+                <ResourceDictionary x:Key="Light" Source="/Styles/LightTheme.xaml" />
 
-			</ResourceDictionary.ThemeDictionaries>
-		</ResourceDictionary>
-	</Application.Resources>
+                <ResourceDictionary x:Key="Default" Source="/Styles/DefaultTheme.xaml" />
+
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>
