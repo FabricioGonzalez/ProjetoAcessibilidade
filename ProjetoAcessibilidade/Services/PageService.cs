@@ -8,7 +8,9 @@ using Microsoft.UI.Xaml.Controls;
 
 using ProjetoAcessibilidade.Contracts.Services;
 using ProjetoAcessibilidade.ViewModels;
+using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 using ProjetoAcessibilidade.Views;
+using ProjetoAcessibilidade.Views.Dialogs;
 
 namespace ProjetoAcessibilidade.Services;
 
@@ -21,6 +23,8 @@ public class PageService : IPageService
         Configure<MainViewModel, MainPage>();
         Configure<ProjectViewModel, ProjectPage>();
         Configure<SettingsViewModel, SettingsPage>();
+        Configure<TemplateEditViewModel, TemplateEditingPage>();
+        Configure<NewItemViewModel, NewItemDialog>();
     }
 
     public Type GetPageType(string key)

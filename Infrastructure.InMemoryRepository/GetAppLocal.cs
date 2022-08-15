@@ -10,7 +10,7 @@ public class GetAppLocal
 {
     public string getAppLocal()
     {
-        var envPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)!;
+        var envPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)!;
 
         return envPath;
     }

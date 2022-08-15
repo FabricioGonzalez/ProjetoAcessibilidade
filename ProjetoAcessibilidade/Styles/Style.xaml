@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<SolidColorBrush x:Key="ButtonBackground" Color="Transparent" />
+	<SolidColorBrush x:Key="ButtonForeground" Color="{ThemeResource TextForeground}" />
+	<SolidColorBrush x:Key="ButtonBorderBrush" Color="{ThemeResource PrimaryColor}" />
+
+	<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource TransparentLightStyle}" />
+	<SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource TextForeground}" />
+	<SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{ThemeResource PrimaryColorHover}" />
+
+	<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="Transparent" />
+	<SolidColorBrush x:Key="ButtonForegroundPressed" Color="{ThemeResource TextForeground}" />
+	<SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="{ThemeResource PrimaryColorPressed}" />
+
+	<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="{ThemeResource DisabledColor}" />
+	<SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource DisabledColor}" />
+
+</ResourceDictionary>

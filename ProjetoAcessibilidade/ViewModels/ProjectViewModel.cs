@@ -17,15 +17,14 @@ using ProjetoAcessibilidade.Contracts.ViewModels;
 using System.Threading.Tasks;
 using CustomControls.TemplateSelectors;
 using CustomControls;
-using System.IO;
-using System.Text.Json;
-using Core.Models;
-using Newtonsoft.Json.Linq;
-using System.Collections;
-using Core.Enums;
+using Windows.Storage;
 using System;
-using Core.Contracts;
 using System.Collections.Generic;
+using System.IO;
+using Windows.ApplicationModel;
+using SystemApplication.Services.ProjectDataServices;
+using ProjetoAcessibilidade.Services;
+using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 
 namespace ProjetoAcessibilidade.ViewModels;
 
@@ -49,7 +48,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             OnPropertyChanged(nameof(ReportData));
         }
     }
-    
+
     private string solutionPath;
     public string SolutionPath
     {
@@ -65,20 +64,25 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     public ObservableCollection<ExplorerItem> Items
     {
         get => items;
-        set => SetProperty(ref items, value, nameof(Items));
-    } 
+        set => SetProperty(ref items, value);
+    }
+    #endregion
+
+    #region Dependencies
+    readonly GetProjectData getProjectData;
+    readonly NewItemDialogService newItemDialogService;
     #endregion
 
     #region Commands
 
     private ICommand _addItemCommand;
-    public ICommand AddItemCommand => _addItemCommand ??= new RelayCommand<string>(OnAddItemCommand);
+    public ICommand AddItemCommand => _addItemCommand ??= new RelayCommand<ExplorerItem>(OnAddItemCommand);
 
     private ICommand _addItemToProjectCommand;
-    public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new RelayCommand<string>(OnAddItemToProjectCommand);
-    
+    public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new RelayCommand<object>(OnAddItemToProjectCommand);
+
     private ICommand _addFolderToProjectCommand;
-    public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<string>(OnAddFolderToProjectCommand);
+    public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<object>(OnAddFolderToProjectCommand);
 
     private ICommand _textBoxLostFocusCommand;
     public ICommand TextBoxLostFocusCommand => _textBoxLostFocusCommand ??= new AsyncRelayCommand<string>(OnTextFieldLostFocus);
@@ -86,35 +90,30 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #endregion
 
     #region CommandMethods
-    private void OnAddItemCommand(string itemName)
+    private void OnAddItemCommand(ExplorerItem itemName)
     {
-        var projectItemTemplate = new ProjectItemTemplate()
-        {
-            Background = new SolidColorBrush() { Color = Colors.Aqua },
-            VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
-        };
 
-        var result = new StreamReader("C:\\Users\\ti\\Desktop\\ProjetoAcessibilidade\\ProjetoAcessibilidade\\Specifications\\Items\\Circulação-Horizontal.json");
+        var itemTemplate = new ProjectItemTemplate();
 
-        JObject resultData = JObject.Parse(result.ReadToEnd());
 
-        var itemData = ProcessArray(resultData["tabela"]?.Values());
+        itemTemplate.ProjectItem = getProjectData.GetItemProject(itemName.Path);
+
 
         var item = new TabViewItem()
         {
-            Header = $"{itemName}",
-            Content = projectItemTemplate,
+            Header = $"{itemName.Name}",
+            Content = itemTemplate,
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
             Background = new SolidColorBrush() { Color = Colors.Aqua },
             VerticalContentAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
         };
         TabViewItems.Add(item);
     }
-    private void OnAddItemToProjectCommand(string obj)
+    private void OnAddItemToProjectCommand(object obj)
     {
+        newItemDialogService.ShowDialog<NewItemViewModel>("Escolha um item");
     }
-    private void OnAddFolderToProjectCommand(string obj)
+    private void OnAddFolderToProjectCommand(object obj)
     {
     }
     private async Task OnTextFieldLostFocus(string data)
@@ -126,136 +125,65 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     }
     #endregion
 
-    #region InnerMethods
-
-    private IEnumerable ProcessArray(IJEnumerable<JToken> items)
+    #region Constructor
+    public ProjectViewModel(GetProjectData getProject, NewItemDialogService newItemDialog)
     {
-        IFormDataItemContract itemData;
+        getProjectData = getProject;
+        newItemDialogService = newItemDialog;
+    }
+    #endregion
 
-        List<FormDataItemModel> formData = new();
+    private async Task GetDataFromPath(StorageFolder folder, IList<ExplorerItem> list)
+    {
+        var itens = await folder.GetItemsAsync();
 
-        foreach (var item in items)
+        var folderItem = new ExplorerItem
         {
-            var tipo = item.Values();
+            Name = folder.Name,
+            Path = folder.Path,
+            Type = ExplorerItem.ExplorerItemType.Folder,
+            Children = new()
+        };
 
-            Enum.TryParse<FormDataItemTypeEnum>(tipo.ToString(), out var itemType);
-
-            if (itemType == FormDataItemTypeEnum.Text)
+        foreach (var item in itens)
+        {
+            if (item.IsOfType(StorageItemTypes.Folder))
             {
-                itemData = new FormDataItemTextModel();
+                var newfolder = await StorageFolder.GetFolderFromPathAsync(item.Path);
 
-                formData.Add(new(itemData));
-            } 
-            if (itemType == FormDataItemTypeEnum.Checkbox)
+                await GetDataFromPath(newfolder, folderItem.Children);
+            }
+            if (item.IsOfType(StorageItemTypes.File))
             {
-                itemData = new FormDataItemCheckboxModel();
-
-                formData.Add(new(itemData));
-            }        
-            if (itemType == FormDataItemTypeEnum.Observation)
-            {
-                itemData = new FormDataItemObservationModel();
-
-                formData.Add(new(itemData));
+                var i = new ExplorerItem()
+                {
+                    Name = item.Name.Split(".")[0],
+                    Path = item.Path,
+                    Type = ExplorerItem.ExplorerItemType.File
+                };
+                folderItem.Children.Add(i);
             }
         }
-        return formData;
+        list.Add(folderItem);
     }
 
-    #endregion
-
-    #region Constructor
-    public ProjectViewModel()
-    {
-        Items = GetData();
-    } 
-    #endregion
-
-    private ObservableCollection<ExplorerItem> GetData()
+    private async Task<ObservableCollection<ExplorerItem>> GetData()
     {
         var list = new ObservableCollection<ExplorerItem>();
-        ExplorerItem folder1 = new ExplorerItem()
-        {
-            Name = "Work Documents",
-            Type = ExplorerItem.ExplorerItemType.Folder,
-            Children =
-                {
-                    new ExplorerItem()
-                    {
-                        Name = "Functional Specifications",
-                        Type = ExplorerItem.ExplorerItemType.Folder,
-                        Children =
-                        {
-                            new ExplorerItem()
-                            {
-                                Name = "TreeView spec",
-                                Type = ExplorerItem.ExplorerItemType.File,
-                              }
-                        }
-                    },
-                    new ExplorerItem()
-                    {
-                        Name = "Feature Schedule",
-                        Type = ExplorerItem.ExplorerItemType.File,
-                    },
-                    new ExplorerItem()
-                    {
-                        Name = "Overall Project Plan",
-                        Type = ExplorerItem.ExplorerItemType.File,
-                    },
-                    new ExplorerItem()
-                    {
-                        Name = "Feature Resources Allocation",
-                        Type = ExplorerItem.ExplorerItemType.File,
-                    }
-                }
-        };
-        ExplorerItem folder2 = new ExplorerItem()
-        {
-            Name = "Personal Folder",
-            Type = ExplorerItem.ExplorerItemType.Folder,
-            Children =
-                        {
-                            new ExplorerItem()
-                            {
-                                Name = "Home Remodel Folder",
-                                Type = ExplorerItem.ExplorerItemType.Folder,
-                                Children =
-                                {
-                                    new ExplorerItem()
-                                    {
-                                        Name = "Contractor Contact Info",
-                                        Type = ExplorerItem.ExplorerItemType.File,
-                                    },
-                                    new ExplorerItem()
-                                    {
-                                        Name = "Paint Color Scheme",
-                                        Type = ExplorerItem.ExplorerItemType.File,
-                                    },
-                                    new ExplorerItem()
-                                    {
-                                        Name = "Flooring Woodgrain type",
-                                        Type = ExplorerItem.ExplorerItemType.File,
-                                    },
-                                    new ExplorerItem()
-                                    {
-                                        Name = "Kitchen Cabinet Style",
-                                        Type = ExplorerItem.ExplorerItemType.File,
-                                    }
-                                }
-                            }
-                        }
-        };
 
-        list.Add(folder1);
-        list.Add(folder2);
+        var directory = await StorageFolder.GetFolderFromPathAsync(Path.Combine(Package.Current.InstalledPath, "Specifications"));
+
+        //var directory = await StorageFolder.GetFolderFromPathAsync(Path.Combine(SolutionPath, "Itens"));
+
+        await GetDataFromPath(directory, list);
+
         return list;
     }
-    
+
     #region InterfaceImplementedMethods
     public void OnNavigatedFrom()
     {
-        return;
+
     }
     public void OnNavigatedTo(object parameter)
     {
@@ -273,8 +201,10 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             ReportData.SolutionName = data.reportData.SolutionName;
 
             solutionPath = data.ParentFolderPath;
+
+            Items = Task.Run(async () => await GetData()).Result;
         }
-    } 
+    }
     #endregion
 
 }

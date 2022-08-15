@@ -29,6 +29,15 @@ public class ProjectItemTemplateSelector : DataTemplateSelector
             return ObservationTemplate;
         }
 
-        return projectItem.Type == FormDataItemTypeEnum.Text ? TextBoxTemplate : CheckBoxTemplate;
+        if (projectItem.Type == FormDataItemTypeEnum.Checkbox)
+        {
+            return CheckBoxTemplate;
+        }
+
+        if (projectItem.Type == FormDataItemTypeEnum.Text)
+        {
+            return TextBoxTemplate;
+        }
+        return TextBoxTemplate;
     }
 }

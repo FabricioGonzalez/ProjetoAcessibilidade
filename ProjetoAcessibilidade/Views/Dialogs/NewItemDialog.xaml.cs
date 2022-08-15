@@ -22,7 +22,7 @@ namespace ProjetoAcessibilidade.Views.Dialogs;
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class NewItemDialog : Window
+public sealed partial class NewItemDialog : Page
 {
     public NewItemDialog()
     {
