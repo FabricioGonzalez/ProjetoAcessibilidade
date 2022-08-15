@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using ProjetoAcessibilidade.Helpers;
+using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,6 +17,46 @@ public sealed partial class NewItemDialog : Page
 {
     public NewItemDialog()
     {
-        this.InitializeComponent();
+        InitializeComponent();
+
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var window = (DataContext as NewItemViewModel).newItemDialogService.GetDialog();
+
+            if (window is not null)
+            {
+                if (window.IsTitleBarCustomizable())
+                {
+                    window.ExtendsContentIntoTitleBar = true;
+                    window.SetTitleBar(AppTitleBar);
+                    AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+
+                    Grid.SetRow(AppTitleBar, 0);
+                    Grid.SetRow(content, 1);
+
+                    Grid.SetRowSpan(AppTitleBar, 1);
+                    Grid.SetRowSpan(content, 2);
+                }
+                else
+                {
+                    AppTitleBar.Visibility = Visibility.Collapsed;
+
+                    Grid.SetRow(AppTitleBar, 0);
+                    Grid.SetRow(content, 0);
+
+                    Grid.SetRowSpan(AppTitleBar, 0);
+                    Grid.SetRowSpan(content, 3);
+                }
+            }
+        (DataContext as NewItemViewModel).GetFiles();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

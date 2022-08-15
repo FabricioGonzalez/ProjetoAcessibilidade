@@ -1,8 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+using Windows.Storage;
+using Windows.ApplicationModel;
 
 using SystemApplication.Services.UIOutputs;
+using SystemApplication.Services.ProjectDataServices;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -14,17 +22,11 @@ using Microsoft.UI.Xaml.Media;
 using Projeto.Core.Models;
 
 using ProjetoAcessibilidade.Contracts.ViewModels;
-using System.Threading.Tasks;
-using CustomControls.TemplateSelectors;
-using CustomControls;
-using Windows.Storage;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using Windows.ApplicationModel;
-using SystemApplication.Services.ProjectDataServices;
 using ProjetoAcessibilidade.Services;
 using ProjetoAcessibilidade.ViewModels.DialogViewModel;
+
+using CustomControls.TemplateSelectors;
+using CustomControls;
 
 namespace ProjetoAcessibilidade.ViewModels;
 

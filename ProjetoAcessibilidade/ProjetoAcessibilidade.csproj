@@ -11,7 +11,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <DefaultLanguage>pt-BR</DefaultLanguage>
-    <PackageCertificateThumbprint>97B82212FFC1EEC4AF6D67C1116E752FF1DBCE95</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>A2E9FEA1F9F12042E9C882DCD9C5429BB0E83E8B</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -48,6 +48,12 @@
     <ProjectReference Include="..\Infrastructure.InMemoryRepository\Infrastructure.InMemoryRepository.csproj" />
     <ProjectReference Include="..\Project.Core\Projeto.Core.csproj" />
     <ProjectReference Include="..\ProjetoAcessibilidade.Core\ProjetoAcessibilidade.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Assets\WindowIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
@@ -122,19 +128,37 @@
     <None Update="Specifications\Tables\Entradas Portas Interno.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Specifications\Tables\Mapa Tátil.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Specifications\Tables\Mapa-Tátil.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Specifications\Tables\Mesas.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Specifications\Tables\Mesas.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Piso Tátil.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Specifications\Tables\Piso-Tátil.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Portas de Emergência.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Specifications\Tables\Portas-de-Emergência.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Specifications\Tables\Sanitários Comuns.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Specifications\Tables\Sanitários-Comuns.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Sánitario Acessível.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Specifications\Tables\Sánitario-Acessível.json">

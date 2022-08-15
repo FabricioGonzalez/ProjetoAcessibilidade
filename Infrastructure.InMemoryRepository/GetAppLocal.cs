@@ -4,14 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SystemApplication.Services.UIOutputs;
+
 namespace Infrastructure.InMemoryRepository;
 
 public class GetAppLocal
 {
-    public string getAppLocal()
+    string path;
+    public GetAppLocal(string path)
     {
-        var envPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)!;
+        this.path = path;
+    }
+    public List<FileTemplates> getProjectLocalPath()
+    {
+        var files = Directory.GetFiles(Path.Combine(path, "Tables"));
 
-        return envPath;
+        List<FileTemplates> filesList = new List<FileTemplates>();
+
+        foreach (var item in files)
+        {
+            var splitedItem = item.Split("\\");
+            filesList.Add(new()
+            {
+                Name = (splitedItem.GetValue(splitedItem.Length -1) as string).Split(".")[0],
+                Path = item
+            });
+        }
+        return filesList;
     }
 }

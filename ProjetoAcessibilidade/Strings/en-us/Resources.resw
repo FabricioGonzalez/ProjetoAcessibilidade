@@ -179,4 +179,10 @@
   <data name="ShellMenuItem_File_Open.Text" xml:space="preserve">
     <value>Open Project</value>
   </data>
+  <data name="ShellMenuBarItem_TemplateRelated.Title" xml:space="preserve">
+    <value>Templates</value>
+  </data>
+  <data name="ShellMenuItem_Template_Edit.Text" xml:space="preserve">
+    <value>Edit Templates</value>
+  </data>
 </root>

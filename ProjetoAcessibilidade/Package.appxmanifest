@@ -9,8 +9,8 @@
 
   <Identity
     Name="B40F7701-FB91-4FED-8DFA-4C94C620CA1A"
-    Publisher="CN=Kurog"
-    Version="1.0.0.0" />
+    Publisher="CN=ti"
+    Version="1.0.2.0" />
 
   <Properties>
     <DisplayName>ProjetoAcessibilidade</DisplayName>

@@ -28,10 +28,32 @@ public sealed partial class ShellPage : Page
         // TODO: Set the title bar icon by updating /Assets/WindowIcon.png.
         // A custom title bar is required for full window theme and Mica support.
         // https://docs.microsoft.com/windows/apps/develop/title-bar?tabs=winui3#full-customization
-        App.MainWindow.ExtendsContentIntoTitleBar = true;
-        App.MainWindow.SetTitleBar(AppTitleBar);
-        App.MainWindow.Activated += MainWindow_Activated;
-        AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+        if (App.MainWindow.IsTitleBarCustomizable())
+        {
+            App.MainWindow.ExtendsContentIntoTitleBar = true;
+            App.MainWindow.SetTitleBar(AppTitleBar);
+            App.MainWindow.Activated += MainWindow_Activated;
+            AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+
+            Grid.SetRow(AppTitleBar, 0);
+            Grid.SetRow(content, 1);
+            Grid.SetRow(frame, 2);
+
+            Grid.SetRowSpan(AppTitleBar, 1);
+            Grid.SetRowSpan(content, 1);
+            Grid.SetRowSpan(frame, 1);
+        }
+        else
+        {
+            AppTitleBar.Visibility = Visibility.Collapsed;
+
+            Grid.SetRow(AppTitleBar, 0);
+            Grid.SetRow(content, 0);
+            Grid.SetRow(frame, 1);
+
+            Grid.SetRowSpan(content, 1);
+            Grid.SetRowSpan(frame, 2);
+        }
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)

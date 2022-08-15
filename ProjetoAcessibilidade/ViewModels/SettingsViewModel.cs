@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -61,11 +62,19 @@ public class SettingsViewModel : ObservableRecipient
         VersionDescription = GetVersionDescription();
     }
 
-    private static string GetVersionDescription()
+    private string GetVersionDescription()
     {
         var appName = "AppDisplayName".GetLocalized();
-        var version = Package.Current.Id.Version;
 
-        return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        Package package = Package.Current;
+        PackageVersion packageVersion = package.Id.Version;
+
+        var currentVersion = new Version(string.Format("{0}.{1}.{2}.{3}",
+            packageVersion.Major,
+            packageVersion.Minor,
+            packageVersion.Build,
+            packageVersion.Revision));
+
+        return $"{appName} - {currentVersion}";
     }
 }

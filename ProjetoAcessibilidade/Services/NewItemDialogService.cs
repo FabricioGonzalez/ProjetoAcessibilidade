@@ -10,12 +10,19 @@ namespace ProjetoAcessibilidade.Services;
 public class NewItemDialogService
 {
     private Window newItemDialog = null;
+
     IPageService pageService;
     public NewItemDialogService(IPageService pageService)
     {
         this.pageService = pageService;
     }
+    public Window GetDialog()
+    {
+        if (newItemDialog is null)
+            return null;
 
+        return newItemDialog;
+    }
     private void CreateDialog()
     {
         if (newItemDialog is null)
@@ -42,6 +49,7 @@ public class NewItemDialogService
             var vm = App.GetService(typeof(VmType));
 
             content.DataContext = vm;
+
             content.RequestedTheme = theme;
         }
 
@@ -55,7 +63,7 @@ public class NewItemDialogService
         newItemDialog.Content = content;
 
         newItemDialog.SetPresenter();
-        newItemDialog.SetWindowIcon();
+        //newItemDialog.SetWindowIcon();
 
         newItemDialog.Closed += NewItemDialog_Closed;
 

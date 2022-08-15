@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 
 using Infrastructure.InMemoryRepository;
 
@@ -21,6 +22,8 @@ using ProjetoAcessibilidade.Views.Dialogs;
 
 using SystemApplication.Services.Contracts;
 using SystemApplication.Services.ProjectDataServices;
+
+using Windows.ApplicationModel;
 
 using UnhandledExceptionEventArgs = Microsoft.UI.Xaml.UnhandledExceptionEventArgs;
 
@@ -54,6 +57,8 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             services.AddSingleton<NewItemDialogService>();
+
+            services.AddScoped<GetAppLocal>((services) => new(Path.Combine(Package.Current.InstalledPath, "Specifications")));
 
             services.AddSingleton<IFileSelectorService, FileSelectorService>();
             services.AddSingleton<IXmlProjectDataRepository, XmlProjectDataRepository>();

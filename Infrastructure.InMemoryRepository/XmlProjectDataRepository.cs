@@ -1,11 +1,10 @@
 ﻿using System.Xml;
 using System.Text.RegularExpressions;
 
+using SystemApplication.Services.Contracts;
+using Core.Models;
 using Core.Contracts;
 using Core.Enums;
-using Core.Models;
-
-using SystemApplication.Services.Contracts;
 
 namespace Infrastructure.InMemoryRepository;
 public class XmlProjectDataRepository : IXmlProjectDataRepository
