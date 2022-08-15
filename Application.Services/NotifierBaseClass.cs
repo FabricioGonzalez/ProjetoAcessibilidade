@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SystemApplication.Services;
 public class NotifierBaseClass : INotifyPropertyChanged
@@ -15,9 +10,9 @@ public class NotifierBaseClass : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
-    protected NotifierBaseClass SetAtributeValue<T>(ref T item, T value)
+    protected void SetAtributeValue<T>(ref T item, T value, [CallerMemberName] string? name = null)
     {
         item = value;
-        return this;
+        NotifyPropertyChanged(name);
     }
 }

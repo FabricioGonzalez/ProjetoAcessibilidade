@@ -25,8 +25,10 @@
     <None Remove="Styles\DarkTheme.xaml" />
     <None Remove="Styles\DefaultTheme.xaml" />
     <None Remove="Styles\LightTheme.xaml" />
+    <None Remove="Styles\Style.xaml" />
     <None Remove="Views\Dialogs\NewItemDialog.xaml" />
     <None Remove="Views\ProjectPage.xaml" />
+    <None Remove="Views\TemplateEditingPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -93,6 +95,60 @@
     <None Update="Specifications\Itens.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Specifications\Itens.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Itens.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Acesso a Equipamentos.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Acesso.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Balcão de Atendimento Recepção.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Circulação Vertical.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Circulação Horizontal.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Entradas Portas Externo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Entradas Portas Interno.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Mapa-Tátil.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Mesas.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Piso-Tátil.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Portas-de-Emergência.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Sanitários-Comuns.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Sánitario-Acessível.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Table.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Update="Views\TemplateEditingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Styles\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Dialogs\NewItemDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

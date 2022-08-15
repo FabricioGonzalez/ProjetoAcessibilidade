@@ -10,8 +10,9 @@ public class FormDataItemCheckboxModel : IFormDataItemContract
         get; set;
     }
     public FormDataItemTypeEnum Type { get; set; } = FormDataItemTypeEnum.Checkbox;
-    public IEnumerable<OptionModel> Options
+    public List<FormDataItemCheckboxChildModel> Children
     {
         get; set;
     }
+
 }

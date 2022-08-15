@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Infrastructure.InMemoryRepository;
 
@@ -14,7 +15,14 @@ using ProjetoAcessibilidade.Helpers;
 using ProjetoAcessibilidade.Models;
 using ProjetoAcessibilidade.Services;
 using ProjetoAcessibilidade.ViewModels;
+using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 using ProjetoAcessibilidade.Views;
+using ProjetoAcessibilidade.Views.Dialogs;
+
+using SystemApplication.Services.Contracts;
+using SystemApplication.Services.ProjectDataServices;
+
+using UnhandledExceptionEventArgs = Microsoft.UI.Xaml.UnhandledExceptionEventArgs;
 
 // To learn more about WinUI3, see: https://docs.microsoft.com/windows/apps/winui/winui3/.
 namespace ProjetoAcessibilidade;
@@ -45,17 +53,30 @@ public partial class App : Application
             // Core Services
             services.AddSingleton<IFileService, FileService>();
 
+            services.AddSingleton<NewItemDialogService>();
+
             services.AddSingleton<IFileSelectorService, FileSelectorService>();
+            services.AddSingleton<IXmlProjectDataRepository, XmlProjectDataRepository>();
+            services.AddScoped<GetProjectData>();
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
+
             services.AddTransient<ProjectViewModel>();
             services.AddTransient<ProjectPage>();
+
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
+
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
+
+            services.AddTransient<TemplateEditingPage>();
+            services.AddTransient<TemplateEditViewModel>();
+
+            services.AddTransient<NewItemDialog>();
+            services.AddTransient<NewItemViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
@@ -67,6 +88,10 @@ public partial class App : Application
     {
         return _host.Services.GetService(typeof(T)) as T;
     }
+    public static object GetService(Type type)
+    {
+        return _host.Services.GetService(type) as object;
+    }
 
     public static Window MainWindow { get; set; } = new Window() { Title = "AppDisplayName".GetLocalized() };
 
@@ -74,8 +99,6 @@ public partial class App : Application
     {
         InitializeComponent();
         UnhandledException += App_UnhandledException;
-        var appPath = new GetAppLocal().getAppLocal();
-        Debug.WriteLine(appPath);
     }
 
     private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -88,8 +111,8 @@ public partial class App : Application
         }
         catch (System.Exception)
         {
-        
-        
+
+
         }
     }
 

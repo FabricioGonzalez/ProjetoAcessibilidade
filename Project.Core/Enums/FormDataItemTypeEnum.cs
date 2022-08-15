@@ -5,5 +5,4 @@ public enum FormDataItemTypeEnum
     Text,
     Images,
     Observation,
-    Undefined
 }
