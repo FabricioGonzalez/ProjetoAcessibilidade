@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 
-using CommunityToolkit.WinUI.UI.Controls;
-
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -13,8 +11,6 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-
-using ProjetoAcessibilidade.ViewModels;
 
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -26,27 +22,10 @@ namespace ProjetoAcessibilidade.Views;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class TemplateEditingPage : Page
+public sealed partial class PrintPage : Page
 {
-    public TemplateEditViewModel ViewModel
+    public PrintPage()
     {
-        get; private set;
-    }
-    public TemplateEditingPage()
-    {
-        InitializeComponent();
-        ViewModel = App.GetService<TemplateEditViewModel>();
-    }
-    private void OnViewStateChanged(object sender, ListDetailsViewState e)
-    {
-        if (e == ListDetailsViewState.Both)
-        {
-            ViewModel.EnsureItemSelected();
-        }
-    }
-
-    private void TemplatePage_Loaded(object sender, RoutedEventArgs e)
-    {
-        //ViewModel.
+        this.InitializeComponent();
     }
 }

@@ -8,6 +8,8 @@
 		<GradientStop Offset="1.0" Color="#aa9a9a9a" />
 	</LinearGradientBrush>
 
+	<ThemeShadow x:Key="ProjectShadow" />
+
 	<SolidColorBrush x:Key="GridCardColor" Color="#55444444" />
 	<SolidColorBrush x:Key="GridLineColor" Color="#88998899" />
 
@@ -23,7 +25,6 @@
 	<SolidColorBrush x:Key="PrimaryColorPressed" Color="#77e78710" />
 	<SolidColorBrush x:Key="PrimaryBorderColorPressed" Color="#60e78710" />
 
-	<SolidColorBrush x:Key="NavBarBackgroundBrush" Color="#cc222222" />
 	<AcrylicBrush
 		x:Key="NavBarBrush"
 		FallbackColor="#991f1f1f"

@@ -29,6 +29,7 @@ public class ShellViewModel : ObservableRecipient
     private ICommand _menuSettingsCommand;
     private ICommand _menuViewsMainCommand;
     private ICommand _menuTemplateEditCommand;
+    private ICommand _menuPrintEditCommand;
 
     private object LastView;
 
@@ -38,6 +39,7 @@ public class ShellViewModel : ObservableRecipient
     public ICommand MenuSettingsCommand => _menuSettingsCommand ??= new RelayCommand(OnMenuSettings);
     public ICommand MenuViewsMainCommand => _menuViewsMainCommand ??= new RelayCommand(OnMenuViewsMain);
     public ICommand MenuTemplateEditCommand => _menuTemplateEditCommand ??= new RelayCommand(OnTemplateEditCommand);
+    public ICommand MenuPrintEditCommand => _menuPrintEditCommand ??= new RelayCommand(OnPrintEditCommand);
 
     public INavigationService NavigationService
     {
@@ -119,6 +121,8 @@ public class ShellViewModel : ObservableRecipient
 
             var reader = new StreamReader(await result.OpenStreamForReadAsync());
 
+            await folder.CreateFolderAsync("Itens");
+
             if (await reader.ReadToEndAsync() is string data && data.Length > 0)
             {
                 var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
@@ -145,4 +149,5 @@ public class ShellViewModel : ObservableRecipient
     }
     private void OnTemplateEditCommand() => NavigationService.NavigateTo(typeof(TemplateEditViewModel).FullName);
     private void OnMenuViewsMain() => NavigationService.NavigateTo(typeof(MainViewModel).FullName);
+    private void OnPrintEditCommand() => NavigationService.NavigateTo(typeof(PrintViewModel).FullName);
 }

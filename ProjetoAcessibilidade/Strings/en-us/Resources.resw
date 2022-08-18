@@ -185,4 +185,10 @@
   <data name="ShellMenuItem_Template_Edit.Text" xml:space="preserve">
     <value>Edit Templates</value>
   </data>
+  <data name="ShellMenuBarItem_Print.Title" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="ShellMenuItem_Print_Menu.Text" xml:space="preserve">
+    <value>Edit Print</value>
+  </data>
 </root>

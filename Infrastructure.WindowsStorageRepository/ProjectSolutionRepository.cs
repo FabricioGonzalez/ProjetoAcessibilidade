@@ -30,7 +30,8 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
         {
             if (item.IsOfType(StorageItemTypes.File))
             {
-                if (item.Name.Split(".")[1] == "xml")
+                var i = item.Name.Split(".")[1];
+                if (i.Equals("xml") || i.Equals("prja") || i.Equals("prjd"))
                 {
                     var file = new FileTemplates();
                     file.Name = item.Name.Split(".")[0];
@@ -80,8 +81,6 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
     {
         var list = new ObservableCollection<ExplorerItem>();
 
-        //var directory = await StorageFolder.GetFolderFromPathAsync(Path.Combine(Package.Current.InstalledPath, "Specifications"));
-
         if (Directory.Exists(Path.Combine(SolutionPath, "Itens")))
         {
             var directory = await StorageFolder.GetFolderFromPathAsync(Path.Combine(SolutionPath, "Itens"));
@@ -96,7 +95,7 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
 
         StorageFile refFile = await StorageFile.GetFileFromPathAsync(refPath);
 
-        var file = await folder.CreateFileAsync(Path.Combine(projectPath,ProjectItemName));
+        var file = await folder.CreateFileAsync(ProjectItemName, CreationCollisionOption.GenerateUniqueName);
 
         await refFile.CopyAndReplaceAsync(file);
     }
@@ -104,18 +103,28 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
     {
         var file = await StorageFile.GetFileFromPathAsync(projectItemPath);
 
-        await file.DeleteAsync();
+        await file.DeleteAsync(StorageDeleteOption.Default);
     }
     public async Task CreateProjectSolutionFolder(string projectPath, string ProjectFolder)
     {
         var folder = await StorageFolder.GetFolderFromPathAsync(projectPath);
 
-        await folder.CreateFolderAsync(ProjectFolder);
+        await folder.CreateFolderAsync(ProjectFolder, CreationCollisionOption.GenerateUniqueName);
     }
     public async Task DeleteProjectSolutionFolder(string projectFolderPath)
     {
         var folder = await StorageFolder.GetFolderFromPathAsync(projectFolderPath);
 
-        await folder.DeleteAsync();
+        await folder.DeleteAsync(StorageDeleteOption.Default);
+    }
+    public async Task RenameProjectFolder(string projectPath, string ProjectItemName)
+    {
+        var item = await StorageFolder.GetFolderFromPathAsync(projectPath);
+        await item.RenameAsync(ProjectItemName, NameCollisionOption.GenerateUniqueName);
+    }
+    public async Task RenameProjectItem(string projectPath, string ProjectItemName)
+    {
+        var item = await StorageFile.GetFileFromPathAsync(projectPath);
+        await item.RenameAsync(ProjectItemName, NameCollisionOption.GenerateUniqueName);
     }
 }

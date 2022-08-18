@@ -10,5 +10,7 @@ public interface IProjectSolutionRepository
     Task CreateProjectSolutionItem(string projectPath, string ProjectItemName, string refPath);
     Task DeleteProjectSolutionItem(string projectPath);
     Task CreateProjectSolutionFolder(string projectPath, string ProjectFolder);
+    Task RenameProjectFolder(string projectPath, string ProjectItemName);
+    Task RenameProjectItem(string projectPath, string ProjectItemName);
     Task DeleteProjectSolutionFolder(string projectPath);
 }

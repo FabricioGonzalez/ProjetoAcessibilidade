@@ -85,6 +85,9 @@ public partial class App : Application
             services.AddTransient<TemplateEditingPage>();
             services.AddTransient<TemplateEditViewModel>();
 
+            services.AddTransient<PrintPage>();
+            services.AddTransient<PrintViewModel>();
+
             services.AddTransient<NewItemDialog>();
             services.AddTransient<NewItemViewModel>();
 

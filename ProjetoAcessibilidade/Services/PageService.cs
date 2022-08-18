@@ -24,6 +24,7 @@ public class PageService : IPageService
         Configure<ProjectViewModel, ProjectPage>();
         Configure<SettingsViewModel, SettingsPage>();
         Configure<TemplateEditViewModel, TemplateEditingPage>();
+        Configure<PrintViewModel, PrintPage>();
         //Configure<NewItemViewModel, NewItemDialog>();
     }
 

@@ -52,7 +52,8 @@ public sealed partial class NewItemDialog : ContentDialog
     {
         if (sender is ListView lista)
         {
-            TextBox.Text = (lista.SelectedItem as FileTemplates).Name;
+            if (lista.SelectedItem is not null)
+                TextBox.Text = (lista.SelectedItem as FileTemplates).Name;
         }
     }
 }

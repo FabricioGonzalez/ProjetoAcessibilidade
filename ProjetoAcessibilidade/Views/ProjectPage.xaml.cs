@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 
 using CustomControls.TemplateSelectors;
 
@@ -85,11 +86,13 @@ public sealed partial class ProjectPage : Page
             var res = new ExplorerItem()
             {
                 Name = "",
-                Path = "D:\\Programacao\\Projetos\\Desktop\\C#\\ProjetoAcessibilidade\\Data\\Tables\\Entradas Portas Externo.xml"
+                Path = Path.Combine(item.Path, string.Empty)
             };
 
             item.Children.Add(res);
             item.IsEditing = true;
+
+            ViewModel.AddFolderToProjectCommand.Execute(item);
         }
     }
     private void RenameItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

@@ -13,8 +13,13 @@ public class CreateProjectData
     {
         await projectSolutionRepository.CreateProjectSolutionItem(projectPath, ProjectItemName, refPath);
     }
-    public async void CreateProjectFolder(string projectPath, string ProjectItemName)
+    public async void RenameProjectFolder(string projectPath, string ProjectItemName)
     {
-        await projectSolutionRepository.CreateProjectSolutionFolder(projectPath, ProjectItemName);
+        await projectSolutionRepository.RenameProjectFolder(projectPath, ProjectItemName);
+    }
+
+    public async void RenameProjectItem(string projectPath, string ProjectItemName)
+    {
+        await projectSolutionRepository.RenameProjectItem(projectPath, ProjectItemName);
     }
 }

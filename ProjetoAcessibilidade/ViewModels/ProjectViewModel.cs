@@ -86,6 +86,9 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     private ICommand _addFolderToProjectCommand;
     public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<ExplorerItem>(OnAddFolderToProjectCommand);
 
+    private ICommand _renameProjectItemCommand;
+    public ICommand RenameProjectItemCommand => _renameProjectItemCommand ??= new RelayCommand<ExplorerItem>(OnRenameProjectItemCommand);
+
     private ICommand _textBoxLostFocusCommand;
     public ICommand TextBoxLostFocusCommand => _textBoxLostFocusCommand ??= new AsyncRelayCommand<string>(OnTextFieldLostFocus);
 
@@ -117,20 +120,36 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     private async void OnAddItemToProjectCommand(ExplorerItem obj)
     {
         var result = await newItemDialogService.ShowDialog();
-
-        var item = new ExplorerItem()
+        if (result is not null)
         {
-            Name = result.Name,
-            Path = Path.Combine(obj.Path, $"{result.Name}.prjd"),
-            Type = ExplorerItem.ExplorerItemType.File
-        };
+            var item = new ExplorerItem()
+            {
+                Name = result.Name,
+                Path = Path.Combine(obj.Path, $"{result.Name}.prjd"),
+                Type = ExplorerItem.ExplorerItemType.File
+            };
 
-        obj.Children.Add(item);
-        createProjectData.CreateProjectItem(obj.Path, $"{item.Name}.prjd", result.Path);
+            obj.Children.Add(item);
+            createProjectData.CreateProjectItem(obj.Path, $"{item.Name}.prjd", result.Path);
+        }
     }
     private void OnAddFolderToProjectCommand(ExplorerItem obj)
     {
+        if (obj is not null)
+        {
+            createProjectData.RenameProjectFolder(obj.Path, obj.Name);
+        }
+    }
+    private void OnRenameProjectItemCommand(ExplorerItem obj)
+    {
+        if (obj is not null)
+        {
+            if (obj.Type == ExplorerItem.ExplorerItemType.File)
+                createProjectData.RenameProjectItem(obj.Path, obj.Name);
 
+            if (obj.Type == ExplorerItem.ExplorerItemType.Folder)
+                createProjectData.RenameProjectFolder(obj.Path, obj.Name);
+        }
     }
     private async Task OnTextFieldLostFocus(string data)
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 using ProjetoAcessibilidade.ViewModels.DialogViewModel;
@@ -19,7 +20,7 @@ public class NewItemDialogService
     private FileTemplates item;
     public async Task<FileTemplates> ShowDialog()
     {
-        ContentDialog noWifiDialog = new NewItemDialog(newItemViewModel);
+        NewItemDialog noWifiDialog = new NewItemDialog(newItemViewModel);
 
         noWifiDialog.XamlRoot = App.MainWindow.Content.XamlRoot;
 
@@ -27,6 +28,19 @@ public class NewItemDialogService
 
         noWifiDialog.PrimaryButtonText = "Adicionar";
         noWifiDialog.CloseButtonText = "Cancelar";
+
+        var buttonStyle = new Style();
+
+        buttonStyle.SetValue(Button.CornerRadiusProperty, new CornerRadius()
+        {
+            BottomLeft = 8,
+            BottomRight = 8,
+            TopLeft = 8,
+            TopRight = 8
+        });
+
+        noWifiDialog.PrimaryButtonStyle = buttonStyle;
+        noWifiDialog.CloseButtonStyle = buttonStyle;
 
         ContentDialogResult result = await noWifiDialog.ShowAsync();
 
