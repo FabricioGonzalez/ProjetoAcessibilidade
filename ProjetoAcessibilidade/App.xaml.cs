@@ -8,7 +8,10 @@ using Infrastructure.InMemoryRepository;
 using Infrastructure.WindowsStorageRepository;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 
 using ProjetoAcessibilidade.Activation;
@@ -51,7 +54,7 @@ public partial class App : Application
 
             // Other Activation Handlers
 
-            services.AddTransient<ActivationHandler<FileActivatedEventArgs>, FileActivationHandler>();
+            services.TryAddTransient<IActivationHandler, FileActivationHandler>();
 
             // Services
             services.AddSingleton<ILocalSettingsService, LocalSettingsServicePackaged>();
@@ -103,6 +106,20 @@ public partial class App : Application
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         })
         .Build();
+    private WindowId GetWindowId()
+    {
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(MainWindow);
+
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        return windowId;
+    }
+
+    private void SetWindowIcon()
+    {
+        AppWindow appWindow = AppWindow.GetFromWindowId(GetWindowId());
+
+        appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "WindowIcon.ico"));
+    }
 
     public static T GetService<T>()
         where T : class
@@ -139,10 +156,25 @@ public partial class App : Application
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        
-        base.OnLaunched(args);
 
         var activationService = GetService<IActivationService>();
-        await activationService.ActivateAsync(args);
+
+        var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+
+        if (activatedEventArgs.Kind == Microsoft.Windows.AppLifecycle.ExtendedActivationKind.File)
+        {
+            base.OnLaunched(args);
+
+            await activationService.ActivateAsync(activatedEventArgs.Data);
+        }
+        else
+        {
+            base.OnLaunched(args);
+            await activationService.ActivateAsync(args);
+        }
+        if (!MainWindow.IsTitleBarCustomizable())
+        {
+            SetWindowIcon();
+        }
     }
 }

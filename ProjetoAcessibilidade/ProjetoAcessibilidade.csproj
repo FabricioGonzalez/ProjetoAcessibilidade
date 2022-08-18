@@ -172,6 +172,9 @@
     <None Update="Specifications\Tables\Table.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="WindowIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Page Update="Views\PrintPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

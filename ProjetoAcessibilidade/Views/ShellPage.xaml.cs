@@ -37,11 +37,11 @@ public sealed partial class ShellPage : Page
             AppTitleBarText.Text = "AppDisplayName".GetLocalized();
 
             Grid.SetRow(AppTitleBar, 0);
-            Grid.SetRow(content, 1);
+            Grid.SetRow(Menu, 1);
             Grid.SetRow(frame, 2);
 
             Grid.SetRowSpan(AppTitleBar, 1);
-            Grid.SetRowSpan(content, 1);
+            Grid.SetRowSpan(Menu, 1);
             Grid.SetRowSpan(frame, 1);
         }
         else
@@ -49,10 +49,10 @@ public sealed partial class ShellPage : Page
             AppTitleBar.Visibility = Visibility.Collapsed;
 
             Grid.SetRow(AppTitleBar, 0);
-            Grid.SetRow(content, 0);
+            Grid.SetRow(Menu, 0);
             Grid.SetRow(frame, 1);
 
-            Grid.SetRowSpan(content, 1);
+            Grid.SetRowSpan(Menu, 2);
             Grid.SetRowSpan(frame, 2);
         }
         InfoBarService.infobar = Infobar;

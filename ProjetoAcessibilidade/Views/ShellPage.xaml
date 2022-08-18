@@ -16,7 +16,7 @@
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
-            <RowDefinition Height="48" />
+            <RowDefinition Height="56" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid x:Name="AppTitleBar">
@@ -33,12 +33,21 @@
                 Style="{StaticResource CaptionTextBlockStyle}"
                 TextWrapping="NoWrap" />
         </Grid>
-        <Grid x:Name="content" Background="{ThemeResource NavBarBrush}">
+
+        <Grid
+            x:Name="Menu"
+            Height="48"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Background="{ThemeResource NavBarBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <MenuBar Grid.Column="0" HorizontalAlignment="Stretch">
+            <MenuBar
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
                 <!--
                 TODO: Update item titles by updating <x:Uid>.Text entries in Strings/en-us/Resources.resw.
                 https://docs.microsoft.com/windows/uwp/app-resources/localize-strings-ui-manifest#refer-to-a-string-resource-identifier-from-xaml
@@ -73,12 +82,14 @@
                 </AnimatedIcon>
             </AppBarButton>
         </Grid>
+
         <Grid
             x:Name="frame"
             Margin="{StaticResource MenuBarContentMargin}"
             CornerRadius="8">
             <Frame x:Name="NavigationFrame" Padding="8" />
         </Grid>
+
         <InfoBar
             x:Name="Infobar"
             Grid.Row="2"

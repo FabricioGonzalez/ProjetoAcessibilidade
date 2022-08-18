@@ -10,6 +10,10 @@ using ProjetoAcessibilidade.Activation;
 using ProjetoAcessibilidade.Contracts.Services;
 using ProjetoAcessibilidade.Views;
 
+using Windows.ApplicationModel.Activation;
+
+using LaunchActivatedEventArgs = Microsoft.UI.Xaml.LaunchActivatedEventArgs;
+
 namespace ProjetoAcessibilidade.Services;
 
 public class ActivationService : IActivationService
@@ -19,7 +23,9 @@ public class ActivationService : IActivationService
     private readonly IThemeSelectorService _themeSelectorService;
     private UIElement _shell = null;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService)
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler,
+        IEnumerable<IActivationHandler> activationHandlers,
+        IThemeSelectorService themeSelectorService)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
@@ -30,7 +36,7 @@ public class ActivationService : IActivationService
     {
         // Execute tasks before activation.
         await InitializeAsync();
-        
+
 
         // Set the MainWindow Content.
         if (App.MainWindow.Content == null)
@@ -51,16 +57,23 @@ public class ActivationService : IActivationService
 
     private async Task HandleActivationAsync(object activationArgs)
     {
-        var activationHandler = _activationHandlers.FirstOrDefault(h => h.CanHandle(activationArgs));
-
-        if (activationHandler != null)
+        try
         {
-            await activationHandler.HandleAsync(activationArgs);
+            IActivationHandler activationHandler = _activationHandlers.FirstOrDefault(h => h.CanHandle(activationArgs));
+
+            if (activationHandler != null)
+            {
+                await activationHandler.HandleAsync(activationArgs);
+            }
+
+            if (_defaultHandler.CanHandle(activationArgs))
+            {
+                await _defaultHandler.HandleAsync(activationArgs);
+            }
         }
-
-        if (_defaultHandler.CanHandle(activationArgs))
+        catch (System.Exception)
         {
-            await _defaultHandler.HandleAsync(activationArgs);
+            return;
         }
     }
 
