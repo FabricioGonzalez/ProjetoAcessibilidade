@@ -11,6 +11,7 @@
     <None Remove="ProjectEditingTabView.xaml" />
     <None Remove="ProjectEditingTabViewItem.xaml" />
     <None Remove="ProjectItemTemplate.xaml" />
+    <None Remove="TabViews\ProjectEditingTabViewItemHeaderTemplate.xaml" />
     <None Remove="TemplateDefinitions\CheckboxDatatemplate.xaml" />
     <None Remove="TemplateDefinitions\ObservationDatatemplate.xaml" />
     <None Remove="TemplateDefinitions\TextboxDatatemplate.xaml" />
@@ -27,22 +28,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="ListViewDetails.xaml">
+    <Page Update="ListViewDetails\ListViewDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="ProjectEditingTabViewItem.xaml">
+    <Page Update="TabView\ProjectEditingTabViewItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="ProjectItemTemplate.xaml">
+    <Page Update="ProjectItems\ProjectItemTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="ProjectEditingTabView.xaml">
+    <Page Update="TabView\ProjectEditingTabView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="TemplateDefinitions\TextboxDatatemplate.xaml">
@@ -57,6 +58,16 @@
 
   <ItemGroup>
     <Page Update="TemplateDefinitions\CheckboxDatatemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Buttons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="TabView\ProjectEditingTabViewItemHeaderTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -31,6 +31,22 @@ public sealed partial class ShellPage : Page
         // https://docs.microsoft.com/windows/apps/develop/title-bar?tabs=winui3#full-customization
         if (App.MainWindow.IsTitleBarCustomizable())
         {
+
+            grid.RowDefinitions.Add(new()
+            {
+                Height = new GridLength(32, GridUnitType.Pixel)
+            });
+
+            grid.RowDefinitions.Add(new()
+            {
+                Height = new GridLength(48, GridUnitType.Pixel)
+            });
+
+            grid.RowDefinitions.Add(new()
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            });
+
             App.MainWindow.ExtendsContentIntoTitleBar = true;
             App.MainWindow.SetTitleBar(AppTitleBar);
             App.MainWindow.Activated += MainWindow_Activated;
@@ -48,12 +64,23 @@ public sealed partial class ShellPage : Page
         {
             AppTitleBar.Visibility = Visibility.Collapsed;
 
-            Grid.SetRow(AppTitleBar, 0);
-            Grid.SetRow(Menu, 0);
-            Grid.SetRow(frame, 1);
+        grid.RowDefinitions.Add(new()
+        {
+            Height = new GridLength(48, GridUnitType.Pixel)
+        });
 
-            Grid.SetRowSpan(Menu, 2);
-            Grid.SetRowSpan(frame, 2);
+        grid.RowDefinitions.Add(new()
+        {
+            Height = new GridLength(1, GridUnitType.Star)
+        });
+
+
+        Grid.SetRow(AppTitleBar, 0);
+        Grid.SetRow(Menu, 0);
+        Grid.SetRow(frame, 1);
+
+        Grid.SetRowSpan(Menu, 1);
+        Grid.SetRowSpan(frame, 1);
         }
         InfoBarService.infobar = Infobar;
         NewItemDialogService.dialog = dialog;

@@ -1,23 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-using Core.Contracts;
+﻿using Core.Contracts;
 
 namespace SystemApplication.Services.UIOutputs;
 
-public class ItemModel
+public class ItemModel : NotifierBaseClass
 {
-    [JsonPropertyName("item")]
     public string ItemName
     {
         get; set;
     }
-    [JsonPropertyName("tabela")]
+
+    private bool isEditing = false;
+    public bool IsEditing
+    {
+        get => isEditing;
+        set => SetAtributeValue(ref isEditing, value, nameof(IsEditing));
+    }
+
     public List<IFormDataItemContract> FormData
     {
         get; set;
     }
-    [JsonPropertyName("Lei")]
+
     public List<LawModel> LawList
     {
         get; set;

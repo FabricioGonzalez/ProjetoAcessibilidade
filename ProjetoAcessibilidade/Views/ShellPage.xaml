@@ -14,11 +14,6 @@
         <ResourceDictionary Source="/Styles/Style.xaml" />
     </Page.Resources>
     <Grid x:Name="grid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
-            <RowDefinition Height="56" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
         <Grid x:Name="AppTitleBar">
             <Image
                 Width="16"
@@ -87,7 +82,7 @@
             x:Name="frame"
             Margin="{StaticResource MenuBarContentMargin}"
             CornerRadius="8">
-            <Frame x:Name="NavigationFrame" Padding="8" />
+            <Frame x:Name="NavigationFrame" Padding="2" />
         </Grid>
 
         <InfoBar

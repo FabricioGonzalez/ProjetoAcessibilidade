@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InMemoryRepository.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projeto.Core", "Project.Core\Projeto.Core.csproj", "{CC63A275-B71B-4AA9-8D20-69607E45B993}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.WindowsStorageRepository", "Infrastructure.WindowsStorageRepository\Infrastructure.WindowsStorageRepository.csproj", "{7B61BF38-7214-4743-85CA-1632CEA40C5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.WindowsStorageRepository", "Infrastructure.WindowsStorageRepository\Infrastructure.WindowsStorageRepository.csproj", "{7B61BF38-7214-4743-85CA-1632CEA40C5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.DocxRepository", "Infrastructure.DocxRepository\Infrastructure.DocxRepository.csproj", "{244580FD-78D9-4553-A09E-1BE076A753DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,6 +197,22 @@ Global
 		{7B61BF38-7214-4743-85CA-1632CEA40C5B}.Release|x64.Build.0 = Release|Any CPU
 		{7B61BF38-7214-4743-85CA-1632CEA40C5B}.Release|x86.ActiveCfg = Release|Any CPU
 		{7B61BF38-7214-4743-85CA-1632CEA40C5B}.Release|x86.Build.0 = Release|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Debug|arm64.Build.0 = Debug|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Debug|x64.Build.0 = Debug|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Debug|x86.Build.0 = Debug|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Release|arm64.ActiveCfg = Release|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Release|arm64.Build.0 = Release|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Release|x64.ActiveCfg = Release|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Release|x64.Build.0 = Release|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{244580FD-78D9-4553-A09E-1BE076A753DC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,6 +228,7 @@ Global
 		{0CA7B69E-F772-468E-AD5A-454C996B52B2} = {70CDA4DF-6612-4CF7-87EA-03701778A84E}
 		{CC63A275-B71B-4AA9-8D20-69607E45B993} = {A61F17C1-BFB2-43CF-BC58-357C9CD9649A}
 		{7B61BF38-7214-4743-85CA-1632CEA40C5B} = {70CDA4DF-6612-4CF7-87EA-03701778A84E}
+		{244580FD-78D9-4553-A09E-1BE076A753DC} = {70CDA4DF-6612-4CF7-87EA-03701778A84E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {121D87D8-30BB-4E71-80CE-67CC06814434}

@@ -8,8 +8,6 @@ using SystemApplication.Services.UIOutputs;
 namespace CustomControls;
 public sealed partial class ProjectItemTemplate : UserControl
 {
-
-
     public ItemModel ProjectItem
     {
         get => (ItemModel)GetValue(ProjectItemProperty);
@@ -24,5 +22,20 @@ public sealed partial class ProjectItemTemplate : UserControl
     public ProjectItemTemplate()
     {
         InitializeComponent();
+    }
+
+    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        ProjectItem.IsEditing = true;
+    }
+
+    private void CheckBox_Checked(object sender, RoutedEventArgs e)
+    {
+        ProjectItem.IsEditing = true;
+    }
+
+    private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+    {
+        ProjectItem.IsEditing = true;
     }
 }

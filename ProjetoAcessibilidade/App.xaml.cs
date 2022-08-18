@@ -76,6 +76,7 @@ public partial class App : Application
 
             services.AddSingleton<IFileSelectorService, FileSelectorService>();
             services.AddSingleton<IXmlProjectDataRepository, XmlProjectDataRepository>();
+ 
 
             services.AddScoped<GetProjectData>();
             services.AddScoped<CreateProjectData>();

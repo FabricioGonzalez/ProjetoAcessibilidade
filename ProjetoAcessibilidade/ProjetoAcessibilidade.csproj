@@ -24,6 +24,11 @@
     <AppxPackageDir>C:\Users\ti\Desktop\Projeto\Projeto\</AppxPackageDir>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\BadgeLogo.scale-100.png" />
+    <None Remove="Assets\BadgeLogo.scale-125.png" />
+    <None Remove="Assets\BadgeLogo.scale-150.png" />
+    <None Remove="Assets\BadgeLogo.scale-200.png" />
+    <None Remove="Assets\BadgeLogo.scale-400.png" />
     <None Remove="Styles\DarkTheme.xaml" />
     <None Remove="Styles\DefaultTheme.xaml" />
     <None Remove="Styles\LightTheme.xaml" />
@@ -49,6 +54,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Application.Services\SystemApplication.Services.csproj" />
     <ProjectReference Include="..\CustomControls\CustomControls.csproj" />
+    <ProjectReference Include="..\Infrastructure.DocxRepository\Infrastructure.DocxRepository.csproj" />
     <ProjectReference Include="..\Infrastructure.InMemoryRepository\Infrastructure.InMemoryRepository.csproj" />
     <ProjectReference Include="..\Infrastructure.WindowsStorageRepository\Infrastructure.WindowsStorageRepository.csproj" />
     <ProjectReference Include="..\Project.Core\Projeto.Core.csproj" />

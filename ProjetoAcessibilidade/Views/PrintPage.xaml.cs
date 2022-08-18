@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 
+using ProjetoAcessibilidade.ViewModels;
+
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -24,8 +26,21 @@ namespace ProjetoAcessibilidade.Views;
 /// </summary>
 public sealed partial class PrintPage : Page
 {
+    public PrintViewModel ViewModel
+    {
+        get;private set;
+    }
     public PrintPage()
     {
         this.InitializeComponent();
+        ViewModel = App.GetService<PrintViewModel>();
     }
+
+    //private void RichEditBox_Loaded(object sender, RoutedEventArgs e)
+    //{
+    //    if (sender is RichEditBox editBox)
+    //    {
+    //        editBox.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, ViewModel.File);
+    //    }
+    //}
 }

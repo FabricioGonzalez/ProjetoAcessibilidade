@@ -3,12 +3,9 @@ using System.Diagnostics;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Windows.Storage;
-using Windows.ApplicationModel;
 
 using SystemApplication.Services.UIOutputs;
 using SystemApplication.Services.ProjectDataServices;
@@ -16,17 +13,14 @@ using SystemApplication.Services.ProjectDataServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using Microsoft.UI;
-using Microsoft.UI.Xaml.Media;
-
 using Projeto.Core.Models;
 
 using ProjetoAcessibilidade.Contracts.ViewModels;
 using ProjetoAcessibilidade.Services;
-using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 
 using CustomControls;
 using Microsoft.UI.Xaml.Controls;
+using CustomControls.TabViews;
 
 namespace ProjetoAcessibilidade.ViewModels;
 
@@ -98,19 +92,10 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #region CommandMethods
     private void OnAddItemCommand(ExplorerItem itemName)
     {
-        var itemTemplate = new ProjectItemTemplate();
-
-        itemTemplate.ProjectItem = getProjectData.GetItemProject(itemName.Path);
-
         var item = new ProjectEditingTabViewItem()
         {
-            Header = $"{itemName.Name}",
-            Content = itemTemplate,
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
-            Background = new SolidColorBrush() { Color = Colors.Aqua },
-            VerticalContentAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
-            itemPath = itemName.Path
-
+            itemPath = itemName.Path,
+            ProjectItem = getProjectData.GetItemProject(itemName.Path)
         };
 
         if (!TabViewItems.Any(item => item.itemPath.Equals(itemName.Path)))
