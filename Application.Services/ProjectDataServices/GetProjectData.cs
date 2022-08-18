@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
+using Projeto.Core.Models;
+
 using SystemApplication.Services.Contracts;
 using SystemApplication.Services.UIOutputs;
 
@@ -109,10 +111,21 @@ public class GetProjectData
         return item;
     }
 
+    public async Task<ProjectSolutionModel>? GetProjectSolution(string solutionPath)
+    {
+     return await projectSolutionRepository.GetProjectSolutionData(solutionPath);
+    }
     public async Task<List<FileTemplates>> GetProjectItens()
     {
-        return await projectSolutionRepository.getProjectLocalPath();
-    } 
+        try
+        {
+            return await projectSolutionRepository.getProjectLocalPath();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
 
     public async Task<ObservableCollection<ExplorerItem>> GetProjectSolutionItens(string solutionPath)
     {

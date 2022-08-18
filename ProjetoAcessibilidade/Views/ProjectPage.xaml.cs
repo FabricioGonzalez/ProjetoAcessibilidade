@@ -70,11 +70,20 @@ public sealed partial class ProjectPage : Page
 
     private void AddItemItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        if (sender is MenuFlyoutItem itemFlyout)
+        try
         {
-            var item = (ExplorerItem)itemFlyout.DataContext;
-            if (item.Type == ExplorerItem.ExplorerItemType.Folder)
-                ViewModel.AddItemToProjectCommand.Execute(item);
+
+            if (sender is MenuFlyoutItem itemFlyout)
+            {
+                var item = (ExplorerItem)itemFlyout.DataContext;
+                if (item.Type == ExplorerItem.ExplorerItemType.Folder)
+                    ViewModel.AddItemToProjectCommand.Execute(item);
+            }
+        }
+        catch (System.Exception)
+        {
+
+            throw;
         }
     }
     private void AddFolderItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

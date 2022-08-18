@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 using Infrastructure.InMemoryRepository;
 using Infrastructure.WindowsStorageRepository;
@@ -25,7 +27,9 @@ using SystemApplication.Services.Contracts;
 using SystemApplication.Services.ProjectDataServices;
 
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 
+using LaunchActivatedEventArgs = Microsoft.UI.Xaml.LaunchActivatedEventArgs;
 using UnhandledExceptionEventArgs = Microsoft.UI.Xaml.UnhandledExceptionEventArgs;
 
 // To learn more about WinUI3, see: https://docs.microsoft.com/windows/apps/winui/winui3/.
@@ -47,6 +51,8 @@ public partial class App : Application
 
             // Other Activation Handlers
 
+            services.AddTransient<ActivationHandler<FileActivatedEventArgs>, FileActivationHandler>();
+
             // Services
             services.AddSingleton<ILocalSettingsService, LocalSettingsServicePackaged>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
@@ -58,6 +64,8 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             services.AddSingleton<NewItemDialogService>();
+
+            services.AddSingleton<InfoBarService>();
 
             services.AddScoped<GetAppLocal>((services) => new(Path.Combine(Package.Current.InstalledPath, "Specifications")));
 
@@ -89,7 +97,7 @@ public partial class App : Application
             services.AddTransient<PrintViewModel>();
 
             services.AddTransient<NewItemDialog>();
-            services.AddTransient<NewItemViewModel>();
+            services.AddSingleton<NewItemViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
@@ -120,18 +128,20 @@ public partial class App : Application
         // For more details, see https://docs.microsoft.com/windows/winui/api/microsoft.ui.xaml.unhandledexceptioneventargs.
         try
         {
-            Debug.WriteLine(e.Message);
+            var r = App.GetService<InfoBarService>();
+            r.SetMessageData("Erro", e.ToString(), Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
         }
         catch (System.Exception)
         {
-
-
+            return;
         }
     }
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        
         base.OnLaunched(args);
+
         var activationService = GetService<IActivationService>();
         await activationService.ActivateAsync(args);
     }

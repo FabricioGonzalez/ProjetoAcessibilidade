@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
+using Projeto.Core.Models;
+
 using SystemApplication.Services.UIOutputs;
 
 namespace SystemApplication.Services.Contracts;
@@ -13,4 +15,6 @@ public interface IProjectSolutionRepository
     Task RenameProjectFolder(string projectPath, string ProjectItemName);
     Task RenameProjectItem(string projectPath, string ProjectItemName);
     Task DeleteProjectSolutionFolder(string projectPath);
+    Task<ProjectSolutionModel>? SaveProjectSolutionData(string projectPath);
+    Task<ProjectSolutionModel>? GetProjectSolutionData(string projectPath);
 }

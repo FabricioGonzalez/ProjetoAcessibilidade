@@ -16,6 +16,7 @@ using ProjetoAcessibilidade.Contracts.Services;
 using ProjetoAcessibilidade.Services;
 using System.Text;
 using ProjetoAcessibilidade.Helpers;
+using SystemApplication.Services.ProjectDataServices;
 
 namespace ProjetoAcessibilidade.ViewModels;
 
@@ -59,12 +60,16 @@ public class ShellViewModel : ObservableRecipient
     }
 
     private readonly IFileSelectorService fileSelectorService;
+    readonly CreateProjectData _createProjectData;
+    readonly GetProjectData _getProjectData;
 
-    public ShellViewModel(INavigationService navigationService, IFileSelectorService pickerService)
+    public ShellViewModel(INavigationService navigationService, IFileSelectorService pickerService, CreateProjectData createProjectData, GetProjectData getProjectData)
     {
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;
         fileSelectorService = pickerService;
+        _createProjectData = createProjectData;
+        _getProjectData = getProjectData;
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e) => IsBackEnabled = NavigationService.CanGoBack;
@@ -75,27 +80,9 @@ public class ShellViewModel : ObservableRecipient
 
         if (result is not null)
         {
-            var folder = await result.GetParentAsync();
-
-            var solution = new ProjectSolutionModel()
-            {
-                FileName = result.Name,
-                FilePath = result.Path,
-                ParentFolderName = folder.Name,
-                ParentFolderPath = folder.Path,
-                reportData = new()
-            };
-
-            var reader = new StreamReader(await result.OpenStreamForReadAsync());
-
-            if (await reader.ReadToEndAsync() is string data && data.Length > 0)
-            {
-                var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
-
-                if (resultData is not null)
-                    solution.reportData = resultData;
-            }
-            NavigationService.NavigateTo(typeof(ProjectViewModel).FullName, solution);
+            var solution = await _getProjectData.GetProjectSolution(result.Path);
+            if (solution is not null)
+                NavigationService.NavigateTo(typeof(ProjectViewModel).FullName, solution);
         }
     }
     private async Task OnMenuFileNew()
@@ -104,33 +91,11 @@ public class ShellViewModel : ObservableRecipient
 
         if (result is not null)
         {
-            var folder = await result.GetParentAsync();
+            var solution = await _createProjectData.SaveProjectSolution(result.Path);
 
-            var solution = new ProjectSolutionModel()
-            {
-                FileName = result.Name,
-                FilePath = result.Path,
-                ParentFolderName = folder.Name,
-                ParentFolderPath = folder.Path,
-                reportData = new()
-            };
+            if (solution is not null)
 
-            var writer = await result.OpenStreamForWriteAsync();
-
-            await writer.WriteAsync(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new ReportDataModel())));
-
-            var reader = new StreamReader(await result.OpenStreamForReadAsync());
-
-            await folder.CreateFolderAsync("Itens");
-
-            if (await reader.ReadToEndAsync() is string data && data.Length > 0)
-            {
-                var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
-
-                if (resultData is not null)
-                    solution.reportData = resultData;
-            }
-            NavigationService.NavigateTo(typeof(ProjectViewModel).FullName, solution);
+                NavigationService.NavigateTo(typeof(ProjectViewModel).FullName, solution);
         }
     }
     private void OnMenuFileExit() => Application.Current.Exit();

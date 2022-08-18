@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,6 +30,7 @@ public class ActivationService : IActivationService
     {
         // Execute tasks before activation.
         await InitializeAsync();
+        
 
         // Set the MainWindow Content.
         if (App.MainWindow.Content == null)

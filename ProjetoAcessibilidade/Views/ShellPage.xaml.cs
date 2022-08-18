@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Media;
 
 using ProjetoAcessibilidade.Contracts.Services;
 using ProjetoAcessibilidade.Helpers;
+using ProjetoAcessibilidade.Services;
 using ProjetoAcessibilidade.ViewModels;
 
 using Windows.System;
@@ -18,7 +19,7 @@ public sealed partial class ShellPage : Page
         get;
     }
 
-    public ShellPage(ShellViewModel viewModel)
+    public ShellPage(ShellViewModel viewModel, InfoBarService infoBar)
     {
         ViewModel = viewModel;
         InitializeComponent();
@@ -54,6 +55,8 @@ public sealed partial class ShellPage : Page
             Grid.SetRowSpan(content, 1);
             Grid.SetRowSpan(frame, 2);
         }
+        InfoBarService.infobar = Infobar;
+        NewItemDialogService.dialog = dialog;
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -63,8 +66,8 @@ public sealed partial class ShellPage : Page
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
 
-        ShellMenuBarSettingsButton.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(ShellMenuBarSettingsButton_PointerPressed), true);
-        ShellMenuBarSettingsButton.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(ShellMenuBarSettingsButton_PointerReleased), true);
+        ShellMenuBarSettingsButton.AddHandler(PointerPressedEvent, new PointerEventHandler(ShellMenuBarSettingsButton_PointerPressed), true);
+        ShellMenuBarSettingsButton.AddHandler(PointerReleasedEvent, new PointerEventHandler(ShellMenuBarSettingsButton_PointerReleased), true);
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
@@ -76,8 +79,8 @@ public sealed partial class ShellPage : Page
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        ShellMenuBarSettingsButton.RemoveHandler(UIElement.PointerPressedEvent, (PointerEventHandler)ShellMenuBarSettingsButton_PointerPressed);
-        ShellMenuBarSettingsButton.RemoveHandler(UIElement.PointerReleasedEvent, (PointerEventHandler)ShellMenuBarSettingsButton_PointerReleased);
+        ShellMenuBarSettingsButton.RemoveHandler(PointerPressedEvent, (PointerEventHandler)ShellMenuBarSettingsButton_PointerPressed);
+        ShellMenuBarSettingsButton.RemoveHandler(PointerReleasedEvent, (PointerEventHandler)ShellMenuBarSettingsButton_PointerReleased);
     }
 
     private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)

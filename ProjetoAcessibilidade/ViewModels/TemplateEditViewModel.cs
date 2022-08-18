@@ -51,11 +51,11 @@ public class TemplateEditViewModel : ObservableRecipient, INavigationAware
 
         // TODO: Replace with real data.
         var data = await getProjectData.GetProjectItens();
-
-        foreach (var item in data)
-        {
-            SampleItems.Add(item);
-        }
+        if (data is not null)
+            foreach (var item in data)
+            {
+                SampleItems.Add(item);
+            }
     }
 
     public void OnNavigatedFrom()

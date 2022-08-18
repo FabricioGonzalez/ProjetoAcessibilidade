@@ -1,4 +1,6 @@
-﻿using SystemApplication.Services.Contracts;
+﻿using Projeto.Core.Models;
+
+using SystemApplication.Services.Contracts;
 
 namespace SystemApplication.Services.ProjectDataServices;
 public class CreateProjectData
@@ -9,6 +11,11 @@ public class CreateProjectData
         this.projectSolutionRepository = projectSolutionRepository;
     }
 
+    public async Task<ProjectSolutionModel>? SaveProjectSolution(string solutionPath)
+    {
+        return await projectSolutionRepository.SaveProjectSolutionData(solutionPath);
+    }
+
     public async void CreateProjectItem(string projectPath, string ProjectItemName, string refPath)
     {
         await projectSolutionRepository.CreateProjectSolutionItem(projectPath, ProjectItemName, refPath);
@@ -17,7 +24,6 @@ public class CreateProjectData
     {
         await projectSolutionRepository.RenameProjectFolder(projectPath, ProjectItemName);
     }
-
     public async void RenameProjectItem(string projectPath, string ProjectItemName)
     {
         await projectSolutionRepository.RenameProjectItem(projectPath, ProjectItemName);

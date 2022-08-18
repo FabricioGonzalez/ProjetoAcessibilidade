@@ -11,7 +11,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <DefaultLanguage>pt-BR</DefaultLanguage>
-    <PackageCertificateThumbprint>97B82212FFC1EEC4AF6D67C1116E752FF1DBCE95</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>4929DB88AA68067E0DFC2FD69AA3572C9852E563</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -19,8 +19,9 @@
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
-    <AppInstallerUri>D:\Programacao\Projetos\Desktop\C#\ProjetoAcessibilidade\Deploy</AppInstallerUri>
+    <AppInstallerUri>C:\Users\ti\Desktop\Projeto\Projeto\</AppInstallerUri>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxPackageDir>C:\Users\ti\Desktop\Projeto\Projeto\</AppxPackageDir>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Styles\DarkTheme.xaml" />

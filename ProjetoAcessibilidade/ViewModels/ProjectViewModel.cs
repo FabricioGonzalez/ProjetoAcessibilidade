@@ -26,6 +26,7 @@ using ProjetoAcessibilidade.Services;
 using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 
 using CustomControls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace ProjetoAcessibilidade.ViewModels;
 
@@ -81,7 +82,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     public ICommand AddItemCommand => _addItemCommand ??= new RelayCommand<ExplorerItem>(OnAddItemCommand);
 
     private ICommand _addItemToProjectCommand;
-    public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new RelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
+    public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new AsyncRelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
 
     private ICommand _addFolderToProjectCommand;
     public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<ExplorerItem>(OnAddFolderToProjectCommand);
@@ -117,20 +118,33 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             TabViewItems.Add(item);
         }
     }
-    private async void OnAddItemToProjectCommand(ExplorerItem obj)
+    private async Task OnAddItemToProjectCommand(ExplorerItem obj)
     {
-        var result = await newItemDialogService.ShowDialog();
-        if (result is not null)
+        try
         {
-            var item = new ExplorerItem()
-            {
-                Name = result.Name,
-                Path = Path.Combine(obj.Path, $"{result.Name}.prjd"),
-                Type = ExplorerItem.ExplorerItemType.File
-            };
+            var result = await newItemDialogService.ShowDialog();
 
-            obj.Children.Add(item);
-            createProjectData.CreateProjectItem(obj.Path, $"{item.Name}.prjd", result.Path);
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                if (result is not null)
+                {
+                    _infoBarService.SetMessageData(result.Path, result.Name, InfoBarSeverity.Warning);
+                    var item = new ExplorerItem()
+                    {
+                        Name = result.Name,
+                        Path = Path.Combine(obj.Path, $"{result.Name}.prjd"),
+                        Type = ExplorerItem.ExplorerItemType.File
+                    };
+
+                    obj.Children.Add(item);
+                    createProjectData.CreateProjectItem(obj.Path, $"{item.Name}.prjd", result.Path);
+                }
+            });
+
+        }
+        catch (Exception)
+        {
+            throw;
         }
     }
     private void OnAddFolderToProjectCommand(ExplorerItem obj)
@@ -159,13 +173,14 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         });
     }
     #endregion
-
+    InfoBarService _infoBarService;
     #region Constructor
-    public ProjectViewModel(GetProjectData getProject, NewItemDialogService newItemDialog, CreateProjectData createProjectData)
+    public ProjectViewModel(GetProjectData getProject, NewItemDialogService newItemDialog, InfoBarService infoBarService, CreateProjectData createProjectData)
     {
         getProjectData = getProject;
         this.createProjectData = createProjectData;
         newItemDialogService = newItemDialog;
+        _infoBarService = infoBarService;
     }
     #endregion
 

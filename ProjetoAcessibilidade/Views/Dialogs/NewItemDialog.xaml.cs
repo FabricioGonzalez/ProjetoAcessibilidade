@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 
+using ProjetoAcessibilidade.Services;
 using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 
 using SystemApplication.Services.UIOutputs;
@@ -20,31 +21,21 @@ public sealed partial class NewItemDialog : ContentDialog
     }
 
     public FileTemplates item;
-    public NewItemDialog(NewItemViewModel newItemView)
+    public NewItemDialog()
     {
         InitializeComponent();
-        this.newItemView = newItemView;
+        newItemView = App.GetService<NewItemViewModel>();
 
     }
 
     public async void ContentDialog_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-
         var result = await newItemView.GetFiles();
-        newItemView.Files = new(result);
-    }
-
-    public void MainButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
-        if (Lista.SelectedItem is not null)
+        if (result != null)
         {
-            FileTemplates file = new()
-            {
-                Name = TextBox.Text,
-
-                Path = (Lista.SelectedItem as FileTemplates).Path
-            };
-            item = file;
+            newItemView.Item = null;
+            TextBox.Text = string.Empty;
+            newItemView.Files = new(result);
         }
     }
 
@@ -54,6 +45,20 @@ public sealed partial class NewItemDialog : ContentDialog
         {
             if (lista.SelectedItem is not null)
                 TextBox.Text = (lista.SelectedItem as FileTemplates).Name;
+        }
+    }
+
+    private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    {
+        if (Lista.SelectedItem is not null)
+        {
+            FileTemplates file = new()
+            {
+                Name = TextBox.Text,
+
+                Path = (Lista.SelectedItem as FileTemplates).Path
+            };
+            newItemView.Item = file;
         }
     }
 }

@@ -13,46 +13,33 @@ namespace ProjetoAcessibilidade.Services;
 public class NewItemDialogService
 {
     readonly NewItemViewModel newItemViewModel;
+
+    public static NewItemDialog dialog;
+
+
     public NewItemDialogService(NewItemViewModel newItemViewModel)
     {
         this.newItemViewModel = newItemViewModel;
     }
-    private FileTemplates item;
     public async Task<FileTemplates> ShowDialog()
     {
-        NewItemDialog noWifiDialog = new NewItemDialog(newItemViewModel);
+        var r = App.GetService<InfoBarService>();
 
-        noWifiDialog.XamlRoot = App.MainWindow.Content.XamlRoot;
-
-        noWifiDialog.PrimaryButtonClick += NoWifiDialog_PrimaryButtonClick;
-
-        noWifiDialog.PrimaryButtonText = "Adicionar";
-        noWifiDialog.CloseButtonText = "Cancelar";
-
-        var buttonStyle = new Style();
-
-        buttonStyle.SetValue(Button.CornerRadiusProperty, new CornerRadius()
+        try
         {
-            BottomLeft = 8,
-            BottomRight = 8,
-            TopLeft = 8,
-            TopRight = 8
-        });
+            ContentDialogResult result = await dialog.ShowAsync(ContentDialogPlacement.InPlace);
 
-        noWifiDialog.PrimaryButtonStyle = buttonStyle;
-        noWifiDialog.CloseButtonStyle = buttonStyle;
+            if (ContentDialogResult.Primary == result)
+            {
+                return newItemViewModel.Item;
+            }
 
-        ContentDialogResult result = await noWifiDialog.ShowAsync();
-
-        return item;
-    }
-
-    private void NoWifiDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-    {
-        (sender as NewItemDialog).MainButton_Click(sender, new());
-
-        var result = (sender as NewItemDialog).item;
-
-        item = result;
+            return null;
+        }
+        catch (Exception ex)
+        {
+            r.SetMessageData("Erro", ex.ToString(), InfoBarSeverity.Error);
+            return null;
+        }
     }
 }

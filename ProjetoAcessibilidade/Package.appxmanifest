@@ -2,18 +2,20 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+ xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/templatestudio"
-  IgnorableNamespaces="uap rescap genTemplate">
+  IgnorableNamespaces="uap rescap uap2 uap3 genTemplate">
 
   <Identity
     Name="B40F7701-FB91-4FED-8DFA-4C94C620CA1A"
-    Publisher="CN=Kurog"
-    Version="1.0.3.0" />
+    Publisher="CN=Suporte"
+    Version="1.0.1.0" />
 
   <Properties>
-    <DisplayName>ProjetoAcessibilidade</DisplayName>
+    <DisplayName>Gestor de Projeto ARPA</DisplayName>
     <PublisherDisplayName>Kurog</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -37,18 +39,21 @@
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name=".prja">
+          <uap3:FileTypeAssociation Name="prja">
+            <uap2:SupportedVerbs>
+              <uap3:Verb Id="Open" Parameters="/p &quot;%1&quot;">Abrir</uap3:Verb>
+              <uap3:Verb Id="Edit" Parameters="/e &quot;%1&quot;">Editar</uap3:Verb>
+              <uap3:Verb Id="Print" Parameters="/p &quot;%1&quot;">Imprimir Projeto</uap3:Verb>
+            </uap2:SupportedVerbs>
             <uap:SupportedFileTypes>
-              <uap:FileType>.json</uap:FileType>
+              <uap:FileType>.prja</uap:FileType>
             </uap:SupportedFileTypes>
-            <uap:EditFlags OpenIsSafe="true"/>
-            <uap:DisplayName>.prja</uap:DisplayName>
-          </uap:FileTypeAssociation>
+          </uap3:FileTypeAssociation>
         </uap:Extension>
       </Extensions>
     </Application>
