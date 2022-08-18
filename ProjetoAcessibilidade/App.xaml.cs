@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 
 using Infrastructure.InMemoryRepository;
+using Infrastructure.WindowsStorageRepository;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -60,9 +61,13 @@ public partial class App : Application
 
             services.AddScoped<GetAppLocal>((services) => new(Path.Combine(Package.Current.InstalledPath, "Specifications")));
 
+            services.AddScoped<IProjectSolutionRepository, ProjectSolutionRepository>((services) => new(Path.Combine(Package.Current.InstalledPath, "Specifications")));
+
             services.AddSingleton<IFileSelectorService, FileSelectorService>();
             services.AddSingleton<IXmlProjectDataRepository, XmlProjectDataRepository>();
+
             services.AddScoped<GetProjectData>();
+            services.AddScoped<CreateProjectData>();
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();

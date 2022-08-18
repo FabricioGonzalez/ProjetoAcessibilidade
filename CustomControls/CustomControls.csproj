@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="ProjectEditingTabView.xaml" />
+    <None Remove="ProjectEditingTabViewItem.xaml" />
     <None Remove="ProjectItemTemplate.xaml" />
     <None Remove="TemplateDefinitions\CheckboxDatatemplate.xaml" />
     <None Remove="TemplateDefinitions\ObservationDatatemplate.xaml" />
@@ -25,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="ProjectEditingTabViewItem.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="ProjectItemTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

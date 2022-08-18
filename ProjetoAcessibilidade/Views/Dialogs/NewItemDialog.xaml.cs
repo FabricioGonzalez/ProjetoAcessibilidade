@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
-using ProjetoAcessibilidade.Helpers;
 using ProjetoAcessibilidade.ViewModels.DialogViewModel;
+
+using SystemApplication.Services.UIOutputs;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -13,50 +12,47 @@ namespace ProjetoAcessibilidade.Views.Dialogs;
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class NewItemDialog : Page
+public sealed partial class NewItemDialog : ContentDialog
 {
-    public NewItemDialog()
+    public NewItemViewModel newItemView
+    {
+        get; set;
+    }
+
+    public FileTemplates item;
+    public NewItemDialog(NewItemViewModel newItemView)
     {
         InitializeComponent();
+        this.newItemView = newItemView;
 
     }
 
-    private void Page_Loaded(object sender, RoutedEventArgs e)
+    public async void ContentDialog_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        try
-        {
-            var window = (DataContext as NewItemViewModel).newItemDialogService.GetDialog();
 
-            if (window is not null)
+        var result = await newItemView.GetFiles();
+        newItemView.Files = new(result);
+    }
+
+    public void MainButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        if (Lista.SelectedItem is not null)
+        {
+            FileTemplates file = new()
             {
-                if (window.IsTitleBarCustomizable())
-                {
-                    window.ExtendsContentIntoTitleBar = true;
-                    window.SetTitleBar(AppTitleBar);
-                    AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+                Name = TextBox.Text,
 
-                    Grid.SetRow(AppTitleBar, 0);
-                    Grid.SetRow(content, 1);
-
-                    Grid.SetRowSpan(AppTitleBar, 1);
-                    Grid.SetRowSpan(content, 2);
-                }
-                else
-                {
-                    AppTitleBar.Visibility = Visibility.Collapsed;
-
-                    Grid.SetRow(AppTitleBar, 0);
-                    Grid.SetRow(content, 0);
-
-                    Grid.SetRowSpan(AppTitleBar, 0);
-                    Grid.SetRowSpan(content, 3);
-                }
-            }
-        (DataContext as NewItemViewModel).GetFiles();
+                Path = (Lista.SelectedItem as FileTemplates).Path
+            };
+            item = file;
         }
-        catch (Exception)
+    }
+
+    private void Lista_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is ListView lista)
         {
-            throw;
+            TextBox.Text = (lista.SelectedItem as FileTemplates).Name;
         }
     }
 }

@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 using SystemApplication.Services.Contracts;
+using SystemApplication.Services.UIOutputs;
 
 namespace SystemApplication.Services.ProjectDataServices;
 public class GetProjectData
 {
-    IXmlProjectDataRepository repository;
-    public GetProjectData(IXmlProjectDataRepository repository)
+    readonly IXmlProjectDataRepository xmlProjectrepository;
+    readonly IProjectSolutionRepository projectSolutionRepository;
+    public GetProjectData(IXmlProjectDataRepository xmlProjectrepository, IProjectSolutionRepository projectSolutionRepository)
     {
-        this.repository = repository;
+        this.xmlProjectrepository = xmlProjectrepository;
+        this.projectSolutionRepository = projectSolutionRepository;
     }
-    public UIOutputs.ItemModel GetItemProject(string path)
+    public ItemModel GetItemProject(string path)
     {
-        var result = repository.GetModel(path);
+        var result = xmlProjectrepository.GetModel(path);
 
-        var item = new UIOutputs.ItemModel();
+        var item = new ItemModel();
 
         item.ItemName = result.ItemName;
         item.FormData = new();
+        item.LawList = new();
 
         foreach (var itemTable in result.FormData)
         {
@@ -107,5 +107,15 @@ public class GetProjectData
         }
 
         return item;
+    }
+
+    public async Task<List<FileTemplates>> GetProjectItens()
+    {
+        return await projectSolutionRepository.getProjectLocalPath();
+    } 
+
+    public async Task<ObservableCollection<ExplorerItem>> GetProjectSolutionItens(string solutionPath)
+    {
+        return await projectSolutionRepository.GetData(solutionPath);
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using Windows.Storage;
 using Windows.ApplicationModel;
@@ -16,7 +17,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 using Projeto.Core.Models;
@@ -25,7 +25,6 @@ using ProjetoAcessibilidade.Contracts.ViewModels;
 using ProjetoAcessibilidade.Services;
 using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 
-using CustomControls.TemplateSelectors;
 using CustomControls;
 
 namespace ProjetoAcessibilidade.ViewModels;
@@ -33,8 +32,8 @@ namespace ProjetoAcessibilidade.ViewModels;
 public class ProjectViewModel : ObservableRecipient, INavigationAware
 {
     #region Bindings
-    private ObservableCollection<TabViewItem> tabViewItems = new();
-    public ObservableCollection<TabViewItem> TabViewItems
+    private ObservableCollection<ProjectEditingTabViewItem> tabViewItems = new();
+    public ObservableCollection<ProjectEditingTabViewItem> TabViewItems
     {
         get => tabViewItems;
         set => tabViewItems = value;
@@ -73,6 +72,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #region Dependencies
     readonly GetProjectData getProjectData;
     readonly NewItemDialogService newItemDialogService;
+    readonly CreateProjectData createProjectData;
     #endregion
 
     #region Commands
@@ -81,10 +81,10 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     public ICommand AddItemCommand => _addItemCommand ??= new RelayCommand<ExplorerItem>(OnAddItemCommand);
 
     private ICommand _addItemToProjectCommand;
-    public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new RelayCommand<object>(OnAddItemToProjectCommand);
+    public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new RelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
 
     private ICommand _addFolderToProjectCommand;
-    public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<object>(OnAddFolderToProjectCommand);
+    public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<ExplorerItem>(OnAddFolderToProjectCommand);
 
     private ICommand _textBoxLostFocusCommand;
     public ICommand TextBoxLostFocusCommand => _textBoxLostFocusCommand ??= new AsyncRelayCommand<string>(OnTextFieldLostFocus);
@@ -94,29 +94,43 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #region CommandMethods
     private void OnAddItemCommand(ExplorerItem itemName)
     {
-
         var itemTemplate = new ProjectItemTemplate();
-
 
         itemTemplate.ProjectItem = getProjectData.GetItemProject(itemName.Path);
 
-
-        var item = new TabViewItem()
+        var item = new ProjectEditingTabViewItem()
         {
             Header = $"{itemName.Name}",
             Content = itemTemplate,
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
             Background = new SolidColorBrush() { Color = Colors.Aqua },
             VerticalContentAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch,
+            itemPath = itemName.Path
+
         };
-        TabViewItems.Add(item);
+
+        if (!TabViewItems.Any(item => item.itemPath.Equals(itemName.Path)))
+        {
+            TabViewItems.Add(item);
+        }
     }
-    private void OnAddItemToProjectCommand(object obj)
+    private async void OnAddItemToProjectCommand(ExplorerItem obj)
     {
-        newItemDialogService.ShowDialog<NewItemViewModel>("Escolha um item");
+        var result = await newItemDialogService.ShowDialog();
+
+        var item = new ExplorerItem()
+        {
+            Name = result.Name,
+            Path = Path.Combine(obj.Path, $"{result.Name}.prjd"),
+            Type = ExplorerItem.ExplorerItemType.File
+        };
+
+        obj.Children.Add(item);
+        createProjectData.CreateProjectItem(obj.Path, $"{item.Name}.prjd", result.Path);
     }
-    private void OnAddFolderToProjectCommand(object obj)
+    private void OnAddFolderToProjectCommand(ExplorerItem obj)
     {
+
     }
     private async Task OnTextFieldLostFocus(string data)
     {
@@ -128,59 +142,15 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #endregion
 
     #region Constructor
-    public ProjectViewModel(GetProjectData getProject, NewItemDialogService newItemDialog)
+    public ProjectViewModel(GetProjectData getProject, NewItemDialogService newItemDialog, CreateProjectData createProjectData)
     {
         getProjectData = getProject;
+        this.createProjectData = createProjectData;
         newItemDialogService = newItemDialog;
     }
     #endregion
 
-    private async Task GetDataFromPath(StorageFolder folder, IList<ExplorerItem> list)
-    {
-        var itens = await folder.GetItemsAsync();
 
-        var folderItem = new ExplorerItem
-        {
-            Name = folder.Name,
-            Path = folder.Path,
-            Type = ExplorerItem.ExplorerItemType.Folder,
-            Children = new()
-        };
-
-        foreach (var item in itens)
-        {
-            if (item.IsOfType(StorageItemTypes.Folder))
-            {
-                var newfolder = await StorageFolder.GetFolderFromPathAsync(item.Path);
-
-                await GetDataFromPath(newfolder, folderItem.Children);
-            }
-            if (item.IsOfType(StorageItemTypes.File))
-            {
-                var i = new ExplorerItem()
-                {
-                    Name = item.Name.Split(".")[0],
-                    Path = item.Path,
-                    Type = ExplorerItem.ExplorerItemType.File
-                };
-                folderItem.Children.Add(i);
-            }
-        }
-        list.Add(folderItem);
-    }
-
-    private async Task<ObservableCollection<ExplorerItem>> GetData()
-    {
-        var list = new ObservableCollection<ExplorerItem>();
-
-        var directory = await StorageFolder.GetFolderFromPathAsync(Path.Combine(Package.Current.InstalledPath, "Specifications"));
-
-        //var directory = await StorageFolder.GetFolderFromPathAsync(Path.Combine(SolutionPath, "Itens"));
-
-        await GetDataFromPath(directory, list);
-
-        return list;
-    }
 
     #region InterfaceImplementedMethods
     public void OnNavigatedFrom()
@@ -204,7 +174,13 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
 
             solutionPath = data.ParentFolderPath;
 
-            Items = Task.Run(async () => await GetData()).Result;
+            ObservableCollection<ExplorerItem> result = new();
+            Task.Run(async () =>
+            {
+                result = await getProjectData.GetProjectSolutionItens(solutionPath);
+            }).Wait();
+
+            Items = result;
         }
     }
     #endregion

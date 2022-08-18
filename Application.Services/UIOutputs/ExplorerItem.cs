@@ -1,10 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace CustomControls.TemplateSelectors;
-public class ExplorerItem : INotifyPropertyChanged
+namespace SystemApplication.Services.UIOutputs;
+public class ExplorerItem : NotifierBaseClass
 {
-    public event PropertyChangedEventHandler PropertyChanged;
     public enum ExplorerItemType { Folder, File };
 
     private string name = "";
@@ -84,10 +83,5 @@ public class ExplorerItem : INotifyPropertyChanged
                 NotifyPropertyChanged("IsExpanded");
             }
         }
-    }
-
-    private void NotifyPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

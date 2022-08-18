@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
+using SystemApplication.Services.UIOutputs;
 
 namespace CustomControls.TemplateSelectors;
 public class ExplorerItemTemplateSelector : DataTemplateSelector

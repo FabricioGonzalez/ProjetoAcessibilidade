@@ -1,90 +1,44 @@
 ﻿using System;
+using System.Threading.Tasks;
 
-using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
-using ProjetoAcessibilidade.Contracts.Services;
-using ProjetoAcessibilidade.Helpers;
+using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 using ProjetoAcessibilidade.Views.Dialogs;
+
+using SystemApplication.Services.UIOutputs;
 
 namespace ProjetoAcessibilidade.Services;
 public class NewItemDialogService
 {
-    private Window newItemDialog = null;
-
-    IPageService pageService;
-    public NewItemDialogService(IPageService pageService)
+    readonly NewItemViewModel newItemViewModel;
+    public NewItemDialogService(NewItemViewModel newItemViewModel)
     {
-        this.pageService = pageService;
+        this.newItemViewModel = newItemViewModel;
     }
-    public Window GetDialog()
+    private FileTemplates item;
+    public async Task<FileTemplates> ShowDialog()
     {
-        if (newItemDialog is null)
-            return null;
+        ContentDialog noWifiDialog = new NewItemDialog(newItemViewModel);
 
-        return newItemDialog;
-    }
-    private void CreateDialog()
-    {
-        if (newItemDialog is null)
-        {
-            newItemDialog = new Window();
-        }
-        return;
-    }
+        noWifiDialog.XamlRoot = App.MainWindow.Content.XamlRoot;
 
-    private void DialogShow<VmType>(
-        string Title,
-        Type type)
-    {
-        IThemeSelectorService themeSelectorService = App.GetService<IThemeSelectorService>();
+        noWifiDialog.PrimaryButtonClick += NoWifiDialog_PrimaryButtonClick;
 
-        var theme = themeSelectorService.Theme;
+        noWifiDialog.PrimaryButtonText = "Adicionar";
+        noWifiDialog.CloseButtonText = "Cancelar";
 
-        var dictionary = (ResourceDictionary)Application.Current.Resources.ThemeDictionaries[theme.ToString()];
+        ContentDialogResult result = await noWifiDialog.ShowAsync();
 
-        var content = (FrameworkElement)App.GetService(type);
-
-        if (typeof(VmType) is not null)
-        {
-            var vm = App.GetService(typeof(VmType));
-
-            content.DataContext = vm;
-
-            content.RequestedTheme = theme;
-        }
-
-        if (newItemDialog is null)
-        {
-            CreateDialog();
-        }
-
-        newItemDialog.Title = Title;
-
-        newItemDialog.Content = content;
-
-        newItemDialog.SetPresenter();
-        //newItemDialog.SetWindowIcon();
-
-        newItemDialog.Closed += NewItemDialog_Closed;
-
-        newItemDialog.Activate();
+        return item;
     }
 
-    private void NewItemDialog_Closed(object sender, WindowEventArgs args)
+    private void NoWifiDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
-        if (sender is Window window)
-            window.Closed -= NewItemDialog_Closed;
-        CloseDialog();
-    }
+        (sender as NewItemDialog).MainButton_Click(sender, new());
 
-    public void ShowDialog<TViewModel>(string title)
-    {
-        var vmtype = pageService.GetPageType(typeof(TViewModel).FullName);
-        DialogShow<TViewModel>(title, vmtype);
-    }
-    public void CloseDialog()
-    {
-        newItemDialog = null;
-    }
+        var result = (sender as NewItemDialog).item;
 
+        item = result;
+    }
 }

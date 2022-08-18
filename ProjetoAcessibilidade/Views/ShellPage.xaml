@@ -9,6 +9,9 @@
     Loaded="OnLoaded"
     Unloaded="OnUnloaded"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary Source="/Styles/Style.xaml" />
+    </Page.Resources>
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />

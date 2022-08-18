@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml.Controls;
 
 using ProjetoAcessibilidade.ViewModels;
 
+using SystemApplication.Services.UIOutputs;
+
 namespace ProjetoAcessibilidade.Views;
 
 public sealed partial class ProjectPage : Page
@@ -82,7 +84,7 @@ public sealed partial class ProjectPage : Page
 
             var res = new ExplorerItem()
             {
-                Name = "novo",
+                Name = "",
                 Path = "D:\\Programacao\\Projetos\\Desktop\\C#\\ProjetoAcessibilidade\\Data\\Tables\\Entradas Portas Externo.xml"
             };
 
@@ -116,8 +118,13 @@ public sealed partial class ProjectPage : Page
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 var item = (ExplorerItem)textbox.DataContext;
+
+                item.Name = textbox.Text;
+
                 item.IsEditing = false;
                 item.NewName = string.Empty;
+
+                //ViewModel.
             }
         }
     }

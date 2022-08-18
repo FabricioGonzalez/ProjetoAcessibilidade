@@ -1,11 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using Infrastructure.InMemoryRepository;
+using Infrastructure.WindowsStorageRepository;
 
+using Microsoft.UI.Xaml;
+
+using ProjetoAcessibilidade.Contracts.Services;
 using ProjetoAcessibilidade.Services;
 
+using SystemApplication.Services.ProjectDataServices;
 using SystemApplication.Services.UIOutputs;
 
 namespace ProjetoAcessibilidade.ViewModels.DialogViewModel;
@@ -18,20 +25,16 @@ public class NewItemViewModel : ObservableRecipient
         set => SetProperty(ref files, value);
     }
 
-    readonly GetAppLocal getAppLocal;
-    public readonly NewItemDialogService newItemDialogService;
-    public NewItemViewModel(GetAppLocal local, NewItemDialogService newItemDialog)
+    readonly GetProjectData getAppLocal;
+    public NewItemViewModel(GetProjectData local)
     {
         getAppLocal = local;
-        newItemDialogService = newItemDialog;
     }
-    public NewItemViewModel()
+    public async Task<List<FileTemplates>> GetFiles()
     {
+        List<FileTemplates> result = await getAppLocal.GetProjectItens();
 
-    }
+        return result;
 
-    public void GetFiles()
-    {
-        Files = new(getAppLocal.getProjectLocalPath());
     }
 }

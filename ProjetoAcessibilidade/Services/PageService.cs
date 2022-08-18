@@ -24,7 +24,7 @@ public class PageService : IPageService
         Configure<ProjectViewModel, ProjectPage>();
         Configure<SettingsViewModel, SettingsPage>();
         Configure<TemplateEditViewModel, TemplateEditingPage>();
-        Configure<NewItemViewModel, NewItemDialog>();
+        //Configure<NewItemViewModel, NewItemDialog>();
     }
 
     public Type GetPageType(string key)
