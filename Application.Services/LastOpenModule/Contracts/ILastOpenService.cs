@@ -3,8 +3,8 @@
 namespace SystemApplication.Services.LastOpenModule.Contracts;
 public interface ILastOpenService
 {
-    LastOpenModel[] GetLastOpenItems();
-    LastOpenModel GetLastOpenItem(int index);
+    Task<LastOpenModel[]> GetLastOpenItems();
+    Task<LastOpenModel> GetLastOpenItem(int index);
     void SetLastOpenItem(LastOpenModel item);
 
 }

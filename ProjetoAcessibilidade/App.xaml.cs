@@ -27,6 +27,8 @@ using ProjetoAcessibilidade.Views;
 using ProjetoAcessibilidade.Views.Dialogs;
 
 using SystemApplication.Services.Contracts;
+using SystemApplication.Services.LastOpenModule;
+using SystemApplication.Services.LastOpenModule.Contracts;
 using SystemApplication.Services.ProjectDataServices;
 
 using Windows.ApplicationModel;
@@ -76,7 +78,9 @@ public partial class App : Application
 
             services.AddSingleton<IFileSelectorService, FileSelectorService>();
             services.AddSingleton<IXmlProjectDataRepository, XmlProjectDataRepository>();
- 
+
+            services.AddSingleton<ILastOpenService, LastOpenService>();
+            services.AddSingleton<ILastOpenRepository, LastOpenRepository>();
 
             services.AddScoped<GetProjectData>();
             services.AddScoped<CreateProjectData>();
