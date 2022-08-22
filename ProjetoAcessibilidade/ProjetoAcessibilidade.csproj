@@ -11,7 +11,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <DefaultLanguage>pt-BR</DefaultLanguage>
-    <PackageCertificateThumbprint>4929DB88AA68067E0DFC2FD69AA3572C9852E563</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>97B82212FFC1EEC4AF6D67C1116E752FF1DBCE95</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -33,7 +33,9 @@
     <None Remove="Styles\DefaultTheme.xaml" />
     <None Remove="Styles\LightTheme.xaml" />
     <None Remove="Styles\Style.xaml" />
+    <None Remove="Views\ContinuationPage.xaml" />
     <None Remove="Views\Dialogs\NewItemDialog.xaml" />
+    <None Remove="Views\PageToPrint.xaml" />
     <None Remove="Views\PrintPage.xaml" />
     <None Remove="Views\ProjectPage.xaml" />
     <None Remove="Views\TemplateEditingPage.xaml" />
@@ -178,6 +180,13 @@
     <None Update="Specifications\Tables\Table.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\PageToPrint.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ContinuationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="WindowIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
