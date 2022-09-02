@@ -63,7 +63,10 @@ public class ShellViewModel : ObservableRecipient
     readonly CreateProjectData _createProjectData;
     readonly GetProjectData _getProjectData;
 
-    public ShellViewModel(INavigationService navigationService, IFileSelectorService pickerService, CreateProjectData createProjectData, GetProjectData getProjectData)
+    public ShellViewModel(INavigationService navigationService, 
+        IFileSelectorService pickerService, 
+        CreateProjectData createProjectData,
+        GetProjectData getProjectData)
     {
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;
@@ -114,5 +117,10 @@ public class ShellViewModel : ObservableRecipient
     }
     private void OnTemplateEditCommand() => NavigationService.NavigateTo(typeof(TemplateEditViewModel).FullName);
     private void OnMenuViewsMain() => NavigationService.NavigateTo(typeof(MainViewModel).FullName);
-    private void OnPrintEditCommand() => NavigationService.NavigateTo(typeof(PrintViewModel).FullName);
+    private void OnPrintEditCommand()
+    {
+
+
+        NavigationService.NavigateTo(typeof(PrintViewModel).FullName);
+    }
 }

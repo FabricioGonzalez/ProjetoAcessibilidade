@@ -32,7 +32,6 @@ using SystemApplication.Services.LastOpenModule.Contracts;
 using SystemApplication.Services.ProjectDataServices;
 
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
 
 using LaunchActivatedEventArgs = Microsoft.UI.Xaml.LaunchActivatedEventArgs;
 using UnhandledExceptionEventArgs = Microsoft.UI.Xaml.UnhandledExceptionEventArgs;
@@ -72,18 +71,20 @@ public partial class App : Application
 
             services.AddSingleton<InfoBarService>();
 
-            services.AddScoped<GetAppLocal>((services) => new(Path.Combine(Package.Current.InstalledPath, "Specifications")));
+            services.AddTransient<IAppLocalRepository,GetAppLocalRepository>((services)
+                => new(Path.Combine(Package.Current.InstalledPath, "Specifications")));
 
-            services.AddScoped<IProjectSolutionRepository, ProjectSolutionRepository>((services) => new(Path.Combine(Package.Current.InstalledPath, "Specifications")));
+            services.AddTransient<IProjectSolutionRepository, ProjectSolutionRepository>((services) 
+                => new(Path.Combine(Package.Current.InstalledPath, "Specifications")));
 
-            services.AddSingleton<IFileSelectorService, FileSelectorService>();
-            services.AddSingleton<IXmlProjectDataRepository, XmlProjectDataRepository>();
+            services.AddTransient<IFileSelectorService, FileSelectorService>();
+            services.AddTransient<IXmlProjectDataRepository, XmlProjectDataRepository>();
 
-            services.AddSingleton<ILastOpenService, LastOpenService>();
-            services.AddSingleton<ILastOpenRepository, LastOpenRepository>();
+            services.AddTransient<ILastOpenService, LastOpenService>();
+            services.AddTransient<ILastOpenRepository, LastOpenRepository>();
 
-            services.AddScoped<GetProjectData>();
-            services.AddScoped<CreateProjectData>();
+            services.AddTransient<GetProjectData>();
+            services.AddTransient<CreateProjectData>();
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();

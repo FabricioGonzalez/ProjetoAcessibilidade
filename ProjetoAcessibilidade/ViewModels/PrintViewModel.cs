@@ -1,24 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using SystemApplication.Services.Contracts;
+using ProjetoAcessibilidade.Contracts.ViewModels;
 
 namespace ProjetoAcessibilidade.ViewModels;
-public class PrintViewModel : ObservableRecipient
+public class PrintViewModel : ObservableRecipient,INavigationAware
 {
     private string file;
     public string File
     {
 
-        get => file; set => SetProperty(ref file, value);
+        get => file; 
+        set => SetProperty(ref file, value);
     }
+
+    Uri uri;
 
     public PrintViewModel()
     {
+    }
+
+    public void OnNavigatedTo(object parameter)
+    {
+        if(parameter is Uri uri)
+        {
+            this.uri = uri;
+        }
+    }
+
+    public void OnNavigatedFrom()
+    {
+    
     }
 }

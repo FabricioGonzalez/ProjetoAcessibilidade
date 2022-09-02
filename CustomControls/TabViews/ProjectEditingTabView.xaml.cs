@@ -1,10 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-
-using Windows.Devices.Enumeration;
 
 namespace CustomControls;
 
@@ -19,7 +18,15 @@ public sealed partial class ProjectEditingTabView : UserControl
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ItemsProperty =
         DependencyProperty.Register("Items", typeof(ObservableCollection<TabViewItem>),
-            typeof(ProjectEditingTabView), new PropertyMetadata(new ObservableCollection<ProjectEditingTabViewItem>()));
+            typeof(ProjectEditingTabView), new PropertyMetadata(new ObservableCollection<ProjectEditingTabViewItem>(), OnItemsChanged));
+
+    private static void OnItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is ProjectEditingTabView item)
+        {
+            //item.
+        }
+    }
 
 
     // Remove the requested tab from the TabView
@@ -41,7 +48,7 @@ public sealed partial class ProjectEditingTabView : UserControl
     public ProjectEditingTabView()
     {
         InitializeComponent();
-        this.DragEnter += new DragEventHandler(XmlEditControl_DragEnter);
-        this.Drop += new DragEventHandler(this.XmlEditControl_DragDrop);
+        DragEnter += new DragEventHandler(XmlEditControl_DragEnter);
+        Drop += new DragEventHandler(this.XmlEditControl_DragDrop);
     }
 }

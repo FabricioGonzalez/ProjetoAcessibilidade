@@ -5,11 +5,6 @@ using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using Infrastructure.WindowsStorageRepository;
-
-using Microsoft.UI.Xaml;
-
-using ProjetoAcessibilidade.Contracts.Services;
 using ProjetoAcessibilidade.Services;
 
 using SystemApplication.Services.ProjectDataServices;

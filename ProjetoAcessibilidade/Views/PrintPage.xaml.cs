@@ -29,9 +29,6 @@ namespace ProjetoAcessibilidade.Views;
 /// </summary>
 public sealed partial class PrintPage : Page
 {
-    private PrintManager printMan;
-    private PrintDocument printDoc;
-    private IPrintDocumentSource printDocSource;
     public PrintViewModel ViewModel
     {
         get; private set;
@@ -43,7 +40,15 @@ public sealed partial class PrintPage : Page
         RegisterPrint();
     }
 
+    void PutContentOnWebView()
+    {
+        
+    }
+
     #region Register for printing
+    private PrintManager printMan;
+    private PrintDocument printDoc;
+    private IPrintDocumentSource printDocSource;
 
     void RegisterPrint()
     {

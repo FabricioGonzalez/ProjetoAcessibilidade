@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="using:SystemApplication.Services.UIOutputs"
+	Loaded="UserControl_Loaded"
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<DataTemplate x:Key="TextItemTemplate" x:DataType="models:FormDataItemTextModel">
@@ -141,94 +142,92 @@
 			TextBoxTemplate="{StaticResource TextItemTemplate}" />
 	</UserControl.Resources>
 	<ScrollViewer
-		HorizontalContentAlignment="Left"
-		VerticalContentAlignment="Top"
+		x:Name="Scroller"
 		BorderThickness="1"
 		CornerRadius="8"
 		Shadow="{StaticResource CommandBarFlyoutOverflowShadow}">
-		<ScrollViewer.TopHeader>
-			<CommandBar Background="{ThemeResource AccentAcrylicInAppFillColorDefaultBrush}">
-				<AppBarButton
-					Icon="Save"
-					Label="Save"
-					ToolTipService.ToolTip="Save">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator Key="S" Modifiers="Control" />
-					</AppBarButton.KeyboardAccelerators>
-				</AppBarButton>
-				<AppBarButton Icon="Add" Label="Add Image">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator Key="A" Modifiers="Control" />
-					</AppBarButton.KeyboardAccelerators>
-				</AppBarButton>
-
-				<AppBarSeparator />
-				<AppBarButton Icon="Back" Label="Back">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator />
-					</AppBarButton.KeyboardAccelerators>
-				</AppBarButton>
-				<AppBarButton Icon="Stop" Label="Stop">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator />
-					</AppBarButton.KeyboardAccelerators>
-				</AppBarButton>
-				<AppBarButton Icon="Play" Label="Play">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator />
-					</AppBarButton.KeyboardAccelerators>
-				</AppBarButton>
-				<AppBarButton Icon="Forward" Label="Forward">
-					<AppBarButton.KeyboardAccelerators>
-						<KeyboardAccelerator />
-					</AppBarButton.KeyboardAccelerators>
-				</AppBarButton>
-
-				<CommandBar.Content>
-					<TextBlock
-						Margin="64,8"
-						FontWeight="Bold"
-						Text="{x:Bind ProjectItem.ItemName}" />
-				</CommandBar.Content>
-			</CommandBar>
-		</ScrollViewer.TopHeader>
 		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="0.3*" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition />
 			</Grid.RowDefinitions>
 
-			<ListView
-				Grid.Row="0"
-				Grid.Column="0"
-				Grid.ColumnSpan="2"
-				ItemTemplateSelector="{StaticResource ProjectItemTemplateSelector}"
-				ItemsSource="{x:Bind ProjectItem.FormData}"
-				SelectionMode="None" />
-			<ListView
-				Grid.Row="1"
-				Grid.Column="0"
-				Grid.ColumnSpan="2"
-				ItemsSource="{x:Bind ProjectItem.LawList}"
-				SelectionMode="None">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<StackPanel
-							Margin="0,4"
-							Padding="8"
-							BorderBrush="#20888888"
-							BorderThickness="1"
-							CornerRadius="8">
-							<TextBlock FontWeight="Bold" Text="{Binding LawId}" />
-							<TextBlock Text="{Binding LawTextContent, Converter={StaticResource EnumerableToString}}" TextWrapping="Wrap" />
-						</StackPanel>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
+			<Grid Grid.Row="1">
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<ListView
+					Grid.Row="0"
+					ItemTemplateSelector="{StaticResource ProjectItemTemplateSelector}"
+					ItemsSource="{x:Bind ProjectItem.FormData}"
+					SelectionMode="None" />
+				<ListView
+					Grid.Row="1"
+					ItemsSource="{x:Bind ProjectItem.LawList}"
+					SelectionMode="None">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<StackPanel
+								Margin="0,4"
+								Padding="8"
+								BorderBrush="#20888888"
+								BorderThickness="1"
+								CornerRadius="8">
+								<TextBlock FontWeight="Bold" Text="{Binding LawId}" />
+								<TextBlock Text="{Binding LawTextContent, Converter={StaticResource EnumerableToString}}" TextWrapping="Wrap" />
+							</StackPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</Grid>
+			<StackPanel x:Name="ScrollerHeader">
+				<CommandBar x:Name="commandBar" Background="{ThemeResource PrimaryAcrylicBrush}">
+					<AppBarButton
+						Icon="Save"
+						Label="Save"
+						ToolTipService.ToolTip="Save">
+						<AppBarButton.KeyboardAccelerators>
+							<KeyboardAccelerator Key="S" Modifiers="Control" />
+						</AppBarButton.KeyboardAccelerators>
+					</AppBarButton>
+					<AppBarButton Icon="Add" Label="Add Image">
+						<AppBarButton.KeyboardAccelerators>
+							<KeyboardAccelerator Key="A" Modifiers="Control" />
+						</AppBarButton.KeyboardAccelerators>
+					</AppBarButton>
+
+					<AppBarSeparator />
+					<AppBarButton Icon="Back" Label="Back">
+						<AppBarButton.KeyboardAccelerators>
+							<KeyboardAccelerator />
+						</AppBarButton.KeyboardAccelerators>
+					</AppBarButton>
+					<AppBarButton Icon="Stop" Label="Stop">
+						<AppBarButton.KeyboardAccelerators>
+							<KeyboardAccelerator />
+						</AppBarButton.KeyboardAccelerators>
+					</AppBarButton>
+					<AppBarButton Icon="Play" Label="Play">
+						<AppBarButton.KeyboardAccelerators>
+							<KeyboardAccelerator />
+						</AppBarButton.KeyboardAccelerators>
+					</AppBarButton>
+					<AppBarButton Icon="Forward" Label="Forward">
+						<AppBarButton.KeyboardAccelerators>
+							<KeyboardAccelerator />
+						</AppBarButton.KeyboardAccelerators>
+					</AppBarButton>
+
+					<CommandBar.Content>
+						<TextBlock
+							Margin="64,8"
+							FontWeight="Bold"
+							Text="{x:Bind ProjectItem.ItemName}" />
+					</CommandBar.Content>
+				</CommandBar>
+
+			</StackPanel>
 		</Grid>
 	</ScrollViewer>
 </UserControl>

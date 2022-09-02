@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projeto.Core", "Project.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.WindowsStorageRepository", "Infrastructure.WindowsStorageRepository\Infrastructure.WindowsStorageRepository.csproj", "{7B61BF38-7214-4743-85CA-1632CEA40C5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.DocxRepository", "Infrastructure.DocxRepository\Infrastructure.DocxRepository.csproj", "{244580FD-78D9-4553-A09E-1BE076A753DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.DocxRepository", "Infrastructure.DocxRepository\Infrastructure.DocxRepository.csproj", "{244580FD-78D9-4553-A09E-1BE076A753DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

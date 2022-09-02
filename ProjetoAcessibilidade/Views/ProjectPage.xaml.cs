@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 using CustomControls.TemplateSelectors;
 
@@ -99,9 +100,9 @@ public sealed partial class ProjectPage : Page
             };
 
             item.Children.Add(res);
-            item.IsEditing = true;
+            res.IsEditing = true;
 
-            ViewModel.AddFolderToProjectCommand.Execute(item);
+            //ViewModel.AddFolderToProjectCommand.Execute(res);
         }
     }
     private void RenameItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -109,6 +110,30 @@ public sealed partial class ProjectPage : Page
         if (sender is MenuFlyoutItem itemFlyout)
         {
             var item = (ExplorerItem)itemFlyout.DataContext;
+
+            ViewModel.Items.Any(i =>
+            {
+                if (i.Type is ExplorerItem.ExplorerItemType.Folder)
+                {
+                    i.Children.Any(e =>
+                    {
+                        if (e.IsEditing)
+                        {
+                            e.IsEditing = false;
+                            return true;
+                        }
+                        return false;
+                    });
+                }
+
+                if (i.IsEditing)
+                {
+                    i.IsEditing = false;
+                    return true;
+                }
+                return false;
+            });
+
             item.IsEditing = true;
         }
     }
@@ -130,13 +155,15 @@ public sealed partial class ProjectPage : Page
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 var item = (ExplorerItem)textbox.DataContext;
+                if (textbox.Text.Length > 0)
+                {
+                    item.Name = textbox.Text;
 
-                item.Name = textbox.Text;
+                    item.IsEditing = false;
+                    item.NewName = string.Empty;
 
-                item.IsEditing = false;
-                item.NewName = string.Empty;
-
-                //ViewModel.
+                    //ViewModel.
+                }
             }
         }
     }
