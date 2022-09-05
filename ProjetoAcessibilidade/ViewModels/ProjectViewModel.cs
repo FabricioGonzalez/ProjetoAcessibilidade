@@ -6,7 +6,6 @@ using System;
 using System.IO;
 using System.Linq;
 
-
 using SystemApplication.Services.UIOutputs;
 using SystemApplication.Services.ProjectDataServices;
 
@@ -18,9 +17,8 @@ using Projeto.Core.Models;
 using ProjetoAcessibilidade.Contracts.ViewModels;
 using ProjetoAcessibilidade.Services;
 
-using CustomControls;
 using Microsoft.UI.Xaml.Controls;
-using CustomControls.TabViews;
+using ProjetoAcessibilidade.Controls.TabViews;
 
 namespace ProjetoAcessibilidade.ViewModels;
 
@@ -73,7 +71,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #region Commands
 
     private ICommand _addItemCommand;
-    public ICommand AddItemCommand => _addItemCommand ??= new RelayCommand<ExplorerItem>(OnAddItemCommand);
+    public ICommand AddItemCommand => _addItemCommand ??= new AsyncRelayCommand<ExplorerItem>(OnAddItemCommand);
 
     private ICommand _addItemToProjectCommand;
     public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new AsyncRelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
@@ -90,17 +88,18 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #endregion
 
     #region CommandMethods
-    private void OnAddItemCommand(ExplorerItem itemName)
+    private async Task OnAddItemCommand(ExplorerItem itemName)
     {
+        var ProjectItem = await getProjectData.GetItemProject(itemName.Path);
         var item = new ProjectEditingTabViewItem()
         {
             itemPath = itemName.Path,
-            ProjectItem = getProjectData.GetItemProject(itemName.Path)
+            ProjectItem = ProjectItem
         };
 
         if (!TabViewItems.Any(item => item.itemPath.Equals(itemName.Path)))
         {
-            TabViewItems.Add(item);
+            App.MainWindow.DispatcherQueue.TryEnqueue(() => TabViewItems.Add(item));
         }
     }
     private async Task OnAddItemToProjectCommand(ExplorerItem obj)
@@ -113,7 +112,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             {
                 if (result is not null)
                 {
-                    _infoBarService.SetMessageData(result.Path, result.Name, InfoBarSeverity.Warning);
+                    _infoBarService.SetMessageData("Item Adicionado", result.Name, InfoBarSeverity.Informational);
                     var item = new ExplorerItem()
                     {
                         Name = result.Name,
@@ -158,7 +157,8 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         });
     }
     #endregion
-    InfoBarService _infoBarService;
+    readonly InfoBarService _infoBarService;
+   
     #region Constructor
     public ProjectViewModel(GetProjectData getProject, NewItemDialogService newItemDialog, InfoBarService infoBarService, CreateProjectData createProjectData)
     {
@@ -168,8 +168,6 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         _infoBarService = infoBarService;
     }
     #endregion
-
-
 
     #region InterfaceImplementedMethods
     public void OnNavigatedFrom()

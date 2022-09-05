@@ -8,8 +8,6 @@ namespace CustomControls;
 
 public sealed partial class ProjectEditingTabViewItem : TabViewItem
 {
-
-
     public string itemPath
     {
         get => (string)GetValue(itemPathProperty);

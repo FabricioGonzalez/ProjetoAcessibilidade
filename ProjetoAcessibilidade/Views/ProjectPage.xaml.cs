@@ -2,8 +2,6 @@
 using System.IO;
 using System.Linq;
 
-using CustomControls.TemplateSelectors;
-
 using Microsoft.UI.Xaml.Controls;
 
 using ProjetoAcessibilidade.ViewModels;
@@ -23,6 +21,7 @@ public sealed partial class ProjectPage : Page
     {
         ViewModel = App.GetService<ProjectViewModel>();
         InitializeComponent();
+        DataContext = ViewModel;
     }
 
     private void TextBox_LostFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

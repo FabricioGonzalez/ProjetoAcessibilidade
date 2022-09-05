@@ -15,9 +15,9 @@ public class GetProjectData
         this.xmlProjectrepository = xmlProjectrepository;
         this.projectSolutionRepository = projectSolutionRepository;
     }
-    public ItemModel GetItemProject(string path)
+    public async Task<ItemModel> GetItemProject(string path)
     {
-        var result = xmlProjectrepository.GetModel(path);
+        var result = await xmlProjectrepository.GetModel(path);
 
         var item = new ItemModel();
 
@@ -29,17 +29,17 @@ public class GetProjectData
         {
             if (itemTable.Type == Core.Enums.FormDataItemTypeEnum.Checkbox)
             {
-                var newitem = new UIOutputs.FormDataItemCheckboxModel()
+                var newitem = new FormDataItemCheckboxModel()
                 {
                     Topic = itemTable.Topic,
                     Children = new(),
                     Type = itemTable.Type
                 };
-                var itens = (itemTable as Core.Models.FormDataItemCheckboxModel).Children;
+                var itens = (itemTable as FormDataItemCheckboxModel).Children;
 
                 itens.ForEach((e) =>
                 {
-                    var child = new UIOutputs.FormDataItemCheckboxChildModel()
+                    var child = new FormDataItemCheckboxChildModel()
                     {
                         Options = new(),
                         TextItems = new()
@@ -49,7 +49,7 @@ public class GetProjectData
 
                     e.Options.ForEach(i =>
                     {
-                        var itemOption = new UIOutputs.OptionModel();
+                        var itemOption = new OptionModel();
                         itemOption.Value = i.Value;
                         itemOption.IsChecked = i.IsChecked;
 
@@ -58,7 +58,7 @@ public class GetProjectData
 
                     e.TextItems.ForEach(i =>
                     {
-                        var textItem = new UIOutputs.FormDataItemTextModel();
+                        var textItem = new FormDataItemTextModel();
 
                         textItem.TextData = i.TextData;
                         textItem.MeasurementUnit = i.MeasurementUnit;
@@ -77,11 +77,11 @@ public class GetProjectData
 
             if (itemTable.Type == Core.Enums.FormDataItemTypeEnum.Text)
             {
-                var newTextItem = new UIOutputs.FormDataItemTextModel();
+                var newTextItem = new FormDataItemTextModel();
 
                 newTextItem.Topic = itemTable.Topic;
-                newTextItem.TextData = (itemTable as Core.Models.FormDataItemTextModel).TextData;
-                newTextItem.MeasurementUnit = (itemTable as Core.Models.FormDataItemTextModel).MeasurementUnit;
+                newTextItem.TextData = (itemTable as FormDataItemTextModel).TextData;
+                newTextItem.MeasurementUnit = (itemTable as FormDataItemTextModel).MeasurementUnit;
                 newTextItem.Type = itemTable.Type;
 
                 item.FormData.Add(newTextItem);
@@ -89,10 +89,10 @@ public class GetProjectData
 
             if (itemTable.Type == Core.Enums.FormDataItemTypeEnum.Observation)
             {
-                var newObservationItem = new UIOutputs.FormDataItemObservationModel();
+                var newObservationItem = new FormDataItemObservationModel();
 
                 newObservationItem.Topic = itemTable.Topic;
-                newObservationItem.Observation = (itemTable as Core.Models.FormDataItemObservationModel).Observation;
+                newObservationItem.Observation = (itemTable as FormDataItemObservationModel).Observation;
                 newObservationItem.Type = itemTable.Type;
 
                 item.FormData.Add(newObservationItem);

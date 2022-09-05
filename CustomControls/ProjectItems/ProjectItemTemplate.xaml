@@ -184,6 +184,7 @@
 			<StackPanel x:Name="ScrollerHeader">
 				<CommandBar x:Name="commandBar" Background="{ThemeResource PrimaryAcrylicBrush}">
 					<AppBarButton
+						Command="{x:Bind SaveProjectCommand}"
 						Icon="Save"
 						Label="Save"
 						ToolTipService.ToolTip="Save">

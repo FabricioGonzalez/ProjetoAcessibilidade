@@ -15,7 +15,7 @@ public class PrintViewModel : ObservableRecipient,INavigationAware
         set => SetProperty(ref file, value);
     }
 
-    Uri uri;
+    public Uri uri { get; set; }
 
     public PrintViewModel()
     {

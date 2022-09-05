@@ -146,10 +146,26 @@
 		Shadow="{StaticResource CommandBarFlyoutOverflowShadow}"
 		VerticalScrollMode="Enabled">
 		<StackPanel Orientation="Vertical" Spacing="15">
-			<TextBlock
-				HorizontalAlignment="Center"
-				FontWeight="Bold"
-				Text="{x:Bind ProjectItem.ItemName, Mode=OneWay}" />
+			<Grid Padding="10,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock
+					Grid.Column="0"
+					VerticalAlignment="Center"
+					FontWeight="Bold"
+					Text="{x:Bind ProjectItem.ItemName, Mode=OneWay}" />
+				<TextBox Visibility="{x:Bind ProjectItem.IsEditing, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<AppBarButton
+					Grid.Column="2"
+					Width="48"
+					Height="48"
+					HorizontalAlignment="Right"
+					Click="AppBarButton_Click"
+					Icon="Edit" />
+			</Grid>
 			<ListView
 				ItemTemplateSelector="{StaticResource ProjectItemTemplateSelector}"
 				ItemsSource="{x:Bind ProjectItem.FormData, Mode=OneWay}"

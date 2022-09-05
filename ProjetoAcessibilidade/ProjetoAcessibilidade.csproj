@@ -29,6 +29,15 @@
     <None Remove="Assets\BadgeLogo.scale-150.png" />
     <None Remove="Assets\BadgeLogo.scale-200.png" />
     <None Remove="Assets\BadgeLogo.scale-400.png" />
+    <None Remove="Controls\BasicControls\EditingLabel.xaml" />
+    <None Remove="Controls\ListViewDetails\ListViewDetails.xaml" />
+    <None Remove="Controls\ProjectItems\ProjectItemTemplate.xaml" />
+    <None Remove="Controls\TabViews\ProjectEditingTabView.xaml" />
+    <None Remove="Controls\TabViews\ProjectEditingTabViewItem.xaml" />
+    <None Remove="Controls\TabViews\ProjectEditingTabViewItemHeaderTemplate.xaml" />
+    <None Remove="Controls\TemplateDefinitions\CheckboxDatatemplate.xaml" />
+    <None Remove="Controls\TemplateDefinitions\ObservationDatatemplate.xaml" />
+    <None Remove="Controls\TemplateDefinitions\TextboxDatatemplate.xaml" />
     <None Remove="Styles\DarkTheme.xaml" />
     <None Remove="Styles\DefaultTheme.xaml" />
     <None Remove="Styles\LightTheme.xaml" />
@@ -56,7 +65,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application.Services\SystemApplication.Services.csproj" />
-    <ProjectReference Include="..\CustomControls\CustomControls.csproj" />
     <ProjectReference Include="..\Infrastructure.DocxRepository\Infrastructure.DocxRepository.csproj" />
     <ProjectReference Include="..\Infrastructure.InMemoryRepository\Infrastructure.InMemoryRepository.csproj" />
     <ProjectReference Include="..\Infrastructure.WindowsStorageRepository\Infrastructure.WindowsStorageRepository.csproj" />
@@ -73,10 +81,13 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="HTML\root.css">
+    <Page Update="Controls\BasicControls\EditingLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Update="Specifications\HTML\root.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="HTML\root.html">
+    <None Update="Specifications\HTML\root.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Specifications\Items\Acesso-a-Equipamentos.json">
@@ -187,6 +198,32 @@
     <None Update="Specifications\Tables\Table.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\ListViewDetails\ListViewDetails.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\ProjectItems\ProjectItemTemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\TabViews\ProjectEditingTabView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\TabViews\ProjectEditingTabViewItem.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\TabViews\ProjectEditingTabViewItemHeaderTemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\TemplateDefinitions\CheckboxDatatemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\TemplateDefinitions\ObservationDatatemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TemplateDefinitions\TextboxDatatemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\PageToPrint.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

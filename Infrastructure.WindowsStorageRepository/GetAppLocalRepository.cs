@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 using SystemApplication.Services.Contracts;
 using SystemApplication.Services.UIOutputs;
@@ -116,7 +115,9 @@ public class GetAppLocalRepository : IAppLocalRepository
     }
     public async void GenerateHTML(List<ItemModel> items)
     {
-        StorageFile file = await StorageFile.GetFileFromPathAsync(Path.Combine(path, "root.html"));
+        var itemPath = Path.Combine(path, "HTML", "root.html");
+
+        StorageFile file = await StorageFile.GetFileFromPathAsync(itemPath);
 
         StringBuilder builder = new();
 
@@ -147,7 +148,7 @@ public class GetAppLocalRepository : IAppLocalRepository
             await new StreamWriter(item).WriteAsync(builder.ToString());
         });
 
-        htmlUri = new(Path.Combine(path, "root.html"));
+        htmlUri = new(itemPath);
     }
 
     public Uri HTMLLinkGenerator()

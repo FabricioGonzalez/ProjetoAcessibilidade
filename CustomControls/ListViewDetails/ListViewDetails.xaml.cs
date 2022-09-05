@@ -42,4 +42,9 @@ public sealed partial class ListViewDetails : UserControl
     {
         InitializeComponent();
     }
+
+    private void AppBarButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

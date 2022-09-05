@@ -25,6 +25,10 @@ public class LastOpenRepository : ILastOpenRepository
                 recentFiles.Add(item.Path);
             }
         }
+        
+        folder = null;
+        files = null;
+
         return recentFiles;
     }
 }

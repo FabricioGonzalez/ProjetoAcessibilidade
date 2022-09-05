@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Numerics;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 
+using SystemApplication.Services.ProjectDataServices;
 using SystemApplication.Services.UIOutputs;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -13,6 +18,13 @@ using SystemApplication.Services.UIOutputs;
 namespace CustomControls;
 public sealed partial class ProjectItemTemplate : UserControl
 {
+    private ICommand _saveProjectCommand;
+    public ICommand SaveProjectCommand => _saveProjectCommand??= new AsyncRelayCommand(OnSaveProject);
+
+    private async Task OnSaveProject()
+    {
+    }
+   
     public ItemModel ProjectItem
     {
         get => (ItemModel)GetValue(ProjectItemProperty);
@@ -22,7 +34,6 @@ public sealed partial class ProjectItemTemplate : UserControl
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ProjectItemProperty =
         DependencyProperty.Register("ProjectItem", typeof(ItemModel), typeof(ProjectItemTemplate), new PropertyMetadata(0));
-
 
     public ProjectItemTemplate()
     {

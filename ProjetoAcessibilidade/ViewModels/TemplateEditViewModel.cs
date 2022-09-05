@@ -26,7 +26,10 @@ public class TemplateEditViewModel : ObservableRecipient, INavigationAware
         set
         {
             SetProperty(ref _selected, value);
-            ProjectItem = getProjectData.GetItemProject(Selected.Path);
+            App.MainWindow.DispatcherQueue.TryEnqueue(async () =>
+            {
+                ProjectItem = await getProjectData.GetItemProject(Selected.Path);
+            });
         }
     }
 

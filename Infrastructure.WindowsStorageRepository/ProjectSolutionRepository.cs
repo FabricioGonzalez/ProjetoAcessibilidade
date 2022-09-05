@@ -47,10 +47,11 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
                     }
                 }
             }
+            files = null;
 
             return filesList;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             throw;
         }
@@ -86,6 +87,7 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
                 folderItem.Children.Add(i);
             }
         }
+        itens = null;
         list.Add(folderItem);
     }
     public async Task<ObservableCollection<ExplorerItem>> GetData(string SolutionPath)
@@ -97,6 +99,7 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
             var directory = await StorageFolder.GetFolderFromPathAsync(Path.Combine(SolutionPath, "Itens"));
 
             await GetDataFromPath(directory, list);
+            directory = null;
         }
         return list;
     }
@@ -109,34 +112,45 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
         var file = await folder.CreateFileAsync(ProjectItemName, CreationCollisionOption.GenerateUniqueName);
 
         await refFile.CopyAndReplaceAsync(file);
+
+        file = null;
+        folder = null;
+        refFile = null;
     }
     public async Task DeleteProjectSolutionItem(string projectItemPath)
     {
         var file = await StorageFile.GetFileFromPathAsync(projectItemPath);
 
         await file.DeleteAsync(StorageDeleteOption.Default);
+        file = null;
     }
     public async Task CreateProjectSolutionFolder(string projectPath, string ProjectFolder)
     {
         var folder = await StorageFolder.GetFolderFromPathAsync(projectPath);
 
         await folder.CreateFolderAsync(ProjectFolder, CreationCollisionOption.GenerateUniqueName);
+        folder = null;
     }
     public async Task DeleteProjectSolutionFolder(string projectFolderPath)
     {
         var folder = await StorageFolder.GetFolderFromPathAsync(projectFolderPath);
 
         await folder.DeleteAsync(StorageDeleteOption.Default);
+        folder = null;
     }
     public async Task RenameProjectFolder(string projectPath, string ProjectItemName)
     {
         var item = await StorageFolder.GetFolderFromPathAsync(projectPath);
         await item.RenameAsync(ProjectItemName, NameCollisionOption.GenerateUniqueName);
+
+        item = null;
     }
     public async Task RenameProjectItem(string projectPath, string ProjectItemName)
     {
         var item = await StorageFile.GetFileFromPathAsync(projectPath);
         await item.RenameAsync(ProjectItemName, NameCollisionOption.GenerateUniqueName);
+
+        item = null;
     }
     public async Task<ProjectSolutionModel>? GetProjectSolutionData(string projectPath)
     {
@@ -154,7 +168,7 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
                 reportData = new()
             };
 
-            var reader = new StreamReader(await file.OpenStreamForReadAsync());
+            using var reader = new StreamReader(await file.OpenStreamForReadAsync());
 
             if (await reader.ReadToEndAsync() is string data && data.Length > 0)
             {
@@ -162,7 +176,11 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
 
                 if (resultData is not null)
                     solution.reportData = resultData;
+
+                folder = null;
+                file = null;
             }
+
             return solution;
         }
         return null;
@@ -183,23 +201,25 @@ public class ProjectSolutionRepository : IProjectSolutionRepository
                 reportData = new()
             };
 
-            var writer = await file.OpenStreamForWriteAsync();
-
-            await writer.WriteAsync(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new ReportDataModel())));
-
-            var reader = new StreamReader(await file.OpenStreamForReadAsync());
-
-            await folder.CreateFolderAsync("Itens");
-
-            if (await reader.ReadToEndAsync() is string data && data.Length > 0)
+            using (var writer = await file.OpenStreamForWriteAsync())
             {
-                var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
+                await writer.WriteAsync(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new ReportDataModel())));
 
-                if (resultData is not null)
-                    solution.reportData = resultData;
+                using (var reader = new StreamReader(await file.OpenStreamForReadAsync()))
+                {
+                    await folder.CreateFolderAsync("Itens");
+
+                    if (await reader.ReadToEndAsync() is string data && data.Length > 0)
+                    {
+                        var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
+
+                        if (resultData is not null)
+                            solution.reportData = resultData;
+                    }
+
+                    return solution;
+                }
             }
-
-            return solution;
         }
         return null;
     }
