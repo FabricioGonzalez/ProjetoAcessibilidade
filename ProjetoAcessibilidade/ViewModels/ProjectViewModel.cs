@@ -69,27 +69,41 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #endregion
 
     #region Commands
+    public ICommand AddItemCommand
+    {
+        get; private set;
+    }
 
-    private ICommand _addItemCommand;
-    public ICommand AddItemCommand => _addItemCommand ??= new AsyncRelayCommand<ExplorerItem>(OnAddItemCommand);
+    public ICommand AddItemToProjectCommand
+    {
+        get; private set;
+    }
+    public ICommand AddFolderToProjectCommand
+    {
+        get;private set;
+    }
 
-    private ICommand _addItemToProjectCommand;
-    public ICommand AddItemToProjectCommand => _addItemToProjectCommand ??= new AsyncRelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
+    public ICommand RenameProjectItemCommand
+    {
+        get;private set;
+    }
 
-    private ICommand _addFolderToProjectCommand;
-    public ICommand AddFolderToProjectCommand => _addFolderToProjectCommand ??= new RelayCommand<ExplorerItem>(OnAddFolderToProjectCommand);
-
-    private ICommand _renameProjectItemCommand;
-    public ICommand RenameProjectItemCommand => _renameProjectItemCommand ??= new RelayCommand<ExplorerItem>(OnRenameProjectItemCommand);
-
-    private ICommand _textBoxLostFocusCommand;
-    public ICommand TextBoxLostFocusCommand => _textBoxLostFocusCommand ??= new AsyncRelayCommand<string>(OnTextFieldLostFocus);
+    public ICommand TextBoxLostFocusCommand
+    {
+        get;private set;
+    }
 
     #endregion
 
     #region CommandMethods
     private async Task OnAddItemCommand(ExplorerItem itemName)
     {
+        AddItemCommand = new AsyncRelayCommand<ExplorerItem>(OnAddItemCommand);
+        AddItemToProjectCommand = new AsyncRelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
+        AddFolderToProjectCommand = new RelayCommand<ExplorerItem>(OnAddFolderToProjectCommand);
+        RenameProjectItemCommand = new RelayCommand<ExplorerItem>(OnRenameProjectItemCommand);
+        TextBoxLostFocusCommand = new AsyncRelayCommand<string>(OnTextFieldLostFocus);
+
         var ProjectItem = await getProjectData.GetItemProject(itemName.Path);
         var item = new ProjectEditingTabViewItem()
         {
@@ -158,7 +172,7 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     }
     #endregion
     readonly InfoBarService _infoBarService;
-   
+
     #region Constructor
     public ProjectViewModel(GetProjectData getProject, NewItemDialogService newItemDialog, InfoBarService infoBarService, CreateProjectData createProjectData)
     {
@@ -166,6 +180,10 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
         this.createProjectData = createProjectData;
         newItemDialogService = newItemDialog;
         _infoBarService = infoBarService;
+    }
+    public ProjectViewModel()
+    {
+
     }
     #endregion
 

@@ -8,10 +8,15 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:templateSelectors="using:CustomControls.TemplateSelectors"
 	xmlns:uiOutputModels="using:SystemApplication.Services.UIOutputs"
-	x:Name="Page"
+	xmlns:viewmodels="using:ProjetoAcessibilidade.ViewModels"
+	Name="Project"
 	HorizontalAlignment="Stretch"
 	VerticalAlignment="Stretch"
 	mc:Ignorable="d">
+
+	<Page.DataContext>
+		<viewmodels:ProjectViewModel />
+	</Page.DataContext>
 
 	<Page.Resources>
 		<ResourceDictionary>
@@ -42,7 +47,6 @@
 							Glyph="&#xED41;" />
 						<basiccontrols:EditingLabel
 							CommandParameter="{Binding}"
-							EnterCommand="{Binding ViewModel.AddFolderToProjectCommand, ElementName=Page, Mode=OneTime}"
 							IsEditing="{x:Bind IsEditing, Mode=TwoWay}"
 							ItemEditingText="{x:Bind NewName, Mode=TwoWay}"
 							ItemText="{x:Bind Name, Mode=TwoWay}" />
@@ -70,7 +74,6 @@
 							Glyph="&#xF000;" />
 						<basiccontrols:EditingLabel
 							CommandParameter="{Binding}"
-							EnterCommand="{Binding ViewModel.RenameProjectItemCommand, ElementName=Page, Mode=OneTime}"
 							IsEditing="{x:Bind IsEditing, Mode=TwoWay}"
 							ItemEditingText="{x:Bind NewName, Mode=TwoWay}"
 							ItemText="{x:Bind Name, Mode=TwoWay}" />

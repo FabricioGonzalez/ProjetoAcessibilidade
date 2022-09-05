@@ -19,9 +19,9 @@
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
-    <AppInstallerUri>C:\Users\ti\Desktop\Projeto\Projeto\</AppInstallerUri>
+    <AppInstallerUri>D:\Programacao\Projetos\Desktop\CSharp\ProjetoAcessibilidade\Deploy\</AppInstallerUri>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <AppxPackageDir>C:\Users\ti\Desktop\Projeto\Projeto\</AppxPackageDir>
+    <AppxPackageDir>D:\Programacao\Projetos\Desktop\CSharp\ProjetoAcessibilidade\Deploy\</AppxPackageDir>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\BadgeLogo.scale-100.png" />

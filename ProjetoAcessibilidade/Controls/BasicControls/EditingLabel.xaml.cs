@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
+
+using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,7 +33,7 @@ public sealed partial class EditingLabel : UserControl
 
     // Using a DependencyProperty as the backing store for bool IsEditing.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty IsEditingProperty =
-        DependencyProperty.Register("bool IsEditing", typeof(bool), typeof(EditingLabel), new PropertyMetadata(false));
+        DependencyProperty.Register(nameof(IsEditing), typeof(bool), typeof(EditingLabel), new PropertyMetadata(false));
 
     public string ItemText
     {
@@ -40,7 +43,7 @@ public sealed partial class EditingLabel : UserControl
 
     // Using a DependencyProperty as the backing store for ItemText.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ItemTextProperty =
-        DependencyProperty.Register("ItemText", typeof(string), typeof(EditingLabel), new PropertyMetadata(""));
+        DependencyProperty.Register(nameof(ItemText), typeof(string), typeof(EditingLabel), new PropertyMetadata(""));
      public string ItemEditingText
     {
         get => (string)GetValue(ItemEditingTextProperty);
@@ -49,7 +52,7 @@ public sealed partial class EditingLabel : UserControl
 
     // Using a DependencyProperty as the backing store for ItemText.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ItemEditingTextProperty =
-        DependencyProperty.Register("ItemEditingText", typeof(string), typeof(EditingLabel), new PropertyMetadata(""));
+        DependencyProperty.Register(nameof(ItemEditingText), typeof(string), typeof(EditingLabel), new PropertyMetadata(""));
 
     public ICommand EnterCommand
     {
@@ -58,7 +61,12 @@ public sealed partial class EditingLabel : UserControl
     }
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty EnterCommandProperty =
-        DependencyProperty.Register("EnterCommand", typeof(ICommand), typeof(EditingLabel), new PropertyMetadata(null));
+        DependencyProperty.RegisterAttached(nameof(EnterCommand), typeof(ICommand), typeof(EditingLabel), new PropertyMetadata(null,EnterCommandPropertyChanged));
+
+    private static void EnterCommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        Debug.WriteLine(d);
+    }
 
     public object CommandParameter
     {
@@ -67,7 +75,7 @@ public sealed partial class EditingLabel : UserControl
     }
     // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty CommandParameterProperty =
-        DependencyProperty.Register("CommandParameter", typeof(object), typeof(EditingLabel), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(EditingLabel), new PropertyMetadata(null));
 
     public EditingLabel()
     {
@@ -82,6 +90,11 @@ public sealed partial class EditingLabel : UserControl
             {
                 EnterCommand.Execute(CommandParameter);
             }
+        
+        }
+        if (e.Key == Windows.System.VirtualKey.Escape)
+        {
+            IsEditing = false;
         }
     }
 }
