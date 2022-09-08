@@ -56,7 +56,7 @@ public sealed partial class EditingLabel : UserControl
 
     public ICommand EnterCommand
     {
-        get => (ICommand)GetValue(EnterCommandProperty);
+        get =>  (ICommand)GetValue(EnterCommandProperty);
         set => SetValue(EnterCommandProperty, value);
     }
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
@@ -82,19 +82,4 @@ public sealed partial class EditingLabel : UserControl
         InitializeComponent();
     }
 
-    private void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
-    {
-        if (e.Key == Windows.System.VirtualKey.Enter)
-        {
-            if (EnterCommand is not null)
-            {
-                EnterCommand.Execute(CommandParameter);
-            }
-        
-        }
-        if (e.Key == Windows.System.VirtualKey.Escape)
-        {
-            IsEditing = false;
-        }
-    }
 }

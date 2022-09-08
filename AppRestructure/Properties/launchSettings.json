@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AppRestructure (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AppRestructure (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

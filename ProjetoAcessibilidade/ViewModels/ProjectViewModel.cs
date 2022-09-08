@@ -19,91 +19,38 @@ using ProjetoAcessibilidade.Services;
 
 using Microsoft.UI.Xaml.Controls;
 using ProjetoAcessibilidade.Controls.TabViews;
+using ProjetoAcessibilidade.Stores;
 
-namespace ProjetoAcessibilidade.ViewModels;
+namespace ProjetoAcessibilidade.ViewModels; 
 
-public class ProjectViewModel : ObservableRecipient, INavigationAware
+[ObservableObject]
+public partial class ProjectViewModel : INavigationAware
 {
     #region Bindings
+    [ObservableProperty]
     private ObservableCollection<ProjectEditingTabViewItem> tabViewItems = new();
-    public ObservableCollection<ProjectEditingTabViewItem> TabViewItems
-    {
-        get => tabViewItems;
-        set => tabViewItems = value;
-    }
 
-    private ReportDataOutput reportData;
-    public ReportDataOutput ReportData
-    {
-        get => reportData;
-        set
-        {
-            reportData = value;
-            OnPropertyChanged(nameof(ReportData));
-        }
-    }
-
+    [ObservableProperty]
+    private ReportDataOutput reportData = new();
+  
+    [ObservableProperty]
     private string solutionPath;
-    public string SolutionPath
-    {
-        get => solutionPath;
-        set
-        {
-            solutionPath = value;
-            OnPropertyChanged(nameof(SolutionPath));
-        }
-    }
 
-    private ObservableCollection<ExplorerItem> items;
-    public ObservableCollection<ExplorerItem> Items
-    {
-        get => items;
-        set => SetProperty(ref items, value);
-    }
+    [ObservableProperty]
+    private ObservableCollection<ExplorerItem> items = new();
+    
     #endregion
-
+    private ProjectStore projectStore = new();
     #region Dependencies
     readonly GetProjectData getProjectData;
     readonly NewItemDialogService newItemDialogService;
     readonly CreateProjectData createProjectData;
     #endregion
 
-    #region Commands
-    public ICommand AddItemCommand
-    {
-        get; private set;
-    }
-
-    public ICommand AddItemToProjectCommand
-    {
-        get; private set;
-    }
-    public ICommand AddFolderToProjectCommand
-    {
-        get;private set;
-    }
-
-    public ICommand RenameProjectItemCommand
-    {
-        get;private set;
-    }
-
-    public ICommand TextBoxLostFocusCommand
-    {
-        get;private set;
-    }
-
-    #endregion
-
     #region CommandMethods
-    private async Task OnAddItemCommand(ExplorerItem itemName)
+    [RelayCommand]
+    private async Task AddItem(ExplorerItem itemName)
     {
-        AddItemCommand = new AsyncRelayCommand<ExplorerItem>(OnAddItemCommand);
-        AddItemToProjectCommand = new AsyncRelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
-        AddFolderToProjectCommand = new RelayCommand<ExplorerItem>(OnAddFolderToProjectCommand);
-        RenameProjectItemCommand = new RelayCommand<ExplorerItem>(OnRenameProjectItemCommand);
-        TextBoxLostFocusCommand = new AsyncRelayCommand<string>(OnTextFieldLostFocus);
-
         var ProjectItem = await getProjectData.GetItemProject(itemName.Path);
         var item = new ProjectEditingTabViewItem()
         {
@@ -116,7 +63,8 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             App.MainWindow.DispatcherQueue.TryEnqueue(() => TabViewItems.Add(item));
         }
     }
-    private async Task OnAddItemToProjectCommand(ExplorerItem obj)
+    [RelayCommand]
+    private async Task AddItemToProject(ExplorerItem obj)
     {
         try
         {
@@ -145,17 +93,20 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
             throw;
         }
     }
-    private void OnAddFolderToProjectCommand(ExplorerItem obj)
+    [RelayCommand]
+    private void AddFolderToProject(ExplorerItem obj)
     {
         if (obj is not null)
         {
             createProjectData.RenameProjectFolder(obj.Path, obj.Name);
         }
     }
-    private void OnRenameProjectItemCommand(ExplorerItem obj)
+    [RelayCommand]
+    private void RenameProjectItem(ExplorerItem obj)
     {
         if (obj is not null)
         {
+            obj.IsEditing = true;
             if (obj.Type == ExplorerItem.ExplorerItemType.File)
                 createProjectData.RenameProjectItem(obj.Path, obj.Name);
 
@@ -163,12 +114,13 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
                 createProjectData.RenameProjectFolder(obj.Path, obj.Name);
         }
     }
-    private async Task OnTextFieldLostFocus(string data)
+    [RelayCommand]
+    private void DeleteProjectItem(ExplorerItem obj)
     {
-        await Task.Run(() =>
+        if (obj is not null)
         {
-            Debug.WriteLine(data);
-        });
+           
+        }
     }
     #endregion
     readonly InfoBarService _infoBarService;

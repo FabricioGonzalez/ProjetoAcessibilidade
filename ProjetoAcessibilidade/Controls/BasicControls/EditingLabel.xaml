@@ -3,14 +3,21 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
 	<StackPanel Orientation="Horizontal">
 		<TextBlock Text="{x:Bind ItemText, Mode=TwoWay}" Visibility="{x:Bind IsEditing, Mode=TwoWay, Converter={StaticResource NegativeBoolToVisibilityConverter}}" />
-		<TextBox
-			KeyDown="TextBox_KeyDown"
-			Text="{x:Bind ItemEditingText, Mode=TwoWay}"
-			Visibility="{x:Bind IsEditing, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<TextBox Text="{x:Bind ItemEditingText, Mode=TwoWay}" Visibility="{x:Bind IsEditing, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}}">
+			<i:Interaction.Behaviors>
+				<ic:EventTriggerBehavior EventName="KeyDown">
+					<ic:EventTriggerBehavior.Actions>
+						<ic:InvokeCommandAction Command="{x:Bind EnterCommand}" />
+					</ic:EventTriggerBehavior.Actions>
+				</ic:EventTriggerBehavior>
+			</i:Interaction.Behaviors>
+		</TextBox>
 	</StackPanel>
 </UserControl>
