@@ -13,12 +13,46 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InMemory", "InMemory", "{70CDA4DF-6612-4CF7-87EA-03701778A84E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinUi", "WinUi", "{E151C363-829A-489B-8CEE-EFA046C75EF9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppMain", "WinUi\AppMain\AppMain.csproj", "{0747EE61-B0E2-4261-8ABC-57F61815A066}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|arm64 = Debug|arm64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|arm64 = Release|arm64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|arm64.ActiveCfg = Debug|arm64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|arm64.Build.0 = Debug|arm64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|arm64.Deploy.0 = Debug|arm64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|x64.ActiveCfg = Debug|x64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|x64.Build.0 = Debug|x64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|x64.Deploy.0 = Debug|x64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|x86.ActiveCfg = Debug|x86
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|x86.Build.0 = Debug|x86
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Debug|x86.Deploy.0 = Debug|x86
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|arm64.ActiveCfg = Release|arm64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|arm64.Build.0 = Release|arm64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|arm64.Deploy.0 = Release|arm64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|x64.ActiveCfg = Release|x64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|x64.Build.0 = Release|x64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|x64.Deploy.0 = Release|x64
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|x86.ActiveCfg = Release|x86
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|x86.Build.0 = Release|x86
+		{0747EE61-B0E2-4261-8ABC-57F61815A066}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{70CDA4DF-6612-4CF7-87EA-03701778A84E} = {95EBD75D-48F0-4236-AB57-0E4DFAA722ED}
+		{E151C363-829A-489B-8CEE-EFA046C75EF9} = {9A7E4EEF-9166-4076-B9B6-6F54C11B87BD}
+		{0747EE61-B0E2-4261-8ABC-57F61815A066} = {E151C363-829A-489B-8CEE-EFA046C75EF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {121D87D8-30BB-4E71-80CE-67CC06814434}
