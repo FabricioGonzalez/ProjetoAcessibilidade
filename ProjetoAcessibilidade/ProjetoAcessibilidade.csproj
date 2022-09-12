@@ -42,12 +42,11 @@
     <None Remove="Styles\DefaultTheme.xaml" />
     <None Remove="Styles\LightTheme.xaml" />
     <None Remove="Styles\Style.xaml" />
-    <None Remove="Views\ContinuationPage.xaml" />
-    <None Remove="Views\Dialogs\NewItemDialog.xaml" />
-    <None Remove="Views\PageToPrint.xaml" />
-    <None Remove="Views\PrintPage.xaml" />
-    <None Remove="Views\ProjectPage.xaml" />
-    <None Remove="Views\TemplateEditingPage.xaml" />
+    <None Remove="Modules\Main\Views\Dialogs\NewItemDialog.xaml" />
+    <None Remove="Modules\Main\Views\PrintPage.xaml" />
+    <None Remove="Modules\Main\Views\ProjectPage.xaml" />
+    <None Remove="Modules\Main\Views\SettingsPage.xaml" />
+    <None Remove="Modules\Main\Views\TemplateEditingPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +60,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.4" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
+    <PackageReference Include="ReactiveUI.WinUI" Version="18.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -224,26 +224,16 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\PageToPrint.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\ContinuationPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <None Update="WindowIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Page Update="Views\PrintPage.xaml">
+    <Page Update="Modules\Print\Views\PrintPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Views\TemplateEditingPage.xaml">
+    <Page Update="Modules\TemplateEditing\Views\TemplateEditingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Styles\Style.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Views\Dialogs\NewItemDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Styles\DefaultTheme.xaml">
@@ -264,9 +254,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Views\ProjectPage.xaml">
+    <Page Update="Modules\Project\Views\ProjectPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\Home\Components\" />
+    <Folder Include="Modules\Home\DataStores\" />
+    <Folder Include="Modules\Home\Models\" />
+    <Folder Include="Modules\Main\" />
+    <Folder Include="Modules\Print\Components\" />
+    <Folder Include="Modules\Print\DataStores\" />
+    <Folder Include="Modules\Print\Models\" />
+    <Folder Include="Modules\Project\Components\" />
+    <Folder Include="Modules\Project\DataStores\" />
+    <Folder Include="Modules\Project\Models\" />
+    <Folder Include="Modules\TemplateEditing\Components\" />
+    <Folder Include="Modules\TemplateEditing\DataStores\" />
+    <Folder Include="Modules\TemplateEditing\Models\" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

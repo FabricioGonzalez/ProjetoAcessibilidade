@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 
+using AppRestructure.Home.Views;
+using AppRestructure.Shell.Views;
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -46,7 +49,10 @@ public partial class App : Application
     /// 
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
+
+        MainWindow.Content = new ShellPage();
         MainWindow.Activate();
+
     }
 
 

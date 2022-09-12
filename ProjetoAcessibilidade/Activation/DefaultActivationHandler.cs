@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 
 using ProjetoAcessibilidade.Contracts.Services;
-using ProjetoAcessibilidade.ViewModels;
+using ProjetoAcessibilidade.Modules.Home.ViewModels;
 
 namespace ProjetoAcessibilidade.Activation;
 

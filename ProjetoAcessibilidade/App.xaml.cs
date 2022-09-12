@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 using Infrastructure.InMemoryRepository;
 using Infrastructure.WindowsStorageRepository;
@@ -20,6 +17,10 @@ using ProjetoAcessibilidade.Core.Contracts.Services;
 using ProjetoAcessibilidade.Core.Services;
 using ProjetoAcessibilidade.Helpers;
 using ProjetoAcessibilidade.Models;
+using ProjetoAcessibilidade.Modules.Home.ViewModels;
+using ProjetoAcessibilidade.Modules.Main.ViewModels;
+using ProjetoAcessibilidade.Modules.Print.ViewModels;
+using ProjetoAcessibilidade.Modules.TemplateEditing.ViewModels;
 using ProjetoAcessibilidade.Services;
 using ProjetoAcessibilidade.ViewModels;
 using ProjetoAcessibilidade.ViewModels.DialogViewModel;

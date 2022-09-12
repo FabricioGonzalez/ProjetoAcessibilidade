@@ -1,7 +1,0 @@
-{
-  "profiles": {
-    "Uno.ProjetoAC.Windows": {
-      "commandName": "MsixPackage"
-    }
-  }
-}

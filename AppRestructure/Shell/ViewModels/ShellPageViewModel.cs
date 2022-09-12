@@ -1,16 +1,19 @@
-﻿using System.Linq;
-using System.Reactive;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
-
-using AppRestructure.Project.ViewModels;
+using System.Reactive;
+using System.Text;
+using System.Threading.Tasks;
 
 using ReactiveUI;
 
 using Splat;
+using AppRestructure.Project.ViewModels;
+using AppRestructure.Project.Views;
 
-namespace AppRestructure;
-
-public class MainViewModel : ReactiveObject, IScreen
+namespace AppRestructure.Shell.ViewModels;
+public class ShellPageViewModel : ReactiveObject, IScreen
 {
     // The Router associated with this Screen.
     // Required by the IScreen interface.
@@ -31,7 +34,7 @@ public class MainViewModel : ReactiveObject, IScreen
         get;
     }
 
-    public MainViewModel()
+    public ShellPageViewModel()
     {
         // Initialize the Router.
         Router = new RoutingState();
@@ -44,7 +47,7 @@ public class MainViewModel : ReactiveObject, IScreen
         // can use custom IViewLocator implementation,
         // see "View Location" section for details.
         //
-        Locator.CurrentMutable.Register(() => new ProjectViewModel(), typeof(IViewFor<ProjectViewModel>));
+        Locator.CurrentMutable.Register(() => new ProjectPage(), typeof(IViewFor<ProjectViewModel>));
 
         // Manage the routing state. Use the Router.Navigate.Execute
         // command to navigate to different view models. 
@@ -59,11 +62,11 @@ public class MainViewModel : ReactiveObject, IScreen
         // execute the default Router.NavigateBack command. Another
         // option is to define your own command with custom
         // canExecute condition as such:
-        //var canGoBack = this
-        //    .WhenAnyValue(x => x.Router.NavigationStack.Count)
-        //    .Select(count => count > 0);
-        //GoBack = ReactiveCommand.CreateFromObservable(
-        //    () => Router.NavigateBack.Execute(Unit.Default),
-        //    canGoBack);
+        var canGoBack = this
+            .WhenAnyValue(x => x.Router.NavigationStack.Count)
+            .Select(count => count > 0);
+        GoBack = ReactiveCommand.CreateFromObservable<Unit, Unit>((p) => (IObservable<Unit>)Router.NavigateBack.Execute(Unit.Default),
+            canGoBack);
+     
     }
 }

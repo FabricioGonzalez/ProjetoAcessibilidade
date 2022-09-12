@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Xaml.Controls;
 
 using ProjetoAcessibilidade.Contracts.Services;
+using ProjetoAcessibilidade.Modules.Home.ViewModels;
+using ProjetoAcessibilidade.Modules.Main.ViewModels;
+using ProjetoAcessibilidade.Modules.Print.ViewModels;
+using ProjetoAcessibilidade.Modules.TemplateEditing.ViewModels;
 using ProjetoAcessibilidade.ViewModels;
-using ProjetoAcessibilidade.ViewModels.DialogViewModel;
 using ProjetoAcessibilidade.Views;
-using ProjetoAcessibilidade.Views.Dialogs;
 
 namespace ProjetoAcessibilidade.Services;
 

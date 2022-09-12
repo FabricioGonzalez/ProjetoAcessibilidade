@@ -1,0 +1,333 @@
+﻿<Page
+	x:Class="ProjetoAcessibilidade.Views.ProjectPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:basiccontrols="using:ProjetoAcessibilidade.Controls.BasicControls"
+	xmlns:customcontrols="using:ProjetoAcessibilidade.Controls.TabViews"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:templateSelectors="using:CustomControls.TemplateSelectors"
+	xmlns:uiOutputModels="using:SystemApplication.Services.UIOutputs"
+	xmlns:viewmodels="using:ProjetoAcessibilidade.Modules.Project.ViewModels"
+	x:Name="PageProject"
+	HorizontalAlignment="Stretch"
+	VerticalAlignment="Stretch"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/Styles/Style.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<Grid x:Name="ContentArea" AllowDrop="True">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="300" />
+		</Grid.ColumnDefinitions>
+
+		<customcontrols:ProjectEditingTabView
+			Grid.Column="0"
+			Margin="4,4"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			HorizontalContentAlignment="Stretch"
+			AllowDrop="True"
+			CornerRadius="4"
+			Items="{x:Bind ViewModel.TabViewItems}" />
+
+		<Grid
+			Grid.Column="1"
+			AllowDrop="True"
+			BorderBrush="{ThemeResource PrimaryBorderColor}"
+			BorderThickness="1"
+			CornerRadius="8"
+			ScrollViewer.VerticalScrollBarVisibility="Visible"
+			ScrollViewer.VerticalScrollMode="Enabled">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+			</Grid.RowDefinitions>
+			<Border
+				Grid.Row="0"
+				Grid.ColumnSpan="2"
+				Background="{ThemeResource NavBarBrush}">
+				<TextBlock Text="{x:Bind ViewModel.ReportData.SolutionName, Mode=TwoWay}" TextAlignment="Center" />
+			</Border>
+			<Expander
+				Grid.Row="1"
+				Grid.ColumnSpan="2"
+				Padding="4"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Top"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				CornerRadius="4">
+				<Expander.Header>
+					Dados do Projeto
+				</Expander.Header>
+				<ScrollViewer Padding="4,0" CornerRadius="4">
+					<Grid Background="{ThemeResource NavBarBrush}">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30" />
+							<RowDefinition Height="30" />
+							<RowDefinition Height="30" />
+							<RowDefinition Height="30" />
+							<RowDefinition Height="30" />
+							<RowDefinition Height="30" />
+							<RowDefinition Height="30" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="150" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<!--#region GridLines-->
+						<Rectangle
+							Grid.ColumnSpan="2"
+							Height="1"
+							VerticalAlignment="Top"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.ColumnSpan="2"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.Row="2"
+							Grid.ColumnSpan="2"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.Row="3"
+							Grid.ColumnSpan="2"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.Row="4"
+							Grid.ColumnSpan="2"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.Row="5"
+							Grid.ColumnSpan="2"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.Row="6"
+							Grid.ColumnSpan="2"
+							Height="1"
+							VerticalAlignment="Bottom"
+							Fill="{ThemeResource GridLineColor}" />
+						<!--  Vertical Lines  -->
+						<Rectangle
+							Grid.RowSpan="7"
+							Width="1"
+							HorizontalAlignment="Right"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.RowSpan="7"
+							Grid.Column="1"
+							Width="1"
+							HorizontalAlignment="Right"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.RowSpan="7"
+							Width="1"
+							HorizontalAlignment="Left"
+							Fill="{ThemeResource GridLineColor}" />
+						<Rectangle
+							Grid.RowSpan="7"
+							Grid.Column="1"
+							Width="1"
+							HorizontalAlignment="Left"
+							Fill="{ThemeResource GridLineColor}" />
+						<!--#endregion-->
+						<TextBlock
+							Grid.Row="0"
+							Grid.Column="0"
+							FontSize="13"
+							Text="Nome da Empresa"
+							TextAlignment="Center" />
+						<TextBox
+							Grid.Row="0"
+							Grid.Column="1"
+							Text="{x:Bind ViewModel.ReportData.NomeEmpresa, Mode=TwoWay}" />
+
+						<TextBlock
+							Grid.Row="1"
+							Grid.Column="0"
+							FontSize="13"
+							Text="Responsável pelo Projeto"
+							TextAlignment="Center" />
+						<TextBox
+							Grid.Row="1"
+							Grid.Column="1"
+							Text="{x:Bind ViewModel.ReportData.Responsavel, Mode=TwoWay}" />
+
+						<TextBlock
+							Grid.Row="2"
+							Grid.Column="0"
+							FontSize="13"
+							Text="Email do Responsável"
+							TextAlignment="Center" />
+						<TextBox
+							Grid.Row="2"
+							Grid.Column="1"
+							Text="{x:Bind ViewModel.ReportData.Email, Mode=TwoWay}" />
+
+						<TextBlock
+							Grid.Row="3"
+							Grid.Column="0"
+							FontSize="13"
+							Text="Data do Relatório"
+							TextAlignment="Center" />
+						<TextBox
+							Grid.Row="3"
+							Grid.Column="1"
+							Text="{x:Bind ViewModel.ReportData.Data, Mode=TwoWay}" />
+
+						<TextBlock
+							Grid.Row="4"
+							Grid.Column="0"
+							FontSize="13"
+							Text="UF"
+							TextAlignment="Center" />
+						<TextBox
+							Grid.Row="4"
+							Grid.Column="1"
+							Text="{x:Bind ViewModel.ReportData.UF, Mode=TwoWay}" />
+
+						<TextBlock
+							Grid.Row="5"
+							Grid.Column="0"
+							FontSize="13"
+							Text="Endereço da Empresa"
+							TextAlignment="Center" />
+						<TextBox
+							Grid.Row="5"
+							Grid.Column="1"
+							Text="{x:Bind ViewModel.ReportData.Endereco, Mode=TwoWay}" />
+
+						<TextBlock
+							Grid.Row="6"
+							Grid.Column="0"
+							FontSize="13"
+							Text="Telefone do Responsável"
+							TextAlignment="Center" />
+						<TextBox
+							Grid.Row="6"
+							Grid.Column="1"
+							Text="{x:Bind ViewModel.ReportData.Telefone, Mode=TwoWay}" />
+					</Grid>
+				</ScrollViewer>
+			</Expander>
+			<Expander
+				Grid.Row="2"
+				Grid.ColumnSpan="2"
+				Padding="0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				CornerRadius="4">
+				<Expander.Header>
+					Arquivos do Projeto
+				</Expander.Header>
+				<TreeView
+					x:Name="tree"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Background="{ThemeResource NavBarBrush}"
+					CanDrag="True"
+					CornerRadius="8"
+					DataContext="{x:Bind ViewModel, Mode=OneWay}"
+					ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+					ScrollViewer.VerticalScrollMode="Enabled">
+					<TreeView.ItemTemplateSelector>
+						<templateSelectors:ExplorerItemTemplateSelector>
+							<templateSelectors:ExplorerItemTemplateSelector.FileTemplate>
+								<DataTemplate x:DataType="uiOutputModels:ExplorerItem">
+									<TreeViewItem AutomationProperties.Name="{x:Bind Name}" IsDoubleTapEnabled="True">
+										<TreeViewItem.ContextFlyout>
+											<MenuFlyout>
+												<MenuFlyoutItem Command="{Binding DeleteProjectItemCommand}" Text="Excluir" />
+												<MenuFlyoutItem Command="{Binding RenameProjectItemCommand}" Text="Renomear" />
+											</MenuFlyout>
+										</TreeViewItem.ContextFlyout>
+										<StackPanel Orientation="Horizontal">
+											<FontIcon
+												Width="20"
+												Margin="0,0,10,0"
+												FontFamily="{StaticResource SymbolThemeFontFamily}"
+												Glyph="&#xF000;" />
+											<basiccontrols:EditingLabel
+												CommandParameter="{Binding}"
+												EnterCommand="{Binding RenameProjectItemCommand}"
+												IsEditing="{x:Bind IsEditing, Mode=TwoWay}"
+												ItemEditingText="{x:Bind NewName, Mode=TwoWay}"
+												ItemText="{x:Bind Name, Mode=TwoWay}" />
+										</StackPanel>
+									</TreeViewItem>
+								</DataTemplate>
+							</templateSelectors:ExplorerItemTemplateSelector.FileTemplate>
+							<templateSelectors:ExplorerItemTemplateSelector.FolderTemplate>
+								<DataTemplate x:DataType="uiOutputModels:ExplorerItem">
+									<TreeViewItem
+										AllowDrop="True"
+										AutomationProperties.Name="{x:Bind Name}"
+										IsExpanded="True"
+										ItemsSource="{x:Bind Children}">
+										<TreeViewItem.ContextFlyout>
+											<MenuFlyout>
+												<MenuFlyoutItem Command="{Binding RenameProjectItemCommand}" Text="Renomear" />
+												<MenuFlyoutItem Command="{Binding DeleteProjectItemCommand}" Text="Excluir" />
+												<MenuFlyoutItem Command="{Binding AddItemToProjectCommand}" Text="Adicionar Item" />
+												<MenuFlyoutItem Command="{Binding AddFolderToProjectCommand}" Text="Adicionar Pasta" />
+											</MenuFlyout>
+										</TreeViewItem.ContextFlyout>
+										<StackPanel Orientation="Horizontal">
+											<FontIcon
+												Width="20"
+												Margin="0,0,10,0"
+												FontFamily="{StaticResource SymbolThemeFontFamily}"
+												Glyph="&#xED41;" />
+											<basiccontrols:EditingLabel
+												CommandParameter="{Binding}"
+												EnterCommand="{Binding RenameProjectItemCommand}"
+												IsEditing="{x:Bind IsEditing, Mode=TwoWay}"
+												ItemEditingText="{x:Bind NewName, Mode=TwoWay}"
+												ItemText="{x:Bind Name, Mode=TwoWay}" />
+										</StackPanel>
+									</TreeViewItem>
+								</DataTemplate>
+							</templateSelectors:ExplorerItemTemplateSelector.FolderTemplate>
+						</templateSelectors:ExplorerItemTemplateSelector>
+					</TreeView.ItemTemplateSelector>
+					<TreeView.ContextFlyout>
+						<MenuFlyout>
+							<MenuFlyoutItem Command="{x:Bind ViewModel.AddItemToProjectCommand}" Text="Adicionar Item" />
+							<MenuFlyoutItem Command="{x:Bind ViewModel.AddFolderToProjectCommand}" Text="Adicionar Pasta" />
+						</MenuFlyout>
+					</TreeView.ContextFlyout>
+				</TreeView>
+			</Expander>
+		</Grid>
+	</Grid>
+</Page>

@@ -17,8 +17,8 @@ public class LastOpenService : ILastOpenService
         var result = await _lastOpenRepository.GetRecentFiles();
         return new()
         {
-            ProjectName = result[index].Split("\\")[result[index].Length - 1],
-            ProjectPath = result[index]
+            ProjectName = result.ElementAt(index).Split("\\")[result.ElementAt(index).Length - 1],
+            ProjectPath = result.ElementAt(index)
         };
     }
     public async Task<LastOpenModel[]> GetLastOpenItems()
