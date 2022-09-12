@@ -98,12 +98,6 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #region CommandMethods
     private async Task OnAddItemCommand(ExplorerItem itemName)
     {
-        AddItemCommand = new AsyncRelayCommand<ExplorerItem>(OnAddItemCommand);
-        AddItemToProjectCommand = new AsyncRelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
-        AddFolderToProjectCommand = new RelayCommand<ExplorerItem>(OnAddFolderToProjectCommand);
-        RenameProjectItemCommand = new RelayCommand<ExplorerItem>(OnRenameProjectItemCommand);
-        TextBoxLostFocusCommand = new AsyncRelayCommand<string>(OnTextFieldLostFocus);
-
         var ProjectItem = await getProjectData.GetItemProject(itemName.Path);
         var item = new ProjectEditingTabViewItem()
         {
@@ -176,6 +170,13 @@ public class ProjectViewModel : ObservableRecipient, INavigationAware
     #region Constructor
     public ProjectViewModel(GetProjectData getProject, NewItemDialogService newItemDialog, InfoBarService infoBarService, CreateProjectData createProjectData)
     {
+
+        AddItemCommand = new AsyncRelayCommand<ExplorerItem>(OnAddItemCommand);
+        AddItemToProjectCommand = new AsyncRelayCommand<ExplorerItem>(OnAddItemToProjectCommand);
+        AddFolderToProjectCommand = new RelayCommand<ExplorerItem>(OnAddFolderToProjectCommand);
+        RenameProjectItemCommand = new RelayCommand<ExplorerItem>(OnRenameProjectItemCommand);
+        TextBoxLostFocusCommand = new AsyncRelayCommand<string>(OnTextFieldLostFocus);
+
         getProjectData = getProject;
         this.createProjectData = createProjectData;
         newItemDialogService = newItemDialog;
