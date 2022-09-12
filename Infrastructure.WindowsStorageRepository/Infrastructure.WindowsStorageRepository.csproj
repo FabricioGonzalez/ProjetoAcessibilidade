@@ -13,11 +13,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Application.Services\SystemApplication.Services.csproj" />
-		<ProjectReference Include="..\Project.Core\Projeto.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectCapability Include="TestContainer" />
 	</ItemGroup>
 </Project>

@@ -64,11 +64,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application.Services\SystemApplication.Services.csproj" />
     <ProjectReference Include="..\Infrastructure.DocxRepository\Infrastructure.DocxRepository.csproj" />
     <ProjectReference Include="..\Infrastructure.InMemoryRepository\Infrastructure.InMemoryRepository.csproj" />
     <ProjectReference Include="..\Infrastructure.WindowsStorageRepository\Infrastructure.WindowsStorageRepository.csproj" />
-    <ProjectReference Include="..\Project.Core\Projeto.Core.csproj" />
     <ProjectReference Include="..\ProjetoAcessibilidade.Core\ProjetoAcessibilidade.Core.csproj" />
   </ItemGroup>
 
