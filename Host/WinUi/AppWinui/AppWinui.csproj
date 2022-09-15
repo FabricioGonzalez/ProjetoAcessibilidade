@@ -23,11 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.3" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
+    <PackageReference Include="ReactiveUI.WinUI" Version="18.3.1" />
     <PackageReference Include="WinUIEx" Version="1.8.0" />
   </ItemGroup>
 
@@ -55,7 +56,6 @@
     <Folder Include="AppCode\Project\UIModels\" />
     <Folder Include="AppCode\Project\States\" />
     <Folder Include="AppCode\Project\UIComponents\" />
-    <Folder Include="AppCode\TemplateEditing\States\" />
     <Folder Include="AppCode\TemplateEditing\UIModels\" />
   </ItemGroup>
 
