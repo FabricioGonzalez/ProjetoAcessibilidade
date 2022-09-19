@@ -1,12 +1,14 @@
 ﻿using AppUsecases.Contracts.Usecases;
+using AppUsecases.Entities.FileTemplate;
+
 using Common;
 
 namespace AppUsecases.Usecases;
 
-public class GetProjectItemsUsecase : IUsecaseContract<object,object>
+public class GetProjectItemsUsecase : IUsecaseContract<string,Resource<ExplorerItem>>
 {
-    public Resource<object> execute(object parameter = null)
+    public Resource<Resource<ExplorerItem>> execute(string parameter)
     {
-        return new Resource<object>.Success(new());
+        return new Resource<ExplorerItem>.Success(new());
     }
 }

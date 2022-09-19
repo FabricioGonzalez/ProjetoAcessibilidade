@@ -1,0 +1,47 @@
+﻿<UserControl
+	x:Class="AppWinui.AppCode.Project.UIComponents.TreeView.ExplorerItemTreeView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
+	xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates"
+	mc:Ignorable="d">
+	<i:Interaction.Behaviors>
+		<behaviors:ConditionalRenderingBehavior>
+			<behaviors:ConditionalRenderingBehavior.OnSuccessContent>
+				<TreeView
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					CanDrag="True"
+					CornerRadius="8">
+					<TreeView.ItemTemplateSelector>
+						<uitemplates:ExplorerItemTemplateSelector>
+							<uitemplates:ExplorerItemTemplateSelector.FileTemplate>
+								<DataTemplate>
+									<treeview:FileTreeViewItemTemplate />
+								</DataTemplate>
+							</uitemplates:ExplorerItemTemplateSelector.FileTemplate>
+							<uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
+								<DataTemplate>
+									<treeview:FolderTreeViewItemTemplate />
+								</DataTemplate>
+							</uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
+						</uitemplates:ExplorerItemTemplateSelector>
+					</TreeView.ItemTemplateSelector>
+				</TreeView>
+			</behaviors:ConditionalRenderingBehavior.OnSuccessContent>
+			<behaviors:ConditionalRenderingBehavior.OnFailedContent>
+				<StackPanel>
+					<ProgressRing />
+					<TextBlock />
+				</StackPanel>
+			</behaviors:ConditionalRenderingBehavior.OnFailedContent>
+		</behaviors:ConditionalRenderingBehavior>
+
+	</i:Interaction.Behaviors>
+
+</UserControl>

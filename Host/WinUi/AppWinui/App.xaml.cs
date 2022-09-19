@@ -88,6 +88,7 @@ public partial class App : Application
             
             services.AddTransient<ProjectPage>();
             services.AddTransient<ProjectViewModel>();
+            services.AddTransient<ExplorerViewViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

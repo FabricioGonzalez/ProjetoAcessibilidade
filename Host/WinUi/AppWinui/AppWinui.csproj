@@ -15,6 +15,9 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="AppCode\Project\UIComponents\ExplorerItemTreeView.xaml" />
+    <None Remove="AppCode\Project\UIComponents\FolderTreeViewItemTemplate.xaml" />
+    <None Remove="AppCode\Project\UIComponents\TreeView\FileTreeViewItemTemplate.xaml" />
     <None Remove="AppCode\Project\Views\ProjectPage.xaml" />
   </ItemGroup>
 
@@ -28,15 +31,27 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
+    <PackageReference Include="ReactiveUI" Version="18.3.1" />
     <PackageReference Include="ReactiveUI.WinUI" Version="18.3.1" />
     <PackageReference Include="WinUIEx" Version="1.8.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\AppUsecases\AppUsecases.csproj" />
     <ProjectReference Include="..\AppWinui.Core\AppWinui.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AppCode\Project\UIComponents\TreeView\FileTreeViewItemTemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="AppCode\Project\Views\ProjectPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\Project\UIComponents\TreeView\ExplorerItemTreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\Project\UIComponents\TreeView\FolderTreeViewItemTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <None Update="appsettings.json">
@@ -55,7 +70,6 @@
     <Folder Include="AppCode\Home\UIModels\" />
     <Folder Include="AppCode\Project\UIModels\" />
     <Folder Include="AppCode\Project\States\" />
-    <Folder Include="AppCode\Project\UIComponents\" />
     <Folder Include="AppCode\TemplateEditing\UIModels\" />
   </ItemGroup>
 

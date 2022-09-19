@@ -18,7 +18,7 @@ public class AppFormDataItemObservationModel : IAppFormDataItemContract
     {
         get;
         set;
-    } = AppFormDataTypeEnum.observation;
+    } = AppFormDataTypeEnum.Observation;
     public string Observation
     {
         get; set;

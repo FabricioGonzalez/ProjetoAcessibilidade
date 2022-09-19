@@ -18,7 +18,7 @@ public class AppFormDataItemImageModel : IAppFormDataItemContract
     {
         get;
         set;
-    } = AppFormDataTypeEnum.image;
+    } = AppFormDataTypeEnum.Image;
     public ICollection<ImagesItem> ImagesItems
     {
         get; set;
