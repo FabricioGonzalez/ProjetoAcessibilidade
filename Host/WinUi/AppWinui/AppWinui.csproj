@@ -17,7 +17,13 @@
   <ItemGroup>
     <None Remove="AppCode\Project\UIComponents\ExplorerItemTreeView.xaml" />
     <None Remove="AppCode\Project\UIComponents\FolderTreeViewItemTemplate.xaml" />
+    <None Remove="AppCode\Project\UIComponents\TabView\ProjectEditingTabView.xaml" />
+    <None Remove="AppCode\Project\UIComponents\TabView\ProjectEditingTabViewItem.xaml" />
+    <None Remove="AppCode\Project\UIComponents\TabView\ProjectEditingTabViewItemHeaderTemplate.xaml" />
     <None Remove="AppCode\Project\UIComponents\TreeView\FileTreeViewItemTemplate.xaml" />
+    <None Remove="AppCode\Project\UITemplates\DataTemplates\CheckboxDataTemplate.xaml" />
+    <None Remove="AppCode\Project\UITemplates\DataTemplates\ObservationDataTemplate.xaml" />
+    <None Remove="AppCode\Project\UITemplates\DataTemplates\TextboxDataTemplate.xaml" />
     <None Remove="AppCode\Project\Views\ProjectPage.xaml" />
   </ItemGroup>
 
@@ -54,6 +60,24 @@
     <Page Update="AppCode\Project\UIComponents\TreeView\FolderTreeViewItemTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="AppCode\Project\UIComponents\TabView\ProjectEditingTabView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\Project\UIComponents\TabView\ProjectEditingTabViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\Project\UIComponents\TabView\ProjectEditingTabViewItemHeaderTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\Project\UITemplates\DataTemplate\CheckboxDataTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\Project\UITemplates\DataTemplate\ObservationDataTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\Project\UITemplates\DataTemplate\TextboxDataTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -69,7 +93,6 @@
     <Folder Include="AppCode\Home\UIComponents\" />
     <Folder Include="AppCode\Home\UIModels\" />
     <Folder Include="AppCode\Project\UIModels\" />
-    <Folder Include="AppCode\Project\States\" />
     <Folder Include="AppCode\TemplateEditing\UIModels\" />
   </ItemGroup>
 

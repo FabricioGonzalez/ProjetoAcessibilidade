@@ -3,7 +3,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace AppWinui.AppCode.Project.UITemplates;
+namespace AppWinui.AppCode.Project.UITemplates.TemplateSelector;
 public class ExplorerItemTemplateSelector : DataTemplateSelector
 {
     public DataTemplate FolderTemplate

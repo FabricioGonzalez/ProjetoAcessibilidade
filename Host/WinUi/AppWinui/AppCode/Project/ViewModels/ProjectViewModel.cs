@@ -1,11 +1,17 @@
 ﻿using AppWinui.AppCode.AppUtils.Contracts.ViewModels;
+using AppWinui.AppCode.Project.States;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AppWinui.AppCode.Project.ViewModels;
-public class ProjectViewModel : ObservableRecipient,INavigationAware
+public class ProjectViewModel : ObservableRecipient, INavigationAware
 {
     public ExplorerViewViewModel ExplorerViewModel
+    {
+        get; set;
+    }
+
+    public ReportDataState Report
     {
         get; set;
     }
@@ -23,7 +29,7 @@ public class ProjectViewModel : ObservableRecipient,INavigationAware
     {
         if (parameter is string projectPath)
         {
-           
+
         }
     }
     #endregion

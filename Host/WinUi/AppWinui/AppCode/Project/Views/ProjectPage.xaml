@@ -10,7 +10,7 @@
 	mc:Ignorable="d">
 
 
-	<!--<Page.Resources>
+    <!--<Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Style.xaml" />
@@ -80,13 +80,13 @@
         </ResourceDictionary>
     </Page.Resources>-->
 
-	<Grid x:Name="ContentArea" AllowDrop="True">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="1*" />
-			<ColumnDefinition Width="300" />
-		</Grid.ColumnDefinitions>
+    <Grid x:Name="ContentArea" AllowDrop="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
 
-		<!--<customcontrols:ProjectEditingTabView
+        <!--<customcontrols:ProjectEditingTabView
 			Grid.Column="0"
 			Margin="4,4"
 			HorizontalAlignment="Stretch"
@@ -97,26 +97,26 @@
 			Drop="ProjectEditingTabView_Drop"
 			Items="{x:Bind ViewModel.TabViewItems}" />-->
 
-		<Grid
+        <Grid
 			Grid.Column="1"
 			AllowDrop="True"
 			BorderThickness="1"
 			CornerRadius="8"
 			ScrollViewer.VerticalScrollBarVisibility="Visible"
 			ScrollViewer.VerticalScrollMode="Enabled">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="20" />
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="0.6*" />
-			</Grid.RowDefinitions>
-			<Border Grid.Row="0" Grid.ColumnSpan="2">
-				<!--<TextBlock Text="{x:Bind ViewModel.ReportData.SolutionName, Mode=TwoWay}" TextAlignment="Center" />-->
-			</Border>
-			<Expander
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="0.6*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Grid.ColumnSpan="2">
+                <TextBlock Text="{x:Bind ViewModel.Report.SolutionName}" TextAlignment="Center" />
+            </Border>
+            <Expander
 				Grid.Row="1"
 				Grid.ColumnSpan="2"
 				Padding="4"
@@ -125,26 +125,26 @@
 				HorizontalContentAlignment="Stretch"
 				VerticalContentAlignment="Stretch"
 				CornerRadius="4">
-				<Expander.Header>
-					Dados do Projeto
-				</Expander.Header>
-				<ScrollViewer Padding="4,0" CornerRadius="4">
-					<Grid RowSpacing="10">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="30" />
-							<RowDefinition Height="30" />
-							<RowDefinition Height="30" />
-							<RowDefinition Height="30" />
-							<RowDefinition Height="30" />
-							<RowDefinition Height="30" />
-							<RowDefinition Height="30" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="150" />
-							<ColumnDefinition />
-						</Grid.ColumnDefinitions>
-						<!--#region GridLines-->
-						<!--
+                <Expander.Header>
+                    Dados do Projeto
+                </Expander.Header>
+                <ScrollViewer Padding="4,0" CornerRadius="4">
+                    <Grid RowSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <!--#region GridLines-->
+                        <!--
                         <Rectangle
 							Grid.ColumnSpan="2"
 							Height="1"
@@ -192,8 +192,8 @@
 							VerticalAlignment="Bottom"
 							Fill="{ThemeResource GridLineColor}" />
 						-->
-						<!--  Vertical Lines  -->
-						<!--
+                        <!--  Vertical Lines  -->
+                        <!--
                         <Rectangle
 							Grid.RowSpan="7"
 							Width="1"
@@ -217,40 +217,48 @@
 							HorizontalAlignment="Left"
 							Fill="{ThemeResource GridLineColor}" />
 						-->
-						<!--#endregion-->
-						<TextBlock
+                        <!--#endregion-->
+                        <TextBlock
 							Grid.Row="0"
 							Grid.Column="0"
 							FontSize="13"
 							Text="Nome da Empresa"
 							TextAlignment="Center" />
-						<TextBox Grid.Row="0" Grid.Column="1" />
+                        <TextBox Grid.Row="0" 
+                                 Grid.Column="1"
+                                 Text="{x:Bind ViewModel.Report.NomeEmpresa}" />
 
-						<TextBlock
+                        <TextBlock
 							Grid.Row="1"
 							Grid.Column="0"
 							FontSize="13"
 							Text="Responsável pelo Projeto"
 							TextAlignment="Center" />
-						<TextBox Grid.Row="1" Grid.Column="1" />
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1" 
+                                 Text="{x:Bind ViewModel.Report.Responsavel}"/>
 
-						<TextBlock
+                        <TextBlock
 							Grid.Row="2"
 							Grid.Column="0"
 							FontSize="13"
 							Text="Email do Responsável"
 							TextAlignment="Center" />
-						<TextBox Grid.Row="2" Grid.Column="1" />
+                        <TextBox Grid.Row="2"
+                                 Grid.Column="1" 
+                                 Text="{x:Bind ViewModel.Report.Email}"/>
 
-						<TextBlock
+                        <TextBlock
 							Grid.Row="3"
 							Grid.Column="0"
 							FontSize="13"
 							Text="Data do Relatório"
 							TextAlignment="Center" />
-						<TextBox Grid.Row="3" Grid.Column="1" />
+                        <TextBox Grid.Row="3"
+                                 Grid.Column="1" 
+                                 Text="{x:Bind ViewModel.Report.Data}"/>
 
-						<TextBlock
+                        <TextBlock
 							Grid.Row="4"
 							Grid.Column="0"
 							FontSize="13"
@@ -262,6 +270,7 @@
 							FontSize="13"
 							Text="UF"
                             ItemsSource="{x:Bind AppViewModel.UFs}"
+                            SelectedItem="{x:Bind ViewModel.Report.UF}"
 							HorizontalContentAlignment="Center" />
 
                         <TextBlock
@@ -270,19 +279,23 @@
 							FontSize="13"
 							Text="Endereço da Empresa"
 							TextAlignment="Center" />
-						<TextBox Grid.Row="5" Grid.Column="1" />
+                        <TextBox Grid.Row="5" 
+                                 Grid.Column="1" 
+                                 Text="{x:Bind ViewModel.Report.Endereco}"/>
 
-						<TextBlock
+                        <TextBlock
 							Grid.Row="6"
 							Grid.Column="0"
 							FontSize="13"
 							Text="Telefone do Responsável"
 							TextAlignment="Center" />
-						<TextBox Grid.Row="6" Grid.Column="1" />
-					</Grid>
-				</ScrollViewer>
-			</Expander>
-			<Expander
+                        <TextBox Grid.Row="6" 
+                                 Grid.Column="1" 
+                                 Text="{x:Bind ViewModel.Report.Telefone}"/>
+                    </Grid>
+                </ScrollViewer>
+            </Expander>
+            <Expander
 				Grid.Row="2"
 				Grid.ColumnSpan="2"
 				Padding="0"
@@ -292,11 +305,11 @@
 				VerticalContentAlignment="Stretch"
 				CornerRadius="4"
                 IsExpanded="True">
-				<Expander.Header>
-					Arquivos do Projeto
-				</Expander.Header>
-				<treeview:ExplorerItemTreeView ExplorerViewModel="{x:Bind ViewModel.ExplorerViewModel}" />
-			</Expander>
-		</Grid>
-	</Grid>
+                <Expander.Header>
+                    Arquivos do Projeto
+                </Expander.Header>
+                <treeview:ExplorerItemTreeView ExplorerViewModel="{x:Bind ViewModel.ExplorerViewModel}" />
+            </Expander>
+        </Grid>
+    </Grid>
 </Page>
