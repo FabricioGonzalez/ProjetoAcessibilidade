@@ -5,10 +5,7 @@ using Common;
 
 namespace AppUsecases.Usecases;
 
-public class GetProjectItemsUsecase : IUsecaseContract<string,Resource<ExplorerItem>>
-{
-    public Resource<Resource<ExplorerItem>> execute(string parameter)
-    {
-        return new Resource<ExplorerItem>.Success(new());
-    }
-}
+//public class GetProjectItemsUsecase : IUsecaseContract<string,Resource<ExplorerItem>>
+//{
+//    public Resource<ExplorerItem> execute(string parameter) => new Resource<ExplorerItem>.Success(new());
+//}

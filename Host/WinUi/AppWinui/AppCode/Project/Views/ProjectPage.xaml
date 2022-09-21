@@ -256,9 +256,15 @@
 							FontSize="13"
 							Text="UF"
 							TextAlignment="Center" />
-						<TextBox Grid.Row="4" Grid.Column="1" />
+                        <ComboBox
+							Grid.Row="4"
+							Grid.Column="1"
+							FontSize="13"
+							Text="UF"
+                            ItemsSource="{x:Bind AppViewModel.UFs}"
+							HorizontalContentAlignment="Center" />
 
-						<TextBlock
+                        <TextBlock
 							Grid.Row="5"
 							Grid.Column="0"
 							FontSize="13"
@@ -284,7 +290,8 @@
 				VerticalAlignment="Stretch"
 				HorizontalContentAlignment="Stretch"
 				VerticalContentAlignment="Stretch"
-				CornerRadius="4">
+				CornerRadius="4"
+                IsExpanded="True">
 				<Expander.Header>
 					Arquivos do Projeto
 				</Expander.Header>

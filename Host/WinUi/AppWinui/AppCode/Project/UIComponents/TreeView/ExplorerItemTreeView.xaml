@@ -9,9 +9,10 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
 	xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates"
+    xmlns:viewmodels ="using:AppWinui.AppCode.Project.ViewModels"
 	mc:Ignorable="d">
 	<i:Interaction.Behaviors>
-		<behaviors:ConditionalRenderingBehavior>
+        <behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind ExplorerViewModel.GetResult(),Mode=OneWay}">
 			<behaviors:ConditionalRenderingBehavior.OnSuccessContent>
 				<TreeView
 					HorizontalAlignment="Stretch"
@@ -27,7 +28,7 @@
 							</uitemplates:ExplorerItemTemplateSelector.FileTemplate>
 							<uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
 								<DataTemplate>
-									<treeview:FolderTreeViewItemTemplate />
+									<treeview:FolderTreeViewItemTemplate  />
 								</DataTemplate>
 							</uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
 						</uitemplates:ExplorerItemTemplateSelector>
@@ -36,8 +37,8 @@
 			</behaviors:ConditionalRenderingBehavior.OnSuccessContent>
 			<behaviors:ConditionalRenderingBehavior.OnFailedContent>
 				<StackPanel>
-					<ProgressRing />
-					<TextBlock />
+					<ProgressRing IsIndeterminate="True"/>
+					<TextBlock Text="Error"/>
 				</StackPanel>
 			</behaviors:ConditionalRenderingBehavior.OnFailedContent>
 		</behaviors:ConditionalRenderingBehavior>

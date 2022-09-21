@@ -1,8 +1,4 @@
-﻿using AppUsecases.Entities.FileTemplate;
-using AppUsecases.Entities;
-using System.Collections.ObjectModel;
-
-using AppWinui.AppCode.AppUtils.Contracts.ViewModels;
+﻿using AppWinui.AppCode.AppUtils.Contracts.ViewModels;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 

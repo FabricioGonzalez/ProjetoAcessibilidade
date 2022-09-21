@@ -1,6 +1,6 @@
 ﻿using AppWinui.AppCode.AppUtils.Behaviors;
-using AppWinui.AppCode.Project.Views;
 using AppWinui.AppCode.TemplateEditing.ViewModels;
+
 using CommunityToolkit.WinUI.UI.Controls;
 
 using Microsoft.UI.Xaml;

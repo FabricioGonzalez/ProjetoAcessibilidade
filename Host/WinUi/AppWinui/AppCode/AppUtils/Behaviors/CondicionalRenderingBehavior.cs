@@ -5,14 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using CommunityToolkit.WinUI.UI;
+
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Xaml.Interactivity;
 
 namespace AppWinui.AppCode.AppUtils.Behaviors;
 public class ConditionalRenderingBehavior : Behavior<UIElement>
 {
-    private static ConditionalRenderingBehavior? _current;
     public UIElement OnSuccessContent
     {
         get => (UIElement)GetValue(OnSuccessContentProperty);
@@ -22,7 +24,7 @@ public class ConditionalRenderingBehavior : Behavior<UIElement>
     public static readonly DependencyProperty OnSuccessContentProperty =
         DependencyProperty.Register("OnSuccessContent", typeof(UIElement), typeof(ConditionalRenderingBehavior), new PropertyMetadata(null));
 
-        public UIElement OnFailedContent
+    public UIElement OnFailedContent
     {
         get => (UIElement)GetValue(OnFailedContentProperty);
         set => SetValue(OnFailedContentProperty, value);
@@ -40,24 +42,26 @@ public class ConditionalRenderingBehavior : Behavior<UIElement>
 
     // Using a DependencyProperty as the backing store for ConditionResult.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ConditionResultProperty =
-        DependencyProperty.Register("ConditionResult", typeof(bool), typeof(ConditionalRenderingBehavior), new PropertyMetadata(true, (d, e) =>
+        DependencyProperty.Register("ConditionResult", typeof(bool?), typeof(ConditionalRenderingBehavior), new PropertyMetadata(null, (d, e) =>
         {
-           var parent = VisualTreeHelper.GetParent(d) as UIElement;
-
-            var thisElement = d as ConditionalRenderingBehavior;
-
-            if ((bool)thisElement.GetValue(ConditionResultProperty))
+            if (e.NewValue is not null)
             {
+                var parent = ((ConditionalRenderingBehavior)d).AssociatedObject;
 
-            }
-            else
-            {
-                
-            }
+                var thisElement = d as ConditionalRenderingBehavior;
 
+                if ((bool)thisElement.GetValue(ConditionResultProperty))
+                {
+                    (parent as dynamic).Content = thisElement.OnSuccessContent;
+                }
+                else
+                {
+                    (parent as dynamic).Content = thisElement.OnFailedContent;
+                }
+            }
         }));
     //private void UpdateState()
     //{
-        
+
     //}
 }

@@ -1,4 +1,5 @@
 ﻿using AppWinui.AppCode.AppUtils.Behaviors;
+using AppWinui.AppCode.AppUtils.ViewModels;
 using AppWinui.AppCode.Project.ViewModels;
 
 using Microsoft.UI.Xaml;
@@ -20,11 +21,16 @@ public sealed partial class ProjectPage : Page
         get; set;
     }
 
+    private ApplicationViewModel AppViewModel
+    {
+        get; set;
+    }
     public ProjectPage()
     {
         InitializeComponent();
         DataContext = App.GetService<ProjectViewModel>();
         ViewModel = (ProjectViewModel)DataContext;
+        AppViewModel = App.GetService<ApplicationViewModel>();
          
     }
 }

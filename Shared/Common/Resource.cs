@@ -1,5 +1,5 @@
 ﻿namespace Common;
-public  class Resource<T>
+public abstract class Resource<T>
 {
     public sealed class Success : Resource<T>
     {
