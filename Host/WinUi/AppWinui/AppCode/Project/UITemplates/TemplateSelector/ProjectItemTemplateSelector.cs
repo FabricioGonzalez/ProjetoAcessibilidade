@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using AppUsecases.Contracts.Entity;
+
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace AppWinui.AppCode.Project.UITemplates.TemplateSelector;
@@ -19,19 +21,19 @@ internal class ProjectItemTemplateSelector : DataTemplateSelector
 
     protected override DataTemplate SelectTemplateCore(object item)
     {
-        var projectItem = (IFormDataItemContract)item;
+        var projectItem = (IAppFormDataItemContract)item;
 
-        if (projectItem.Type == FormDataItemTypeEnum.Observation)
+        if (projectItem.Type == AppFormDataTypeEnum.Observation)
         {
             return ObservationTemplate;
         }
 
-        if (projectItem.Type == FormDataItemTypeEnum.Checkbox)
+        if (projectItem.Type == AppFormDataTypeEnum.Checkbox)
         {
             return CheckBoxTemplate;
         }
 
-        if (projectItem.Type == FormDataItemTypeEnum.Text)
+        if (projectItem.Type == AppFormDataTypeEnum.Text)
         {
             return TextBoxTemplate;
         }

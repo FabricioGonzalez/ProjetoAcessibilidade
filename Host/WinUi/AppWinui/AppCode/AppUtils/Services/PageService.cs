@@ -12,6 +12,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Xaml.Controls;
 
+using ReactiveUI;
+
 namespace AppWinui.AppCode.AppUtils.Services;
 
 public class PageService : IPageService
@@ -41,7 +43,7 @@ public class PageService : IPageService
     }
 
     private void Configure<VM, V>()
-        where VM : ObservableObject
+        where VM : ReactiveObject
         where V : Page
     {
         lock (_pages)

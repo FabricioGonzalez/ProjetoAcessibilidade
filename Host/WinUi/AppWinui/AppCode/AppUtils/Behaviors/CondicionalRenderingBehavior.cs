@@ -52,11 +52,13 @@ public class ConditionalRenderingBehavior : Behavior<UIElement>
 
                 if ((bool)thisElement.GetValue(ConditionResultProperty))
                 {
-                    (parent as dynamic).Content = thisElement.OnSuccessContent;
+                    if (thisElement.OnSuccessContent is not null)
+                        (parent as dynamic).Content = thisElement.OnSuccessContent;
                 }
                 else
                 {
-                    (parent as dynamic).Content = thisElement.OnFailedContent;
+                    if (thisElement.OnFailedContent is not null)
+                        (parent as dynamic).Content = thisElement.OnFailedContent;
                 }
             }
         }));

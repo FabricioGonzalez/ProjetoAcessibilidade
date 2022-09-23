@@ -9,7 +9,7 @@ using Windows.Storage;
 namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
 public class ReadAllRecentProjectFilesRepository : IReadContract<List<FileTemplate>>
 {
-    public async Task<List<FileTemplate>> ReadFileAsync(string path)
+    public async Task<List<FileTemplate>> ReadAsync(string path)
     {
         var task = new Task<Task<List<FileTemplate>>>(async () =>
         {

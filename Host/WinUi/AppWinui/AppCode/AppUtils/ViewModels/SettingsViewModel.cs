@@ -9,11 +9,13 @@ using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI.Xaml;
 
+using ReactiveUI;
+
 using Windows.ApplicationModel;
 
 namespace AppWinui.AppCode.AppUtils.ViewModels;
 
-public class SettingsViewModel : ObservableRecipient
+public class SettingsViewModel : ReactiveObject
 {
     private readonly IThemeSelectorService _themeSelectorService;
     private ElementTheme _elementTheme;
@@ -22,13 +24,13 @@ public class SettingsViewModel : ObservableRecipient
     public ElementTheme ElementTheme
     {
         get => _elementTheme;
-        set => SetProperty(ref _elementTheme, value);
+        set => this.RaiseAndSetIfChanged(ref _elementTheme, value);
     }
 
     public string VersionDescription
     {
         get => _versionDescription;
-        set => SetProperty(ref _versionDescription, value);
+        set => this.RaiseAndSetIfChanged(ref _versionDescription, value);
     }
 
     public ICommand SwitchThemeCommand

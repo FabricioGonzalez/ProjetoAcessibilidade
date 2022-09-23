@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uiStatesText="using:AppWinui.AppCode.Project.States.ProjectItems.Text" 
+    xmlns:checkbox="using:AppWinui.AppCode.Project.States.ProjectItems.Checkbox"
     mc:Ignorable="d">
     <StackPanel
 				Margin="0,4"
@@ -13,12 +15,12 @@
 				Spacing="8">
         <TextBlock
 					FontWeight="Bold"
-					Text="{x:Bind Topic}"
+					Text="{x:Bind ProjectItem.Topic}"
 					TextWrapping="Wrap"
-					Visibility="{x:Bind Topic, Converter={StaticResource VisibilityToNullConverter}}" />
-        <ListView ItemsSource="{x:Bind Children}" SelectionMode="None">
+					Visibility="{x:Bind ProjectItem.Topic, Converter={StaticResource VisibilityToNullConverter}}" />
+        <ListView ItemsSource="{x:Bind ProjectItem.Children}" SelectionMode="None">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:FormDataItemCheckboxChildModel">
+                <DataTemplate x:DataType="checkbox:AppFormDataItemCheckboxChildModel">
                     <StackPanel
 								Margin="0,4"
 								Padding="4"
@@ -31,7 +33,7 @@
 									TextWrapping="Wrap" />
                         <ListView ItemsSource="{x:Bind Options}" SelectionMode="None">
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="models:OptionModel">
+                                <DataTemplate x:DataType="checkbox:AppOptionModel">
                                     <StackPanel Orientation="Horizontal" Spacing="5">
                                         <TextBlock
 													HorizontalAlignment="Center"
@@ -49,7 +51,7 @@
                         </ListView>
                         <ListView ItemsSource="{x:Bind TextItems}" SelectionMode="None">
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="models:FormDataItemTextModel">
+                                <DataTemplate x:DataType="uiStatesText:AppFormDataItemTextModel">
                                     <StackPanel Orientation="Vertical" Spacing="8">
                                         <TextBlock
 													FontWeight="Bold"
@@ -60,8 +62,7 @@
 														Width="280"
 														HorizontalAlignment="Stretch"
 														HorizontalContentAlignment="Stretch"
-														Text="{x:Bind TextData}"
-														TextChanged="TextBox_TextChanged" />
+														Text="{x:Bind TextData}" />
                                             <TextBlock
 														HorizontalAlignment="Center"
 														VerticalAlignment="Center"

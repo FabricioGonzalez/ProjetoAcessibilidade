@@ -1,6 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reactive;
 
+using AppUsecases.Contracts.Usecases;
 using AppUsecases.Entities.FileTemplate;
+
+using AppWinui.AppCode.Project.States;
 
 using Common;
 
@@ -15,24 +19,60 @@ namespace AppWinui.AppCode.Project.ViewModels;
 
 public class ExplorerViewViewModel : ReactiveObject
 {
+    private string _projectRootPath = "";
+    public string ProjectRootPath
+    {
+        get => _projectRootPath;
+        set => this.RaiseAndSetIfChanged(
+            ref _projectRootPath,
+            value,
+            nameof(ProjectRootPath));
+    }
+
     private ReadOnlyObservableCollection<Resource<ExplorerItem>> _items;
     public ReadOnlyObservableCollection<Resource<ExplorerItem>> Items => _items;
 
     private ObservableCollectionExtended<Resource<ExplorerItem>> Source;
 
-    public bool GetResult()
+    private readonly IUsecaseContract<string, List<ExplorerItem>> GetProjectItemsUsecase;
+
+    public ExplorerItemState ExplorerState
     {
-        var res = new IsLoading(null, true); 
-        if (res is IsLoading loading)
-        {
-            return !loading.isLoading;
-        }
-        return true;
+        get; private set;
     }
 
-    public ExplorerViewViewModel()
+    public ExplorerViewViewModel(IUsecaseContract<string, List<ExplorerItem>> usecase)
     {
         Source = new ObservableCollectionExtended<Resource<ExplorerItem>>();
+
+        ExplorerState = new();
+
+        GetProjectItemsUsecase = usecase;
+
+        this.WhenAnyValue(x => x.ProjectRootPath)
+            .WhereNotNull()
+            .Subscribe(async x =>
+            {
+                ExplorerState.ErrorMessage = null;
+                ExplorerState.IsNotLoading = false;
+                ExplorerState.Items = null;
+
+                var result = await GetProjectItemsUsecase.executeAsync(x);
+
+                if (result is Error err)
+                {
+                    ExplorerState.ErrorMessage = err?.Message;
+                    ExplorerState.IsNotLoading = false;
+                    ExplorerState.Items = null;
+                }
+                if (result is Success success)
+                {
+                    ExplorerState.ErrorMessage = null;
+                    ExplorerState.IsNotLoading = true;
+                    ExplorerState.Items = success.Data;
+                }
+            }
+            ).Dispose();
 
         // Use the ToObservableChangeSet operator to convert
         // the observable collection to IObservable<IChangeSet<T>>
@@ -44,6 +84,11 @@ public class ExplorerViewViewModel : ReactiveObject
             // ObservableCollectionExtended is single-threaded.
             .Bind(out _items)
             .Subscribe();
+
+        /* items.Subscribe((observer) =>
+         {
+
+         });*/
     }
 
 

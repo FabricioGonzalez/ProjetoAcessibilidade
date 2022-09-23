@@ -1,15 +1,19 @@
 ﻿using System.Numerics;
 
+using AppWinui.AppCode.Project.ViewModels;
+
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 
+using ReactiveUI;
+
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace AppWinui.AppCode.Project.UIComponents.TabView;
-public sealed partial class ProjectEditingTabViewItem : UserControl
+public sealed partial class ProjectEditingTabViewItem : UserControl/*ReactiveUserControl<ProjectItemViewModel>*/
 {
     private void ProjectEditingTabViewItem_Loaded(object sender, RoutedEventArgs e)
     {
@@ -36,10 +40,48 @@ public sealed partial class ProjectEditingTabViewItem : UserControl
         headerOffsetAnimation.SetReferenceParameter("scroller", scrollerPropertySet);
         headerOffsetAnimation.SetVector3Parameter("finalOffset", finalOffset);
         textVisual.StartAnimation(nameof(Visual.Offset), headerOffsetAnimation);
-
     }
+
+
+    public string ProjectItemPath
+    {
+        get => (string)GetValue(ProjectItemPathProperty);
+        set => SetValue(ProjectItemPathProperty, value);
+    }
+
+    // Using a DependencyProperty as the backing store for ProjectItemPath.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty ProjectItemPathProperty =
+        DependencyProperty.Register(nameof(ProjectItemPath), typeof(string), typeof(ProjectEditingTabViewItem), new PropertyMetadata(null));
+
+    private ProjectItemViewModel ViewModel
+    {
+        get;
+    }
+
+    /*public IProjectItemCommands Commands
+    {
+        get => (IProjectItemCommands)GetValue(CommandsProperty);
+        set => SetValue(CommandsProperty, value);
+    }
+
+    Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty CommandsProperty =
+        DependencyProperty.Register(nameof(Commands), typeof(IProjectItemCommands), typeof(ProjectEditingTabViewItem), new PropertyMetadata(null));
+*/
+
     public ProjectEditingTabViewItem()
     {
-        this.InitializeComponent();
+        DataContext = App.GetService<ProjectItemViewModel>();
+        ViewModel = (ProjectItemViewModel)DataContext;
+
+       /* this.WhenActivated(disposableRegistration =>
+        {
+            this.BindCommand(ViewModel,
+            viewModel => viewModel.OpenProjectItemCommand,
+            view => view.tabItem)
+            .DisposeWith(disposableRegistration);
+        });*/
+
+        InitializeComponent();
     }
 }

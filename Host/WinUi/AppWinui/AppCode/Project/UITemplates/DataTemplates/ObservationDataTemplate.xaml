@@ -21,7 +21,6 @@
         <TextBox
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
-					Text="{x:Bind Observation, Mode=TwoWay}"
-					TextChanged="TextBox_TextChanged" />
+					Text="{x:Bind ProjectItem.Observation, Mode=TwoWay}"/>
     </StackPanel>
 </UserControl>

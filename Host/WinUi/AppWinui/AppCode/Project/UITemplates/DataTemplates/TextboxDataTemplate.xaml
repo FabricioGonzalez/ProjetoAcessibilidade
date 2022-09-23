@@ -16,20 +16,19 @@
 				Spacing="8">
         <TextBlock
 					FontWeight="Bold"
-					Text="{x:Bind Topic}"
+					Text="{x:Bind ProjectItem.Topic}"
 					TextWrapping="Wrap" />
         <StackPanel Orientation="Horizontal" Spacing="5">
             <TextBox
 						Width="280"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
-						Text="{x:Bind TextData, Mode=TwoWay}"
-						TextChanged="TextBox_TextChanged" />
+						Text="{x:Bind ProjectItem.TextData, Mode=TwoWay}" />
             <TextBlock
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
 						FontWeight="Bold"
-						Text="{x:Bind MeasurementUnit}" />
+						Text="{x:Bind ProjectItem.MeasurementUnit}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

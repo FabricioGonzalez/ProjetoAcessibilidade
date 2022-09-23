@@ -1,4 +1,9 @@
-﻿using AppWinui.Activation;
+﻿using AppUsecases.Contracts.Repositories;
+using AppUsecases.Contracts.Usecases;
+using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Usecases;
+
+using AppWinui.Activation;
 using AppWinui.AppCode.AppUtils.Contracts.Services;
 using AppWinui.AppCode.AppUtils.Helpers;
 using AppWinui.AppCode.AppUtils.Services;
@@ -14,6 +19,8 @@ using AppWinui.AppCode.TemplateEditing.ViewModels;
 using AppWinui.AppCode.TemplateEditing.Views;
 using AppWinui.Core.Contracts.Services;
 using AppWinui.Core.Services;
+
+using LocalRepository.FileRepository.Repository.InternalAppFiles;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -72,6 +79,11 @@ public partial class App : Application
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
 
+            services.AddTransient<IUsecaseContract<string, List<ExplorerItem>>, GetProjectItemsUsecase>();
+
+
+            services.AddTransient<IReadContract<List<ExplorerItem>>, ReadAllUserProjectTemplateFilesRepository>();
+
             // Core Services
             services.AddSingleton<ISampleDataService, SampleDataService>();
             services.AddSingleton<IFileService, FileService>();
@@ -85,11 +97,12 @@ public partial class App : Application
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
-            services.AddTransient<ShellViewModel>();     
-            
+            services.AddTransient<ShellViewModel>();
+
             services.AddTransient<ProjectPage>();
             services.AddTransient<ProjectViewModel>();
             services.AddTransient<ExplorerViewViewModel>();
+            services.AddTransient<ProjectItemViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

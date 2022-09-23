@@ -4,11 +4,11 @@ using AppWinui.AppCode.AppUtils.Contracts.ViewModels;
 using AppWinui.Core.Contracts.Services;
 using AppWinui.Core.Models;
 
-using CommunityToolkit.Mvvm.ComponentModel;
+using ReactiveUI;
 
 namespace AppWinui.AppCode.TemplateEditing.ViewModels;
 
-public class ListDetailsViewModel : ObservableRecipient, INavigationAware
+public class ListDetailsViewModel : ReactiveObject, INavigationAware
 {
     private readonly ISampleDataService _sampleDataService;
     private SampleOrder? _selected;
@@ -16,7 +16,7 @@ public class ListDetailsViewModel : ObservableRecipient, INavigationAware
     public SampleOrder? Selected
     {
         get => _selected;
-        set => SetProperty(ref _selected, value);
+        set => this.RaiseAndSetIfChanged(ref _selected, value);
     }
 
     public ObservableCollection<SampleOrder> SampleItems { get; private set; } = new ObservableCollection<SampleOrder>();

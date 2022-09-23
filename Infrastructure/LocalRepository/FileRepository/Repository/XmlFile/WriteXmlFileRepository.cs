@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Entities;
 using AppUsecases.Entities.AppFormDataItems.Checkbox;
+using AppUsecases.Entities.AppFormDataItems.Images;
+using AppUsecases.Entities.AppFormDataItems.Observations;
+using AppUsecases.Entities.AppFormDataItems.Text;
 
 namespace LocalRepository.FileRepository.Repository.XmlFile;
 public class WriteXmlFileRepository : IWriteContract<AppItemModel>
@@ -53,7 +52,7 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
                     foreach (var checkbox in (projectItem as AppFormDataItemCheckboxModel)!.Children)
                     {
                         var checkboxItemAttribute = doc.CreateAttribute("item");
-                        attribute.Value = $"{(projectItem as AppFormDataItemCheckboxChildModel)!.Children.IndexOf(checkbox) + 1}";
+                        attribute.Value = $"{(projectItem as AppFormDataItemCheckboxModel)!.Children.IndexOf(checkbox) + 1}";
 
                         var itemCheckbox = doc.CreateElement("checkboxitem");
                         itemCheckbox.Attributes.Append(attribute);
@@ -70,7 +69,7 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
                             var itemOption = doc.CreateElement("opcao");
 
                             XmlAttribute? optionItemAttribute = doc.CreateAttribute("item");
-                            attribute.Value = $"{checkbox.Options.IndexOf(option) + 1}";
+                            attribute.Value = $"{checkbox?.Options.IndexOf(option) + 1}";
 
                             itemOption.Attributes.Append(attribute);
 
@@ -117,7 +116,7 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
 
                 }
 
-                if (projectItem.Type.Equals(FormDataItemTypeEnum.Observation))
+                if (projectItem.Type.Equals(AppFormDataTypeEnum.Observation))
                 {
                     var itemType = doc.CreateElement("tipo");
                     itemType.InnerXml = projectItem.Type.ToString()
@@ -126,13 +125,13 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
 
 
                     var itemObservationText = doc.CreateElement("value");
-                    itemObservationText.InnerXml = (projectItem as FormDataItemObservationModel)!.Observation;
+                    itemObservationText.InnerXml = (projectItem as AppFormDataItemObservationModel)!.Observation;
 
                     itemTabelaName.AppendChild(itemType);
                     itemTabelaName.AppendChild(itemObservationText);
                 }
 
-                if (projectItem.Type.Equals(FormDataItemTypeEnum.Text))
+                if (projectItem.Type.Equals(AppFormDataTypeEnum.Text))
                 {
                     var itemType = doc.CreateElement("tipo");
                     itemType.InnerXml = projectItem.Type.ToString()
@@ -143,10 +142,10 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
                     itemTextoTopic.InnerXml = projectItem.Topic;
 
                     var itemTextoUnidade = doc.CreateElement("unidade");
-                    itemTextoUnidade.InnerXml = (projectItem as FormDataItemTextModel)!.MeasurementUnit!;
+                    itemTextoUnidade.InnerXml = (projectItem as AppFormDataItemTextModel)!.MeasurementUnit!;
 
                     var itemTextoValue = doc.CreateElement("value");
-                    itemTextoValue.InnerXml = (projectItem as FormDataItemTextModel)!.TextData;
+                    itemTextoValue.InnerXml = (projectItem as AppFormDataItemTextModel)!.TextData;
 
                     itemTabelaName.AppendChild(itemType);
                     itemTabelaName.AppendChild(itemTextoTopic);
@@ -154,7 +153,7 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
                     itemTabelaName.AppendChild(itemTextoValue);
                 }
 
-                if (projectItem.Type.Equals(FormDataItemTypeEnum.Images))
+                if (projectItem.Type.Equals(AppFormDataTypeEnum.Image))
                 {
                     var itemType = doc.CreateElement("tipo");
                     itemType.InnerXml = projectItem.Type.ToString()
@@ -163,14 +162,18 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
 
                     var itemImageImages = doc.CreateElement("images");
 
-                    if ((projectItem as FormDataItemImageModel)!.Images.Count > 0)
+                    if ((projectItem as AppFormDataItemImageModel)!.ImagesItems.Count > 0)
 
-                        foreach (var item in (projectItem as FormDataItemImageModel)!.Images)
+                        foreach (var item in (projectItem as AppFormDataItemImageModel)!.ImagesItems)
                         {
-                            var itemImageImagesPath = doc.CreateElement("image");
-                            itemImageImagesPath.InnerXml = item;
+                            var itemImageImagesPath = doc.CreateElement("imagePath");
+                            itemImageImagesPath.InnerXml = item.imagePath;             
+                            
+                            var itemImageObservation= doc.CreateElement("imageObservation");
+                            itemImageObservation.InnerXml = item.imageObservation;
 
                             itemImageImages.AppendChild(itemImageImagesPath);
+                            itemImageImages.AppendChild(itemImageObservation);
                         }
 
                     itemTabelaName.AppendChild(itemType);
@@ -184,7 +187,7 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
 
             var leiName = doc.CreateElement("lei");
 
-            foreach (var item in model.LawList)
+            foreach (var item in dataToWrite.LawList)
             {
                 var itemLei = doc.CreateElement("leiitem");
 
@@ -210,7 +213,7 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
 
             root.AppendChild(leiName);
 
-            using (StreamWriter writer = new StreamWriter(path))
+            using (StreamWriter writer = new StreamWriter(filePathToWrite))
             {
                 writer.Flush();
                 doc.Save(writer);

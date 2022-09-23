@@ -2,23 +2,23 @@
 	x:Class="AppWinui.AppCode.Project.UIComponents.TreeView.ExplorerItemTreeView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
-	xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates"
-    xmlns:viewmodels ="using:AppWinui.AppCode.Project.ViewModels"
-	mc:Ignorable="d">
+    xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates.TemplateSelector" 
+    xmlns:sys="using:System"
+    mc:Ignorable="d">
 	<i:Interaction.Behaviors>
-        <behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind ExplorerViewModel.GetResult(),Mode=OneWay}">
+        <behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind (sys:Boolean)ExplorerViewModel.ExplorerState.IsNotLoading,Mode=OneWay}">
 			<behaviors:ConditionalRenderingBehavior.OnSuccessContent>
 				<TreeView
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
 					CanDrag="True"
-					CornerRadius="8">
+					CornerRadius="8"
+                    ItemsSource="{x:Bind ExplorerViewModel.ExplorerState.Items,Mode=TwoWay}">
 					<TreeView.ItemTemplateSelector>
 						<uitemplates:ExplorerItemTemplateSelector>
 							<uitemplates:ExplorerItemTemplateSelector.FileTemplate>
@@ -36,9 +36,13 @@
 				</TreeView>
 			</behaviors:ConditionalRenderingBehavior.OnSuccessContent>
 			<behaviors:ConditionalRenderingBehavior.OnFailedContent>
-				<StackPanel>
-					<ProgressRing IsIndeterminate="True"/>
-					<TextBlock Text="Error"/>
+				<StackPanel HorizontalAlignment="Center">
+                    <ProgressRing IsIndeterminate="true" 
+                                  Visibility="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage,
+                        Converter={StaticResource NotNullToVisibilityConverter},
+                        Mode=OneWay}"/>
+                    <TextBlock Text="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage,
+                        Mode=OneWay}"/>
 				</StackPanel>
 			</behaviors:ConditionalRenderingBehavior.OnFailedContent>
 		</behaviors:ConditionalRenderingBehavior>

@@ -2,18 +2,18 @@
 
 using AppUsecases.Entities.AppFormDataItems.Text;
 
-namespace AppUsecases.Entities.AppFormDataItems.Checkbox;
+namespace AppWinui.AppCode.Project.States.ProjectItems.Checkbox;
 public class AppFormDataItemCheckboxChildModel
 {
     public string Topic
     {
         get; set;
     }
-    public IList<AppOptionModel> Options
+    public ICollection<AppOptionModel> Options
     {
         get; set;
     }
-    public IList<AppFormDataItemTextModel> TextItems
+    public ICollection<AppFormDataItemTextModel> TextItems
     {
         get; set;
     }

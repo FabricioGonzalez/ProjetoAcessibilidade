@@ -1,10 +1,10 @@
-﻿{
-    "profiles": {
-      "AppWinui (Package)": {
-        "commandName": "MsixPackage"
-      },
-      "AppWinui (Unpackaged)": {
-        "commandName": "Project"
-      }
+{
+  "profiles": {
+    "AppWinui (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AppWinui (Unpackaged)": {
+      "commandName": "Project"
     }
+  }
 }

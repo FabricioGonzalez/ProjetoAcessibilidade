@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
@@ -17,7 +15,7 @@ using AppUsecases.Entities.AppFormDataItems.Text;
 namespace LocalRepository.FileRepository.Repository.XmlFile;
 internal class ReadXmlFileRepository : IReadContract<AppItemModel>
 {
-    public async Task<AppItemModel> ReadFileAsync(string path)
+       public async Task<AppItemModel> ReadAsync(string path)
     {
         var task = new Task<AppItemModel>(() =>
         {

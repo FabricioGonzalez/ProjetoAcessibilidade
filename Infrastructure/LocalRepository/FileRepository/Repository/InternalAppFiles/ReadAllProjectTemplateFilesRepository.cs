@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Repositories;
@@ -12,7 +9,7 @@ using Common;
 namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
 public class ReadAllProjectTemplateFilesRepository : IReadContract<List<FileTemplate>>
 {
-    public async Task<List<FileTemplate>> ReadFileAsync(string path)
+    public async Task<List<FileTemplate>> ReadAsync(string path)
     {
         var task = new Task<List<FileTemplate>>(() =>
         {

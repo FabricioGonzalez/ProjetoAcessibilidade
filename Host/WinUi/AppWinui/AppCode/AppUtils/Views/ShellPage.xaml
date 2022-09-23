@@ -9,8 +9,9 @@
     xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
     Loaded="OnLoaded">
 
-    <Grid>
+    <Grid RowDefinitions="38,*">
         <Grid x:Name="AppTitleBar"
+              Grid.Row="0"
               Canvas.ZIndex="1"
               Height="{Binding ElementName=NavigationViewControl, Path=CompactPaneLength}"
               IsHitTestVisible="True"
@@ -26,6 +27,7 @@
                        Margin="28,0,0,0"/>
         </Grid>
         <NavigationView
+             Grid.Row="1"
             x:Name="NavigationViewControl"
             Canvas.ZIndex="0"
             IsBackButtonVisible="Visible"
@@ -54,7 +56,8 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xea37;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Project" helpers:NavigationHelper.NavigateTo="AppWinui.AppCode.Project.ViewModels.ProjectViewModel">
+                <NavigationViewItem Content="Project"  helpers:NavigationHelper.NavigateTo="AppWinui.AppCode.Project.ViewModels.ProjectViewModel"
+                                    helpers:NavigationHelper.Parameter="C:\\Users\\kaski\\Desktop\\teste">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xea37;"/>
                     </NavigationViewItem.Icon>
