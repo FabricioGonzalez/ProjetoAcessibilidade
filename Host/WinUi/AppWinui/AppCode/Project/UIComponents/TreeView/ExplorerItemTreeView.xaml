@@ -6,29 +6,29 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="using:System"
 	xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
-    xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates.TemplateSelector" 
-    xmlns:sys="using:System"
-    mc:Ignorable="d">
+	xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates.TemplateSelector"
+	mc:Ignorable="d">
 	<i:Interaction.Behaviors>
-        <behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind (sys:Boolean)ExplorerViewModel.ExplorerState.IsNotLoading,Mode=OneWay}">
+		<behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind (sys:Boolean)ExplorerViewModel.ExplorerState.IsNotLoading, Mode=OneWay}">
 			<behaviors:ConditionalRenderingBehavior.OnSuccessContent>
 				<TreeView
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
 					CanDrag="True"
 					CornerRadius="8"
-                    ItemsSource="{x:Bind ExplorerViewModel.ExplorerState.Items,Mode=TwoWay}">
+					ItemsSource="{x:Bind ExplorerViewModel.ExplorerState.Items, Mode=TwoWay}">
 					<TreeView.ItemTemplateSelector>
 						<uitemplates:ExplorerItemTemplateSelector>
 							<uitemplates:ExplorerItemTemplateSelector.FileTemplate>
 								<DataTemplate>
-									<treeview:FileTreeViewItemTemplate />
+									<treeview:FileTreeViewItemTemplate Item="{Binding .}" />
 								</DataTemplate>
 							</uitemplates:ExplorerItemTemplateSelector.FileTemplate>
 							<uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
 								<DataTemplate>
-									<treeview:FolderTreeViewItemTemplate  />
+									<treeview:FolderTreeViewItemTemplate Item="{Binding .}" />
 								</DataTemplate>
 							</uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
 						</uitemplates:ExplorerItemTemplateSelector>
@@ -37,12 +37,8 @@
 			</behaviors:ConditionalRenderingBehavior.OnSuccessContent>
 			<behaviors:ConditionalRenderingBehavior.OnFailedContent>
 				<StackPanel HorizontalAlignment="Center">
-                    <ProgressRing IsIndeterminate="true" 
-                                  Visibility="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage,
-                        Converter={StaticResource NotNullToVisibilityConverter},
-                        Mode=OneWay}"/>
-                    <TextBlock Text="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage,
-                        Mode=OneWay}"/>
+					<ProgressRing IsIndeterminate="true" Visibility="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage, Converter={StaticResource NotNullToVisibilityConverter}, Mode=OneWay}" />
+					<TextBlock Text="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage, Mode=OneWay}" />
 				</StackPanel>
 			</behaviors:ConditionalRenderingBehavior.OnFailedContent>
 		</behaviors:ConditionalRenderingBehavior>

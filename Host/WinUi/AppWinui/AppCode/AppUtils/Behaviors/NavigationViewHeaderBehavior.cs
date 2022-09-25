@@ -26,9 +26,9 @@ public class NavigationViewHeaderBehavior : Behavior<NavigationView>
 
     public static readonly DependencyProperty DefaultHeaderProperty =
         DependencyProperty.Register("DefaultHeader",
-            typeof(object), 
-            typeof(NavigationViewHeaderBehavior), 
-            new PropertyMetadata(null, 
+            typeof(object),
+            typeof(NavigationViewHeaderBehavior),
+            new PropertyMetadata(null,
                 (d, e) => _current!.UpdateHeader()));
 
     public static NavigationViewHeaderMode GetHeaderMode(Page item) => (NavigationViewHeaderMode)item.GetValue(HeaderModeProperty);
@@ -37,7 +37,7 @@ public class NavigationViewHeaderBehavior : Behavior<NavigationView>
 
     public static readonly DependencyProperty HeaderModeProperty =
         DependencyProperty.RegisterAttached("HeaderMode", typeof(bool),
-            typeof(NavigationViewHeaderBehavior), 
+            typeof(NavigationViewHeaderBehavior),
             new PropertyMetadata(NavigationViewHeaderMode.Never,
                 (d, e) => _current!.UpdateHeader()));
 
@@ -48,7 +48,7 @@ public class NavigationViewHeaderBehavior : Behavior<NavigationView>
     public static readonly DependencyProperty HeaderContextProperty =
         DependencyProperty.RegisterAttached("HeaderContext",
             typeof(object),
-            typeof(NavigationViewHeaderBehavior), new PropertyMetadata(null, 
+            typeof(NavigationViewHeaderBehavior), new PropertyMetadata(null,
                 (d, e) => _current!.UpdateHeader()));
 
     public static DataTemplate GetHeaderTemplate(Page item) => (DataTemplate)item.GetValue(HeaderTemplateProperty);
@@ -59,7 +59,7 @@ public class NavigationViewHeaderBehavior : Behavior<NavigationView>
         DependencyProperty.RegisterAttached("HeaderTemplate",
             typeof(DataTemplate),
             typeof(NavigationViewHeaderBehavior),
-            new PropertyMetadata(null, 
+            new PropertyMetadata(null,
                 (d, e) => _current!.UpdateHeaderTemplate()));
 
     protected override void OnAttached()

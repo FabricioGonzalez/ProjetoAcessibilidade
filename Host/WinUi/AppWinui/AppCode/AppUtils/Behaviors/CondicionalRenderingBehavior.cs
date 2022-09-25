@@ -53,12 +53,29 @@ public class ConditionalRenderingBehavior : Behavior<UIElement>
                 if ((bool)thisElement.GetValue(ConditionResultProperty))
                 {
                     if (thisElement.OnSuccessContent is not null)
-                        (parent as dynamic).Content = thisElement.OnSuccessContent;
+                        if (parent is Panel panel)
+                        {
+                            if (panel.Children.Count > 0)
+                                panel.Children.Remove(thisElement.OnFailedContent);
+
+                            panel.Children.Add(thisElement.OnSuccessContent);
+                        }
+                        else
+                            (parent as dynamic).Content = thisElement.OnSuccessContent;
                 }
                 else
                 {
                     if (thisElement.OnFailedContent is not null)
-                        (parent as dynamic).Content = thisElement.OnFailedContent;
+                        if (parent is Panel panel)
+                        {
+                            if (panel.Children.Count > 0)
+                                panel.Children.Remove(thisElement.OnSuccessContent);
+
+
+                            panel.Children.Add(thisElement.OnFailedContent);
+                        }
+                        else
+                            (parent as dynamic).Content = thisElement.OnFailedContent;
                 }
             }
         }));

@@ -2,105 +2,108 @@
 	x:Class="AppWinui.AppCode.Project.Views.ProjectPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView" 
-    xmlns:reportinfo="using:AppWinui.AppCode.Project.UIComponents.ReportInfo"
-    xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors" 
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	xmlns:reportinfo="using:AppWinui.AppCode.Project.UIComponents.ReportInfo"
+	xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
+	behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
 	mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea" AllowDrop="True">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="300"/>
-        </Grid.ColumnDefinitions>
-        <MenuBar Grid.Row="0" Background="{ThemeResource SystemAccentColor}">
-            <MenuBarItem Title="Arquivos">
-                <MenuFlyoutItem Text="Novo"/>
-                <MenuFlyoutItem Text="Abrir..."/>
-                <MenuFlyoutItem Text="Salvar"/>
-                <MenuFlyoutSeparator />
-                <MenuFlyoutItem Text="Sair"/>
-            </MenuBarItem>
+	<Grid x:Name="ContentArea" AllowDrop="True">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40" />
+			<RowDefinition Height="1*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="300" />
+		</Grid.ColumnDefinitions>
+		<MenuBar
+			Grid.Row="0"
+			Grid.ColumnSpan="2"
+			Background="{ThemeResource SystemAccentColor}"
+			RequestedTheme="Dark">
+			<MenuBarItem Title="Arquivos">
+				<MenuFlyoutItem x:Name="createMenuOption" Text="Novo" />
+				<MenuFlyoutItem x:Name="openMenuOption" Text="Abrir..." />
+				<MenuFlyoutSeparator />
+				<MenuFlyoutItem Text="Sair" />
+			</MenuBarItem>
 
-            <MenuBarItem Title="Editar">
-                <MenuFlyoutItem Text="Templates"/>
-                <MenuFlyoutItem Text="Regras de Validação"/>
-            </MenuBarItem>
+			<MenuBarItem Title="Editar">
+				<MenuFlyoutItem Text="Templates" />
+				<MenuFlyoutItem Text="Regras de Validação" />
+			</MenuBarItem>
 
-            <MenuBarItem Title="Impressão">
-                <MenuFlyoutItem Text="Imprimir"/>
-            </MenuBarItem>
+			<MenuBarItem Title="Impressão">
+				<MenuFlyoutItem Text="Imprimir" />
+			</MenuBarItem>
 
-            <MenuBarItem Title="Ajuda">
-                <MenuFlyoutItem Text="Sobre"/>
-            </MenuBarItem>
-        </MenuBar>
-        <i:Interaction.Behaviors>
-            <behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind ViewModel.IsProjectOpened}">
-                <behaviors:ConditionalRenderingBehavior.OnSuccessContent>
-                    <Grid
-			Grid.Column="1"
-            Grid.Row="1"
-			AllowDrop="True"
-			BorderThickness="1"
-			CornerRadius="8"
-			ScrollViewer.VerticalScrollBarVisibility="Visible"
-			ScrollViewer.VerticalScrollMode="Enabled">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="0.6*" />
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0" Grid.ColumnSpan="2">
-                            <TextBlock Text="{x:Bind ViewModel.Report.SolutionName}" TextAlignment="Center" />
-                        </Border>
-                        <Expander
-				Grid.Row="1"
-				Grid.ColumnSpan="2"
-				Padding="4"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Top"
-				HorizontalContentAlignment="Stretch"
-				VerticalContentAlignment="Stretch"
-				CornerRadius="4">
-                            <Expander.Header>
-                                Dados do Projeto
-                            </Expander.Header>
-                            <reportinfo:ReportInfo ViewModel="{x:Bind ViewModel}"/>
-                        </Expander>
-                        <Expander
-				Grid.Row="2"
-				Grid.ColumnSpan="2"
-				Padding="0"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
-				HorizontalContentAlignment="Stretch"
-				VerticalContentAlignment="Stretch"
-				CornerRadius="4"
-                IsExpanded="True">
-                            <Expander.Header>
-                                Arquivos do Projeto
-                            </Expander.Header>
-                            <treeview:ExplorerItemTreeView ExplorerViewModel="{x:Bind ViewModel.ExplorerViewModel}" />
-                        </Expander>
-                    </Grid>
-                </behaviors:ConditionalRenderingBehavior.OnSuccessContent>
-                <behaviors:ConditionalRenderingBehavior.OnFailedContent>
-                    
-                </behaviors:ConditionalRenderingBehavior.OnFailedContent>
-            </behaviors:ConditionalRenderingBehavior>
-        </i:Interaction.Behaviors>
-          
-    </Grid>
+			<MenuBarItem Title="Ajuda">
+				<MenuFlyoutItem Text="Sobre" />
+			</MenuBarItem>
+		</MenuBar>
+
+		<i:Interaction.Behaviors>
+			<behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind ViewModel.IsProjectOpened, Mode=OneWay}">
+				<behaviors:ConditionalRenderingBehavior.OnSuccessContent>
+					<Grid
+						Grid.Row="1"
+						Grid.Column="1"
+						AllowDrop="True"
+						BorderThickness="1"
+						CornerRadius="8"
+						ScrollViewer.VerticalScrollBarVisibility="Visible"
+						ScrollViewer.VerticalScrollMode="Enabled">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="20" />
+							<RowDefinition Height="auto" />
+							<RowDefinition Height="0.6*" />
+						</Grid.RowDefinitions>
+						<Border Grid.Row="0" Grid.ColumnSpan="2">
+							<TextBlock Text="{x:Bind ViewModel.Report.SolutionName}" TextAlignment="Center" />
+						</Border>
+						<Expander
+							Grid.Row="1"
+							Grid.ColumnSpan="2"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Top"
+							HorizontalContentAlignment="Stretch"
+							VerticalContentAlignment="Stretch"
+							CornerRadius="4">
+							<Expander.Header>
+								Dados do Projeto
+							</Expander.Header>
+							<reportinfo:ReportInfo ViewModel="{x:Bind ViewModel}" />
+						</Expander>
+						<Expander
+							Grid.Row="2"
+							Grid.ColumnSpan="2"
+							Padding="0"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							VerticalContentAlignment="Stretch"
+							CornerRadius="4"
+							IsExpanded="True">
+							<Expander.Header>
+								Arquivos do Projeto
+							</Expander.Header>
+							<treeview:ExplorerItemTreeView ExplorerViewModel="{x:Bind ViewModel.ExplorerViewModel}" />
+						</Expander>
+					</Grid>
+				</behaviors:ConditionalRenderingBehavior.OnSuccessContent>
+				<behaviors:ConditionalRenderingBehavior.OnFailedContent>
+					<TextBlock Grid.Row="1">Error</TextBlock>
+				</behaviors:ConditionalRenderingBehavior.OnFailedContent>
+			</behaviors:ConditionalRenderingBehavior>
+		</i:Interaction.Behaviors>
+
+	</Grid>
 </Page>

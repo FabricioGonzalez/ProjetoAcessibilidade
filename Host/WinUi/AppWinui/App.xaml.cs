@@ -1,4 +1,6 @@
-﻿using AppUsecases.Contracts.Repositories;
+﻿using AppUsecases;
+using AppUsecases.Contracts.Repositories;
+using AppUsecases.Contracts.Services;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Entities.FileTemplate;
 using AppUsecases.Usecases;
@@ -20,6 +22,7 @@ using AppWinui.AppCode.TemplateEditing.Views;
 using AppWinui.Core.Contracts.Services;
 using AppWinui.Core.Services;
 
+using LocalRepository;
 using LocalRepository.FileRepository.Repository.InternalAppFiles;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -79,10 +82,11 @@ public partial class App : Application
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
 
-            services.AddTransient<IUsecaseContract<string, List<ExplorerItem>>, GetProjectItemsUsecase>();
+            services.AddSingleton<IFilePickerService, FilePickerService>();
+            services.AddSingleton<IFolderPickerService, FolderPickerService>();
 
-
-            services.AddTransient<IReadContract<List<ExplorerItem>>, ReadAllUserProjectTemplateFilesRepository>();
+            ApplicationInjector.Inject(services);
+            RepositoryInjector.Inject(services);
 
             // Core Services
             services.AddSingleton<ISampleDataService, SampleDataService>();
@@ -102,6 +106,7 @@ public partial class App : Application
             services.AddTransient<ProjectPage>();
             services.AddTransient<ProjectViewModel>();
             services.AddTransient<ExplorerViewViewModel>();
+            services.AddTransient<RecentOpenedViewModel>();
             services.AddTransient<ProjectItemViewModel>();
 
             // Configuration

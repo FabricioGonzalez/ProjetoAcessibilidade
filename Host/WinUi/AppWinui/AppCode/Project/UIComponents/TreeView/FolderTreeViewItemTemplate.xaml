@@ -3,9 +3,29 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="using:AppWinui.AppCode.Project.UIComponents"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
-
-	<Grid />
+	<TreeViewItem
+		AllowDrop="True"
+		AutomationProperties.Name="{x:Bind Item.Name}"
+		Drop="TreeViewItem_Drop"
+		IsExpanded="True"
+		ItemsSource="{x:Bind Item.Children}">
+		<TreeViewItem.ContextFlyout>
+			<MenuFlyout>
+				<MenuFlyoutItem Click="RenameItem_Click" Text="Renomear" />
+				<MenuFlyoutItem Click="ExcludeItem_Click" Text="Excluir" />
+				<MenuFlyoutItem Click="AddItemItem_Click" Text="Adicionar Item" />
+				<MenuFlyoutItem Click="AddFolderItem_Click" Text="Adicionar Pasta" />
+			</MenuFlyout>
+		</TreeViewItem.ContextFlyout>
+		<StackPanel Orientation="Horizontal">
+			<FontIcon
+				Width="20"
+				Margin="0,0,10,0"
+				FontFamily="{StaticResource SymbolThemeFontFamily}"
+				Glyph="&#xED41;" />
+			<TextBlock Text="{x:Bind Name, Mode=TwoWay}" />
+		</StackPanel>
+	</TreeViewItem>
 </UserControl>

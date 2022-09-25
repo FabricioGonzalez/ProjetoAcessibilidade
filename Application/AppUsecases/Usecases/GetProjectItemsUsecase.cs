@@ -9,7 +9,7 @@ using Common;
 
 namespace AppUsecases.Usecases;
 
-public class GetProjectItemsUsecase : IUsecaseContract<string, List<ExplorerItem>>
+public class GetProjectItemsUsecase : IQueryUsecase<string, List<ExplorerItem>>
 {
     IReadContract<List<ExplorerItem>> readProjectItems;
     public GetProjectItemsUsecase(IReadContract<List<ExplorerItem>> readProjectItems)

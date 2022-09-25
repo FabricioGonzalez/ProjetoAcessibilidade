@@ -3,7 +3,7 @@
 using Common;
 
 namespace AppUsecases.Contracts.Usecases;
-public interface IUsecaseContract<Input, Output>
+public interface IQueryUsecase<Input, Output>
 {
     public Resource<Output> execute(Input parameter);
     public Task<Resource<Output>> executeAsync(Input parameter)

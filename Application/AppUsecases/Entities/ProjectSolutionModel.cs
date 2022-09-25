@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AppUsecases.Entities;
+﻿namespace AppUsecases.Entities;
 public class ProjectSolutionModel
 {
     public ReportDataModel reportData

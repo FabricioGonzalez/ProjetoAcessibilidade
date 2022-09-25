@@ -1,100 +1,107 @@
 ﻿<UserControl
-    x:Class="AppWinui.AppCode.Project.UIComponents.ReportInfo.ReportInfo"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+	x:Class="AppWinui.AppCode.Project.UIComponents.ReportInfo.ReportInfo"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
 
-    <ScrollViewer Padding="4,0" CornerRadius="4">
-        <Grid RowSpacing="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-							Grid.Row="0"
-							Grid.Column="0"
-							FontSize="13"
-							Text="Nome da Empresa"
-							TextAlignment="Center" />
-            <TextBox Grid.Row="0" 
-                                 Grid.Column="1"
-                                 Text="{x:Bind ViewModel.Report.NomeEmpresa}" />
+	<ScrollViewer Padding="0,2,8,2" CornerRadius="4">
+		<Grid ColumnSpacing="5" RowSpacing="10">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="32" />
+				<RowDefinition Height="32" />
+				<RowDefinition Height="32" />
+				<RowDefinition Height="32" />
+				<RowDefinition Height="32" />
+				<RowDefinition Height="32" />
+				<RowDefinition Height="32" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<TextBlock
+				Grid.Row="0"
+				Grid.Column="0"
+				FontSize="13"
+				Text="Nome da Empresa"
+				TextAlignment="Center" />
+			<TextBox
+				Grid.Row="0"
+				Grid.Column="1"
+				Text="{x:Bind ViewModel.Report.NomeEmpresa}" />
 
-            <TextBlock
-							Grid.Row="1"
-							Grid.Column="0"
-							FontSize="13"
-							Text="Responsável pelo Projeto"
-							TextAlignment="Center" />
-            <TextBox Grid.Row="1"
-                                 Grid.Column="1" 
-                                 Text="{x:Bind ViewModel.Report.Responsavel}"/>
+			<TextBlock
+				Grid.Row="1"
+				Grid.Column="0"
+				FontSize="13"
+				Text="Responsável pelo Projeto"
+				TextAlignment="Center" />
+			<TextBox
+				Grid.Row="1"
+				Grid.Column="1"
+				Text="{x:Bind ViewModel.Report.Responsavel}" />
 
-            <TextBlock
-							Grid.Row="2"
-							Grid.Column="0"
-							FontSize="13"
-							Text="Email do Responsável"
-							TextAlignment="Center" />
-            <TextBox Grid.Row="2"
-                                 Grid.Column="1" 
-                                 Text="{x:Bind ViewModel.Report.Email}"/>
+			<TextBlock
+				Grid.Row="2"
+				Grid.Column="0"
+				FontSize="13"
+				Text="Email do Responsável"
+				TextAlignment="Center" />
+			<TextBox
+				Grid.Row="2"
+				Grid.Column="1"
+				Text="{x:Bind ViewModel.Report.Email}" />
 
-            <TextBlock
-							Grid.Row="3"
-							Grid.Column="0"
-							FontSize="13"
-							Text="Data do Relatório"
-							TextAlignment="Center" />
-            <TextBox Grid.Row="3"
-                                 Grid.Column="1" 
-                                 Text="{x:Bind ViewModel.Report.Data}"/>
+			<TextBlock
+				Grid.Row="3"
+				Grid.Column="0"
+				FontSize="13"
+				Text="Data do Relatório"
+				TextAlignment="Center" />
+			<TextBox
+				Grid.Row="3"
+				Grid.Column="1"
+				Text="{x:Bind ViewModel.Report.Data}" />
 
-            <TextBlock
-							Grid.Row="4"
-							Grid.Column="0"
-							FontSize="13"
-							Text="UF"
-							TextAlignment="Center" />
-            <ComboBox
-							Grid.Row="4"
-							Grid.Column="1"
-							FontSize="13"
-							Text="UF"
-                            ItemsSource="{x:Bind ViewModel.AppViewModel.UFs}"
-                            SelectedItem="{x:Bind ViewModel.Report.UF}"
-							HorizontalContentAlignment="Center" />
+			<TextBlock
+				Grid.Row="4"
+				Grid.Column="0"
+				FontSize="13"
+				Text="UF"
+				TextAlignment="Center" />
+			<ComboBox
+				Grid.Row="4"
+				Grid.Column="1"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Center"
+				FontSize="13"
+				ItemsSource="{x:Bind ViewModel.AppViewModel.UFs}"
+				SelectedItem="{x:Bind ViewModel.Report.UF}"
+				Text="UF" />
 
-            <TextBlock
-							Grid.Row="5"
-							Grid.Column="0"
-							FontSize="13"
-							Text="Endereço da Empresa"
-							TextAlignment="Center" />
-            <TextBox Grid.Row="5" 
-                                 Grid.Column="1" 
-                                 Text="{x:Bind ViewModel.Report.Endereco}"/>
+			<TextBlock
+				Grid.Row="5"
+				Grid.Column="0"
+				FontSize="13"
+				Text="Endereço da Empresa"
+				TextAlignment="Center" />
+			<TextBox
+				Grid.Row="5"
+				Grid.Column="1"
+				Text="{x:Bind ViewModel.Report.Endereco}" />
 
-            <TextBlock
-							Grid.Row="6"
-							Grid.Column="0"
-							FontSize="13"
-							Text="Telefone do Responsável"
-							TextAlignment="Center" />
-            <TextBox Grid.Row="6" 
-                                 Grid.Column="1" 
-                                 Text="{x:Bind ViewModel.Report.Telefone}"/>
-        </Grid>
-    </ScrollViewer>
+			<TextBlock
+				Grid.Row="6"
+				Grid.Column="0"
+				FontSize="13"
+				Text="Telefone do Responsável"
+				TextAlignment="Center" />
+			<TextBox
+				Grid.Row="6"
+				Grid.Column="1"
+				Text="{x:Bind ViewModel.Report.Telefone}" />
+		</Grid>
+	</ScrollViewer>
 </UserControl>

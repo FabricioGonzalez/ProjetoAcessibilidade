@@ -1,4 +1,6 @@
-﻿using ReactiveUI;
+﻿using AppUsecases.Entities;
+
+using ReactiveUI;
 
 namespace AppWinui.AppCode.Project.States;
 public class ReportDataState : ReactiveObject
