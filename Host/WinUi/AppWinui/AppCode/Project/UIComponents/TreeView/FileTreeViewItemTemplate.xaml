@@ -6,14 +6,11 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 	<TreeViewItem
-		AutomationProperties.Name="{x:Bind Item.Name}"
-		DoubleTapped="TreeViewItem_DoubleTapped"
-		Drop="TreeViewItem_Drop"
-		IsDoubleTapEnabled="True">
+		AutomationProperties.Name="{x:Bind Item.Name,Mode=OneWay}">
 		<TreeViewItem.ContextFlyout>
 			<MenuFlyout>
-				<MenuFlyoutItem Click="RenameItem_Click" Text="Renomear" />
-				<MenuFlyoutItem Click="ExcludeItem_Click" Text="Excluir" />
+				<MenuFlyoutItem Text="Renomear" />
+				<MenuFlyoutItem  Text="Excluir" />
 			</MenuFlyout>
 		</TreeViewItem.ContextFlyout>
 		<StackPanel Orientation="Horizontal">
@@ -22,7 +19,7 @@
 				Margin="0,0,10,0"
 				FontFamily="{StaticResource SymbolThemeFontFamily}"
 				Glyph="&#xF000;" />
-			<TextBlock Text="{x:Bind Name, Mode=TwoWay}" />
+            <TextBlock Text="{x:Bind Item.Name,Mode=OneWay}" />
 		</StackPanel>
 	</TreeViewItem>
 </UserControl>

@@ -11,14 +11,8 @@ public sealed partial class FileTreeViewItemTemplate : UserControl
 {
     public ExplorerItem Item
     {
-        get
-        {
-            return (ExplorerItem)GetValue(ItemProperty);
-        }
-        set
-        {
-            SetValue(ItemProperty, value);
-        }
+        get => (ExplorerItem)GetValue(ItemProperty);
+        set => SetValue(ItemProperty, value);
     }
 
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...

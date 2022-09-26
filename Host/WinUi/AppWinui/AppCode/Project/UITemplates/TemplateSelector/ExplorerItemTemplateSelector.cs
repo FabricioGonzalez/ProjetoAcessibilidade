@@ -17,7 +17,6 @@ public class ExplorerItemTemplateSelector : DataTemplateSelector
 
     protected override DataTemplate SelectTemplateCore(object item)
     {
-        var explorerItem = (ExplorerItem)item;
-        return explorerItem.Type == ExplorerItemType.Folder ? FolderTemplate : FileTemplate;
+        return ((ExplorerItem)item).Type == ExplorerItemType.Folder ? FolderTemplate  : FileTemplate;
     }
 }
