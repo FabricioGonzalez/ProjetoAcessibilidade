@@ -10,4 +10,11 @@ public interface IQueryUsecase<Input, Output>
     {
         return default;
     }
+}public interface IQueryUsecase<Output>
+{
+    public Resource<Output> execute();
+    public Task<Resource<Output>> executeAsync()
+    {
+        return default;
+    }
 }

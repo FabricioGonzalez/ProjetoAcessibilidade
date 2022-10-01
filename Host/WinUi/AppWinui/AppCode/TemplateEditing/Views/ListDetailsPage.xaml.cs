@@ -1,4 +1,6 @@
-﻿using AppWinui.AppCode.AppUtils.Behaviors;
+﻿using AppUsecases.Entities;
+
+using AppWinui.AppCode.AppUtils.Behaviors;
 using AppWinui.AppCode.TemplateEditing.ViewModels;
 
 using CommunityToolkit.WinUI.UI.Controls;
@@ -31,6 +33,19 @@ public sealed partial class ListDetailsPage : Page
       DependencyProperty.RegisterAttached("HeaderMode", typeof(bool),
           typeof(ListDetailsPage),
           new PropertyMetadata(NavigationViewHeaderMode.Never));
+
+    public AppItemModel ProjectItem
+    {
+        get => (AppItemModel)GetValue(ProjectItemProperty);
+        set => SetValue(ProjectItemProperty, value);
+    }
+
+    // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty ProjectItemProperty =
+        DependencyProperty.Register("ProjectItem", 
+            typeof(AppItemModel),
+            typeof(ListDetailsPage),
+            new PropertyMetadata(new AppItemModel()));
 
     private void OnViewStateChanged(object sender, ListDetailsViewState e)
     {

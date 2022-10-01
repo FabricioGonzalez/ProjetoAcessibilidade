@@ -19,7 +19,10 @@ public sealed partial class ExplorerItemTreeView : UserControl
 
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ExplorerViewViewModelPropery =
-        DependencyProperty.Register("ExplorerViewModel", typeof(ExplorerViewViewModel), typeof(ExplorerItemTreeView), new PropertyMetadata(null));
+        DependencyProperty.Register("ExplorerViewModel", 
+            typeof(ExplorerViewViewModel),
+            typeof(ExplorerItemTreeView),
+            new PropertyMetadata(null));
 
 
     public ExplorerItemTreeView()

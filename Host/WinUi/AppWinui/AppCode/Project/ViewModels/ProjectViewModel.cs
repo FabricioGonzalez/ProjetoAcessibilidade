@@ -42,8 +42,8 @@ public class ProjectViewModel : ReactiveObject,IActivatableViewModel
             nameof(IsProjectOpened));
     }
 
-    private readonly IQueryUsecase<object, ProjectSolutionModel> getSolutionUsecase;
-    private readonly ICommandUsecase<object, ProjectSolutionModel> createSolutionUsecase;
+    private readonly IQueryUsecase<ProjectSolutionModel> getSolutionUsecase;
+    private readonly ICommandUsecase<ProjectSolutionModel> createSolutionUsecase;
 
     public ReactiveCommand<Unit, Resource<ProjectSolutionModel>> OpenProjectCommand
     {
@@ -56,8 +56,8 @@ public class ProjectViewModel : ReactiveObject,IActivatableViewModel
 
     public ViewModelActivator Activator { get; }
 
-    public ProjectViewModel(IQueryUsecase<object, ProjectSolutionModel> getSolutionUsecase,
-        ICommandUsecase<object, ProjectSolutionModel> createSolutionUsecase)
+    public ProjectViewModel(IQueryUsecase<ProjectSolutionModel> getSolutionUsecase,
+        ICommandUsecase<ProjectSolutionModel> createSolutionUsecase)
     {
         this.getSolutionUsecase = getSolutionUsecase;
         this.createSolutionUsecase = createSolutionUsecase;
@@ -71,7 +71,7 @@ public class ProjectViewModel : ReactiveObject,IActivatableViewModel
         this.WhenActivated(d =>
         {
             OpenProjectCommand = ReactiveCommand
-           .CreateFromTask(() => this.getSolutionUsecase.executeAsync(null));
+           .CreateFromTask(() => this.getSolutionUsecase.executeAsync());
 
             OpenProjectCommand.Subscribe(x =>
             {

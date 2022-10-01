@@ -19,6 +19,7 @@
     <SignAssembly>False</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="AppCode\AppUtils\UIComponents\ConditionalTextEditingBlock.xaml" />
     <None Remove="AppCode\Project\UIComponents\ExplorerItemTreeView.xaml" />
     <None Remove="AppCode\Project\UIComponents\FolderTreeViewItemTemplate.xaml" />
     <None Remove="AppCode\Project\UIComponents\ReportInfo\ReportInfo.xaml" />
@@ -30,6 +31,9 @@
     <None Remove="AppCode\Project\UITemplates\DataTemplates\ObservationDataTemplate.xaml" />
     <None Remove="AppCode\Project\UITemplates\DataTemplates\TextboxDataTemplate.xaml" />
     <None Remove="AppCode\Project\Views\ProjectPage.xaml" />
+    <None Remove="AppCode\TemplateEditing\UIComponents\CheckboxItemControl.xaml" />
+    <None Remove="AppCode\TemplateEditing\UIComponents\ItemContainer.xaml" />
+    <None Remove="AppCode\TemplateEditing\UIComponents\TextItemControl.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -87,7 +91,67 @@
     <Page Update="AppCode\Project\UIComponents\ReportInfo\ReportInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="AppCode\TemplateEditing\UIComponents\TextItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\TemplateEditing\UIComponents\CheckboxItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\AppUtils\UIComponents\ConditionalTextEditingBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\TemplateEditing\UIComponents\ItemContainer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Itens.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Itens.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Acesso a Equipamentos.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Acesso.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Balcão de Atendimento Recepção.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Circulação Horizontal.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Circulação Vertical.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Entradas Portas Externo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Entradas Portas Interno.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Mapa Tátil.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Mesas.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Piso Tátil.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Portas de Emergência.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Sanitários Comuns.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Sánitario Acessível.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Specifications\Tables\Table.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -103,6 +167,7 @@
     <Folder Include="AppCode\Home\UIModels\" />
     <Folder Include="AppCode\Project\UIModels\" />
     <Folder Include="AppCode\TemplateEditing\UIModels\" />
+    <Folder Include="AppCode\TemplateEditing\UiTemplates\DataTemplates\" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

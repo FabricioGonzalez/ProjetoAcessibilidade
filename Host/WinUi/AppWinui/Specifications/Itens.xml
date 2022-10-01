@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Itens.xsd">
+    <Name item="1">Acesso</Name>
+    <Name item="2">Entradas Portas Externo</Name>
+    <Name item="3">Entradas Portas Interno</Name>
+    <Name item="4">Acesso a Equipamentos</Name>
+    <Name item="5">Balcão de Atendimento Recepção</Name>
+    <Name item="6">Piso Tátil</Name>
+    <Name item="7">Mapa Tátil</Name>
+    <Name item="8">Circulação Horizontal</Name>
+    <Name item="9">Sanitários Comuns</Name>
+    <Name item="10">Sanitário Acessível</Name>
+    <Name item="11">Mesas</Name>
+    <Name item="12">Circulação Vertical</Name>
+    <Name item="13">Portas de Emergência</Name>
+</Items>

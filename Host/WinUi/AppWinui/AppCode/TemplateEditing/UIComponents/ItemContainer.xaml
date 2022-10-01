@@ -1,0 +1,24 @@
+﻿<UserControl
+	x:Class="AppWinui.AppCode.TemplateEditing.UIComponents.ItemContainer"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:AppWinui.AppCode.TemplateEditing.UIComponents"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uicomponents="using:AppWinui.AppCode.AppUtils.UIComponents"
+	mc:Ignorable="d">
+
+	<Grid>
+		<uicomponents:ConditionalTextEditingBlock
+			Grid.Row="0"
+			Grid.Column="0"
+			HorizontalAlignment="Left"
+			IsEditing="True" />
+
+		<ComboBox
+			Grid.Row="0"
+			Grid.Column="1"
+			HorizontalAlignment="Right"
+			ItemsSource="{x:Bind ItemType}" />
+	</Grid>
+</UserControl>

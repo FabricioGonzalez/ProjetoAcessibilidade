@@ -6,13 +6,13 @@ using AppUsecases.Entities;
 using Common;
 
 namespace AppUsecases.Usecases;
-internal class CreateProjectSolutionUsecase : ICommandUsecase<object, ProjectSolutionModel>
+public class CreateProjectSolutionUsecase : ICommandUsecase<ProjectSolutionModel>
 {
-    public Resource<ProjectSolutionModel> execute(object parameter = null)
+    public Resource<ProjectSolutionModel> execute()
     {
         return default;
     }
-/*    public async Task<Resource<ProjectSolutionModel>> executeAsync(object parameter = null)
+/*    public async Task<Resource<ProjectSolutionModel>> executeAsync()
     {
 
     }*/

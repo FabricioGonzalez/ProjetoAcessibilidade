@@ -19,35 +19,39 @@ public class ReadUserProjectSolutionFileRepository : IReadContract<ProjectSoluti
     }
     public async Task<ProjectSolutionModel> ReadAsync()
     {
-        var path = await filePickerService.GetFile(new string[] {".prja" });
-        var file = await StorageFile.GetFileFromPathAsync(path);
-        if (file is not null)
+        var path = await filePickerService.GetFile(new string[] { ".prja" });
+
+        if (path is not null)
         {
-            var folder = await file.GetParentAsync();
-
-            var solution = new ProjectSolutionModel()
+            var file = await StorageFile.GetFileFromPathAsync(path);
+            if (file is not null)
             {
-                FileName = file.Name,
-                FilePath = file.Path,
-                ParentFolderName = folder.Name,
-                ParentFolderPath = folder.Path,
-                reportData = new()
-            };
+                var folder = await file.GetParentAsync();
 
-            using var reader = new StreamReader(await file.OpenStreamForReadAsync());
+                var solution = new ProjectSolutionModel()
+                {
+                    FileName = file.Name,
+                    FilePath = file.Path,
+                    ParentFolderName = folder.Name,
+                    ParentFolderPath = folder.Path,
+                    reportData = new()
+                };
 
-            if (await reader.ReadToEndAsync() is string data && data.Length > 0)
-            {
-                var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
+                using var reader = new StreamReader(await file.OpenStreamForReadAsync());
 
-                if (resultData is not null)
-                    solution.reportData = resultData;
+                if (await reader.ReadToEndAsync() is string data && data.Length > 0)
+                {
+                    var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
 
-                folder = null;
-                file = null;
+                    if (resultData is not null)
+                        solution.reportData = resultData;
+
+                    folder = null;
+                    file = null;
+                }
+
+                return solution;
             }
-
-            return solution;
         }
         return null;
     }

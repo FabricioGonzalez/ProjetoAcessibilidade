@@ -11,3 +11,11 @@ public interface ICommandUsecase<Input, Output>
         return default;
     }
 }
+public interface ICommandUsecase<Output>
+{
+    public Resource<Output> execute();
+    public Task<Resource<Output>> executeAsync()
+    {
+        return default;
+    }
+}

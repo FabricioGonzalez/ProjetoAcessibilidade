@@ -7,18 +7,18 @@ using AppUsecases.Entities;
 using Common;
 
 namespace AppUsecases.Usecases;
-public class GetProjectSolutionUsecase : IQueryUsecase<object, ProjectSolutionModel>
+public class GetProjectSolutionUsecase : IQueryUsecase<ProjectSolutionModel>
 {
     private readonly IReadContract<ProjectSolutionModel> readSolution;
     public GetProjectSolutionUsecase(IReadContract<ProjectSolutionModel> readSolution)
     {
         this.readSolution = readSolution;
     }
-    public Resource<ProjectSolutionModel> execute(object parameter = null)
+    public Resource<ProjectSolutionModel> execute()
     {
         return null;
     }    
-    public async Task<Resource<ProjectSolutionModel>> executeAsync(object parameter = null)
+    public async Task<Resource<ProjectSolutionModel>> executeAsync()
     {
         var result = await readSolution.ReadAsync();
 

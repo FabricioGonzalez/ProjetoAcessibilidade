@@ -17,7 +17,17 @@ public sealed partial class FolderTreeViewItemTemplate : UserControl
 
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ItemProperty =
-        DependencyProperty.Register("Item", typeof(ExplorerItem), typeof(FolderTreeViewItemTemplate), new PropertyMetadata(null));
+        DependencyProperty.Register("Item",
+            typeof(ExplorerItem), 
+            typeof(FolderTreeViewItemTemplate),
+            new PropertyMetadata(null, (d, args) =>
+            {
+                if (d is FolderTreeViewItemTemplate itemTemplate)
+                {
+                    if (args.NewValue != null)
+                        itemTemplate.DataContext = args.NewValue;
+                }
+            }));
 
 
     public FolderTreeViewItemTemplate()
