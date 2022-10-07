@@ -10,7 +10,7 @@ namespace AppWinui.AppCode.TemplateEditing.ViewModels;
 
 public class ItemTemplateEditingViewModel : ReactiveObject
 {
-    private readonly ISampleDataService _sampleDataService;
+    /*private readonly ISampleDataService _sampleDataService;*/
     private AppItemModel? _selected;
 
     public AppItemModel? Selected

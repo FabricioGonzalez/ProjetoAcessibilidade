@@ -20,29 +20,7 @@
             IsAddTabButtonVisible="False">
             <TabViewItem Header="Templates">
                 <ScrollViewer>
-                    <Grid
-                        Padding="15"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="16">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="56" />
-                            <RowDefinition Height="1*" />
-                        </Grid.RowDefinitions>
-                        <Grid Name="panel" Grid.Row="0">
-                            <TextBlock
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Text="Title" />
-                            <AppBarButton
-                                x:Name="AddItem"
-                                Width="48"
-                                Height="48"
-                                HorizontalAlignment="Right"
-                                Icon="Add" />
-                        </Grid>
-                        <uicomponents:ItemContainer ProjectItem="{x:Bind ViewModel.Selected, Mode=OneWay}" />
-                    </Grid>
+                    <uicomponents:ItemContainer ProjectItem="{x:Bind Item, Mode=OneWay}" />
                 </ScrollViewer>
             </TabViewItem>
             <TabViewItem Header="Regras de Validação">

@@ -8,7 +8,6 @@
     xmlns:models="using:AppUsecases.Entities.AppFormDataItems.Text"
     xmlns:models1="using:AppUsecases.Entities.AppFormDataItems.Observations"
     xmlns:models2="using:AppUsecases.Entities.AppFormDataItems.Checkbox"
-    xmlns:models3="using:AppUsecases.Entities.FileTemplate"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -71,7 +70,7 @@
                     FontWeight="Bold"
                     Text="{x:Bind Topic, Mode=OneWay}"
                     TextWrapping="Wrap"
-                    Visibility="{x:Bind Topic, Mode=OneWay, Converter={StaticResource VisibilityToNullConverter}}" />
+                    Visibility="{x:Bind Topic, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
                 <ListView ItemsSource="{x:Bind Children, Mode=OneWay}" SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models2:AppFormDataItemCheckboxChildModel">
@@ -129,26 +128,8 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-
             </StackPanel>
         </DataTemplate>
-
-        <DataTemplate x:Key="ItemTemplate" x:DataType="models3:FileTemplate">
-            <Grid Height="60">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <StackPanel
-                    Grid.Column="1"
-                    Margin="{StaticResource SmallLeftMargin}"
-                    VerticalAlignment="Center">
-                    <TextBlock Style="{StaticResource ListTitleStyle}" Text="{x:Bind Name}" />
-                    <TextBlock Style="{StaticResource ListSubTitleStyle}" Text="{x:Bind Path}" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-
 
         <ProjectItemTemplateSelector:ProjectItemTemplateSelector
             x:Key="ProjectItemTemplateSelector"
@@ -157,7 +138,6 @@
             TextBoxTemplate="{StaticResource TextItemTemplate}" />
     </UserControl.Resources>
     <ScrollViewer
-        Name="ForegroundElement"
         Padding="4"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"

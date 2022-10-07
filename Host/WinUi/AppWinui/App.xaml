@@ -5,8 +5,9 @@
     xmlns:helpers="using:AppWinui.AppCode.AppUtils.Helpers">
     <Application.Resources>
         <ResourceDictionary>
-            <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
-            <helpers:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
+            <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <helpers:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
+            <helpers:EnumerableToString x:Key="EnumerableToString" />
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary Source="/Styles/FontSizes.xaml" />

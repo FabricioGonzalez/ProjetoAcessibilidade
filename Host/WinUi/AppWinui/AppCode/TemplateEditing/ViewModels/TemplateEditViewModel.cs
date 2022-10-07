@@ -15,7 +15,7 @@ namespace AppWinui.AppCode.TemplateEditing.ViewModels;
 public class TemplateEditViewModel : ReactiveObject, INavigationAware
 {
     readonly IQueryUsecase<List<FileTemplate>> getProjectData;
-    readonly IQueryUsecase<List<FileTemplate>> getProjectTemplates;
+    /*readonly IQueryUsecase<List<FileTemplate>> getProjectTemplates;*/
     readonly IQueryUsecase<string, AppItemModel> GetProjectItemContentUsecase;
 
     private FileTemplate _selected;
