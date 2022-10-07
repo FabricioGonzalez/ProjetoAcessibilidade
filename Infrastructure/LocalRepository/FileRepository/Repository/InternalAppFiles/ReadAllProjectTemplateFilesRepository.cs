@@ -10,55 +10,79 @@ using Common;
 using Windows.ApplicationModel;
 
 namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
-public class ReadAllProjectTemplateFilesRepository : IReadContract<List<FileTemplate>>
+public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List<FileTemplate>>>
 {
-    public async Task<List<FileTemplate>> ReadAsync()
+    public async Task<Resource<List<FileTemplate>>> ReadAsync()
     {
-        var task = new Task<List<FileTemplate>>(() =>
+        try
         {
-            var files = Directory.GetFiles(Path.Combine(
-                Package.Current.InstalledPath, 
-                Constants.ROOT_SYSTEM_PROJECT_TEMPLATE_FOLDER_NAME, 
-                Constants.ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME));
-
-            List<FileTemplate> filesList = new List<FileTemplate>();
-
-            foreach (var item in files)
+            var task = new Task<Resource<List<FileTemplate>>>(() =>
             {
-                var splitedItem = item.Split("\\");
-                filesList.Add(new()
-                {
-                    Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
-                    Path = item
-                });
-            }
-            return filesList;
-        });
-        task.Start();
+                var files = Directory.GetFiles(Path.Combine(
+                    Package.Current.InstalledPath,
+                    Constants.ROOT_SYSTEM_PROJECT_TEMPLATE_FOLDER_NAME,
+                    Constants.ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME));
 
-        return await task;
+                List<FileTemplate> filesList = new List<FileTemplate>();
+
+                foreach (var item in files)
+                {
+                    var splitedItem = item.Split("\\");
+                    filesList.Add(new()
+                    {
+                        Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
+                        Path = item
+                    });
+                }
+                if (filesList.Count > 0)
+                    return new Resource<List<FileTemplate>>.Success(filesList);
+
+                return new Resource<List<FileTemplate>>.Error(ErrorConstants.APP_NO_FILE_ERROR, null);
+            });
+            task.Start();
+
+            return await task;
+        }
+        catch (System.Exception ex)
+        {
+            return new Resource<List<FileTemplate>>.Error(ex.Message, null);
+        }
+
     }
-    public async Task<List<FileTemplate>> ReadAsync(string path)
+    public async Task<Resource<List<FileTemplate>>> ReadAsync(string path)
     {
-        var task = new Task<List<FileTemplate>>(() =>
+        try
         {
-            var files = Directory.GetFiles(Path.Combine(path, Constants.ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME));
-
-            List<FileTemplate> filesList = new List<FileTemplate>();
-
-            foreach (var item in files)
+            var task = new Task<Resource<List<FileTemplate>>>(() =>
             {
-                var splitedItem = item.Split("\\");
-                filesList.Add(new()
-                {
-                    Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
-                    Path = item
-                });
-            }
-            return filesList;
-        });
-        task.Start();
+                var files = Directory.GetFiles(Path.Combine(
+                    path,
+                    Constants.ROOT_SYSTEM_PROJECT_TEMPLATE_FOLDER_NAME,
+                    Constants.ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME));
 
-        return await task;
+                List<FileTemplate> filesList = new List<FileTemplate>();
+
+                foreach (var item in files)
+                {
+                    var splitedItem = item.Split("\\");
+                    filesList.Add(new()
+                    {
+                        Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
+                        Path = item
+                    });
+                }
+                if (filesList.Count > 0)
+                    return new Resource<List<FileTemplate>>.Success(filesList);
+
+                return new Resource<List<FileTemplate>>.Error(ErrorConstants.APP_NO_FILE_ERROR, null);
+            });
+            task.Start();
+
+            return await task;
+        }
+        catch (System.Exception ex)
+        {
+            return new Resource<List<FileTemplate>>.Error(ex.Message, null);
+        }
     }
 }
