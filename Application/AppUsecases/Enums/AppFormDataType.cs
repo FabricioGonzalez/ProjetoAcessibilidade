@@ -2,6 +2,6 @@
 {
     Checkbox,
     Text,
-    Image,
+    Images,
     Observation,
 }

@@ -85,8 +85,8 @@ public partial class App : Application
             services.AddSingleton<IFilePickerService, FilePickerService>();
             services.AddSingleton<IFolderPickerService, FolderPickerService>();
 
-            ApplicationInjector.Inject(services);
             RepositoryInjector.Inject(services);
+            ApplicationInjector.Inject(services);
 
             // Core Services
             services.AddSingleton<ISampleDataService, SampleDataService>();
@@ -94,17 +94,22 @@ public partial class App : Application
 
             // Views and ViewModels
             services.AddTransient<ApplicationViewModel>();
+
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
-            services.AddTransient<ListDetailsViewModel>();
+
+            services.AddTransient<TemplateEditViewModel>();
             services.AddTransient<ListDetailsPage>();
+
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
+
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
 
             services.AddTransient<ProjectPage>();
             services.AddTransient<ProjectViewModel>();
+
             services.AddTransient<ExplorerViewViewModel>();
             services.AddTransient<RecentOpenedViewModel>();
             services.AddTransient<ProjectItemViewModel>();

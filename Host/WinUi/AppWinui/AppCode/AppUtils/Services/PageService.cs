@@ -8,8 +8,6 @@ using AppWinui.AppCode.Project.Views;
 using AppWinui.AppCode.TemplateEditing.ViewModels;
 using AppWinui.AppCode.TemplateEditing.Views;
 
-using CommunityToolkit.Mvvm.ComponentModel;
-
 using Microsoft.UI.Xaml.Controls;
 
 using ReactiveUI;
@@ -23,7 +21,7 @@ public class PageService : IPageService
     public PageService()
     {
         Configure<MainViewModel, MainPage>();
-        Configure<ListDetailsViewModel, ListDetailsPage>();
+        Configure<TemplateEditViewModel, ListDetailsPage>();
         Configure<SettingsViewModel, SettingsPage>();
         Configure<ProjectViewModel, ProjectPage>();
     }

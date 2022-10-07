@@ -12,14 +12,14 @@ namespace AppWinui.AppCode.TemplateEditing.Views;
 
 public sealed partial class ListDetailsPage : Page
 {
-    public ListDetailsViewModel ViewModel
+    public TemplateEditViewModel ViewModel
     {
         get;
     }
 
     public ListDetailsPage()
     {
-        ViewModel = App.GetService<ListDetailsViewModel>();
+        ViewModel = App.GetService<TemplateEditViewModel>();
         InitializeComponent();
     }
 

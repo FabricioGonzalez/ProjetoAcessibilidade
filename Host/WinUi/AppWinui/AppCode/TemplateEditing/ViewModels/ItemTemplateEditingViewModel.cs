@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
-using AppWinui.AppCode.AppUtils.Contracts.ViewModels;
-using AppWinui.AppCode.TemplateEditing.Contracts;
+using AppUsecases.Entities;
+
 using AppWinui.Core.Contracts.Services;
-using AppWinui.Core.Models;
 
 using ReactiveUI;
 
@@ -12,15 +11,15 @@ namespace AppWinui.AppCode.TemplateEditing.ViewModels;
 public class ItemTemplateEditingViewModel : ReactiveObject
 {
     private readonly ISampleDataService _sampleDataService;
-    private SampleOrder? _selected;
+    private AppItemModel? _selected;
 
-    public SampleOrder? Selected
+    public AppItemModel? Selected
     {
         get => _selected;
         set => this.RaiseAndSetIfChanged(ref _selected, value);
     }
 
-    public ObservableCollection<SampleOrder> SampleItems { get; private set; } = new ObservableCollection<SampleOrder>();
+    public ObservableCollection<AppItemModel> SampleItems { get; private set; } = new ObservableCollection<AppItemModel>();
 
     public ItemTemplateEditingViewModel()
     {

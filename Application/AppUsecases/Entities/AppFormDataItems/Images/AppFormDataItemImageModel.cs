@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Entity;
 
@@ -18,7 +15,7 @@ public class AppFormDataItemImageModel : IAppFormDataItemContract
     {
         get;
         set;
-    } = AppFormDataTypeEnum.Image;
+    } = AppFormDataTypeEnum.Images;
     public ICollection<ImagesItem> ImagesItems
     {
         get; set;

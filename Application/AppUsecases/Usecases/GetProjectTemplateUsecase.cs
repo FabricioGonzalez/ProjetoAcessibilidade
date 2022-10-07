@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
+using AppUsecases.Entities.FileTemplate;
 
 using Common;
-
-using LocalRepository.FileRepository.Repository.InternalAppFiles;
 
 namespace AppUsecases.Usecases;
 public class GetProjectTemplateUsecase : IQueryUsecase<List<FileTemplate>>

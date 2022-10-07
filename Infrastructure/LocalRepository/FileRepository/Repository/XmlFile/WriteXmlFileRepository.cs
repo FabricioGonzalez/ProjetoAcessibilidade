@@ -153,7 +153,7 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
                     itemTabelaName.AppendChild(itemTextoValue);
                 }
 
-                if (projectItem.Type.Equals(AppFormDataTypeEnum.Image))
+                if (projectItem.Type.Equals(AppFormDataTypeEnum.Images))
                 {
                     var itemType = doc.CreateElement("tipo");
                     itemType.InnerXml = projectItem.Type.ToString()

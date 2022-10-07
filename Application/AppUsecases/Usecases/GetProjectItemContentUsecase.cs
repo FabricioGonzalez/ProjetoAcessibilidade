@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
@@ -24,6 +20,16 @@ public class GetProjectItemContentUsecase : IQueryUsecase<string,AppItemModel>
     public Resource<AppItemModel> execute(string parameter)
     {
         var result = readProjectItemContent.ReadAsync(parameter).Result;
+
+        if(result is not null)
+        {
+            return new Resource<AppItemModel>.Success(result);
+        }
+            return new Resource<AppItemModel>.Error("",null);
+    }
+    public async Task<Resource<AppItemModel>> executeAsync(string parameter)
+    {
+        var result = await readProjectItemContent.ReadAsync(parameter);
 
         if(result is not null)
         {

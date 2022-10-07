@@ -1,4 +1,4 @@
-﻿namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
+﻿namespace AppUsecases.Entities.FileTemplate;
 
 public class FileTemplate
 {

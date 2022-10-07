@@ -1,4 +1,6 @@
-﻿using AppWinui.AppCode.TemplateEditing.ViewModels;
+﻿using AppUsecases.Entities;
+
+using AppWinui.AppCode.TemplateEditing.ViewModels;
 using AppWinui.Core.Models;
 
 using Microsoft.UI.Xaml;
@@ -18,7 +20,7 @@ public sealed partial class ListDetailsDetailControl : UserControl, IViewFor<Ite
 
     // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ViewModelProperty =
-        DependencyProperty.Register("ViewModel",
+        DependencyProperty.Register(nameof(ViewModel),
             typeof(ItemTemplateEditingViewModel),
             typeof(ListDetailsDetailControl),
             new PropertyMetadata(null));
@@ -30,15 +32,15 @@ public sealed partial class ListDetailsDetailControl : UserControl, IViewFor<Ite
     }
 
 
-    public SampleOrder? ListDetailsMenuItem
+    public AppItemModel? ListDetailsMenuItem
     {
-        get => GetValue(ListDetailsMenuItemProperty) as SampleOrder;
+        get => GetValue(ListDetailsMenuItemProperty) as AppItemModel;
         set => SetValue(ListDetailsMenuItemProperty, value);
     }
 
     public static readonly DependencyProperty ListDetailsMenuItemProperty =
         DependencyProperty.Register(nameof(ListDetailsMenuItem),
-            typeof(SampleOrder),
+            typeof(AppItemModel),
             typeof(ListDetailsDetailControl),
             new PropertyMetadata(null, OnListDetailsMenuItemPropertyChanged));
 
