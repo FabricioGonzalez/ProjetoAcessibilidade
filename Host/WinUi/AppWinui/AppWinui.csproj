@@ -43,9 +43,9 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0-rc.2.22472.3" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="ReactiveUI" Version="18.3.1" />
     <PackageReference Include="ReactiveUI.WinUI" Version="18.3.1" />
     <PackageReference Include="WinUIEx" Version="1.8.0" />

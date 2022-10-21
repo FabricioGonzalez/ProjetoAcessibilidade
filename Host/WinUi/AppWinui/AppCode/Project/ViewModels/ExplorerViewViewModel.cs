@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Entities.FileTemplate;
@@ -37,6 +38,26 @@ public class ExplorerViewViewModel : ReactiveObject
     {
         get; set;
     }
+
+    public ICommand RenameItemCommand
+    {
+        get; private set;
+    } = ReactiveCommand.Create(() => { });
+
+    public ICommand ExcludeItemCommand
+    {
+        get; private set;
+    } = ReactiveCommand.Create(() => { });
+
+    public ICommand AddItemCommand
+    {
+        get; private set;
+    } = ReactiveCommand.Create(() => { });
+
+    public ICommand AddFolderCommand
+    {
+        get; private set;
+    } = ReactiveCommand.Create(() => { });
 
     public ExplorerViewViewModel(IQueryUsecase<string, List<ExplorerItem>> usecase)
     {
@@ -80,6 +101,9 @@ public class ExplorerViewViewModel : ReactiveObject
             // No need to use the .ObserveOn() operator here, as
             // ObservableCollectionExtended is single-threaded.
             .Bind(out _items)
-            .Subscribe();
+            .Subscribe(x =>
+            {
+
+            });
     }
 }
