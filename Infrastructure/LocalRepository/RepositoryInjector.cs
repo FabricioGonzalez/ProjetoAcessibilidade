@@ -4,6 +4,8 @@ using AppUsecases.Contracts.Repositories;
 using AppUsecases.Entities;
 using AppUsecases.Entities.FileTemplate;
 
+using Common;
+
 using LocalRepository.FileRepository.Repository.InternalAppFiles;
 using LocalRepository.FileRepository.Repository.XmlFile;
 
@@ -16,7 +18,7 @@ public static class RepositoryInjector
     {
         services.AddTransient<IReadContract<ProjectSolutionModel>, ReadUserProjectSolutionFileRepository>();
         services.AddTransient<IReadContract<List<ExplorerItem>>, ReadAllUserProjectTemplateFilesRepository>();
-        services.AddTransient<IReadContract<List<FileTemplate>>, ReadAllProjectTemplateFilesRepository>();
+        services.AddTransient<IReadContract<Resource<List<FileTemplate>>>, ReadAllProjectTemplateFilesRepository>();
         services.AddTransient<IReadContract<AppItemModel>, ReadXmlFileRepository>();
     }
 }
