@@ -29,6 +29,8 @@ public sealed partial class ExplorerItemTreeView : UserControl
     {
         InitializeComponent();
 
+        DataContext = ExplorerViewModel;
+
         this.WhenAnyValue(x => x.ExplorerViewModel.ExplorerState.Items)
             .WhereNotNull()
             .BindTo(this, x => x.projectExplorer.ItemsSource);

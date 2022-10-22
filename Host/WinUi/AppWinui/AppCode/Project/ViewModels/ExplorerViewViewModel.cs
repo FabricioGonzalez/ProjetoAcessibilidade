@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 
 using AppUsecases.Contracts.Usecases;
@@ -42,30 +43,43 @@ public class ExplorerViewViewModel : ReactiveObject
     public ICommand RenameItemCommand
     {
         get; private set;
-    } = ReactiveCommand.Create(() => { });
+    } = ReactiveCommand.Create(() =>
+    {
+
+        Debug.WriteLine("Rename Command");
+    });
 
     public ICommand ExcludeItemCommand
     {
         get; private set;
-    } = ReactiveCommand.Create(() => { });
+    } = ReactiveCommand.Create(() =>
+    {
+        Debug.WriteLine("Exclude Command");
+    });
 
     public ICommand AddItemCommand
     {
         get; private set;
-    } = ReactiveCommand.Create(() => { });
+    } = ReactiveCommand.Create(() =>
+    {
+        Debug.WriteLine("Add Item Command");
+    });
 
     public ICommand AddFolderCommand
     {
         get; private set;
-    } = ReactiveCommand.Create(() => { });
+    } = ReactiveCommand.Create(() =>
+    {
+        Debug.WriteLine("Add Folder Command");
+    });
 
-    public ExplorerViewViewModel(IQueryUsecase<string, List<ExplorerItem>> usecase)
+    public ExplorerViewViewModel()
     {
         Source = new ObservableCollectionExtended<Resource<ExplorerItem>>();
 
         ExplorerState = new();
 
-        GetProjectItemsUsecase = usecase;
+        GetProjectItemsUsecase = App.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
 
         this.WhenAnyValue(x => x.ProjectRootPath)
        .WhereNotNull()

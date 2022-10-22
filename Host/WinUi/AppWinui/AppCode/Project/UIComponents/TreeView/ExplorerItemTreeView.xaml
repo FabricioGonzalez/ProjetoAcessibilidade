@@ -1,88 +1,92 @@
 ﻿<UserControl
-    x:Class="AppWinui.AppCode.Project.UIComponents.TreeView.ExplorerItemTreeView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:filetemplate="using:AppUsecases.Entities.FileTemplate"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:sys="using:System"
-    xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
-    xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates.TemplateSelector"
-    x:Name="ExplorerTreeView"
-    mc:Ignorable="d">
-    <i:Interaction.Behaviors>
-        <behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind (sys:Boolean)ExplorerViewModel.ExplorerState.IsNotLoading, Mode=OneWay}">
-            <behaviors:ConditionalRenderingBehavior.OnSuccessContent>
-                <TreeView
-                    x:Name="projectExplorer"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    CanDrag="True"
-                    CornerRadius="8"
-                    ItemsSource="{x:Bind ExplorerViewModel.ExplorerState.Items, Mode=OneWay}">
-                    <TreeView.ItemTemplateSelector>
-                        <uitemplates:ExplorerItemTemplateSelector>
-                            <uitemplates:ExplorerItemTemplateSelector.FileTemplate>
-                                <DataTemplate x:DataType="filetemplate:ExplorerItem">
-                                    <TreeViewItem>
-                                        <TreeViewItem.ContextFlyout>
-                                            <MenuFlyout>
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.RenameItemCommand, ElementName=ExplorerTreeView}" Text="Renomear" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.ExcludeItemCommand, ElementName=ExplorerTreeView}" Text="Excluir" />
-                                            </MenuFlyout>
-                                        </TreeViewItem.ContextFlyout>
-                                        <StackPanel Orientation="Horizontal">
-                                            <FontIcon
-                                                Width="20"
-                                                Margin="0,0,10,0"
-                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                Glyph="&#xF000;" />
-                                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                        </StackPanel>
-                                    </TreeViewItem>
+	x:Class="AppWinui.AppCode.Project.UIComponents.TreeView.ExplorerItemTreeView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:filetemplate="using:AppUsecases.Entities.FileTemplate"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="using:System"
+	xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
+	xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates.TemplateSelector"
+	xmlns:viewmodels="using:AppWinui.AppCode.Project.ViewModels"
+	x:Name="ExplorerTreeView"
+	mc:Ignorable="d">
+	<UserControl.Resources>
+		<viewmodels:ExplorerViewViewModel x:Key="ExplorerViewModel" />
+	</UserControl.Resources>
+	<i:Interaction.Behaviors>
+		<behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind (sys:Boolean)ExplorerViewModel.ExplorerState.IsNotLoading, Mode=OneWay}">
+			<behaviors:ConditionalRenderingBehavior.OnSuccessContent>
+				<TreeView
+					x:Name="projectExplorer"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					CanDrag="True"
+					CornerRadius="8"
+					ItemsSource="{x:Bind ExplorerViewModel.ExplorerState.Items, Mode=OneWay}">
+					<TreeView.ItemTemplateSelector>
+						<uitemplates:ExplorerItemTemplateSelector>
+							<uitemplates:ExplorerItemTemplateSelector.FileTemplate>
+								<DataTemplate x:DataType="filetemplate:ExplorerItem">
+									<TreeViewItem>
+										<TreeViewItem.ContextFlyout>
+											<MenuFlyout>
+												<MenuFlyoutItem Command="{Binding ExplorerViewModel.RenameItemCommand, ElementName=ExplorerTreeView}" Text="Renomear" />
+												<MenuFlyoutItem Command="{Binding ExplorerViewModel.ExcludeItemCommand, ElementName=ExplorerTreeView}" Text="Excluir" />
+											</MenuFlyout>
+										</TreeViewItem.ContextFlyout>
+										<StackPanel Orientation="Horizontal">
+											<FontIcon
+												Width="20"
+												Margin="0,0,10,0"
+												FontFamily="{StaticResource SymbolThemeFontFamily}"
+												Glyph="&#xF000;" />
+											<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+										</StackPanel>
+									</TreeViewItem>
 
-                                </DataTemplate>
-                            </uitemplates:ExplorerItemTemplateSelector.FileTemplate>
-                            <uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
-                                <DataTemplate x:DataType="filetemplate:ExplorerItem">
-                                    <TreeViewItem
-                                        AllowDrop="True"
-                                        AutomationProperties.Name="{x:Bind Name}"
-                                        IsExpanded="True"
-                                        ItemsSource="{x:Bind Children}">
-                                        <TreeViewItem.ContextFlyout>
-                                            <MenuFlyout>
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.RenameItemCommand, ElementName=ExplorerTreeView}" Text="Renomear" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.ExcludeItemCommand, ElementName=ExplorerTreeView}" Text="Excluir" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.AddItemCommand, ElementName=ExplorerTreeView}" Text="Adicionar Item" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.AddFolderCommand, ElementName=ExplorerTreeView}" Text="Adicionar Pasta" />
-                                            </MenuFlyout>
-                                        </TreeViewItem.ContextFlyout>
-                                        <StackPanel Orientation="Horizontal">
-                                            <FontIcon
-                                                Width="20"
-                                                Margin="0,0,10,0"
-                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                Glyph="&#xED41;" />
-                                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                        </StackPanel>
-                                    </TreeViewItem>
-                                </DataTemplate>
-                            </uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
-                        </uitemplates:ExplorerItemTemplateSelector>
-                    </TreeView.ItemTemplateSelector>
-                </TreeView>
-            </behaviors:ConditionalRenderingBehavior.OnSuccessContent>
-            <behaviors:ConditionalRenderingBehavior.OnFailedContent>
-                <StackPanel HorizontalAlignment="Center">
-                    <ProgressRing IsIndeterminate="true" Visibility="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage, Converter={StaticResource NotNullToVisibilityConverter}, Mode=OneWay}" />
-                    <TextBlock Text="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage, Mode=OneWay}" />
-                </StackPanel>
-            </behaviors:ConditionalRenderingBehavior.OnFailedContent>
-        </behaviors:ConditionalRenderingBehavior>
+								</DataTemplate>
+							</uitemplates:ExplorerItemTemplateSelector.FileTemplate>
+							<uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
+								<DataTemplate x:DataType="filetemplate:ExplorerItem">
+									<TreeViewItem
+										AllowDrop="True"
+										AutomationProperties.Name="{x:Bind Name}"
+										IsExpanded="True"
+										ItemsSource="{x:Bind Children}">
+										<TreeViewItem.ContextFlyout>
+											<MenuFlyout>
+												<MenuFlyoutItem Command="{StaticResource ExplorerViewModel.RenameItemCommand}" Text="Renomear" />
+												<MenuFlyoutItem Command="{StaticResource ExplorerViewModel.ExcludeItemCommand}" Text="Excluir" />
+												<MenuFlyoutItem Command="{StaticResource ExplorerViewModel.AddItemCommand}" Text="Adicionar Item" />
+												<MenuFlyoutItem Command="{StaticResource ExplorerViewModel.AddFolderCommand}" Text="Adicionar Pasta" />
+											</MenuFlyout>
+										</TreeViewItem.ContextFlyout>
+										<StackPanel Orientation="Horizontal">
+											<FontIcon
+												Width="20"
+												Margin="0,0,10,0"
+												FontFamily="{StaticResource SymbolThemeFontFamily}"
+												Glyph="&#xED41;" />
+											<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+										</StackPanel>
+									</TreeViewItem>
+								</DataTemplate>
+							</uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
+						</uitemplates:ExplorerItemTemplateSelector>
+					</TreeView.ItemTemplateSelector>
+				</TreeView>
+			</behaviors:ConditionalRenderingBehavior.OnSuccessContent>
+			<behaviors:ConditionalRenderingBehavior.OnFailedContent>
+				<StackPanel HorizontalAlignment="Center">
+					<ProgressRing IsIndeterminate="true" Visibility="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage, Converter={StaticResource NotNullToVisibilityConverter}, Mode=OneWay}" />
+					<TextBlock Text="{x:Bind ExplorerViewModel.ExplorerState.ErrorMessage, Mode=OneWay}" />
+				</StackPanel>
+			</behaviors:ConditionalRenderingBehavior.OnFailedContent>
+		</behaviors:ConditionalRenderingBehavior>
 
-    </i:Interaction.Behaviors>
+	</i:Interaction.Behaviors>
 
 </UserControl>
