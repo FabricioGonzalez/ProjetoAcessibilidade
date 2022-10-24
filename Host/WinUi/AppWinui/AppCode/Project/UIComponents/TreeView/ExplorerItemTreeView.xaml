@@ -10,6 +10,7 @@
     xmlns:sys="using:System"
     xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
     xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates.TemplateSelector"
+    xmlns:viewmodel="using:AppWinui.AppCode.Project.ViewModels"
     x:Name="ExplorerTreeView"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
@@ -29,8 +30,8 @@
                                     <TreeViewItem>
                                         <TreeViewItem.ContextFlyout>
                                             <MenuFlyout>
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.RenameItemCommand, ElementName=ExplorerTreeView}" Text="Renomear" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.ExcludeItemCommand, ElementName=ExplorerTreeView}" Text="Excluir" />
+                                                <MenuFlyoutItem Command="{x:Bind RenameItemCommand}" Text="Renomear" />
+                                                <MenuFlyoutItem Command="{x:Bind ExcludeItemCommand}" Text="Excluir" />
                                             </MenuFlyout>
                                         </TreeViewItem.ContextFlyout>
                                         <StackPanel Orientation="Horizontal">
@@ -54,10 +55,10 @@
                                         ItemsSource="{x:Bind Children}">
                                         <TreeViewItem.ContextFlyout>
                                             <MenuFlyout>
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.RenameItemCommand, ElementName=ExplorerTreeView}" Text="Renomear" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.ExcludeItemCommand, ElementName=ExplorerTreeView}" Text="Excluir" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.AddItemCommand, ElementName=ExplorerTreeView}" Text="Adicionar Item" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.AddFolderCommand, ElementName=ExplorerTreeView}" Text="Adicionar Pasta" />
+                                                <MenuFlyoutItem Command="{x:Bind RenameItemCommand}" Text="Renomear" />
+                                                <MenuFlyoutItem Command="{x:Bind ExcludeItemCommand}" Text="Excluir" />
+                                                <MenuFlyoutItem Command="{x:Bind AddItemCommand}" Text="Adicionar Item" />
+                                                <MenuFlyoutItem Command="{x:Bind AddFolderCommand}" Text="Adicionar Pasta" />
                                             </MenuFlyout>
                                         </TreeViewItem.ContextFlyout>
                                         <StackPanel Orientation="Horizontal">

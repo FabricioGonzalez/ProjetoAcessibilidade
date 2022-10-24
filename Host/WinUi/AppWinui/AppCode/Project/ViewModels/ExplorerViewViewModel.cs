@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 
 using AppUsecases.Contracts.Usecases;
@@ -39,25 +40,6 @@ public class ExplorerViewViewModel : ReactiveObject
         get; set;
     }
 
-    public ICommand RenameItemCommand
-    {
-        get; private set;
-    } = ReactiveCommand.Create(() => { });
-
-    public ICommand ExcludeItemCommand
-    {
-        get; private set;
-    } = ReactiveCommand.Create(() => { });
-
-    public ICommand AddItemCommand
-    {
-        get; private set;
-    } = ReactiveCommand.Create(() => { });
-
-    public ICommand AddFolderCommand
-    {
-        get; private set;
-    } = ReactiveCommand.Create(() => { });
 
     public ExplorerViewViewModel(IQueryUsecase<string, List<ExplorerItem>> usecase)
     {
