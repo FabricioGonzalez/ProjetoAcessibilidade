@@ -40,14 +40,33 @@ public class ExplorerViewViewModel : ReactiveObject
         get; set;
     }
 
+    public ICommand RenameItemCommand
+    {
+        get; private set;
+    } = ReactiveCommand.Create(() => { });
 
-    public ExplorerViewViewModel(IQueryUsecase<string, List<ExplorerItem>> usecase)
+    public ICommand ExcludeItemCommand
+    {
+        get; private set;
+    } = ReactiveCommand.Create(() => { });
+
+    public ICommand AddItemCommand
+    {
+        get; private set;
+    } = ReactiveCommand.Create(() => { });
+
+    public ICommand AddFolderCommand
+    {
+        get; private set;
+    } = ReactiveCommand.Create(() => { });
+
+    public ExplorerViewViewModel()
     {
         Source = new ObservableCollectionExtended<Resource<ExplorerItem>>();
 
         ExplorerState = new();
 
-        GetProjectItemsUsecase = usecase;
+        GetProjectItemsUsecase = App.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
 
         this.WhenAnyValue(x => x.ProjectRootPath)
        .WhereNotNull()
