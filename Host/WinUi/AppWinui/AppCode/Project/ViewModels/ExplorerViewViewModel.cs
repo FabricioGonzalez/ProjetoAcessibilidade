@@ -40,25 +40,8 @@ public class ExplorerViewViewModel : ReactiveObject
         get; set;
     }
 
-    public ICommand RenameItemCommand
-    {
-        get; private set;
-    } = ReactiveCommand.Create(() => { });
+   
 
-    public ICommand ExcludeItemCommand
-    {
-        get; private set;
-    } = ReactiveCommand.Create(() => { });
-
-    public ICommand AddItemCommand
-    {
-        get; private set;
-    } = ReactiveCommand.Create(() => { });
-
-    public ICommand AddFolderCommand
-    {
-        get; private set;
-    } = ReactiveCommand.Create(() => { });
 
     public ExplorerViewViewModel()
     {
@@ -68,6 +51,7 @@ public class ExplorerViewViewModel : ReactiveObject
 
         GetProjectItemsUsecase = App.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
 
+
         this.WhenAnyValue(x => x.ProjectRootPath)
        .WhereNotNull()
        .Subscribe(async x =>
@@ -75,6 +59,27 @@ public class ExplorerViewViewModel : ReactiveObject
            ExplorerState.ErrorMessage = null;
            ExplorerState.IsNotLoading = false;
            ExplorerState.Items = null;
+
+           RenameItemCommand = ReactiveCommand.Create(() =>
+           {
+               Debug.WriteLine("Rename");
+           });
+
+           ExcludeItemCommand = ReactiveCommand.Create(() =>
+           {
+               Debug.WriteLine("Exclude");
+           });
+
+           AddItemCommand = ReactiveCommand.Create(() =>
+           {
+
+               Debug.WriteLine("Add Item");
+           });
+
+           AddFolderCommand = ReactiveCommand.Create(() =>
+           {
+               Debug.WriteLine("Add Folder");
+           });
 
            var result = await GetProjectItemsUsecase.executeAsync(x);
 
@@ -106,5 +111,24 @@ public class ExplorerViewViewModel : ReactiveObject
             {
 
             });
+    }
+    public ICommand RenameItemCommand
+    {
+        get; set;
+    }
+
+    public ICommand ExcludeItemCommand
+    {
+        get; set;
+    }
+
+    public ICommand AddItemCommand
+    {
+        get; set;
+    }
+
+    public ICommand AddFolderCommand
+    {
+        get; set;
     }
 }

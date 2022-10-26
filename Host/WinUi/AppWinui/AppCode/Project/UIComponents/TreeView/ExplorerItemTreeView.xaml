@@ -10,8 +10,12 @@
     xmlns:sys="using:System"
     xmlns:treeview="using:AppWinui.AppCode.Project.UIComponents.TreeView"
     xmlns:uitemplates="using:AppWinui.AppCode.Project.UITemplates.TemplateSelector"
-    x:Name="ExplorerTreeView"
+    xmlns:viewmodels="using:AppWinui.AppCode.Project.ViewModels"
+    x:Name="explorerView"
     mc:Ignorable="d">
+    <UserControl.DataContext>
+        <viewmodels:ExplorerViewViewModel />
+    </UserControl.DataContext>
     <i:Interaction.Behaviors>
         <behaviors:ConditionalRenderingBehavior ConditionResult="{x:Bind (sys:Boolean)ExplorerViewModel.ExplorerState.IsNotLoading, Mode=OneWay}">
             <behaviors:ConditionalRenderingBehavior.OnSuccessContent>
@@ -22,6 +26,9 @@
                     CanDrag="True"
                     CornerRadius="8"
                     ItemsSource="{x:Bind ExplorerViewModel.ExplorerState.Items, Mode=OneWay}">
+                    <TreeView.DataContext>
+                        <viewmodels:ExplorerViewViewModel />
+                    </TreeView.DataContext>
                     <TreeView.ItemTemplateSelector>
                         <uitemplates:ExplorerItemTemplateSelector>
                             <uitemplates:ExplorerItemTemplateSelector.FileTemplate>
@@ -29,8 +36,8 @@
                                     <TreeViewItem>
                                         <TreeViewItem.ContextFlyout>
                                             <MenuFlyout>
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.RenameItemCommand, ElementName=ExplorerTreeView}" Text="Renomear" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.ExcludeItemCommand, ElementName=ExplorerTreeView}" Text="Excluir" />
+                                                <MenuFlyoutItem Command="{Binding RenameItemCommand, Mode=OneWay, ElementName=projectExplorer}" Text="Renomear" />
+                                                <MenuFlyoutItem Command="{Binding ExcludeItemCommand, Mode=OneWay, ElementName=projectExplorer}" Text="Excluir" />
                                             </MenuFlyout>
                                         </TreeViewItem.ContextFlyout>
                                         <StackPanel Orientation="Horizontal">
@@ -54,10 +61,10 @@
                                         ItemsSource="{x:Bind Children}">
                                         <TreeViewItem.ContextFlyout>
                                             <MenuFlyout>
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.RenameItemCommand, ElementName=ExplorerTreeView}" Text="Renomear" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.ExcludeItemCommand, ElementName=ExplorerTreeView}" Text="Excluir" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.AddItemCommand, ElementName=ExplorerTreeView}" Text="Adicionar Item" />
-                                                <MenuFlyoutItem Command="{Binding ExplorerViewModel.AddFolderCommand, ElementName=ExplorerTreeView}" Text="Adicionar Pasta" />
+                                                <MenuFlyoutItem Command="{Binding RenameItemCommand, Mode=OneWay, ElementName=explorerView}" Text="Renomear" />
+                                                <MenuFlyoutItem Command="{Binding ExcludeItemCommand, Mode=OneWay, ElementName=explorerView}" Text="Excluir" />
+                                                <MenuFlyoutItem Command="{Binding AddItemCommand, Mode=OneWay, ElementName=explorerView}" Text="Adicionar Item" />
+                                                <MenuFlyoutItem Command="{Binding AddFolderCommand, Mode=OneWay, ElementName=explorerView}" Text="Adicionar Pasta" />
                                             </MenuFlyout>
                                         </TreeViewItem.ContextFlyout>
                                         <StackPanel Orientation="Horizontal">
@@ -83,6 +90,6 @@
             </behaviors:ConditionalRenderingBehavior.OnFailedContent>
         </behaviors:ConditionalRenderingBehavior>
 
-	</i:Interaction.Behaviors>
+    </i:Interaction.Behaviors>
 
 </UserControl>
