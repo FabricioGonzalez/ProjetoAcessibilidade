@@ -1,4 +1,6 @@
-﻿using AppWinui.AppCode.Project.ViewModels;
+﻿using AppUsecases.Entities.FileTemplate;
+
+using AppWinui.AppCode.Project.ViewModels;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -36,9 +38,103 @@ public sealed partial class ExplorerItemTreeView : UserControl
         InitializeComponent();
 
         DataContext = ExplorerViewModel;
+          
+    }
+    private void renameFile_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuFlyoutItem itemFlyout)
+        {
+            var item = (ExplorerItem)itemFlyout.DataContext;
 
-        this.WhenAnyValue(x => x.ExplorerViewModel.ExplorerState.Items)
-            .WhereNotNull()
-            .BindTo(this, x => x.projectExplorer.ItemsSource);
+            ExplorerViewModel.ExplorerState.Items.Any(i =>
+            {
+                if (i.Type is ExplorerItemType.Folder)
+                {
+                    i.Children.Any(e =>
+                    {
+                      
+                        return false;
+                    });
+                }
+
+                return false;
+            });
+        }
+    }
+
+    private void excludeFile_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuFlyoutItem itemFlyout)
+        {
+            var item = (ExplorerItem)itemFlyout.DataContext;
+
+            ExplorerViewModel.ExplorerState.Items.Remove(item);
+        }
+    }
+
+    private void renameFolder_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuFlyoutItem itemFlyout)
+        {
+            var item = (ExplorerItem)itemFlyout.DataContext;
+
+            ExplorerViewModel.ExplorerState.Items.Any(i =>
+            {
+                if (i.Type is ExplorerItemType.Folder)
+                {
+                    i.Children.Any(e =>
+                    {
+                        return false;
+                    });
+                }
+
+                return false;
+            });
+        }
+    }
+
+    private void excludeFolder_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuFlyoutItem itemFlyout)
+        {
+            var item = (ExplorerItem)itemFlyout.DataContext;
+
+            ExplorerViewModel.ExplorerState.Items.Remove(item);
+        }
+    }
+
+    private void addFile_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is MenuFlyoutItem itemFlyout)
+            {
+                var item = (ExplorerItem)itemFlyout.DataContext;
+                if (item.Type == ExplorerItemType.Folder)
+                    ExplorerViewModel.AddItemCommand.Execute(item);
+            }
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
+
+    private void addFolder_Click(object sender, RoutedEventArgs e)
+    {
+        if(sender is MenuFlyoutItem itemFlyout)
+        {
+            var item = (ExplorerItem)itemFlyout.DataContext;
+
+            var res = new ExplorerItem()
+            {
+                Name = "",
+                Path = Path.Combine(item.Path, string.Empty)
+            };
+
+            item.Children.Add(res);
+
+            //ViewModel.AddFolderToProjectCommand.Execute(res);
+        }
     }
 }

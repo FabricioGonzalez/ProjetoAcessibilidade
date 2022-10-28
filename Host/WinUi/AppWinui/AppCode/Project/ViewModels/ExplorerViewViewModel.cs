@@ -40,9 +40,6 @@ public class ExplorerViewViewModel : ReactiveObject
         get; set;
     }
 
-   
-
-
     public ExplorerViewViewModel()
     {
         Source = new ObservableCollectionExtended<Resource<ExplorerItem>>();
@@ -115,20 +112,32 @@ public class ExplorerViewViewModel : ReactiveObject
     public ICommand RenameItemCommand
     {
         get; set;
-    }
+    } = ReactiveCommand.Create<ExplorerItem>((obj) =>
+    {
+        Debug.WriteLine("Exclude");
+    });
 
     public ICommand ExcludeItemCommand
     {
         get; set;
-    }
+    } = ReactiveCommand.Create<ExplorerItem>((obj) =>
+    {
+        Debug.WriteLine("Exclude");
+    });
 
     public ICommand AddItemCommand
     {
         get; set;
-    }
+    } = ReactiveCommand.Create<ExplorerItem>((obj) =>
+    {
+        Debug.WriteLine("Exclude");
+    });
 
     public ICommand AddFolderCommand
     {
         get; set;
-    }
+    } = ReactiveCommand.Create<ExplorerItem>((obj) =>
+    {
+        Debug.WriteLine("Exclude");
+    });
 }

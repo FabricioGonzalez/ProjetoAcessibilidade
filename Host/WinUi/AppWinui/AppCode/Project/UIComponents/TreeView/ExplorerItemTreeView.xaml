@@ -36,8 +36,14 @@
                                     <TreeViewItem>
                                         <TreeViewItem.ContextFlyout>
                                             <MenuFlyout>
-                                                <MenuFlyoutItem Command="{Binding RenameItemCommand, Mode=OneWay, ElementName=projectExplorer}" Text="Renomear" />
-                                                <MenuFlyoutItem Command="{Binding ExcludeItemCommand, Mode=OneWay, ElementName=projectExplorer}" Text="Excluir" />
+                                                <MenuFlyoutItem
+                                                    x:Name="renameFile"
+                                                    Click="renameFile_Click"
+                                                    Text="Renomear" />
+                                                <MenuFlyoutItem
+                                                    x:Name="excludeFile"
+                                                    Click="excludeFile_Click"
+                                                    Text="Excluir" />
                                             </MenuFlyout>
                                         </TreeViewItem.ContextFlyout>
                                         <StackPanel Orientation="Horizontal">
@@ -61,10 +67,22 @@
                                         ItemsSource="{x:Bind Children}">
                                         <TreeViewItem.ContextFlyout>
                                             <MenuFlyout>
-                                                <MenuFlyoutItem Command="{Binding RenameItemCommand, Mode=OneWay, ElementName=explorerView}" Text="Renomear" />
-                                                <MenuFlyoutItem Command="{Binding ExcludeItemCommand, Mode=OneWay, ElementName=explorerView}" Text="Excluir" />
-                                                <MenuFlyoutItem Command="{Binding AddItemCommand, Mode=OneWay, ElementName=explorerView}" Text="Adicionar Item" />
-                                                <MenuFlyoutItem Command="{Binding AddFolderCommand, Mode=OneWay, ElementName=explorerView}" Text="Adicionar Pasta" />
+                                                <MenuFlyoutItem
+                                                    x:Name="renameFolder"
+                                                    Click="renameFolder_Click"
+                                                    Text="Renomear" />
+                                                <MenuFlyoutItem
+                                                    x:Name="excludeFolder"
+                                                    Click="excludeFolder_Click"
+                                                    Text="Excluir" />
+                                                <MenuFlyoutItem
+                                                    x:Name="addFile"
+                                                    Click="addFile_Click"
+                                                    Text="Adicionar Item" />
+                                                <MenuFlyoutItem
+                                                    x:Name="addFolder"
+                                                    Click="addFolder_Click"
+                                                    Text="Adicionar Pasta" />
                                             </MenuFlyout>
                                         </TreeViewItem.ContextFlyout>
                                         <StackPanel Orientation="Horizontal">
