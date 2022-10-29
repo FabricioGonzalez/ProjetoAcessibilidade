@@ -1,5 +1,6 @@
 ﻿using AppWinui.AppCode.AppUtils.Contracts.Services;
 using AppWinui.AppCode.AppUtils.Helpers;
+using AppWinui.AppCode.AppUtils.Services;
 using AppWinui.AppCode.AppUtils.ViewModels;
 
 using Microsoft.UI.Xaml;
@@ -34,6 +35,9 @@ public sealed partial class ShellPage : Page
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+
+        NewItemDialogService.dialog = dialog;
+        InfoBarService.infobar = infobar;
     }
 
     private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -42,6 +46,8 @@ public sealed partial class ShellPage : Page
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
+
+    
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)

@@ -17,9 +17,19 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile></DocumentationFile>
     <SignAssembly>False</SignAssembly>
+    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>9530C26A0B9782A993A93B5C3A5EE22E0B28DCF5</PackageCertificateThumbprint>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <AppInstallerUri>E:\PC-TI\Projetos\ProjetoAcessibilidade\Host\WinUi\AppWinui\bin\x64\Debug\net6.0-windows10.0.22621.0\win10-x64\AppPackages\</AppInstallerUri>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="AppCode\AppUtils\UIComponents\ConditionalTextEditingBlock.xaml" />
+    <None Remove="AppCode\Dialogs\Views\NewItemDialog.xaml" />
     <None Remove="AppCode\Project\UIComponents\ExplorerItemTreeView.xaml" />
     <None Remove="AppCode\Project\UIComponents\FolderTreeViewItemTemplate.xaml" />
     <None Remove="AppCode\Project\UIComponents\ReportInfo\ReportInfo.xaml" />
@@ -57,6 +67,9 @@
     <ProjectReference Include="..\AppWinui.Core\AppWinui.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AppCode\Dialogs\Views\NewItemDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="AppCode\Project\UIComponents\TreeView\FileTreeViewItemTemplate.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

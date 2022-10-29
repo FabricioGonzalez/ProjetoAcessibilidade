@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
+    xmlns:dialogs="using:AppWinui.AppCode.Dialogs.Views"
     xmlns:helpers="using:AppWinui.AppCode.AppUtils.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     Loaded="OnLoaded">
@@ -83,8 +84,17 @@
                 </behaviors:NavigationViewHeaderBehavior>
             </i:Interaction.Behaviors>
             <Grid>
+
                 <Frame x:Name="NavigationFrame" Padding="0" />
             </Grid>
         </NavigationView>
+
+        <InfoBar
+            x:Name="infobar"
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom" />
+        <dialogs:NewItemDialog x:Name="dialog" Grid.Row="2" />
     </Grid>
+
 </Page>

@@ -5,12 +5,15 @@ using System.Windows.Input;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Entities.FileTemplate;
 
+using AppWinui.AppCode.AppUtils.Services;
 using AppWinui.AppCode.Project.States;
 
 using Common;
 
 using DynamicData;
 using DynamicData.Binding;
+
+using Microsoft.UI.Xaml.Controls;
 
 using ReactiveUI;
 
@@ -34,6 +37,8 @@ public class ExplorerViewViewModel : ReactiveObject
     private ObservableCollectionExtended<Resource<ExplorerItem>> Source;
 
     private readonly IQueryUsecase<string, List<ExplorerItem>> GetProjectItemsUsecase;
+    private readonly NewItemDialogService newItemDialogService;
+    private readonly InfoBarService infoBarService;
 
     public ExplorerItemState ExplorerState
     {
@@ -47,7 +52,38 @@ public class ExplorerViewViewModel : ReactiveObject
         ExplorerState = new();
 
         GetProjectItemsUsecase = App.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
+        newItemDialogService = App.GetService<NewItemDialogService>();
+        infoBarService = App.GetService<InfoBarService>();
 
+        AddItemCommand = ReactiveCommand.CreateFromTask<ExplorerItem>(async (obj) =>
+        {
+            try
+            {
+                var result = await newItemDialogService.ShowDialog();
+
+                App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    if (result is not null)
+                    {
+                        infoBarService.SetMessageData("Item Adicionado", result.Name, InfoBarSeverity.Informational);
+                        var item = new ExplorerItem()
+                        {
+                            Name = result.Name,
+                            Path = Path.Combine(obj.Path, $"{result.Name}.prjd"),
+                            Type = ExplorerItemType.File
+                        };
+
+                        obj.Children.Add(item);
+                       /* createProjectData.CreateProjectItem(obj.Path, $"{item.Name}.prjd", result.Path);*/
+                    }
+                });
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        });
 
         this.WhenAnyValue(x => x.ProjectRootPath)
        .WhereNotNull()
@@ -56,27 +92,6 @@ public class ExplorerViewViewModel : ReactiveObject
            ExplorerState.ErrorMessage = null;
            ExplorerState.IsNotLoading = false;
            ExplorerState.Items = null;
-
-           RenameItemCommand = ReactiveCommand.Create(() =>
-           {
-               Debug.WriteLine("Rename");
-           });
-
-           ExcludeItemCommand = ReactiveCommand.Create(() =>
-           {
-               Debug.WriteLine("Exclude");
-           });
-
-           AddItemCommand = ReactiveCommand.Create(() =>
-           {
-
-               Debug.WriteLine("Add Item");
-           });
-
-           AddFolderCommand = ReactiveCommand.Create(() =>
-           {
-               Debug.WriteLine("Add Folder");
-           });
 
            var result = await GetProjectItemsUsecase.executeAsync(x);
 

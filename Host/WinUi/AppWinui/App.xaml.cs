@@ -1,9 +1,5 @@
 ﻿using AppUsecases;
-using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Services;
-using AppUsecases.Contracts.Usecases;
-using AppUsecases.Entities.FileTemplate;
-using AppUsecases.Usecases;
 
 using AppWinui.Activation;
 using AppWinui.AppCode.AppUtils.Contracts.Services;
@@ -13,6 +9,8 @@ using AppWinui.AppCode.AppUtils.Services.Services;
 using AppWinui.AppCode.AppUtils.UIModels.Models;
 using AppWinui.AppCode.AppUtils.ViewModels;
 using AppWinui.AppCode.AppUtils.Views;
+using AppWinui.AppCode.Dialogs.ViewModels;
+using AppWinui.AppCode.Dialogs.Views;
 using AppWinui.AppCode.Home.ViewModels;
 using AppWinui.AppCode.Home.Views;
 using AppWinui.AppCode.Project.ViewModels;
@@ -23,7 +21,6 @@ using AppWinui.Core.Contracts.Services;
 using AppWinui.Core.Services;
 
 using LocalRepository;
-using LocalRepository.FileRepository.Repository.InternalAppFiles;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -82,6 +79,9 @@ public partial class App : Application
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
 
+
+            services.AddSingleton<NewItemDialogService>();
+            services.AddSingleton<InfoBarService>();
             services.AddSingleton<IFilePickerService, FilePickerService>();
             services.AddSingleton<IFolderPickerService, FolderPickerService>();
 
@@ -109,6 +109,9 @@ public partial class App : Application
 
             services.AddTransient<ProjectPage>();
             services.AddTransient<ProjectViewModel>();
+
+            services.AddTransient<NewItemDialog>();
+            services.AddSingleton<NewItemViewModel>();
 
             services.AddTransient<ExplorerViewViewModel>();
             services.AddTransient<RecentOpenedViewModel>();

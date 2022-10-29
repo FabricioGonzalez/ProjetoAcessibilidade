@@ -7,9 +7,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 using ProjetoAcessibilidade.Services;
 
-using SystemApplication.Services.ProjectDataServices;
-using SystemApplication.Services.UIOutputs;
-
 namespace ProjetoAcessibilidade.ViewModels.DialogViewModel;
 public class NewItemViewModel : ObservableRecipient
 {

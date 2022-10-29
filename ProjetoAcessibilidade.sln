@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITextSharpReport", "Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITextSharpTest", "Infrastructure\Reports\ITextSharpTest\ITextSharpTest.csproj", "{08B22466-52A5-4F19-A018-353A9CC18AF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestPDFReport", "Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj", "{B4B81458-8F82-4F85-BAAD-5F7AC7E061A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestPDFReport", "Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj", "{B4B81458-8F82-4F85-BAAD-5F7AC7E061A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

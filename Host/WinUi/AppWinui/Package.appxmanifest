@@ -13,8 +13,8 @@
 
   <Identity
     Name="B7EB4A36-A41A-447C-8051-FCF2E9A3031B"
-    Publisher="CN=kaski"
-    Version="1.0.0.0" />
+    Publisher="CN=fabricio"
+    Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>AppWinui</DisplayName>
