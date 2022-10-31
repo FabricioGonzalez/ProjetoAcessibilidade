@@ -33,16 +33,16 @@
             </MenuBarItem>
 
             <MenuBarItem Title="Editar">
-                <MenuFlyoutItem Text="Templates" />
-                <MenuFlyoutItem Text="Regras de Validação" />
+                <MenuFlyoutItem Command="{x:Bind ViewModel.GoToTemplatesCommand, Mode=OneWay}" Text="Templates" />
+                <MenuFlyoutItem Command="{x:Bind ViewModel.GoToRulesCommand, Mode=OneWay}" Text="Regras de Validação" />
             </MenuBarItem>
 
             <MenuBarItem Title="Impressão">
-                <MenuFlyoutItem Text="Imprimir" />
+                <MenuFlyoutItem Command="{x:Bind ViewModel.GoToPrintCommand, Mode=OneWay}" Text="Imprimir" />
             </MenuBarItem>
 
             <MenuBarItem Title="Ajuda">
-                <MenuFlyoutItem Text="Sobre" />
+                <MenuFlyoutItem Command="{x:Bind ViewModel.GoToHelpCommand, Mode=OneWay}" Text="Sobre" />
             </MenuBarItem>
         </MenuBar>
 

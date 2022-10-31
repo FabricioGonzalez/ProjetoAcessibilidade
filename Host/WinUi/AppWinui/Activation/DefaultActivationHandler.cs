@@ -1,5 +1,5 @@
 ﻿using AppWinui.AppCode.AppUtils.Contracts.Services;
-using AppWinui.AppCode.Home.ViewModels;
+using AppWinui.AppCode.Project.ViewModels;
 
 using Microsoft.UI.Xaml;
 
@@ -22,7 +22,7 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
 
     protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
     {
-        _navigationService.NavigateTo(typeof(MainViewModel).FullName!, args.Arguments);
+        _navigationService.NavigateTo(typeof(ProjectViewModel).FullName!, args.Arguments);
 
         await Task.CompletedTask;
     }

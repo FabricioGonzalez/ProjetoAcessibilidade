@@ -27,12 +27,14 @@ public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List
 
                 foreach (var item in files)
                 {
-                    var splitedItem = item.Split("\\");
-                    filesList.Add(new()
-                    {
-                        Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
-                        Path = item
-                    });
+                    var splitedItem = item.Split(Path.DirectorySeparatorChar);
+
+                    if ((splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[1] == "xml")
+                        filesList.Add(new()
+                        {
+                            Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
+                            Path = item
+                        });
                 }
                 if (filesList.Count > 0)
                     return new Resource<List<FileTemplate>>.Success(filesList);

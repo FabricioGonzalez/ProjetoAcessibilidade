@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Entities;
@@ -11,9 +10,9 @@ using Common;
 
 using ReactiveUI;
 
-namespace AppWinui.AppCode.TemplateEditing.ViewModels;
+namespace AppWinui.AppCode.ValidationRules.ViewModels;
 
-public class TemplateEditViewModel : ReactiveObject, INavigationAware
+public class ValidationRulesViewModel : ReactiveObject, INavigationAware
 {
     readonly IQueryUsecase<List<FileTemplate>> getProjectData;
     /*readonly IQueryUsecase<List<FileTemplate>> getProjectTemplates;*/
@@ -44,16 +43,10 @@ public class TemplateEditViewModel : ReactiveObject, INavigationAware
     }
     public ObservableCollection<FileTemplate> SampleItems { get; private set; } = new ObservableCollection<FileTemplate>();
 
-    public TemplateEditViewModel(IQueryUsecase<List<FileTemplate>> getProjectData, IQueryUsecase<string, AppItemModel> appContentTemplate)
+    public ValidationRulesViewModel(IQueryUsecase<List<FileTemplate>> getProjectData, IQueryUsecase<string, AppItemModel> appContentTemplate)
     {
         this.getProjectData = getProjectData;
         GetProjectItemContentUsecase = appContentTemplate;
-
-        AddItemCommand = ReactiveCommand.Create(() =>
-        {
-            var item = new FileTemplate();
-            SampleItems.Add(item);
-        });
     }
 
     private async Task<dynamic> GetProjectItemTemplateContent(string path)
@@ -100,10 +93,5 @@ public class TemplateEditViewModel : ReactiveObject, INavigationAware
             if (SampleItems.Count > 0)
                 Selected = SampleItems.First();
         }
-    }
-
-    public ICommand AddItemCommand
-    {
-        get;private set;
     }
 }

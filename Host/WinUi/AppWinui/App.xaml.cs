@@ -17,6 +17,8 @@ using AppWinui.AppCode.Project.ViewModels;
 using AppWinui.AppCode.Project.Views;
 using AppWinui.AppCode.TemplateEditing.ViewModels;
 using AppWinui.AppCode.TemplateEditing.Views;
+using AppWinui.AppCode.ValidationRules.ViewModels;
+using AppWinui.AppCode.ValidationRules.Views;
 using AppWinui.Core.Contracts.Services;
 using AppWinui.Core.Services;
 
@@ -110,6 +112,9 @@ public partial class App : Application
             services.AddTransient<ProjectPage>();
             services.AddTransient<ProjectViewModel>();
 
+            services.AddTransient<ValidationRulesPage>();
+            services.AddTransient<ValidationRulesViewModel>();
+
             services.AddTransient<NewItemDialog>();
             services.AddSingleton<NewItemViewModel>();
 
@@ -122,7 +127,7 @@ public partial class App : Application
         }).
         Build();
 
-        App.GetService<IAppNotificationService>().Initialize();
+        GetService<IAppNotificationService>().Initialize();
 
         UnhandledException += App_UnhandledException;
     }
@@ -147,8 +152,10 @@ public partial class App : Application
             return;
         }
 
-        GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
+      /*  GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));*/
+        
         base.OnLaunched(args);
+
         await GetService<IActivationService>().ActivateAsync(args);
 
 

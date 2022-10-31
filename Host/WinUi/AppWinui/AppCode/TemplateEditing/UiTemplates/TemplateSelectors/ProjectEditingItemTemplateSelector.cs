@@ -20,6 +20,13 @@ public class ProjectEditingItemTemplateSelector : DataTemplateSelector
     {
         var projectItem = (IAppFormDataItemContract)item;
 
-        return projectItem.Type == AppFormDataTypeEnum.Checkbox ? CheckBoxTemplate : TextBoxTemplate;
+        if (projectItem.Type == AppFormDataTypeEnum.Checkbox)
+        {
+            return CheckBoxTemplate;
+        }
+        if (projectItem.Type == AppFormDataTypeEnum.Text)
+            return TextBoxTemplate;
+
+        return null;
     }
 }

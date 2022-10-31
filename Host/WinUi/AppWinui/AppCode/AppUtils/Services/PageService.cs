@@ -7,6 +7,8 @@ using AppWinui.AppCode.Project.ViewModels;
 using AppWinui.AppCode.Project.Views;
 using AppWinui.AppCode.TemplateEditing.ViewModels;
 using AppWinui.AppCode.TemplateEditing.Views;
+using AppWinui.AppCode.ValidationRules.ViewModels;
+using AppWinui.AppCode.ValidationRules.Views;
 
 using Microsoft.UI.Xaml.Controls;
 
@@ -24,6 +26,7 @@ public class PageService : IPageService
         Configure<TemplateEditViewModel, ListDetailsPage>();
         Configure<SettingsViewModel, SettingsPage>();
         Configure<ProjectViewModel, ProjectPage>();
+        Configure<ValidationRulesViewModel, ValidationRulesPage>();
     }
 
     public Type GetPageType(string key)

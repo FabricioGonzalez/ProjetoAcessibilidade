@@ -38,6 +38,7 @@
             Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}"
             IsBackButtonVisible="Visible"
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
+            IsPaneToggleButtonVisible="False"
             IsSettingsVisible="True"
             PaneDisplayMode="LeftCompact"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
@@ -49,12 +50,26 @@
                 TODO: Update item icons by updating FontIcon.Glyph properties.
                 https://docs.microsoft.com/windows/apps/design/style/segoe-fluent-icons-font#icon-list
 				-->
-                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="AppWinui.AppCode.Home.ViewModels.MainViewModel">
+                <NavigationViewItem
+                    x:Uid="Shell_Main"
+                    helpers:NavigationHelper.NavigateTo="AppWinui.AppCode.Home.ViewModels.MainViewModel"
+                    Visibility="Collapsed">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_ListDetails" helpers:NavigationHelper.NavigateTo="AppWinui.AppCode.TemplateEditing.ViewModels.TemplateEditViewModel">
+                <NavigationViewItem
+                    x:Uid="Shell_ListDetails"
+                    helpers:NavigationHelper.NavigateTo="AppWinui.AppCode.TemplateEditing.ViewModels.TemplateEditViewModel"
+                    Visibility="Collapsed">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xea37;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    x:Uid="Shell_ListDetails"
+                    helpers:NavigationHelper.NavigateTo="AppWinui.AppCode.ValidationRules.ViewModels.ValidationRulesViewModel"
+                    Visibility="Collapsed">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xea37;" />
                     </NavigationViewItem.Icon>

@@ -4,16 +4,19 @@ using System.Reactive.Disposables;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Entities;
 
+using AppWinui.AppCode.AppUtils.Contracts.Services;
 using AppWinui.AppCode.AppUtils.ViewModels;
 using AppWinui.AppCode.Project.DTOs;
 using AppWinui.AppCode.Project.States;
+using AppWinui.AppCode.TemplateEditing.ViewModels;
+using AppWinui.AppCode.ValidationRules.ViewModels;
 
 using Common;
 
 using ReactiveUI;
 
 namespace AppWinui.AppCode.Project.ViewModels;
-public class ProjectViewModel : ReactiveObject,IActivatableViewModel
+public class ProjectViewModel : ReactiveObject, IActivatableViewModel
 {
     public ApplicationViewModel AppViewModel
     {
@@ -44,23 +47,22 @@ public class ProjectViewModel : ReactiveObject,IActivatableViewModel
 
     private readonly IQueryUsecase<ProjectSolutionModel> getSolutionUsecase;
     private readonly ICommandUsecase<ProjectSolutionModel> createSolutionUsecase;
+    private readonly INavigationService navigationService;
 
-    public ReactiveCommand<Unit, Resource<ProjectSolutionModel>> OpenProjectCommand
+    public ViewModelActivator Activator
     {
-        get; private set;
-    }
-    public ReactiveCommand<Unit, Resource<ProjectSolutionModel>> CreateProjectCommand
-    {
-        get; private set;
+        get;
     }
 
-    public ViewModelActivator Activator { get; }
-
-    public ProjectViewModel(IQueryUsecase<ProjectSolutionModel> getSolutionUsecase,
-        ICommandUsecase<ProjectSolutionModel> createSolutionUsecase)
+    public ProjectViewModel(
+        IQueryUsecase<ProjectSolutionModel> getSolutionUsecase,
+        ICommandUsecase<ProjectSolutionModel> createSolutionUsecase,
+        INavigationService navigationService
+        )
     {
         this.getSolutionUsecase = getSolutionUsecase;
         this.createSolutionUsecase = createSolutionUsecase;
+        this.navigationService = navigationService;
 
         ExplorerViewModel = App.GetService<ExplorerViewViewModel>();
         AppViewModel = App.GetService<ApplicationViewModel>();
@@ -87,19 +89,68 @@ public class ProjectViewModel : ReactiveObject,IActivatableViewModel
                 {
                     IsProjectOpened = true;
                     ExplorerViewModel.ProjectRootPath = success.Data.ParentFolderPath;
-                    
+
                     Report = success.Data.reportData.ToReportDataState();
                 }
             })
                 .DisposeWith(d);
-
         });
 
-       
+        GoToTemplatesCommand = ReactiveCommand.Create(() =>
+        {
+            this.navigationService.NavigateTo(typeof(TemplateEditViewModel).FullName);
+        });
+
+        GoToRulesCommand = ReactiveCommand.Create(() =>
+        {
+            this.navigationService.NavigateTo(typeof(ValidationRulesViewModel).FullName);
+        });
+
+        GoToPrintCommand = ReactiveCommand.Create(() =>
+        {
+            /*this.navigationService.NavigateTo(typeof(Print).FullName);*/
+        });
+
+        GoToHelpCommand = ReactiveCommand.Create(() =>
+        {
+            /*this.navigationService.NavigateTo(typeof(TemplateEditViewModel).FullName);*/
+        });
+
+
         //CreateProjectCommand = ReactiveCommand
         //    .CreateFromTask(async () => await this.createSolutionUsecase.executeAsync(null));
-      
+
+    }
+    public ReactiveCommand<Unit, Resource<ProjectSolutionModel>> OpenProjectCommand
+    {
+        get; private set;
+    }
+    public ReactiveCommand<Unit, Resource<ProjectSolutionModel>> CreateProjectCommand
+    {
+        get; private set;
     }
 
-    public void Dispose() { }
+    public ReactiveCommand<Unit, Unit> GoToTemplatesCommand
+    {
+        get; private set;
+    }
+
+    public ReactiveCommand<Unit, Unit> GoToRulesCommand
+    {
+        get; private set;
+    }
+
+    public ReactiveCommand<Unit, Unit> GoToPrintCommand
+    {
+        get; private set;
+    }
+
+    public ReactiveCommand<Unit, Unit> GoToHelpCommand
+    {
+        get; private set;
+    }
+
+    public void Dispose()
+    {
+    }
 }

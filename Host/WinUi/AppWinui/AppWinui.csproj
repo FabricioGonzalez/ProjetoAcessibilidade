@@ -44,6 +44,7 @@
     <None Remove="AppCode\TemplateEditing\UIComponents\CheckboxItemControl.xaml" />
     <None Remove="AppCode\TemplateEditing\UIComponents\ItemContainer.xaml" />
     <None Remove="AppCode\TemplateEditing\UIComponents\TextItemControl.xaml" />
+    <None Remove="AppCode\ValidationRules\Views\ValidationRulesPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -115,6 +116,9 @@
     </Page>
     <Page Update="AppCode\TemplateEditing\UIComponents\ItemContainer.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="AppCode\ValidationRules\Views\ValidationRulesPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

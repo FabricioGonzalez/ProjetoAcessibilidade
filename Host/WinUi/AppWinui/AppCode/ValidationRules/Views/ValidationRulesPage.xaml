@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="AppWinui.AppCode.TemplateEditing.Views.ListDetailsPage"
+    x:Class="AppWinui.AppCode.ValidationRules.Views.ValidationRulesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
@@ -46,22 +46,14 @@
             </Grid>
         </DataTemplate>
 
-        <!--<DataTemplate x:Key="ListHeaderTemplate">
-            <Grid Height="48">
+        <DataTemplate x:Key="ListHeaderTemplate">
+            <Grid Height="40">
                 <TextBlock
                     VerticalAlignment="Center"
                     Style="{StaticResource ListTitleStyle}"
                     Text="{Binding ViewModel.ProjectItem.ItemName, ElementName=TemplatePage}" />
-                <AppBarButton
-                    Width="36"
-                    Height="48"
-                    HorizontalAlignment="Right"
-                    Background="{ThemeResource SystemAccentColor}"
-                    Command="{Binding ViewModel.AddItemCommand, ElementName=TemplatePage}"
-                    Icon="Add"
-                    ToolTipService.ToolTip="Adicionar Item" />
             </Grid>
-        </DataTemplate>-->
+        </DataTemplate>
 
     </Page.Resources>
 
@@ -75,43 +67,22 @@
             DetailsTemplate="{StaticResource DetailsTemplate}"
             ItemTemplate="{StaticResource ItemTemplate}"
             ItemsSource="{x:Bind ViewModel.SampleItems}"
-            ListHeader="ok"
+            ListHeaderTemplate="{StaticResource ListHeaderTemplate}"
             NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}"
-            ViewStateChanged="OnViewStateChanged">
-            <controls:ListDetailsView.ListHeaderTemplate>
-                <DataTemplate>
-                    <Grid Height="48">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            Style="{StaticResource ListTitleStyle}"
-                            Text="{Binding ViewModel.ProjectItem.ItemName, ElementName=TemplatePage}" />
-                        <AppBarButton
-                            Width="36"
-                            Height="48"
-                            HorizontalAlignment="Right"
-                            Background="{ThemeResource SystemAccentColor}"
-                            Command="{Binding ViewModel.AddItemCommand, ElementName=TemplatePage}"
-                            Icon="Add"
-                            ToolTipService.ToolTip="Adicionar Item" />
-                    </Grid>
-                </DataTemplate>
-            </controls:ListDetailsView.ListHeaderTemplate>
-        </controls:ListDetailsView>
-        <!--<VisualStateManager.VisualStateGroups>
+            ViewStateChanged="OnViewStateChanged" />
+        <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-        -->
-        <!--  641 is the default CompactModeThresholdWidth in NavigationView  -->
-        <!--
-                        <AdaptiveTrigger MinWindowWidth="241" />
+                        <!--  641 is the default CompactModeThresholdWidth in NavigationView  -->
+                        <AdaptiveTrigger MinWindowWidth="641" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ListDetailsViewControl.ListHeaderTemplate" Value="{StaticResource ListHeaderTemplate}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>-->
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

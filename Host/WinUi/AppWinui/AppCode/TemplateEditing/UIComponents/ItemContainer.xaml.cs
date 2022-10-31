@@ -21,4 +21,9 @@ public sealed partial class ItemContainer : UserControl
     {
         InitializeComponent();
     }
+
+    private void AppBarToggleButton_Checked(object sender, RoutedEventArgs e)
+    {
+
+    }
 }
