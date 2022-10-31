@@ -1,5 +1,4 @@
-﻿using AppUsecases.Entities;
-
+﻿using AppUsecases.Project.Entities.Project;
 using AppWinui.AppCode.AppUtils.Behaviors;
 using AppWinui.AppCode.TemplateEditing.ViewModels;
 

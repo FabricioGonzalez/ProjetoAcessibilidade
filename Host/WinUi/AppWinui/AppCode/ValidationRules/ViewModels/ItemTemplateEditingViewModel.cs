@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-
-using AppUsecases.Entities;
-
+using AppUsecases.Project.Entities.Project;
 using AppWinui.Core.Contracts.Services;
 
 using ReactiveUI;

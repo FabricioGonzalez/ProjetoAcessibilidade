@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
 using AppUsecases.Contracts.Repositories;
-using AppUsecases.Entities;
+using AppUsecases.Editing.Entities;
 using AppUsecases.Entities.FileTemplate;
-
+using AppUsecases.Project.Entities.Project;
 using Common;
 
 using LocalRepository.FileRepository.Repository.InternalAppFiles;

@@ -6,7 +6,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models3="using:AppUsecases.Entities.FileTemplate"
+    xmlns:models3="using:AppUsecases.Editing.Entities"
     xmlns:uicomponents="using:AppWinui.AppCode.TemplateEditing.UIComponents"
     x:Name="TemplatePage"
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"

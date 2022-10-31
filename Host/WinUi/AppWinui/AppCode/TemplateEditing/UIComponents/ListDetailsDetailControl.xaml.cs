@@ -1,5 +1,4 @@
-﻿using AppUsecases.Entities;
-
+﻿using AppUsecases.Project.Entities.Project;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 

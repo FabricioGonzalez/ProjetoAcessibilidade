@@ -1,4 +1,4 @@
-﻿namespace AppUsecases.Entities.FileTemplate;
+﻿namespace AppUsecases.Editing.Entities;
 
 public class FileTemplate
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
 using AppUsecases.Contracts.Usecases;
-using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Editing.Entities;
 
 using AppWinui.AppCode.AppUtils.Services;
 

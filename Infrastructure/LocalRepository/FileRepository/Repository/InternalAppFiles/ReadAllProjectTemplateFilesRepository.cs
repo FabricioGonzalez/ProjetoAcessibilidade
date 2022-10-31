@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Repositories;
-using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Editing.Entities;
 
 using Common;
 

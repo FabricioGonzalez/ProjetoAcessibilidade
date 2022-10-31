@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-
+using AppUsecases.App.Usecases;
 using AppUsecases.Contracts.Usecases;
-using AppUsecases.Entities;
+using AppUsecases.Editing.Entities;
 using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Project.Entities.Project;
 using AppUsecases.Usecases;
 
 using Microsoft.Extensions.DependencyInjection;

@@ -18,4 +18,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Common\Common.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Editing\NovaPasta\" />
+    <Folder Include="Project\Contracts\Services\" />
+    <Folder Include="Printing\" />
+  </ItemGroup>
 </Project>

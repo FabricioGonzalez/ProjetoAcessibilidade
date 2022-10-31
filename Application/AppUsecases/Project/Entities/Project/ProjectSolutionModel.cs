@@ -1,4 +1,4 @@
-﻿namespace AppUsecases.Entities;
+﻿namespace AppUsecases.Project.Entities.Project;
 public class ProjectSolutionModel
 {
     public ReportDataModel reportData

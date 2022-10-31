@@ -5,8 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Repositories;
-using AppUsecases.Entities;
-
+using AppUsecases.Project.Entities.Project;
 using Common;
 
 using Windows.Storage;

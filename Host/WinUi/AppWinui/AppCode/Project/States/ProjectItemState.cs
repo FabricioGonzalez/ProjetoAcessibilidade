@@ -1,6 +1,5 @@
 ﻿using AppUsecases.Contracts.Entity;
-using AppUsecases.Entities;
-
+using AppUsecases.Project.Entities.Project;
 using ReactiveUI;
 
 namespace AppWinui.AppCode.Project.States;

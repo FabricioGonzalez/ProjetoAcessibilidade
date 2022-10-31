@@ -2,8 +2,7 @@
 using System.Reactive.Disposables;
 
 using AppUsecases.Contracts.Usecases;
-using AppUsecases.Entities;
-
+using AppUsecases.Project.Entities.Project;
 using AppWinui.AppCode.AppUtils.Contracts.Services;
 using AppWinui.AppCode.AppUtils.ViewModels;
 using AppWinui.AppCode.Project.DTOs;

@@ -7,10 +7,10 @@ using System.Xml;
 
 using AppUsecases.Contracts.Entity;
 using AppUsecases.Contracts.Repositories;
-using AppUsecases.Entities;
 using AppUsecases.Entities.AppFormDataItems.Checkbox;
 using AppUsecases.Entities.AppFormDataItems.Observations;
 using AppUsecases.Entities.AppFormDataItems.Text;
+using AppUsecases.Project.Entities.Project;
 
 namespace LocalRepository.FileRepository.Repository.XmlFile;
 internal class ReadXmlFileRepository : IReadContract<AppItemModel>

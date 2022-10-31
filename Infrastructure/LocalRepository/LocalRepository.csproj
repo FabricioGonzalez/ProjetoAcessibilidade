@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="FileRepository\DTOs\" />
+    <Folder Include="FileRepository\Repository\SessionControl\" />
   </ItemGroup>
 
   <ItemGroup>

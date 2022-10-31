@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
-using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Editing.Entities;
 
 using Common;
 
-namespace AppUsecases.Usecases;
+namespace AppUsecases.App.Usecases;
 public class GetProjectTemplateUsecase : IQueryUsecase<List<FileTemplate>>
 {
     readonly IReadContract<Resource<List<FileTemplate>>> readProjectItems;

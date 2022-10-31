@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
 using AppUsecases.Contracts.Usecases;
-using AppUsecases.Entities;
-using AppUsecases.Entities.FileTemplate;
-
+using AppUsecases.Editing.Entities;
+using AppUsecases.Project.Entities.Project;
 using AppWinui.AppCode.AppUtils.Contracts.ViewModels;
 
 using Common;

@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace AppUsecases.Entities;
+namespace AppUsecases.Project.Entities.Project;
 public class ReportDataModel
 {
     [JsonPropertyName("email")]
     public string Email
     {
-        get;set;
+        get; set;
     }
 
     [JsonPropertyName("endereco")]
@@ -21,7 +21,7 @@ public class ReportDataModel
         get; set;
     }
 
-    
+
     [JsonPropertyName("responsavel")]
     public string Responsavel
     {

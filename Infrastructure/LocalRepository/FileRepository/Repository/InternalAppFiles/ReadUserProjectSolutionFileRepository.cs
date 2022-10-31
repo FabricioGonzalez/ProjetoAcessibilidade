@@ -2,11 +2,9 @@
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
-
+using AppUsecases.App.Contracts.Services;
 using AppUsecases.Contracts.Repositories;
-using AppUsecases.Contracts.Services;
-using AppUsecases.Entities;
-
+using AppUsecases.Project.Entities.Project;
 using Windows.Storage;
 
 namespace LocalRepository.FileRepository.Repository.InternalAppFiles;

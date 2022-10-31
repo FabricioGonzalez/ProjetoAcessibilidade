@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Repositories;
-using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Editing.Entities;
 
 using Windows.Storage;
 

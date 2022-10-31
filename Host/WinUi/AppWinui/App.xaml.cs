@@ -1,5 +1,5 @@
 ﻿using AppUsecases;
-using AppUsecases.Contracts.Services;
+using AppUsecases.App.Contracts.Services;
 
 using AppWinui.Activation;
 using AppWinui.AppCode.AppUtils.Contracts.Services;

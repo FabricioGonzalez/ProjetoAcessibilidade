@@ -1,5 +1,4 @@
-﻿using AppUsecases.Entities.FileTemplate;
-
+﻿using AppUsecases.Editing.Entities;
 using AppWinui;
 using AppWinui.AppCode.Dialogs.ViewModels;
 

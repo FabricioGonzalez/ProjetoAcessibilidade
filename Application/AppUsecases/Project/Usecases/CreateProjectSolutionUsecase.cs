@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Usecases;
-using AppUsecases.Entities;
-
+using AppUsecases.Project.Entities.Project;
 using Common;
 
 namespace AppUsecases.Usecases;

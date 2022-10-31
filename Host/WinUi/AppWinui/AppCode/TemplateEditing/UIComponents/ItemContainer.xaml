@@ -5,8 +5,8 @@
     xmlns:ProjectItemTemplateSelector="using:AppWinui.AppCode.TemplateEditing.UiTemplates.TemplateSelectors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:AppUsecases.Entities.AppFormDataItems.Text"
-    xmlns:models2="using:AppUsecases.Entities.AppFormDataItems.Checkbox"
+    xmlns:models="using:AppWinui.AppCode.Project.States.ProjectItems.Text"
+    xmlns:models2="using:AppWinui.AppCode.Project.States.ProjectItems.Checkbox"
     mc:Ignorable="d">
 
     <UserControl.Resources>
