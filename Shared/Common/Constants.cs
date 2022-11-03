@@ -6,5 +6,4 @@ public static class Constants
     public const string USER_APP_PROJECT_ITEMS_FOLDER_NAME = "Itens";
     public const string ROOT_SYSTEM_HISTORY_ITEMS_FOLDER_NAME = "RecentlyOpened";
     public const string ROOT_UNCLOSED_PROJECT_FILES_FOLDER_NAME = "UnclosedItems";
-
 }

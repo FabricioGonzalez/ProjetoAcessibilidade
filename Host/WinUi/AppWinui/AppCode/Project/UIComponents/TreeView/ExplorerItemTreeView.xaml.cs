@@ -1,4 +1,5 @@
-﻿using AppUsecases.Entities.FileTemplate;
+﻿using AppUsecases.Project.Entities.FileTemplate;
+using AppUsecases.Project.Enums;
 
 using AppWinui.AppCode.Project.ViewModels;
 
@@ -48,9 +49,9 @@ public sealed partial class ExplorerItemTreeView : UserControl
 
             ExplorerViewModel.ExplorerState.Items.Any(i =>
             {
-                if (i.Type is ExplorerItemType.Folder)
+                if (i is FolderItem folder)
                 {
-                    i.Children.Any(e =>
+                    folder.Children.Any(e =>
                     {
                       
                         return false;
@@ -80,9 +81,9 @@ public sealed partial class ExplorerItemTreeView : UserControl
 
             ExplorerViewModel.ExplorerState.Items.Any(i =>
             {
-                if (i.Type is ExplorerItemType.Folder)
+                if (i is FolderItem folder)
                 {
-                    i.Children.Any(e =>
+                    folder.Children.Any(e =>
                     {
                         return false;
                     });
@@ -110,9 +111,10 @@ public sealed partial class ExplorerItemTreeView : UserControl
             if (sender is MenuFlyoutItem itemFlyout)
             {
                 var item = (ExplorerItem)itemFlyout.DataContext;
-                if (item.Type == ExplorerItemType.Folder)
-                    ExplorerViewModel.AddItemCommand.Execute(item);
+                if (item is FolderItem folder)
+                    ExplorerViewModel.AddItemCommand.Execute(folder);
             }
+            
         }
         catch (System.Exception)
         {
@@ -124,7 +126,7 @@ public sealed partial class ExplorerItemTreeView : UserControl
     {
         if(sender is MenuFlyoutItem itemFlyout)
         {
-            var item = (ExplorerItem)itemFlyout.DataContext;
+            var item = (FolderItem)itemFlyout.DataContext;
 
             var res = new ExplorerItem()
             {

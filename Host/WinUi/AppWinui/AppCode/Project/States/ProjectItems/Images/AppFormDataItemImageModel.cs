@@ -1,4 +1,5 @@
 ﻿using AppUsecases.Contracts.Entity;
+using AppUsecases.Project.Enums;
 
 namespace AppWinui.AppCode.Project.States.ProjectItems.Images;
 public class AppFormDataItemImageModel : IAppFormDataItemContract

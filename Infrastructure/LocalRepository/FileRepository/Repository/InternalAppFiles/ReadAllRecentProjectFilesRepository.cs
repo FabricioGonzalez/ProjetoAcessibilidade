@@ -7,7 +7,7 @@ using AppUsecases.Editing.Entities;
 
 using Windows.Storage;
 
-namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
+namespace WindowsLocalRepository.FileRepository.Repository.InternalAppFiles;
 public class ReadAllRecentProjectFilesRepository : IReadContract<List<FileTemplate>>
 {
     public async Task<List<FileTemplate>> ReadAsync(string path)

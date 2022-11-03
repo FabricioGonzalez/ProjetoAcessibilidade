@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Project.Entities.FileTemplate;
 
 using AppWinui.AppCode.Project.UIComponents.TreeView;
 
 using ReactiveUI;
 
 namespace AppWinui.AppCode.Project.ViewModels;
-public class FolderItemViewModel : ReactiveObject, IExplorerViewModel
+public class FolderItemViewModel : ReactiveObject
 {
     private ExplorerItem item;
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Project.Entities.FileTemplate;
 
 using AppWinui.AppCode.Project.UIComponents.TreeView;
 

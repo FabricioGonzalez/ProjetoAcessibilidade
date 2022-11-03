@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-
-using AppUsecases.Contracts.Repositories;
+﻿using AppUsecases.Contracts.Repositories;
 using AppUsecases.Editing.Entities;
-using AppUsecases.Entities.FileTemplate;
 using AppUsecases.Project.Entities.Project;
 using Common;
-
-using LocalRepository.FileRepository.Repository.InternalAppFiles;
-using LocalRepository.FileRepository.Repository.XmlFile;
-
+using WindowsLocalRepository.FileRepository.Repository.InternalAppFiles;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LocalRepository;
+using ProjectItemReader.XmlFile;
+using AppUsecases.Project.Entities.FileTemplate;
+
+namespace AppWinui;
 public static class RepositoryInjector
 {
     public static void Inject(IServiceCollection services)

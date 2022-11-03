@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Entity;
+using AppUsecases.Project.Enums;
 
 namespace AppUsecases.Entities.AppFormDataItems.Observations;
 public class AppFormDataItemObservationModel : IAppFormDataItemContract

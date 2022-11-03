@@ -22,7 +22,7 @@ using AppWinui.AppCode.ValidationRules.Views;
 using AppWinui.Core.Contracts.Services;
 using AppWinui.Core.Services;
 
-using LocalRepository;
+using WindowsLocalRepository;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

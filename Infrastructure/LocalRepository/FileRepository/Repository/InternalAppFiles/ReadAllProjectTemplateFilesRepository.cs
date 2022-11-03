@@ -9,7 +9,7 @@ using Common;
 
 using Windows.ApplicationModel;
 
-namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
+namespace WindowsLocalRepository.FileRepository.Repository.InternalAppFiles;
 public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List<FileTemplate>>>
 {
     public async Task<Resource<List<FileTemplate>>> ReadAsync()

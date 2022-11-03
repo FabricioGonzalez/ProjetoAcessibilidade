@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Windows.Storage;
 
-namespace LocalRepository.FileRepository.Repository.HTMLFile;
+namespace WindowsLocalRepository.FileRepository.Repository.HTMLFile;
 internal class HTMLFileGenerator
 {
     //private void GenerateCheckbox(StringBuilder builder, FormDataItemCheckboxModel checkboxModel)

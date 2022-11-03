@@ -1,4 +1,5 @@
 ﻿using AppUsecases.Contracts.Entity;
+using AppUsecases.Project.Enums;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

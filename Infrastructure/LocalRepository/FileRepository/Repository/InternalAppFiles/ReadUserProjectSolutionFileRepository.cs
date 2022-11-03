@@ -2,21 +2,23 @@
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+
 using AppUsecases.App.Contracts.Services;
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Project.Entities.Project;
+
 using Windows.Storage;
 
-namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
+namespace WindowsLocalRepository.FileRepository.Repository.InternalAppFiles;
 public class ReadUserProjectSolutionFileRepository : IReadContract<ProjectSolutionModel>
 {
-    private readonly IFilePickerService filePickerService;
+ /*   private readonly IFilePickerService filePickerService;
     public ReadUserProjectSolutionFileRepository(IFilePickerService filePickerService)
     {
         this.filePickerService = filePickerService;
-    }
+    }*/
     public async Task<ProjectSolutionModel> ReadAsync()
-    {
+    {/*
         var path = await filePickerService.GetFile(new string[] { ".prja" });
 
         if (path is not null)
@@ -50,7 +52,7 @@ public class ReadUserProjectSolutionFileRepository : IReadContract<ProjectSoluti
 
                 return solution;
             }
-        }
+        }*/
         return null;
     }
 }

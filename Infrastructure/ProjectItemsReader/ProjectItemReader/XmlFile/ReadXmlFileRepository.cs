@@ -11,9 +11,10 @@ using AppUsecases.Entities.AppFormDataItems.Checkbox;
 using AppUsecases.Entities.AppFormDataItems.Observations;
 using AppUsecases.Entities.AppFormDataItems.Text;
 using AppUsecases.Project.Entities.Project;
+using AppUsecases.Project.Enums;
 
-namespace LocalRepository.FileRepository.Repository.XmlFile;
-internal class ReadXmlFileRepository : IReadContract<AppItemModel>
+namespace ProjectItemReader.XmlFile;
+public class ReadXmlFileRepository : IReadContract<AppItemModel>
 {
        public async Task<AppItemModel> ReadAsync(string path)
     {

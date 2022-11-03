@@ -1,0 +1,52 @@
+<Window
+    x:Class="ProjectAvalonia.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ProjectAvalonia;assembly=ProjectAvalonia"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rxui="http://reactiveui.net"
+    xmlns:views="clr-namespace:ProjectAvalonia.Views;assembly=ProjectAvalonia"
+    xmlns:vm="clr-namespace:Project.Core.ViewModels.ViewModels;assembly=Project.Core"
+    Title="ProjectAvalonia"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Icon="/Assets/avalonia-logo.ico"
+    mc:Ignorable="d">
+    <Grid RowDefinitions="40,1*">
+        <Menu
+            Grid.Row="0"
+            Padding="8,0,8,0"
+            HorizontalAlignment="Stretch"
+            Background="#10df99">
+            <Menu.Items>
+                <MenuItem Header="Arquivos">
+                    <MenuItem.Items>
+                        <MenuItem Header="Abrir" />
+                        <MenuItem Header="Novo" />
+                        <Separator />
+                        <MenuItem Header="Sair" />
+                    </MenuItem.Items>
+                </MenuItem>
+                <MenuItem Header="Templates">
+                    <MenuItem.Items>
+                        <MenuItem Header="Edição de Templates" />
+                        <MenuItem Header="Regras de Validação" />
+                    </MenuItem.Items>
+                </MenuItem>
+            </Menu.Items>
+        </Menu>
+
+        <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+            <rxui:RoutedViewHost.DefaultContent>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Classes="h1" Text="Sample Avalonia Application" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Text="Loading..."
+                        TextAlignment="Center" />
+                </StackPanel>
+            </rxui:RoutedViewHost.DefaultContent>
+        </rxui:RoutedViewHost>
+    </Grid>
+</Window>

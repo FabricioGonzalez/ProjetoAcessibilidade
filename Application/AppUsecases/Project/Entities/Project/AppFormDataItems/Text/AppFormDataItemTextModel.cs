@@ -1,4 +1,5 @@
 ﻿using AppUsecases.Contracts.Entity;
+using AppUsecases.Project.Enums;
 
 namespace AppUsecases.Entities.AppFormDataItems.Text;
 public class AppFormDataItemTextModel : IAppFormDataItemContract

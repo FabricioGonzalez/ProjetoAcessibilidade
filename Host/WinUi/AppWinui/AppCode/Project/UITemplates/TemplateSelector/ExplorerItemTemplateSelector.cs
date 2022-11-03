@@ -1,4 +1,6 @@
-﻿using AppUsecases.Entities.FileTemplate;
+﻿
+using AppUsecases.Project.Entities.FileTemplate;
+using AppUsecases.Project.Enums;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -18,6 +20,6 @@ public class ExplorerItemTemplateSelector : DataTemplateSelector
     protected override DataTemplate SelectTemplateCore(object item)
     {
         var explorer = (ExplorerItem)item;
-        return explorer.Type == ExplorerItemType.Folder ? FolderTemplate  : FileTemplate;
+        return typeof(FolderItem) == explorer.GetType() ? FolderTemplate  : FileTemplate;
     }
 }

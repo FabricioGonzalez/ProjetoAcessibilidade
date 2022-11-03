@@ -4,13 +4,14 @@ using System.IO;
 using System.Threading.Tasks;
 
 using AppUsecases.Contracts.Repositories;
-using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Project.Entities.FileTemplate;
+using AppUsecases.Project.Enums;
 
 using Common;
 
 using Windows.Storage;
 
-namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
+namespace WindowsLocalRepository.FileRepository.Repository.InternalAppFiles;
 public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<ExplorerItem>>
 {
     public async Task<List<ExplorerItem>> ReadAsync(string path)
@@ -31,11 +32,10 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
     {
         var itens = await folder.GetItemsAsync();
 
-        var folderItem = new ExplorerItem
+        var folderItem = new FolderItem
         {
             Name = folder.Name,
             Path = folder.Path,
-            Type = ExplorerItemType.Folder,
             Children = new List<ExplorerItem>()
         };
 
@@ -49,11 +49,10 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
             }
             if (item.IsOfType(StorageItemTypes.File))
             {
-                var i = new ExplorerItem()
+                var i = new FileItem()
                 {
                     Name = item.Name.Split(".")[0],
                     Path = item.Path,
-                    Type = ExplorerItemType.File
                 };
                 folderItem.Children.Add(i);
             }

@@ -8,8 +8,9 @@ using AppUsecases.Entities.AppFormDataItems.Images;
 using AppUsecases.Entities.AppFormDataItems.Observations;
 using AppUsecases.Entities.AppFormDataItems.Text;
 using AppUsecases.Project.Entities.Project;
+using AppUsecases.Project.Enums;
 
-namespace LocalRepository.FileRepository.Repository.XmlFile;
+namespace ProjectItemReader.XmlFile;
 public class WriteXmlFileRepository : IWriteContract<AppItemModel>
 {
     public async Task WriteFileAsync(AppItemModel dataToWrite, string filePathToWrite)

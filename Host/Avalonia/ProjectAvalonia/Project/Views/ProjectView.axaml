@@ -1,0 +1,55 @@
+<UserControl
+    x:Class="ProjectAvalonia.Project.Views.ProjectView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:explorer="clr-namespace:ProjectAvalonia.Project.Components.ProjectExplorer;assembly=ProjectAvalonia"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:ProjectAvalonia.Views;assembly=ProjectAvalonia"
+    xmlns:vm="clr-namespace:Project.Core.ViewModels.ViewModels;assembly=Project.Core"
+    d:DesignHeight="650"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid
+        Margin="4"
+        ColumnDefinitions="0.75*,0.25*"
+        ShowGridLines="True">
+        <DockPanel
+            Grid.Column="0"
+            Margin="4"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Background="Aqua">
+            <StackPanel MinWidth="384" Spacing="10">
+                <TextBox Name="UsernameTextBox" Watermark="Username" />
+                <TextBox
+                    Name="PasswordTextBox"
+                    PasswordChar="*"
+                    Watermark="Password" />
+                <Grid ColumnDefinitions="*, *" RowDefinitions="Auto">
+                    <Button
+                        Name="LoginButton"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Content="Enter" />
+                    <Button
+                        Name="ExitButton"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Content="Exit" />
+                </Grid>
+                <TextBlock
+                    VerticalAlignment="Stretch"
+                    Classes="label error"
+                    TextAlignment="Center" />
+                <TextBlock Classes="label" TextAlignment="Center" />
+                <TextBlock Classes="label" TextAlignment="Center" />
+            </StackPanel>
+        </DockPanel>
+        <explorer:ExplorerComponent
+            Grid.Column="1"
+            Margin="4"
+            VerticalAlignment="Stretch"
+            CornerRadius="8" />
+    </Grid>
+</UserControl>

@@ -1,4 +1,5 @@
-﻿public enum AppFormDataTypeEnum
+﻿namespace AppUsecases.Project.Enums;
+public enum AppFormDataTypeEnum
 {
     Checkbox,
     Text,

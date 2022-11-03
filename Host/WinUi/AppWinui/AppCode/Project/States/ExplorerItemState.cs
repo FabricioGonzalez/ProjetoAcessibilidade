@@ -1,4 +1,4 @@
-﻿using AppUsecases.Entities.FileTemplate;
+﻿using AppUsecases.Project.Entities.FileTemplate;
 
 using ReactiveUI;
 

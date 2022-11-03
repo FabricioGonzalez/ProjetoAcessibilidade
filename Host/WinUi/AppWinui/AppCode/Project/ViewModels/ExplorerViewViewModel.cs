@@ -3,7 +3,8 @@ using System.Diagnostics;
 using System.Windows.Input;
 
 using AppUsecases.Contracts.Usecases;
-using AppUsecases.Entities.FileTemplate;
+using AppUsecases.Project.Entities.FileTemplate;
+using AppUsecases.Project.Enums;
 
 using AppWinui.AppCode.AppUtils.Services;
 using AppWinui.AppCode.Project.States;
@@ -70,10 +71,9 @@ public class ExplorerViewViewModel : ReactiveObject
                         {
                             Name = result.Name,
                             Path = Path.Combine(obj.Path, $"{result.Name}.prjd"),
-                            Type = ExplorerItemType.File
                         };
 
-                        obj.Children.Add(item);
+                        (obj as FolderItem).Children.Add(item);
                        /* createProjectData.CreateProjectItem(obj.Path, $"{item.Name}.prjd", result.Path);*/
                     }
                 });

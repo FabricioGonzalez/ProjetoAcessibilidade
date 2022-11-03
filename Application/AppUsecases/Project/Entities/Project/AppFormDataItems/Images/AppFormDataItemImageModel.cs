@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using AppUsecases.Contracts.Entity;
+using AppUsecases.Project.Enums;
 
 namespace AppUsecases.Entities.AppFormDataItems.Images;
 public class AppFormDataItemImageModel : IAppFormDataItemContract

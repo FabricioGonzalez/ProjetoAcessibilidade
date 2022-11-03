@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-
-using AppUsecases.Contracts.Entity;
-using AppUsecases.Entities.AppFormDataItems.Text;
+﻿using AppUsecases.Contracts.Entity;
+using AppUsecases.Project.Enums;
 
 namespace AppWinui.AppCode.Project.States.ProjectItems.Checkbox;
 public class AppFormDataItemCheckboxModel : IAppFormDataItemContract

@@ -2,6 +2,7 @@
 
 using AppUsecases.Contracts.Entity;
 using AppUsecases.Entities.AppFormDataItems.Text;
+using AppUsecases.Project.Enums;
 
 namespace AppUsecases.Entities.AppFormDataItems.Checkbox;
 public class AppFormDataItemCheckboxModel : IAppFormDataItemContract

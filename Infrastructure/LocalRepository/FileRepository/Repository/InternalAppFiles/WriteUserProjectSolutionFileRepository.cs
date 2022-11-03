@@ -10,7 +10,7 @@ using Common;
 
 using Windows.Storage;
 
-namespace LocalRepository.FileRepository.Repository.InternalAppFiles;
+namespace WindowsLocalRepository.FileRepository.Repository.InternalAppFiles;
 public class WriteUserProjectSolutionFileRepository : IWriteContract<ProjectSolutionModel>
 {
     public async Task<ProjectSolutionModel> WriteAsync(ProjectSolutionModel dataToWrite, string filePathToWrite)
