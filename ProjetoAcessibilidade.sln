@@ -35,19 +35,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Avalonia", "Avalonia", "{25
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModels", "ViewModels", "{39AB43AD-F68B-4683-988B-90BA41135CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Core", "Host\ViewModels\Project.Core\Project.Core.csproj", "{526D3AD4-6CE8-4E8D-B1DD-93E2099CB258}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Core", "Host\ViewModels\Project.Core\Project.Core.csproj", "{526D3AD4-6CE8-4E8D-B1DD-93E2099CB258}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectAvalonia", "Host\Avalonia\ProjectAvalonia\ProjectAvalonia.csproj", "{5F4E14A7-D7DB-4488-A727-A2CC65EC7FB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectAvalonia", "Host\Avalonia\ProjectAvalonia\ProjectAvalonia.csproj", "{5F4E14A7-D7DB-4488-A727-A2CC65EC7FB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppUsecases", "Application\AppUsecases\AppUsecases.csproj", "{1671FBE1-27F2-4944-9663-BF39F62D0C16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppUsecases", "Application\AppUsecases\AppUsecases.csproj", "{1671FBE1-27F2-4944-9663-BF39F62D0C16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectItemReader", "Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj", "{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectItemReader", "Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj", "{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Publish", "Publish", "{2A251369-A991-4D85-8C94-127C51DAFE1F}"
 	ProjectSection(SolutionItems) = preProject
 		Publish\publish-win-all.bat = Publish\publish-win-all.bat
 		Publish\publish-win.bat = Publish\publish-win.bat
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UIState", "UIState", "{7ED2F301-EA6A-41B1-A55B-49D688A650DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIStatesStore", "Host\UIStates\UIStatesStore\UIStatesStore.csproj", "{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -244,6 +248,22 @@ Global
 		{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}.Release|x64.Build.0 = Release|Any CPU
 		{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}.Release|x86.ActiveCfg = Release|Any CPU
 		{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}.Release|x86.Build.0 = Release|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Debug|arm64.Build.0 = Debug|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Debug|x64.Build.0 = Debug|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Debug|x86.Build.0 = Debug|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Release|arm64.ActiveCfg = Release|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Release|arm64.Build.0 = Release|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Release|x64.ActiveCfg = Release|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Release|x64.Build.0 = Release|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Release|x86.ActiveCfg = Release|Any CPU
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -265,6 +285,8 @@ Global
 		{5F4E14A7-D7DB-4488-A727-A2CC65EC7FB8} = {2562C417-84FD-474F-BDD8-F68C8CEDC02D}
 		{1671FBE1-27F2-4944-9663-BF39F62D0C16} = {D10FEC76-0A23-4A1C-98B2-E9A985DB2526}
 		{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767} = {70CDA4DF-6612-4CF7-87EA-03701778A84E}
+		{7ED2F301-EA6A-41B1-A55B-49D688A650DC} = {9A7E4EEF-9166-4076-B9B6-6F54C11B87BD}
+		{278DF7BF-B3C3-4A6B-8FEC-374820D95A3B} = {7ED2F301-EA6A-41B1-A55B-49D688A650DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {121D87D8-30BB-4E71-80CE-67CC06814434}

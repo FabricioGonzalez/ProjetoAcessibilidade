@@ -29,7 +29,8 @@ internal class Program
                 .AddViewModel()
                 .AddViewComponents()
                 .AddUsecases()
-                .AddServices();
+                .AddServices()
+                .AddUIStates();
 
         var result = AppBuilder.Configure<App>()
                 .UsePlatformDetect()

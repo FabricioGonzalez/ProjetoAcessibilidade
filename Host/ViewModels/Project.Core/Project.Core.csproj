@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Application\AppUsecases\AppUsecases.csproj" />
+    <ProjectReference Include="..\..\UIStates\UIStatesStore\UIStatesStore.csproj" />
   </ItemGroup>
 
 </Project>

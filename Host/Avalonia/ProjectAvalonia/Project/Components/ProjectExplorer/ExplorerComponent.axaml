@@ -11,8 +11,9 @@
     <TreeView
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        Background="Aquamarine"
         CornerRadius="8"
-        Items="{Binding Items}">
+        Items="{Binding ExplorerItems}">
         <TreeView.DataTemplates>
             <TreeDataTemplate DataType="nodes:FolderItem" ItemsSource="{Binding Children}">
                 <Grid>

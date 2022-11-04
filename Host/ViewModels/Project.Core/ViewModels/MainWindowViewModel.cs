@@ -8,6 +8,10 @@ using ReactiveUI;
 
 using Splat;
 
+using UIStatesStore.Contracts;
+using UIStatesStore.Project.Models;
+using UIStatesStore.Project.Observable;
+
 namespace Project.Core.ViewModels;
 public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
 {
@@ -15,8 +19,16 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
     public RoutingState Router { get; } = new RoutingState();
 
+    /*    public ExplorerComponentViewModel explorerViewModel { get; }*/
+
+    readonly IAppObservable<ProjectModel> projectState;
+
     public MainWindowViewModel()
     {
+        /*explorerViewModel =  Locator.Current.GetService<ExplorerComponentViewModel>();*/
+
+        projectState = Locator.Current.GetService<IAppObservable<ProjectModel>>();
+
         var projectViewModel = new ProjectViewModel(this);
         Router.Navigate.Execute(projectViewModel);
 
@@ -50,13 +62,13 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
         {
             OpenProjectCommand.Subscribe(x =>
             {
-                Debug.WriteLine(x);
+                projectState.Send(new(x));
             })
             .DisposeWith(disposables);
 
             CreateProjectCommand.Subscribe(x =>
             {
-                Debug.WriteLine(x);
+                projectState.Send(new(x));
             })
             .DisposeWith(disposables);
         });

@@ -14,6 +14,11 @@ using AppUsecases.Project.Entities.FileTemplate;
 using ProjectAvalonia.Views;
 using Project.Core.Contracts;
 using ProjectAvalonia.Services;
+using System;
+using System.Reactive.Linq;
+using UIStatesStore.Project.Observable;
+using UIStatesStore.Project.Models;
+using UIStatesStore.Contracts;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -152,9 +157,8 @@ public static class Bootstrapper
         return service;
     }
 
-    /*    public static void ConfigureDatabase(this IReadonlyDependencyResolver services)
-        {
-            var db = services.GetService<SampleAvaloniaApplicationClientContext>();
-            db.Database.Migrate();
-        }*/
+    public static void AddUIStates(this IMutableDependencyResolver service)
+    {
+        service.RegisterLazySingleton<IAppObservable<ProjectModel>>(() => new ProjectStateObservable());
+    }
 }
