@@ -43,6 +43,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppUsecases", "Application\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectItemReader", "Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj", "{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Publish", "Publish", "{2A251369-A991-4D85-8C94-127C51DAFE1F}"
+	ProjectSection(SolutionItems) = preProject
+		Publish\publish-win-all.bat = Publish\publish-win-all.bat
+		Publish\publish-win.bat = Publish\publish-win.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

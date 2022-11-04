@@ -22,8 +22,8 @@
             <Menu.Items>
                 <MenuItem Header="Arquivos">
                     <MenuItem.Items>
-                        <MenuItem Header="Abrir" />
-                        <MenuItem Header="Novo" />
+                        <MenuItem Command="{Binding OpenProjectCommand}" Header="Abrir" />
+                        <MenuItem Command="{Binding CreateProjectCommand}" Header="Novo" />
                         <Separator />
                         <MenuItem Header="Sair" />
                     </MenuItem.Items>
@@ -37,7 +37,11 @@
             </Menu.Items>
         </Menu>
 
-        <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+        <rxui:RoutedViewHost
+            Grid.Row="1"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Router="{Binding Router}">
             <rxui:RoutedViewHost.DefaultContent>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock Classes="h1" Text="Sample Avalonia Application" />

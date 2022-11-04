@@ -1,0 +1,44 @@
+<UserControl
+    x:Class="ProjectAvalonia.Project.Components.ProjectEditing.EditingItems.EditingItem"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <ScrollViewer
+        x:Name="Scroller"
+        BorderThickness="1"
+        CornerRadius="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <!--<StackPanel x:Name="ScrollerHeader">
+                <CommandBar x:Name="commandBar" Background="{ThemeResource PrimaryAcrylicBrush}">
+                    <AppBarButton
+                        Icon="Save"
+                        Label="Save"
+                        ToolTipService.ToolTip="Save">
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="S" Modifiers="Control" />
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarButton Icon="Add" Label="Add Image">
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="A" Modifiers="Control" />
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <CommandBar.Content>
+                        <TextBlock
+                            Margin="64,8"
+                            FontWeight="Bold"
+                            Text="{x:Bind ViewModel.Project.ItemName}" />
+                    </CommandBar.Content>
+                </CommandBar>
+            </StackPanel>-->
+        </Grid>
+    </ScrollViewer>
+</UserControl>

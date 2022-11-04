@@ -11,6 +11,9 @@ using AppUsecases.App.Usecases;
 using AppUsecases.Contracts.Repositories;
 using Common;
 using AppUsecases.Project.Entities.FileTemplate;
+using ProjectAvalonia.Views;
+using Project.Core.Contracts;
+using ProjectAvalonia.Services;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -18,6 +21,7 @@ public static class Bootstrapper
     public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
     {
         service.Register(() => new ExplorerComponentViewModel());
+        service.Register(() => new MainWindow());
 
         return service;
     }
@@ -138,20 +142,16 @@ public static class Bootstrapper
 
             services.RegisterLazySingleton<IDbContextFactory<SampleAvaloniaApplicationClientContext>>(() => new SampleAvaloniaApplicationDbContextFactory());
         }*/
-    /*
-        public static void AddServices(this IMutableDependencyResolver services)
-        {
-            services.RegisterLazySingleton<ILoginService>(() =>
-            {
-                return new LoginService(Locator.Current.GetService<IDbContextFactory<SampleAvaloniaApplicationClientContext>>());
-            });
 
-            services.RegisterLazySingleton<IEmployeesService>(() =>
-            {
-                return new EmployeesService(Locator.Current.GetService<IDbContextFactory<SampleAvaloniaApplicationClientContext>>(), Locator.Current.GetService<IMapper>());
-            });
-        }
-    */
+    public static IMutableDependencyResolver AddServices(this IMutableDependencyResolver service)
+    {
+        service.RegisterLazySingleton<IFileDialog>(() =>
+        {
+            return new FileDialog(Locator.Current.GetService<MainWindow>());
+        });
+        return service;
+    }
+
     /*    public static void ConfigureDatabase(this IReadonlyDependencyResolver services)
         {
             var db = services.GetService<SampleAvaloniaApplicationClientContext>();

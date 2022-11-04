@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:AppWinui.AppCode.AppUtils.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:filetemplate="using:AppUsecases.Entities.FileTemplate"
+    xmlns:filetemplate="using:AppUsecases.Project.Entities.FileTemplate"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sys="using:System"
@@ -32,7 +32,7 @@
                     <TreeView.ItemTemplateSelector>
                         <uitemplates:ExplorerItemTemplateSelector>
                             <uitemplates:ExplorerItemTemplateSelector.FileTemplate>
-                                <DataTemplate x:DataType="filetemplate:ExplorerItem">
+                                <DataTemplate x:DataType="filetemplate:FileItem">
                                     <TreeViewItem>
                                         <TreeViewItem.ContextFlyout>
                                             <MenuFlyout>
@@ -59,7 +59,7 @@
                                 </DataTemplate>
                             </uitemplates:ExplorerItemTemplateSelector.FileTemplate>
                             <uitemplates:ExplorerItemTemplateSelector.FolderTemplate>
-                                <DataTemplate x:DataType="filetemplate:ExplorerItem">
+                                <DataTemplate x:DataType="filetemplate:FolderItem">
                                     <TreeViewItem
                                         AllowDrop="True"
                                         AutomationProperties.Name="{x:Bind Name}"

@@ -10,6 +10,7 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
+    <Folder Include="Project\Components\ProjectEditing\TemplateSelectors\" />
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
@@ -30,5 +31,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Application\AppUsecases\AppUsecases.csproj" />
     <ProjectReference Include="..\..\ViewModels\Project.Core\Project.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">
+      <DependentUpon>EditingItem.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Project\Components\ProjectEditing\EditingView.axaml.cs">
+      <DependentUpon>EditingView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

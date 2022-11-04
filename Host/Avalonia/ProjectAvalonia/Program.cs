@@ -28,7 +28,8 @@ internal class Program
         Locator.CurrentMutable
                 .AddViewModel()
                 .AddViewComponents()
-                .AddUsecases();
+                .AddUsecases()
+                .AddServices();
 
         var result = AppBuilder.Configure<App>()
                 .UsePlatformDetect()

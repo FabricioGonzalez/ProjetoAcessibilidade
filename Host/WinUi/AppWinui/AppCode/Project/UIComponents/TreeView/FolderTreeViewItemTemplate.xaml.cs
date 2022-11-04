@@ -9,16 +9,16 @@ using Microsoft.UI.Xaml.Controls;
 namespace AppWinui.AppCode.Project.UIComponents.TreeView;
 public sealed partial class FolderTreeViewItemTemplate : UserControl
 {
-    public ExplorerItem Item
+    public FolderItem Item
     {
-        get => (ExplorerItem)GetValue(ItemProperty);
+        get => (FolderItem)GetValue(ItemProperty);
         set => SetValue(ItemProperty, value);
     }
 
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ItemProperty =
         DependencyProperty.Register("Item",
-            typeof(ExplorerItem), 
+            typeof(FolderItem), 
             typeof(FolderTreeViewItemTemplate),
             new PropertyMetadata(null, (d, args) =>
             {

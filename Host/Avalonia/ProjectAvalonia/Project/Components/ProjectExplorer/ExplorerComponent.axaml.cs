@@ -12,6 +12,7 @@ using Splat;
 
 using AppUsecases.Project.Entities.FileTemplate;
 using Avalonia.Controls;
+using System.Diagnostics;
 
 namespace ProjectAvalonia.Project.Components.ProjectExplorer;
 public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentViewModel>
@@ -37,23 +38,29 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
 
     public ExplorerComponent()
     {
-        control.PointerPressed += (args) =>
-        {
-            var point = args.GetCurrentPoint();
-            var x = point.Position.X;
-            var y = point.Position.Y;
-            if (point.Properties.IsLeftButtonPressed)
-            {
-                // left button pressed
-            }
-            if (point.Properties.IsRightButtonPressed)
-            {
-                // right button pressed
-            }
-        }
 
-        this.WhenActivated(disposables => {
-            ViewModel =  Locator.Current.GetService<ExplorerComponentViewModel>();
+
+        this.WhenActivated(disposables =>
+        {
+            ViewModel = Locator.Current.GetService<ExplorerComponentViewModel>();
+           /* this.FindControl<Grid>("templateItem").
+       PointerPressed += (sender, args) =>
+       {
+           if (sender is Grid grid)
+           {
+               var point = args.GetCurrentPoint(grid);
+               var x = point.Position.X;
+               var y = point.Position.Y;
+               if (point.Properties.IsLeftButtonPressed)
+               {
+                   Debug.WriteLine("Left Button");
+               }
+               if (point.Properties.IsRightButtonPressed)
+               {
+                   Debug.WriteLine("Right Button");
+               }
+           }
+       };*/
         });
 
         AvaloniaXamlLoader.Load(this);
