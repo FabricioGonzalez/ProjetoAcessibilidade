@@ -10,5 +10,6 @@
     <Application.Styles>
         <FluentTheme Mode="Light" />
         <StyleInclude Source="/Styles/ProjectModuleStyles.axaml" />
+        <StyleInclude Source="/Styles/MainWindowStyles.axaml" />
     </Application.Styles>
 </Application>

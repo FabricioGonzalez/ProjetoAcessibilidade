@@ -1,0 +1,67 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Menu 
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Classes="mainMenu">
+			<Menu.Items>
+				<MenuItem CornerRadius="8" Header="Arquivos">
+					<MenuItem.Items>
+						<MenuItem Margin="4,0" Header="Abrir" />
+						<MenuItem Margin="4,0" Header="Novo" />
+						<Separator />
+						<MenuItem Margin="4,0" Header="Sair" />
+					</MenuItem.Items>
+				</MenuItem>
+				<MenuItem CornerRadius="8" Header="Templates">
+					<MenuItem.Items>
+						<MenuItem Margin="4,0" Header="Edição de Templates" />
+						<MenuItem Margin="4,0" Header="Regras de Validação" />
+					</MenuItem.Items>
+				</MenuItem>
+			</Menu.Items>
+		</Menu>
+	</Design.PreviewWith>
+
+	<Style Selector="Menu.mainMenu">
+		<Setter Property="Background" Value="#7d108f" />
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>
+	<Style Selector="Menu.mainMenu:pointerover">
+		<Setter Property="Background" Value="#7d108f" />
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>
+	<Style Selector="Menu.mainMenu:pressed">
+		<Setter Property="Background" Value="#7d108f" />
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>
+	
+	<Style Selector="Menu.mainMenu MenuItem">
+		<Setter Property="Background" Value="#7d108f" />
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="CornerRadius" Value="8" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+	</Style>
+	<Style Selector="Menu.mainMenu MenuItem:pointerover">
+		<Setter Property="Background" Value="#7d108f" />
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>	
+	<Style Selector="Menu.mainMenu MenuItem:pressed">
+		<Setter Property="Background" Value="#7d108f" />
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>	
+	
+	<Style Selector="Menu.mainMenu MenuItem:focus">
+		<Setter Property="Background" Value="#7d108f" />
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>	
+	
+	<!-- Add Styles Here -->
+</Styles>

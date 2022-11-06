@@ -40,7 +40,7 @@ public static class Bootstrapper
     public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
     {
         service.Register(() => new ExplorerComponent());
-        service.Register(() => new MainWindow());
+        service.RegisterLazySingleton(() => new MainWindow());
 
         return service;
     }

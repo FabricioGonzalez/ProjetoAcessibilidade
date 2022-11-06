@@ -1,7 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Reactive;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Runtime;
+using System.Windows.Input;
 
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
@@ -53,6 +56,15 @@ public class ExplorerComponentViewModel : ViewModelBase
         AppErrorState ??= Locator.Current.GetService<IAppObservable<AppErrorMessage>>();
         getProjectItems ??= Locator.Current.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
 
+        ShowDialog = new Interaction<AddItemViewModel, ExplorerComponentViewModel?>();
+
+        AddItemCommand = ReactiveCommand.CreateFromTask(async () =>
+        {
+            var store = new AddItemViewModel();
+
+            var result = await ShowDialog.Handle(store);
+        });
+
         this.WhenActivated((CompositeDisposable disposables) =>
         {
             this.WhenAnyValue(x => x.Folder)
@@ -76,8 +88,18 @@ public class ExplorerComponentViewModel : ViewModelBase
             projectState.Subscribe(x =>
             {
                 Folder = x.ProjectPath;
-            });
+            });          
         });
+    }
+
+    public ReactiveCommand<Unit,Unit> AddItemCommand
+    {
+        get; private set;
+    }
+
+    public Interaction<AddItemViewModel, ExplorerComponentViewModel?> ShowDialog
+    {
+        get;private set;
     }
 
     public ObservableCollection<ExplorerItem> GetSubfolders(string strPath)

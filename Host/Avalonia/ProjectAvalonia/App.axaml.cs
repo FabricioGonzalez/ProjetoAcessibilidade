@@ -20,10 +20,10 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow()
-            {
-                DataContext = new MainWindowViewModel()
-            };
+            var window = Locator.Current.GetService<MainWindow>();
+            window.DataContext = new MainWindowViewModel();
+
+            desktop.MainWindow = window;
         }
 
         base.OnFrameworkInitializationCompleted();
