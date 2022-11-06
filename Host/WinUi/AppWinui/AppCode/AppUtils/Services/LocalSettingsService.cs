@@ -1,6 +1,6 @@
 ﻿using AppWinui.AppCode.AppUtils.Contracts.Services;
 using AppWinui.AppCode.AppUtils.Helpers;
-using AppWinui.AppCode.AppUtils.UIModels.Models;
+using AppWinui.AppCode.AppUtils.UIModels;
 using AppWinui.Core.Contracts.Services;
 using AppWinui.Core.Helpers;
 

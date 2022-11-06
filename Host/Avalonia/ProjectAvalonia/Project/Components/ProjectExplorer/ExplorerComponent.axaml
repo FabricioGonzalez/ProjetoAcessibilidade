@@ -5,40 +5,45 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nodes="clr-namespace:AppUsecases.Project.Entities.FileTemplate;assembly=AppUsecases"
-    d:DesignHeight="450"
+    xmlns:vm="clr-namespace:Project.Core.ViewModels;assembly=Project.Core"
+	d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <TreeView
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        Background="Aquamarine"
-        CornerRadius="8"
-        Items="{Binding ExplorerItems}">
-        <TreeView.DataTemplates>
-            <TreeDataTemplate DataType="nodes:FolderItem" ItemsSource="{Binding Children}">
-                <Grid>
-                    <TextBlock Text="{Binding Name}" />
-                    <Grid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Rename" />
-                            <MenuItem Header="Delete" />
-                            <MenuItem Header="Add Item" />
-                            <MenuItem Header="Add Folder" />
-                        </ContextMenu>
-                    </Grid.ContextMenu>
-                </Grid>
-            </TreeDataTemplate>
-            <TreeDataTemplate DataType="nodes:FileItem" ItemsSource="{Binding Children}">
-                <Grid>
-                    <TextBlock Text="{Binding Name}" />
-                    <Grid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Rename" />
-                            <MenuItem Header="Delete" />
-                        </ContextMenu>
-                    </Grid.ContextMenu>
-                </Grid>
-            </TreeDataTemplate>
-        </TreeView.DataTemplates>
-    </TreeView>
+	<!--<ScrollViewer>
+		<StackPanel>-->
+			<TreeView
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				x:Name="explorerTreeView"
+				CornerRadius="8">
+				<TreeView.DataTemplates>
+					<TreeDataTemplate x:DataType="nodes:FolderItem" ItemsSource="{Binding Children}">
+						<Grid>
+							<TextBlock Text="{Binding Name}" />
+							<Grid.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="Rename" />
+									<MenuItem Header="Delete" />
+									<MenuItem Header="Add Item" />
+									<MenuItem Header="Add Folder" />
+								</ContextMenu>
+							</Grid.ContextMenu>
+						</Grid>
+					</TreeDataTemplate>
+					<DataTemplate x:DataType="nodes:FileItem">
+						<Grid>
+							<TextBlock Text="{Binding Name}" />
+							<Grid.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="Rename" />
+									<MenuItem Header="Delete" />
+								</ContextMenu>
+							</Grid.ContextMenu>
+						</Grid>
+					</DataTemplate>
+				</TreeView.DataTemplates>
+			</TreeView>
+			<!--<TextBlock Name="text" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		</StackPanel>
+	</ScrollViewer>-->
 </UserControl>

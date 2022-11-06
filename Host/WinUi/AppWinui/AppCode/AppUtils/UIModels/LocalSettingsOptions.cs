@@ -1,4 +1,4 @@
-﻿namespace AppWinui.AppCode.AppUtils.UIModels.Models;
+﻿namespace AppWinui.AppCode.AppUtils.UIModels;
 
 public class LocalSettingsOptions
 {

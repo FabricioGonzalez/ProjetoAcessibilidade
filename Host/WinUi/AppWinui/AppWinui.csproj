@@ -63,7 +63,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Application\AppUsecases\AppUsecases.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\LocalRepository\WindowsLocalRepository.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
     <ProjectReference Include="..\AppWinui.Core\AppWinui.Core.csproj" />

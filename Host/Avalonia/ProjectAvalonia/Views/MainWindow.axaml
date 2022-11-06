@@ -12,45 +12,48 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     Icon="/Assets/avalonia-logo.ico"
-    mc:Ignorable="d">
-    <Grid RowDefinitions="40,1*">
-        <Menu
+    mc:Ignorable="d"
+	ExtendClientAreaToDecorationsHint="True"
+	Padding="0">
+	<Grid RowDefinitions="40,1*"             HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" Margin="0" >
+		<Menu
             Grid.Row="0"
             Padding="8,0,8,0"
             HorizontalAlignment="Stretch"
-            Background="#10df99">
-            <Menu.Items>
-                <MenuItem Header="Arquivos">
-                    <MenuItem.Items>
-                        <MenuItem Command="{Binding OpenProjectCommand}" Header="Abrir" />
-                        <MenuItem Command="{Binding CreateProjectCommand}" Header="Novo" />
-                        <Separator />
-                        <MenuItem Header="Sair" />
-                    </MenuItem.Items>
-                </MenuItem>
-                <MenuItem Header="Templates">
-                    <MenuItem.Items>
-                        <MenuItem Header="Edição de Templates" />
-                        <MenuItem Header="Regras de Validação" />
-                    </MenuItem.Items>
-                </MenuItem>
-            </Menu.Items>
-        </Menu>
+            VerticalAlignment="Stretch">
+			<Menu.Items>
+				<MenuItem Header="Arquivos">
+					<MenuItem.Items>
+						<MenuItem Command="{Binding OpenProjectCommand}" Header="Abrir" />
+						<MenuItem Command="{Binding CreateProjectCommand}" Header="Novo" />
+						<Separator />
+						<MenuItem Header="Sair" />
+					</MenuItem.Items>
+				</MenuItem>
+				<MenuItem Header="Templates">
+					<MenuItem.Items>
+						<MenuItem Header="Edição de Templates" />
+						<MenuItem Header="Regras de Validação" />
+					</MenuItem.Items>
+				</MenuItem>
+			</Menu.Items>
+		</Menu>
 
-        <rxui:RoutedViewHost
+		<rxui:RoutedViewHost
             Grid.Row="1"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             Router="{Binding Router}">
-            <rxui:RoutedViewHost.DefaultContent>
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Classes="h1" Text="Sample Avalonia Application" />
-                    <TextBlock
+			<rxui:RoutedViewHost.DefaultContent>
+				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+					<TextBlock Classes="h1" Text="Sample Avalonia Application" />
+					<TextBlock
                         HorizontalAlignment="Center"
                         Text="Loading..."
                         TextAlignment="Center" />
-                </StackPanel>
-            </rxui:RoutedViewHost.DefaultContent>
-        </rxui:RoutedViewHost>
-    </Grid>
+				</StackPanel>
+			</rxui:RoutedViewHost.DefaultContent>
+		</rxui:RoutedViewHost>
+	</Grid>
 </Window>

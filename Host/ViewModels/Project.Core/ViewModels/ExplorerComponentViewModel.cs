@@ -1,71 +1,82 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reactive.Disposables;
+using System.Runtime;
 
+using AppUsecases.Contracts.Repositories;
+using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.FileTemplate;
+
+using Common;
+
+using DynamicData;
+using DynamicData.Binding;
 
 using ReactiveUI;
 
 using Splat;
+
+using UIStatesStore.App.Models;
 using UIStatesStore.Contracts;
 
 using UIStatesStore.Project.Models;
-using UIStatesStore.Project.Observable;
 
 namespace Project.Core.ViewModels;
 public class ExplorerComponentViewModel : ViewModelBase
 {
-    public ObservableCollection<ExplorerItem> ExplorerItems
+    private SourceList<FolderItem> _items;
+
+    private ObservableCollectionExtended<ExplorerItem> explorerItems = new();
+    public ObservableCollectionExtended<ExplorerItem> ExplorerItems
     {
-        get; set;
+        get => explorerItems; set => this.RaiseAndSetIfChanged(ref explorerItems, value, nameof(ExplorerItems));
     }
     public ObservableCollection<ExplorerItem> SelectedItems
     {
         get; set;
     }
+
     string strFolder = "";
 
     public string Folder
     {
-        get => strFolder; set => this.RaiseAndSetIfChanged(ref strFolder,value);
+        get => strFolder; set => this.RaiseAndSetIfChanged(ref strFolder, value, nameof(Folder));
     }
 
-    IAppObservable<ProjectModel> projectState;
-
+    private readonly IAppObservable<ProjectModel> projectState;
+    private readonly IAppObservable<AppErrorMessage> AppErrorState;
+   
+    IQueryUsecase<string, List<ExplorerItem>> getProjectItems;
     public ExplorerComponentViewModel()
     {
-        ExplorerItems = new ObservableCollection<ExplorerItem>();
-        projectState = Locator.Current.GetService<IAppObservable<ProjectModel>>();
+        projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();
+        AppErrorState ??= Locator.Current.GetService<IAppObservable<AppErrorMessage>>();
+        getProjectItems ??= Locator.Current.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
 
         this.WhenActivated((CompositeDisposable disposables) =>
         {
             this.WhenAnyValue(x => x.Folder)
-            .Subscribe(path =>
-            {
-                if (path is not null && path.Length > 0)
-                {
-                   
-                    FolderItem rootNode = new FolderItem()
+                    .Subscribe( path =>
                     {
-                        Name = path.Split(Path.DirectorySeparatorChar)[path.Split(Path.DirectorySeparatorChar).Length - 1],
-                        Path = path,
-                    };
+                        if (path is not null && path.Length > 0)
+                        {
+                            var error = "";
+                            var isLoading = false;
+                            var items = new List<ExplorerItem>();
+                            var result = getProjectItems.executeAsync(path).Result;
 
-                    var folder = string.Join(Path.DirectorySeparatorChar, path.Split(Path.DirectorySeparatorChar)[..(path.Split(Path.DirectorySeparatorChar).Length - 1)]);
+                            result.OnError(ref items, ref error)
+                            .OnLoading(ref items, ref isLoading)
+                            .OnSuccess(ref items);
 
-                    rootNode.Children = GetSubfolders(folder);
-
-                    ExplorerItems.Add(rootNode);
-                }
-            });
+                            ExplorerItems = new (items);
+                        }
+                    });
 
             projectState.Subscribe(x =>
             {
                 Folder = x.ProjectPath;
-                Debug.WriteLine($"chosen path: {x.ProjectPath}");
-            })
-            .DisposeWith(disposables);
+            });
         });
     }
 

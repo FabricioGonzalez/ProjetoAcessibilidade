@@ -1,24 +1,32 @@
 ﻿using Splat;
 
 using Project.Core.ViewModels;
-using ProjectAvalonia.Project.Components.ProjectExplorer;
+using Project.Core.Contracts;
+
 using System.Collections.Generic;
+
 using AppUsecases.Usecases;
 using AppUsecases.Project.Entities.Project;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Editing.Entities;
 using AppUsecases.App.Usecases;
 using AppUsecases.Contracts.Repositories;
-using Common;
 using AppUsecases.Project.Entities.FileTemplate;
+
+using Common;
+
 using ProjectAvalonia.Views;
-using Project.Core.Contracts;
+using ProjectAvalonia.Project.Components.ProjectExplorer;
 using ProjectAvalonia.Services;
-using System;
-using System.Reactive.Linq;
+
 using UIStatesStore.Project.Observable;
 using UIStatesStore.Project.Models;
 using UIStatesStore.Contracts;
+
+using ProjectItemReader.InternalAppFiles;
+using ProjectItemReader.XmlFile;
+using UIStatesStore.App.Models;
+using UIStatesStore.App.Observable;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -26,14 +34,13 @@ public static class Bootstrapper
     public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
     {
         service.Register(() => new ExplorerComponentViewModel());
-        service.Register(() => new MainWindow());
 
         return service;
     }
-
     public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
     {
         service.Register(() => new ExplorerComponent());
+        service.Register(() => new MainWindow());
 
         return service;
     }
@@ -57,11 +64,40 @@ public static class Bootstrapper
 
         service.Register<ICommandUsecase<ProjectSolutionModel>>(() => new CreateProjectSolutionUsecase());
 
-        service.Register(() => new ExplorerComponent());
+        return service;
+    }
+    public static IMutableDependencyResolver AddRepositories(this IMutableDependencyResolver service)
+    {
+        service
+            .Register<IWriteContract<ProjectSolutionModel>>(() =>
+            new WriteUserProjectSolutionFileRepository());
+
+        service
+            .Register<IWriteContract<AppItemModel>>(() =>
+            new WriteXmlFileRepository());
+
+        service
+    .Register<IReadContract<AppItemModel>>(() =>
+    new ReadXmlFileRepository());
+
+        service
+            .Register<IReadContract<ProjectSolutionModel>>(() =>
+            new ReadUserProjectSolutionFileRepository());
+
+        service
+            .Register<IReadContract<List<FileTemplate>>>(() =>
+            new ReadAllRecentProjectFilesRepository());
+
+        service
+            .Register<IReadContract<Resource<List<FileTemplate>>>>(() =>
+            new ReadAllProjectTemplateFilesRepository());
+
+        service
+            .Register<IReadContract<List<ExplorerItem>>>(() =>
+            new ReadAllUserProjectTemplateFilesRepository());
 
         return service;
     }
-
     /* public static void AddApplication(this IMutableDependencyResolver services, IApplication app)
      {
          services.RegisterConstant<IApplication>(app);
@@ -133,21 +169,6 @@ public static class Bootstrapper
                 return new SerilogLoggerProvider(logger).CreateLogger(nameof(SampleAvaloniaApplicationClientApplication));
             });
         }*/
-
-    /*    public static void AddDatabase(this IMutableDependencyResolver services)
-        {
-            var settingsProvider = Locator.Current.GetService<ISettingsProvider<AppSettings>>();
-
-            var optionsBuilder = new DbContextOptionsBuilder<SampleAvaloniaApplicationClientContext>();
-            optionsBuilder
-                .UseLazyLoadingProxies()
-                .UseSqlite("Data Source=" + Environment.ExpandEnvironmentVariables(settingsProvider.Settings.DbFilename), options => options.MigrationsAssembly("SampleAvaloniaApplication.Client.Core.Data"));
-
-            services.Register(() => new SampleAvaloniaApplicationClientContext(optionsBuilder.Options));
-
-            services.RegisterLazySingleton<IDbContextFactory<SampleAvaloniaApplicationClientContext>>(() => new SampleAvaloniaApplicationDbContextFactory());
-        }*/
-
     public static IMutableDependencyResolver AddServices(this IMutableDependencyResolver service)
     {
         service.RegisterLazySingleton<IFileDialog>(() =>
@@ -160,5 +181,6 @@ public static class Bootstrapper
     public static void AddUIStates(this IMutableDependencyResolver service)
     {
         service.RegisterLazySingleton<IAppObservable<ProjectModel>>(() => new ProjectStateObservable());
+        service.RegisterLazySingleton<IAppObservable<AppErrorMessage>>(() => new AppErrorObservable());
     }
 }

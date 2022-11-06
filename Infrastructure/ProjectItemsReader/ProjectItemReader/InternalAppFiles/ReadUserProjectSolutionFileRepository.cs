@@ -10,20 +10,21 @@ using AppUsecases.Project.Entities.Project;
 namespace ProjectItemReader.InternalAppFiles;
 public class ReadUserProjectSolutionFileRepository : IReadContract<ProjectSolutionModel>
 {
-    private readonly IFilePickerService filePickerService;
+ /*   private readonly IFilePickerService filePickerService;
     public ReadUserProjectSolutionFileRepository(IFilePickerService filePickerService)
     {
         this.filePickerService = filePickerService;
-    }
-    public async Task<ProjectSolutionModel> ReadAsync()
+    }*/
+    public async Task<ProjectSolutionModel> ReadAsync(string path)
     {
-        var path = await filePickerService.GetFile(new string[] { ".prja" });
+        /*var path = await filePickerService.GetFile(new string[] { ".prja" });*/
 
         if (path is not null)
         {
+            var splittedPath = path.Split(Path.DirectorySeparatorChar);
             var file = Directory.GetFiles(string.Join(Path.DirectorySeparatorChar
-                , path.Split(Path.DirectorySeparatorChar)[..(path.Split(Path.DirectorySeparatorChar).Length - 1)]))
-                .FirstOrDefault(file => file.Equals(path.Split(Path.DirectorySeparatorChar)[path.Split(Path.DirectorySeparatorChar).Length - 1]));
+                , splittedPath[..(splittedPath.Length - 1)]))
+                .FirstOrDefault(file => file.Equals(splittedPath[splittedPath.Length - 1]));
 
             if (file is not null)
             {

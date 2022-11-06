@@ -5,7 +5,7 @@ using AppWinui.AppCode.AppUtils.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace AppWinui.AppCode.AppUtils.Services.Services;
+namespace AppWinui.AppCode.AppUtils.Services;
 
 public class ActivationService : IActivationService
 {

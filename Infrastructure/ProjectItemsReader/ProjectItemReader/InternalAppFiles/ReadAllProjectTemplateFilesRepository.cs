@@ -4,7 +4,7 @@ using AppUsecases.Editing.Entities;
 using Common;
 
 
-namespace ProjectItemReader.FileRepository.Repository.InternalAppFiles;
+namespace ProjectItemReader.InternalAppFiles;
 public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List<FileTemplate>>>
 {
     public async Task<Resource<List<FileTemplate>>> ReadAsync()
@@ -17,7 +17,7 @@ public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List
                     Constants.ROOT_SYSTEM_PROJECT_TEMPLATE_FOLDER_NAME,
                     Constants.ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME));
 
-                List<FileTemplate> filesList = new List<FileTemplate>();
+                var filesList = new List<FileTemplate>();
 
                 foreach (var item in files)
                 {
@@ -39,7 +39,7 @@ public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List
 
             return await task;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return new Resource<List<FileTemplate>>.Error(ex.Message, null);
         }
@@ -56,7 +56,7 @@ public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List
                     Constants.ROOT_SYSTEM_PROJECT_TEMPLATE_FOLDER_NAME,
                     Constants.ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME));
 
-                List<FileTemplate> filesList = new List<FileTemplate>();
+                var filesList = new List<FileTemplate>();
 
                 foreach (var item in files)
                 {
@@ -76,7 +76,7 @@ public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List
 
             return await task;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return new Resource<List<FileTemplate>>.Error(ex.Message, null);
         }

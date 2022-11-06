@@ -30,6 +30,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Application\AppUsecases\AppUsecases.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     <ProjectReference Include="..\..\UIStates\UIStatesStore\UIStatesStore.csproj" />
     <ProjectReference Include="..\..\ViewModels\Project.Core\Project.Core.csproj" />
   </ItemGroup>

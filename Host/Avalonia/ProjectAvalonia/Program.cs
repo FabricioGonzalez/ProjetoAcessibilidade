@@ -28,6 +28,7 @@ internal class Program
         Locator.CurrentMutable
                 .AddViewModel()
                 .AddViewComponents()
+                .AddRepositories()
                 .AddUsecases()
                 .AddServices()
                 .AddUIStates();

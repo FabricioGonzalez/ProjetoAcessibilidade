@@ -5,8 +5,6 @@ using AppWinui.Activation;
 using AppWinui.AppCode.AppUtils.Contracts.Services;
 using AppWinui.AppCode.AppUtils.Helpers;
 using AppWinui.AppCode.AppUtils.Services;
-using AppWinui.AppCode.AppUtils.Services.Services;
-using AppWinui.AppCode.AppUtils.UIModels.Models;
 using AppWinui.AppCode.AppUtils.ViewModels;
 using AppWinui.AppCode.AppUtils.Views;
 using AppWinui.AppCode.Dialogs.ViewModels;
@@ -27,6 +25,7 @@ using WindowsLocalRepository;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using AppWinui.AppCode.AppUtils.UIModels;
 
 namespace AppWinui;
 

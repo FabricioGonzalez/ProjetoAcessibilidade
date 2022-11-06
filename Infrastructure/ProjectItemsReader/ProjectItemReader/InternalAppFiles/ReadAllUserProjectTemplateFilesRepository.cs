@@ -11,13 +11,26 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
     {
         var list = new List<ExplorerItem>();
 
-        var projectItemsRootPath = Path.Combine(path, Constants.USER_APP_PROJECT_ITEMS_FOLDER_NAME);
+        var splittedPath = path.Split(Path.DirectorySeparatorChar);
+
+        var projectItemsRootPath = Path.Combine((string.Join(Path.DirectorySeparatorChar
+            , splittedPath[..(splittedPath.Length - 1)])), Constants.USER_APP_PROJECT_ITEMS_FOLDER_NAME);
 
         if (Directory.Exists(projectItemsRootPath))
         {
+            var folderItem = new FolderItem()
+            {
+                Name = projectItemsRootPath.Split(Path.DirectorySeparatorChar)[projectItemsRootPath.Split(Path.DirectorySeparatorChar).Length - 1],
+                Path = projectItemsRootPath
+            };
+
+            folderItem.Children = new List<ExplorerItem>();
+
+            list.Add(folderItem);
+
             var directory = Directory.GetFileSystemEntries(projectItemsRootPath);
 
-            await GetDataFromPath(directory, list);
+            await GetDataFromPath(directory, folderItem.Children);
         }
         return list;
     }
@@ -25,26 +38,37 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
     {
         foreach (var item in folder)
         {
-            if(File.GetAttributes(item).HasFlag(FileAttributes.Directory))
+            var fileAttributes = File.GetAttributes(item);
+
+            if (File.GetAttributes(item).HasFlag(FileAttributes.Archive))
+            {
+                var i = new FileItem()
+                {
+                    Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length - 1].Split(".")[0],
+                    Path = string.Join(Path.DirectorySeparatorChar, item.Split(Path.DirectorySeparatorChar)[..(item.Split(Path.DirectorySeparatorChar).Length - 1)]),
+                };
+                list.Add(i);
+            }
+            if (fileAttributes.HasFlag(FileAttributes.Directory))
             {
                 var itens = Directory.GetFiles(item);
 
                 var folderItem = new FolderItem
                 {
-                    Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length -1],
+                    Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length - 1],
                     Path = string.Join(Path.DirectorySeparatorChar, item.Split(Path.DirectorySeparatorChar)[..(item.Split(Path.DirectorySeparatorChar).Length - 1)]),
                     Children = new List<ExplorerItem>()
                 };
 
                 foreach (var fileItem in itens)
                 {
-                    if (File.GetAttributes(item).HasFlag(FileAttributes.Directory))
+                    if (fileAttributes.HasFlag(FileAttributes.Directory))
                     {
                         var entries = Directory.GetFileSystemEntries(fileItem);
 
                         await GetDataFromPath(entries, folderItem.Children);
                     }
-                    if (File.GetAttributes(item).HasFlag(FileAttributes.Normal))
+                    if (File.GetAttributes(item).HasFlag(FileAttributes.Archive))
                     {
                         var i = new FileItem()
                         {
@@ -54,14 +78,14 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
                         folderItem.Children.Add(i);
                     }
                 }
-               
+
                 list.Add(folderItem);
             }
 
         }
-       
-       
 
-     
+
+
+
     }
 }

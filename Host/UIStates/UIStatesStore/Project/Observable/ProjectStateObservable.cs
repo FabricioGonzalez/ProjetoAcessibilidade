@@ -10,7 +10,7 @@ using UIStatesStore.Project.Models;
 
 namespace UIStatesStore.Project.Observable
 {
-    public class ProjectStateObservable : IAppObservable<ProjectModel>,IDisposable
+    public class ProjectStateObservable : IAppObservable<ProjectModel>, IDisposable
 
     {
         private readonly IList<IObserver<ProjectModel>> _listeners = new List<IObserver<ProjectModel>>();
@@ -43,9 +43,18 @@ namespace UIStatesStore.Project.Observable
 
         public IDisposable Subscribe(IObserver<ProjectModel> observer)
         {
-            var isDuplicated = _listeners.Any(obs => obs.GetType() == observer.GetType());
-            if (!isDuplicated)
-            _listeners.Add(observer);
+            var Duplicated =
+                _listeners.Where(obs => obs.GetType() == observer.GetType());
+
+            if (Duplicated.Count() >  0)
+            {
+                foreach (var item in Duplicated.ToList())
+                {
+                _listeners.Remove(item);
+                }
+            }
+                _listeners.Add(observer);
+
             return this;
         }
     }

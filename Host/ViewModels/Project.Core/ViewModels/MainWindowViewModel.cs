@@ -25,8 +25,6 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
     public MainWindowViewModel()
     {
-        /*explorerViewModel =  Locator.Current.GetService<ExplorerComponentViewModel>();*/
-
         projectState = Locator.Current.GetService<IAppObservable<ProjectModel>>();
 
         var projectViewModel = new ProjectViewModel(this);

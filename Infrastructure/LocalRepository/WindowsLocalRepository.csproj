@@ -18,8 +18,4 @@
     <Folder Include="FileRepository\DTOs\" />
     <Folder Include="FileRepository\Repository\SessionControl\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Application\AppUsecases\AppUsecases.csproj" />
-  </ItemGroup>
 </Project>

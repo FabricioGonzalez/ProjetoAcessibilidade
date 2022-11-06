@@ -4,8 +4,6 @@ using Avalonia.ReactiveUI;
 
 using Project.Core.ViewModels;
 
-using ProjectAvalonia.Project.Components.ProjectExplorer;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Project.Views;

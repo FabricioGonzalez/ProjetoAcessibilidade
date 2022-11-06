@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using AppUsecases.Contracts.Repositories;
+﻿using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.FileTemplate;
 
@@ -18,7 +15,6 @@ public class GetProjectItemsUsecase : IQueryUsecase<string, List<ExplorerItem>>
     }
     public Resource<List<ExplorerItem>> execute(string parameter)
     {
-        //readProjectItems.ReadAsync()
         return new Resource<List<ExplorerItem>>.Success(new());
     }
     public async Task<Resource<List<ExplorerItem>>> executeAsync(string parameter)
