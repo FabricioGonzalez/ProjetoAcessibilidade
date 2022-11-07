@@ -10,6 +10,11 @@
         {
             get; set;
         }
+        public bool InEditMode
+        {
+            get;
+            set;
+        } = false;
     }
-   
+
 }

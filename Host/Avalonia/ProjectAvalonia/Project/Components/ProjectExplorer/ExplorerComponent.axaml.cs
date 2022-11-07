@@ -8,17 +8,12 @@ using Avalonia.ReactiveUI;
 using Project.Core.ViewModels;
 
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
-using ProjectAvalonia.Project.Views;
 using ProjectAvalonia.Views;
 
 using ReactiveUI;
 
 using Splat;
 
-using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace ProjectAvalonia.Project.Components.ProjectExplorer;

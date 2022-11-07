@@ -8,7 +8,7 @@ using Avalonia.Metadata;
 using Avalonia.Threading;
 using System;
 
-namespace AvalonStudio.Controls
+namespace ProjectAvalonia.Controls
 {
     public class EditableTextBlock : TemplatedControl
     {
@@ -80,7 +80,10 @@ namespace AvalonStudio.Controls
         [Content]
         public string Text
         {
-            get { return _text; }
+            get
+            {
+                return _text;
+            }
             set
             {
                 SetAndRaise(TextProperty, ref _text, value);
@@ -104,8 +107,14 @@ namespace AvalonStudio.Controls
 
         public bool InEditMode
         {
-            get { return GetValue(InEditModeProperty); }
-            set { SetValue(InEditModeProperty, value); }
+            get
+            {
+                return GetValue(InEditModeProperty);
+            }
+            set
+            {
+                SetValue(InEditModeProperty, value);
+            }
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)

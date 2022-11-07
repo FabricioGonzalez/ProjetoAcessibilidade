@@ -16,6 +16,10 @@
     <Folder Include="TemplateRules\Components\" />
     <Folder Include="TemplateRules\Views\" />
     <None Remove=".gitignore" />
+    <None Remove="Views\EditableTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Controls\EditableTextBlock.xaml" />
   </ItemGroup>
   <ItemGroup>
 	<!--This helps with theme dll-s trimming.

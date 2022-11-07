@@ -1,9 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Runtime;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 using AppUsecases.Contracts.Repositories;
@@ -14,6 +17,8 @@ using Common;
 
 using DynamicData;
 using DynamicData.Binding;
+
+using Project.Core.ComposableViewModel;
 
 using ReactiveUI;
 
@@ -29,12 +34,12 @@ public class ExplorerComponentViewModel : ViewModelBase
 {
     private SourceList<FolderItem> _items;
 
-    private ObservableCollectionExtended<ExplorerItem> explorerItems = new();
-    public ObservableCollectionExtended<ExplorerItem> ExplorerItems
+    private ObservableCollectionExtended<ProjectItemViewModel> explorerItems = new();
+    public ObservableCollectionExtended<ProjectItemViewModel> ExplorerItems
     {
         get => explorerItems; set => this.RaiseAndSetIfChanged(ref explorerItems, value, nameof(ExplorerItems));
     }
-    public ObservableCollection<ExplorerItem> SelectedItems
+    public ObservableCollection<ProjectItemViewModel> SelectedItems
     {
         get; set;
     }
@@ -48,8 +53,7 @@ public class ExplorerComponentViewModel : ViewModelBase
 
     private readonly IAppObservable<ProjectModel> projectState;
     private readonly IAppObservable<AppErrorMessage> AppErrorState;
-   
-    IQueryUsecase<string, List<ExplorerItem>> getProjectItems;
+    readonly IQueryUsecase<string, List<ExplorerItem>> getProjectItems;
     public ExplorerComponentViewModel()
     {
         projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();
@@ -68,7 +72,7 @@ public class ExplorerComponentViewModel : ViewModelBase
         this.WhenActivated((CompositeDisposable disposables) =>
         {
             this.WhenAnyValue(x => x.Folder)
-                    .Subscribe( path =>
+                    .Subscribe(path =>
                     {
                         if (path is not null && path.Length > 0)
                         {
@@ -81,51 +85,53 @@ public class ExplorerComponentViewModel : ViewModelBase
                             .OnLoading(ref items, ref isLoading)
                             .OnSuccess(ref items);
 
-                            ExplorerItems = new (items);
+
+                            ExplorerItems = new(GetSubfolders(items));
                         }
                     });
 
             projectState.Subscribe(x =>
             {
                 Folder = x.ProjectPath;
-            });          
+            });
         });
     }
 
-    public ReactiveCommand<Unit,Unit> AddItemCommand
+    public ReactiveCommand<Unit, Unit> AddItemCommand
+    {
+        get; private set;
+    }
+    public ReactiveCommand<ProjectItemViewModel, Unit> RenameItemCommand
+    {
+        get; private set;
+    }
+    public Interaction<AddItemViewModel, ExplorerComponentViewModel?> ShowDialog
     {
         get; private set;
     }
 
-    public Interaction<AddItemViewModel, ExplorerComponentViewModel?> ShowDialog
+    public List<ProjectItemViewModel> GetSubfolders(List<ExplorerItem> items)
     {
-        get;private set;
-    }
-
-    public ObservableCollection<ExplorerItem> GetSubfolders(string strPath)
-    {
-        ObservableCollection<ExplorerItem> subfolders = new ObservableCollection<ExplorerItem>();
-        string[] subdirs = Directory.GetDirectories(strPath, "*", SearchOption.TopDirectoryOnly);
-
-        foreach (string dir in subdirs)
+        List<ProjectItemViewModel> subfolders = new();
+        foreach (var dir in items)
         {
-            ExplorerItem thisnode = new FileItem()
+            ProjectItemViewModel thisnode = new FileProjectItemViewModel()
             {
-                Name = dir.Split(Path.DirectorySeparatorChar)[dir.Split(Path.DirectorySeparatorChar).Length - 1],
-                Path = dir,
+                Title = dir.Name,
+                InEditMode = false,
             };
 
-            if (Directory.GetDirectories(dir, "*", SearchOption.TopDirectoryOnly).Length > 0)
+            if (dir is FolderItem item)
             {
-                thisnode = new FolderItem()
+                thisnode = new FolderProjectItemViewModel()
                 {
-                    Name = dir.Split(Path.DirectorySeparatorChar)[dir.Split(Path.DirectorySeparatorChar).Length - 1],
-                    Path = dir,
+                    Title = item.Name,
+                    InEditMode = false,
                 };
 
-                (thisnode as FolderItem).Children = new ObservableCollection<ExplorerItem>();
+                (thisnode as FolderProjectItemViewModel).Children = new();
 
-                (thisnode as FolderItem).Children = GetSubfolders(dir);
+                (thisnode as FolderProjectItemViewModel).Children = GetSubfolders(item.Children);
             }
 
             subfolders.Add(thisnode);
