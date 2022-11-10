@@ -20,8 +20,15 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            var args = desktop.Args;
             var window = Locator.Current.GetService<MainWindow>();
-            window.DataContext = new MainWindowViewModel();
+
+            var windowViewModel = new MainWindowViewModel();
+
+            if (args is not null)
+                windowViewModel.SetProjectPath(args.ToString());
+
+            window.DataContext = windowViewModel;
 
             desktop.MainWindow = window;
         }

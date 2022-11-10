@@ -21,7 +21,12 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
     /*    public ExplorerComponentViewModel explorerViewModel { get; }*/
 
-    readonly IAppObservable<ProjectModel> projectState;
+    private readonly IAppObservable<ProjectModel> projectState;
+
+    public void SetProjectPath(string projectPath)
+    {
+        projectState.Send(new(projectPath));
+    }
 
     public MainWindowViewModel()
     {
@@ -58,15 +63,15 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
         this.WhenActivated((CompositeDisposable disposables) =>
         {
-            OpenProjectCommand.Subscribe(x =>
+            OpenProjectCommand.Subscribe(solutionPath =>
             {
-                projectState.Send(new(x));
+                SetProjectPath(solutionPath);
             })
             .DisposeWith(disposables);
 
-            CreateProjectCommand.Subscribe(x =>
+            CreateProjectCommand.Subscribe(solutionPath =>
             {
-                projectState.Send(new(x));
+                SetProjectPath(solutionPath);
             })
             .DisposeWith(disposables);
         });
@@ -75,7 +80,7 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
     public ReactiveCommand<Unit, string> OpenProjectCommand
     {
         get; private set;
-    }   
+    }
     public ReactiveCommand<Unit, string> CreateProjectCommand
     {
         get; private set;

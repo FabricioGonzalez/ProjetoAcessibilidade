@@ -88,12 +88,14 @@ public class ExplorerComponentViewModel : ViewModelBase
 
                             ExplorerItems = new(GetSubfolders(items));
                         }
-                    });
+                    })
+                    .DisposeWith(disposables);
 
             projectState.Subscribe(x =>
             {
                 Folder = x.ProjectPath;
-            });
+            })
+            .DisposeWith(disposables);
         });
     }
 

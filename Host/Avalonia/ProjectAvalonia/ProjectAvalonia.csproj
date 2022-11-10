@@ -6,6 +6,21 @@
 	<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
 	<TrimMode>copyused</TrimMode>
 	<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+	<Platforms>AnyCPU;x64</Platforms>
+	<AssemblyName>ProjectAvalonia</AssemblyName>
+	<ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -20,6 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Controls\EditableTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\avalonia-logo.ico" />
   </ItemGroup>
   <ItemGroup>
 	<!--This helps with theme dll-s trimming.

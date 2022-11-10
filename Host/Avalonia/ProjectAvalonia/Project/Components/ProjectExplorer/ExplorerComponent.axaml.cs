@@ -1,5 +1,3 @@
-using AppUsecases.Project.Entities.FileTemplate;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -14,6 +12,7 @@ using ReactiveUI;
 
 using Splat;
 
+using System.Reactive.Disposables;
 using System.Threading.Tasks;
 
 namespace ProjectAvalonia.Project.Components.ProjectExplorer;
@@ -29,7 +28,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
 
         this.WhenActivated(disposables =>
         {
-            disposables(ViewModel!.ShowDialog.RegisterHandler(DoShowDialogAsync));
+            ViewModel!.ShowDialog.RegisterHandler(DoShowDialogAsync)
+            .DisposeWith(disposables);
 
             /*            this.WhenAnyValue(x => x.ViewModel.ExplorerItems)
                         .Subscribe(x =>
@@ -39,7 +39,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
             */
             this.OneWayBind(ViewModel,
                 vm => vm.ExplorerItems,
-                v => v.explorerTree.Items);
+                v => v.explorerTree.Items)
+            .DisposeWith(disposables);
 
         });
 
