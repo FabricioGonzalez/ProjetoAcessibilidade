@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
@@ -148,12 +149,16 @@ public class ReadXmlFileRepository : IReadContract<AppItemModel>
                     var law = new AppLawModel();
 
                     law.LawId = itemLaw.ChildNodes[0]?.InnerXml;
-                    law.LawTextContent = new List<string>();
+
+                    var lawContent = new StringBuilder();
 
                     foreach (XmlNode item in itemLaw.ChildNodes[1].ChildNodes)
                     {
-                        law.LawTextContent.Add(item.InnerXml);
+                        lawContent.AppendLine(item.InnerXml);
                     }
+
+                    law.LawTextContent = lawContent.ToString();
+
                     lawModel.Add(law);
                 }
 

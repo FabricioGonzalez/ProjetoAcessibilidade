@@ -14,7 +14,7 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
         var splittedPath = path.Split(Path.DirectorySeparatorChar);
 
         var projectItemsRootPath = Path.Combine((string.Join(Path.DirectorySeparatorChar
-            , splittedPath[..(splittedPath.Length - 1)])), Constants.USER_APP_PROJECT_ITEMS_FOLDER_NAME);
+            , splittedPath[..(splittedPath.Length - 1)])), Constants.AppUserProjectItemsFolder);
 
         if (Directory.Exists(projectItemsRootPath))
         {
@@ -45,7 +45,7 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
                 var i = new FileItem()
                 {
                     Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length - 1].Split(".")[0],
-                    Path = string.Join(Path.DirectorySeparatorChar, item.Split(Path.DirectorySeparatorChar)[..(item.Split(Path.DirectorySeparatorChar).Length - 1)]),
+                    Path =item,
                 };
                 list.Add(i);
             }
@@ -56,7 +56,7 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
                 var folderItem = new FolderItem
                 {
                     Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length - 1],
-                    Path = string.Join(Path.DirectorySeparatorChar, item.Split(Path.DirectorySeparatorChar)[..(item.Split(Path.DirectorySeparatorChar).Length - 1)]),
+                    Path = item,
                     Children = new List<ExplorerItem>()
                 };
 
@@ -73,7 +73,7 @@ public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<Expl
                         var i = new FileItem()
                         {
                             Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length - 1].Split(".")[0],
-                            Path = string.Join(Path.DirectorySeparatorChar, item.Split(Path.DirectorySeparatorChar)[..(item.Split(Path.DirectorySeparatorChar).Length - 1)]),
+                            Path = item,
                         };
                         folderItem.Children.Add(i);
                     }

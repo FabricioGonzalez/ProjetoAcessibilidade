@@ -1,21 +1,30 @@
+using System;
+using System.Reactive.Disposables;
+
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+
+using Project.Core.ViewModels;
+
+using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Project.Components.ProjectEditing;
-public partial class EditingView : UserControl
+public partial class EditingView : ReactiveUserControl<ItemEditingViewModel>
 {
     public EditingView()
     {
+        ViewModel = Locator.Current.GetService<ItemEditingViewModel>();
+      
+        DataContext = ViewModel;
 
-       /* this.WhenActivated(disposables =>
+        this.WhenActivated(disposables =>
         {
-            ViewModel = Locator.Current.GetService<ExplorerComponentViewModel>();
-        });*/
+           
 
-        this.DataContext = new TabItemModelTest[] {
-    new TabItemModelTest("One", "Some content on first tab"),
-    new TabItemModelTest("Two", "Some content on second tab"),
-};
+        });
 
         AvaloniaXamlLoader.Load(this);
     }

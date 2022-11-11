@@ -14,8 +14,8 @@ public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List
             var task = new Task<Resource<List<FileTemplate>>>(() =>
             {
                 var files = Directory.GetFiles(Path.Combine(
-                    Constants.ROOT_SYSTEM_PROJECT_TEMPLATE_FOLDER_NAME,
-                    Constants.ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME));
+                    Constants.AppTemplatesFolder,
+                    Constants.AppItemsTemplateFolder));
 
                 var filesList = new List<FileTemplate>();
 
@@ -53,8 +53,8 @@ public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List
             {
                 var files = Directory.GetFiles(Path.Combine(
                     path,
-                    Constants.ROOT_SYSTEM_PROJECT_TEMPLATE_FOLDER_NAME,
-                    Constants.ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME));
+                    Constants.AppTemplatesFolder,
+                    Constants.AppItemsTemplateFolder));
 
                 var filesList = new List<FileTemplate>();
 

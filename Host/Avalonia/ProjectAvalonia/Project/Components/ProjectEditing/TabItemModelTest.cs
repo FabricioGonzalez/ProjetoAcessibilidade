@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AppUsecases.Project.Entities.Project;
 
 namespace ProjectAvalonia.Project.Components.ProjectEditing;
 public class TabItemModelTest
@@ -11,11 +7,11 @@ public class TabItemModelTest
     {
         get;
     }
-    public string Content
+    public AppItemModel Content
     {
         get;
     }
-    public TabItemModelTest(string header, string content)
+    public TabItemModelTest(string header, AppItemModel content)
     {
         Header = header;
         Content = content;

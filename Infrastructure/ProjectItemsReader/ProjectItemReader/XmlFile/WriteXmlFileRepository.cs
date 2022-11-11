@@ -197,7 +197,7 @@ public class WriteXmlFileRepository : IWriteContract<AppItemModel>
 
                 var LeiDescricao = doc.CreateElement("descricao");
 
-                foreach (var itemLeiDes in item.LawTextContent)
+                foreach (var itemLeiDes in item.LawTextContent.Split("\n"))
                 {
                     var LeiItemDescricao = doc.CreateElement("itemdescricao");
                     LeiItemDescricao.InnerXml = itemLeiDes;

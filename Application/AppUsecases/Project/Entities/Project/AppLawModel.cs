@@ -8,7 +8,7 @@ public class AppLawModel
     {
         get; set;
     }
-    public IList<string> LawTextContent
+    public string LawTextContent
     {
         get; set;
     }

@@ -21,7 +21,10 @@ public abstract class ProjectItemViewModel : ViewModelBase
     {
         get; set;
     }
-
+    public string Path
+    {
+        get; set;
+    }
     public bool InEditMode
     {
         get => _isInEditMode;

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.FileTemplate;
+using AppUsecases.Project.Entities.Project;
 
 using Common;
 
@@ -54,11 +55,16 @@ public class ExplorerComponentViewModel : ViewModelBase
     private readonly IAppObservable<ProjectModel> projectState;
     private readonly IAppObservable<AppErrorMessage> AppErrorState;
     readonly IQueryUsecase<string, List<ExplorerItem>> getProjectItems;
+    private readonly IAppObservable<ProjectEditingModel> ProjectEditingObservable;
+    IQueryUsecase<string, AppItemModel> getItemContent;
+
     public ExplorerComponentViewModel()
     {
         projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();
         AppErrorState ??= Locator.Current.GetService<IAppObservable<AppErrorMessage>>();
+        ProjectEditingObservable ??= Locator.Current.GetService<IAppObservable<ProjectEditingModel>>();
         getProjectItems ??= Locator.Current.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
+        getItemContent ??= Locator.Current.GetService<IQueryUsecase<string, AppItemModel>>();
 
         ShowDialog = new Interaction<AddItemViewModel, ExplorerComponentViewModel?>();
 
@@ -69,6 +75,19 @@ public class ExplorerComponentViewModel : ViewModelBase
             var result = await ShowDialog.Handle(store);
         });
 
+        SelectSolutionItemCommand = ReactiveCommand.CreateFromTask<string, Unit>(async (item) =>
+        {
+            var result = await getItemContent.executeAsync(item);
+
+            result
+            .OnLoading(out var itemModel, out var isLoading)
+            .OnError(out itemModel, out var error)
+            .OnSuccess(out itemModel);
+
+            ProjectEditingObservable.Send(new(itemModel.ItemName, itemModel));
+
+            return new Unit();
+        });
         this.WhenActivated((CompositeDisposable disposables) =>
         {
             this.WhenAnyValue(x => x.Folder)
@@ -76,14 +95,12 @@ public class ExplorerComponentViewModel : ViewModelBase
                     {
                         if (path is not null && path.Length > 0)
                         {
-                            var error = "";
-                            var isLoading = false;
-                            var items = new List<ExplorerItem>();
                             var result = getProjectItems.executeAsync(path).Result;
 
-                            result.OnError(ref items, ref error)
-                            .OnLoading(ref items, ref isLoading)
-                            .OnSuccess(ref items);
+                            result
+                            .OnError(out var items, out var error)
+                            .OnLoading(out items, out var isLoading)
+                            .OnSuccess(out items);
 
 
                             ExplorerItems = new(GetSubfolders(items));
@@ -103,7 +120,7 @@ public class ExplorerComponentViewModel : ViewModelBase
     {
         get; private set;
     }
-    public ReactiveCommand<ProjectItemViewModel, Unit> RenameItemCommand
+    public ReactiveCommand<string, Unit> SelectSolutionItemCommand
     {
         get; private set;
     }
@@ -120,6 +137,7 @@ public class ExplorerComponentViewModel : ViewModelBase
             ProjectItemViewModel thisnode = new FileProjectItemViewModel()
             {
                 Title = dir.Name,
+                Path = dir.Path,
                 InEditMode = false,
             };
 
@@ -128,6 +146,7 @@ public class ExplorerComponentViewModel : ViewModelBase
                 thisnode = new FolderProjectItemViewModel()
                 {
                     Title = item.Name,
+                    Path = item.Path,
                     InEditMode = false,
                 };
 

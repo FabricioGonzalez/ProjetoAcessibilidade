@@ -34,6 +34,7 @@ public static class Bootstrapper
     public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
     {
         service.Register(() => new ExplorerComponentViewModel());
+        service.Register(() => new ItemEditingViewModel());
 
         return service;
     }
@@ -182,5 +183,7 @@ public static class Bootstrapper
     {
         service.RegisterLazySingleton<IAppObservable<ProjectModel>>(() => new ProjectStateObservable());
         service.RegisterLazySingleton<IAppObservable<AppErrorMessage>>(() => new AppErrorObservable());
+        service.RegisterLazySingleton<IAppObservable<ProjectEditingModel>>(() => new ProjectEditingStateObservable());
+
     }
 }

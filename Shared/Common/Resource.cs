@@ -42,37 +42,56 @@ public abstract class Resource<T>
 
 public static class Extensions
 {
-    public static Resource<T> OnError<T>(this Resource<T> resource, ref T? Data, ref string? message)
+    public static Resource<T> OnError<T>(this Resource<T> resource, out T? Data, out string? message)
     {
         if (resource is Resource<T>.Error error)
         {
             message = error.Message;
 
-            if (error.Data is not null)
+            if (error.Data is null)
             {
-                Data = error.Data;
+                Data = default(T);
+
             }
+            else Data = error.Data;
         }
+        else
+        {
+            message = "";
+            Data = default(T);
+        }
+
         return resource;
     }
-    public static Resource<T> OnSuccess<T>(this Resource<T> resource, ref T? Data)
+    public static Resource<T> OnSuccess<T>(this Resource<T> resource, out T? Data)
     {
         if (resource is Resource<T>.Success success)
         {
             Data = success.Data;
         }
+        else
+        {
+            Data = default(T);
+        }
         return resource;
     }
-    public static Resource<T> OnLoading<T>(this Resource<T> resource,ref T? Data, ref bool isLoading)
+    public static Resource<T> OnLoading<T>(this Resource<T> resource, out T? Data, out bool isLoading)
     {
         if (resource is Resource<T>.IsLoading IsLoading)
         {
-            if (Data is not null)
+            if (IsLoading.Data is null)
             {
-                Data = IsLoading.Data;
+                Data = default(T);
             }
+            else
+                Data = IsLoading.Data;
 
             isLoading = IsLoading.isLoading;
+        }
+        else
+        {
+            Data = default(T);
+            isLoading = false;
         }
         return resource;
     }

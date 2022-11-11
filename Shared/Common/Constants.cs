@@ -1,9 +1,18 @@
 ﻿namespace Common;
 public static class Constants
 {
-    public const string ROOT_SYSTEM_PROJECT_TEMPLATE_FOLDER_NAME = "Specifications";
-    public const string ROOT_APP_PROJECT_TEMPLATE_FOLDER_NAME = "Tables";
-    public const string USER_APP_PROJECT_ITEMS_FOLDER_NAME = "Itens";
-    public const string ROOT_SYSTEM_HISTORY_ITEMS_FOLDER_NAME = "RecentlyOpened";
-    public const string ROOT_UNCLOSED_PROJECT_FILES_FOLDER_NAME = "UnclosedItems";
+
+    public static string AppFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+    public static string AppCacheFolder = Path.Combine(AppFolder, "CacheData");
+    public static string AppHistoryFolder = Path.Combine(AppCacheFolder, "RecentlyOpened");
+    public static string AppUnclosedItemsFolder = Path.Combine(AppCacheFolder, "UnclosedItems");
+
+    public static string AppSettingsFolder = Path.Combine(AppFolder, "Settings");
+    public static string AppUISettings = Path.Combine(AppSettingsFolder, "UISettings");
+
+    public static string AppTemplatesFolder = Path.Combine(AppFolder, "Templates");
+    public static string AppItemsTemplateFolder = Path.Combine(AppTemplatesFolder, "Itens");
+
+    public const string AppUserProjectItemsFolder = "Itens";
 }

@@ -54,4 +54,6 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
         var result = await dialog.ShowDialog<ExplorerComponentViewModel?>(Locator.Current.GetService<MainWindow>());
         interaction.SetOutput(result);
     }
+    
+
 }
