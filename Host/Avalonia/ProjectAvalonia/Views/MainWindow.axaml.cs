@@ -3,9 +3,7 @@ using System.Reactive.Disposables;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-
-using Project.Core.ViewModels;
-
+using Project.Core.ViewModels.Main;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Views;

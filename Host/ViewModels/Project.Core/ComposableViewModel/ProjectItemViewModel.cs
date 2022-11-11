@@ -1,7 +1,5 @@
 ﻿using System.Reactive;
-
-using Project.Core.ViewModels;
-
+using Project.Core.ViewModels.Extensions;
 using ReactiveUI;
 
 namespace Project.Core.ComposableViewModel;

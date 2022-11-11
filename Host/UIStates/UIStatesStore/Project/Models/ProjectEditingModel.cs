@@ -9,6 +9,10 @@ public class ProjectEditingModel
         get;
         set;
     }
+    public Guid Id
+    {
+        get; set;
+    }
     public AppItemModel Item
     {
         get; set;

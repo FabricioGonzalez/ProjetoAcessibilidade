@@ -2,7 +2,7 @@
 using ReactiveUI.Validation.Abstractions;
 using ReactiveUI.Validation.Contexts;
 
-namespace Project.Core.ViewModels;
+namespace Project.Core.ViewModels.Extensions;
 public class ViewModelBase : ReactiveObject, IActivatableViewModel, IValidatableViewModel
 {
     public ViewModelActivator Activator { get; } = new ViewModelActivator();

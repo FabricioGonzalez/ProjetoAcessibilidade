@@ -4,6 +4,8 @@ using System.Reflection;
 using Avalonia;
 using Avalonia.ReactiveUI;
 
+using Project.Core.ViewModels.Main;
+
 using ReactiveUI;
 
 using Splat;

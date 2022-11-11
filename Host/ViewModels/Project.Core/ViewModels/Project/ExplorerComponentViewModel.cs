@@ -20,7 +20,7 @@ using DynamicData;
 using DynamicData.Binding;
 
 using Project.Core.ComposableViewModel;
-
+using Project.Core.ViewModels.Extensions;
 using ReactiveUI;
 
 using Splat;
@@ -30,7 +30,7 @@ using UIStatesStore.Contracts;
 
 using UIStatesStore.Project.Models;
 
-namespace Project.Core.ViewModels;
+namespace Project.Core.ViewModels.Project;
 public class ExplorerComponentViewModel : ViewModelBase
 {
     private SourceList<FolderItem> _items;
@@ -88,7 +88,7 @@ public class ExplorerComponentViewModel : ViewModelBase
 
             return new Unit();
         });
-        this.WhenActivated((CompositeDisposable disposables) =>
+        this.WhenActivated((disposables) =>
         {
             this.WhenAnyValue(x => x.Folder)
                     .Subscribe(path =>

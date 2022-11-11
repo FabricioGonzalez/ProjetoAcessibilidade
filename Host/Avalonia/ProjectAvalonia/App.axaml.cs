@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
 using Project.Core.ViewModels;
+using Project.Core.ViewModels.Main;
 
 using ProjectAvalonia.Views;
 
@@ -23,7 +24,7 @@ public partial class App : Application
             var args = desktop.Args;
             var window = Locator.Current.GetService<MainWindow>();
 
-            var windowViewModel = new MainWindowViewModel();
+            var windowViewModel = Locator.Current.GetService<MainWindowViewModel>();
 
             if (args is not null)
                 windowViewModel.SetProjectPath(args.ToString());

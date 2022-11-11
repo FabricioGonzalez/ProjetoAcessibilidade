@@ -4,9 +4,7 @@ using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-
-using Project.Core.ViewModels;
-
+using Project.Core.ViewModels.Project;
 using ReactiveUI;
 
 using Splat;

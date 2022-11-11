@@ -12,6 +12,7 @@
     VerticalAlignment="Stretch"
     d:DesignHeight="650"
     d:DesignWidth="800"
+    Background="Transparent"
     mc:Ignorable="d">
     <Grid Margin="4" ColumnDefinitions="0.75*,0.25*">
         <editing:EditingView
@@ -19,7 +20,8 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch" />
+            VerticalContentAlignment="Stretch"
+            Background="Transparent" />
         <explorer:ExplorerComponent
             Grid.Column="1"
             Margin="4"

@@ -27,12 +27,22 @@ using ProjectItemReader.InternalAppFiles;
 using ProjectItemReader.XmlFile;
 using UIStatesStore.App.Models;
 using UIStatesStore.App.Observable;
+using Project.Core.ViewModels.Project;
+using Project.Core.ViewModels.TemplateEditing;
+using Project.Core.ViewModels.Main;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
 {
     public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
     {
+        service.RegisterLazySingleton(() => new MainWindowViewModel());
+
+        service.RegisterLazySingleton(() => new TemplateEditingViewModel());
+       
+        service.RegisterLazySingleton(() => new TemplateRulesViewModel());
+
+        service.RegisterLazySingleton(() => new ProjectViewModel());
         service.Register(() => new ExplorerComponentViewModel());
         service.Register(() => new ItemEditingViewModel());
 

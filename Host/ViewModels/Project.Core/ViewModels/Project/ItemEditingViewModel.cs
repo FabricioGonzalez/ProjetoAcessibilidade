@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 
+using Project.Core.ViewModels.Extensions;
+
 using ReactiveUI;
 
 using Splat;
@@ -8,7 +10,7 @@ using Splat;
 using UIStatesStore.Contracts;
 using UIStatesStore.Project.Models;
 
-namespace Project.Core.ViewModels;
+namespace Project.Core.ViewModels.Project;
 public class ItemEditingViewModel : ViewModelBase
 {
     private ObservableCollection<ProjectEditingModel> items;
@@ -29,8 +31,8 @@ public class ItemEditingViewModel : ViewModelBase
         {
             ProjectEditingObservable.Subscribe(item =>
             {
-                if (!Items.Any(registeredItem => registeredItem.Equals(item)))
-                    Items.Add(item);
+                /*  if (!Items.Any(registeredItem => true ))*/
+                Items.Add(item);
             })
            .DisposeWith(disposables);
         });

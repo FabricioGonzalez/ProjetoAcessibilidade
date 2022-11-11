@@ -8,7 +8,7 @@
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme Mode="Light" />
+        <FluentTheme Mode="Dark" />
         <StyleInclude Source="/Styles/ProjectModuleStyles.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Controls/EditableTextBlock.xaml" />
         <StyleInclude Source="/Styles/MainWindowStyles.axaml" />

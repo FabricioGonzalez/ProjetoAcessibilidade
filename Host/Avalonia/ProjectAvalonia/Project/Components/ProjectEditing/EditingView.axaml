@@ -8,6 +8,8 @@
     xmlns:appModelText="clr-namespace:AppUsecases.Entities.AppFormDataItems.Text;assembly=AppUsecases"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -17,7 +19,8 @@
         HorizontalContentAlignment="Stretch"
         VerticalContentAlignment="Stretch"
         Background="Transparent"
-        Items="{Binding Items, Mode=OneWay}">
+        Items="{Binding Items, Mode=OneWay}"
+        ScrollViewer.VerticalScrollBarVisibility="Visible">
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding Title, Mode=OneWay}" />
@@ -25,136 +28,117 @@
         </TabControl.ItemTemplate>
         <TabControl.ContentTemplate>
             <DataTemplate>
-                <ScrollViewer
-                    x:Name="Scroller"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-
-                        <Grid Grid.Row="1">
-                            <Grid.Styles>
-                                <!--  Give the ListBoxItems a fixed with of 100 and right-align them  -->
-                                <Style Selector="ListBox ListBoxItem:selected">
-                                    <Setter Property="Background" Value="Transparent" />
-                                </Style>
-                                <Style Selector="ListBox ListBoxItem /template/ ContentPresenter">
-                                    <Setter Property="Background" Value="Transparent" />
-                                </Style>
-                                <Style Selector="ListBox ListBoxItem:pointerover">
-                                    <Setter Property="Background" Value="Transparent" />
-                                </Style>
-                            </Grid.Styles>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <ListBox
-                                Grid.Row="0"
-                                Items="{Binding Item.FormData, Mode=OneWay}"
-                                Selection="{x:Null}">
-                                <ListBox.DataTemplates>
-                                    <DataTemplate DataType="appModelText:AppFormDataItemTextModel">
-                                        <StackPanel
-                                            Margin="0,4"
-                                            Orientation="Vertical"
-                                            Spacing="8">
+                <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        RowDefinitions="auto,auto">
+                        <ItemsControl
+                            Grid.Row="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Items="{Binding Item.FormData, Mode=OneWay}">
+                            <ItemsControl.DataTemplates>
+                                <DataTemplate DataType="appModelText:AppFormDataItemTextModel">
+                                    <StackPanel
+                                        Margin="0,4"
+                                        Orientation="Vertical"
+                                        Spacing="8">
+                                        <TextBlock
+                                            FontWeight="Bold"
+                                            Text="{Binding Topic}"
+                                            TextWrapping="Wrap" />
+                                        <StackPanel Orientation="Horizontal" Spacing="5">
+                                            <TextBox
+                                                Width="280"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Stretch"
+                                                Text="{Binding TextData, Mode=TwoWay}" />
                                             <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
                                                 FontWeight="Bold"
-                                                Text="{Binding Topic}"
-                                                TextWrapping="Wrap" />
-                                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                                <TextBox
-                                                    Width="280"
-                                                    HorizontalAlignment="Stretch"
-                                                    HorizontalContentAlignment="Stretch"
-                                                    Text="{Binding TextData, Mode=TwoWay}" />
-                                                <TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    FontWeight="Bold"
-                                                    Text="{Binding MeasurementUnit}" />
-                                            </StackPanel>
+                                                Text="{Binding MeasurementUnit}" />
                                         </StackPanel>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="appModelCheckBox:AppFormDataItemCheckboxModel">
-                                        <StackPanel Orientation="Vertical" Spacing="8">
-                                            <TextBlock
-                                                FontWeight="Bold"
-                                                Text="{Binding Topic}"
-                                                TextWrapping="Wrap" />
-                                            <ListBox Items="{Binding Children}" Selection="{x:Null}">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxChildModel">
-                                                        <StackPanel Margin="0,4">
-                                                            <TextBlock
-                                                                FontWeight="Bold"
-                                                                Text="{Binding Topic}"
-                                                                TextWrapping="Wrap" />
-                                                            <ListBox Items="{Binding Options}">
-                                                                <ListBox.ItemTemplate>
-                                                                    <DataTemplate x:DataType="appModelCheckBox:AppOptionModel">
+                                    </StackPanel>
+                                </DataTemplate>
+                                <DataTemplate DataType="appModelCheckBox:AppFormDataItemCheckboxModel">
+                                    <StackPanel Orientation="Vertical" Spacing="8">
+                                        <TextBlock
+                                            FontWeight="Bold"
+                                            Text="{Binding Topic}"
+                                            TextWrapping="Wrap" />
+                                        <ItemsPresenter Items="{Binding Children}">
+                                            <ItemsPresenter.ItemTemplate>
+                                                <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxChildModel">
+                                                    <StackPanel Margin="0,4">
+                                                        <TextBlock
+                                                            FontWeight="Bold"
+                                                            Text="{Binding Topic}"
+                                                            TextWrapping="Wrap" />
+                                                        <ItemsPresenter Items="{Binding Options}">
+                                                            <ItemsPresenter.ItemTemplate>
+                                                                <DataTemplate x:DataType="appModelCheckBox:AppOptionModel">
+                                                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                                                        <TextBlock
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            Text="{Binding Value}" />
+                                                                        <CheckBox
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ItemsPresenter.ItemTemplate>
+                                                        </ItemsPresenter>
+                                                        <ItemsPresenter Items="{Binding TextItems}">
+                                                            <ItemsPresenter.ItemTemplate>
+                                                                <DataTemplate x:DataType="appModelText:AppFormDataItemTextModel">
+                                                                    <StackPanel Orientation="Vertical" Spacing="8">
+                                                                        <TextBlock
+                                                                            FontWeight="Bold"
+                                                                            Text="{Binding Topic}"
+                                                                            TextWrapping="Wrap" />
                                                                         <StackPanel Orientation="Horizontal" Spacing="5">
+                                                                            <TextBox
+                                                                                Width="280"
+                                                                                HorizontalAlignment="Stretch"
+                                                                                HorizontalContentAlignment="Stretch"
+                                                                                Text="{Binding TextData}" />
                                                                             <TextBlock
                                                                                 HorizontalAlignment="Center"
                                                                                 VerticalAlignment="Center"
-                                                                                Text="{Binding Value}" />
-                                                                            <CheckBox
-                                                                                HorizontalAlignment="Center"
-                                                                                VerticalAlignment="Center"
-                                                                                IsChecked="{Binding IsChecked, Mode=TwoWay}" />
-                                                                        </StackPanel>
-                                                                    </DataTemplate>
-                                                                </ListBox.ItemTemplate>
-                                                            </ListBox>
-                                                            <ListBox Items="{Binding TextItems}">
-                                                                <ListBox.ItemTemplate>
-                                                                    <DataTemplate x:DataType="appModelText:AppFormDataItemTextModel">
-                                                                        <StackPanel Orientation="Vertical" Spacing="8">
-                                                                            <TextBlock
                                                                                 FontWeight="Bold"
-                                                                                Text="{Binding Topic}"
-                                                                                TextWrapping="Wrap" />
-                                                                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                                                                <TextBox
-                                                                                    Width="280"
-                                                                                    HorizontalAlignment="Stretch"
-                                                                                    HorizontalContentAlignment="Stretch"
-                                                                                    Text="{Binding TextData}" />
-                                                                                <TextBlock
-                                                                                    HorizontalAlignment="Center"
-                                                                                    VerticalAlignment="Center"
-                                                                                    FontWeight="Bold"
-                                                                                    Text="{Binding MeasurementUnit}" />
-                                                                            </StackPanel>
+                                                                                Text="{Binding MeasurementUnit}" />
                                                                         </StackPanel>
-                                                                    </DataTemplate>
-                                                                </ListBox.ItemTemplate>
-                                                            </ListBox>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                            </ListBox>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                    <DataTemplate />
-                                </ListBox.DataTemplates>
-                            </ListBox>
-                            <ListBox Grid.Row="1" Items="{Binding Item.LawList, Mode=OneWay}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="0,4">
-                                            <TextBlock FontWeight="Bold" Text="{Binding LawId, Mode=OneWay}" />
-                                            <TextBlock Text="{Binding LawTextContent, Mode=OneWay}" TextWrapping="Wrap" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Grid>
-                        <!--<StackPanel x:Name="ScrollerHeader" />-->
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ItemsPresenter.ItemTemplate>
+                                                        </ItemsPresenter>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsPresenter.ItemTemplate>
+                                        </ItemsPresenter>
+                                    </StackPanel>
+                                </DataTemplate>
+                                <DataTemplate />
+                            </ItemsControl.DataTemplates>
+                        </ItemsControl>
+                        <ItemsControl
+                            Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Items="{Binding Item.LawList, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,4">
+                                        <TextBlock FontWeight="Bold" Text="{Binding LawId, Mode=OneWay}" />
+                                        <TextBlock Text="{Binding LawTextContent, Mode=OneWay}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </Grid>
                 </ScrollViewer>
             </DataTemplate>

@@ -3,8 +3,7 @@ using System.ComponentModel;
 
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-
-using Project.Core.ViewModels;
+using Project.Core.ViewModels.Extensions;
 
 namespace ProjectAvalonia;
 public class ViewLocator : IDataTemplate

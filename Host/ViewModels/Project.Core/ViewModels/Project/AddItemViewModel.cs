@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Project.Core.ViewModels.Extensions;
 using ReactiveUI;
 
-namespace Project.Core.ViewModels;
+namespace Project.Core.ViewModels.Project;
 public class AddItemViewModel : ViewModelBase
 {
     private bool _isBusy;

@@ -1,6 +1,6 @@
 ﻿using ReactiveUI.Fody.Helpers;
 
-namespace Project.Core.ViewModels;
+namespace Project.Core.ViewModels.Extensions;
 internal class ViewModelBase<TModel> : ViewModelBase
 {
     [Reactive]

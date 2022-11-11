@@ -27,9 +27,7 @@
     <AvaloniaResource Include="Assets\**" />
     <Folder Include="Project\Components\ProjectEditing\TemplateSelectors\" />
     <Folder Include="TemplateEditing\Components\" />
-    <Folder Include="TemplateEditing\Views\" />
     <Folder Include="TemplateRules\Components\" />
-    <Folder Include="TemplateRules\Views\" />
     <None Remove=".gitignore" />
     <None Remove="Views\EditableTextBlock.xaml" />
   </ItemGroup>
