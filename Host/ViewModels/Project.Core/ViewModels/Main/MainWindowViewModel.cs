@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-using System.Reactive;
+﻿using System.Reactive;
 using System.Reactive.Disposables;
 
 using Project.Core.Contracts;
@@ -17,11 +16,7 @@ using UIStatesStore.Project.Models;
 namespace Project.Core.ViewModels.Main;
 public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
 {
-    public ViewModelActivator Activator { get; } = new ViewModelActivator();
-
     public RoutingState Router { get; } = new RoutingState();
-
-    /*    public ExplorerComponentViewModel explorerViewModel { get; }*/
 
     private readonly IAppObservable<ProjectModel> projectState;
 
@@ -32,7 +27,7 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
     public MainWindowViewModel()
     {
-        projectState = Locator.Current.GetService<IAppObservable<ProjectModel>>();
+        projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();
 
         Router.Navigate.Execute(Locator.Current.GetService<ProjectViewModel>());
 
