@@ -5,7 +5,7 @@ using Common;
 
 
 namespace ProjectItemReader.InternalAppFiles;
-public class ReadAllProjectTemplateFilesRepository : IReadContract<Resource<List<FileTemplate>>>
+public class ReadAppTemplatesRepository : IReadContract<Resource<List<FileTemplate>>>
 {
     public async Task<Resource<List<FileTemplate>>> ReadAsync()
     {

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Controls;
 
 using Avalonia.Interactivity;
 
 using Avalonia;
-using Avalonia.Data;
 
 namespace ProjectAvalonia.EventHelpers;
 public class EventHelper

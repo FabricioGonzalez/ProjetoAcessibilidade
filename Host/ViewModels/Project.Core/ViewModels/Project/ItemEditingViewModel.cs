@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reactive;
 using System.Reactive.Disposables;
 
 using Project.Core.ViewModels.Extensions;
@@ -27,6 +28,14 @@ public class ItemEditingViewModel : ViewModelBase
         items = new();
         ProjectEditingObservable = Locator.Current.GetService<IAppObservable<ProjectEditingModel>>();
 
+        CloseItemCommand = ReactiveCommand.Create<ProjectEditingModel>((item) =>
+        {
+            if (item is not null)
+            {
+                Items.Remove(item);
+            }
+        });
+
         this.WhenActivated(disposables =>
         {
             ProjectEditingObservable.Subscribe(item =>
@@ -37,6 +46,9 @@ public class ItemEditingViewModel : ViewModelBase
            .DisposeWith(disposables);
         });
     }
-
+    public ReactiveCommand<ProjectEditingModel, Unit> CloseItemCommand
+    {
+        get; private set;
+    }
 
 }

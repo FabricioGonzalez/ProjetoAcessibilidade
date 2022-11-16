@@ -8,7 +8,7 @@ using AppUsecases.Contracts.Repositories;
 using AppUsecases.Project.Entities.Project;
 
 namespace ProjectItemReader.InternalAppFiles;
-public class ReadUserProjectSolutionFileRepository : IReadContract<ProjectSolutionModel>
+public class ReadUserSolutionRepository : IReadContract<ProjectSolutionModel>
 {
  /*   private readonly IFilePickerService filePickerService;
     public ReadUserProjectSolutionFileRepository(IFilePickerService filePickerService)

@@ -15,7 +15,7 @@ using AppUsecases.Project.Entities.Project;
 using AppUsecases.Project.Enums;
 
 namespace ProjectItemReader.XmlFile;
-public class ReadXmlFileRepository : IReadContract<AppItemModel>
+public class ReadTemplateContentRepository : IReadContract<AppItemModel>
 {
        public async Task<AppItemModel> ReadAsync(string path)
     {

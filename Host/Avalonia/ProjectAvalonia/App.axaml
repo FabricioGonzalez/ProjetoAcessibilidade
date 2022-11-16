@@ -13,26 +13,37 @@
         <StyleInclude Source="avares://ProjectAvalonia/Controls/EditableTextBlock.xaml" />
         <StyleInclude Source="/Styles/MainWindowStyles.axaml" />
         <StyleInclude Source="/Styles/ProjectEditingTabStyles.axaml" />
+        <StyleInclude Source="/Styles/HorizontalScroller.axaml" />
+        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
     </Application.Styles>
-	<TrayIcon.Icons>
-		<TrayIcons>
-			<TrayIcon Icon="/Assets/avalonia-logo.ico" ToolTipText="Avalonia Tray Icon ToolTip">
-				<TrayIcon.Menu>
-					<NativeMenu>
-						<NativeMenuItem Header="Settings">
-							<NativeMenu>
-								<NativeMenuItem Header="Option 1" ToggleType="Radio" IsChecked="True" />
-								<NativeMenuItem Header="Option 2" ToggleType="Radio" IsChecked="True"/>
-								<NativeMenuItemSeparator />
-								<NativeMenuItem Header="Option 3" ToggleType="CheckBox" IsChecked="True" />
-								<NativeMenuItem Icon="/Assets/avalonia-logo.ico" Header="Restore Defaults" />
-								<NativeMenuItem Header="Disabled option" IsEnabled="False" />
-							</NativeMenu>
-						</NativeMenuItem>
-						<NativeMenuItem Header="Exit" />
-					</NativeMenu>
-				</TrayIcon.Menu>
-			</TrayIcon>
-		</TrayIcons>
-	</TrayIcon.Icons>
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="/Assets/avalonia-logo.ico" ToolTipText="Avalonia Tray Icon ToolTip">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Settings">
+                            <NativeMenu>
+                                <NativeMenuItem
+                                    Header="Option 1"
+                                    IsChecked="True"
+                                    ToggleType="Radio" />
+                                <NativeMenuItem
+                                    Header="Option 2"
+                                    IsChecked="True"
+                                    ToggleType="Radio" />
+                                <NativeMenuItemSeparator />
+                                <NativeMenuItem
+                                    Header="Option 3"
+                                    IsChecked="True"
+                                    ToggleType="CheckBox" />
+                                <NativeMenuItem Header="Restore Defaults" Icon="/Assets/avalonia-logo.ico" />
+                                <NativeMenuItem Header="Disabled option" IsEnabled="False" />
+                            </NativeMenu>
+                        </NativeMenuItem>
+                        <NativeMenuItem Header="Exit" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
 </Application>

@@ -63,6 +63,7 @@ public class ExplorerComponentViewModel : ViewModelBase
         projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();
         AppErrorState ??= Locator.Current.GetService<IAppObservable<AppErrorMessage>>();
         ProjectEditingObservable ??= Locator.Current.GetService<IAppObservable<ProjectEditingModel>>();
+       
         getProjectItems ??= Locator.Current.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
         getItemContent ??= Locator.Current.GetService<IQueryUsecase<string, AppItemModel>>();
 

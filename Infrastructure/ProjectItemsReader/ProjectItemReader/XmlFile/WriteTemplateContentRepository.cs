@@ -9,7 +9,7 @@ using AppUsecases.Project.Entities.Project;
 using AppUsecases.Project.Enums;
 
 namespace ProjectItemReader.XmlFile;
-public class WriteXmlFileRepository : IWriteContract<AppItemModel>
+public class WriteTemplateContentRepository : IWriteContract<AppItemModel>
 {
     public async Task WriteFileAsync(AppItemModel dataToWrite, string filePathToWrite)
     {

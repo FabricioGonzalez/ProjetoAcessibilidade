@@ -81,19 +81,19 @@ public static class Bootstrapper
     {
         service
             .Register<IWriteContract<ProjectSolutionModel>>(() =>
-            new WriteUserProjectSolutionFileRepository());
+            new WriteUserSolutionRepository());
 
         service
             .Register<IWriteContract<AppItemModel>>(() =>
-            new WriteXmlFileRepository());
+            new WriteTemplateContentRepository());
 
         service
     .Register<IReadContract<AppItemModel>>(() =>
-    new ReadXmlFileRepository());
+    new ReadTemplateContentRepository());
 
         service
             .Register<IReadContract<ProjectSolutionModel>>(() =>
-            new ReadUserProjectSolutionFileRepository());
+            new ReadUserSolutionRepository());
 
         service
             .Register<IReadContract<List<FileTemplate>>>(() =>
@@ -101,11 +101,11 @@ public static class Bootstrapper
 
         service
             .Register<IReadContract<Resource<List<FileTemplate>>>>(() =>
-            new ReadAllProjectTemplateFilesRepository());
+            new ReadAppTemplatesRepository());
 
         service
             .Register<IReadContract<List<ExplorerItem>>>(() =>
-            new ReadAllUserProjectTemplateFilesRepository());
+            new ReadProjectFilesRepository());
 
         return service;
     }

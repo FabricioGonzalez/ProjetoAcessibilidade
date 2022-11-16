@@ -7,144 +7,157 @@
     xmlns:appModelObservation="clr-namespace:AppUsecases.Entities.AppFormDataItems.Observations;assembly=AppUsecases"
     xmlns:appModelText="clr-namespace:AppUsecases.Entities.AppFormDataItems.Text;assembly=AppUsecases"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:itemType="clr-namespace:UIStatesStore.Project.Models;assembly=UIStatesStore"
+    xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="projectEditingView"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-	<TabControl
+    <TabControl
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
         VerticalContentAlignment="Stretch"
         Background="Transparent"
-        Items="{Binding Items, Mode=OneWay}" 
-		TabStripPlacement="Top">
-		<TabControl.ItemTemplate>
-			<DataTemplate>
-					<StackPanel Spacing="32" Orientation="Horizontal">
-						<TextBlock VerticalAlignment="Center" Text="{Binding Title, Mode=OneWay}" />
-						<Button VerticalAlignment="Center" Height="24" Width="24" Content="X"/>
-					</StackPanel>
-				</DataTemplate>
-		</TabControl.ItemTemplate>
-		<TabControl.ContentTemplate>
-			<DataTemplate>
-				<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-					<Grid
+        Classes="horizontalScroller"
+        Items="{Binding Items, Mode=OneWay}"
+        TabStripPlacement="Top">
+        <TabControl.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock FontSize="12" Text="{Binding Title, Mode=OneWay}" />
+                    <Button
+                        Width="16"
+                        Height="16"
+                        Command="{Binding #projectEditingView.DataContext.CloseItemCommand}"
+                        CommandParameter="{Binding $self.DataContext}">
+                        <material:MaterialIcon
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Kind="Close" />
+                    </Button>
+                </StackPanel>
+            </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+            <DataTemplate DataType="itemType:ProjectEditingModel">
+                <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         RowDefinitions="auto,auto">
-						<ItemsControl
+                        <ItemsControl
                             Grid.Row="0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Items="{Binding Item.FormData, Mode=OneWay}">
-							<ItemsControl.DataTemplates>
-								<DataTemplate DataType="appModelText:AppFormDataItemTextModel">
-									<StackPanel
+                            <ItemsControl.DataTemplates>
+                                <DataTemplate x:DataType="appModelText:AppFormDataItemTextModel" DataType="appModelText:AppFormDataItemTextModel">
+                                    <StackPanel
                                         Margin="0,4"
                                         Orientation="Vertical"
                                         Spacing="8">
-										<TextBlock
+                                        <TextBlock
                                             FontWeight="Bold"
                                             Text="{Binding Topic}"
                                             TextWrapping="Wrap" />
-										<StackPanel Orientation="Horizontal" Spacing="5">
-											<TextBox
+                                        <StackPanel Orientation="Horizontal" Spacing="5">
+                                            <TextBox
                                                 Width="280"
                                                 HorizontalAlignment="Stretch"
                                                 HorizontalContentAlignment="Stretch"
                                                 Text="{Binding TextData, Mode=TwoWay}" />
-											<TextBlock
+                                            <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 FontWeight="Bold"
                                                 Text="{Binding MeasurementUnit}" />
-										</StackPanel>
-									</StackPanel>
-								</DataTemplate>
-								<DataTemplate DataType="appModelCheckBox:AppFormDataItemCheckboxModel">
-									<StackPanel Orientation="Vertical" Spacing="8">
-										<TextBlock
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                                <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxModel" DataType="appModelCheckBox:AppFormDataItemCheckboxModel">
+                                    <StackPanel Orientation="Vertical" Spacing="8">
+                                        <TextBlock
                                             FontWeight="Bold"
                                             Text="{Binding Topic}"
                                             TextWrapping="Wrap" />
-										<ItemsPresenter Items="{Binding Children}">
-											<ItemsPresenter.ItemTemplate>
-												<DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxChildModel">
-													<StackPanel Margin="0,4">
-														<TextBlock
+                                        <ItemsPresenter Items="{Binding Children}">
+                                            <ItemsPresenter.ItemTemplate>
+                                                <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxChildModel">
+                                                    <StackPanel Margin="0,4">
+                                                        <TextBlock
                                                             FontWeight="Bold"
                                                             Text="{Binding Topic}"
                                                             TextWrapping="Wrap" />
-														<ItemsPresenter Items="{Binding Options}">
-															<ItemsPresenter.ItemTemplate>
-																<DataTemplate x:DataType="appModelCheckBox:AppOptionModel">
-																	<StackPanel Orientation="Horizontal" Spacing="5">
-																		<TextBlock
+                                                        <ItemsPresenter Items="{Binding Options}">
+                                                            <ItemsPresenter.ItemTemplate>
+                                                                <DataTemplate x:DataType="appModelCheckBox:AppOptionModel">
+                                                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                                                        <TextBlock
                                                                             HorizontalAlignment="Center"
                                                                             VerticalAlignment="Center"
                                                                             Text="{Binding Value}" />
-																		<CheckBox
+                                                                        <CheckBox
                                                                             HorizontalAlignment="Center"
                                                                             VerticalAlignment="Center"
                                                                             IsChecked="{Binding IsChecked, Mode=TwoWay}" />
-																	</StackPanel>
-																</DataTemplate>
-															</ItemsPresenter.ItemTemplate>
-														</ItemsPresenter>
-														<ItemsPresenter Items="{Binding TextItems}">
-															<ItemsPresenter.ItemTemplate>
-																<DataTemplate x:DataType="appModelText:AppFormDataItemTextModel">
-																	<StackPanel Orientation="Vertical" Spacing="8">
-																		<TextBlock
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ItemsPresenter.ItemTemplate>
+                                                        </ItemsPresenter>
+                                                        <ItemsPresenter Items="{Binding TextItems}">
+                                                            <ItemsPresenter.ItemTemplate>
+                                                                <DataTemplate x:DataType="appModelText:AppFormDataItemTextModel">
+                                                                    <StackPanel Orientation="Vertical" Spacing="8">
+                                                                        <TextBlock
                                                                             FontWeight="Bold"
                                                                             Text="{Binding Topic}"
                                                                             TextWrapping="Wrap" />
-																		<StackPanel Orientation="Horizontal" Spacing="5">
-																			<TextBox
+                                                                        <StackPanel Orientation="Horizontal" Spacing="5">
+                                                                            <TextBox
                                                                                 Width="280"
                                                                                 HorizontalAlignment="Stretch"
                                                                                 HorizontalContentAlignment="Stretch"
                                                                                 Text="{Binding TextData}" />
-																			<TextBlock
+                                                                            <TextBlock
                                                                                 HorizontalAlignment="Center"
                                                                                 VerticalAlignment="Center"
                                                                                 FontWeight="Bold"
                                                                                 Text="{Binding MeasurementUnit}" />
-																		</StackPanel>
-																	</StackPanel>
-																</DataTemplate>
-															</ItemsPresenter.ItemTemplate>
-														</ItemsPresenter>
-													</StackPanel>
-												</DataTemplate>
-											</ItemsPresenter.ItemTemplate>
-										</ItemsPresenter>
-									</StackPanel>
-								</DataTemplate>
-								<DataTemplate />
-							</ItemsControl.DataTemplates>
-						</ItemsControl>
-						<ItemsControl
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ItemsPresenter.ItemTemplate>
+                                                        </ItemsPresenter>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsPresenter.ItemTemplate>
+                                        </ItemsPresenter>
+                                    </StackPanel>
+                                </DataTemplate>
+                                <DataTemplate />
+                            </ItemsControl.DataTemplates>
+                        </ItemsControl>
+                        <ItemsControl
                             Grid.Row="1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Items="{Binding Item.LawList, Mode=OneWay}">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<StackPanel Margin="0,4">
-										<TextBlock FontWeight="Bold" Text="{Binding LawId, Mode=OneWay}" />
-										<TextBlock Text="{Binding LawTextContent, Mode=OneWay}" TextWrapping="Wrap" />
-									</StackPanel>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
-					</Grid>
-				</ScrollViewer>
-			</DataTemplate>
-		</TabControl.ContentTemplate>
-	</TabControl>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,4">
+                                        <TextBlock FontWeight="Bold" Text="{Binding LawId, Mode=OneWay}" />
+                                        <TextBlock Text="{Binding LawTextContent, Mode=OneWay}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </ScrollViewer>
+            </DataTemplate>
+        </TabControl.ContentTemplate>
+    </TabControl>
 </UserControl>

@@ -5,7 +5,7 @@ using AppUsecases.Project.Enums;
 using Common;
 
 namespace ProjectItemReader.InternalAppFiles;
-public class ReadAllUserProjectTemplateFilesRepository : IReadContract<List<ExplorerItem>>
+public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
 {
     public async Task<List<ExplorerItem>> ReadAsync(string path)
     {

@@ -21,7 +21,6 @@ public class ReportDataModel
         get; set;
     }
 
-
     [JsonPropertyName("responsavel")]
     public string Responsavel
     {
@@ -45,6 +44,7 @@ public class ReportDataModel
     {
         get; set;
     }
+    
     [JsonPropertyName("logo")]
     public string LogoPath
     {
