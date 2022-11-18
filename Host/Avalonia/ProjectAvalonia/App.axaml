@@ -7,6 +7,10 @@
         <local:ViewLocator />
     </Application.DataTemplates>
 
+    <Application.Resources>
+        <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
+    </Application.Resources>
+
     <Application.Styles>
         <FluentTheme Mode="Dark" />
         <StyleInclude Source="/Styles/ProjectModuleStyles.axaml" />

@@ -1,0 +1,175 @@
+<Window
+    x:Class="ProjectAvalonia.Dialogs.CreateSolutionDialog.CreateSolutionDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:material="using:Material.Icons.Avalonia"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="CreateSolutionDialog"
+    Width="550"
+    Height="450"
+    Padding="0"
+    d:DesignHeight="550"
+    d:DesignWidth="580"
+    Background="Transparent"
+    ExtendClientAreaToDecorationsHint="True"
+    ShowInTaskbar="True"
+    TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="{DynamicResource AppMaterialOpacity}"
+                    TintColor="Black"
+                    TintOpacity="1" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <Grid Margin="0,24,0,0" RowDefinitions="1*,35,35,1*">
+
+            <Grid
+                Grid.Row="0"
+                Margin="8"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                ColumnDefinitions="1*,1*"
+                RowDefinitions="1*,1*,1*">
+                <Panel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
+                    <TextBlock
+                        FontSize="13"
+                        Text="Nome da Empresa"
+                        TextAlignment="Center" />
+                    <TextBox />
+                </Panel>
+
+                <Panel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
+                    <TextBlock
+                        FontSize="13"
+                        Text="Responsável pelo Projeto"
+                        TextAlignment="Center" />
+                    <TextBox />
+                </Panel>
+
+                <Panel
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
+                    <TextBlock
+                        FontSize="13"
+                        Text="Email do Responsável"
+                        TextAlignment="Center" />
+                    <TextBox />
+                </Panel>
+
+                <Grid
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    ColumnDefinitions="1*,1*">
+                    <Panel Grid.Column="0" HorizontalAlignment="Stretch">
+                        <TextBlock
+                            FontSize="13"
+                            Text="Data do Relatório"
+                            TextAlignment="Center" />
+                        <TextBox />
+                    </Panel>
+
+                    <Panel
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent">
+                        <TextBlock
+                            FontSize="13"
+                            Text="UF"
+                            TextAlignment="Center" />
+                        <TextBox />
+                    </Panel>
+                </Grid>
+
+                <Panel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
+                    <TextBlock
+                        FontSize="13"
+                        Text="Endereço da Empresa"
+                        TextAlignment="Center" />
+                    <TextBox />
+                </Panel>
+
+                <Panel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
+                    <TextBlock
+                        FontSize="13"
+                        Text="Telefone do Responsável"
+                        TextAlignment="Center" />
+                    <TextBox />
+                </Panel>
+            </Grid>
+
+            <Panel
+                Grid.Row="1"
+                Margin="8"
+                Background="Transparent">
+                <TextBlock Margin="4,0" Text="Nome da Solução" />
+                <TextBox />
+            </Panel>
+
+            <Panel
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="8"
+                HorizontalAlignment="Stretch"
+                Background="Transparent">
+                <TextBlock
+                    Margin="4,0"
+                    HorizontalAlignment="Stretch"
+                    Text="Local da Solução" />
+                <TextBox HorizontalAlignment="Stretch" />
+
+                <Button
+                    Grid.Column="1"
+                    Height="32"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Stretch">
+                    <material:MaterialIcon
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Kind="Folder" />
+                </Button>
+            </Panel>
+
+
+            <Panel
+                Grid.Row="3"
+                Margin="8"
+                Background="Transparent">
+                <Button HorizontalAlignment="Left" Content="Fechar" />
+                <Button HorizontalAlignment="Right" Content="Criar" />
+            </Panel>
+        </Grid>
+    </Panel>
+</Window>

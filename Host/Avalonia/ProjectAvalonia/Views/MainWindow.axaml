@@ -13,88 +13,86 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="Transparent"
-	ShowInTaskbar="True"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/avalonia-logo.ico"
+    ShowInTaskbar="True"
     TransparencyLevelHint="AcrylicBlur"
     mc:Ignorable="d">
-	<Grid Margin="0,32,0,0" Background="Transparent" RowDefinitions="30,1*">
-		<ExperimentalAcrylicBorder IsHitTestVisible="False">
-			<ExperimentalAcrylicBorder.Material>
-				<ExperimentalAcrylicMaterial
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
-                    MaterialOpacity="0.65"
+                    MaterialOpacity="{DynamicResource AppMaterialOpacity}"
                     TintColor="Black"
                     TintOpacity="1" />
-			</ExperimentalAcrylicBorder.Material>
-		</ExperimentalAcrylicBorder>
-		<Panel Grid.Row="0" Background="Transparent">
-			<Menu
-				 Background="Transparent"
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <Grid Margin="0,32,0,0" RowDefinitions="30,1*">
+            <Panel Grid.Row="0" Background="Transparent">
+                <Menu
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="Transparent"
+                    Classes="mainMenu">
+                    <Menu.Items>
+                        <MenuItem Background="Transparent" Header="Arquivos">
+                            <MenuItem.Items>
+                                <MenuItem
+                                    Margin="4,0"
+                                    Background="Transparent"
+                                    Command="{Binding OpenProjectCommand}"
+                                    Header="Abrir" />
+                                <MenuItem
+                                    Margin="4,0"
+                                    Background="Transparent"
+                                    Command="{Binding CreateProjectCommand}"
+                                    Header="Novo" />
+                                <Separator Background="Transparent" />
+                                <MenuItem
+                                    Margin="4,0"
+                                    Background="Transparent"
+                                    Header="Sair" />
+                            </MenuItem.Items>
+                        </MenuItem>
+                        <MenuItem Background="Transparent" Header="Templates">
+                            <MenuItem.Items>
+                                <MenuItem
+                                    Margin="4,0"
+                                    Background="Transparent"
+                                    Command="{Binding GoToTemplateEditing}"
+                                    Header="Edição de Templates" />
+                                <MenuItem
+                                    Margin="4,0"
+                                    Background="Transparent"
+                                    Command="{Binding GoToRulesEditing}"
+                                    Header="Regras de Validação" />
+                            </MenuItem.Items>
+                        </MenuItem>
+                    </Menu.Items>
+                </Menu>
+            </Panel>
+            <rxui:RoutedViewHost
+                Grid.Row="1"
+                Padding="4"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Classes="mainMenu">
-				<Menu.Items>
-					<MenuItem  Background="Transparent" Header="Arquivos">
-						<MenuItem.Items>
-							<MenuItem
-								 Background="Transparent"
-                                Margin="4,0"
-                                Command="{Binding OpenProjectCommand}"
-                                Header="Abrir" />
-							<MenuItem
-								 Background="Transparent"
-                                Margin="4,0"
-                                Command="{Binding CreateProjectCommand}"
-                                Header="Novo" />
-							<Separator   Background="Transparent"/>
-							<MenuItem  Background="Transparent" Margin="4,0" Header="Sair" />
-						</MenuItem.Items>
-					</MenuItem>
-					<MenuItem  Background="Transparent" Header="Templates">
-						<MenuItem.Items>
-							<MenuItem  Background="Transparent"
-                                Margin="4,0"
-                                Command="{Binding GoToTemplateEditing}"
-                                Header="Edição de Templates" />
-							<MenuItem  Background="Transparent"
-                                Margin="4,0"
-                                Command="{Binding GoToRulesEditing}"
-                                Header="Regras de Validação" />
-						</MenuItem.Items>
-					</MenuItem>
-				</Menu.Items>
-			</Menu>
-		</Panel>
-		<rxui:RoutedViewHost
-            Grid.Row="1"
-            Padding="4"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch"
-            Router="{Binding Router}">
-			<ExperimentalAcrylicBorder IsHitTestVisible="False">
-				<ExperimentalAcrylicBorder.Material>
-					<ExperimentalAcrylicMaterial
-                        BackgroundSource="Digger"
-                        MaterialOpacity="0.65"
-                        TintColor="Black"
-                        TintOpacity="1" />
-				</ExperimentalAcrylicBorder.Material>
-			</ExperimentalAcrylicBorder>
-			<rxui:RoutedViewHost.DefaultContent>
-				<StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Background="Transparent">
-					<TextBlock Classes="h1" Text="Sample Avalonia Application" />
-					<TextBlock
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                Router="{Binding Router}">
+                <rxui:RoutedViewHost.DefaultContent>
+                    <StackPanel
                         HorizontalAlignment="Center"
-                        Text="Loading..."
-                        TextAlignment="Center" />
-				</StackPanel>
-			</rxui:RoutedViewHost.DefaultContent>
-		</rxui:RoutedViewHost>
-	</Grid>
+                        VerticalAlignment="Center"
+                        Background="Transparent">
+                        <TextBlock Classes="h1" Text="Sample Avalonia Application" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Text="Loading..."
+                            TextAlignment="Center" />
+                    </StackPanel>
+                </rxui:RoutedViewHost.DefaultContent>
+            </rxui:RoutedViewHost>
+        </Grid>
+    </Panel>
 </Window>

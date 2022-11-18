@@ -42,6 +42,8 @@ public static class Bootstrapper
        
         service.RegisterLazySingleton(() => new TemplateRulesViewModel());
 
+        service.RegisterLazySingleton(() => new AddItemViewModel());
+
         service.RegisterLazySingleton(() => new ProjectViewModel());
         service.Register(() => new ExplorerComponentViewModel());
         service.Register(() => new ItemEditingViewModel());

@@ -1,7 +1,9 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 using Project.Core.Contracts;
+using Project.Core.ViewModels.Dialogs;
 using Project.Core.ViewModels.Extensions;
 using Project.Core.ViewModels.Project;
 using Project.Core.ViewModels.TemplateEditing;
@@ -49,17 +51,18 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
         CreateProjectCommand = ReactiveCommand.CreateFromTask<Unit, string>(async (Unit) =>
         {
-            ReturnToProject();
+            /* ReturnToProject();
 
-            var dialog = Locator.Current.GetService<IFileDialog>();
+             var dialog = Locator.Current.GetService<IFileDialog>();
 
-            if (dialog is not null)
-            {
-                var result = await dialog.SaveFile();
+             if (dialog is not null)
+             {
+                 var result = await dialog.SaveFile();
 
-                return result;
-            }
-
+                 return result;
+             }
+ */
+            CreateSolution();
             return "";
         });
 
@@ -87,6 +90,8 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
             }
         });
 
+        ShowSolutionCreateDialog = new Interaction<CreateSolutionViewModel, MainWindowViewModel?>();
+
         this.WhenActivated((disposables) =>
         {
             OpenProjectCommand.Subscribe(solutionPath =>
@@ -99,9 +104,20 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
             CreateProjectCommand.Subscribe(solutionPath =>
             {
                 SetProjectPath(solutionPath);
+             
             })
             .DisposeWith(disposables);
+
         });
+    }
+
+    private async void CreateSolution()
+    {
+        var store = new CreateSolutionViewModel();
+
+        var result = await ShowSolutionCreateDialog.Handle(store);
+
+
     }
 
     private void ReturnToProject()
@@ -135,5 +151,11 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
     {
         get; private set;
     }
+
+    public Interaction<CreateSolutionViewModel, MainWindowViewModel?> ShowSolutionCreateDialog
+    {
+        get; private set;
+    }
+
 }
 

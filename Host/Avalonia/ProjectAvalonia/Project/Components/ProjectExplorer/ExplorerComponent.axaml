@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+    xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nodes="clr-namespace:Project.Core.ComposableViewModel;assembly=Project.Core"
     xmlns:vm="clr-namespace:Project.Core.ViewModels;assembly=Project.Core"
@@ -20,8 +21,12 @@
         CornerRadius="8">
         <TreeView.DataTemplates>
             <TreeDataTemplate DataType="nodes:FolderProjectItemViewModel" ItemsSource="{Binding Children}">
-                <Grid HorizontalAlignment="Stretch">
-                    <Controls:EditableTextBlock InEditMode="{Binding InEditMode}" Text="{Binding Title}" />
+                <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
+                    <material:MaterialIcon Grid.Column="0" Kind="Folder" />
+                    <Controls:EditableTextBlock
+                        Grid.Column="1"
+                        InEditMode="{Binding InEditMode}"
+                        Text="{Binding Title}" />
                     <Grid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Command="{Binding RenameCommand}" Header="Rename" />
@@ -33,13 +38,19 @@
                 </Grid>
             </TreeDataTemplate>
             <DataTemplate DataType="nodes:FileProjectItemViewModel">
-                <Grid HorizontalAlignment="Stretch">
+                <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
                     <i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="DoubleTapped">
                             <ia:InvokeCommandAction Command="{Binding #explorerView.DataContext.SelectSolutionItemCommand}" CommandParameter="{Binding Path}" />
                         </ia:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
-                    <Controls:EditableTextBlock InEditMode="{Binding InEditMode}" Text="{Binding Title}" />
+
+                    <material:MaterialIcon Grid.Column="0" Kind="File" />
+                    <Controls:EditableTextBlock
+                        Grid.Column="1"
+                        InEditMode="{Binding InEditMode}"
+                        Text="{Binding Title}" />
+
                     <Grid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Command="{Binding RenameCommand}" Header="Rename" />

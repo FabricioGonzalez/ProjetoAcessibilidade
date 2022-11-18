@@ -67,7 +67,7 @@ public class ExplorerComponentViewModel : ViewModelBase
         getProjectItems ??= Locator.Current.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
         getItemContent ??= Locator.Current.GetService<IQueryUsecase<string, AppItemModel>>();
 
-        ShowDialog = new Interaction<AddItemViewModel, ExplorerComponentViewModel?>();
+        ShowDialog = new Interaction<AddItemViewModel, string?>();
 
         AddItemCommand = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -125,7 +125,7 @@ public class ExplorerComponentViewModel : ViewModelBase
     {
         get; private set;
     }
-    public Interaction<AddItemViewModel, ExplorerComponentViewModel?> ShowDialog
+    public Interaction<AddItemViewModel, string?> ShowDialog
     {
         get; private set;
     }

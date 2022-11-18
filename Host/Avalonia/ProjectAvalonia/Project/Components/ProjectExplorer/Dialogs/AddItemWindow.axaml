@@ -22,20 +22,14 @@
         </ExperimentalAcrylicBorder>
         <Panel Margin="0,32,0,0">
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top">
-                    <TextBox Text="{Binding SearchText}" Watermark="Search for Albums...." />
+                <!--<StackPanel DockPanel.Dock="Top">
                     <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
-                </StackPanel>
+                </StackPanel>-->
                 <Button
                     HorizontalAlignment="Center"
-                    Command="{Binding BuyMusicCommand}"
+                    Command="{Binding SelectItemToCreateCommand}"
                     Content="Buy Album"
                     DockPanel.Dock="Bottom" />
-                <ListBox
-                    Margin="0,20"
-                    Background="Transparent"
-                    Items="{Binding SearchResults}"
-                    SelectedItem="{Binding SelectedAlbum}" />
             </DockPanel>
         </Panel>
     </StackPanel>

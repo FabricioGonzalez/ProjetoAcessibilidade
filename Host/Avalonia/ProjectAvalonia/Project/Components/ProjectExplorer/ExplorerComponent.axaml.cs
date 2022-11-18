@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+
 using Project.Core.ViewModels.Project;
+
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using ProjectAvalonia.Views;
 
@@ -44,14 +46,18 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
 
         AvaloniaXamlLoader.Load(this);
     }
-    private async Task DoShowDialogAsync(InteractionContext<AddItemViewModel, ExplorerComponentViewModel?> interaction)
+    private async Task DoShowDialogAsync(InteractionContext<AddItemViewModel, string?> interaction)
     {
-        var dialog = new AddItemWindow();
-        dialog.DataContext = interaction.Input;
+        var dialog = Locator.Current.GetService<AddItemViewModel>();
 
-        var result = await dialog.ShowDialog<ExplorerComponentViewModel?>(Locator.Current.GetService<MainWindow>());
-        interaction.SetOutput(result);
+        if (dialog is AddItemViewModel dialogVm)
+        {
+            dialogVm.DataContext = interaction.Input;
+
+            var result = await dialogVm.ShowDialog<string?>(Locator.Current.GetService<MainWindow>());
+            interaction.SetOutput(result);
+        }
     }
-    
+
 
 }

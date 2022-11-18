@@ -26,4 +26,8 @@ public class ProjectSolutionModel
         get;
         set;
     }
+    public List<ItemGroupModel> ItemGroups
+    {
+        get; set;
+    }
 }
