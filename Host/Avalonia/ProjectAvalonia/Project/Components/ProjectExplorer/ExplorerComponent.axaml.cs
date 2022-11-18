@@ -48,9 +48,9 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
     }
     private async Task DoShowDialogAsync(InteractionContext<AddItemViewModel, string?> interaction)
     {
-        var dialog = Locator.Current.GetService<AddItemViewModel>();
+        var dialog = Locator.Current.GetService<AddItemWindow>();
 
-        if (dialog is AddItemViewModel dialogVm)
+        if (dialog is AddItemWindow dialogVm)
         {
             dialogVm.DataContext = interaction.Input;
 

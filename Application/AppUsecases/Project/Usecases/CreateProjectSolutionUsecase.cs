@@ -1,18 +1,34 @@
 ﻿using System.Threading.Tasks;
 
+using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
+
 using Common;
 
 namespace AppUsecases.Usecases;
-public class CreateProjectSolutionUsecase : ICommandUsecase<ProjectSolutionModel>
+public class CreateProjectSolutionUsecase : ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>
 {
-    public Resource<ProjectSolutionModel> execute()
+    private IWriteContract<ProjectSolutionModel> solutionCreator;
+
+    public CreateProjectSolutionUsecase(IWriteContract<ProjectSolutionModel> solutionCreator)
+    {
+        this.solutionCreator = solutionCreator;
+    }
+
+    public Resource<ProjectSolutionModel> execute(ProjectSolutionModel model)
     {
         return default;
     }
-/*    public async Task<Resource<ProjectSolutionModel>> executeAsync()
+    public async Task<Resource<ProjectSolutionModel>> executeAsync(ProjectSolutionModel model)
     {
+        var result = await solutionCreator.WriteDataAsync(model, model.FilePath);
 
-    }*/
+        if (result is not null)
+        {
+            return new Resource<ProjectSolutionModel>.Error(Message: ErrorConstants.SolutionEmpty, null);
+        }
+        return new Resource<ProjectSolutionModel>.Success(Data: result);
+
+    }
 }

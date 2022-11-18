@@ -49,6 +49,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ProjectAvalonia.Builder", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{2701BCE3-DDBB-4070-B3B4-8202CD287B73}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{E27892F2-386A-4E6A-8303-78BB92570F1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

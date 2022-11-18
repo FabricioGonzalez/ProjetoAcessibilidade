@@ -30,6 +30,7 @@ using UIStatesStore.App.Observable;
 using Project.Core.ViewModels.Project;
 using Project.Core.ViewModels.TemplateEditing;
 using Project.Core.ViewModels.Main;
+using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -39,12 +40,13 @@ public static class Bootstrapper
         service.RegisterLazySingleton(() => new MainWindowViewModel());
 
         service.RegisterLazySingleton(() => new TemplateEditingViewModel());
-       
+
         service.RegisterLazySingleton(() => new TemplateRulesViewModel());
 
         service.RegisterLazySingleton(() => new AddItemViewModel());
 
         service.RegisterLazySingleton(() => new ProjectViewModel());
+
         service.Register(() => new ExplorerComponentViewModel());
         service.Register(() => new ItemEditingViewModel());
 
@@ -53,7 +55,10 @@ public static class Bootstrapper
     public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
     {
         service.Register(() => new ExplorerComponent());
+
         service.RegisterLazySingleton(() => new MainWindow());
+
+        service.RegisterLazySingleton(() => new AddItemWindow());
 
         return service;
     }
@@ -75,7 +80,8 @@ public static class Bootstrapper
             Locator.Current.GetService<IReadContract<AppItemModel>>()
             ));
 
-        service.Register<ICommandUsecase<ProjectSolutionModel>>(() => new CreateProjectSolutionUsecase());
+        service.Register<ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>>(() => new CreateProjectSolutionUsecase(
+            Locator.Current.GetService<IWriteContract<ProjectSolutionModel>>()));
 
         return service;
     }
@@ -111,6 +117,7 @@ public static class Bootstrapper
 
         return service;
     }
+
     /* public static void AddApplication(this IMutableDependencyResolver services, IApplication app)
      {
          services.RegisterConstant<IApplication>(app);

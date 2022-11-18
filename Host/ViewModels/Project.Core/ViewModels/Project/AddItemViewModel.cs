@@ -34,7 +34,10 @@ public class AddItemViewModel : ViewModelBase
         });
     }
 
-    public Task<List<FileTemplate>> GetItems 
+    //public Task<List<FileTemplate>> GetItems()
+    //{
+    //    return new();
+    //} 
 
     public ReactiveCommand<Unit, string?> SelectItemToCreateCommand
     {
