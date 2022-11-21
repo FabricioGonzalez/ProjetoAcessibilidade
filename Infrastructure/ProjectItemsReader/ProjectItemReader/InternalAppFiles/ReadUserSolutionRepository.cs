@@ -29,7 +29,8 @@ public class ReadUserSolutionRepository : IReadContract<ProjectSolutionModel>
             if (file is not null)
             {
                 var folder = Directory
-                    .GetDirectories(string.Join(Path.DirectorySeparatorChar, file.Split(Path.DirectorySeparatorChar)[..(file.Split(Path.DirectorySeparatorChar).Length - 1)]))
+                    .GetDirectories(string.Join(Path.DirectorySeparatorChar, file.Split(Path.DirectorySeparatorChar)
+                    [..(file.Split(Path.DirectorySeparatorChar).Length - 1)]))
                     .FirstOrDefault(folder => folder.Equals(
                         string.Join(Path.DirectorySeparatorChar, file.Split(Path.DirectorySeparatorChar)[..(file.Split(Path.DirectorySeparatorChar).Length - 1)]))
                     );

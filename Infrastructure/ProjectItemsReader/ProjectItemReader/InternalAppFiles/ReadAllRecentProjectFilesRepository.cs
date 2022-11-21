@@ -29,7 +29,7 @@ public class ReadAllRecentProjectFilesRepository : IReadContract<List<FileTempla
                     recentFiles.Add(new()
                     {
                         Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
-                        Path = item
+                        FilePath = item
                     });
                 }
             }

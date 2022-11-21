@@ -26,8 +26,14 @@
 	<ItemGroup>
 		<Folder Include="Models\" />
 		<AvaloniaResource Include="Assets\**" />
-		<Folder Include="Project\Components\ProjectEditing\Styles\" />
-		<Folder Include="Project\Components\ProjectEditing\TemplateSelectors\" />
+		<AvaloniaXaml Remove="Project\Components\ProjectEditing\Styles\**" />
+		<AvaloniaXaml Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+		<Compile Remove="Project\Components\ProjectEditing\Styles\**" />
+		<Compile Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+		<EmbeddedResource Remove="Project\Components\ProjectEditing\Styles\**" />
+		<EmbeddedResource Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+		<None Remove="Project\Components\ProjectEditing\Styles\**" />
+		<None Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
 		<Folder Include="TemplateEditing\Components\" />
 		<Folder Include="TemplateRules\Components\" />
 		<None Remove=".gitignore" />

@@ -1,3 +1,5 @@
+using AppUsecases.Editing.Entities;
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -28,15 +30,13 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
 
         this.WhenActivated(disposables =>
         {
-            ViewModel!.ShowDialog.RegisterHandler(DoShowDialogAsync)
-            .DisposeWith(disposables);
+            // In a view
+            this.BindInteraction(
+                ViewModel,
+                vm => vm.ShowDialog,
+                context => DoShowDialogAsync(context))
+                /*.DisposeWith(disposables)*/;
 
-            /*            this.WhenAnyValue(x => x.ViewModel.ExplorerItems)
-                        .Subscribe(x =>
-                        {
-                            Text.Text = x.Count.ToString();
-                        });
-            */
             this.OneWayBind(ViewModel,
                 vm => vm.ExplorerItems,
                 v => v.explorerTree.Items)
@@ -46,7 +46,7 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
 
         AvaloniaXamlLoader.Load(this);
     }
-    private async Task DoShowDialogAsync(InteractionContext<AddItemViewModel, string?> interaction)
+    private async Task DoShowDialogAsync(InteractionContext<AddItemViewModel, FileTemplate?> interaction)
     {
         var dialog = Locator.Current.GetService<AddItemWindow>();
 
@@ -54,7 +54,7 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
         {
             dialogVm.DataContext = interaction.Input;
 
-            var result = await dialogVm.ShowDialog<string?>(Locator.Current.GetService<MainWindow>());
+            var result = await dialogVm.ShowDialog<FileTemplate?>(Locator.Current.GetService<MainWindow>());
             interaction.SetOutput(result);
         }
     }

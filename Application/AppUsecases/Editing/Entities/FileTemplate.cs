@@ -7,7 +7,7 @@ public class FileTemplate
         get;
         set;
     }
-    public string Path
+    public string FilePath
     {
         get;
         set;

@@ -14,7 +14,6 @@ public class ReadAppTemplatesRepository : IReadContract<Resource<List<FileTempla
             var task = new Task<Resource<List<FileTemplate>>>(() =>
             {
                 var files = Directory.GetFiles(Path.Combine(
-                    Constants.AppTemplatesFolder,
                     Constants.AppItemsTemplateFolder));
 
                 var filesList = new List<FileTemplate>();
@@ -23,17 +22,18 @@ public class ReadAppTemplatesRepository : IReadContract<Resource<List<FileTempla
                 {
                     var splitedItem = item.Split(Path.DirectorySeparatorChar);
 
-                    if ((splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[1] == "xml")
+                    if (Path.GetExtension(splitedItem.Last())
+                    == Constants.AppProjectTemplateExtension)
                         filesList.Add(new()
                         {
-                            Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
-                            Path = item
+                            Name = Path.GetFileNameWithoutExtension(splitedItem.Last()),
+                            FilePath = item
                         });
                 }
                 if (filesList.Count > 0)
                     return new Resource<List<FileTemplate>>.Success(filesList);
 
-                return new Resource<List<FileTemplate>>.Error(ErrorConstants.APP_NO_FILE_ERROR, null);
+                return new Resource<List<FileTemplate>>.Error(ErrorConstants.AppNoFileFound, null);
             });
             task.Start();
 
@@ -60,17 +60,20 @@ public class ReadAppTemplatesRepository : IReadContract<Resource<List<FileTempla
 
                 foreach (var item in files)
                 {
-                    var splitedItem = item.Split("\\");
-                    filesList.Add(new()
+                    var splitedItem = item.Split(Path.PathSeparator);
+
+                    FileTemplate fileItem = new()
                     {
-                        Name = (splitedItem.GetValue(splitedItem.Length - 1) as string).Split(".")[0],
-                        Path = item
-                    });
+                        Name = Path.GetFileNameWithoutExtension(splitedItem.Last()),
+                        FilePath = item
+                    };
+
+                    filesList.Add(fileItem);
                 }
                 if (filesList.Count > 0)
                     return new Resource<List<FileTemplate>>.Success(filesList);
 
-                return new Resource<List<FileTemplate>>.Error(ErrorConstants.APP_NO_FILE_ERROR, null);
+                return new Resource<List<FileTemplate>>.Error(ErrorConstants.AppNoFileFound, null);
             });
             task.Start();
 

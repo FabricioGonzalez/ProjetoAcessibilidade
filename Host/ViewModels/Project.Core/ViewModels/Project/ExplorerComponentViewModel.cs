@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net.WebSockets;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
+using AppUsecases.Editing.Entities;
 using AppUsecases.Project.Entities.FileTemplate;
 using AppUsecases.Project.Entities.Project;
 
@@ -21,6 +23,7 @@ using DynamicData.Binding;
 
 using Project.Core.ComposableViewModel;
 using Project.Core.ViewModels.Extensions;
+
 using ReactiveUI;
 
 using Splat;
@@ -63,17 +66,24 @@ public class ExplorerComponentViewModel : ViewModelBase
         projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();
         AppErrorState ??= Locator.Current.GetService<IAppObservable<AppErrorMessage>>();
         ProjectEditingObservable ??= Locator.Current.GetService<IAppObservable<ProjectEditingModel>>();
-       
+
         getProjectItems ??= Locator.Current.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
         getItemContent ??= Locator.Current.GetService<IQueryUsecase<string, AppItemModel>>();
 
-        ShowDialog = new Interaction<AddItemViewModel, string?>();
+        ShowDialog = new Interaction<AddItemViewModel, FileTemplate?>();
 
-        AddItemCommand = ReactiveCommand.CreateFromTask(async () =>
+        AddItemCommand = ReactiveCommand.CreateFromTask<ExplorerItem, Unit>(async (item) =>
         {
             var store = new AddItemViewModel();
 
             var result = await ShowDialog.Handle(store);
+
+            if (result is not null)
+            {
+
+            }
+
+            return new();
         });
 
         SelectSolutionItemCommand = ReactiveCommand.CreateFromTask<string, Unit>(async (item) =>
@@ -117,7 +127,7 @@ public class ExplorerComponentViewModel : ViewModelBase
         });
     }
 
-    public ReactiveCommand<Unit, Unit> AddItemCommand
+    public ReactiveCommand<ExplorerItem, Unit> AddItemCommand
     {
         get; private set;
     }
@@ -125,12 +135,12 @@ public class ExplorerComponentViewModel : ViewModelBase
     {
         get; private set;
     }
-    public Interaction<AddItemViewModel, string?> ShowDialog
+    public Interaction<AddItemViewModel, FileTemplate?> ShowDialog
     {
         get; private set;
     }
 
-    public List<ProjectItemViewModel> GetSubfolders(List<ExplorerItem> items)
+    private List<ProjectItemViewModel> GetSubfolders(List<ExplorerItem> items)
     {
         List<ProjectItemViewModel> subfolders = new();
         foreach (var dir in items)
@@ -160,5 +170,19 @@ public class ExplorerComponentViewModel : ViewModelBase
         }
 
         return subfolders;
+    }
+
+    private void AddItemToProject(ProjectItemViewModel item, FileTemplate newItem)
+    {
+        FolderProjectItemViewModel parentItem = (FolderProjectItemViewModel)ExplorerItems
+            .First(x => x.Equals(item));
+
+        FileProjectItemViewModel projectNewItem = new();
+
+        projectNewItem.Title = newItem.Name;
+        projectNewItem.Path = Path.Combine(parentItem.Path, $"{newItem.Name}{Constants.AppProjectItemExtension}");
+
+
+        parentItem.Children.Add(item);
     }
 }
