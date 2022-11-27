@@ -31,7 +31,8 @@
                         <ContextMenu>
                             <MenuItem Command="{Binding RenameCommand}" Header="Rename" />
                             <MenuItem Header="Delete" />
-                            <MenuItem Command="{Binding #explorerView.DataContext.AddItemCommand}" Header="Add Item" />
+                            <MenuItem Command="{Binding #explorerView.DataContext.AddItemCommand}" 
+									  CommandParameter="{Binding}" Header="Add Item" />
                             <MenuItem Header="Add Folder" />
                         </ContextMenu>
                     </Grid.ContextMenu>

@@ -72,7 +72,7 @@ public class ExplorerComponentViewModel : ViewModelBase
 
         ShowDialog = new Interaction<AddItemViewModel, FileTemplate?>();
 
-        AddItemCommand = ReactiveCommand.CreateFromTask<ExplorerItem, Unit>(async (item) =>
+        AddItemCommand = ReactiveCommand.CreateFromTask<ProjectItemViewModel, Unit>(async (item) =>
         {
             var store = new AddItemViewModel();
 
@@ -127,7 +127,7 @@ public class ExplorerComponentViewModel : ViewModelBase
         });
     }
 
-    public ReactiveCommand<ExplorerItem, Unit> AddItemCommand
+    public ReactiveCommand<ProjectItemViewModel, Unit> AddItemCommand
     {
         get; private set;
     }
