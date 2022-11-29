@@ -1,4 +1,5 @@
-﻿using System.Reactive;
+﻿using System.Collections.ObjectModel;
+using System.Reactive;
 
 using Project.Core.ViewModels;
 
@@ -28,8 +29,8 @@ public class FolderProjectItemViewModel : ProjectItemViewModel
         set => this.RaiseAndSetIfChanged(ref _isInEditMode, value);
     }
 
-    private List<ProjectItemViewModel> _children; 
-    public List<ProjectItemViewModel> Children
+    private ObservableCollection<ProjectItemViewModel> _children = new(); 
+    public ObservableCollection<ProjectItemViewModel> Children
     {
         get => _children;
         set => this.RaiseAndSetIfChanged(ref _children, value);

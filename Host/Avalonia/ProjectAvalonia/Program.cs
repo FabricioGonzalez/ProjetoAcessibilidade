@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 
 using Avalonia;
 using Avalonia.ReactiveUI;
+
+using Common;
 
 using Project.Core.ViewModels.Main;
 
@@ -33,12 +37,16 @@ internal class Program
                 .AddRepositories()
                 .AddUsecases()
                 .AddServices()
-                .AddUIStates();
+                .AddUIStates()
+                .CreateFolderStructure();
 
         var result = AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI();
+
+        Debug.WriteLine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Constants.AppName));
+
         return result;
     }
 }

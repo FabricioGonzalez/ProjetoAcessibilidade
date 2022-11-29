@@ -54,6 +54,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
         {
             dialogVm.DataContext = interaction.Input;
 
+            dialogVm.Activate();
+
             var result = await dialogVm.ShowDialog<FileTemplate?>(Locator.Current.GetService<MainWindow>());
             interaction.SetOutput(result);
         }

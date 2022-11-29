@@ -86,6 +86,10 @@ public class AddItemViewModel : ViewModelBase
     public ReactiveCommand<Unit, FileTemplate?> SelectItemToCreateCommand
     {
         get; set;
+    } 
+    public ReactiveCommand<Unit, Unit> CloseDialogCommand
+    {
+        get; set;
     }
 
 }

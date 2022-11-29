@@ -31,6 +31,7 @@ using Project.Core.ViewModels.Project;
 using Project.Core.ViewModels.TemplateEditing;
 using Project.Core.ViewModels.Main;
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
+using System.IO;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -58,7 +59,7 @@ public static class Bootstrapper
 
         service.RegisterLazySingleton(() => new MainWindow());
 
-        service.RegisterLazySingleton(() => new AddItemWindow());
+        service.Register(() => new AddItemWindow());
 
         return service;
     }
@@ -198,11 +199,57 @@ public static class Bootstrapper
         return service;
     }
 
-    public static void AddUIStates(this IMutableDependencyResolver service)
+    public static IMutableDependencyResolver AddUIStates(this IMutableDependencyResolver service)
     {
         service.RegisterLazySingleton<IAppObservable<ProjectModel>>(() => new ProjectStateObservable());
         service.RegisterLazySingleton<IAppObservable<AppErrorMessage>>(() => new AppErrorObservable());
         service.RegisterLazySingleton<IAppObservable<ProjectEditingModel>>(() => new ProjectEditingStateObservable());
 
+        return service;
+    }
+
+    public static IMutableDependencyResolver CreateFolderStructure(this IMutableDependencyResolver service)
+    {
+        if (!Directory.Exists(Constants.AppFolder))
+        {
+            Directory.CreateDirectory(Constants.AppFolder);
+        }
+
+        if (!Directory.Exists(Constants.AppCacheFolder))
+        {
+            Directory.CreateDirectory(Constants.AppCacheFolder);
+        }
+
+        if (!Directory.Exists(Constants.AppHistoryFolder))
+        {
+            Directory.CreateDirectory(Constants.AppHistoryFolder);
+        }
+
+        if (!Directory.Exists(Constants.AppUnclosedItemsFolder))
+        {
+            Directory.CreateDirectory(Constants.AppUnclosedItemsFolder);
+        }
+
+        if (!Directory.Exists(Constants.AppSettingsFolder))
+        {
+            Directory.CreateDirectory(Constants.AppSettingsFolder);
+        }
+
+        if (!Directory.Exists(Constants.AppUISettings))
+        {
+            Directory.CreateDirectory(Constants.AppUISettings);
+        }
+
+        if (!Directory.Exists(Constants.AppTemplatesFolder))
+        {
+            Directory.CreateDirectory(Constants.AppTemplatesFolder);
+        }
+
+        if (!Directory.Exists(Constants.AppItemsTemplateFolder))
+        {
+            Directory.CreateDirectory(Constants.AppItemsTemplateFolder);
+        }
+
+        return service;
     }
 }

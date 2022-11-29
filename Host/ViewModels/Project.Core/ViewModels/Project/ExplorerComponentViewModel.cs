@@ -76,14 +76,34 @@ public class ExplorerComponentViewModel : ViewModelBase
         {
             var store = new AddItemViewModel();
 
-            var result = await ShowDialog.Handle(store);
+            FileTemplate? result = await ShowDialog.Handle(store);
 
             if (result is not null)
             {
-
+                ((FolderProjectItemViewModel)item).Children.Add(new FileProjectItemViewModel()
+                {
+                    Title = result.Name,
+                    Path = result.FilePath,
+                    InEditMode = true
+                });
             }
 
-            return new();
+            return Unit.Default;
+        });
+
+        AddFolderCommand = ReactiveCommand.CreateFromTask<ProjectItemViewModel, Unit>(async (item) =>
+        {
+            if (item is not null)
+            {
+                ((FolderProjectItemViewModel)item).Children.Add(new FolderProjectItemViewModel()
+                {
+                    Title = "",
+                    Path = item.Path,
+                    InEditMode = true
+                });
+            }
+            return Unit.Default;
+
         });
 
         SelectSolutionItemCommand = ReactiveCommand.CreateFromTask<string, Unit>(async (item) =>
@@ -92,8 +112,8 @@ public class ExplorerComponentViewModel : ViewModelBase
 
             result
             .OnLoading(out var itemModel, out var isLoading)
-            .OnError(out itemModel, out var error)
-            .OnSuccess(out itemModel);
+                    .OnError(out itemModel, out var error)
+                    .OnSuccess(out itemModel);
 
             ProjectEditingObservable.Send(new(itemModel.ItemName, itemModel));
 
@@ -120,14 +140,19 @@ public class ExplorerComponentViewModel : ViewModelBase
                     .DisposeWith(disposables);
 
             projectState.Subscribe(x =>
-            {
-                Folder = x.ProjectPath;
-            })
-            .DisposeWith(disposables);
+                        {
+                            Folder = x.ProjectPath;
+                        })
+                        .DisposeWith(disposables);
         });
     }
 
     public ReactiveCommand<ProjectItemViewModel, Unit> AddItemCommand
+    {
+        get; private set;
+    }
+
+    public ReactiveCommand<ProjectItemViewModel, Unit> AddFolderCommand
     {
         get; private set;
     }
@@ -161,9 +186,7 @@ public class ExplorerComponentViewModel : ViewModelBase
                     InEditMode = false,
                 };
 
-                (thisnode as FolderProjectItemViewModel).Children = new();
-
-                (thisnode as FolderProjectItemViewModel).Children = GetSubfolders(item.Children);
+                (thisnode as FolderProjectItemViewModel).Children = new(GetSubfolders(item.Children));
             }
 
             subfolders.Add(thisnode);
@@ -171,7 +194,7 @@ public class ExplorerComponentViewModel : ViewModelBase
 
         return subfolders;
     }
-
+/*
     private void AddItemToProject(ProjectItemViewModel item, FileTemplate newItem)
     {
         FolderProjectItemViewModel parentItem = (FolderProjectItemViewModel)ExplorerItems
@@ -184,5 +207,5 @@ public class ExplorerComponentViewModel : ViewModelBase
 
 
         parentItem.Children.Add(item);
-    }
+    }*/
 }

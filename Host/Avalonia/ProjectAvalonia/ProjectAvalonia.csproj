@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
+
 		<TargetFramework>net6.0</TargetFramework>
 		<!--<AvaloniaXamlIlDebuggerLaunch>true</AvaloniaXamlIlDebuggerLaunch>-->
 		<Nullable>enable</Nullable>
@@ -77,5 +77,71 @@
 		<Compile Update="Project\Components\ProjectEditing\EditingView.axaml.cs">
 			<DependentUpon>EditingView.axaml</DependentUpon>
 		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Specifications\Itens.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Itens.xsd">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens.xsd</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Acesso a Equipamentos.xml">
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso a Equipamentos.xml</LinuxPath>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Specifications\Tables\Acesso.xml">
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso.xml</LinuxPath>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Specifications\Tables\Balcão de Atendimento Recepção.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Balcão de Atendimento Recepção.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Circulação Horizontal.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Horizontal.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Circulação Vertical.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Vertical.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Entradas Portas Externo.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Externo.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Entradas Portas Interno.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Interno.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Mapa Tátil.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mapa Tátil.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Mesas.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mesas.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Piso Tátil.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Piso Tátil.xml</LinuxPath>
+	  </None>
+	  <None Update="Specifications\Tables\Portas de Emergência.xml">
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Portas de Emergência.xml</LinuxPath>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Specifications\Tables\Sanitários Comuns.xml">
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sanitários Comuns.xml</LinuxPath>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Specifications\Tables\Sánitario Acessível.xml">
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sánitario Acessível.xml</LinuxPath>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Specifications\Tables\Table.xsd">
+      <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Table.xsd</LinuxPath>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

@@ -13,12 +13,12 @@ public static class Constants
     public static string AppUISettings = Path.Combine(AppSettingsFolder, "UISettings");
 
     public static string AppTemplatesFolder = Path.Combine(AppFolder, "Templates");
-    public static string AppItemsTemplateFolder = Path.Combine(AppTemplatesFolder, "Itens");
+    public static string AppItemsTemplateFolder = Path.Combine(AppTemplatesFolder, AppProjectItemsFolderName);
 
-    public const string AppUserProjectItemsFolder = "Itens";
-    public const string AppProjectSolutionExtension = ".pjra";
-    public const string AppProjectTemplateExtension = ".xml";
-    public const string AppProjectItemExtension = ".pjrd";
+    public static string AppProjectItemsFolderName = "Itens";
+    public static string AppProjectSolutionExtension = ".pjra";
+    public static string AppProjectTemplateExtension = ".xml";
+    public static string AppProjectItemExtension = ".pjrd";
 #else
     public static string AppName = "Gestor de Projeto ARPA";
     public static string AppFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName);
@@ -31,8 +31,11 @@ public static class Constants
     public static string AppUISettings = Path.Combine(AppSettingsFolder, "UISettings");
 
     public static string AppTemplatesFolder = Path.Combine(AppFolder, "Templates");
-    public static string AppItemsTemplateFolder = Path.Combine(AppTemplatesFolder, "Itens");
+    public static string AppItemsTemplateFolder = Path.Combine(AppTemplatesFolder, AppProjectItemsFolderName);
 
-    public const string AppUserProjectItemsFolder = "Itens";
+    public static string AppProjectItemsFolderName = "Itens";
+    public static string AppProjectSolutionExtension = ".pjra";
+    public static string AppProjectTemplateExtension = ".xml";
+    public static string AppProjectItemExtension = ".pjrd";
 #endif
 }

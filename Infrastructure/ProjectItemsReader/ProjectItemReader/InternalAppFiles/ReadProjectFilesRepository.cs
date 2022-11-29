@@ -14,7 +14,7 @@ public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
         var splittedPath = path.Split(Path.DirectorySeparatorChar);
 
         var projectItemsRootPath = Path.Combine((string.Join(Path.DirectorySeparatorChar
-            , splittedPath[..(splittedPath.Length - 1)])), Constants.AppUserProjectItemsFolder);
+            , splittedPath[..(splittedPath.Length - 1)])), Constants.AppProjectItemsFolderName);
 
         if (Directory.Exists(projectItemsRootPath))
         {

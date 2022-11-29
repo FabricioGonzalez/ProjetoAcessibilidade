@@ -11,18 +11,18 @@ using ReactiveUI;
 namespace ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 public partial class AddItemWindow : ReactiveWindow<AddItemViewModel>
 {
-    private Button ReturnButton;
+    private Button ReturnButton => this.FindControl<Button>("ExitAddItemDialog");
     public AddItemWindow()
     {
-/*        ReturnButton = this.FindControl<Button>("ExitAddItemDialog");
-
-        ReturnButton.Command = ReactiveCommand.Create(() =>
+        this.WhenActivated(disposables =>
         {
-            Close();
-        });*/
+            ViewModel.CloseDialogCommand = ReactiveCommand.Create(() => Close());
 
-        this.WhenActivated(disposables => 
-        disposables(ViewModel!.SelectItemToCreateCommand.Subscribe(Close)));
+            this.BindCommand(ViewModel, vm => vm.CloseDialogCommand, v => v.ReturnButton);
+
+            disposables(ViewModel!.SelectItemToCreateCommand.Subscribe(Close));
+        }
+        );
 
         AvaloniaXamlLoader.Load(this);
     }
