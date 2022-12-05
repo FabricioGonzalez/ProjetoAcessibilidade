@@ -50,8 +50,10 @@
                                     Header="Novo" />
                                 <Separator Background="Transparent" />
                                 <MenuItem
+                                    Name="CloseAppMenuItem"
                                     Margin="4,0"
                                     Background="Transparent"
+                                    Command="{Binding CloseAppCommand}"
                                     Header="Sair" />
                             </MenuItem.Items>
                         </MenuItem>

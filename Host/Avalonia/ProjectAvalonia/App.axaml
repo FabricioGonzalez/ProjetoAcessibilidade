@@ -20,7 +20,7 @@
         <StyleInclude Source="/Styles/HorizontalScroller.axaml" />
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
     </Application.Styles>
-    <TrayIcon.Icons>
+    <!--<TrayIcon.Icons>
         <TrayIcons>
             <TrayIcon Icon="/Assets/avalonia-logo.ico" ToolTipText="Avalonia Tray Icon ToolTip">
                 <TrayIcon.Menu>
@@ -49,5 +49,5 @@
                 </TrayIcon.Menu>
             </TrayIcon>
         </TrayIcons>
-    </TrayIcon.Icons>
+    </TrayIcon.Icons>-->
 </Application>

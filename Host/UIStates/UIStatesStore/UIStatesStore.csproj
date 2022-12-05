@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ReactiveUI" Version="18.4.1" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="System.Reactive.Core" Version="5.0.0" />
     <PackageReference Include="System.Reactive.Interfaces" Version="5.0.0" />
@@ -14,6 +15,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Application\AppUsecases\AppUsecases.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Solution\Observables\" />
   </ItemGroup>
 
 </Project>

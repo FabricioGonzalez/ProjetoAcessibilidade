@@ -77,7 +77,7 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
                 Router.Navigate.Execute(rulesEditing);
             }
         });
-
+       
         GoToTemplateEditing = ReactiveCommand.Create(() =>
         {
             var templateEditing = Locator.Current.GetService<TemplateEditingViewModel>();
@@ -150,6 +150,10 @@ public class MainWindowViewModel : ViewModelBase, IActivatableViewModel, IScreen
     public ReactiveCommand<Unit, Unit> GoToRulesEditing
     {
         get; private set;
+    }    
+    public ReactiveCommand<Unit, Unit> CloseAppCommand
+    {
+        get; set;
     }
 
     public Interaction<CreateSolutionViewModel, MainWindowViewModel?> ShowSolutionCreateDialog

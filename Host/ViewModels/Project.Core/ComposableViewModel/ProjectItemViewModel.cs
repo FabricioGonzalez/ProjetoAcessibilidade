@@ -31,6 +31,6 @@ public abstract class ProjectItemViewModel : ViewModelBase
 
     public ReactiveCommand<Unit, Unit> RenameCommand
     {
-        get;
+        get; protected set;
     }
 }

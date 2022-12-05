@@ -22,7 +22,7 @@ public class CreateProjectSolutionUsecase : ICommandUsecase<ProjectSolutionModel
     }
     public async Task<Resource<ProjectSolutionModel>> executeAsync(ProjectSolutionModel model)
     {
-        var result = await solutionCreator.WriteDataAsync(model, model.FilePath);
+        var result = await solutionCreator.WriteDataAsync(model,Path.Combine(model.FilePath,$"{model.FileName}{Constants.AppProjectSolutionExtension}"));
 
         if (result is not null)
         {

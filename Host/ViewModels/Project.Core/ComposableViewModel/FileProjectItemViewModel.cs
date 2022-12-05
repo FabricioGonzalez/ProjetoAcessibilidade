@@ -1,21 +1,17 @@
-﻿using System.Reactive;
-
-using Project.Core.ViewModels;
-
-using ReactiveUI;
+﻿using ReactiveUI;
 
 namespace Project.Core.ComposableViewModel;
 public class FileProjectItemViewModel : ProjectItemViewModel
 {
     public FileProjectItemViewModel()
     {
-        RenameCommand = ReactiveCommand.Create(() =>
+        this.RenameCommand = ReactiveCommand.Create(() =>
         {
             InEditMode = true;
         });
     }
 
-    private bool _isInEditMode;
+   /* private bool _isInEditMode;
 
     public  string Title
     {
@@ -31,5 +27,5 @@ public class FileProjectItemViewModel : ProjectItemViewModel
     public ReactiveCommand<Unit, Unit> RenameCommand
     {
         get;
-    }
+    }*/
 }

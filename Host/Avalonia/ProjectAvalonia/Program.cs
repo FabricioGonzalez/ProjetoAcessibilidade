@@ -38,14 +38,14 @@ internal class Program
                 .AddUsecases()
                 .AddServices()
                 .AddUIStates()
-                .CreateFolderStructure();
+                /*.CreateFolderStructure()*/;
 
         var result = AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI();
 
-        Debug.WriteLine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Constants.AppName));
+        /*Debug.WriteLine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Constants.AppName));*/
 
         return result;
     }

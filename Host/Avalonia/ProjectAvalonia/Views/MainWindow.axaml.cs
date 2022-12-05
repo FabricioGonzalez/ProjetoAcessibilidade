@@ -14,15 +14,23 @@ using ReactiveUI;
 using Splat;
 using ProjectAvalonia.Dialogs.CreateSolutionDialog;
 using Project.Core.ViewModels.Dialogs;
+using Avalonia.Controls;
 
 namespace ProjectAvalonia.Views;
 public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 {
+
+    private MenuItem CloseApp => this.FindControl<MenuItem>("CloseAppMenuItem");
     public MainWindow()
     {
         this.WhenActivated(disposable =>
         {
             ViewModel!.ShowSolutionCreateDialog.RegisterHandler(DoShowDialogAsync);
+
+            ViewModel.CloseAppCommand = ReactiveCommand.Create(() => Close());
+
+            this.BindCommand(ViewModel, vm => vm.CloseAppCommand, v => v.CloseApp);
+
         });
 
         AvaloniaXamlLoader.Load(this);

@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Project.Core.ViewModels.Dialogs;assembly=Project.Core"
     Title="CreateSolutionDialog"
     Width="550"
     Height="450"
@@ -12,8 +13,11 @@
     d:DesignHeight="550"
     d:DesignWidth="580"
     Background="Transparent"
+    CanResize="False"
     ExtendClientAreaToDecorationsHint="True"
+    HasSystemDecorations="True"
     ShowInTaskbar="True"
+    SystemDecorations="BorderOnly"
     TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
@@ -27,7 +31,7 @@
                     TintOpacity="1" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
-        <Grid Margin="0,24,0,0" RowDefinitions="1*,35,35,1*">
+        <Grid Margin="0,32,0,0" RowDefinitions="1*,32,32,1*">
 
             <Grid
                 Grid.Row="0"
@@ -36,7 +40,7 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 ColumnDefinitions="1*,1*"
-                RowDefinitions="1*,1*,1*">
+                RowDefinitions="0.4*,0.4*,0.4*">
                 <Panel
                     Grid.Row="0"
                     Grid.Column="0"
@@ -44,10 +48,11 @@
                     VerticalAlignment="Center"
                     Background="Transparent">
                     <TextBlock
+                        VerticalAlignment="Center"
                         FontSize="13"
                         Text="Nome da Empresa"
                         TextAlignment="Center" />
-                    <TextBox />
+                    <TextBox Text="{Binding SolutionModel.ReportData.NomeEmpresa}" />
                 </Panel>
 
                 <Panel
@@ -57,10 +62,11 @@
                     VerticalAlignment="Center"
                     Background="Transparent">
                     <TextBlock
+                        VerticalAlignment="Center"
                         FontSize="13"
                         Text="Responsável pelo Projeto"
                         TextAlignment="Center" />
-                    <TextBox />
+                    <TextBox Text="{Binding SolutionModel.ReportData.Responsavel}" />
                 </Panel>
 
                 <Panel
@@ -70,10 +76,11 @@
                     VerticalAlignment="Center"
                     Background="Transparent">
                     <TextBlock
+                        VerticalAlignment="Center"
                         FontSize="13"
                         Text="Email do Responsável"
                         TextAlignment="Center" />
-                    <TextBox />
+                    <TextBox Text="{Binding SolutionModel.ReportData.Email}" />
                 </Panel>
 
                 <Grid
@@ -85,10 +92,11 @@
                     ColumnDefinitions="1*,1*">
                     <Panel Grid.Column="0" HorizontalAlignment="Stretch">
                         <TextBlock
+                            VerticalAlignment="Center"
                             FontSize="13"
                             Text="Data do Relatório"
                             TextAlignment="Center" />
-                        <TextBox />
+                        <TextBox Text="{Binding SolutionModel.ReportData.Data}" />
                     </Panel>
 
                     <Panel
@@ -96,10 +104,11 @@
                         HorizontalAlignment="Stretch"
                         Background="Transparent">
                         <TextBlock
+                            VerticalAlignment="Center"
                             FontSize="13"
                             Text="UF"
                             TextAlignment="Center" />
-                        <TextBox />
+                        <TextBox Text="{Binding SolutionModel.ReportData.UF}" />
                     </Panel>
                 </Grid>
 
@@ -110,10 +119,11 @@
                     VerticalAlignment="Center"
                     Background="Transparent">
                     <TextBlock
+                        VerticalAlignment="Center"
                         FontSize="13"
                         Text="Endereço da Empresa"
                         TextAlignment="Center" />
-                    <TextBox />
+                    <TextBox Text="{Binding SolutionModel.ReportData.Endereco}" />
                 </Panel>
 
                 <Panel
@@ -123,10 +133,11 @@
                     VerticalAlignment="Center"
                     Background="Transparent">
                     <TextBlock
+                        VerticalAlignment="Center"
                         FontSize="13"
                         Text="Telefone do Responsável"
                         TextAlignment="Center" />
-                    <TextBox />
+                    <TextBox Text="{Binding SolutionModel.ReportData.Telefone}" />
                 </Panel>
             </Grid>
 
@@ -134,8 +145,11 @@
                 Grid.Row="1"
                 Margin="8"
                 Background="Transparent">
-                <TextBlock Margin="4,0" Text="Nome da Solução" />
-                <TextBox />
+                <TextBlock
+                    Margin="4,0"
+                    VerticalAlignment="Center"
+                    Text="Nome da Solução" />
+                <TextBox Margin="0,8" Text="{Binding SolutionModel.FileName}" />
             </Panel>
 
             <Panel
@@ -144,17 +158,23 @@
                 Margin="8"
                 HorizontalAlignment="Stretch"
                 Background="Transparent">
-                <TextBlock
+                <!--<TextBlock
                     Margin="4,0"
                     HorizontalAlignment="Stretch"
-                    Text="Local da Solução" />
-                <TextBox HorizontalAlignment="Stretch" />
+                    VerticalAlignment="Center"
+                    Text="Local da Solução" />-->
+                <TextBox
+                    HorizontalAlignment="Stretch"
+                    IsEnabled="False"
+                    IsReadOnly="True"
+                    Text="{Binding SolutionModel.FilePath}" />
 
                 <Button
                     Grid.Column="1"
                     Height="32"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Stretch">
+                    VerticalAlignment="Stretch"
+                    Command="{Binding ChooseSolutionPath}">
                     <material:MaterialIcon
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -167,8 +187,17 @@
                 Grid.Row="3"
                 Margin="8"
                 Background="Transparent">
-                <Button HorizontalAlignment="Left" Content="Fechar" />
-                <Button HorizontalAlignment="Right" Content="Criar" />
+                <Button
+                    Name="CloseButton"
+                    Width="120"
+                    HorizontalAlignment="Left"
+                    Command="{Binding CloseDialogCommand}"
+                    Content="Fechar" />
+                <Button
+                    Width="120"
+                    HorizontalAlignment="Right"
+                    Command="{Binding CreateSolution}"
+                    Content="Criar" />
             </Panel>
         </Grid>
     </Panel>
