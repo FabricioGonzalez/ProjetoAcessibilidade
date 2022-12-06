@@ -28,7 +28,10 @@
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <TextBlock FontSize="12" Text="{Binding Title, Mode=OneWay}" />
+                    <Button
+                        Background="Transparent"
+                        Content="{Binding Title, Mode=OneWay}"
+                        FontSize="12" />
                     <Button
                         Width="16"
                         Height="16"

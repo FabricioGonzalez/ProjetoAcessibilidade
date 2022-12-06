@@ -10,7 +10,18 @@ public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
     {
         var list = new List<ExplorerItem>();
 
-        var projectItemsRootPath = Path.Combine(path, Constants.AppProjectItemsFolderName);
+        var fileAttributes = File.GetAttributes(path);
+
+        var projectItemsRootPath = "";
+
+        if (fileAttributes.HasFlag(FileAttributes.Archive))
+        {
+            projectItemsRootPath = Path.Combine(Directory.GetParent(path).FullName, Constants.AppProjectItemsFolderName);
+        }
+        if (fileAttributes.HasFlag(FileAttributes.Directory))
+        {
+            Path.Combine(path, Constants.AppProjectItemsFolderName);
+        }
 
         if (Directory.Exists(projectItemsRootPath))
         {
