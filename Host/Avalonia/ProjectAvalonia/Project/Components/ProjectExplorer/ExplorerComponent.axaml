@@ -14,57 +14,210 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <TreeView
-        x:Name="explorerTreeView"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        CornerRadius="8">
-        <TreeView.DataTemplates>
-            <TreeDataTemplate DataType="nodes:FolderProjectItemViewModel" ItemsSource="{Binding Children}">
-                <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
-                    <material:MaterialIcon Grid.Column="0" Kind="Folder" />
-                    <Controls:EditableTextBlock
-                        Grid.Column="1"
-                        InEditMode="{Binding InEditMode}"
-                        Text="{Binding Title}" />
-                    <Grid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="{Binding RenameCommand}" Header="Rename" />
-                            <MenuItem Header="Delete" />
-                            <MenuItem
-                                Command="{Binding #explorerView.DataContext.AddItemCommand}"
-                                CommandParameter="{Binding}"
-                                Header="Add Item" />
-                            <MenuItem
-                                Command="{Binding #explorerView.DataContext.AddFolderCommand}"
-                                CommandParameter="{Binding}"
-                                Header="Add Folder" />
-                        </ContextMenu>
-                    </Grid.ContextMenu>
-                </Grid>
-            </TreeDataTemplate>
-            <DataTemplate DataType="nodes:FileProjectItemViewModel">
-                <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
-                    <i:Interaction.Behaviors>
-                        <ia:EventTriggerBehavior EventName="DoubleTapped">
-                            <ia:InvokeCommandAction Command="{Binding #explorerView.DataContext.SelectSolutionItemCommand}" CommandParameter="{Binding Path}" />
-                        </ia:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
+    <Grid Name="ExplorerRoot" RowDefinitions="48,1*">
+        <StackPanel
+            Margin="16,0"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal">
+            <ToggleButton Margin="4,0" IsChecked="{Binding IsDocumentSolutionEnabled}">
+                <material:MaterialIcon Kind="DocumentSign" />
+                <ToggleButton.Flyout>
+                    <Flyout
+                        Closed="FlyoutClosed_PointerPressed"
+                        Placement="LeftEdgeAlignedTop"
+                        ShowMode="Standard">
+                        <ScrollViewer Width="200">
+                            <StackPanel HorizontalAlignment="Stretch">
+                                <StackPanel
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    Background="Transparent">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Text="Nome da Empresa"
+                                        TextAlignment="Center" />
+                                    <TextBox Text="{Binding SolutionModel.ReportData.NomeEmpresa}" />
+                                </StackPanel>
+                                <DatePicker
+                                    Margin="0,4,0,0"
+                                    VerticalAlignment="Stretch"
+                                    DayVisible="True"
+                                    Header="Data do Relatório"
+                                    MonthVisible="True"
+                                    SelectedDate="{Binding SolutionModel.ReportData.Data}"
+                                    YearVisible="True" />
 
-                    <material:MaterialIcon Grid.Column="0" Kind="File" />
-                    <Controls:EditableTextBlock
-                        Grid.Column="1"
-                        InEditMode="{Binding InEditMode}"
-                        Text="{Binding Title}" />
+                                <StackPanel
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    Background="Transparent">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Text="UF"
+                                        TextAlignment="Center" />
+                                    <ComboBox HorizontalAlignment="Stretch">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Code}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
 
-                    <Grid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="{Binding RenameCommand}" Header="Rename" />
-                            <MenuItem Header="Delete" />
-                        </ContextMenu>
-                    </Grid.ContextMenu>
-                </Grid>
-            </DataTemplate>
-        </TreeView.DataTemplates>
-    </TreeView>
+                                <StackPanel
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Text="Responsável pelo Projeto"
+                                        TextAlignment="Center" />
+                                    <TextBox Text="{Binding SolutionModel.ReportData.Responsavel}" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Text="Endereço da Empresa"
+                                        TextAlignment="Center" />
+                                    <TextBox Text="{Binding SolutionModel.ReportData.Endereco}" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Text="Email do Responsável"
+                                        TextAlignment="Center" />
+                                    <TextBox Text="{Binding SolutionModel.ReportData.Email}" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Text="Telefone do Responsável"
+                                        TextAlignment="Center" />
+                                    <TextBox Text="{Binding SolutionModel.ReportData.Telefone}" />
+                                </StackPanel>
+
+
+                                <StackPanel Margin="0,4,0,0" Background="Transparent">
+                                    <TextBlock VerticalAlignment="Center" Text="Nome da Solução" />
+                                    <TextBox Text="{Binding SolutionModel.FileName}" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    Background="Transparent">
+                                    <TextBlock
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Text="Local da Logo da Empresa" />
+                                    <Panel>
+                                        <TextBox
+                                            HorizontalAlignment="Stretch"
+                                            IsEnabled="False"
+                                            IsReadOnly="True"
+                                            Text="{Binding SolutionModel.ReportData.LogoPath}" />
+
+                                        <Button
+                                            Grid.Column="1"
+                                            Height="32"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Stretch"
+                                            Command="{Binding ChooseLogoPath}">
+                                            <material:MaterialIcon
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Kind="Folder" />
+                                        </Button>
+                                    </Panel>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Flyout>
+                </ToggleButton.Flyout>
+            </ToggleButton>
+            <Button>
+                <material:MaterialIcon Kind="Printer" />
+            </Button>
+            <Button>
+                <material:MaterialIcon Kind="FileSync" />
+            </Button>
+        </StackPanel>
+        <TreeView
+            x:Name="explorerTreeView"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            CornerRadius="8">
+            <TreeView.DataTemplates>
+                <TreeDataTemplate DataType="nodes:FolderProjectItemViewModel" ItemsSource="{Binding Children}">
+                    <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
+                        <material:MaterialIcon Grid.Column="0" Kind="Folder" />
+                        <Controls:EditableTextBlock
+                            Grid.Column="1"
+                            InEditMode="{Binding InEditMode}"
+                            Text="{Binding Title}" />
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding RenameCommand}" Header="Rename" />
+                                <MenuItem Header="Delete" />
+                                <MenuItem
+                                    Command="{Binding #explorerView.DataContext.AddItemCommand}"
+                                    CommandParameter="{Binding}"
+                                    Header="Add Item" />
+                                <MenuItem
+                                    Command="{Binding #explorerView.DataContext.AddFolderCommand}"
+                                    CommandParameter="{Binding}"
+                                    Header="Add Folder" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                    </Grid>
+                </TreeDataTemplate>
+                <DataTemplate DataType="nodes:FileProjectItemViewModel">
+                    <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
+                        <i:Interaction.Behaviors>
+                            <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                <ia:InvokeCommandAction Command="{Binding #explorerView.DataContext.SelectSolutionItemCommand}" CommandParameter="{Binding Path}" />
+                            </ia:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+
+                        <material:MaterialIcon Grid.Column="0" Kind="File" />
+                        <Controls:EditableTextBlock
+                            Grid.Column="1"
+                            InEditMode="{Binding InEditMode}"
+                            Text="{Binding Title}" />
+
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding RenameCommand}" Header="Rename" />
+                                <MenuItem Header="Delete" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                    </Grid>
+                </DataTemplate>
+            </TreeView.DataTemplates>
+        </TreeView>
+
+    </Grid>
 </UserControl>

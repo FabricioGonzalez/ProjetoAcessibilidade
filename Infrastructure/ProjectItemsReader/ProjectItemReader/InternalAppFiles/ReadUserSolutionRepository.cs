@@ -1,9 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
-using AppUsecases.App.Contracts.Services;
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Project.Entities.Project;
 

@@ -10,6 +10,7 @@ namespace ProjectAvalonia.Dialogs.CreateSolutionDialog;
 public partial class CreateSolutionDialog : ReactiveWindow<CreateSolutionViewModel>
 {
     private Button ReturnButton => this.FindControl<Button>("CloseButton");
+    private ComboBox UFList => this.FindControl<ComboBox>("UFList");
 
     public CreateSolutionDialog()
     {
@@ -22,6 +23,7 @@ public partial class CreateSolutionDialog : ReactiveWindow<CreateSolutionViewMod
 
             this.BindCommand(ViewModel, vm => vm.CloseDialogCommand, v => v.ReturnButton);
 
+            this.OneWayBind(ViewModel, vm => vm.UFList, v => v.UFList.Items);
         });
 
         AvaloniaXamlLoader.Load(this);

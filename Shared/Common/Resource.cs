@@ -50,7 +50,7 @@ public static class Extensions
 
             if (error.Data is null)
             {
-                Data = default(T);
+                Data = default;
 
             }
             else Data = error.Data;
@@ -58,7 +58,7 @@ public static class Extensions
         else
         {
             message = "";
-            Data = default(T);
+            Data = default;
         }
 
         return resource;
@@ -71,7 +71,7 @@ public static class Extensions
         }
         else
         {
-            Data = default(T);
+            Data = default;
         }
         return resource;
     }
@@ -81,7 +81,7 @@ public static class Extensions
         {
             if (IsLoading.Data is null)
             {
-                Data = default(T);
+                Data = default;
             }
             else
                 Data = IsLoading.Data;
@@ -90,7 +90,7 @@ public static class Extensions
         }
         else
         {
-            Data = default(T);
+            Data = default;
             isLoading = false;
         }
         return resource;

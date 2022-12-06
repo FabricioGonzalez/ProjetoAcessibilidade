@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
-
-using UIStatesStore.Contracts;
+﻿using UIStatesStore.Contracts;
 using UIStatesStore.Project.Models;
 
 namespace UIStatesStore.Project.Observable
@@ -37,8 +30,9 @@ namespace UIStatesStore.Project.Observable
         public void Send(ProjectModel value)
         {
             if (_listeners.Count > 0)
-                foreach (var listener in _listeners)
-                    listener.OnNext(value);
+                if (value.ProjectPath.Length > 0)
+                    foreach (var listener in _listeners)
+                        listener.OnNext(value);
         }
 
         public IDisposable Subscribe(IObserver<ProjectModel> observer)
@@ -46,14 +40,14 @@ namespace UIStatesStore.Project.Observable
             var Duplicated =
                 _listeners.Where(obs => obs.GetType() == observer.GetType());
 
-            if (Duplicated.Count() >  0)
+            if (Duplicated.Count() > 0)
             {
                 foreach (var item in Duplicated.ToList())
                 {
-                _listeners.Remove(item);
+                    _listeners.Remove(item);
                 }
             }
-                _listeners.Add(observer);
+            _listeners.Add(observer);
 
             return this;
         }

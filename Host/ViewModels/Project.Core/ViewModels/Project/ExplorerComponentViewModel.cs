@@ -41,18 +41,36 @@ public class ExplorerComponentViewModel : ViewModelBase
     private ObservableCollectionExtended<ProjectItemViewModel> explorerItems = new();
     public ObservableCollectionExtended<ProjectItemViewModel> ExplorerItems
     {
-        get => explorerItems; set => this.RaiseAndSetIfChanged(ref explorerItems, value, nameof(ExplorerItems));
+        get => explorerItems;
+        set => this.RaiseAndSetIfChanged(ref explorerItems, value, nameof(ExplorerItems));
     }
     public ObservableCollection<ProjectItemViewModel> SelectedItems
     {
         get; set;
     }
 
+    private UIStatesStore.Solution.Models.ProjectSolutionModel solutionModel = new();
+    public UIStatesStore.Solution.Models.ProjectSolutionModel SolutionModel
+    {
+        get => solutionModel;
+        set => this.RaiseAndSetIfChanged(ref solutionModel, value, nameof(SolutionModel));
+
+    }
+
     string strFolder = "";
 
     public string Folder
     {
-        get => strFolder; set => this.RaiseAndSetIfChanged(ref strFolder, value, nameof(Folder));
+        get => strFolder;
+        set => this.RaiseAndSetIfChanged(ref strFolder, value, nameof(Folder));
+    }
+
+    bool isDocumentSolutionEnabled = false;
+
+    public bool IsDocumentSolutionEnabled
+    {
+        get => isDocumentSolutionEnabled;
+        set => this.RaiseAndSetIfChanged(ref isDocumentSolutionEnabled, value, nameof(IsDocumentSolutionEnabled));
     }
 
     private readonly IAppObservable<ProjectModel> projectState;
@@ -60,12 +78,14 @@ public class ExplorerComponentViewModel : ViewModelBase
     readonly IQueryUsecase<string, List<ExplorerItem>> getProjectItems;
     private readonly IAppObservable<ProjectEditingModel> ProjectEditingObservable;
     IQueryUsecase<string, AppItemModel> getItemContent;
+    private readonly IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel> solutionObserver;
 
     public ExplorerComponentViewModel()
     {
         projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();
         AppErrorState ??= Locator.Current.GetService<IAppObservable<AppErrorMessage>>();
         ProjectEditingObservable ??= Locator.Current.GetService<IAppObservable<ProjectEditingModel>>();
+        solutionObserver ??= Locator.Current.GetService<IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel>>();
 
         getProjectItems ??= Locator.Current.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
         getItemContent ??= Locator.Current.GetService<IQueryUsecase<string, AppItemModel>>();
@@ -119,6 +139,7 @@ public class ExplorerComponentViewModel : ViewModelBase
 
             return new Unit();
         });
+
         this.WhenActivated((disposables) =>
         {
             this.WhenAnyValue(x => x.Folder)
@@ -138,6 +159,11 @@ public class ExplorerComponentViewModel : ViewModelBase
                         }
                     })
                     .DisposeWith(disposables);
+
+            solutionObserver.Subscribe(x =>
+            {
+                SolutionModel = x;
+            }).DisposeWith(disposables);
 
             projectState.Subscribe(x =>
                         {
@@ -168,44 +194,35 @@ public class ExplorerComponentViewModel : ViewModelBase
     private List<ProjectItemViewModel> GetSubfolders(List<ExplorerItem> items)
     {
         List<ProjectItemViewModel> subfolders = new();
-        foreach (var dir in items)
-        {
-            ProjectItemViewModel thisnode = new FileProjectItemViewModel()
-            {
-                Title = dir.Name,
-                Path = dir.Path,
-                InEditMode = false,
-            };
 
-            if (dir is FolderItem item)
+        if (items is not null && items.Count > 0)
+        {
+
+            foreach (var dir in items)
             {
-                thisnode = new FolderProjectItemViewModel()
+                ProjectItemViewModel thisnode = new FileProjectItemViewModel()
                 {
-                    Title = item.Name,
-                    Path = item.Path,
+                    Title = dir.Name,
+                    Path = dir.Path,
                     InEditMode = false,
                 };
 
-                (thisnode as FolderProjectItemViewModel).Children = new(GetSubfolders(item.Children));
-            }
+                if (dir is FolderItem item)
+                {
+                    thisnode = new FolderProjectItemViewModel()
+                    {
+                        Title = item.Name,
+                        Path = item.Path,
+                        InEditMode = false,
+                    };
 
-            subfolders.Add(thisnode);
+                    (thisnode as FolderProjectItemViewModel).Children = new(GetSubfolders(item.Children));
+                }
+
+                subfolders.Add(thisnode);
+            }
         }
 
         return subfolders;
     }
-/*
-    private void AddItemToProject(ProjectItemViewModel item, FileTemplate newItem)
-    {
-        FolderProjectItemViewModel parentItem = (FolderProjectItemViewModel)ExplorerItems
-            .First(x => x.Equals(item));
-
-        FileProjectItemViewModel projectNewItem = new();
-
-        projectNewItem.Title = newItem.Name;
-        projectNewItem.Path = Path.Combine(parentItem.Path, $"{newItem.Name}{Constants.AppProjectItemExtension}");
-
-
-        parentItem.Children.Add(item);
-    }*/
 }

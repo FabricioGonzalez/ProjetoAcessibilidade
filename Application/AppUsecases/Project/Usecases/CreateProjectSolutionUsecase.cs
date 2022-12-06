@@ -24,7 +24,7 @@ public class CreateProjectSolutionUsecase : ICommandUsecase<ProjectSolutionModel
     {
         var result = await solutionCreator.WriteDataAsync(model,Path.Combine(model.FilePath,$"{model.FileName}{Constants.AppProjectSolutionExtension}"));
 
-        if (result is not null)
+        if (result is null)
         {
             return new Resource<ProjectSolutionModel>.Error(Message: ErrorConstants.SolutionEmpty, null);
         }

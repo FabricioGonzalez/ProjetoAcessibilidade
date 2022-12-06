@@ -1,6 +1,5 @@
 ﻿using AppUsecases.Contracts.Repositories;
 using AppUsecases.Project.Entities.FileTemplate;
-using AppUsecases.Project.Enums;
 
 using Common;
 
@@ -11,16 +10,13 @@ public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
     {
         var list = new List<ExplorerItem>();
 
-        var splittedPath = path.Split(Path.DirectorySeparatorChar);
-
-        var projectItemsRootPath = Path.Combine((string.Join(Path.DirectorySeparatorChar
-            , splittedPath[..(splittedPath.Length - 1)])), Constants.AppProjectItemsFolderName);
+        var projectItemsRootPath = Path.Combine(path, Constants.AppProjectItemsFolderName);
 
         if (Directory.Exists(projectItemsRootPath))
         {
             var folderItem = new FolderItem()
             {
-                Name = projectItemsRootPath.Split(Path.DirectorySeparatorChar)[projectItemsRootPath.Split(Path.DirectorySeparatorChar).Length - 1],
+                Name = Path.GetFileNameWithoutExtension(projectItemsRootPath),
                 Path = projectItemsRootPath
             };
 
@@ -44,18 +40,19 @@ public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
             {
                 var i = new FileItem()
                 {
-                    Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length - 1].Split(".")[0],
-                    Path =item,
+                    Name = Path.GetFileNameWithoutExtension(item),
+                    Path = item,
                 };
                 list.Add(i);
             }
+           
             if (fileAttributes.HasFlag(FileAttributes.Directory))
             {
                 var itens = Directory.GetFiles(item);
 
                 var folderItem = new FolderItem
                 {
-                    Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length - 1],
+                    Name = Path.GetDirectoryName(item),
                     Path = item,
                     Children = new List<ExplorerItem>()
                 };
@@ -72,7 +69,7 @@ public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
                     {
                         var i = new FileItem()
                         {
-                            Name = item.Split(Path.DirectorySeparatorChar)[item.Split(Path.DirectorySeparatorChar).Length - 1].Split(".")[0],
+                            Name = Path.GetFileNameWithoutExtension(item),
                             Path = item,
                         };
                         folderItem.Children.Add(i);
@@ -81,11 +78,6 @@ public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
 
                 list.Add(folderItem);
             }
-
         }
-
-
-
-
     }
 }

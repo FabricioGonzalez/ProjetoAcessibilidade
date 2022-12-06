@@ -40,10 +40,10 @@ public class ReportDataModel
     } = "";
 
     [JsonPropertyName("data")]
-    public string Data
+    public DateTime Data
     {
         get; set;
-    } = "";
+    } = DateTime.Now;
 
     [JsonPropertyName("logo")]
     public string LogoPath

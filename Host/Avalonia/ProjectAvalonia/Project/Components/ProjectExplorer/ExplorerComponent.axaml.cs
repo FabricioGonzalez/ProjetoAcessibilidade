@@ -2,6 +2,8 @@ using AppUsecases.Editing.Entities;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
@@ -14,6 +16,7 @@ using ReactiveUI;
 
 using Splat;
 
+using System;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 
@@ -22,6 +25,12 @@ public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentVi
 {
     public TreeView explorerTree => this.FindControl<TreeView>("explorerTreeView");
     /*public TextBlock Text => this.FindControl<TextBlock>("text");*/
+
+    public void FlyoutClosed_PointerPressed(object sender, EventArgs args)
+    {
+        ViewModel.IsDocumentSolutionEnabled = !ViewModel.IsDocumentSolutionEnabled;
+
+    }
     public ExplorerComponent()
     {
 

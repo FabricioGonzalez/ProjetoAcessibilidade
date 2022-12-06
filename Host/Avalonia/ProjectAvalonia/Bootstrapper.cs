@@ -32,6 +32,7 @@ using Project.Core.ViewModels.TemplateEditing;
 using Project.Core.ViewModels.Main;
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using System.IO;
+using UIStatesStore.Solution.Observables;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -82,7 +83,9 @@ public static class Bootstrapper
             ));
 
         service.Register<ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>>(() => new CreateProjectSolutionUsecase(
-            Locator.Current.GetService<IWriteContract<ProjectSolutionModel>>()));
+            Locator.Current.GetService<IWriteContract<ProjectSolutionModel>>()));  
+        
+        service.Register(() => new GetUFList());
 
         return service;
     }
@@ -204,6 +207,7 @@ public static class Bootstrapper
         service.RegisterLazySingleton<IAppObservable<ProjectModel>>(() => new ProjectStateObservable());
         service.RegisterLazySingleton<IAppObservable<AppErrorMessage>>(() => new AppErrorObservable());
         service.RegisterLazySingleton<IAppObservable<ProjectEditingModel>>(() => new ProjectEditingStateObservable());
+        service.RegisterLazySingleton<IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel>>(() => new SolutionObservable());
 
         return service;
     }
