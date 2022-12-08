@@ -1,4 +1,9 @@
-﻿using ReactiveUI;
+﻿using System;
+using System.Reactive.Disposables;
+
+using AppViewModels.Interactions.Project;
+
+using ReactiveUI;
 
 namespace AppViewModels.Project.ComposableViewModels;
 public class FileProjectItemViewModel : ProjectItemViewModel
@@ -9,23 +14,25 @@ public class FileProjectItemViewModel : ProjectItemViewModel
         {
             InEditMode = true;
         });
+
+        DeleteCommand = ReactiveCommand.Create(() =>
+        {
+
+        });
+        RenameCommand.Subscribe(disposable =>
+        {
+            ProjectInteractions
+            .RenameFileInteraction
+           .Handle(this)
+            .Subscribe();
+        });
+
+        DeleteCommand.Subscribe(disposable =>
+        {
+            ProjectInteractions
+            .DeleteFileInteraction
+           .Handle(this)
+            .Subscribe();
+        });
     }
-
-    /* private bool _isInEditMode;
-
-     public  string Title
-     {
-         get; set;
-     }
-
-     public bool InEditMode
-     {
-         get => _isInEditMode;
-         set => this.RaiseAndSetIfChanged(ref _isInEditMode, value);
-     }
-
-     public ReactiveCommand<Unit, Unit> RenameCommand
-     {
-         get;
-     }*/
 }

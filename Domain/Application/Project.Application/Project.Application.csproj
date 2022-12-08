@@ -14,7 +14,6 @@
     <Folder Include="Common\" />
     <Folder Include="Editing\Commands\" />
     <Folder Include="Editing\Queries\" />
-    <Folder Include="Project\Commands\" />
     <Folder Include="Solution\Commands\" />
     <Folder Include="Solution\Queries\" />
   </ItemGroup>

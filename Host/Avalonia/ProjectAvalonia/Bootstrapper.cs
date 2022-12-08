@@ -33,6 +33,10 @@ using UIStatesStore.Solution.Observables;
 using AppViewModels.Main;
 using AppViewModels.Contracts;
 using Project.Application.Project.Contracts;
+using MediatR;
+using Project.Application.Project.Queries.GetProjectItems;
+using AppViewModels.Project.Operations;
+using Project.Application.Project.Commands.ProjectItemCommands;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -67,11 +71,40 @@ public static class Bootstrapper
 
         return service;
     }
+
+    public static IMutableDependencyResolver AddViewModelOperations(this IMutableDependencyResolver service)
+    {
+
+        service.RegisterLazySingleton(() => new ProjectExplorerOperations());
+
+
+        return service;
+    }
     public static IMutableDependencyResolver AddUsecases(this IMutableDependencyResolver service)
     {
-                service.Register<IQueryUsecase<string, List<ExplorerItem>>>(() => new GetProjectItemsUsecase(
-             Locator.Current.GetService<IReadContract<List<ExplorerItem>>>()
-            ));
+        service.Register<IQueryUsecase<string, List<ExplorerItem>>>(() => new GetProjectItemsUsecase(
+     Locator.Current.GetService<IReadContract<List<ExplorerItem>>>()
+    ));
+
+        service.Register(() => new GetProjectItemsQueryHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
+
+        service.Register(() => new RenameProjectFileItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
+
+        service.Register(() => new DeleteProjectFileItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
+
+        service.Register(() => new DeleteProjectFolderItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
+
+        service.Register(() => new RenameProjectFolderItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
 
         service.Register<IQueryUsecase<ProjectSolutionModel>>(() => new GetProjectSolutionUsecase(
             Locator.Current.GetService<IReadContract<ProjectSolutionModel>>()
@@ -86,8 +119,8 @@ public static class Bootstrapper
             ));
 
         service.Register<ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>>(() => new CreateProjectSolutionUsecase(
-            Locator.Current.GetService<IWriteContract<ProjectSolutionModel>>()));  
-        
+            Locator.Current.GetService<IWriteContract<ProjectSolutionModel>>()));
+
         service.Register(() => new GetUFList());
 
         return service;
@@ -97,9 +130,9 @@ public static class Bootstrapper
         service
             .Register<IWriteContract<ProjectSolutionModel>>(() =>
             new WriteUserSolutionRepository());
-               
+
         service
-            .Register <IExplorerItemRepository > (() =>
+            .Register<IExplorerItemRepository>(() =>
             new ExplorerItemRepositoryImpl());
 
         service
@@ -200,6 +233,12 @@ public static class Bootstrapper
                 return new SerilogLoggerProvider(logger).CreateLogger(nameof(SampleAvaloniaApplicationClientApplication));
             });
         }*/
+
+    public static IMutableDependencyResolver AddMediator(this IMutableDependencyResolver service)
+    {
+        return service;
+    }
+
     public static IMutableDependencyResolver AddServices(this IMutableDependencyResolver service)
     {
         service.RegisterLazySingleton<IFileDialog>(() =>

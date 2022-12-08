@@ -8,7 +8,7 @@
     xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:nodes="clr-namespace:Project.Core.ComposableViewModel;assembly=Project.Core"
+    xmlns:nodes="clr-namespace:AppViewModels.Project.ComposableViewModels;assembly=AppViewModels"
     xmlns:vm="clr-namespace:Project.Core.ViewModels;assembly=Project.Core"
     x:Name="explorerView"
     d:DesignHeight="450"
@@ -178,7 +178,7 @@
                         <Grid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Command="{Binding RenameCommand}" Header="Rename" />
-                                <MenuItem Header="Delete" />
+                                <MenuItem Command="{Binding DeleteCommand}" Header="Delete" />
                                 <MenuItem
                                     Command="{Binding #explorerView.DataContext.AddItemCommand}"
                                     CommandParameter="{Binding}"
@@ -208,7 +208,7 @@
                         <Grid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Command="{Binding RenameCommand}" Header="Rename" />
-                                <MenuItem Header="Delete" />
+                                <MenuItem Command="{Binding DeleteCommand}" Header="Delete" />
                             </ContextMenu>
                         </Grid.ContextMenu>
                     </Grid>

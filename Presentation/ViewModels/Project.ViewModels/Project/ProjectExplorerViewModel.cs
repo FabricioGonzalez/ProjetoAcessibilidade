@@ -17,12 +17,13 @@ using AppViewModels.Project.States;
 using MediatR;
 using Project.Application.Project.Queries.GetProjectItems;
 using Splat;
+using AppViewModels.Project.Mappers;
+using AppViewModels.Project.Operations;
 
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
 {
     private string currentOpenProject;
-
     public string CurrentOpenProject
     {
         get => currentOpenProject;
@@ -34,11 +35,15 @@ public class ProjectExplorerViewModel : ViewModelBase
         get; set;
     }
 
-    private readonly IMediator mediator;
+    public readonly ProjectExplorerOperations explorerOperations;
+
+    readonly GetProjectItemsQueryHandler getProjectItems;
 
     public ProjectExplorerViewModel()
     {
-        mediator = Locator.Current.GetService<IMediator>();
+        getProjectItems ??= Locator.Current.GetService<GetProjectItemsQueryHandler>();
+        explorerOperations ??= Locator.Current.GetService<ProjectExplorerOperations>();
+
         projectExplorerState = new();
 
         this.WhenActivated(disposables =>
@@ -50,7 +55,14 @@ public class ProjectExplorerViewModel : ViewModelBase
              {
                  if(path.Length > 0)
                  {
-                     var result = await mediator.Send(new GetProjectItemsQuery(path),CancellationToken.None);
+                     var result = await getProjectItems.Handle(new(path), CancellationToken.None);
+
+                     var items = result.GetSubfolders();
+
+                     if(items is not null && items.Count > 0)
+                     {
+                         projectExplorerState.ExplorerItems = new(items);
+                     }
 
                  }
              }).DisposeWith(disposables);

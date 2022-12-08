@@ -1,4 +1,5 @@
-﻿using System.Reactive;
+﻿using System.ComponentModel;
+using System.Reactive;
 
 using AppViewModels.Common;
 
@@ -17,9 +18,11 @@ public abstract class ProjectItemViewModel : ViewModelBase
 
     private bool _isInEditMode;
 
+    public string title;
     public string Title
     {
-        get; set;
+        get => title;
+        set => this.RaiseAndSetIfChanged(ref title, value, nameof(Title));
     }
     public string Path
     {
@@ -32,6 +35,10 @@ public abstract class ProjectItemViewModel : ViewModelBase
     }
 
     public ReactiveCommand<Unit, Unit> RenameCommand
+    {
+        get; protected set;
+    }
+    public ReactiveCommand<Unit, Unit> DeleteCommand
     {
         get; protected set;
     }

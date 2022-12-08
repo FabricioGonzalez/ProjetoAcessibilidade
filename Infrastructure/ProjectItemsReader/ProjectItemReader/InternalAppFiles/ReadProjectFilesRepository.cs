@@ -106,6 +106,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
 
     }
+   
     public Resource<App.Core.Entities.Solution.Explorer.ExplorerItem> DeleteExplorerItem(App.Core.Entities.Solution.Explorer.ExplorerItem item)
     {
         return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
@@ -116,6 +117,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
 
     }
+   
     public Resource<List<App.Core.Entities.Solution.Explorer.ExplorerItem>> GetAllItems(string solutionPath)
     {
         var list = new List<App.Core.Entities.Solution.Explorer.ExplorerItem>();
@@ -303,4 +305,12 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         }
     }
 
+    public async Task<Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>> RenameExplorerItemAsync(App.Core.Entities.Solution.Explorer.ExplorerItem item)
+    {
+        return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
+    }
+    public Resource<App.Core.Entities.Solution.Explorer.ExplorerItem> RenameExplorerItem(App.Core.Entities.Solution.Explorer.ExplorerItem item)
+    {
+        return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
+    }
 }

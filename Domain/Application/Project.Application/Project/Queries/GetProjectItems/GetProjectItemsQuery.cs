@@ -20,7 +20,7 @@ public record GetProjectItemsQuery : IRequest<List<ExplorerItem>>
     }
    
 }
-public class GetProjectItemsQueryHandler : IRequestHandler<GetProjectItemsQuery,List<ExplorerItem>>
+public class GetProjectItemsQueryHandler
 {
 
     private readonly IExplorerItemRepository repository;
@@ -31,7 +31,7 @@ public class GetProjectItemsQueryHandler : IRequestHandler<GetProjectItemsQuery,
     }
     public async Task<List<ExplorerItem>> Handle(GetProjectItemsQuery request, CancellationToken cancellationToken)
     {
-        var result = repository.GetAllItems(request.solutionPath);
+        var result = await repository.GetAllItemsAsync(request.solutionPath);
 
         result
             .OnError(out var res, out var message)

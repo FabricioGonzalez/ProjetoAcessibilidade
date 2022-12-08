@@ -3,6 +3,8 @@ using AppUsecases.Editing.Entities;
 using AppViewModels.Dialogs;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Project;
+using AppViewModels.Project.Mappers;
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -18,6 +20,8 @@ using ReactiveUI;
 using Splat;
 
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 
@@ -60,6 +64,62 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                 interaction.SetOutput(ViewModel.CurrentOpenProject);
 
             }).DisposeWith(disposables);
+
+            ProjectInteractions
+            .RenameFileInteraction
+            .RegisterHandler(interaction =>
+            {
+                var item = ViewModel.explorerOperations.RenameFile(interaction.Input, 
+                    ViewModel.projectExplorerState.ExplorerItems
+                .ToList());
+
+                Debug.WriteLine(item.Title);
+
+                interaction.SetOutput(item);
+
+            }).DisposeWith(disposables);
+
+            ProjectInteractions
+           .RenameFolderInteraction
+           .RegisterHandler(interaction =>
+           {
+               var item = ViewModel.projectExplorerState.ExplorerItems
+               .ToList()
+               .SearchFolder(interaction.Input);
+
+               Debug.WriteLine(item.Title);
+
+               interaction.SetOutput(item);
+
+           }).DisposeWith(disposables);
+
+            ProjectInteractions
+           .DeleteFileInteraction
+           .RegisterHandler(interaction =>
+           {
+               var item = ViewModel.projectExplorerState.ExplorerItems
+               .ToList()
+               .SearchFile(interaction.Input);
+
+               Debug.WriteLine(item.Title);
+
+               interaction.SetOutput(item);
+
+           }).DisposeWith(disposables);
+
+            ProjectInteractions
+           .DeleteFolderInteraction
+           .RegisterHandler(interaction =>
+           {
+               var item = ViewModel.projectExplorerState.ExplorerItems
+               .ToList()
+               .SearchFolder(interaction.Input);
+
+               Debug.WriteLine(item.Title);
+
+               interaction.SetOutput(item);
+
+           }).DisposeWith(disposables);
 
         });
 

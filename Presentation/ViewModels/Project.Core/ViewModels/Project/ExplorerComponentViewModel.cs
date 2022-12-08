@@ -13,6 +13,7 @@ using Common;
 using DynamicData;
 using DynamicData.Binding;
 
+using Project.Application.Project.Queries.GetProjectItems;
 using Project.Core.ComposableViewModel;
 using Project.Core.ViewModels.Extensions;
 
@@ -67,7 +68,7 @@ public class ExplorerComponentViewModel : ViewModelBase
 
     private readonly IAppObservable<ProjectModel> projectState;
     private readonly IAppObservable<AppErrorMessage> AppErrorState;
-    readonly IQueryUsecase<string, List<ExplorerItem>> getProjectItems;
+    readonly GetProjectItemsQueryHandler getProjectItems;
     private readonly IAppObservable<ProjectEditingModel> ProjectEditingObservable;
     IQueryUsecase<string, AppItemModel> getItemContent;
     private readonly IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel> solutionObserver;
@@ -79,7 +80,7 @@ public class ExplorerComponentViewModel : ViewModelBase
         ProjectEditingObservable ??= Locator.Current.GetService<IAppObservable<ProjectEditingModel>>();
         solutionObserver ??= Locator.Current.GetService<IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel>>();
 
-        getProjectItems ??= Locator.Current.GetService<IQueryUsecase<string, List<ExplorerItem>>>();
+        getProjectItems ??= Locator.Current.GetService<GetProjectItemsQueryHandler>();
         getItemContent ??= Locator.Current.GetService<IQueryUsecase<string, AppItemModel>>();
 
         ShowDialog = new Interaction<AddItemViewModel, FileTemplate?>();
@@ -135,19 +136,19 @@ public class ExplorerComponentViewModel : ViewModelBase
         this.WhenActivated((disposables) =>
         {
             this.WhenAnyValue(x => x.Folder)
-                    .Subscribe(path =>
+                    .Subscribe(async path =>
                     {
                         if (path is not null && path.Length > 0)
                         {
-                            var result = getProjectItems.executeAsync(path).Result;
+                            var result = await getProjectItems.Handle(new(path),CancellationToken.None);
 
-                            result
+                           /* result
                             .OnError(out var items, out var error)
                             .OnLoading(out items, out var isLoading)
-                            .OnSuccess(out items);
+                            .OnSuccess(out items);*/
 
 
-                            ExplorerItems = new(GetSubfolders(items));
+                            /*ExplorerItems = new(GetSubfolders(result));*/
                         }
                     })
                     .DisposeWith(disposables);
