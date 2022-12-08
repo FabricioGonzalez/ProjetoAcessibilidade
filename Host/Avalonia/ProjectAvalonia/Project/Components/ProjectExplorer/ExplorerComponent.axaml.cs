@@ -1,13 +1,14 @@
 using AppUsecases.Editing.Entities;
 
+using AppViewModels.Dialogs;
+using AppViewModels.Interactions.Project;
+using AppViewModels.Project;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-
-using Project.Core.ViewModels.Project;
 
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using ProjectAvalonia.Views;
@@ -21,35 +22,44 @@ using System.Reactive.Disposables;
 using System.Threading.Tasks;
 
 namespace ProjectAvalonia.Project.Components.ProjectExplorer;
-public partial class ExplorerComponent : ReactiveUserControl<ExplorerComponentViewModel>
+public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerViewModel>
 {
     public TreeView explorerTree => this.FindControl<TreeView>("explorerTreeView");
+
     /*public TextBlock Text => this.FindControl<TextBlock>("text");*/
 
-    public void FlyoutClosed_PointerPressed(object sender, EventArgs args)
+    /*public void FlyoutClosed_PointerPressed(object sender, EventArgs args)
     {
         ViewModel.IsDocumentSolutionEnabled = !ViewModel.IsDocumentSolutionEnabled;
 
-    }
+    }*/
     public ExplorerComponent()
     {
-
-        ViewModel ??= Locator.Current.GetService<ExplorerComponentViewModel>();
+        ViewModel ??= Locator.Current.GetService<ProjectExplorerViewModel>();
         DataContext = ViewModel;
 
         this.WhenActivated(disposables =>
         {
-            // In a view
             this.BindInteraction(
                 ViewModel,
                 vm => vm.ShowDialog,
                 context => DoShowDialogAsync(context))
-                /*.DisposeWith(disposables)*/;
+                .DisposeWith(disposables);
 
             this.OneWayBind(ViewModel,
-                vm => vm.ExplorerItems,
+                vm => vm.projectExplorerState.ExplorerItems,
                 v => v.explorerTree.Items)
             .DisposeWith(disposables);
+
+            ProjectInteractions
+            .SelectedProjectPath
+            .RegisterHandler(interaction =>
+            {
+                ViewModel.CurrentOpenProject = interaction.Input;
+
+                interaction.SetOutput(ViewModel.CurrentOpenProject);
+
+            }).DisposeWith(disposables);
 
         });
 

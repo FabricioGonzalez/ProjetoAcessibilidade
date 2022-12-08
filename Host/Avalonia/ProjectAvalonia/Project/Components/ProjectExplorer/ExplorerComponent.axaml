@@ -22,10 +22,7 @@
             <ToggleButton Margin="4,0" IsChecked="{Binding IsDocumentSolutionEnabled}">
                 <material:MaterialIcon Kind="DocumentSign" />
                 <ToggleButton.Flyout>
-                    <Flyout
-                        Closed="FlyoutClosed_PointerPressed"
-                        Placement="LeftEdgeAlignedTop"
-                        ShowMode="Standard">
+                    <Flyout Placement="LeftEdgeAlignedTop" ShowMode="Standard">
                         <ScrollViewer Width="200">
                             <StackPanel HorizontalAlignment="Stretch">
                                 <StackPanel

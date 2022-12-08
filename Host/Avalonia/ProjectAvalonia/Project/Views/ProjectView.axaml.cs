@@ -1,7 +1,8 @@
+using AppViewModels.Project;
+
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using Project.Core.ViewModels.Project;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Project.Views;

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="ReactiveUI" Version="18.4.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
+    <PackageReference Include="ReactiveUI.Validation" Version="3.0.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dialogs\Mappers\" />
+    <Folder Include="Dialogs\States\" />
+    <Folder Include="Interactions\Dialogs\" />
+    <Folder Include="Interactions\Main\" />
+    <Folder Include="Interactions\TemplateEditing\" />
+    <Folder Include="Interactions\TemplateRules\" />
+    <Folder Include="Main\Mappers\" />
+    <Folder Include="Main\States\" />
+    <Folder Include="Project\Mappers\" />
+    <Folder Include="TemplateEditing\Mappers\" />
+    <Folder Include="TemplateEditing\States\" />
+    <Folder Include="TemplateRules\Mappers\" />
+    <Folder Include="TemplateRules\States\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Domain\Application\AppUsecases\AppUsecases.csproj" />
+    <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Application.csproj" />
+  </ItemGroup>
+
+</Project>

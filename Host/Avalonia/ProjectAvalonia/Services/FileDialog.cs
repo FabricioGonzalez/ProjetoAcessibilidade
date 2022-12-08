@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Avalonia.Controls;
+using AppViewModels.Contracts;
 
-using Project.Core.Contracts;
+using Avalonia.Controls;
 
 using ProjectAvalonia.Views;
 

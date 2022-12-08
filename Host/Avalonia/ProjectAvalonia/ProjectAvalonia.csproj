@@ -61,14 +61,19 @@
         <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.18" />
         <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.18" />
         <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\..\Application\AppUsecases\AppUsecases.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Application\AppUsecases\AppUsecases.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
+        <ProjectReference Include="..\..\..\Presentation\UIStates\UIStatesStore\UIStatesStore.csproj" />
+        <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.Core\Project.Core.csproj" />
+        <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-        <ProjectReference Include="..\..\UIStates\UIStatesStore\UIStatesStore.csproj" />
-        <ProjectReference Include="..\..\ViewModels\Project.Core\Project.Core.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Compile Update="Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">

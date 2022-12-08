@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="AppValidationRules\Commands\" />
+    <Folder Include="AppValidationRules\Queries\" />
+    <Folder Include="App\Commands\" />
+    <Folder Include="App\Queries\" />
+    <Folder Include="Common\" />
+    <Folder Include="Editing\Commands\" />
+    <Folder Include="Editing\Queries\" />
+    <Folder Include="Project\Commands\" />
+    <Folder Include="Solution\Commands\" />
+    <Folder Include="Solution\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+    <ProjectReference Include="..\..\Core\App.Core\App.Core.csproj" />
+  </ItemGroup>
+
+</Project>

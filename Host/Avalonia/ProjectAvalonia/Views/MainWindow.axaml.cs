@@ -15,9 +15,10 @@ using Splat;
 using ProjectAvalonia.Dialogs.CreateSolutionDialog;
 using Project.Core.ViewModels.Dialogs;
 using Avalonia.Controls;
+using AppViewModels.Main;
 
 namespace ProjectAvalonia.Views;
-public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
+public partial class MainWindow : ReactiveWindow<MainViewModel>
 {
 
     private MenuItem CloseApp => this.FindControl<MenuItem>("CloseAppMenuItem");
@@ -25,7 +26,14 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
         this.WhenActivated(disposable =>
         {
-            ViewModel!.ShowSolutionCreateDialog.RegisterHandler(DoShowDialogAsync);
+            ViewModel!.ShowSolutionCreateDialog.RegisterHandler(async (interaction) =>
+            {
+                var dialog = new CreateSolutionDialog();
+                dialog.DataContext = interaction.Input;
+
+                var result = await dialog.ShowDialog<MainViewModel?>(this);
+                interaction.SetOutput(result);
+            });
 
             ViewModel.CloseAppCommand = ReactiveCommand.Create(() => Close());
 
@@ -38,15 +46,4 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         this.AttachDevTools();
 #endif
     }
-
-    private async Task DoShowDialogAsync(InteractionContext<CreateSolutionViewModel, MainWindowViewModel?> interaction)
-    {
-        var dialog = new CreateSolutionDialog();
-        dialog.DataContext = interaction.Input;
-
-        var result = await dialog.ShowDialog<MainWindowViewModel?>(this);
-        interaction.SetOutput(result);
-    }
-
-
 }

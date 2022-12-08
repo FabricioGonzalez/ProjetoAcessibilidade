@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
+using System.ComponentModel;
 using System.Reflection;
 
 using Avalonia;
 using Avalonia.ReactiveUI;
+using Avalonia.X11;
 
-using Common;
+using MediatR;
 
-using Project.Core.ViewModels.Main;
+using Microsoft.Extensions.Hosting;
 
 using ReactiveUI;
 
 using Splat;
+using Splat.Microsoft.Extensions.DependencyInjection;
 
 namespace ProjectAvalonia;
 internal class Program
@@ -25,8 +26,37 @@ internal class Program
         .StartWithClassicDesktopLifetime(args);
 
     // Avalonia configuration, don't remove; also used by visual designer.
+    public IServiceProvider Container
+    {
+        get; private set;
+    }
+
+    void Init()
+    {
+        var host = Host
+          .CreateDefaultBuilder()
+          .ConfigureServices(services =>
+          {
+              services.UseMicrosoftDependencyResolver();
+              var resolver = Locator.CurrentMutable;
+              resolver.InitializeSplat();
+              resolver.InitializeReactiveUI();
+
+              services.AddMediatR(typeof(Program));
+
+          })
+          .Build();
+
+        // Since MS DI container is a different type,
+        // we need to re-register the built container with Splat again
+        Container = host.Services;
+        Container.UseMicrosoftDependencyResolver();
+    }
+
     public static AppBuilder BuildAvaloniaApp()
     {
+
+
         Locator
             .CurrentMutable
             .RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
@@ -40,12 +70,11 @@ internal class Program
                 .AddUIStates()
                 /*.CreateFolderStructure()*/;
 
+
         var result = AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI();
-
-        /*Debug.WriteLine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Constants.AppName));*/
 
         return result;
     }

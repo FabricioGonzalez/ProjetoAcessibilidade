@@ -1,17 +1,6 @@
 ﻿using Splat;
 
-using Project.Core.ViewModels;
-using Project.Core.Contracts;
-
 using System.Collections.Generic;
-
-using AppUsecases.Usecases;
-using AppUsecases.Project.Entities.Project;
-using AppUsecases.Contracts.Usecases;
-using AppUsecases.Editing.Entities;
-using AppUsecases.App.Usecases;
-using AppUsecases.Contracts.Repositories;
-using AppUsecases.Project.Entities.FileTemplate;
 
 using Common;
 
@@ -19,27 +8,39 @@ using ProjectAvalonia.Views;
 using ProjectAvalonia.Project.Components.ProjectExplorer;
 using ProjectAvalonia.Services;
 
-using UIStatesStore.Project.Observable;
-using UIStatesStore.Project.Models;
-using UIStatesStore.Contracts;
-
 using ProjectItemReader.InternalAppFiles;
 using ProjectItemReader.XmlFile;
-using UIStatesStore.App.Models;
-using UIStatesStore.App.Observable;
-using Project.Core.ViewModels.Project;
-using Project.Core.ViewModels.TemplateEditing;
-using Project.Core.ViewModels.Main;
+
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using System.IO;
+
+using Project.Core.ViewModels.TemplateEditing;
+using Project.Core.ViewModels.Project;
+using AppUsecases.Contracts.Usecases;
+using AppUsecases.Project.Entities.FileTemplate;
+using AppUsecases.Usecases;
+using AppUsecases.Contracts.Repositories;
+using AppUsecases.Project.Entities.Project;
+using AppUsecases.App.Usecases;
+using AppUsecases.Editing.Entities;
+using UIStatesStore.Project.Models;
+using UIStatesStore.Contracts;
+using UIStatesStore.App.Models;
+using UIStatesStore.Project.Observable;
+
+using UIStatesStore.App.Observable;
 using UIStatesStore.Solution.Observables;
+using AppViewModels.Main;
+using AppViewModels.Contracts;
+using Project.Application.Project.Contracts;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
 {
     public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
     {
-        service.RegisterLazySingleton(() => new MainWindowViewModel());
+        /*service.RegisterLazySingleton(() => new MainWindowViewModel());*/
+        service.RegisterLazySingleton(() => new MainViewModel());
 
         service.RegisterLazySingleton(() => new TemplateEditingViewModel());
 
@@ -47,9 +48,11 @@ public static class Bootstrapper
 
         service.RegisterLazySingleton(() => new AddItemViewModel());
 
-        service.RegisterLazySingleton(() => new ProjectViewModel());
+        /*service.RegisterLazySingleton(() => new ProjectViewModel());*/
+        service.RegisterLazySingleton(() => new AppViewModels.Project.ProjectViewModel());
 
-        service.Register(() => new ExplorerComponentViewModel());
+        /*service.Register(() => new ExplorerComponentViewModel());*/
+        service.Register(() => new AppViewModels.Project.ProjectExplorerViewModel());
         service.Register(() => new ItemEditingViewModel());
 
         return service;
@@ -66,7 +69,7 @@ public static class Bootstrapper
     }
     public static IMutableDependencyResolver AddUsecases(this IMutableDependencyResolver service)
     {
-        service.Register<IQueryUsecase<string, List<ExplorerItem>>>(() => new GetProjectItemsUsecase(
+                service.Register<IQueryUsecase<string, List<ExplorerItem>>>(() => new GetProjectItemsUsecase(
              Locator.Current.GetService<IReadContract<List<ExplorerItem>>>()
             ));
 
@@ -94,6 +97,10 @@ public static class Bootstrapper
         service
             .Register<IWriteContract<ProjectSolutionModel>>(() =>
             new WriteUserSolutionRepository());
+               
+        service
+            .Register <IExplorerItemRepository > (() =>
+            new ExplorerItemRepositoryImpl());
 
         service
             .Register<IWriteContract<AppItemModel>>(() =>

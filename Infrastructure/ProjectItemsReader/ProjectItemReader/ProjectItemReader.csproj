@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Application\AppUsecases\AppUsecases.csproj" />
+    <ProjectReference Include="..\..\..\Domain\Application\AppUsecases\AppUsecases.csproj" />
+    <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Application.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>
