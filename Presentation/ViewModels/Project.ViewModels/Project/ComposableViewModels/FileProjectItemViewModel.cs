@@ -3,6 +3,8 @@ using System.Reactive.Disposables;
 
 using AppViewModels.Interactions.Project;
 
+using DynamicData.Binding;
+
 using ReactiveUI;
 
 namespace AppViewModels.Project.ComposableViewModels;
@@ -19,19 +21,24 @@ public class FileProjectItemViewModel : ProjectItemViewModel
         {
 
         });
-        RenameCommand.Subscribe(disposable =>
-        {
-            ProjectInteractions
-            .RenameFileInteraction
-           .Handle(this)
-            .Subscribe();
-        });
+
+        this.WhenPropertyChanged(vm => vm.Title)
+            .Subscribe(item =>
+            {
+                if (item.Value != null)
+                {
+                    ProjectInteractions
+                    .RenameFileInteraction
+                    .Handle(this)
+                    .Subscribe();
+                }
+            });
 
         DeleteCommand.Subscribe(disposable =>
         {
             ProjectInteractions
             .DeleteFileInteraction
-           .Handle(this)
+            .Handle(this)
             .Subscribe();
         });
     }

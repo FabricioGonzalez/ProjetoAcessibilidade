@@ -16,7 +16,7 @@ public class EditableTextBlock : TemplatedControl
     private string _text;
     private string _editText;
     private TextBox _textBox;
-    private DispatcherTimer _editClickTimer;
+    private readonly DispatcherTimer _editClickTimer;
 
     public EditableTextBlock()
     {

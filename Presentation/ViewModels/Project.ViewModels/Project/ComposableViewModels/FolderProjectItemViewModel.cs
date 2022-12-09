@@ -2,6 +2,8 @@
 
 using AppViewModels.Interactions.Project;
 
+using DynamicData.Binding;
+
 using ReactiveUI;
 
 namespace AppViewModels.Project.ComposableViewModels;
@@ -19,13 +21,17 @@ public class FolderProjectItemViewModel : ProjectItemViewModel
 
         });
 
-        RenameCommand.Subscribe(disposable =>
-        {
-            ProjectInteractions
-            .RenameFolderInteraction
-           .Handle(this)
-            .Subscribe();
-        });
+        this.WhenPropertyChanged(vm => vm.Title, false)
+             .Subscribe(item =>
+             {
+                 if (item.Value != null)
+                 {
+                     ProjectInteractions
+                    .RenameFolderInteraction
+                    .Handle(this)
+                    .Subscribe();
+                 }
+             });
 
         DeleteCommand.Subscribe(disposable =>
         {
