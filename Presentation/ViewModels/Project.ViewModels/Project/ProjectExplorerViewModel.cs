@@ -19,6 +19,7 @@ using Project.Application.Project.Queries.GetProjectItems;
 using Splat;
 using AppViewModels.Project.Mappers;
 using AppViewModels.Project.Operations;
+using AppViewModels.Dialogs.States;
 
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
@@ -34,7 +35,10 @@ public class ProjectExplorerViewModel : ViewModelBase
     {
         get; set;
     }
-
+    public SolutionStateViewModel SolutionModel
+    {
+        get;
+    }
     public readonly ProjectExplorerOperations explorerOperations;
 
     readonly GetProjectItemsQueryHandler getProjectItems;
@@ -43,6 +47,8 @@ public class ProjectExplorerViewModel : ViewModelBase
     {
         getProjectItems ??= Locator.Current.GetService<GetProjectItemsQueryHandler>();
         explorerOperations ??= Locator.Current.GetService<ProjectExplorerOperations>();
+
+        SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
 
         projectExplorerState = new();
 
@@ -53,13 +59,13 @@ public class ProjectExplorerViewModel : ViewModelBase
              .WhereNotNull()
              .Subscribe(async path =>
              {
-                 if(path.Length > 0)
+                 if (path.Length > 0)
                  {
                      var result = await getProjectItems.Handle(new(path), CancellationToken.None);
 
                      var items = result.GetSubfolders();
 
-                     if(items is not null && items.Count > 0)
+                     if (items is not null && items.Count > 0)
                      {
                          projectExplorerState.ExplorerItems = new(items);
                      }

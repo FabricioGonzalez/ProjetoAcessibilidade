@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <Folder Include="Dialogs\Mappers\" />
-    <Folder Include="Dialogs\States\" />
     <Folder Include="Interactions\Dialogs\" />
     <Folder Include="Interactions\Main\" />
     <Folder Include="Interactions\TemplateEditing\" />

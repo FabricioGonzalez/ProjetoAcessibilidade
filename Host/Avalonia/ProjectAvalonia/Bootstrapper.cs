@@ -37,6 +37,7 @@ using MediatR;
 using Project.Application.Project.Queries.GetProjectItems;
 using AppViewModels.Project.Operations;
 using Project.Application.Project.Commands.ProjectItemCommands;
+using AppViewModels.Dialogs.States;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -51,6 +52,8 @@ public static class Bootstrapper
         service.RegisterLazySingleton(() => new TemplateRulesViewModel());
 
         service.RegisterLazySingleton(() => new AddItemViewModel());
+
+        service.RegisterLazySingleton(() => new SolutionStateViewModel());
 
         /*service.RegisterLazySingleton(() => new ProjectViewModel());*/
         service.RegisterLazySingleton(() => new AppViewModels.Project.ProjectViewModel());

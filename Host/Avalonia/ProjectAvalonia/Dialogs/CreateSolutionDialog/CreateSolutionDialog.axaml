@@ -82,7 +82,10 @@
                             FontSize="13"
                             Text="UF"
                             TextAlignment="Center" />
-                        <ComboBox HorizontalAlignment="Stretch">
+                        <ComboBox
+                            HorizontalAlignment="Stretch"
+                            Items="{Binding UFList}"
+                            SelectedItem="{Binding SolutionModel.ReportData.UF}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Code}" />

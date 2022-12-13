@@ -1,11 +1,13 @@
 ﻿using AppUsecases.Project.Entities.Project;
 
+using AppViewModels.Common;
+
 using DynamicData.Binding;
 
 using ReactiveUI;
 
-namespace UIStatesStore.Solution.Models;
-public class ProjectSolutionModel : ReactiveObject
+namespace AppViewModels.Dialogs.States;
+public class SolutionStateViewModel : ViewModelBase
 {
     private ReportDataModel reportData = new();
     public ReportDataModel ReportData
@@ -22,7 +24,6 @@ public class ProjectSolutionModel : ReactiveObject
     }
 
     private string filePath = "";
-
     public string FilePath
     {
         get => filePath;
@@ -35,6 +36,7 @@ public class ProjectSolutionModel : ReactiveObject
         get => parentFolderName;
         set => this.RaiseAndSetIfChanged(ref parentFolderName, value, nameof(ParentFolderName));
     }
+
     private string parentFolderPath = "";
     public string ParentFolderPath
     {
