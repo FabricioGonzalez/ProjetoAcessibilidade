@@ -12,14 +12,15 @@
                     <TextBlock
                         Name="PART_TextBlock"
                         Margin="1,0,0,0"
-                        VerticalAlignment="Center"
+                        VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                         IsVisible="{Binding !InEditMode, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                         Text="{TemplateBinding EditText}" />
 
                     <TextBox
                         Name="PART_TextBox"
                         Padding="1,0,4,0"
-                        VerticalAlignment="Center"
+                        HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                        VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                         VerticalContentAlignment="Center"
                         Background="{TemplateBinding Background}"
                         BorderThickness="{TemplateBinding BorderThickness}"

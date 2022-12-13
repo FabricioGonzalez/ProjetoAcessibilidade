@@ -18,13 +18,18 @@
         <StackPanel
             Margin="16,0"
             HorizontalAlignment="Left"
-            Orientation="Horizontal">
-            <ToggleButton Margin="4,0" IsChecked="{Binding IsDocumentSolutionEnabled}">
+            Orientation="Horizontal"
+            Spacing="4">
+            <ToggleButton
+                Width="36"
+                Height="36"
+                IsChecked="{Binding IsDocumentSolutionEnabled}"
+                ToolTip.Tip="Visualizar Solução">
                 <material:MaterialIcon Kind="DocumentSign" />
                 <ToggleButton.Flyout>
                     <Flyout Placement="LeftEdgeAlignedTop" ShowMode="Standard">
-                        <ScrollViewer Width="200">
-                            <StackPanel HorizontalAlignment="Stretch">
+                        <ScrollViewer Width="400">
+                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <StackPanel
                                     Margin="0,4,0,0"
                                     HorizontalAlignment="Stretch"
@@ -34,10 +39,12 @@
                                         FontSize="13"
                                         Text="Nome da Empresa"
                                         TextAlignment="Center" />
-                                    <TextBox Text="{Binding SolutionModel.ReportData.NomeEmpresa}" />
+                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.NomeEmpresa}" />
                                 </StackPanel>
+
                                 <DatePicker
                                     Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     DayVisible="True"
                                     Header="Data do Relatório"
@@ -73,7 +80,7 @@
                                         FontSize="13"
                                         Text="Responsável pelo Projeto"
                                         TextAlignment="Center" />
-                                    <TextBox Text="{Binding SolutionModel.ReportData.Responsavel}" />
+                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.Responsavel}" />
                                 </StackPanel>
 
                                 <StackPanel
@@ -86,7 +93,7 @@
                                         FontSize="13"
                                         Text="Endereço da Empresa"
                                         TextAlignment="Center" />
-                                    <TextBox Text="{Binding SolutionModel.ReportData.Endereco}" />
+                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.Endereco}" />
                                 </StackPanel>
 
                                 <StackPanel
@@ -99,7 +106,7 @@
                                         FontSize="13"
                                         Text="Email do Responsável"
                                         TextAlignment="Center" />
-                                    <TextBox Text="{Binding SolutionModel.ReportData.Email}" />
+                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.Email}" />
                                 </StackPanel>
 
                                 <StackPanel
@@ -112,13 +119,12 @@
                                         FontSize="13"
                                         Text="Telefone do Responsável"
                                         TextAlignment="Center" />
-                                    <TextBox Text="{Binding SolutionModel.ReportData.Telefone}" />
+                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.Telefone}" />
                                 </StackPanel>
-
 
                                 <StackPanel Margin="0,4,0,0" Background="Transparent">
                                     <TextBlock VerticalAlignment="Center" Text="Nome da Solução" />
-                                    <TextBox Text="{Binding SolutionModel.FileName}" />
+                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.FileName}" />
                                 </StackPanel>
 
                                 <StackPanel
@@ -129,7 +135,7 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         Text="Local da Logo da Empresa" />
-                                    <Panel>
+                                    <Panel HorizontalAlignment="Stretch">
                                         <TextBox
                                             HorizontalAlignment="Stretch"
                                             IsEnabled="False"
@@ -154,11 +160,17 @@
                     </Flyout>
                 </ToggleButton.Flyout>
             </ToggleButton>
-            <Button>
-                <material:MaterialIcon Kind="Printer" />
-            </Button>
-            <Button>
+            <Button
+                Width="36"
+                Height="36"
+                ToolTip.Tip="Sincronizar Solução">
                 <material:MaterialIcon Kind="FileSync" />
+            </Button>
+            <Button
+                Width="36"
+                Height="36"
+                ToolTip.Tip="Imprimir">
+                <material:MaterialIcon Kind="Printer" />
             </Button>
         </StackPanel>
         <TreeView
@@ -173,6 +185,7 @@
                         <material:MaterialIcon Grid.Column="0" Kind="Folder" />
                         <Controls:EditableTextBlock
                             Grid.Column="1"
+                            HorizontalAlignment="Stretch"
                             InEditMode="{Binding InEditMode}"
                             Text="{Binding Title}" />
                         <Grid.ContextMenu>
@@ -195,13 +208,14 @@
                     <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
                         <i:Interaction.Behaviors>
                             <ia:EventTriggerBehavior EventName="DoubleTapped">
-                                <ia:InvokeCommandAction Command="{Binding #explorerView.DataContext.SelectSolutionItemCommand}" CommandParameter="{Binding Path}" />
+                                <ia:InvokeCommandAction Command="{Binding #explorerView.DataContext.SelectSolutionItemCommand}" CommandParameter="{Binding}" />
                             </ia:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
 
                         <material:MaterialIcon Grid.Column="0" Kind="File" />
                         <Controls:EditableTextBlock
                             Grid.Column="1"
+                            HorizontalAlignment="Stretch"
                             InEditMode="{Binding InEditMode}"
                             Text="{Binding Title}" />
 

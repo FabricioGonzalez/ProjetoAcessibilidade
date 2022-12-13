@@ -1,25 +1,26 @@
 ﻿using System.Reactive.Disposables;
 
 using AppUsecases.Editing.Entities;
-using AppUsecases.Project.Entities.FileTemplate;
 
 using AppViewModels.Common;
 using AppViewModels.Dialogs;
-
-using DynamicData.Binding;
-
-using DynamicData;
+using AppViewModels.Project.States;
 
 using ReactiveUI;
 
-using AppViewModels.Project.ComposableViewModels;
-using AppViewModels.Project.States;
-using MediatR;
 using Project.Application.Project.Queries.GetProjectItems;
+
 using Splat;
+
 using AppViewModels.Project.Mappers;
 using AppViewModels.Project.Operations;
 using AppViewModels.Dialogs.States;
+using AppUsecases.Contracts.Usecases;
+using AppUsecases.Project.Entities.Project;
+using Common;
+using System.Reactive.Linq;
+using AppViewModels.Project.ComposableViewModels;
+using System.Reactive;
 
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
@@ -39,6 +40,8 @@ public class ProjectExplorerViewModel : ViewModelBase
     {
         get;
     }
+
+    private readonly IQueryUsecase<string, ProjectSolutionModel> readSolution;
     public readonly ProjectExplorerOperations explorerOperations;
 
     readonly GetProjectItemsQueryHandler getProjectItems;
@@ -49,8 +52,45 @@ public class ProjectExplorerViewModel : ViewModelBase
         explorerOperations ??= Locator.Current.GetService<ProjectExplorerOperations>();
 
         SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
+        readSolution = Locator.Current.GetService<IQueryUsecase<string, ProjectSolutionModel>>();
 
         projectExplorerState = new();
+
+        ShowDialog = new();
+
+        AddItemCommand = ReactiveCommand.CreateFromTask<ProjectItemViewModel>(async (item) =>
+        {
+            var store = new AddItemViewModel();
+
+            var result = await ShowDialog.Handle(store);
+
+            if (result is not null)
+            {
+                ((FolderProjectItemViewModel)item)
+                .Children
+                .Add(
+                    new FileProjectItemViewModel(
+                        title: result.Name,
+                        path: result.FilePath,
+                        inEditMode: true)
+                    );
+            }
+        });
+
+        AddFolderCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
+        {
+            if (item is not null)
+            {
+                ((FolderProjectItemViewModel)item)
+                .Children
+                .Add(
+                    new FolderProjectItemViewModel(
+                    title: "",
+                    path: item.Path,
+                    inEditMode: true)
+                    );
+            }
+        });
 
         this.WhenActivated(disposables =>
         {
@@ -75,6 +115,30 @@ public class ProjectExplorerViewModel : ViewModelBase
         });
     }
 
+    public async Task<ProjectSolutionModel>? ReadSolution(string path)
+    {
+        (await readSolution.executeAsync(path))
+               .OnError(out var data, out var message)
+               .OnLoading(out data, out var isLoading)
+               .OnSuccess(out data);
+
+        if (data is not null)
+        {
+            return data;
+        }
+
+        return null;
+
+    }
+
+    public ReactiveCommand<ProjectItemViewModel, Unit> AddItemCommand
+    {
+        get;
+    }
+    public ReactiveCommand<ProjectItemViewModel, Unit> AddFolderCommand
+    {
+        get;
+    }
 
     public Interaction<AddItemViewModel, FileTemplate?> ShowDialog
     {

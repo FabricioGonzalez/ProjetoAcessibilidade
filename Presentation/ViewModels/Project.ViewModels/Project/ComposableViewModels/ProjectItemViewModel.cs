@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Reactive;
+﻿using System.Reactive;
 
 using AppViewModels.Common;
 
@@ -8,8 +7,12 @@ using ReactiveUI;
 namespace AppViewModels.Project.ComposableViewModels;
 public abstract class ProjectItemViewModel : ViewModelBase
 {
-    public ProjectItemViewModel()
+    public ProjectItemViewModel(string Title, string Path, bool inEditMode)
     {
+        title = Title;
+        this.Path = Path;
+        InEditMode = inEditMode;
+        
         RenameCommand = ReactiveCommand.Create(() =>
         {
             InEditMode = true;
@@ -18,7 +21,7 @@ public abstract class ProjectItemViewModel : ViewModelBase
 
     private bool _isInEditMode;
 
-    public string title;
+    private string title;
     public string Title
     {
         get => title;
@@ -33,7 +36,6 @@ public abstract class ProjectItemViewModel : ViewModelBase
         get => _isInEditMode;
         set => this.RaiseAndSetIfChanged(ref _isInEditMode, value);
     }
-
     public ReactiveCommand<Unit, Unit> RenameCommand
     {
         get; protected set;

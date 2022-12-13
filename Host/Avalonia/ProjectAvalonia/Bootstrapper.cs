@@ -109,7 +109,7 @@ public static class Bootstrapper
      Locator.Current.GetService<IExplorerItemRepository>()
     ));
 
-        service.Register<IQueryUsecase<ProjectSolutionModel>>(() => new GetProjectSolutionUsecase(
+        service.Register<IQueryUsecase<string, ProjectSolutionModel>>(() => new GetProjectSolutionUsecase(
             Locator.Current.GetService<IReadContract<ProjectSolutionModel>>()
             ));
 

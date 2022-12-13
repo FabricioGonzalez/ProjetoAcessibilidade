@@ -14,23 +14,17 @@ public static class MapExplorerItem
 
             foreach (var dir in items)
             {
-                ProjectItemViewModel thisnode = new FileProjectItemViewModel()
-                {
-                    Title = dir.Name,
-                    Path = dir.Path,
-                    InEditMode = false,
-                };
+                ProjectItemViewModel thisnode;
 
                 if (dir is FolderItem item)
                 {
-                    thisnode = new FolderProjectItemViewModel()
-                    {
-                        Title = item.Name,
-                        Path = item.Path,
-                        InEditMode = false,
-                    };
+                    thisnode = new FolderProjectItemViewModel(title: item.Name, path: item.Path, inEditMode: false);
 
                     (thisnode as FolderProjectItemViewModel).Children = new(GetSubfolders(item.Children));
+                }
+                else
+                {
+                    thisnode = new FileProjectItemViewModel(title: dir.Name, path: dir.Path, inEditMode: false);
                 }
 
                 subfolders.Add(thisnode);
@@ -56,10 +50,12 @@ public static class MapExplorerItem
                         return item;
                     }
                 }
-                (dir as FolderProjectItemViewModel)
-                    .Children
+                if(dir is FolderProjectItemViewModel folderItem)
+                {
+                    folderItem.Children
                     .ToList()
-                    .SearchFile(desiredItem);  
+                    .SearchFile(desiredItem);
+                }                      
             }
         }
 

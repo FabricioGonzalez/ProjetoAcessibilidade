@@ -7,8 +7,6 @@ using AppViewModels.Project.Mappers;
 
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
@@ -19,7 +17,6 @@ using ReactiveUI;
 
 using Splat;
 
-using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
@@ -28,15 +25,8 @@ using System.Threading.Tasks;
 namespace ProjectAvalonia.Project.Components.ProjectExplorer;
 public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerViewModel>
 {
-    public TreeView explorerTree => this.FindControl<TreeView>("explorerTreeView");
+    public TreeView ExplorerTree => this.FindControl<TreeView>("explorerTreeView");
 
-    /*public TextBlock Text => this.FindControl<TextBlock>("text");*/
-
-    /*public void FlyoutClosed_PointerPressed(object sender, EventArgs args)
-    {
-        ViewModel.IsDocumentSolutionEnabled = !ViewModel.IsDocumentSolutionEnabled;
-
-    }*/
     public ExplorerComponent()
     {
         ViewModel ??= Locator.Current.GetService<ProjectExplorerViewModel>();
@@ -52,15 +42,29 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
             this.OneWayBind(ViewModel,
                 vm => vm.projectExplorerState.ExplorerItems,
-                v => v.explorerTree.Items)
+                v => v.ExplorerTree.Items)
             .DisposeWith(disposables);
 
             ProjectInteractions
             .SelectedProjectPath
-            .RegisterHandler(interaction =>
+            .RegisterHandler(async interaction =>
             {
                 ViewModel.CurrentOpenProject = interaction.Input;
 
+                if (!string.IsNullOrEmpty(ViewModel.CurrentOpenProject))
+                {
+                    var result = await ViewModel.ReadSolution(ViewModel.CurrentOpenProject);
+
+                    if (result is not null)
+                    {
+                        ViewModel.SolutionModel.FileName = result.FileName;
+                        ViewModel.SolutionModel.FilePath = result.FilePath;
+                        ViewModel.SolutionModel.ReportData = result.reportData;
+                        ViewModel.SolutionModel.ItemGroups = new(result.ItemGroups);
+                        ViewModel.SolutionModel.ParentFolderName = result.ParentFolderName;
+                        ViewModel.SolutionModel.ParentFolderPath = result.ParentFolderPath;
+                    }
+                }
                 interaction.SetOutput(ViewModel.CurrentOpenProject);
 
             }).DisposeWith(disposables);
@@ -69,7 +73,7 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
             .RenameFileInteraction
             .RegisterHandler(interaction =>
             {
-                var item = ViewModel.explorerOperations.RenameFile(interaction.Input, 
+                var item = ViewModel.explorerOperations.RenameFile(interaction.Input,
                     ViewModel.projectExplorerState.ExplorerItems
                 .ToList());
 
@@ -77,7 +81,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
                 interaction.SetOutput(item);
 
-            }).DisposeWith(disposables);
+            })
+            .DisposeWith(disposables);
 
             ProjectInteractions
            .RenameFolderInteraction
@@ -91,7 +96,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
                interaction.SetOutput(item);
 
-           }).DisposeWith(disposables);
+           })
+           .DisposeWith(disposables);
 
             ProjectInteractions
            .DeleteFileInteraction
@@ -105,7 +111,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
                interaction.SetOutput(item);
 
-           }).DisposeWith(disposables);
+           })
+           .DisposeWith(disposables);
 
             ProjectInteractions
            .DeleteFolderInteraction
@@ -119,7 +126,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
                interaction.SetOutput(item);
 
-           }).DisposeWith(disposables);
+           })
+           .DisposeWith(disposables);
 
         });
 

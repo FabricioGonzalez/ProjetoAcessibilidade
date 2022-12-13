@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using AppUsecases.Contracts.Repositories;
+﻿using AppUsecases.Contracts.Repositories;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
 

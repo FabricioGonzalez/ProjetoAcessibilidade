@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using AppViewModels.Common;
 using AppViewModels.Contracts;
 using AppViewModels.Dialogs;
+using AppViewModels.Dialogs.States;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Project;
 using AppViewModels.TemplateEditing;
@@ -19,17 +20,15 @@ namespace AppViewModels.Main;
 public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 {
     public RoutingState Router { get; } = new RoutingState();
-
-    /*private readonly IAppObservable<ProjectModel> projectState;*/
-
-    /*        public void SetProjectPath(string projectPath)
-            {
-                projectState.Send(new(projectPath));
-            }*/
-
+    public SolutionStateViewModel SolutionModel
+    {
+        get;
+    }
     public MainViewModel()
     {
         /*projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();*/
+
+        SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
 
         Router.Navigate.Execute(Locator.Current.GetService<ProjectViewModel>());
 
@@ -127,8 +126,6 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
         var store = new CreateSolutionViewModel();
 
         var result = await ShowSolutionCreateDialog.Handle(store);
-
-
     }
 
     private void ReturnToProject()

@@ -22,14 +22,6 @@ using Splat;
 namespace AppViewModels.Dialogs;
 public class AddItemViewModel : ViewModelBase
 {
-    private bool _isBusy;
-
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set => this.RaiseAndSetIfChanged(ref _isBusy, value);
-    }
-
     private ObservableCollectionExtended<FileTemplate> items;
     public ObservableCollectionExtended<FileTemplate> Items
     {

@@ -9,7 +9,8 @@ using ReactiveUI;
 namespace AppViewModels.Project.ComposableViewModels;
 public class FolderProjectItemViewModel : ProjectItemViewModel
 {
-    public FolderProjectItemViewModel()
+    public FolderProjectItemViewModel(string title, string path, bool inEditMode = false)
+        : base(Title: title, Path: path, inEditMode: inEditMode)
     {
         RenameCommand = ReactiveCommand.Create(() =>
         {
@@ -21,10 +22,10 @@ public class FolderProjectItemViewModel : ProjectItemViewModel
 
         });
 
-        this.WhenPropertyChanged(vm => vm.Title, false)
+        this.WhenPropertyChanged(vm => vm.Title, notifyOnInitialValue: false)
              .Subscribe(item =>
              {
-                 if (item.Value != null)
+                 if (item is not null && item.Value is not null)
                  {
                      ProjectInteractions
                     .RenameFolderInteraction
@@ -42,8 +43,9 @@ public class FolderProjectItemViewModel : ProjectItemViewModel
         });
 
     }
-    private ObservableCollection<ProjectItemViewModel> _children = new();
-    public ObservableCollection<ProjectItemViewModel> Children
+
+    private ObservableCollectionExtended<ProjectItemViewModel> _children = new();
+    public ObservableCollectionExtended<ProjectItemViewModel> Children
     {
         get => _children;
         set => this.RaiseAndSetIfChanged(ref _children, value);

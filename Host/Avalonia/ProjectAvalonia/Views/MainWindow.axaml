@@ -31,19 +31,25 @@
         <Grid Margin="0,32,0,0" RowDefinitions="30,1*">
             <Panel Grid.Row="0" Background="Transparent">
                 <Menu
+                    Height="30"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Background="Transparent"
                     Classes="mainMenu">
                     <Menu.Items>
-                        <MenuItem Background="Transparent" Header="Arquivos">
+                        <MenuItem
+                            Height="30"
+                            Background="Transparent"
+                            Header="Arquivos">
                             <MenuItem.Items>
                                 <MenuItem
+                                    Height="30"
                                     Margin="4,0"
                                     Background="Transparent"
                                     Command="{Binding OpenProjectCommand}"
                                     Header="Abrir" />
                                 <MenuItem
+                                    Height="30"
                                     Margin="4,0"
                                     Background="Transparent"
                                     Command="{Binding CreateProjectCommand}"
@@ -51,20 +57,26 @@
                                 <Separator Background="Transparent" />
                                 <MenuItem
                                     Name="CloseAppMenuItem"
+                                    Height="30"
                                     Margin="4,0"
                                     Background="Transparent"
                                     Command="{Binding CloseAppCommand}"
                                     Header="Sair" />
                             </MenuItem.Items>
                         </MenuItem>
-                        <MenuItem Background="Transparent" Header="Templates">
+                        <MenuItem
+                            Height="30"
+                            Background="Transparent"
+                            Header="Templates">
                             <MenuItem.Items>
                                 <MenuItem
+                                    Height="30"
                                     Margin="4,0"
                                     Background="Transparent"
                                     Command="{Binding GoToTemplateEditing}"
                                     Header="Edição de Templates" />
                                 <MenuItem
+                                    Height="30"
                                     Margin="4,0"
                                     Background="Transparent"
                                     Command="{Binding GoToRulesEditing}"

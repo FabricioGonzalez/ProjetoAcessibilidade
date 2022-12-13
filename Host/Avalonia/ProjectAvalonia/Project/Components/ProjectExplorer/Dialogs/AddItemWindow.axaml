@@ -43,6 +43,8 @@
                 x:Name="ConfirmResultAddItemDialog"
                 Name="ConfirmResultAddItemDialog"
                 Grid.Row="1"
+                Width="130"
+                Height="35"
                 Margin="8,0"
                 HorizontalAlignment="Right"
                 Command="{Binding SelectItemToCreateCommand}"
@@ -51,6 +53,8 @@
                 x:Name="ExitAddItemDialog"
                 Name="ExitAddItemDialog"
                 Grid.Row="1"
+                Width="130"
+                Height="35"
                 Margin="8,0"
                 HorizontalAlignment="Left"
                 Content="Voltar" />

@@ -122,7 +122,7 @@ public class WriteUserSolutionRepository : IWriteContract<ProjectSolutionModel>
             email.InnerText = reportData.Email;
 
             var endereco = xml.CreateElement(Constants.reportItemEndereco);
-            endereco.InnerXml = reportData.Endereco;
+            endereco.InnerXml = $"{reportData.Endereco} - {reportData.UF.Code}";
 
             var nomeEmpresa = xml.CreateElement(Constants.reportItemNomeEmpresa);
             nomeEmpresa.InnerText = reportData.NomeEmpresa;

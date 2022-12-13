@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
+using AppUsecases.App.Models;
+
 namespace AppUsecases.Project.Entities.Project;
 public class ReportDataModel
 {
@@ -34,10 +36,10 @@ public class ReportDataModel
     } = "";
 
     [JsonPropertyName("uf")]
-    public string UF
+    public UF UF
     {
         get; set;
-    } = "";
+    }
 
     [JsonPropertyName("data")]
     public DateTime Data
