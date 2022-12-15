@@ -1,8 +1,11 @@
 using System;
+using System.Reactive.Disposables;
 
 using AppViewModels.Dialogs;
 
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
@@ -30,11 +33,17 @@ public partial class CreateSolutionDialog : ReactiveWindow<CreateSolutionViewMod
 
         this.WhenActivated(disposables =>
         {
-            ViewModel.CloseDialogCommand = ReactiveCommand.Create(() => Close());
+            ViewModel.CloseDialogCommand = ReactiveCommand.Create(() => Close())
+            .DisposeWith(disposables);
 
-            this.BindCommand(ViewModel, vm => vm.CloseDialogCommand, v => v.ReturnButton);
+            this.BindCommand(ViewModel, vm => vm.CloseDialogCommand, v => v.ReturnButton)
+            .DisposeWith(disposables);
         });
 
         AvaloniaXamlLoader.Load(this);
+
+#if DEBUG
+        this.AttachDevTools(gesture: KeyGesture.Parse("Shift+F2"));
+#endif
     }
 }

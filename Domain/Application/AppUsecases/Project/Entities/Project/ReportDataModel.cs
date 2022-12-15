@@ -42,7 +42,7 @@ public class ReportDataModel
     }
 
     [JsonPropertyName("data")]
-    public DateTime Data
+    public DateTimeOffset Data
     {
         get; set;
     } = DateTime.Now;

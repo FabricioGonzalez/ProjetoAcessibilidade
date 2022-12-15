@@ -2,32 +2,33 @@
     x:Class="ProjectAvalonia.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assists="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ProjectAvalonia;assembly=ProjectAvalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rxui="http://reactiveui.net"
+    xmlns:styles="clr-namespace:Neumorphism.Avalonia.Styles;assembly=Neumorphism.Avalonia"
     xmlns:views="clr-namespace:ProjectAvalonia.Views;assembly=ProjectAvalonia"
     xmlns:vm="clr-namespace:Project.Core.ViewModels.ViewModels;assembly=Project.Core"
+    Name="mainWindow"
     Title="ProjectAvalonia"
     Padding="0"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Background="Transparent"
+    Background="{DynamicResource MaterialDesignTransparentColor}"
+    Classes="Window"
+    ExtendClientAreaChromeHints="PreferSystemChrome"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/avalonia-logo.ico"
     ShowInTaskbar="True"
     TransparencyLevelHint="AcrylicBlur"
     mc:Ignorable="d">
-    <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="False">
-            <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial
-                    BackgroundSource="Digger"
-                    MaterialOpacity="{DynamicResource AppMaterialOpacity}"
-                    TintColor="Black"
-                    TintOpacity="1" />
-            </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
+    <styles:SnackbarHost
+        HorizontalContentAlignment="Center"
+        HostName="Root"
+        SnackbarHorizontalAlignment="Right"
+        TemplateApplied="TemplatedControl_OnTemplateApplied">
         <Grid Margin="0,32,0,0" RowDefinitions="30,1*">
             <Panel Grid.Row="0" Background="Transparent">
                 <Menu
@@ -85,6 +86,15 @@
                         </MenuItem>
                     </Menu.Items>
                 </Menu>
+                <ToggleSwitch
+                    Name="toggleSwitchTheme"
+                    HorizontalAlignment="Right"
+                    Command="{Binding #mainWindow.SwitchUITheme}"
+                    CommandParameter="{Binding ElementName=toggleSwitchTheme}"
+                    Content="Light theme"
+                    IsChecked="False"
+                    OffContent="Light theme"
+                    OnContent="Dark theme" />
             </Panel>
             <rxui:RoutedViewHost
                 Grid.Row="1"
@@ -108,5 +118,5 @@
                 </rxui:RoutedViewHost.DefaultContent>
             </rxui:RoutedViewHost>
         </Grid>
-    </Panel>
+    </styles:SnackbarHost>
 </Window>

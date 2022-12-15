@@ -1,18 +1,14 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
 
-using AppUsecases.App.Models;
-using AppUsecases.App.Usecases;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
 
 using AppViewModels.Common;
-using AppViewModels.Contracts;
 using AppViewModels.Dialogs.States;
 
 using Common;
 
-using DynamicData.Binding;
 
 using ReactiveUI;
 
@@ -27,25 +23,12 @@ public class CreateSolutionViewModel : ViewModelBase
     {
         get;
     }
-    private readonly GetUFList getUFList;
-    private readonly IFileDialog dialogService;
-
-    private ObservableCollectionExtended<UF> ufList;
-    public ObservableCollectionExtended<UF> UFList
-    {
-        get => ufList;
-        set => this.RaiseAndSetIfChanged(ref ufList, value, nameof(UFList));
-    }
 
     public CreateSolutionViewModel()
     {
         solutionCreator = Locator.Current.GetService<ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>>();
 
-        getUFList = Locator.Current.GetService<GetUFList>();
-
         SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
-
-        dialogService = Locator.Current.GetService<IFileDialog>();
 
         CreateSolution = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -60,29 +43,15 @@ public class CreateSolutionViewModel : ViewModelBase
             });
         });
 
-        ChooseSolutionPath = ReactiveCommand.CreateFromTask(async () =>
-        {
-            var path = await dialogService.GetFolder();
-
-            return path;
-        });
-
-        ChooseLogoPath = ReactiveCommand.CreateFromTask(async () =>
-        {
-            var path = await dialogService.GetFolder();
-
-            return path;
-        });
-
         this.WhenActivated(disposables =>
         {
-            ChooseSolutionPath.Subscribe((result) =>
+            SolutionModel.ChooseSolutionPath.Subscribe((result) =>
             {
                 SolutionModel.FilePath = result;
             })
             .DisposeWith(disposables);
 
-            ChooseLogoPath.Subscribe((result) =>
+            SolutionModel.ChooseLogoPath.Subscribe((result) =>
             {
                 SolutionModel.ReportData.LogoPath = result;
             })
@@ -104,24 +73,10 @@ public class CreateSolutionViewModel : ViewModelBase
                 }
             })
             .DisposeWith(disposables);
-
-            UFList = new(getUFList
-          .GetAllUF()
-          .OrderBy(x => x.Name));
         });
-
     }
-
 
     public ReactiveCommand<Unit, Resource<ProjectSolutionModel>> CreateSolution
-    {
-        get; set;
-    }
-    public ReactiveCommand<Unit, string> ChooseSolutionPath
-    {
-        get; set;
-    }
-    public ReactiveCommand<Unit, string> ChooseLogoPath
     {
         get; set;
     }

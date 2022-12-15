@@ -12,15 +12,15 @@
     TransparencyLevelHint="AcrylicBlur"
     mc:Ignorable="d">
     <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+        <!--<ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
                     MaterialOpacity="0.65"
-                    TintColor="Black"
+                    TintColor="{DynamicResource ThemeBackgroundBrush}"
                     TintOpacity="1" />
             </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
+        </ExperimentalAcrylicBorder>-->
         <Grid
             Margin="0,32,0,0"
             HorizontalAlignment="Stretch"

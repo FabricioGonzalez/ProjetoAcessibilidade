@@ -17,12 +17,13 @@
         <StyleInclude Source="/Styles/ProjectModuleStyles.axaml" />
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
         <themes:NeumorphismTheme
-            BaseTheme="Dark"
+            BaseTheme="Light"
             PrimaryColor="Purple"
             SecondaryColor="Lime" />
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Controls/EditableTextBlock.xaml" />
-        <StyleInclude Source="/Styles/MainWindowStyles.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Styles/Window/WindowStyle.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Styles/SolutionExplorer/SolutionExplorerFlyoutStyle.axaml" />
         <StyleInclude Source="/Styles/ProjectEditingTabStyles.axaml" />
         <StyleInclude Source="/Styles/HorizontalScroller.axaml" />
     </Application.Styles>

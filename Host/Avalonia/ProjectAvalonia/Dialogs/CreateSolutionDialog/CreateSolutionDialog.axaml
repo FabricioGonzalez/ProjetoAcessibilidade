@@ -2,9 +2,13 @@
     x:Class="ProjectAvalonia.Dialogs.CreateSolutionDialog.CreateSolutionDialog"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assist="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
+    xmlns:assists="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:Neumorphism.Avalonia.Styles;assembly=Neumorphism.Avalonia"
     xmlns:vm="clr-namespace:Project.Core.ViewModels.Dialogs;assembly=Project.Core"
     Title="CreateSolutionDialog"
     Width="750"
@@ -22,15 +26,15 @@
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+        <!--<ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
                     MaterialOpacity="{DynamicResource AppMaterialOpacity}"
-                    TintColor="Black"
+                    TintColor="{DynamicResource ThemeBackgroundBrush}"
                     TintOpacity="1" />
             </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
+        </ExperimentalAcrylicBorder>-->
         <Grid Margin="0,32,0,0" RowDefinitions="1*,64,48,48,1*">
 
             <Grid
@@ -41,195 +45,142 @@
                 Background="Transparent"
                 ColumnDefinitions="0.7*,1*"
                 RowDefinitions="0.4*,0.4*,0.4*">
-                <StackPanel
+
+                <TextBox
                     Grid.Row="0"
                     Grid.Column="0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Background="Transparent">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="13"
-                        Text="Nome da Empresa"
-                        TextAlignment="Center" />
-                    <TextBox Text="{Binding SolutionModel.ReportData.NomeEmpresa}" />
-                </StackPanel>
+                    Width="280"
+                    assists:TextFieldAssist.Label="Nome da Empresa"
+                    Text="{Binding SolutionModel.ReportData.NomeEmpresa}"
+                    UseFloatingWatermark="True" />
 
                 <Grid
                     Grid.Row="0"
                     Grid.Column="1"
-                    Margin="4,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     Background="Transparent"
-                    ColumnDefinitions="1*,0.6*">
+                    ColumnDefinitions="1*,0.7*">
                     <DatePicker
                         Grid.Column="0"
-                        Margin="2,0,4,0"
-                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
                         DayVisible="True"
                         Header="Data do Relatório"
                         MonthVisible="True"
                         SelectedDate="{Binding SolutionModel.ReportData.Data}"
                         YearVisible="True" />
 
-                    <StackPanel
+                    <ComboBox
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
-                        Background="Transparent">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            FontSize="13"
-                            Text="UF"
-                            TextAlignment="Center" />
-                        <ComboBox
-                            HorizontalAlignment="Stretch"
-                            Items="{Binding UFList}"
-                            SelectedItem="{Binding SolutionModel.ReportData.UF}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Code}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
+                        Items="{Binding SolutionModel.UFList}"
+                        PlaceholderText="UF"
+                        SelectedItem="{Binding SolutionModel.ReportData.UF}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Code}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </Grid>
 
-                <StackPanel
+
+                <TextBox
                     Grid.Row="1"
                     Grid.Column="0"
-                    Margin="4,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Background="Transparent">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="13"
-                        Text="Responsável pelo Projeto"
-                        TextAlignment="Center" />
-                    <TextBox Text="{Binding SolutionModel.ReportData.Responsavel}" />
-                </StackPanel>
+                    Width="290"
+                    assists:TextFieldAssist.Label="Responsável pelo Projeto"
+                    Text="{Binding SolutionModel.ReportData.Responsavel}"
+                    UseFloatingWatermark="True" />
 
-                <StackPanel
+                <TextBox
                     Grid.Row="1"
                     Grid.Column="1"
-                    Margin="4,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Background="Transparent">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="13"
-                        Text="Endereço da Empresa"
-                        TextAlignment="Center" />
-                    <TextBox Text="{Binding SolutionModel.ReportData.Endereco}" />
-                </StackPanel>
+                    Width="425"
+                    assists:TextFieldAssist.Label="Endereço da Empresa"
+                    Text="{Binding SolutionModel.ReportData.Endereco}"
+                    UseFloatingWatermark="True" />
 
-                <StackPanel
+                <TextBox
                     Grid.Row="2"
                     Grid.Column="0"
-                    Margin="4,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Background="Transparent">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="13"
-                        Text="Email do Responsável"
-                        TextAlignment="Center" />
-                    <TextBox Text="{Binding SolutionModel.ReportData.Email}" />
-                </StackPanel>
+                    Width="290"
+                    assists:TextFieldAssist.Label="Email do Responsável"
+                    Text="{Binding SolutionModel.ReportData.Email}"
+                    UseFloatingWatermark="True" />
 
-
-                <StackPanel
+                <TextBox
                     Grid.Row="2"
                     Grid.Column="1"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Background="Transparent">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="13"
-                        Text="Telefone do Responsável"
-                        TextAlignment="Center" />
-                    <TextBox Text="{Binding SolutionModel.ReportData.Telefone}" />
-                </StackPanel>
+                    Width="425"
+                    assists:TextFieldAssist.Label="Telefone do Responsável"
+                    Classes="Outline"
+                    Text="{Binding SolutionModel.ReportData.Telefone}"
+                    UseFloatingWatermark="True" />
             </Grid>
 
-            <StackPanel
+            <TextBox
                 Grid.Row="1"
-                Margin="8"
-                Background="Transparent">
-                <TextBlock
-                    Margin="4,0"
-                    VerticalAlignment="Center"
-                    Text="Nome da Solução" />
-                <TextBox Margin="0,8" Text="{Binding SolutionModel.FileName}" />
-            </StackPanel>
+                Width="740"
+                Margin="4,0"
+                assists:TextFieldAssist.Label="Nome da Solução"
+                Text="{Binding SolutionModel.FileName}"
+                UseFloatingWatermark="True" />
 
-            <StackPanel
+            <TextBox
                 Grid.Row="2"
                 Grid.Column="0"
-                Margin="8"
-                HorizontalAlignment="Stretch"
-                Background="Transparent">
-                <TextBlock
-                    Margin="4,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Text="Local da Solução" />
-                <Panel>
-                    <TextBox
-                        HorizontalAlignment="Stretch"
-                        IsEnabled="False"
-                        IsReadOnly="True"
-                        Text="{Binding SolutionModel.FilePath}" />
-
+                Width="740"
+                Margin="4,0"
+                Classes="Header"
+                IsEnabled="True"
+                IsReadOnly="True"
+                Text="{Binding SolutionModel.FilePath}"
+                UseFloatingWatermark="True"
+                Watermark="Local da Solução">
+                <TextBox.InnerRightContent>
                     <Button
-                        Grid.Column="1"
-                        Height="32"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Stretch"
-                        Command="{Binding ChooseSolutionPath}">
-                        <material:MaterialIcon
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
+                        Width="48"
+                        Height="38"
+                        Margin="10,0,10,0"
+                        Classes="no-material"
+                        Command="{Binding SolutionModel.ChooseSolutionPath}"
+                        Cursor="Arrow">
+                        <avalonia:MaterialIcon
+                            Width="24"
+                            Height="24"
                             Kind="Folder" />
                     </Button>
-                </Panel>
-            </StackPanel>
+                </TextBox.InnerRightContent>
+            </TextBox>
 
-            <StackPanel
+            <TextBox
                 Grid.Row="3"
                 Grid.Column="0"
-                Margin="8"
+                Width="740"
                 HorizontalAlignment="Stretch"
-                Background="Transparent">
-                <TextBlock
-                    Margin="4,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Text="Local da Logo da Empresa" />
-                <Panel>
-                    <TextBox
-                        HorizontalAlignment="Stretch"
-                        IsEnabled="False"
-                        IsReadOnly="True"
-                        Text="{Binding SolutionModel.ReportData.LogoPath}" />
-
+                Classes="Header"
+                IsEnabled="True"
+                IsReadOnly="True"
+                Text="{Binding SolutionModel.ReportData.LogoPath}"
+                UseFloatingWatermark="True"
+                Watermark="Local da Logo da Empresa">
+                <TextBox.InnerRightContent>
                     <Button
-                        Grid.Column="1"
-                        Height="32"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Stretch"
-                        Command="{Binding ChooseLogoPath}">
-                        <material:MaterialIcon
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
+                        Width="48"
+                        Height="38"
+                        Margin="10,0,10,0"
+                        Classes="no-material"
+                        Command="{Binding SolutionModel.ChooseSolutionPath}"
+                        Cursor="Arrow">
+                        <avalonia:MaterialIcon
+                            Width="24"
+                            Height="24"
                             Kind="Folder" />
                     </Button>
-                </Panel>
-            </StackPanel>
+                </TextBox.InnerRightContent>
+            </TextBox>
+
             <Panel
                 Grid.Row="4"
                 Margin="8"
@@ -237,11 +188,13 @@
                 <Button
                     Name="CloseButton"
                     Width="120"
+                    Height="35"
                     HorizontalAlignment="Left"
                     Command="{Binding CloseDialogCommand}"
                     Content="Fechar" />
                 <Button
                     Width="120"
+                    Height="35"
                     HorizontalAlignment="Right"
                     Command="{Binding CreateSolution}"
                     Content="Criar" />

@@ -17,6 +17,7 @@ using ReactiveUI;
 
 using Splat;
 
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
@@ -26,6 +27,12 @@ namespace ProjectAvalonia.Project.Components.ProjectExplorer;
 public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerViewModel>
 {
     public TreeView ExplorerTree => this.FindControl<TreeView>("explorerTreeView");
+
+    public void FlyoutClosed_PointerPressed(object sender, EventArgs args)
+    {
+        ViewModel.IsDocumentSolutionEnabled = !ViewModel.IsDocumentSolutionEnabled;
+
+    }
 
     public ExplorerComponent()
     {
@@ -44,6 +51,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                 vm => vm.projectExplorerState.ExplorerItems,
                 v => v.ExplorerTree.Items)
             .DisposeWith(disposables);
+
+
 
             ProjectInteractions
             .SelectedProjectPath
@@ -77,7 +86,10 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                     ViewModel.projectExplorerState.ExplorerItems
                 .ToList());
 
-                Debug.WriteLine(item.Title);
+                if (item is not null)
+                {
+                    Debug.WriteLine(item.Title);
+                }
 
                 interaction.SetOutput(item);
 
@@ -91,8 +103,11 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                var item = ViewModel.projectExplorerState.ExplorerItems
                .ToList()
                .SearchFolder(interaction.Input);
-
-               Debug.WriteLine(item.Title);
+               
+               if (item is not null)
+               {
+                   Debug.WriteLine(item.Title);
+               }
 
                interaction.SetOutput(item);
 
@@ -106,8 +121,11 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                var item = ViewModel.projectExplorerState.ExplorerItems
                .ToList()
                .SearchFile(interaction.Input);
-
-               Debug.WriteLine(item.Title);
+              
+               if (item is not null)
+               {
+                   Debug.WriteLine(item.Title);
+               }
 
                interaction.SetOutput(item);
 
@@ -121,8 +139,11 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                var item = ViewModel.projectExplorerState.ExplorerItems
                .ToList()
                .SearchFolder(interaction.Input);
-
-               Debug.WriteLine(item.Title);
+               
+               if (item is not null)
+               {
+                   Debug.WriteLine(item.Title);
+               }
 
                interaction.SetOutput(item);
 

@@ -31,6 +31,13 @@ public class ProjectExplorerViewModel : ViewModelBase
         get => currentOpenProject;
         set => this.RaiseAndSetIfChanged(ref currentOpenProject, value, nameof(CurrentOpenProject));
     }
+     
+    private bool isDocumentSolutionEnabled = false; 
+    public bool IsDocumentSolutionEnabled
+    {
+        get => isDocumentSolutionEnabled;
+        set => this.RaiseAndSetIfChanged(ref isDocumentSolutionEnabled, value, nameof(IsDocumentSolutionEnabled));
+    }
 
     public ProjectExplorerState projectExplorerState
     {
@@ -112,6 +119,17 @@ public class ProjectExplorerViewModel : ViewModelBase
 
                  }
              }).DisposeWith(disposables);
+
+            SolutionModel.ChooseSolutionPath.Subscribe(result =>
+            {
+                SolutionModel.FilePath = result;
+            })
+           .DisposeWith(disposables);
+
+            SolutionModel.ChooseLogoPath.Subscribe(result =>
+            {
+                SolutionModel.ReportData.LogoPath = result;
+            }).DisposeWith(disposables);
         });
     }
 

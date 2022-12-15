@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+    xmlns:local="clr-namespace:ProjectAvalonia.Project.Components.ProjectExplorer;assembly=ProjectAvalonia"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nodes="clr-namespace:AppViewModels.Project.ComposableViewModels;assembly=AppViewModels"
@@ -23,152 +24,25 @@
             <ToggleButton
                 Width="36"
                 Height="36"
+                Classes="Icon"
                 IsChecked="{Binding IsDocumentSolutionEnabled}"
                 ToolTip.Tip="Visualizar Solução">
                 <material:MaterialIcon Kind="DocumentSign" />
                 <ToggleButton.Flyout>
-                    <Flyout Placement="LeftEdgeAlignedTop" ShowMode="Standard">
-                        <ScrollViewer Width="400">
-                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <StackPanel
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    Background="Transparent">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="13"
-                                        Text="Nome da Empresa"
-                                        TextAlignment="Center" />
-                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.NomeEmpresa}" />
-                                </StackPanel>
-
-                                <DatePicker
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    DayVisible="True"
-                                    Header="Data do Relatório"
-                                    MonthVisible="True"
-                                    SelectedDate="{Binding SolutionModel.ReportData.Data}"
-                                    YearVisible="True" />
-
-                                <StackPanel
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    Background="Transparent">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="13"
-                                        Text="UF"
-                                        TextAlignment="Center" />
-                                    <ComboBox HorizontalAlignment="Stretch">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Code}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </StackPanel>
-
-                                <StackPanel
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Background="Transparent">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="13"
-                                        Text="Responsável pelo Projeto"
-                                        TextAlignment="Center" />
-                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.Responsavel}" />
-                                </StackPanel>
-
-                                <StackPanel
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Background="Transparent">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="13"
-                                        Text="Endereço da Empresa"
-                                        TextAlignment="Center" />
-                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.Endereco}" />
-                                </StackPanel>
-
-                                <StackPanel
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Background="Transparent">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="13"
-                                        Text="Email do Responsável"
-                                        TextAlignment="Center" />
-                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.Email}" />
-                                </StackPanel>
-
-                                <StackPanel
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Background="Transparent">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="13"
-                                        Text="Telefone do Responsável"
-                                        TextAlignment="Center" />
-                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.ReportData.Telefone}" />
-                                </StackPanel>
-
-                                <StackPanel Margin="0,4,0,0" Background="Transparent">
-                                    <TextBlock VerticalAlignment="Center" Text="Nome da Solução" />
-                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding SolutionModel.FileName}" />
-                                </StackPanel>
-
-                                <StackPanel
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    Background="Transparent">
-                                    <TextBlock
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Text="Local da Logo da Empresa" />
-                                    <Panel HorizontalAlignment="Stretch">
-                                        <TextBox
-                                            HorizontalAlignment="Stretch"
-                                            IsEnabled="False"
-                                            IsReadOnly="True"
-                                            Text="{Binding SolutionModel.ReportData.LogoPath}" />
-
-                                        <Button
-                                            Grid.Column="1"
-                                            Height="32"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Stretch"
-                                            Command="{Binding ChooseLogoPath}">
-                                            <material:MaterialIcon
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Kind="Folder" />
-                                        </Button>
-                                    </Panel>
-                                </StackPanel>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Flyout>
+                    <local:SolutionFlyout Closed="FlyoutClosed_PointerPressed" />
                 </ToggleButton.Flyout>
             </ToggleButton>
             <Button
                 Width="36"
                 Height="36"
+                Classes="Icon"
                 ToolTip.Tip="Sincronizar Solução">
-                <material:MaterialIcon Kind="FileSync" />
+                <material:MaterialIcon Kind="ContentSave" />
             </Button>
             <Button
                 Width="36"
                 Height="36"
+                Classes="Icon"
                 ToolTip.Tip="Imprimir">
                 <material:MaterialIcon Kind="Printer" />
             </Button>

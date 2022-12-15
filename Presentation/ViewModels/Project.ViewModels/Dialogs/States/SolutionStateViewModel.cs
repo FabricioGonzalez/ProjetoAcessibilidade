@@ -1,10 +1,17 @@
-﻿using AppUsecases.Project.Entities.Project;
+﻿using System.Reactive;
+
+using AppUsecases.App.Models;
+using AppUsecases.App.Usecases;
+using AppUsecases.Project.Entities.Project;
 
 using AppViewModels.Common;
+using AppViewModels.Contracts;
 
 using DynamicData.Binding;
 
 using ReactiveUI;
+
+using Splat;
 
 namespace AppViewModels.Dialogs.States;
 public class SolutionStateViewModel : ViewModelBase
@@ -49,5 +56,51 @@ public class SolutionStateViewModel : ViewModelBase
     {
         get => itemGroups;
         set => this.RaiseAndSetIfChanged(ref itemGroups, value, nameof(ItemGroups));
+    }
+
+    private ObservableCollectionExtended<UF> ufList;
+    public ObservableCollectionExtended<UF> UFList
+    {
+        get => ufList;
+        set => this.RaiseAndSetIfChanged(ref ufList, value, nameof(UFList));
+    }
+   
+    private readonly GetUFList getUFList;
+    private readonly IFileDialog dialogService;
+
+
+    public SolutionStateViewModel()
+    {
+        getUFList = Locator.Current.GetService<GetUFList>();
+
+        dialogService = Locator.Current.GetService<IFileDialog>();
+
+        ChooseSolutionPath = ReactiveCommand.CreateFromTask(async () =>
+        {
+            var path = await dialogService.GetFolder();
+
+            return path;
+        });
+
+        ChooseLogoPath = ReactiveCommand.CreateFromTask(async () =>
+        {
+            var path = await dialogService.GetFolder();
+
+            return path;
+        });
+
+        UFList = new(getUFList
+         .GetAllUF()
+         .OrderBy(x => x.Name));
+    }
+
+
+    public ReactiveCommand<Unit, string> ChooseSolutionPath
+    {
+        get; set;
+    }
+    public ReactiveCommand<Unit, string> ChooseLogoPath
+    {
+        get; set;
     }
 }

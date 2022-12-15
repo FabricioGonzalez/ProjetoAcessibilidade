@@ -1,0 +1,109 @@
+<Flyout
+    x:Class="ProjectAvalonia.Project.Components.ProjectExplorer.SolutionFlyout"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assist="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
+    xmlns:assists="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:material="using:Material.Icons.Avalonia"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:Neumorphism.Avalonia.Styles;assembly=Neumorphism.Avalonia"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    FlyoutPresenterClasses="solutionExplorerStyle"
+    Placement="LeftEdgeAlignedTop"
+    ShowMode="Standard"
+    mc:Ignorable="d">
+
+    <ScrollViewer Width="400">
+        <StackPanel
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Spacing="8">
+            <TextBox
+                HorizontalAlignment="Stretch"
+                assists:TextFieldAssist.Label="Nome da Empresa"
+                Classes="Outline"
+                Text="{Binding SolutionModel.ReportData.NomeEmpresa}"
+                UseFloatingWatermark="True" />
+
+            <DatePicker
+                Classes="Outline"
+                DayVisible="True"
+                Header="Data do Relatório"
+                MonthVisible="True"
+                SelectedDate="{Binding SolutionModel.ReportData.Data}"
+                YearVisible="True" />
+
+            <ComboBox
+                HorizontalAlignment="Stretch"
+                Classes="Outline"
+                Items="{Binding SolutionModel.UFList, Mode=TwoWay}"
+                PlaceholderText="UF">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Code}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBox
+                HorizontalAlignment="Stretch"
+                assists:TextFieldAssist.Label="Responsável pelo Projeto"
+                Classes="Outline"
+                Text="{Binding SolutionModel.ReportData.Responsavel}"
+                UseFloatingWatermark="True" />
+
+            <TextBox
+                HorizontalAlignment="Stretch"
+                assists:TextFieldAssist.Label="Endereço da Empresa"
+                Classes="Outline"
+                Text="{Binding SolutionModel.ReportData.Endereco}"
+                UseFloatingWatermark="True" />
+
+            <TextBox
+                HorizontalAlignment="Stretch"
+                assists:TextFieldAssist.Label="Email do Responsável"
+                Classes="Outline"
+                Text="{Binding SolutionModel.ReportData.Email}"
+                UseFloatingWatermark="True" />
+
+            <TextBox
+                HorizontalAlignment="Stretch"
+                assists:TextFieldAssist.Label="Telefone do Responsável"
+                Classes="Outline"
+                Text="{Binding SolutionModel.ReportData.Telefone}"
+                UseFloatingWatermark="True" />
+
+            <TextBox
+                HorizontalAlignment="Stretch"
+                assists:TextFieldAssist.Label="Nome da Solução"
+                Classes="Outline"
+                Text="{Binding SolutionModel.FileName}"
+                UseFloatingWatermark="True" />
+
+            <TextBox
+                Margin="4,0"
+                Classes="Header"
+                Text="{Binding SolutionModel.ReportData.LogoPath}"
+                UseFloatingWatermark="True"
+                Watermark="Local da Logo da Empresa">
+                <TextBox.InnerRightContent>
+                    <Button
+                        Width="48"
+                        Height="38"
+                        Margin="10,0,10,0"
+                        Classes="no-material"
+                        Command="{Binding SolutionModel.ChooseLogoPath}"
+                        Cursor="Arrow">
+                        <avalonia:MaterialIcon
+                            Width="24"
+                            Height="24"
+                            Kind="Folder" />
+                    </Button>
+                </TextBox.InnerRightContent>
+            </TextBox>
+        </StackPanel>
+    </ScrollViewer>
+</Flyout>

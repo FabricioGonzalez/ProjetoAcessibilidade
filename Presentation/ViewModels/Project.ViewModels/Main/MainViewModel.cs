@@ -150,7 +150,8 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
     public ReactiveCommand<Unit, string> CreateProjectCommand
     {
         get; private set;
-    }
+    }    
+
     public ReactiveCommand<Unit, Unit> GoToTemplateEditing
     {
         get; private set;
