@@ -52,8 +52,6 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                 v => v.ExplorerTree.Items)
             .DisposeWith(disposables);
 
-
-
             ProjectInteractions
             .SelectedProjectPath
             .RegisterHandler(async interaction =>
@@ -80,16 +78,13 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
             ProjectInteractions
             .RenameFileInteraction
-            .RegisterHandler(interaction =>
+            .RegisterHandler(async interaction =>
             {
-                var item = ViewModel.explorerOperations.RenameFile(interaction.Input,
+                var item = await ViewModel
+                .explorerOperations
+                .RenameFile(interaction.Input,
                     ViewModel.projectExplorerState.ExplorerItems
                 .ToList());
-
-                if (item is not null)
-                {
-                    Debug.WriteLine(item.Title);
-                }
 
                 interaction.SetOutput(item);
 
@@ -98,16 +93,13 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
             ProjectInteractions
            .RenameFolderInteraction
-           .RegisterHandler(interaction =>
+           .RegisterHandler(async interaction =>
            {
-               var item = ViewModel.projectExplorerState.ExplorerItems
-               .ToList()
-               .SearchFolder(interaction.Input);
-               
-               if (item is not null)
-               {
-                   Debug.WriteLine(item.Title);
-               }
+               var item = await ViewModel
+                .explorerOperations
+                .RenameFolder(interaction.Input,
+                    ViewModel.projectExplorerState.ExplorerItems
+                .ToList());
 
                interaction.SetOutput(item);
 
@@ -116,16 +108,13 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
             ProjectInteractions
            .DeleteFileInteraction
-           .RegisterHandler(interaction =>
+           .RegisterHandler(async interaction =>
            {
-               var item = ViewModel.projectExplorerState.ExplorerItems
-               .ToList()
-               .SearchFile(interaction.Input);
-              
-               if (item is not null)
-               {
-                   Debug.WriteLine(item.Title);
-               }
+               var item = await ViewModel
+               .explorerOperations
+               .DeleteFile(interaction.Input,
+                   ViewModel.projectExplorerState.ExplorerItems
+               .ToList());
 
                interaction.SetOutput(item);
 
@@ -134,16 +123,13 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
             ProjectInteractions
            .DeleteFolderInteraction
-           .RegisterHandler(interaction =>
+           .RegisterHandler(async interaction =>
            {
-               var item = ViewModel.projectExplorerState.ExplorerItems
-               .ToList()
-               .SearchFolder(interaction.Input);
-               
-               if (item is not null)
-               {
-                   Debug.WriteLine(item.Title);
-               }
+               var item = await ViewModel
+                 .explorerOperations
+                 .DeleteFolder(interaction.Input,
+                     ViewModel.projectExplorerState.ExplorerItems
+                 .ToList());
 
                interaction.SetOutput(item);
 

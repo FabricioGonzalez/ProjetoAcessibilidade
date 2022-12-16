@@ -11,4 +11,9 @@ public class ExplorerItem : BaseAuditableEntity
     {
         get; set;
     }
+
+    public string ReferencedItem
+    {
+        get; set;
+    }
 }

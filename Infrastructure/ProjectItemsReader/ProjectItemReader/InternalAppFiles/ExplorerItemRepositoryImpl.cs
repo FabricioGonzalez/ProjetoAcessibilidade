@@ -27,13 +27,12 @@ public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
 
         if (Directory.Exists(projectItemsRootPath))
         {
-            var folderItem = new FolderItem()
+            var folderItem = new FolderItem
             {
                 Name = Path.GetFileNameWithoutExtension(projectItemsRootPath),
-                Path = projectItemsRootPath
+                Path = projectItemsRootPath,
+                Children = new List<ExplorerItem>()
             };
-
-            folderItem.Children = new List<ExplorerItem>();
 
             list.Add(folderItem);
 
@@ -106,7 +105,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
 
     }
-   
+
     public Resource<App.Core.Entities.Solution.Explorer.ExplorerItem> DeleteExplorerItem(App.Core.Entities.Solution.Explorer.ExplorerItem item)
     {
         return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
@@ -117,7 +116,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
 
     }
-   
+
     public Resource<List<App.Core.Entities.Solution.Explorer.ExplorerItem>> GetAllItems(string solutionPath)
     {
         var list = new List<App.Core.Entities.Solution.Explorer.ExplorerItem>();
@@ -137,13 +136,12 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 
         if (Directory.Exists(projectItemsRootPath))
         {
-            var folderItem = new App.Core.Entities.Solution.Explorer.FolderItem()
+            var folderItem = new App.Core.Entities.Solution.Explorer.FolderItem
             {
                 Name = Path.GetFileNameWithoutExtension(projectItemsRootPath),
-                Path = projectItemsRootPath
+                Path = projectItemsRootPath,
+                Children = new List<App.Core.Entities.Solution.Explorer.ExplorerItem>()
             };
-
-            folderItem.Children = new List<App.Core.Entities.Solution.Explorer.ExplorerItem>();
 
             list.Add(folderItem);
 
@@ -307,6 +305,18 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 
     public async Task<Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>> RenameExplorerItemAsync(App.Core.Entities.Solution.Explorer.ExplorerItem item)
     {
+        var path = Directory.GetParent(item.Path).FullName;
+        if (item is not null)
+        {
+            if (File.Exists(item.Path))
+            {
+                File.Move(item.Path, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+            else
+            {
+                File.Copy(item.ReferencedItem, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+        }
         return new Resource<App.Core.Entities.Solution.Explorer.ExplorerItem>.Success(new());
     }
     public Resource<App.Core.Entities.Solution.Explorer.ExplorerItem> RenameExplorerItem(App.Core.Entities.Solution.Explorer.ExplorerItem item)

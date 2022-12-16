@@ -18,6 +18,8 @@ using Avalonia.Controls;
 using AppViewModels.Main;
 using Avalonia.Controls.Primitives;
 using Neumorphism.Avalonia.Styles;
+using AppViewModels.Interactions.Project;
+using System;
 
 namespace ProjectAvalonia.Views;
 public partial class MainWindow : ReactiveWindow<MainViewModel>
@@ -27,8 +29,17 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
     public MainWindow()
     {
 
-        this.WhenActivated(disposable =>
+        this.WhenActivated(disposables =>
         {
+            ProjectInteractions
+            .SelectedProjectPath
+            .RegisterHandler(async interaction =>
+            {
+                
+                interaction.SetOutput(interaction.Input);
+
+            }).DisposeWith(disposables);
+
             ViewModel!.ShowSolutionCreateDialog.RegisterHandler(async (interaction) =>
             {
                 var dialog = new CreateSolutionDialog();
@@ -36,11 +47,14 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
 
                 var result = await dialog.ShowDialog<MainViewModel?>(this);
                 interaction.SetOutput(result);
-            });
+            })
+            .DisposeWith(disposables);
 
-            ViewModel.CloseAppCommand = ReactiveCommand.Create(() => Close());
+            ViewModel.CloseAppCommand = ReactiveCommand.Create(() => Close())
+            .DisposeWith(disposables);
 
-            this.BindCommand(ViewModel, vm => vm.CloseAppCommand, v => v.CloseApp);
+            this.BindCommand(ViewModel, vm => vm.CloseAppCommand, v => v.CloseApp)
+            .DisposeWith(disposables);
 
         });
 

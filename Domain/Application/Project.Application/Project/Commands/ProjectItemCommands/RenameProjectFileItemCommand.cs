@@ -26,7 +26,7 @@ public class RenameProjectFileItemCommandHandler
     {
         this.repository = repository;
     }
-    public async Task<ExplorerItem> Handle(RenameProjectFolderItemCommand request, CancellationToken cancellationToken)
+    public async Task<ExplorerItem> Handle(RenameProjectFileItemCommand request, CancellationToken cancellationToken)
     {
         var result = await repository.RenameExplorerItemAsync(request.item);
 

@@ -68,8 +68,7 @@ public class CreateSolutionViewModel : ViewModelBase
                 {
                     CloseDialogCommand
                     .Execute()
-                    .Subscribe()
-                    .DisposeWith(disposables);
+                    .Subscribe();
                 }
             })
             .DisposeWith(disposables);

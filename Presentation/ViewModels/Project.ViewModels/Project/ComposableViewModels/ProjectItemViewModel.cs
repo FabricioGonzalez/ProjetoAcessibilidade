@@ -7,12 +7,13 @@ using ReactiveUI;
 namespace AppViewModels.Project.ComposableViewModels;
 public abstract class ProjectItemViewModel : ViewModelBase
 {
-    public ProjectItemViewModel(string Title, string Path, bool inEditMode)
+    public ProjectItemViewModel(string Title, string Path, string referencedItem, bool inEditMode)
     {
         title = Title;
         this.Path = Path;
         InEditMode = inEditMode;
-        
+        ReferencedItem = referencedItem;
+
         RenameCommand = ReactiveCommand.Create(() =>
         {
             InEditMode = true;
@@ -36,6 +37,12 @@ public abstract class ProjectItemViewModel : ViewModelBase
         get => _isInEditMode;
         set => this.RaiseAndSetIfChanged(ref _isInEditMode, value);
     }
+
+    public string ReferencedItem
+    {
+        get; set;
+    }
+
     public ReactiveCommand<Unit, Unit> RenameCommand
     {
         get; protected set;

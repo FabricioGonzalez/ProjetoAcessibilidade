@@ -18,13 +18,13 @@ public static class MapExplorerItem
 
                 if (dir is FolderItem item)
                 {
-                    thisnode = new FolderProjectItemViewModel(title: item.Name, path: item.Path, inEditMode: false);
+                    thisnode = new FolderProjectItemViewModel(title: item.Name, path: item.Path, referencedItem: dir.ReferencedItem, inEditMode: false);
 
                     (thisnode as FolderProjectItemViewModel).Children = new(GetSubfolders(item.Children));
                 }
                 else
                 {
-                    thisnode = new FileProjectItemViewModel(title: dir.Name, path: dir.Path, inEditMode: false);
+                    thisnode = new FileProjectItemViewModel(title: dir.Name, path: dir.Path,referencedItem: dir.ReferencedItem, inEditMode: false);
                 }
 
                 subfolders.Add(thisnode);
@@ -36,7 +36,6 @@ public static class MapExplorerItem
 
     public static FileProjectItemViewModel? SearchFile(this List<ProjectItemViewModel> items, ProjectItemViewModel desiredItem)
     {
-        FileProjectItemViewModel item = null;
 
         if (items is not null && items.Count > 0)
         {
@@ -44,22 +43,21 @@ public static class MapExplorerItem
             {
                 if (dir is FileProjectItemViewModel file)
                 {
-                    if (file.Equals(desiredItem))
+                    if (file.Path.Equals(desiredItem.Path))
                     {
-                        item = file;
-                        return item;
+                        return file;
                     }
                 }
-                if(dir is FolderProjectItemViewModel folderItem)
+                if (dir is FolderProjectItemViewModel folderItem)
                 {
-                    folderItem.Children
-                    .ToList()
-                    .SearchFile(desiredItem);
-                }                      
+                    if (folderItem.Children.Any())
+                       return folderItem.Children
+                        .ToList()
+                        .SearchFile(desiredItem);
+                }
             }
         }
-
-        return item;
+        return null;
     }
 
     public static FolderProjectItemViewModel? SearchFolder(this List<ProjectItemViewModel> items, ProjectItemViewModel desiredItem)
@@ -72,12 +70,11 @@ public static class MapExplorerItem
             {
                 if (dir is FolderProjectItemViewModel folder)
                 {
-                    if (folder.Equals(desiredItem))
+                    if (folder.Path.Equals(desiredItem.Path))
                     {
-                        item = folder;
                         return item;
                     }
-                    folder.Children
+                    return folder.Children
                         .ToList()
                         .SearchFolder(desiredItem);
                 }

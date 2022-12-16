@@ -78,7 +78,8 @@ public class ProjectExplorerViewModel : ViewModelBase
                 .Add(
                     new FileProjectItemViewModel(
                         title: result.Name,
-                        path: result.FilePath,
+                        path: Path.Combine(item.Path,$"{result.Name}{Constants.AppProjectItemExtension}"),
+                        referencedItem: result.FilePath,
                         inEditMode: true)
                     );
             }
@@ -94,7 +95,8 @@ public class ProjectExplorerViewModel : ViewModelBase
                     new FolderProjectItemViewModel(
                     title: "",
                     path: item.Path,
-                    inEditMode: true)
+                    inEditMode: true,
+                    referencedItem:"")
                     );
             }
         });

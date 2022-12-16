@@ -1,5 +1,6 @@
 ﻿using System.Xml;
 
+using AppUsecases.App.Models;
 using AppUsecases.Contracts.Repositories;
 using AppUsecases.Project.Entities.Project;
 
@@ -122,7 +123,7 @@ public class WriteUserSolutionRepository : IWriteContract<ProjectSolutionModel>
             email.InnerText = reportData.Email;
 
             var endereco = xml.CreateElement(Constants.reportItemEndereco);
-            endereco.InnerXml = $"{reportData.Endereco} - {reportData.UF.Code}";
+            endereco.InnerXml = $"{reportData.Endereco} - {(reportData.UF ?? new UF("","")).Code}";
 
             var nomeEmpresa = xml.CreateElement(Constants.reportItemNomeEmpresa);
             nomeEmpresa.InnerText = reportData.NomeEmpresa;

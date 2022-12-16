@@ -89,8 +89,6 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
             }
         });
 
-        ShowSolutionCreateDialog = new Interaction<CreateSolutionViewModel, MainViewModel?>();
-
         this.WhenActivated((disposables) =>
         {
             OpenProjectCommand.Subscribe(solutionPath =>
@@ -104,6 +102,7 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
                        .DisposeWith(disposables);
             })
             .DisposeWith(disposables);
+
 
 
             CreateProjectCommand.Subscribe(solutionPath =>
@@ -165,9 +164,9 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
         get; set;
     }
 
-    public Interaction<CreateSolutionViewModel, MainViewModel?> ShowSolutionCreateDialog
+    public Interaction<CreateSolutionViewModel, MainViewModel?> ShowSolutionCreateDialog 
     {
         get; private set;
-    }
+    } = new Interaction<CreateSolutionViewModel, MainViewModel?>();
 
 }

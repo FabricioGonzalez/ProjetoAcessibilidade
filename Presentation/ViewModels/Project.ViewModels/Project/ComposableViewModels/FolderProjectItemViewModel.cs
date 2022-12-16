@@ -9,8 +9,8 @@ using ReactiveUI;
 namespace AppViewModels.Project.ComposableViewModels;
 public class FolderProjectItemViewModel : ProjectItemViewModel
 {
-    public FolderProjectItemViewModel(string title, string path, bool inEditMode = false)
-        : base(Title: title, Path: path, inEditMode: inEditMode)
+    public FolderProjectItemViewModel(string title, string path,string referencedItem, bool inEditMode = false)
+        : base(Title: title, Path: path, referencedItem: referencedItem, inEditMode: inEditMode)
     {
         RenameCommand = ReactiveCommand.Create(() =>
         {

@@ -14,7 +14,6 @@ using ProjectItemReader.XmlFile;
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using System.IO;
 
-using Project.Core.ViewModels.TemplateEditing;
 using Project.Core.ViewModels.Project;
 using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.FileTemplate;
@@ -38,6 +37,8 @@ using Project.Application.Project.Queries.GetProjectItems;
 using AppViewModels.Project.Operations;
 using Project.Application.Project.Commands.ProjectItemCommands;
 using AppViewModels.Dialogs.States;
+using AppViewModels.TemplateEditing;
+using AppViewModels.TemplateRules;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
