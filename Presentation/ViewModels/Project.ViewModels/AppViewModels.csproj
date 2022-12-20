@@ -20,7 +20,6 @@
     <Folder Include="Interactions\TemplateEditing\" />
     <Folder Include="Interactions\TemplateRules\" />
     <Folder Include="Main\Mappers\" />
-    <Folder Include="Main\States\" />
     <Folder Include="TemplateEditing\Mappers\" />
     <Folder Include="TemplateEditing\States\" />
     <Folder Include="TemplateRules\Mappers\" />

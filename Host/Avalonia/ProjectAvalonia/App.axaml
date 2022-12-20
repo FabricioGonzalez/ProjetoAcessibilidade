@@ -13,13 +13,13 @@
     </Application.Resources>
 
     <Application.Styles>
-        <!--<FluentTheme Mode="Dark" />-->
+        <FluentTheme Mode="Dark" />
         <StyleInclude Source="/Styles/ProjectModuleStyles.axaml" />
-        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
-        <themes:NeumorphismTheme
+        <!--<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />-->
+        <!--<themes:NeumorphismTheme
             BaseTheme="Light"
             PrimaryColor="Purple"
-            SecondaryColor="Lime" />
+            SecondaryColor="Lime" />-->
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Controls/EditableTextBlock.xaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Styles/Window/WindowStyle.axaml" />

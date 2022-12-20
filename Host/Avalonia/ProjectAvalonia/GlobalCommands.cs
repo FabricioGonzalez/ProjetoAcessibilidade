@@ -7,19 +7,39 @@ using System.Threading.Tasks;
 using Neumorphism.Avalonia.Styles.Themes.Base;
 using Neumorphism.Avalonia.Styles.Themes;
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Themes.Fluent;
 
 namespace ProjectAvalonia;
 public static class GlobalCommand
 {
-    private static readonly NeumorphismTheme themeStyles = Application.Current!.LocateNeumorphismTheme<NeumorphismTheme>();
+    public static FluentThemeMode GetCurrentTheme()
+    {
+        var result = Application.Current!.Styles
+        .FirstOrDefault(item => item.GetType() == typeof(FluentTheme));
+
+        return (result as FluentTheme).Mode;
+    }
 
     public static void UseNeumorphismUIDarkTheme()
     {
-        themeStyles.BaseTheme = BaseThemeMode.Dark;
+        var result = Application.Current!.Styles
+        .FirstOrDefault(item => item.GetType() == typeof(FluentTheme));
+
+        if (result is not null)
+        {
+            (result as FluentTheme).Mode = FluentThemeMode.Dark;
+        }
     }
 
     public static void UseNeumorphismUILightTheme()
     {
-        themeStyles.BaseTheme = BaseThemeMode.Light;
+        var result = Application.Current!.Styles
+             .FirstOrDefault(item => item.GetType() == typeof(FluentTheme));
+
+        if (result is not null)
+        {
+            (result as FluentTheme).Mode = FluentThemeMode.Light;
+        }
     }
 }

@@ -21,6 +21,7 @@ using Common;
 using System.Reactive.Linq;
 using AppViewModels.Project.ComposableViewModels;
 using System.Reactive;
+using AppViewModels.Interactions.Main;
 
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
@@ -31,8 +32,8 @@ public class ProjectExplorerViewModel : ViewModelBase
         get => currentOpenProject;
         set => this.RaiseAndSetIfChanged(ref currentOpenProject, value, nameof(CurrentOpenProject));
     }
-     
-    private bool isDocumentSolutionEnabled = false; 
+
+    private bool isDocumentSolutionEnabled = false;
     public bool IsDocumentSolutionEnabled
     {
         get => isDocumentSolutionEnabled;
@@ -50,16 +51,15 @@ public class ProjectExplorerViewModel : ViewModelBase
 
     private readonly IQueryUsecase<string, ProjectSolutionModel> readSolution;
     public readonly ProjectExplorerOperations explorerOperations;
-
-    readonly GetProjectItemsQueryHandler getProjectItems;
+    private readonly GetProjectItemsQueryHandler getProjectItems;
 
     public ProjectExplorerViewModel()
     {
         getProjectItems ??= Locator.Current.GetService<GetProjectItemsQueryHandler>();
         explorerOperations ??= Locator.Current.GetService<ProjectExplorerOperations>();
 
-        SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
-        readSolution = Locator.Current.GetService<IQueryUsecase<string, ProjectSolutionModel>>();
+        SolutionModel ??= Locator.Current.GetService<SolutionStateViewModel>();
+        readSolution ??= Locator.Current.GetService<IQueryUsecase<string, ProjectSolutionModel>>();
 
         projectExplorerState = new();
 
@@ -78,7 +78,7 @@ public class ProjectExplorerViewModel : ViewModelBase
                 .Add(
                     new FileProjectItemViewModel(
                         title: result.Name,
-                        path: Path.Combine(item.Path,$"{result.Name}{Constants.AppProjectItemExtension}"),
+                        path: Path.Combine(item.Path, $"{result.Name}{Constants.AppProjectItemExtension}"),
                         referencedItem: result.FilePath,
                         inEditMode: true)
                     );
@@ -96,16 +96,23 @@ public class ProjectExplorerViewModel : ViewModelBase
                     title: "",
                     path: item.Path,
                     inEditMode: true,
-                    referencedItem:"")
+                    referencedItem: "")
                     );
             }
         });
 
+        SelectSolutionItemCommand = ReactiveCommand.Create<ProjectItemViewModel> ((item) =>
+        {
+
+        });
+
         this.WhenActivated(disposables =>
         {
+
             this
              .WhenAnyValue(vm => vm.CurrentOpenProject)
              .WhereNotNull()
+             .Where(value => !string.IsNullOrEmpty(value))
              .Subscribe(async path =>
              {
                  if (path.Length > 0)
@@ -156,6 +163,10 @@ public class ProjectExplorerViewModel : ViewModelBase
         get;
     }
     public ReactiveCommand<ProjectItemViewModel, Unit> AddFolderCommand
+    {
+        get;
+    }
+    public ReactiveCommand<ProjectItemViewModel, Unit> SelectSolutionItemCommand
     {
         get;
     }

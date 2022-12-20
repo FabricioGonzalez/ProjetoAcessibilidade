@@ -97,7 +97,5 @@ public partial class WinApp : Application
         /*GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));*/
         base.OnLaunched(args);
         await GetService<IActivationService>().ActivateAsync(args);
-
-
     }
 }

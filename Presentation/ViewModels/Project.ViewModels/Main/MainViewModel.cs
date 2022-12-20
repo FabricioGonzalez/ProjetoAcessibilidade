@@ -7,7 +7,9 @@ using AppViewModels.Common;
 using AppViewModels.Contracts;
 using AppViewModels.Dialogs;
 using AppViewModels.Dialogs.States;
+using AppViewModels.Interactions.Main;
 using AppViewModels.Interactions.Project;
+using AppViewModels.Main.States;
 using AppViewModels.Project;
 using AppViewModels.TemplateEditing;
 using AppViewModels.TemplateRules;
@@ -20,6 +22,12 @@ namespace AppViewModels.Main;
 public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 {
     public RoutingState Router { get; } = new RoutingState();
+
+    public AppMessageState appMessage
+    {
+        get; set;
+    } = new();
+
     public SolutionStateViewModel SolutionModel
     {
         get;
@@ -103,6 +111,15 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
             })
             .DisposeWith(disposables);
 
+            AppInterations
+                      .MessageQueue
+                      .RegisterHandler(async interaction =>
+                      {
+                          appMessage.Message = interaction.Input;
+
+                          interaction.SetOutput(interaction.Input);
+
+                      }).DisposeWith(disposables);
 
 
             CreateProjectCommand.Subscribe(solutionPath =>
@@ -149,7 +166,7 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
     public ReactiveCommand<Unit, string> CreateProjectCommand
     {
         get; private set;
-    }    
+    }
 
     public ReactiveCommand<Unit, Unit> GoToTemplateEditing
     {
@@ -164,7 +181,7 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
         get; set;
     }
 
-    public Interaction<CreateSolutionViewModel, MainViewModel?> ShowSolutionCreateDialog 
+    public Interaction<CreateSolutionViewModel, MainViewModel?> ShowSolutionCreateDialog
     {
         get; private set;
     } = new Interaction<CreateSolutionViewModel, MainViewModel?>();

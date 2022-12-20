@@ -20,22 +20,37 @@ using Avalonia.Controls.Primitives;
 using Neumorphism.Avalonia.Styles;
 using AppViewModels.Interactions.Project;
 using System;
+using AppViewModels.Interactions.Main;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
 
 namespace ProjectAvalonia.Views;
 public partial class MainWindow : ReactiveWindow<MainViewModel>
 {
 
     private MenuItem CloseApp => this.FindControl<MenuItem>("CloseAppMenuItem");
+    private ToggleSwitch toggleButton => this.FindControl<ToggleSwitch>("toggleSwitchTheme");
+    private Grid appContainer => this.Find<Grid>("AppContainer");
     public MainWindow()
     {
-
         this.WhenActivated(disposables =>
         {
+            checkTheme();
+
+            ViewModel.WhenAnyValue(vm => vm.appMessage)
+            .Where(value => !string.IsNullOrEmpty(value.Message))
+            .SubscribeOn(RxApp.MainThreadScheduler)
+            .Subscribe(value =>
+            {
+                FlyoutBase.ShowAttachedFlyout(appContainer);
+            });
+
+
             ProjectInteractions
             .SelectedProjectPath
             .RegisterHandler(async interaction =>
             {
-                
+
                 interaction.SetOutput(interaction.Input);
 
             }).DisposeWith(disposables);
@@ -71,19 +86,22 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
     }
     public void SwitchUITheme(object sender)
     {
-        var toggleButton = sender as ToggleButton;
-        if (toggleButton != null)
-        {
-            if (toggleButton.IsChecked.HasValue && toggleButton.IsChecked.Value)
-            {
-                GlobalCommand.UseNeumorphismUIDarkTheme();
-                SnackbarHost.Post("Neumorphism dark theme applied !");
-            }
-            else
-            {
-                GlobalCommand.UseNeumorphismUILightTheme();
-                SnackbarHost.Post("Neumorphism light theme applied !");
-            }
-        }
+        checkTheme();
     }
+
+    private void checkTheme()
+    {
+        if (GlobalCommand.GetCurrentTheme() == Avalonia.Themes.Fluent.FluentThemeMode.Light)
+        {
+            toggleButton.Content = "Dark Theme";
+            toggleButton.IsChecked = true;
+            GlobalCommand.UseNeumorphismUIDarkTheme();
+        }
+        else
+        {
+            toggleButton.Content = "Light Theme";
+            toggleButton.IsChecked = false;
+            GlobalCommand.UseNeumorphismUILightTheme();
+        }
+        }
 }

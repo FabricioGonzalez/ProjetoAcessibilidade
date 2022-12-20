@@ -31,7 +31,7 @@ public class ProjectExplorerOperations
                  {
                      Name = file.Title,
                      Path = file.Path,
-                     ReferencedItem= file.ReferencedItem
+                     ReferencedItem = file.ReferencedItem
                  }
                  ), cancellationToken: CancellationToken.None);
 
@@ -45,14 +45,14 @@ public class ProjectExplorerOperations
     {
         var folder = items.SearchFolder(item);
 
-        if (folder is not null)
-        {
+      /*  if (folder is not null)
+        {*/
             var result = await renameProjectFolderItemCommand.Handle(request: new(
                  new()
                  {
-                     Name = folder.Title,
-                     Path = folder.Path,
-                     Children = folder.Children
+                     Name = item.Title,
+                     Path = item.Path,
+                     Children = item.Children
                      .Select(x => new App.Core.Entities.Solution.Explorer.ExplorerItem()
                      {
                          Name = x.Title,
@@ -63,10 +63,10 @@ public class ProjectExplorerOperations
                  }
                  ), cancellationToken: CancellationToken.None);
 
-            return new(title: result.Name, path: result.Path,referencedItem:result.ReferencedItem, inEditMode: false);
-        }
+            return new(title: result.Name, path: result.Path, referencedItem: result.ReferencedItem, inEditMode: false);
+        /*}*/
 
-        return item;
+     /*   return item;*/
     }
 
     public async Task<FileProjectItemViewModel> DeleteFile(FileProjectItemViewModel item, List<ProjectItemViewModel> items)
@@ -84,7 +84,7 @@ public class ProjectExplorerOperations
                  }
                  ), cancellationToken: CancellationToken.None);
 
-            return new(title: result.Name, path: result.Path,result.ReferencedItem, inEditMode: false);
+            return new(title: result.Name, path: result.Path, result.ReferencedItem, inEditMode: false);
         }
 
         return item;
@@ -106,7 +106,7 @@ public class ProjectExplorerOperations
                      {
                          Name = x.Title,
                          Path = x.Path,
-                         ReferencedItem= x.ReferencedItem,
+                         ReferencedItem = x.ReferencedItem,
                      })
                      .ToList()
                  }
