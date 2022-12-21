@@ -1,11 +1,12 @@
 {
   "profiles": {
     "ProjectAvalonia": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "remoteDebugEnabled": false
     },
     "WSL": {
       "commandName": "WSL2",
-      "distributionName": ""
+      "distributionName": "ubuntu"
     }
   }
 }

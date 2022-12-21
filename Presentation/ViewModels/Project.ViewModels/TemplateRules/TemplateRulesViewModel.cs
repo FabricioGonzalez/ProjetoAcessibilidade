@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,6 @@ public class TemplateRulesViewModel : ViewModelBase, IRoutableViewModel
 
     public TemplateRulesViewModel()
     {
-
+        this.WhenActivated((CompositeDisposable disposables) => { });
     }
 }

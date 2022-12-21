@@ -11,6 +11,7 @@ using AppViewModels.Interactions.Main;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Main.States;
 using AppViewModels.Project;
+using AppViewModels.System;
 using AppViewModels.TemplateEditing;
 using AppViewModels.TemplateRules;
 
@@ -96,6 +97,17 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
                 Router.Navigate.Execute(templateEditing);
             }
         });
+        GoToSetting = ReactiveCommand.Create(() =>
+        {
+            var settings = Locator.Current.GetService<SettingsViewModel>();
+
+            if (settings is not null)
+            {
+                settings.HostScreen = this;
+
+                Router.Navigate.Execute(settings);
+            }
+        });
 
         this.WhenActivated((disposables) =>
         {
@@ -169,6 +181,10 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
     }
 
     public ReactiveCommand<Unit, Unit> GoToTemplateEditing
+    {
+        get; private set;
+    } 
+    public ReactiveCommand<Unit, Unit> GoToSetting
     {
         get; private set;
     }

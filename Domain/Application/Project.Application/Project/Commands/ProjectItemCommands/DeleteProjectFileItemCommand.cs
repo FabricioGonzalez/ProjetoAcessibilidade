@@ -32,9 +32,9 @@ public class DeleteProjectFileItemCommandHandler
     {
         this.repository = repository;
     }
-    public async Task<ExplorerItem> Handle(RenameProjectFolderItemCommand request, CancellationToken cancellationToken)
+    public async Task<ExplorerItem> Handle(DeleteProjectFileItemCommand request, CancellationToken cancellationToken)
     {
-        var result = await repository.DeleteExplorerItemAsync(request.item);
+        var result = await repository.DeleteFileItemAsync(request.item);
 
         result
             .OnError(out var res, out var message)

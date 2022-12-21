@@ -36,7 +36,7 @@ public class ItemEditingViewModel : ViewModelBase
 
         this.WhenActivated((CompositeDisposable disposables) =>
         {
-        
+            
         });
     }
     public ReactiveCommand<ProjectEditingModel, Unit> CloseItemCommand

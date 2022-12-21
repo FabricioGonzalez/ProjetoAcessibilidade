@@ -3,7 +3,6 @@ using AppUsecases.Editing.Entities;
 using AppViewModels.Dialogs;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Project;
-using AppViewModels.Project.Mappers;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -18,7 +17,6 @@ using ReactiveUI;
 using Splat;
 
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;

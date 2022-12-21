@@ -21,7 +21,8 @@ using Common;
 using System.Reactive.Linq;
 using AppViewModels.Project.ComposableViewModels;
 using System.Reactive;
-using AppViewModels.Interactions.Main;
+using System.Diagnostics;
+using AppViewModels.Interactions.Project;
 
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
@@ -103,7 +104,12 @@ public class ProjectExplorerViewModel : ViewModelBase
 
         SelectSolutionItemCommand = ReactiveCommand.Create<ProjectItemViewModel> ((item) =>
         {
+            Debug.WriteLine(item.Title);
 
+            ProjectEditingInteractions
+            .EditItem
+            .Handle((item as FileProjectItemViewModel))
+            .Subscribe();
         });
 
         this.WhenActivated(disposables =>

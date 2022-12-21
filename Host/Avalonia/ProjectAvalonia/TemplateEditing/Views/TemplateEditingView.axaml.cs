@@ -1,7 +1,8 @@
+using AppViewModels.TemplateEditing;
+
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
-using Project.Core.ViewModels.TemplateEditing;
 
 using ReactiveUI;
 

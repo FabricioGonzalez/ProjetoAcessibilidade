@@ -32,13 +32,13 @@ using UIStatesStore.Solution.Observables;
 using AppViewModels.Main;
 using AppViewModels.Contracts;
 using Project.Application.Project.Contracts;
-using MediatR;
 using Project.Application.Project.Queries.GetProjectItems;
 using AppViewModels.Project.Operations;
 using Project.Application.Project.Commands.ProjectItemCommands;
 using AppViewModels.Dialogs.States;
 using AppViewModels.TemplateEditing;
 using AppViewModels.TemplateRules;
+using AppViewModels.System;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -55,6 +55,8 @@ public static class Bootstrapper
         service.RegisterLazySingleton(() => new AddItemViewModel());
 
         service.RegisterLazySingleton(() => new SolutionStateViewModel());
+
+        service.RegisterLazySingleton(() => new SettingsViewModel());
 
         /*service.RegisterLazySingleton(() => new ProjectViewModel());*/
         service.RegisterLazySingleton(() => new AppViewModels.Project.ProjectViewModel());

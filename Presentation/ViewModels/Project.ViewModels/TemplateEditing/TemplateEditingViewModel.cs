@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reactive.Disposables;
 
 using AppViewModels.Common;
 
@@ -19,6 +15,6 @@ public class TemplateEditingViewModel : ViewModelBase, IRoutableViewModel
 
     public TemplateEditingViewModel()
     {
-
+        this.WhenActivated((CompositeDisposable disposables) => { });
     }
 }

@@ -59,7 +59,6 @@ internal class Program
                 .LogToTrace()
                 .UseReactiveUI();
 
-
         return result;
     }
 }

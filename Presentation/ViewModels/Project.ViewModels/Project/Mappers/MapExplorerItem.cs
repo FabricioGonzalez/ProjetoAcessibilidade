@@ -62,8 +62,6 @@ public static class MapExplorerItem
 
     public static FolderProjectItemViewModel? SearchFolder(this List<ProjectItemViewModel> items, ProjectItemViewModel desiredItem)
     {
-        FolderProjectItemViewModel item = null;
-
         if (items is not null && items.Count > 0)
         {
             foreach (var dir in items)
@@ -72,7 +70,7 @@ public static class MapExplorerItem
                 {
                     if (folder.Path.Equals(desiredItem.Path))
                     {
-                        return item;
+                        return folder;
                     }
                     return folder.Children
                         .ToList()
@@ -81,6 +79,6 @@ public static class MapExplorerItem
             }
         }
 
-        return item;
+        return null;
     }
 }

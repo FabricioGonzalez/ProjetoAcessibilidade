@@ -10,7 +10,7 @@ using Splat;
 namespace ProjectAvalonia.Project.Components.ProjectEditing;
 public partial class EditingView : ReactiveUserControl<ItemEditingViewModel>
 {
-    public EditingView()
+    public EditingView() 
     {
         ViewModel = Locator.Current.GetService<ItemEditingViewModel>();
       
@@ -19,7 +19,6 @@ public partial class EditingView : ReactiveUserControl<ItemEditingViewModel>
         this.WhenActivated(disposables =>
         {
            
-
         });
 
         AvaloniaXamlLoader.Load(this);
