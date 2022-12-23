@@ -3,6 +3,8 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
+using App.Core.Entities.App;
+
 using AppViewModels.Common;
 using AppViewModels.Contracts;
 using AppViewModels.Dialogs;
@@ -141,19 +143,19 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
                           switch (message.Type)
                           {
-                              case App.Core.Entities.App.MessageType.Debug:
+                              case MessageType.Debug:
 
                                   NotificationMessageManagerService.ShowDebug(message.Message);
                                   break;
-                              case App.Core.Entities.App.MessageType.Info:
+                              case MessageType.Info:
 
                                   NotificationMessageManagerService.ShowInfo(message.Message);
                                   break;
-                              case App.Core.Entities.App.MessageType.Error:
+                              case MessageType.Error:
 
                                   NotificationMessageManagerService.ShowError(message.Message);
                                   break;
-                              case App.Core.Entities.App.MessageType.Warning:
+                              case MessageType.Warning:
 
                                   NotificationMessageManagerService.ShowWarning(message.Message);
                                   break;

@@ -2,7 +2,9 @@
 public static class Constants
 {
     public const string AppName = "Gestor de Projeto ARPA";
-    public static string AppFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName);
+    public static string AppFolder = OperatingSystem.IsWindows() 
+        ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName) 
+        : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName);
 
     public static string AppCacheFolder = Path.Combine(AppFolder, "CacheData");
     public static string AppHistoryFolder = Path.Combine(AppCacheFolder, "RecentlyOpened");

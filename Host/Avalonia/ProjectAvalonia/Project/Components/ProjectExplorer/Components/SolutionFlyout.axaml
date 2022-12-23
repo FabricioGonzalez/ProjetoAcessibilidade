@@ -23,10 +23,10 @@
             Spacing="8">
             <TextBox
                 HorizontalAlignment="Stretch"
-                assists:TextFieldAssist.Label="Nome da Empresa"
                 Classes="Outline"
                 Text="{Binding SolutionModel.ReportData.NomeEmpresa}"
-                UseFloatingWatermark="True" />
+                UseFloatingWatermark="True"
+                Watermark="Nome da Empresa" />
 
             <DatePicker
                 Classes="Outline"
@@ -50,39 +50,39 @@
 
             <TextBox
                 HorizontalAlignment="Stretch"
-                assists:TextFieldAssist.Label="Responsável pelo Projeto"
                 Classes="Outline"
                 Text="{Binding SolutionModel.ReportData.Responsavel}"
-                UseFloatingWatermark="True" />
+                UseFloatingWatermark="True"
+                Watermark="Responsável pelo Projeto" />
 
             <TextBox
                 HorizontalAlignment="Stretch"
-                assists:TextFieldAssist.Label="Endereço da Empresa"
                 Classes="Outline"
                 Text="{Binding SolutionModel.ReportData.Endereco}"
-                UseFloatingWatermark="True" />
+                UseFloatingWatermark="True"
+                Watermark="Endereço da Empresa" />
 
             <TextBox
                 HorizontalAlignment="Stretch"
-                assists:TextFieldAssist.Label="Email do Responsável"
                 Classes="Outline"
                 Text="{Binding SolutionModel.ReportData.Email}"
-                UseFloatingWatermark="True" />
+                UseFloatingWatermark="True"
+                Watermark="Email do Responsável" />
 
             <MaskedTextBox
                 HorizontalAlignment="Stretch"
-                assists:TextFieldAssist.Label="Telefone do Responsável"
                 Classes="Outline"
                 Mask="(00)0000-0000"
                 Text="{Binding SolutionModel.ReportData.Telefone}"
-                UseFloatingWatermark="True" />
+                UseFloatingWatermark="True"
+                Watermark="Telefone do Responsável" />
 
             <TextBox
                 HorizontalAlignment="Stretch"
-                assists:TextFieldAssist.Label="Nome da Solução"
                 Classes="Outline"
                 Text="{Binding SolutionModel.FileName}"
-                UseFloatingWatermark="True" />
+                UseFloatingWatermark="True"
+                Watermark="Nome da Solução" />
 
             <TextBox
                 Margin="4,0"
@@ -92,9 +92,7 @@
                 Watermark="Local da Logo da Empresa">
                 <TextBox.InnerRightContent>
                     <Button
-                        Width="48"
-                        Height="38"
-                        Margin="10,0,10,0"
+                        VerticalAlignment="Stretch"
                         Classes="no-material"
                         Command="{Binding SolutionModel.ChooseLogoPath}"
                         Cursor="Arrow">

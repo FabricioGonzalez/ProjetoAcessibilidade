@@ -44,26 +44,29 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 ColumnDefinitions="0.7*,1*"
-                RowDefinitions="0.4*,0.4*,0.4*">
+                RowDefinitions="0.4*,0.2*,0.2*">
 
                 <TextBox
                     Grid.Row="0"
                     Grid.Column="0"
-                    Width="280"
-                    assists:TextFieldAssist.Label="Nome da Empresa"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
                     Text="{Binding SolutionModel.ReportData.NomeEmpresa}"
-                    UseFloatingWatermark="True" />
+                    UseFloatingWatermark="True"
+                    Watermark="Nome da Empresa" />
 
                 <Grid
                     Grid.Row="0"
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Stretch"
                     Background="Transparent"
-                    ColumnDefinitions="1*,0.7*">
+                    RowDefinitions="1*,1*">
                     <DatePicker
-                        Grid.Column="0"
+                        Grid.Row="0"
+                        Margin="0,4"
                         HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
                         DayVisible="True"
                         Header="Data do Relatório"
                         MonthVisible="True"
@@ -71,7 +74,8 @@
                         YearVisible="True" />
 
                     <ComboBox
-                        Grid.Column="1"
+                        Grid.Row="1"
+                        Margin="0,4"
                         HorizontalAlignment="Stretch"
                         Items="{Binding SolutionModel.UFList}"
                         PlaceholderText="UF"
@@ -88,50 +92,54 @@
                 <TextBox
                     Grid.Row="1"
                     Grid.Column="0"
-                    Width="290"
-                    assists:TextFieldAssist.Label="Responsável pelo Projeto"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
                     Text="{Binding SolutionModel.ReportData.Responsavel}"
-                    UseFloatingWatermark="True" />
+                    UseFloatingWatermark="True"
+                    Watermark="Responsável pelo Projeto" />
 
                 <TextBox
                     Grid.Row="1"
                     Grid.Column="1"
-                    Width="425"
-                    assists:TextFieldAssist.Label="Endereço da Empresa"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
                     Text="{Binding SolutionModel.ReportData.Endereco}"
-                    UseFloatingWatermark="True" />
+                    UseFloatingWatermark="True"
+                    Watermark="Endereço da Empresa" />
 
                 <TextBox
                     Grid.Row="2"
                     Grid.Column="0"
-                    Width="290"
-                    assists:TextFieldAssist.Label="Email do Responsável"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
                     Text="{Binding SolutionModel.ReportData.Email}"
-                    UseFloatingWatermark="True" />
+                    UseFloatingWatermark="True"
+                    Watermark="Email do Responsável" />
 
                 <TextBox
                     Grid.Row="2"
                     Grid.Column="1"
-                    Width="425"
-                    assists:TextFieldAssist.Label="Telefone do Responsável"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
                     Classes="Outline"
                     Text="{Binding SolutionModel.ReportData.Telefone}"
-                    UseFloatingWatermark="True" />
+                    UseFloatingWatermark="True"
+                    Watermark="Telefone do Responsável" />
             </Grid>
 
             <TextBox
                 Grid.Row="1"
-                Width="740"
-                Margin="4,0"
-                assists:TextFieldAssist.Label="Nome da Solução"
+                Margin="8,0"
+                VerticalAlignment="Center"
                 Text="{Binding SolutionModel.FileName}"
-                UseFloatingWatermark="True" />
+                UseFloatingWatermark="True"
+                Watermark="Nome da Solução" />
 
             <TextBox
                 Grid.Row="2"
                 Grid.Column="0"
-                Width="740"
-                Margin="4,0"
+                Margin="8,0"
+                VerticalAlignment="Center"
                 Classes="Header"
                 IsEnabled="True"
                 IsReadOnly="True"
@@ -142,7 +150,6 @@
                     <Button
                         Width="48"
                         Height="38"
-                        Margin="10,0,10,0"
                         Classes="no-material"
                         Command="{Binding SolutionModel.ChooseSolutionPath}"
                         Cursor="Arrow">
@@ -157,8 +164,9 @@
             <TextBox
                 Grid.Row="3"
                 Grid.Column="0"
-                Width="740"
+                Margin="8,0"
                 HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
                 Classes="Header"
                 IsEnabled="True"
                 IsReadOnly="True"
@@ -169,7 +177,6 @@
                     <Button
                         Width="48"
                         Height="38"
-                        Margin="10,0,10,0"
                         Classes="no-material"
                         Command="{Binding SolutionModel.ChooseSolutionPath}"
                         Cursor="Arrow">
