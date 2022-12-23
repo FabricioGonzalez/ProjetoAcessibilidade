@@ -6,11 +6,11 @@ using ProjectWinUI.Src.Navigation.Contracts;
 
 using ReactiveUI;
 
-namespace Project.ViewModels.Main;
+namespace ProjectWinUI.Src.Navigation;
 public class ShellViewModel : ViewModelBase
 {
     private bool _isBackEnabled;
-    private object? _selected;
+    private object _selected;
 
     public INavigationService NavigationService
     {
@@ -28,7 +28,7 @@ public class ShellViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isBackEnabled, value);
     }
 
-    public object? Selected
+    public object Selected
     {
         get => _selected;
         set => this.RaiseAndSetIfChanged(ref _selected, value);

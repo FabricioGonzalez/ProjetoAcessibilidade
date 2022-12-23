@@ -54,7 +54,7 @@ internal class Program
 
 
         var result = AppBuilder.Configure<App>()
-            /*.UseManagedSystemDialogs()*/
+            .UseManagedSystemDialogs()
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI();

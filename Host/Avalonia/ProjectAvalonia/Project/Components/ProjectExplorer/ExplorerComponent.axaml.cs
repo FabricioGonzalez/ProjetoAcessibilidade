@@ -1,6 +1,9 @@
+using App.Core.Entities.App;
+
 using AppUsecases.Editing.Entities;
 
 using AppViewModels.Dialogs;
+using AppViewModels.Interactions.Main;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Project;
 
@@ -98,6 +101,14 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                 .RenameFolder(interaction.Input,
                     ViewModel.projectExplorerState.ExplorerItems
                 .ToList());
+
+               AppInterations
+                     .MessageQueue
+                     .Handle(new()
+                     {
+                        Type = MessageType.Info   ,
+                        Message = $"{item.Title} Foi Renomeado"
+                     }).Subscribe();
 
                interaction.SetOutput(item);
 

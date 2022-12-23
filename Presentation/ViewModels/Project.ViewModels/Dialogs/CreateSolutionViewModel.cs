@@ -1,7 +1,7 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
 
-using AppUsecases.Contracts.Usecases;
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
 
 using AppViewModels.Common;

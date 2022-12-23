@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 
-using AppUsecases.Contracts.Repositories;
-using AppUsecases.Contracts.Usecases;
+using AppUsecases.App.Contracts.Repositories;
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
+
 using Common;
 
-namespace AppUsecases.Usecases;
-public class GetProjectItemContentUsecase : IQueryUsecase<string,AppItemModel>
+namespace AppUsecases.Project.Usecases;
+public class GetProjectItemContentUsecase : IQueryUsecase<string, AppItemModel>
 
 {
     IReadContract<AppItemModel> readProjectItemContent;
@@ -20,20 +21,20 @@ public class GetProjectItemContentUsecase : IQueryUsecase<string,AppItemModel>
     {
         var result = readProjectItemContent.ReadAsync(parameter).Result;
 
-        if(result is not null)
+        if (result is not null)
         {
             return new Resource<AppItemModel>.Success(result);
         }
-            return new Resource<AppItemModel>.Error("",null);
+        return new Resource<AppItemModel>.Error("", null);
     }
     public async Task<Resource<AppItemModel>> executeAsync(string parameter)
     {
         var result = await readProjectItemContent.ReadAsync(parameter);
 
-        if(result is not null)
+        if (result is not null)
         {
             return new Resource<AppItemModel>.Success(result);
         }
-            return new Resource<AppItemModel>.Error("",null);
+        return new Resource<AppItemModel>.Error("", null);
     }
 }

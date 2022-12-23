@@ -1,4 +1,4 @@
-﻿namespace AppUsecases.Contracts.Repositories;
+﻿namespace AppUsecases.App.Contracts.Repositories;
 public interface IDeleteContract
 {
 }

@@ -1,7 +1,9 @@
 ﻿<Style xmlns="https://github.com/avaloniaui" Selector="Window">
     <Setter Property="FontSize" Value="14" />
+    <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+    <Setter Property="TransparencyLevelHint" Value="AcrylicBlur" />
     <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-    <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+    <Setter Property="Background" Value="{DynamicResource SystemAltMediumColor}" />
     <Setter Property="TextBox.Foreground" Value="{DynamicResource MaterialDesignBody}" />
     <Setter Property="TextBox.FontWeight" Value="Medium" />
     <Setter Property="TextBox.FontSize" Value="14" />
@@ -29,7 +31,7 @@
                     </VisualLayerManager.ChromeOverlayLayer>
                     <ContentPresenter
                         Name="PART_ContentPresenter"
-                        Margin="{TemplateBinding Padding}"
+                        Margin="0,32,0,0"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         Content="{TemplateBinding Content}"

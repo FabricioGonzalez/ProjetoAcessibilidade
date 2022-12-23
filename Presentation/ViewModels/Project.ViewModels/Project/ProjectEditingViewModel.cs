@@ -47,7 +47,8 @@ public class ProjectEditingViewModel : ViewModelBase
                     Items.Add(interation.Input);
                 }
                 interation.SetOutput(interation.Input);
-            });
+            })
+            .DisposeWith(disposables);
         });
     }
     public ReactiveCommand<FileProjectItemViewModel, Unit> CloseItemCommand

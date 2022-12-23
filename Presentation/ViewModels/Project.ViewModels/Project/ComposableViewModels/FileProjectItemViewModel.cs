@@ -1,7 +1,5 @@
 ﻿using AppViewModels.Interactions.Project;
 
-using DynamicData.Binding;
-
 using ReactiveUI;
 
 namespace AppViewModels.Project.ComposableViewModels;
@@ -21,22 +19,18 @@ public class FileProjectItemViewModel : ProjectItemViewModel
             InEditMode = true;
         });
 
+        CommitChangeCommand = ReactiveCommand.Create(() =>
+        {
+            ProjectInteractions
+                 .RenameFileInteraction
+                 .Handle(this)
+                 .Subscribe();
+        });
+
         DeleteCommand = ReactiveCommand.Create(() =>
         {
 
         });
-
-        this.WhenPropertyChanged(vm => vm.Title)
-            .Subscribe(item =>
-            {
-                if (item.Value != null)
-                {
-                    ProjectInteractions
-                    .RenameFileInteraction
-                    .Handle(this)
-                    .Subscribe();
-                }
-            });
 
         DeleteCommand.Subscribe(disposable =>
         {

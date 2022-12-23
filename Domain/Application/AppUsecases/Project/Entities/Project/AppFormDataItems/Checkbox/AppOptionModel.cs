@@ -1,4 +1,4 @@
-﻿namespace AppUsecases.Entities.AppFormDataItems.Checkbox;
+﻿namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Checkbox;
 
 public class AppOptionModel
 {

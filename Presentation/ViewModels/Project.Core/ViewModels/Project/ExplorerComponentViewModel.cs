@@ -3,7 +3,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-using AppUsecases.Contracts.Usecases;
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Editing.Entities;
 using AppUsecases.Project.Entities.FileTemplate;
 using AppUsecases.Project.Entities.Project;

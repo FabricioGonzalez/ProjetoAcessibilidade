@@ -1,6 +1,6 @@
 ﻿using AppUsecases.Project.Enums;
 
-namespace AppUsecases.Contracts.Entity;
+namespace AppUsecases.Project.Contracts.Entity;
 public interface IAppFormDataItemContract
 {
     public string Topic

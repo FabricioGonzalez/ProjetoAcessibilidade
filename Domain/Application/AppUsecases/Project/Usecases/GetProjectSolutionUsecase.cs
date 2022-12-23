@@ -1,10 +1,10 @@
-﻿using AppUsecases.Contracts.Repositories;
-using AppUsecases.Contracts.Usecases;
+﻿using AppUsecases.App.Contracts.Repositories;
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
 
 using Common;
 
-namespace AppUsecases.Usecases;
+namespace AppUsecases.Project.Usecases;
 public class GetProjectSolutionUsecase : IQueryUsecase<string, ProjectSolutionModel>
 {
     private readonly IReadContract<ProjectSolutionModel> readSolution;

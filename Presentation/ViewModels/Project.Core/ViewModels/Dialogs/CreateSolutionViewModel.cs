@@ -1,9 +1,9 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
 
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.App.Models;
 using AppUsecases.App.Usecases;
-using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
 
 using Common;

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-using AppUsecases.Contracts.Repositories;
+using AppUsecases.App.Contracts.Repositories;
 using AppUsecases.Project.Entities.Project;
 
 namespace ProjectItemReader.InternalAppFiles;
@@ -20,7 +20,7 @@ public class ReadUserSolutionRepository : IReadContract<ProjectSolutionModel>
             var splittedPath = path.Split(Path.DirectorySeparatorChar);
             var file = Directory.GetFiles(string.Join(Path.DirectorySeparatorChar
                 , splittedPath[..(splittedPath.Length - 1)]))
-                .FirstOrDefault(file => file.Equals(splittedPath[splittedPath.Length - 1]));
+                .FirstOrDefault(file => file.Equals(splittedPath[^1]));
 
             if (file is not null)
             {
@@ -33,9 +33,9 @@ public class ReadUserSolutionRepository : IReadContract<ProjectSolutionModel>
 
                 var solution = new ProjectSolutionModel()
                 {
-                    FileName = file.Split(Path.DirectorySeparatorChar)[file.Split(Path.DirectorySeparatorChar).Length - 1],
+                    FileName = file.Split(Path.DirectorySeparatorChar)[^1],
                     FilePath = file,
-                    ParentFolderName = folder.Split(Path.DirectorySeparatorChar)[folder.Split(Path.DirectorySeparatorChar).Length - 1],
+                    ParentFolderName = folder.Split(Path.DirectorySeparatorChar)[^1],
                     ParentFolderPath = folder,
                     reportData = new()
                 };
@@ -47,7 +47,9 @@ public class ReadUserSolutionRepository : IReadContract<ProjectSolutionModel>
                     var resultData = JsonSerializer.Deserialize<ReportDataModel>(data) ?? null;
 
                     if (resultData is not null)
+                    {
                         solution.reportData = resultData;
+                    }
 
                     folder = null;
                     file = null;

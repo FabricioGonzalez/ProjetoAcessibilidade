@@ -1,4 +1,4 @@
-﻿using AppUsecases.Contracts.Repositories;
+﻿using AppUsecases.App.Contracts.Repositories;
 using AppUsecases.Editing.Entities;
 
 using Common;
@@ -24,16 +24,17 @@ public class ReadAppTemplatesRepository : IReadContract<Resource<List<FileTempla
 
                     if (Path.GetExtension(splitedItem.Last())
                     == Constants.AppProjectTemplateExtension)
+                    {
                         filesList.Add(new()
                         {
                             Name = Path.GetFileNameWithoutExtension(splitedItem.Last()),
                             FilePath = item
                         });
+                    }
                 }
-                if (filesList.Count > 0)
-                    return new Resource<List<FileTemplate>>.Success(filesList);
-
-                return new Resource<List<FileTemplate>>.Error(ErrorConstants.AppNoFileFound, null);
+                return filesList.Count > 0
+                    ? new Resource<List<FileTemplate>>.Success(filesList)
+                    : new Resource<List<FileTemplate>>.Error(ErrorConstants.AppNoFileFound, null);
             });
             task.Start();
 
@@ -70,10 +71,9 @@ public class ReadAppTemplatesRepository : IReadContract<Resource<List<FileTempla
 
                     filesList.Add(fileItem);
                 }
-                if (filesList.Count > 0)
-                    return new Resource<List<FileTemplate>>.Success(filesList);
-
-                return new Resource<List<FileTemplate>>.Error(ErrorConstants.AppNoFileFound, null);
+                return filesList.Count > 0
+                    ? new Resource<List<FileTemplate>>.Success(filesList)
+                    : new Resource<List<FileTemplate>>.Error(ErrorConstants.AppNoFileFound, null);
             });
             task.Start();
 

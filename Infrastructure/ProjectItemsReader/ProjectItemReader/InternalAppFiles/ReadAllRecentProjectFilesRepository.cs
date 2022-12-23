@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using AppUsecases.Contracts.Repositories;
+using AppUsecases.App.Contracts.Repositories;
 using AppUsecases.Editing.Entities;
 
 namespace ProjectItemReader.InternalAppFiles;

@@ -15,6 +15,8 @@ using AppViewModels.System;
 using AppViewModels.TemplateEditing;
 using AppViewModels.TemplateRules;
 
+using Project.Application.App.Contracts;
+
 using ReactiveUI;
 
 using Splat;
@@ -29,12 +31,19 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
         get; set;
     } = new();
 
+    public INotificationMessageManagerService NotificationMessageManagerService
+    {
+        get;
+    }
+
     public SolutionStateViewModel SolutionModel
     {
         get;
     }
     public MainViewModel()
     {
+        NotificationMessageManagerService ??= Locator.Current.GetService<INotificationMessageManagerService>();
+
         /*projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();*/
 
         SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
@@ -97,6 +106,7 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
                 Router.Navigate.Execute(templateEditing);
             }
         });
+
         GoToSetting = ReactiveCommand.Create(() =>
         {
             var settings = Locator.Current.GetService<SettingsViewModel>();
@@ -125,13 +135,37 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
             AppInterations
                       .MessageQueue
-                      .RegisterHandler(async interaction =>
+                      .RegisterHandler(interaction =>
                       {
-                          appMessage.Message = interaction.Input;
+                          var message = interaction.Input;
+
+                          switch (message.Type)
+                          {
+                              case App.Core.Entities.App.MessageType.Debug:
+
+                                  NotificationMessageManagerService.ShowDebug(message.Message);
+                                  break;
+                              case App.Core.Entities.App.MessageType.Info:
+
+                                  NotificationMessageManagerService.ShowInfo(message.Message);
+                                  break;
+                              case App.Core.Entities.App.MessageType.Error:
+
+                                  NotificationMessageManagerService.ShowError(message.Message);
+                                  break;
+                              case App.Core.Entities.App.MessageType.Warning:
+
+                                  NotificationMessageManagerService.ShowWarning(message.Message);
+                                  break;
+                              default:
+                                  NotificationMessageManagerService.ShowError("Tipo não definido");
+                                  break;
+                          };
 
                           interaction.SetOutput(interaction.Input);
 
-                      }).DisposeWith(disposables);
+                      })
+                      .DisposeWith(disposables);
 
 
             CreateProjectCommand.Subscribe(solutionPath =>
@@ -183,7 +217,7 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
     public ReactiveCommand<Unit, Unit> GoToTemplateEditing
     {
         get; private set;
-    } 
+    }
     public ReactiveCommand<Unit, Unit> GoToSetting
     {
         get; private set;

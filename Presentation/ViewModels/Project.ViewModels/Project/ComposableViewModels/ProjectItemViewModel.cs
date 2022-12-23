@@ -4,6 +4,8 @@ using AppViewModels.Common;
 
 using ReactiveUI;
 
+using Splat;
+
 namespace AppViewModels.Project.ComposableViewModels;
 public abstract class ProjectItemViewModel : ViewModelBase
 {
@@ -17,6 +19,10 @@ public abstract class ProjectItemViewModel : ViewModelBase
         RenameCommand = ReactiveCommand.Create(() =>
         {
             InEditMode = true;
+        });
+        CommitChangeCommand = ReactiveCommand.Create(() =>
+        {
+            LogHost.Default.Warn<ProjectItemViewModel>("This needs to be Implemented to do something");
         });
     }
 
@@ -44,6 +50,10 @@ public abstract class ProjectItemViewModel : ViewModelBase
     }
 
     public ReactiveCommand<Unit, Unit> RenameCommand
+    {
+        get; protected set;
+    }
+    public ReactiveCommand<Unit, Unit> CommitChangeCommand
     {
         get; protected set;
     }

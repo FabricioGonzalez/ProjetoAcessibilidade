@@ -15,10 +15,7 @@ using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using System.IO;
 
 using Project.Core.ViewModels.Project;
-using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.FileTemplate;
-using AppUsecases.Usecases;
-using AppUsecases.Contracts.Repositories;
 using AppUsecases.Project.Entities.Project;
 using AppUsecases.App.Usecases;
 using AppUsecases.Editing.Entities;
@@ -39,6 +36,11 @@ using AppViewModels.Dialogs.States;
 using AppViewModels.TemplateEditing;
 using AppViewModels.TemplateRules;
 using AppViewModels.System;
+using AppViewModels.Project;
+using Project.Application.App.Contracts;
+using AppUsecases.App.Contracts.Repositories;
+using AppUsecases.App.Contracts.Usecases;
+using AppUsecases.Project.Usecases;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -60,6 +62,8 @@ public static class Bootstrapper
 
         /*service.RegisterLazySingleton(() => new ProjectViewModel());*/
         service.RegisterLazySingleton(() => new AppViewModels.Project.ProjectViewModel());
+
+        service.RegisterLazySingleton(() => new ProjectEditingViewModel());
 
         /*service.Register(() => new ExplorerComponentViewModel());*/
         service.Register(() => new AppViewModels.Project.ProjectExplorerViewModel());
@@ -250,6 +254,11 @@ public static class Bootstrapper
         service.RegisterLazySingleton<IFileDialog>(() =>
         {
             return new FileDialog(Locator.Current.GetService<MainWindow>());
+        });      
+       
+        service.RegisterLazySingleton<INotificationMessageManagerService>(() =>
+        {
+            return new NotificationMessageManagerService();
         });
         return service;
     }

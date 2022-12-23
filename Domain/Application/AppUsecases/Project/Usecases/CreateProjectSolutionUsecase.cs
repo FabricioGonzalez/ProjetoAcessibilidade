@@ -1,10 +1,10 @@
-﻿using AppUsecases.Contracts.Repositories;
-using AppUsecases.Contracts.Usecases;
+﻿using AppUsecases.App.Contracts.Repositories;
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
 
 using Common;
 
-namespace AppUsecases.Usecases;
+namespace AppUsecases.Project.Usecases;
 public class CreateProjectSolutionUsecase : ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>
 {
     private IWriteContract<ProjectSolutionModel> solutionCreator;
@@ -20,7 +20,7 @@ public class CreateProjectSolutionUsecase : ICommandUsecase<ProjectSolutionModel
     }
     public async Task<Resource<ProjectSolutionModel>> executeAsync(ProjectSolutionModel model)
     {
-        var result = await solutionCreator.WriteDataAsync(model,Path.Combine(model.FilePath,$"{model.FileName}{Constants.AppProjectSolutionExtension}"));
+        var result = await solutionCreator.WriteDataAsync(model, Path.Combine(model.FilePath, $"{model.FileName}{Constants.AppProjectSolutionExtension}"));
 
         if (result is null)
         {

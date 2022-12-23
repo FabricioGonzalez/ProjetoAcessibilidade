@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
 
-namespace AppUsecases.Contracts.Repositories;
+namespace AppUsecases.App.Contracts.Repositories;
 public interface IWriteContract<T>
 {
     public Task WriteAsync(T dataToWrite, string filePathToWrite)
     {
-        return default(Task);
+        return default;
     }
     public Task<T> WriteDataAsync(T dataToWrite, string filePathToWrite)
     {
-        return default(Task<T>);
+        return default;
     }
 }

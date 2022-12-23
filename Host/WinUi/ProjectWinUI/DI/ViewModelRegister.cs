@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Project.ViewModels.Main;
+using ProjectWinUI.Src.Navigation;
 
 namespace ProjectWinUI.DI;
 public static class ViewModelRegister

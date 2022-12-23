@@ -7,6 +7,7 @@ using Project.Core.ViewModels.Dialogs;
 using Project.Core.ViewModels.Extensions;
 using Project.Core.ViewModels.Project;
 using Project.Core.ViewModels.TemplateEditing;
+using Project.Core.ViewModels.TemplateRules;
 
 using ReactiveUI;
 

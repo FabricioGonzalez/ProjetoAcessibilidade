@@ -15,7 +15,6 @@ using Splat;
 using AppViewModels.Project.Mappers;
 using AppViewModels.Project.Operations;
 using AppViewModels.Dialogs.States;
-using AppUsecases.Contracts.Usecases;
 using AppUsecases.Project.Entities.Project;
 using Common;
 using System.Reactive.Linq;
@@ -23,6 +22,7 @@ using AppViewModels.Project.ComposableViewModels;
 using System.Reactive;
 using System.Diagnostics;
 using AppViewModels.Interactions.Project;
+using AppUsecases.App.Contracts.Usecases;
 
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase

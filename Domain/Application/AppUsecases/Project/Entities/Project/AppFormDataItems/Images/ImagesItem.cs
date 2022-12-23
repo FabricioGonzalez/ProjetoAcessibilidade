@@ -1,4 +1,4 @@
-﻿namespace AppUsecases.Entities.AppFormDataItems.Images;
+﻿namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Images;
 
 public class ImagesItem
 {

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-using AppUsecases.Contracts.Entity;
-using AppUsecases.Entities.AppFormDataItems.Text;
+using AppUsecases.Project.Contracts.Entity;
 using AppUsecases.Project.Enums;
 
-namespace AppUsecases.Entities.AppFormDataItems.Checkbox;
+namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Checkbox;
 public class AppFormDataItemCheckboxModel : IAppFormDataItemContract
 {
     public string Topic

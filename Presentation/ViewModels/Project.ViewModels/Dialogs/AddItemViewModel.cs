@@ -6,7 +6,7 @@ using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 
-using AppUsecases.Contracts.Usecases;
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Editing.Entities;
 
 using AppViewModels.Common;

@@ -120,8 +120,6 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
     {
         foreach (var item in folder)
         {
-            var fileAttributes = File.GetAttributes(item);
-
             if (File.GetAttributes(item).HasFlag(FileAttributes.Archive))
             {
                 var i = new FileItem()
@@ -132,7 +130,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
                 list.Add(i);
             }
 
-            if (fileAttributes.HasFlag(FileAttributes.Directory))
+            if (File.GetAttributes(item).HasFlag(FileAttributes.Directory))
             {
                 var itens = Directory.GetFiles(item);
 
@@ -144,18 +142,18 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 
                 foreach (var fileItem in itens)
                 {
-                    if (fileAttributes.HasFlag(FileAttributes.Directory))
+                    if (File.GetAttributes(fileItem).HasFlag(FileAttributes.Directory))
                     {
                         var entries = Directory.GetFileSystemEntries(fileItem);
 
                         await GetDataFromPathAsync(entries, folderItem.Children);
                     }
-                    if (File.GetAttributes(item).HasFlag(FileAttributes.Archive))
+                    if (File.GetAttributes(fileItem).HasFlag(FileAttributes.Archive))
                     {
                         var i = new FileItem()
                         {
-                            Name = Path.GetFileNameWithoutExtension(item),
-                            Path = item,
+                            Name = Path.GetFileNameWithoutExtension(fileItem),
+                            Path = fileItem,
                         };
                         folderItem.Children.Add(i);
                     }
@@ -242,7 +240,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
     {
         if (item is not null)
         {
-            if (Directory.Exists(Path.Combine(item.Path, item.Name)))
+            if (Directory.Exists(item.Path))
             {
                 Directory.Move(item.Path, Path.Combine(Directory.GetParent(item.Path).FullName, item.Name));
             }
@@ -252,7 +250,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             }
             item.Path = item.Path.Replace(Path.GetFileName(item.Path),item.Name);
         }
-        return new Resource<ExplorerItem>.Success(new());
+        return new Resource<ExplorerItem>.Success(item);
     }
     public async Task<Resource<ExplorerItem>> DeleteFolderItemAsync(ExplorerItem item)
     {

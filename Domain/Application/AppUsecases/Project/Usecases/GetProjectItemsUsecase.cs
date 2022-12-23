@@ -1,10 +1,10 @@
-﻿using AppUsecases.Contracts.Repositories;
-using AppUsecases.Contracts.Usecases;
+﻿using AppUsecases.App.Contracts.Repositories;
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Project.Entities.FileTemplate;
 
 using Common;
 
-namespace AppUsecases.Usecases;
+namespace AppUsecases.Project.Usecases;
 
 public class GetProjectItemsUsecase : IQueryUsecase<string, List<ExplorerItem>>
 {
@@ -23,7 +23,7 @@ public class GetProjectItemsUsecase : IQueryUsecase<string, List<ExplorerItem>>
 
         if (result is null || result.Count == 0)
         {
-            return new Resource<List<ExplorerItem>>.Error("Algo deu errado!!",null);
+            return new Resource<List<ExplorerItem>>.Error("Algo deu errado!!", null);
         }
 
         return new Resource<List<ExplorerItem>>.Success(result);

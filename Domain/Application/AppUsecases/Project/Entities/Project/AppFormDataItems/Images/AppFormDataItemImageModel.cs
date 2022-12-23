@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using AppUsecases.Contracts.Entity;
+using AppUsecases.Project.Contracts.Entity;
 using AppUsecases.Project.Enums;
 
-namespace AppUsecases.Entities.AppFormDataItems.Images;
+namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Images;
 public class AppFormDataItemImageModel : IAppFormDataItemContract
 {
     public string Topic

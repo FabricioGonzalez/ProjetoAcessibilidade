@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reactive;
 using System.Runtime.InteropServices;
 
-using AppUsecases.Contracts.Usecases;
+using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Editing.Entities;
 
 using Common;

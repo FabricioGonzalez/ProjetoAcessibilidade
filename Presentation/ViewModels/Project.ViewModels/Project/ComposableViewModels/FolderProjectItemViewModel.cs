@@ -22,17 +22,13 @@ public class FolderProjectItemViewModel : ProjectItemViewModel
 
         });
 
-        this.WhenPropertyChanged(vm => vm.Title, notifyOnInitialValue: false)
-             .Subscribe(item =>
-             {
-                 if (item is not null && item.Value is not null)
-                 {
-                     ProjectInteractions
-                    .RenameFolderInteraction
-                    .Handle(this)
-                    .Subscribe();
-                 }
-             });
+        CommitChangeCommand = ReactiveCommand.Create(() =>
+        {
+            ProjectInteractions
+                 .RenameFolderInteraction
+                 .Handle(this)
+                 .Subscribe();
+        });
 
         DeleteCommand.Subscribe(disposable =>
         {

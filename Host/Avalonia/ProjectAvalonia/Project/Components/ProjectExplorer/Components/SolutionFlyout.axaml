@@ -1,5 +1,5 @@
 <Flyout
-    x:Class="ProjectAvalonia.Project.Components.ProjectExplorer.SolutionFlyout"
+    x:Class="ProjectAvalonia.Project.Components.ProjectExplorer.Components.SolutionFlyout"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:assist="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
@@ -69,10 +69,11 @@
                 Text="{Binding SolutionModel.ReportData.Email}"
                 UseFloatingWatermark="True" />
 
-            <TextBox
+            <MaskedTextBox
                 HorizontalAlignment="Stretch"
                 assists:TextFieldAssist.Label="Telefone do Responsável"
                 Classes="Outline"
+                Mask="(00)0000-0000"
                 Text="{Binding SolutionModel.ReportData.Telefone}"
                 UseFloatingWatermark="True" />
 

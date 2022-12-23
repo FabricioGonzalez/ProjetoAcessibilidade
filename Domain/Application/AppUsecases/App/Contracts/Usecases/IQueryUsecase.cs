@@ -2,7 +2,7 @@
 
 using Common;
 
-namespace AppUsecases.Contracts.Usecases;
+namespace AppUsecases.App.Contracts.Usecases;
 public interface IQueryUsecase<Input, Output>
 {
     public Resource<Output> execute(Input parameter);

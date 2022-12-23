@@ -8,6 +8,7 @@ using Avalonia.Metadata;
 using Avalonia.Threading;
 
 using System;
+using System.Windows.Input;
 
 namespace ProjectAvalonia.Controls;
 
@@ -77,6 +78,30 @@ public class EditableTextBlock : TemplatedControl
             (o, v) => o.Text = v,
             defaultBindingMode: BindingMode.TwoWay,
             enableDataValidation: true);
+
+    public static readonly DirectProperty<EditableTextBlock, ICommand> CommandProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand>(
+        nameof(Command),
+        component => component.Command,
+        (component, value) => component.Command = value); 
+    
+    public static readonly DirectProperty<EditableTextBlock, object> CommandParameterProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, object>(
+        nameof(Command),
+        component => component.CommandParameter,
+        (component, value) => component.CommandParameter = value);
+
+    private ICommand command;
+    public ICommand Command
+    {
+        get => command;
+        set => SetAndRaise(CommandProperty, ref command, value);
+    }
+
+    private object commandParameter;
+    public object CommandParameter
+    {
+        get => commandParameter;
+        set => SetAndRaise(CommandParameterProperty, ref commandParameter, value);
+    }
 
     [Content]
     public string Text
@@ -159,6 +184,10 @@ public class EditableTextBlock : TemplatedControl
         else
         {
             Text = EditText;
+            if (Command is not null)
+            {
+                Command.Execute(null);
+            }
         }
 
         InEditMode = false;

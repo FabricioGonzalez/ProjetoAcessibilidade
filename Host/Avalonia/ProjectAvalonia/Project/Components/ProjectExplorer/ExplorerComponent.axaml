@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:ProjectAvalonia.Controls;assembly=ProjectAvalonia"
+    xmlns:components="clr-namespace:ProjectAvalonia.Project.Components.ProjectExplorer.Components;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -29,7 +30,7 @@
                 ToolTip.Tip="Visualizar Solução">
                 <material:MaterialIcon Kind="DocumentSign" />
                 <ToggleButton.Flyout>
-                    <local:SolutionFlyout Closed="FlyoutClosed_PointerPressed" />
+                    <components:SolutionFlyout Closed="FlyoutClosed_PointerPressed" />
                 </ToggleButton.Flyout>
             </ToggleButton>
             <Button
@@ -60,6 +61,7 @@
                         <Controls:EditableTextBlock
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
+                            Command="{Binding CommitChangeCommand}"
                             InEditMode="{Binding InEditMode}"
                             Text="{Binding Title}" />
                         <Grid.ContextMenu>
@@ -90,6 +92,7 @@
                         <Controls:EditableTextBlock
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
+                            Command="{Binding CommitChangeCommand}"
                             InEditMode="{Binding InEditMode}"
                             Text="{Binding Title}" />
 
