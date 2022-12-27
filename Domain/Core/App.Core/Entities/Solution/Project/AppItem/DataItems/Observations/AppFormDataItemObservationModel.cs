@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AppUsecases.Project.Contracts.Entity;
 using AppUsecases.Project.Enums;
 
-namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Observations;
+namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 public class AppFormDataItemObservationModel : IAppFormDataItemContract
 {
     public string Topic

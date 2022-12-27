@@ -69,7 +69,6 @@
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Domain\Application\AppUsecases\AppUsecases.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Presentation\UIStates\UIStatesStore\UIStatesStore.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.Core\Project.Core.csproj" />

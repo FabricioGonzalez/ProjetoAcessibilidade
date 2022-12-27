@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="Splat" Version="14.5.1" />
   </ItemGroup>
 
   <ItemGroup>

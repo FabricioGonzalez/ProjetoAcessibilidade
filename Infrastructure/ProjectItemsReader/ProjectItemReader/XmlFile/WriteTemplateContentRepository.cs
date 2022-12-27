@@ -1,11 +1,12 @@
 ﻿using System.Xml;
 
+using App.Core.Entities.Solution.Project.AppItem;
+using App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+
 using AppUsecases.App.Contracts.Repositories;
-using AppUsecases.Project.Entities.Project;
-using AppUsecases.Project.Entities.Project.AppFormDataItems.Checkbox;
-using AppUsecases.Project.Entities.Project.AppFormDataItems.Images;
-using AppUsecases.Project.Entities.Project.AppFormDataItems.Observations;
-using AppUsecases.Project.Entities.Project.AppFormDataItems.Text;
 using AppUsecases.Project.Enums;
 
 namespace ProjectItemReader.XmlFile;

@@ -9,6 +9,8 @@ using App.Core.Entities.Solution.Explorer;
 using Common;
 
 using MediatR;
+
+using Project.Application.Contracts;
 using Project.Application.Project.Contracts;
 
 namespace Project.Application.Project.Commands.ProjectItemCommands;
@@ -24,7 +26,7 @@ public class DeleteProjectFileItemCommand : IRequest<FileItem>
     }
 }
 
-public class DeleteProjectFileItemCommandHandler
+public class DeleteProjectFileItemCommandHandler : ICommandHandler<DeleteProjectFileItemCommand, Resource<ExplorerItem>>
 {
     private readonly IExplorerItemRepository repository;
 
@@ -32,7 +34,7 @@ public class DeleteProjectFileItemCommandHandler
     {
         this.repository = repository;
     }
-    public async Task<ExplorerItem> Handle(DeleteProjectFileItemCommand request, CancellationToken cancellationToken)
+    public async Task<Resource<ExplorerItem>> Handle(DeleteProjectFileItemCommand request, CancellationToken cancellationToken)
     {
         var result = await repository.DeleteFileItemAsync(request.item);
 
@@ -43,9 +45,9 @@ public class DeleteProjectFileItemCommandHandler
 
         if (res is not null)
         {
-            return res;
+            return new Resource<ExplorerItem>.Success(Data: res);
         }
 
-        return new();
+        return new Resource<ExplorerItem>.Error(Message: "", Data: new());
     }
 }

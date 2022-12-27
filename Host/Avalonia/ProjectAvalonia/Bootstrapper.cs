@@ -16,7 +16,6 @@ using System.IO;
 
 using Project.Core.ViewModels.Project;
 using AppUsecases.Project.Entities.FileTemplate;
-using AppUsecases.Project.Entities.Project;
 using AppUsecases.App.Usecases;
 using AppUsecases.Editing.Entities;
 using UIStatesStore.Project.Models;
@@ -41,6 +40,12 @@ using Project.Application.App.Contracts;
 using AppUsecases.App.Contracts.Repositories;
 using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Project.Usecases;
+using Project.Application.Implementations;
+using Project.Application.Contracts;
+using Project.Application;
+using App.Core.Entities.Solution.Explorer;
+using ExplorerItem = App.Core.Entities.Solution.Explorer.ExplorerItem;
+using App.Core.Entities.Solution.Project.AppItem;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
@@ -81,7 +86,6 @@ public static class Bootstrapper
 
         return service;
     }
-
     public static IMutableDependencyResolver AddViewModelOperations(this IMutableDependencyResolver service)
     {
 
@@ -92,9 +96,9 @@ public static class Bootstrapper
     }
     public static IMutableDependencyResolver AddUsecases(this IMutableDependencyResolver service)
     {
-        service.Register<IQueryUsecase<string, List<ExplorerItem>>>(() => new GetProjectItemsUsecase(
-     Locator.Current.GetService<IReadContract<List<ExplorerItem>>>()
-    ));
+        /*  service.Register<IQueryUsecase<string, List<ExplorerItem>>>(() => new GetProjectItemsUsecase(
+       Locator.Current.GetService<IReadContract<List<ExplorerItem>>>()
+      ));*/
 
         service.Register(() => new GetProjectItemsQueryHandler(
      Locator.Current.GetService<IExplorerItemRepository>()
@@ -133,6 +137,10 @@ public static class Bootstrapper
 
         service.Register(() => new GetUFList());
 
+        service
+            .RegisterLazySingleton<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(() => new GetProjectItemsQueryHandler(
+                Locator.Current.GetService<IExplorerItemRepository>()));
+
         return service;
     }
     public static IMutableDependencyResolver AddRepositories(this IMutableDependencyResolver service)
@@ -165,9 +173,9 @@ public static class Bootstrapper
             .Register<IReadContract<Resource<List<FileTemplate>>>>(() =>
             new ReadAppTemplatesRepository());
 
-        service
-            .Register<IReadContract<List<ExplorerItem>>>(() =>
-            new ReadProjectFilesRepository());
+        //service
+        //    .Register<IReadContract<List<ExplorerItem>>>(() =>
+        //    new ReadProjectFilesRepository());
 
         return service;
     }
@@ -246,6 +254,9 @@ public static class Bootstrapper
 
     public static IMutableDependencyResolver AddMediator(this IMutableDependencyResolver service)
     {
+        service.RegisterLazySingleton<ICommandDispatcher>(() => new CommandDispatcher(Locator.Current));
+        service.RegisterLazySingleton<IQueryDispatcher>(() => new QueryDispatcher(Locator.Current));
+
         return service;
     }
 
@@ -254,8 +265,8 @@ public static class Bootstrapper
         service.RegisterLazySingleton<IFileDialog>(() =>
         {
             return new FileDialog(Locator.Current.GetService<MainWindow>());
-        });      
-       
+        });
+
         service.RegisterLazySingleton<INotificationMessageManagerService>(() =>
         {
             return new NotificationMessageManagerService();

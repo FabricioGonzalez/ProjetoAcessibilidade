@@ -3,7 +3,7 @@
 using AppUsecases.Project.Contracts.Entity;
 using AppUsecases.Project.Enums;
 
-namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Checkbox;
+namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 public class AppFormDataItemCheckboxModel : IAppFormDataItemContract
 {
     public string Topic

@@ -3,16 +3,16 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-using AppUsecases.App.Contracts.Usecases;
-using AppUsecases.Editing.Entities;
-using AppUsecases.Project.Entities.FileTemplate;
-using AppUsecases.Project.Entities.Project;
+using App.Core.Entities.Solution.Explorer;
+using App.Core.Entities.Solution.Project.AppItem;
 
 using Common;
 
 using DynamicData;
 using DynamicData.Binding;
 
+using Project.Application.Contracts;
+using Project.Application.Project.Queries.GetProjectItemContent;
 using Project.Application.Project.Queries.GetProjectItems;
 using Project.Core.ComposableViewModel;
 using Project.Core.ViewModels.Extensions;
@@ -69,8 +69,9 @@ public class ExplorerComponentViewModel : ViewModelBase
     private readonly IAppObservable<ProjectModel> projectState;
     private readonly IAppObservable<AppErrorMessage> AppErrorState;
     readonly GetProjectItemsQueryHandler getProjectItems;
+    readonly IQueryDispatcher queryDispatcher;
     private readonly IAppObservable<ProjectEditingModel> ProjectEditingObservable;
-    IQueryUsecase<string, AppItemModel> getItemContent;
+    /*IQueryUsecase<string, AppItemModel> getItemContent;*/
     private readonly IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel> solutionObserver;
 
     public ExplorerComponentViewModel()
@@ -80,10 +81,12 @@ public class ExplorerComponentViewModel : ViewModelBase
         ProjectEditingObservable ??= Locator.Current.GetService<IAppObservable<ProjectEditingModel>>();
         solutionObserver ??= Locator.Current.GetService<IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel>>();
 
-        getProjectItems ??= Locator.Current.GetService<GetProjectItemsQueryHandler>();
-        getItemContent ??= Locator.Current.GetService<IQueryUsecase<string, AppItemModel>>();
+        //getProjectItems ??= Locator.Current.GetService<GetProjectItemsQueryHandler>();
 
-        ShowDialog = new Interaction<AddItemViewModel, FileTemplate?>();
+        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+        /*getItemContent ??= Locator.Current.GetService<IQueryUsecase<string, AppItemModel>>();*/
+
+        ShowDialog = new Interaction<AddItemViewModel, FileItem?>();
 
         AddItemCommand = ReactiveCommand.CreateFromTask<ProjectItemViewModel, Unit>(async (item) =>
         {
@@ -96,7 +99,7 @@ public class ExplorerComponentViewModel : ViewModelBase
                 ((FolderProjectItemViewModel)item).Children.Add(new FileProjectItemViewModel()
                 {
                     Title = result.Name,
-                    Path = result.FilePath,
+                    Path = result.Path,
                     InEditMode = true
                 });
             }
@@ -119,18 +122,19 @@ public class ExplorerComponentViewModel : ViewModelBase
 
         });
 
-        SelectSolutionItemCommand = ReactiveCommand.CreateFromTask<string, Unit>(async (item) =>
+        SelectSolutionItemCommand = ReactiveCommand.CreateFromTask<string>(async (item) =>
         {
-            var result = await getItemContent.executeAsync(item);
+            var result = await queryDispatcher
+            .Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
+                new(item),
+            CancellationToken.None);
 
             result
             .OnLoading(out var itemModel, out var isLoading)
                     .OnError(out itemModel, out var error)
                     .OnSuccess(out itemModel);
 
-            ProjectEditingObservable.Send(new(itemModel.ItemName, itemModel));
-
-            return new Unit();
+            //ProjectEditingObservable.Send(new(itemModel.ItemName, itemModel));
         });
 
         this.WhenActivated((disposables) =>
@@ -140,15 +144,15 @@ public class ExplorerComponentViewModel : ViewModelBase
                     {
                         if (path is not null && path.Length > 0)
                         {
-                            var result = await getProjectItems.Handle(new(path),CancellationToken.None);
+                            var result = await queryDispatcher.Dispatch<GetProjectItemsQuery, List<ExplorerItem>>(new(path), CancellationToken.None);
 
-                           /* result
-                            .OnError(out var items, out var error)
-                            .OnLoading(out items, out var isLoading)
-                            .OnSuccess(out items);*/
+                            /* result
+                             .OnError(out var items, out var error)
+                             .OnLoading(out items, out var isLoading)
+                             .OnSuccess(out items);*/
 
 
-                            /*ExplorerItems = new(GetSubfolders(result));*/
+                            ExplorerItems = new(GetSubfolders(result));
                         }
                     })
                     .DisposeWith(disposables);
@@ -179,7 +183,7 @@ public class ExplorerComponentViewModel : ViewModelBase
     {
         get; private set;
     }
-    public Interaction<AddItemViewModel, FileTemplate?> ShowDialog
+    public Interaction<AddItemViewModel, FileItem?> ShowDialog
     {
         get; private set;
     }

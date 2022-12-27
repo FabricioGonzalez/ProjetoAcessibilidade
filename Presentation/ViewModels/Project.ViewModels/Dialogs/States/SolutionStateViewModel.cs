@@ -1,8 +1,6 @@
 ﻿using System.Reactive;
 
-using AppUsecases.App.Models;
-using AppUsecases.App.Usecases;
-using AppUsecases.Project.Entities.Project;
+using App.Core.Entities.App;
 
 using AppViewModels.Common;
 using AppViewModels.Contracts;
@@ -16,12 +14,12 @@ using Splat;
 namespace AppViewModels.Dialogs.States;
 public class SolutionStateViewModel : ViewModelBase
 {
-    private ReportDataModel reportData = new();
+/*    private ReportDataModel reportData = new();
     public ReportDataModel ReportData
     {
         get => reportData;
         set => this.RaiseAndSetIfChanged(ref reportData, value, nameof(ReportData));
-    }
+    }*/
 
     private string fileName = "";
     public string FileName
@@ -51,27 +49,27 @@ public class SolutionStateViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref parentFolderPath, value, nameof(ParentFolderPath));
     }
 
-    private ObservableCollectionExtended<ItemGroupModel> itemGroups = new();
+/*    private ObservableCollectionExtended<ItemGroupModel> itemGroups = new();
     public ObservableCollectionExtended<ItemGroupModel> ItemGroups
     {
         get => itemGroups;
         set => this.RaiseAndSetIfChanged(ref itemGroups, value, nameof(ItemGroups));
     }
-
-    private ObservableCollectionExtended<UF> ufList;
-    public ObservableCollectionExtended<UF> UFList
+*/
+    private ObservableCollectionExtended<UFModel> ufList;
+    public ObservableCollectionExtended<UFModel> UFList
     {
         get => ufList;
         set => this.RaiseAndSetIfChanged(ref ufList, value, nameof(UFList));
     }
-   
-    private readonly GetUFList getUFList;
+ /*  
+    private readonly GetUFList getUFList;*/
     private readonly IFileDialog dialogService;
 
 
     public SolutionStateViewModel()
     {
-        getUFList = Locator.Current.GetService<GetUFList>();
+/*        getUFList = Locator.Current.GetService<GetUFList>();*/
 
         dialogService = Locator.Current.GetService<IFileDialog>();
 
@@ -89,9 +87,9 @@ public class SolutionStateViewModel : ViewModelBase
             return path;
         });
 
-        UFList = new(getUFList
+/*        UFList = new(getUFList
          .GetAllUF()
-         .OrderBy(x => x.Name));
+         .OrderBy(x => x.Name));*/
     }
 
 

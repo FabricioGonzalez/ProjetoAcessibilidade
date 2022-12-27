@@ -50,6 +50,7 @@ internal class Program
                 .AddServices()
                 .AddUIStates()
                 .AddViewModelOperations()
+                .AddMediator()
                 /*.CreateFolderStructure()*/;
 
 

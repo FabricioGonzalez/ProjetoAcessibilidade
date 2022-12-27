@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using AppUsecases.Project.Contracts.Entity;
 using AppUsecases.Project.Enums;
 
-namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Images;
+namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 public class AppFormDataItemImageModel : IAppFormDataItemContract
 {
     public string Topic

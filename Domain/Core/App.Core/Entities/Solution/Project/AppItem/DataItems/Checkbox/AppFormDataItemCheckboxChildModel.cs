@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using AppUsecases.Project.Entities.Project.AppFormDataItems.Text;
+using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
-namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Checkbox;
+namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 public class AppFormDataItemCheckboxChildModel
 {
     public string Topic

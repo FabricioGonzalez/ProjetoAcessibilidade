@@ -1,6 +1,10 @@
 ﻿using System.Reactive.Disposables;
 
+using App.Core.Entities.Solution.Explorer;
+
 using AppViewModels.Common;
+
+using DynamicData.Binding;
 
 using ReactiveUI;
 
@@ -13,8 +17,20 @@ public class TemplateEditingViewModel : ViewModelBase, IRoutableViewModel
     }
     public string UrlPathSegment { get; } = "TemplateEditing";
 
+    private ObservableCollectionExtended<ExplorerItem> projectItems;
+
+    public ObservableCollectionExtended<ExplorerItem> ProjectItems
+    {
+        get => projectItems;
+        set => this.RaiseAndSetIfChanged(ref projectItems, value);
+
+    }
+
+
     public TemplateEditingViewModel()
     {
-        this.WhenActivated((CompositeDisposable disposables) => { });
+        this.WhenActivated((CompositeDisposable disposables) => {
+            
+        });
     }
 }

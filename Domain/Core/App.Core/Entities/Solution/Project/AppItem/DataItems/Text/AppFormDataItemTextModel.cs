@@ -1,7 +1,7 @@
 ﻿using AppUsecases.Project.Contracts.Entity;
 using AppUsecases.Project.Enums;
 
-namespace AppUsecases.Project.Entities.Project.AppFormDataItems.Text;
+namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 public class AppFormDataItemTextModel : IAppFormDataItemContract
 {
     public string Topic { get; set; } = "";

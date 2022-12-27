@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Domain\Application\AppUsecases\AppUsecases.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Solution\Observables\" />
   </ItemGroup>
 

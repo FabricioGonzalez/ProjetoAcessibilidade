@@ -1,7 +1,5 @@
 ﻿using System.Reactive.Disposables;
 
-using AppUsecases.Editing.Entities;
-
 using AppViewModels.Common;
 using AppViewModels.Dialogs;
 using AppViewModels.Project.States;
@@ -15,14 +13,14 @@ using Splat;
 using AppViewModels.Project.Mappers;
 using AppViewModels.Project.Operations;
 using AppViewModels.Dialogs.States;
-using AppUsecases.Project.Entities.Project;
 using Common;
 using System.Reactive.Linq;
 using AppViewModels.Project.ComposableViewModels;
 using System.Reactive;
 using System.Diagnostics;
 using AppViewModels.Interactions.Project;
-using AppUsecases.App.Contracts.Usecases;
+using Project.Application.Contracts;
+using App.Core.Entities.Solution.Explorer;
 
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
@@ -50,17 +48,16 @@ public class ProjectExplorerViewModel : ViewModelBase
         get;
     }
 
-    private readonly IQueryUsecase<string, ProjectSolutionModel> readSolution;
+    /*private readonly IQueryUsecase<string, ProjectSolutionModel> readSolution;*/
     public readonly ProjectExplorerOperations explorerOperations;
-    private readonly GetProjectItemsQueryHandler getProjectItems;
+    private readonly IQueryDispatcher queryDispatcher;
 
     public ProjectExplorerViewModel()
     {
-        getProjectItems ??= Locator.Current.GetService<GetProjectItemsQueryHandler>();
         explorerOperations ??= Locator.Current.GetService<ProjectExplorerOperations>();
-
+        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
         SolutionModel ??= Locator.Current.GetService<SolutionStateViewModel>();
-        readSolution ??= Locator.Current.GetService<IQueryUsecase<string, ProjectSolutionModel>>();
+        /*readSolution ??= Locator.Current.GetService<IQueryUsecase<string, ProjectSolutionModel>>();*/
 
         projectExplorerState = new();
 
@@ -102,7 +99,7 @@ public class ProjectExplorerViewModel : ViewModelBase
             }
         });
 
-        SelectSolutionItemCommand = ReactiveCommand.Create<ProjectItemViewModel> ((item) =>
+        SelectSolutionItemCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
         {
             Debug.WriteLine(item.Title);
 
@@ -114,7 +111,6 @@ public class ProjectExplorerViewModel : ViewModelBase
 
         this.WhenActivated(disposables =>
         {
-
             this
              .WhenAnyValue(vm => vm.CurrentOpenProject)
              .WhereNotNull()
@@ -123,13 +119,16 @@ public class ProjectExplorerViewModel : ViewModelBase
              {
                  if (path.Length > 0)
                  {
-                     var result = await getProjectItems.Handle(new(path), CancellationToken.None);
-
-                     var items = result.GetSubfolders();
-
-                     if (items is not null && items.Count > 0)
+                     var result = await queryDispatcher
+                     .Dispatch<GetProjectItemsQuery, Resource<List<ExplorerItem>>>(new(path), CancellationToken.None);
+                     if (result is Resource<List<ExplorerItem>>.Success data)
                      {
-                         projectExplorerState.ExplorerItems = new(items);
+                         var items = data.Data.GetSubfolders();
+
+                         if (items is not null && items.Count > 0)
+                         {
+                             projectExplorerState.ExplorerItems = new(items);
+                         }
                      }
 
                  }

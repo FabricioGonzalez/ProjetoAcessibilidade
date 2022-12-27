@@ -1,5 +1,9 @@
-﻿using AppViewModels.Project.ComposableViewModels;
+﻿using App.Core.Entities.Solution.Explorer;
+
+using AppViewModels.Project.ComposableViewModels;
 using AppViewModels.Project.Mappers;
+
+using Common;
 
 using Project.Application.Project.Commands.ProjectItemCommands;
 
@@ -45,28 +49,28 @@ public class ProjectExplorerOperations
     {
         var folder = items.SearchFolder(item);
 
-      /*  if (folder is not null)
-        {*/
-            var result = await renameProjectFolderItemCommand.Handle(request: new(
-                 new()
+        /*  if (folder is not null)
+          {*/
+        var result = await renameProjectFolderItemCommand.Handle(request: new(
+             new()
+             {
+                 Name = item.Title,
+                 Path = item.Path,
+                 Children = item.Children
+                 .Select(x => new App.Core.Entities.Solution.Explorer.ExplorerItem()
                  {
-                     Name = item.Title,
-                     Path = item.Path,
-                     Children = item.Children
-                     .Select(x => new App.Core.Entities.Solution.Explorer.ExplorerItem()
-                     {
-                         Name = x.Title,
-                         Path = x.Path,
-                         ReferencedItem = x.ReferencedItem
-                     })
-                     .ToList()
-                 }
-                 ), cancellationToken: CancellationToken.None);
+                     Name = x.Title,
+                     Path = x.Path,
+                     ReferencedItem = x.ReferencedItem
+                 })
+                 .ToList()
+             }
+             ), cancellationToken: CancellationToken.None);
 
-            return new(title: result.Name, path: result.Path, referencedItem: result.ReferencedItem, inEditMode: false);
+        return new(title: result.Name, path: result.Path, referencedItem: result.ReferencedItem, inEditMode: false);
         /*}*/
 
-     /*   return item;*/
+        /*   return item;*/
     }
 
     public async Task<FileProjectItemViewModel> DeleteFile(FileProjectItemViewModel item, List<ProjectItemViewModel> items)
@@ -83,8 +87,18 @@ public class ProjectExplorerOperations
                      ReferencedItem = file.ReferencedItem,
                  }
                  ), cancellationToken: CancellationToken.None);
+            if (result is Resource<ExplorerItem>.Success operationResult)
+            {
+                return new(title: operationResult.Data.Name,
+                    path: operationResult.Data.Path,
+                    referencedItem: operationResult.Data.ReferencedItem,
+                    inEditMode: false);
 
-            return new(title: result.Name, path: result.Path, result.ReferencedItem, inEditMode: false);
+            }
+            if (result is Resource<ExplorerItem>.Error)
+            {
+
+            }
         }
 
         return item;

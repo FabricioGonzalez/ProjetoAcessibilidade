@@ -14,12 +14,13 @@
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
-    <StackPanel>
-
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Text="{Binding Greeting}" />
-        <ItemsControl Items="{Binding files}" />
-    </StackPanel>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TreeView Items="{Binding Files}">
+            <TreeView.ItemTemplate>
+                <TreeDataTemplate ItemsSource="{Binding Subfolders}">
+                    <TextBlock Text="{Binding strNodeText}" />
+                </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
 </Window>

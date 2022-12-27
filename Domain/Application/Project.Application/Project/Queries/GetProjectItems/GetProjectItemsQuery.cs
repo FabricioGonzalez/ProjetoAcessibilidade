@@ -4,6 +4,7 @@ using Common;
 
 using MediatR;
 
+using Project.Application.Contracts;
 using Project.Application.Project.Contracts;
 
 namespace Project.Application.Project.Queries.GetProjectItems;
@@ -18,9 +19,9 @@ public record GetProjectItemsQuery : IRequest<List<ExplorerItem>>
     {
         get; init;
     }
-   
+
 }
-public class GetProjectItemsQueryHandler
+public class GetProjectItemsQueryHandler : IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>
 {
 
     private readonly IExplorerItemRepository repository;
@@ -29,7 +30,8 @@ public class GetProjectItemsQueryHandler
     {
         this.repository = repository;
     }
-    public async Task<List<ExplorerItem>> Handle(GetProjectItemsQuery request, CancellationToken cancellationToken)
+
+    public async Task<Resource<List<ExplorerItem>>> Handle(GetProjectItemsQuery request, CancellationToken cancellationToken)
     {
         var result = await repository.GetAllItemsAsync(request.solutionPath);
 
@@ -38,11 +40,11 @@ public class GetProjectItemsQueryHandler
             .OnLoading(out res, out var isLoading)
             .OnSuccess(out res);
 
-        if(res is not null && res.Count > 0)
+        if (res is not null && res.Count > 0)
         {
-            return res;
+            return new Resource<List<ExplorerItem>>.Success(Data: res);
         }
 
-        return new();
+        return new Resource<List<ExplorerItem>>.Error(Message: "", Data: default);
     }
 }
