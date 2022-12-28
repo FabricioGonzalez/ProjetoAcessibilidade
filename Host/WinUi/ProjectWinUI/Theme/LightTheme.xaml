@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="BrandedPageBackgroundBrush2" Color="#E9E9E9" />
+
+    <LinearGradientBrush x:Key="BrandedPageBackgroundBrush">
+        <GradientStop Offset="0.0" Color="#ffefefef" />
+        <GradientStop Offset="0.25" Color="#aaececec" />
+        <GradientStop Offset="0.50" Color="#aacacaca" />
+        <GradientStop Offset="0.75" Color="#aab7b7b7" />
+        <GradientStop Offset="1.0" Color="#aa7c7c7c" />
+    </LinearGradientBrush>
+
+    <ThemeShadow x:Key="ProjectShadow" />
+
+    <SolidColorBrush x:Key="PrimaryColor" Color="#e78710" />
+    <SolidColorBrush x:Key="PrimaryBorderColor" Color="#aae78710" />
+
+    <SolidColorBrush x:Key="PrimaryColorHover" Color="#aae78710" />
+    <SolidColorBrush x:Key="PrimaryBorderColorHover" Color="#99e78710" />
+
+    <SolidColorBrush x:Key="PrimaryColorPressed" Color="#77e78710" />
+    <SolidColorBrush x:Key="PrimaryBorderColorPressed" Color="#60e78710" />
+
+    <AcrylicBrush
+        x:Key="AcrylicAppBackground"
+        FallbackColor="#aacccccc"
+        TintColor="#22cdfedf"
+        TintLuminosityOpacity="0.7"
+        TintOpacity="0.2" />
+
+    <SolidColorBrush x:Key="GridCardColor" Color="#ffffffff" />
+    <SolidColorBrush x:Key="GridLineColor" Color="#88998899" />
+
+    <SolidColorBrush x:Key="TextBoxColor" Color="#ffffff" />
+    <SolidColorBrush x:Key="TextForeground" Color="#000000" />
+
+</ResourceDictionary>

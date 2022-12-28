@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="Table.xsd"?>
+<item>
+    <name>Acesso à Equipamentos</name>
+    <tabela>
+        <itemtabela item="1">
+            <tipo>checkbox</tipo>
+            <checkboxes>
+                <checkboxitem item="1">
+                    <topico>Possui obstáculo de acesso aos comandos?</topico>
+                    <opcoes>
+                        <opcao item="1">
+                            <checked>false</checked>
+                            <value>Sim</value>
+                        </opcao>
+                        <opcao item="2">
+                            <checked>false</checked>
+                            <value>Não</value>
+                        </opcao>
+                    </opcoes>
+                </checkboxitem>
+                <checkboxitem item="2">
+                    <topico>Possuí altura máxima de 1,20m?</topico>
+                    <opcoes>
+                        <opcao item="1">
+                            <checked>false</checked>
+                            <value>Sim</value>
+                        </opcao>
+                        <opcao item="2">
+                            <checked>false</checked>
+                            <value>Não</value>
+                        </opcao>
+                    </opcoes>
+                </checkboxitem>
+            </checkboxes>
+        </itemtabela>
+        <itemtabela item="2">
+            <tipo>observation</tipo>
+            <value></value>
+        </itemtabela>
+        <itemtabela item="2">
+            <tipo>images</tipo>
+            <images></images>
+        </itemtabela>
+    </tabela>
+    <lei>
+        <leiitem item="1">
+            <id>NBR9050/20</id>
+            <descricao>
+                <itemdescricao item="1">4.6.9 Altura para comandos e controles.</itemdescricao>
+                <itemdescricao item="2">A Figura 26 mostra as alturas recomendadas para o posicionamento de diferentes tipos de comandos e controles.</itemdescricao>
+            </descricao>
+        </leiitem>
+    </lei>
+</item>

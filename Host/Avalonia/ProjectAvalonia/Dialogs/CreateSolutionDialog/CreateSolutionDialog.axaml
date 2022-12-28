@@ -1,0 +1,211 @@
+<Window
+    x:Class="ProjectAvalonia.Dialogs.CreateSolutionDialog.CreateSolutionDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assist="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
+    xmlns:assists="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:material="using:Material.Icons.Avalonia"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:Neumorphism.Avalonia.Styles;assembly=Neumorphism.Avalonia"
+    xmlns:vm="clr-namespace:Project.Core.ViewModels.Dialogs;assembly=Project.Core"
+    Title="CreateSolutionDialog"
+    Width="750"
+    Height="800"
+    Padding="0"
+    d:DesignHeight="750"
+    d:DesignWidth="800"
+    Background="Transparent"
+    CanResize="False"
+    ExtendClientAreaToDecorationsHint="True"
+    HasSystemDecorations="True"
+    ShowInTaskbar="True"
+    SystemDecorations="BorderOnly"
+    TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Panel>
+        <!--<ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="{DynamicResource AppMaterialOpacity}"
+                    TintColor="{DynamicResource ThemeBackgroundBrush}"
+                    TintOpacity="1" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>-->
+        <Grid Margin="0,32,0,0" RowDefinitions="1*,64,48,48,1*">
+
+            <Grid
+                Grid.Row="0"
+                Margin="8"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                ColumnDefinitions="0.7*,1*"
+                RowDefinitions="0.4*,0.2*,0.2*">
+
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding SolutionModel.ReportData.NomeEmpresa}"
+                    UseFloatingWatermark="True"
+                    Watermark="Nome da Empresa" />
+
+                <Grid
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="Transparent"
+                    RowDefinitions="1*,1*">
+                    <DatePicker
+                        Grid.Row="0"
+                        Margin="0,4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        DayVisible="True"
+                        Header="Data do Relatório"
+                        MonthVisible="True"
+                        SelectedDate="{Binding SolutionModel.ReportData.Data}"
+                        YearVisible="True" />
+
+                    <ComboBox
+                        Grid.Row="1"
+                        Margin="0,4"
+                        HorizontalAlignment="Stretch"
+                        Items="{Binding SolutionModel.UFList}"
+                        PlaceholderText="UF"
+                        SelectedItem="{Binding SolutionModel.ReportData.UF}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Code}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+
+
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding SolutionModel.ReportData.Responsavel}"
+                    UseFloatingWatermark="True"
+                    Watermark="Responsável pelo Projeto" />
+
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding SolutionModel.ReportData.Endereco}"
+                    UseFloatingWatermark="True"
+                    Watermark="Endereço da Empresa" />
+
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding SolutionModel.ReportData.Email}"
+                    UseFloatingWatermark="True"
+                    Watermark="Email do Responsável" />
+
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    Classes="Outline"
+                    Text="{Binding SolutionModel.ReportData.Telefone}"
+                    UseFloatingWatermark="True"
+                    Watermark="Telefone do Responsável" />
+            </Grid>
+
+            <TextBox
+                Grid.Row="1"
+                Margin="8,0"
+                VerticalAlignment="Center"
+                Text="{Binding SolutionModel.FileName}"
+                UseFloatingWatermark="True"
+                Watermark="Nome da Solução" />
+
+            <TextBox
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="8,0"
+                VerticalAlignment="Center"
+                Classes="Header"
+                IsEnabled="True"
+                IsReadOnly="True"
+                Text="{Binding SolutionModel.FilePath}"
+                UseFloatingWatermark="True"
+                Watermark="Local da Solução">
+                <TextBox.InnerRightContent>
+                    <Button
+                        Width="48"
+                        Height="38"
+                        Classes="no-material"
+                        Command="{Binding SolutionModel.ChooseSolutionPath}"
+                        Cursor="Arrow">
+                        <avalonia:MaterialIcon
+                            Width="24"
+                            Height="24"
+                            Kind="Folder" />
+                    </Button>
+                </TextBox.InnerRightContent>
+            </TextBox>
+
+            <TextBox
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="8,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Classes="Header"
+                IsEnabled="True"
+                IsReadOnly="True"
+                Text="{Binding SolutionModel.ReportData.LogoPath}"
+                UseFloatingWatermark="True"
+                Watermark="Local da Logo da Empresa">
+                <TextBox.InnerRightContent>
+                    <Button
+                        Width="48"
+                        Height="38"
+                        Classes="no-material"
+                        Command="{Binding SolutionModel.ChooseSolutionPath}"
+                        Cursor="Arrow">
+                        <avalonia:MaterialIcon
+                            Width="24"
+                            Height="24"
+                            Kind="Folder" />
+                    </Button>
+                </TextBox.InnerRightContent>
+            </TextBox>
+
+            <Panel
+                Grid.Row="4"
+                Margin="8"
+                Background="Transparent">
+                <Button
+                    Name="CloseButton"
+                    Width="120"
+                    Height="35"
+                    HorizontalAlignment="Left"
+                    Command="{Binding CloseDialogCommand}"
+                    Content="Fechar" />
+                <Button
+                    Width="120"
+                    Height="35"
+                    HorizontalAlignment="Right"
+                    Command="{Binding CreateSolution}"
+                    Content="Criar" />
+            </Panel>
+        </Grid>
+    </Panel>
+</Window>

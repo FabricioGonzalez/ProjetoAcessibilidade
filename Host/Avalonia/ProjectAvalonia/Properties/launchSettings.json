@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "ProjectAvalonia": {
+      "commandName": "Project",
+      "remoteDebugEnabled": false
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": "ubuntu",
+      "environmentVariables": {
+        "DISPLAY": ":0",
+        "GDK_GL": "gles" // use this line when running under WSL on Windows 11
+      }
+    }
+  }
+}

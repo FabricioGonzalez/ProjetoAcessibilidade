@@ -1,0 +1,150 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <!--<AvaloniaXamlIlDebuggerLaunch>true</AvaloniaXamlIlDebuggerLaunch>-->
+        <Nullable>enable</Nullable>
+        <OutputType>WinExe</OutputType>
+        <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
+        <TrimMode>copyused</TrimMode>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <Platforms>AnyCPU;x64</Platforms>
+        <AssemblyName>ProjectAvalonia</AssemblyName>
+        <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+        <AvaloniaXaml Remove="Project\Components\ProjectEditing\Styles\**" />
+        <AvaloniaXaml Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <Compile Remove="Project\Components\ProjectEditing\Styles\**" />
+        <Compile Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <EmbeddedResource Remove="Project\Components\ProjectEditing\Styles\**" />
+        <EmbeddedResource Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <None Remove="Project\Components\ProjectEditing\Styles\**" />
+        <None Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <Folder Include="Models\" />
+        <Folder Include="TemplateEditing\Components\" />
+        <Folder Include="TemplateRules\Components\" />
+        <None Remove=".gitignore" />
+        <None Remove="Views\EditableTextBlock.xaml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AvaloniaResource Include="Controls\EditableTextBlock.xaml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="Assets\avalonia-logo.ico" />
+    </ItemGroup>
+    <ItemGroup>
+        <!--This helps with theme dll-s trimming.
+	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
+	https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
+        <TrimmableAssembly Include="Avalonia.Themes.Fluent" />
+        <TrimmableAssembly Include="Avalonia.Themes.Default" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.18" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Neumorphism.Avalonia" Version="0.4.0" />
+        <PackageReference Include="Notification.Avalonia" Version="1.1.0" />
+        <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
+        <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
+        <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">
+            <DependentUpon>EditingItem.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Project\Components\ProjectEditing\EditingView.axaml.cs">
+            <DependentUpon>EditingView.axaml</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Specifications\Itens.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Itens.xsd">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens.xsd</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Acesso a Equipamentos.xml">
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso a Equipamentos.xml</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Specifications\Tables\Acesso.xml">
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso.xml</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Specifications\Tables\Balcão de Atendimento Recepção.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Balcão de Atendimento Recepção.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Circulação Horizontal.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Horizontal.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Circulação Vertical.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Vertical.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Entradas Portas Externo.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Externo.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Entradas Portas Interno.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Interno.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Mapa Tátil.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mapa Tátil.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Mesas.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mesas.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Piso Tátil.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Piso Tátil.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Tables\Portas de Emergência.xml">
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Portas de Emergência.xml</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Specifications\Tables\Sanitários Comuns.xml">
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sanitários Comuns.xml</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Specifications\Tables\Sánitario Acessível.xml">
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sánitario Acessível.xml</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Specifications\Tables\Table.xsd">
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Table.xsd</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>

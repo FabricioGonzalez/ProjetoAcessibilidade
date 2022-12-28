@@ -1,0 +1,145 @@
+<Window
+    x:Class="ProjectAvalonia.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assists="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:controls="clr-namespace:Avalonia.Notification.Controls;assembly=Notification.Avalonia"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ProjectAvalonia;assembly=ProjectAvalonia"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rxui="http://reactiveui.net"
+    xmlns:styles="clr-namespace:Neumorphism.Avalonia.Styles;assembly=Neumorphism.Avalonia"
+    xmlns:views="clr-namespace:ProjectAvalonia.Views;assembly=ProjectAvalonia"
+    xmlns:vm="clr-namespace:Project.Core.ViewModels.ViewModels;assembly=Project.Core"
+    Name="mainWindow"
+    Title="ProjectAvalonia"
+    Padding="0"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Classes="Window"
+    Icon="/Assets/avalonia-logo.ico"
+    ShowInTaskbar="True"
+    mc:Ignorable="d">
+    <!--<styles:SnackbarHost
+        HorizontalContentAlignment="Center"
+        HostName="Root"
+        SnackbarHorizontalAlignment="Right"
+        TemplateApplied="TemplatedControl_OnTemplateApplied">-->
+    <Grid Name="AppContainer" RowDefinitions="30,1*">
+        <controls:NotificationMessageContainer
+            Grid.Row="1"
+            VerticalAlignment="Bottom"
+            Manager="{Binding NotificationMessageManagerService.Manager}" />
+        <Panel Grid.Row="0" Background="Transparent">
+            <Menu
+                Height="30"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                Classes="mainMenu">
+                <Menu.Items>
+                    <MenuItem
+                        Height="30"
+                        Background="Transparent"
+                        Header="Arquivos">
+                        <MenuItem.Items>
+                            <MenuItem
+                                Height="30"
+                                Margin="4,0"
+                                Background="Transparent"
+                                Command="{Binding OpenProjectCommand}"
+                                Header="Abrir" />
+                            <MenuItem
+                                Height="30"
+                                Margin="4,0"
+                                Background="Transparent"
+                                Command="{Binding CreateProjectCommand}"
+                                Header="Novo" />
+                            <Separator Background="Transparent" />
+                            <MenuItem
+                                Name="CloseAppMenuItem"
+                                Height="30"
+                                Margin="4,0"
+                                Background="Transparent"
+                                Command="{Binding CloseAppCommand}"
+                                Header="Sair" />
+                        </MenuItem.Items>
+                    </MenuItem>
+                    <MenuItem
+                        Height="30"
+                        Background="Transparent"
+                        Header="Templates">
+                        <MenuItem.Items>
+                            <MenuItem
+                                Height="30"
+                                Margin="4,0"
+                                Background="Transparent"
+                                Command="{Binding GoToTemplateEditing}"
+                                Header="Edição de Templates" />
+                            <MenuItem
+                                Height="30"
+                                Margin="4,0"
+                                Background="Transparent"
+                                Command="{Binding GoToRulesEditing}"
+                                Header="Regras de Validação" />
+                        </MenuItem.Items>
+                    </MenuItem>
+                    <MenuItem
+                        Height="30"
+                        Background="Transparent"
+                        Header="Sistema">
+                        <MenuItem.Items>
+                            <MenuItem
+                                Height="30"
+                                Margin="4,0"
+                                Background="Transparent"
+                                Command="{Binding GoToSetting}"
+                                Header="Configurações" />
+                            <!--<MenuItem
+                                Height="30"
+                                Margin="4,0"
+                                Background="Transparent"
+                                Command="{Binding GoToRulesEditing}"
+                                Header="Regras de Validação" />-->
+                        </MenuItem.Items>
+                    </MenuItem>
+                </Menu.Items>
+            </Menu>
+            <ToggleSwitch
+                Name="toggleSwitchTheme"
+                HorizontalAlignment="Right"
+                Command="{Binding #mainWindow.SwitchUITheme}"
+                CommandParameter="{Binding ElementName=toggleSwitchTheme}"
+                OffContent="Light theme"
+                OnContent="Dark theme" />
+        </Panel>
+        <rxui:RoutedViewHost
+            Grid.Row="1"
+            Padding="4"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Router="{Binding Router}">
+            <rxui:RoutedViewHost.DefaultContent>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
+                    <TextBlock Classes="h1" Text="Sample Avalonia Application" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Text="Loading..."
+                        TextAlignment="Center" />
+                </StackPanel>
+            </rxui:RoutedViewHost.DefaultContent>
+        </rxui:RoutedViewHost>
+        <FlyoutBase.AttachedFlyout>
+            <Flyout>
+                <TextBlock Text="{Binding appMessage, Mode=OneWay}" TextWrapping="Wrap" />
+            </Flyout>
+        </FlyoutBase.AttachedFlyout>
+    </Grid>
+    <!--</styles:SnackbarHost>-->
+</Window>

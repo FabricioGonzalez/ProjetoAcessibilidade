@@ -1,0 +1,98 @@
+﻿namespace Common;
+public abstract class Resource<T>
+{
+    public sealed class Success : Resource<T>
+    {
+        public T? Data
+        {
+            get; set;
+        } = default(T?);
+        public Success(T? Data)
+        {
+            this.Data = Data;
+        }
+
+    }
+    public sealed class Error : Resource<T>
+    {
+        public string? Message { get; set; } = null;
+        public T? Data { get; set; } = default(T?);
+
+        public Error(string? Message, T? Data)
+        {
+            this.Message = Message;
+            this.Data = Data;
+        }
+    }
+    public sealed class IsLoading : Resource<T>
+    {
+        public T? Data { get; set; } = default(T?);
+        public bool isLoading
+        {
+            get; set;
+        } = false;
+
+        public IsLoading(T? Data, bool isLoading)
+        {
+            this.Data = Data;
+            this.isLoading = isLoading;
+        }
+    }
+}
+
+public static class Extensions
+{
+    public static Resource<T> OnError<T>(this Resource<T> resource, out T? Data, out string? message)
+    {
+        if (resource is Resource<T>.Error error)
+        {
+            message = error.Message;
+
+            if (error.Data is null)
+            {
+                Data = default;
+
+            }
+            else Data = error.Data;
+        }
+        else
+        {
+            message = "";
+            Data = default;
+        }
+
+        return resource;
+    }
+    public static Resource<T> OnSuccess<T>(this Resource<T> resource, out T? Data)
+    {
+        if (resource is Resource<T>.Success success)
+        {
+            Data = success.Data;
+        }
+        else
+        {
+            Data = default;
+        }
+        return resource;
+    }
+    public static Resource<T> OnLoading<T>(this Resource<T> resource, out T? Data, out bool isLoading)
+    {
+        if (resource is Resource<T>.IsLoading IsLoading)
+        {
+            if (IsLoading.Data is null)
+            {
+                Data = default;
+            }
+            else
+                Data = IsLoading.Data;
+
+            isLoading = IsLoading.isLoading;
+        }
+        else
+        {
+            Data = default;
+            isLoading = false;
+        }
+        return resource;
+    }
+}

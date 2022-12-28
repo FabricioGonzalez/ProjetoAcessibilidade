@@ -1,0 +1,328 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AppWinui</name>
+    </assembly>
+    <members>
+        <member name="M:AppWinui.App.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.App.GetXamlType(System.Type)">
+            <summary>
+            GetXamlType(Type)
+            </summary>
+        </member>
+        <member name="M:AppWinui.App.GetXamlType(System.String)">
+            <summary>
+            GetXamlType(String)
+            </summary>
+        </member>
+        <member name="M:AppWinui.App.GetXmlnsDefinitions">
+            <summary>
+            GetXmlnsDefinitions()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.UIComponents.ConditionalWrapper.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.UIComponents.ConditionalWrapper.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.UIComponents.ConditionalWrapper.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.Views.SettingsPage.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.Views.SettingsPage.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.Views.SettingsPage.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.Views.ShellPage.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.Views.ShellPage.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.AppUtils.Views.ShellPage.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Home.Views.MainPage.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Home.Views.MainPage.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Home.Views.MainPage.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.ReportInfo.ReportInfo.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.ReportInfo.ReportInfo.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.ReportInfo.ReportInfo.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabView.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabView.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabView.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabViewItem.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabViewItem.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabViewItem.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabViewItemHeaderTemplate.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabViewItemHeaderTemplate.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TabView.ProjectEditingTabViewItemHeaderTemplate.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.ExplorerItemTreeView.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.ExplorerItemTreeView.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.ExplorerItemTreeView.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.FileTreeViewItemTemplate.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.FileTreeViewItemTemplate.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.FileTreeViewItemTemplate.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.FolderTreeViewItemTemplate.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.FolderTreeViewItemTemplate.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UIComponents.TreeView.FolderTreeViewItemTemplate.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.CheckboxDataTemplate.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.CheckboxDataTemplate.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.CheckboxDataTemplate.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.ObservationDataTemplate.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.ObservationDataTemplate.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.ObservationDataTemplate.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.TextboxDataTemplate.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.TextboxDataTemplate.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.UITemplates.DataTemplates.TextboxDataTemplate.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="T:AppWinui.AppCode.Project.Views.ProjectPage">
+            <summary>
+            An empty page that can be used on its own or navigated to within a Frame.
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.Views.ProjectPage.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.Views.ProjectPage.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.Project.Views.ProjectPage.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.TemplateEditing.UIComponents.ListDetailsDetailControl.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.TemplateEditing.UIComponents.ListDetailsDetailControl.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.TemplateEditing.UIComponents.ListDetailsDetailControl.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.TemplateEditing.Views.ListDetailsPage.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.TemplateEditing.Views.ListDetailsPage.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppCode.TemplateEditing.Views.ListDetailsPage.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="M:AppWinui.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent()
+            </summary>
+        </member>
+        <member name="M:AppWinui.MainWindow.Connect(System.Int32,System.Object)">
+            <summary>
+            Connect()
+            </summary>
+        </member>
+        <member name="M:AppWinui.MainWindow.GetBindingConnector(System.Int32,System.Object)">
+            <summary>
+            GetBindingConnector(int connectionId, object target)
+            </summary>
+        </member>
+        <member name="T:AppWinui.Program">
+            <summary>
+            Program class
+            </summary>
+        </member>
+        <member name="T:AppWinui.AppWinui_XamlTypeInfo.XamlMetaDataProvider">
+            <summary>
+            Main class for providing metadata for the app or library
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppWinui_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(System.Type)">
+            <summary>
+            GetXamlType(Type)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppWinui_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(System.String)">
+            <summary>
+            GetXamlType(String)
+            </summary>
+        </member>
+        <member name="M:AppWinui.AppWinui_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions">
+            <summary>
+            GetXmlnsDefinitions()
+            </summary>
+        </member>
+    </members>
+</doc>
