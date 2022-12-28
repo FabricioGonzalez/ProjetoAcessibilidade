@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using Common;
+﻿using Common;
 
 namespace AppUsecases.App.Contracts.Usecases;
 public interface IQueryUsecase<Input, Output>

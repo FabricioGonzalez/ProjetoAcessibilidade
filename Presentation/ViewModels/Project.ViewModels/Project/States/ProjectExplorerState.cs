@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App.Core.Entities.Solution.Explorer;
 
-using AppUsecases.Project.Entities.FileTemplate;
-using DynamicData.Binding;
-using DynamicData;
 using AppViewModels.Project.ComposableViewModels;
+
+using DynamicData;
+using DynamicData.Binding;
+
 using ReactiveUI;
 
 namespace AppViewModels.Project.States;

@@ -1,6 +1,10 @@
-using App.Core.Entities.App;
+using System;
+using System.Linq;
+using System.Reactive.Disposables;
+using System.Threading.Tasks;
 
-using AppUsecases.Editing.Entities;
+using App.Core.Entities.App;
+using App.Core.Entities.Solution.Explorer;
 
 using AppViewModels.Dialogs;
 using AppViewModels.Interactions.Main;
@@ -18,11 +22,6 @@ using ProjectAvalonia.Views;
 using ReactiveUI;
 
 using Splat;
-
-using System;
-using System.Linq;
-using System.Reactive.Disposables;
-using System.Threading.Tasks;
 
 namespace ProjectAvalonia.Project.Components.ProjectExplorer;
 public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerViewModel>
@@ -67,8 +66,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                     {
                         ViewModel.SolutionModel.FileName = result.FileName;
                         ViewModel.SolutionModel.FilePath = result.FilePath;
-                        ViewModel.SolutionModel.ReportData = result.reportData;
-                        ViewModel.SolutionModel.ItemGroups = new(result.ItemGroups);
+                        ViewModel.SolutionModel.ReportData = result.SolutionReportInfo;
+                        ViewModel.SolutionModel.ItemGroups = new(result.ItemGroups is not null ? result.ItemGroups : new());
                         ViewModel.SolutionModel.ParentFolderName = result.ParentFolderName;
                         ViewModel.SolutionModel.ParentFolderPath = result.ParentFolderPath;
                     }
@@ -106,8 +105,8 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
                      .MessageQueue
                      .Handle(new()
                      {
-                        Type = MessageType.Info   ,
-                        Message = $"{item.Title} Foi Renomeado"
+                         Type = MessageType.Info,
+                         Message = $"{item.Title} Foi Renomeado"
                      }).Subscribe();
 
                interaction.SetOutput(item);
@@ -149,7 +148,7 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
         AvaloniaXamlLoader.Load(this);
     }
-    private async Task DoShowDialogAsync(InteractionContext<AddItemViewModel, FileTemplate?> interaction)
+    private async Task DoShowDialogAsync(InteractionContext<AddItemViewModel, ExplorerItem?> interaction)
     {
         var dialog = Locator.Current.GetService<AddItemWindow>();
 
@@ -159,7 +158,7 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
 
             dialogVm.Activate();
 
-            var result = await dialogVm.ShowDialog<FileTemplate?>(Locator.Current.GetService<MainWindow>());
+            var result = await dialogVm.ShowDialog<ExplorerItem?>(Locator.Current.GetService<MainWindow>());
             interaction.SetOutput(result);
         }
     }

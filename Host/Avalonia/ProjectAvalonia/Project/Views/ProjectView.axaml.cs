@@ -3,6 +3,7 @@ using AppViewModels.Project;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Project.Views;
@@ -13,7 +14,7 @@ public partial class ProjectView : ReactiveUserControl<ProjectViewModel>
            nameof(ProjectPath),
            owner => owner.ViewModel.strFolder,
            (owner, value) => owner.ViewModel.strFolder = value);
-   
+
     private string _projectPath = "";
     public string ProjectPath
     {
@@ -23,7 +24,8 @@ public partial class ProjectView : ReactiveUserControl<ProjectViewModel>
     public ProjectView()
     {
 
-        this.WhenActivated(disposables => {
+        this.WhenActivated(disposables =>
+        {
 
         });
 

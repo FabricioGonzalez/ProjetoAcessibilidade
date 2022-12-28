@@ -1,14 +1,14 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
 
-using AppUsecases.App.Contracts.Usecases;
-using AppUsecases.Project.Entities.Project;
+using App.Core.Entities.Solution;
 
 using AppViewModels.Common;
 using AppViewModels.Dialogs.States;
 
 using Common;
 
+using Project.Application.Contracts;
 
 using ReactiveUI;
 
@@ -17,7 +17,7 @@ using Splat;
 namespace AppViewModels.Dialogs;
 public class CreateSolutionViewModel : ViewModelBase
 {
-    private readonly ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel> solutionCreator;
+    private readonly ICommandDispatcher commandDispatcher;
 
     public SolutionStateViewModel SolutionModel
     {
@@ -26,21 +26,22 @@ public class CreateSolutionViewModel : ViewModelBase
 
     public CreateSolutionViewModel()
     {
-        solutionCreator = Locator.Current.GetService<ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>>();
+        commandDispatcher = Locator.Current.GetService<ICommandDispatcher>();
 
         SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
 
-        CreateSolution = ReactiveCommand.CreateFromTask(async () =>
+        CreateSolution = ReactiveCommand.CreateFromTask<Resource<ProjectSolutionModel>>(async () =>
         {
-            return await solutionCreator.executeAsync(new()
-            {
-                FileName = SolutionModel.FileName,
-                FilePath = SolutionModel.FilePath,
-                ItemGroups = SolutionModel.ItemGroups.ToList(),
-                ParentFolderName = SolutionModel.ParentFolderName,
-                ParentFolderPath = SolutionModel.ParentFolderPath,
-                reportData = SolutionModel.ReportData
-            });
+            /*  return await commandDispatcher.Dispatch(new()
+              {
+                  FileName = SolutionModel.FileName,
+                  FilePath = SolutionModel.FilePath,
+                  ItemGroups = SolutionModel.ItemGroups.ToList(),
+                  ParentFolderName = SolutionModel.ParentFolderName,
+                  ParentFolderPath = SolutionModel.ParentFolderPath,
+                  reportData = SolutionModel.ReportData
+              });*/
+            return new Resource<ProjectSolutionModel>.Success(new());
         });
 
         this.WhenActivated(disposables =>

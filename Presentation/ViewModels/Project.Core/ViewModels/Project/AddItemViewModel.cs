@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Reactive;
 using System.Runtime.InteropServices;
 
+using App.Core.Entities.Solution.Explorer;
+
 using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Editing.Entities;
 
@@ -27,26 +29,26 @@ public class AddItemViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isBusy, value);
     }
 
-    private ObservableCollectionExtended<FileTemplate> items;
-    public ObservableCollectionExtended<FileTemplate> Items
+    private ObservableCollectionExtended<ExplorerItem> items;
+    public ObservableCollectionExtended<ExplorerItem> Items
     {
         get => items;
         set => this.RaiseAndSetIfChanged(ref items, value, nameof(Items));
     }
 
-    private FileTemplate item;
-    public FileTemplate Item
+    private ExplorerItem item;
+    public ExplorerItem Item
     {
         get => item;
         set => this.RaiseAndSetIfChanged(ref item, value, nameof(Item));
     }
 
 
-    private readonly IQueryUsecase<List<FileTemplate>> readProjectItems;
+    private readonly IQueryUsecase<List<ExplorerItem>> readProjectItems;
 
     public AddItemViewModel()
     {
-        readProjectItems ??= Locator.Current.GetService<IQueryUsecase<List<FileTemplate>>>();
+        readProjectItems ??= Locator.Current.GetService<IQueryUsecase<List<ExplorerItem>>>();
 
         this.WhenActivated(async (Action<IDisposable> disposables) =>
         {

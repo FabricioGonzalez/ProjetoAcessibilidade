@@ -1,6 +1,9 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
 
+using App.Core.Entities.App;
+using App.Core.Entities.Solution;
+
 using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.App.Models;
 using AppUsecases.App.Usecases;
@@ -8,6 +11,8 @@ using AppUsecases.Project.Entities.Project;
 
 using Common;
 
+using Project.Application.App.Queries.GetUFList;
+using Project.Application.Contracts;
 using Project.Core.Contracts;
 using Project.Core.ViewModels.Extensions;
 
@@ -21,31 +26,33 @@ using UIStatesStore.Project.Models;
 namespace Project.Core.ViewModels.Dialogs;
 public class CreateSolutionViewModel : ViewModelBase
 {
-    private readonly ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel> solutionCreator;
+    private readonly IQueryDispatcher queryDispatcher;
+    private readonly ICommandDispatcher commandDispatcher;
 
     public UIStatesStore.Solution.Models.ProjectSolutionModel SolutionModel { get; set; } = new();
     private readonly IAppObservable<ProjectModel> projectPath;
     private readonly IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel> solutionObserver;
-    private readonly GetUFList getUFList;
+
     private readonly IFileDialog dialogService;
 
-    public List<UF> UFList
+    public List<UFModel> UFList
     {
-        get;set;
-    } 
+        get; set;
+    }
 
     public CreateSolutionViewModel()
     {
-        solutionCreator = Locator.Current.GetService<ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>>();
+        queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+        commandDispatcher = Locator.Current.GetService<ICommandDispatcher>();
+       
         projectPath = Locator.Current.GetService<IAppObservable<ProjectModel>>();
         solutionObserver = Locator.Current.GetService<IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel>>();
-        getUFList = Locator.Current.GetService<GetUFList>();
 
         dialogService = Locator.Current.GetService<IFileDialog>();
 
         CreateSolution = ReactiveCommand.CreateFromTask(async () =>
         {
-            var result = await solutionCreator.executeAsync(new()
+            var result = await commandDispatcher.Dispatch(new()
             {
                 FileName = SolutionModel.FileName,
                 FilePath = SolutionModel.FilePath,
@@ -72,7 +79,7 @@ public class CreateSolutionViewModel : ViewModelBase
             return path;
         });
 
-        this.WhenActivated(disposables =>
+        this.WhenActivated(async (CompositeDisposable disposables) =>
         {
             ChooseSolutionPath.Subscribe((result) =>
                 {
@@ -82,7 +89,7 @@ public class CreateSolutionViewModel : ViewModelBase
 
             ChooseLogoPath.Subscribe((result) =>
             {
-                SolutionModel.ReportData.LogoPath = result;
+                /* SolutionModel.ReportData.LogoPath = result;*/
             })
            .DisposeWith(disposables);
 
@@ -95,16 +102,16 @@ public class CreateSolutionViewModel : ViewModelBase
 
                 if (data is not null)
                 {
-                    projectPath.Send(new(Path.Combine(data.FilePath, data.FileName)));
+                    /*                    projectPath.Send(new(Path.Combine(data.FilePath, data.FileName)));
 
-                    solutionObserver.Send(new()
-                    {
-                        ReportData = data.reportData,
-                        FileName = data.FileName,
-                        FilePath = data.FilePath,
-                        ItemGroups = new(data.ItemGroups),
-                    });
-                    
+                                        solutionObserver.Send(new()
+                                        {
+                                            ReportData = data.reportData,
+                                            FileName = data.FileName,
+                                            FilePath = data.FilePath,
+                                            ItemGroups = new(data.ItemGroups),
+                                        });*/
+
                     CloseDialogCommand
                     .Execute()
                     .Subscribe()
@@ -113,7 +120,7 @@ public class CreateSolutionViewModel : ViewModelBase
             })
             .DisposeWith(disposables);
 
-            UFList = getUFList.GetAllUF();
+            UFList = await queryDispatcher.Dispatch<GetAllUFQuery, List<UFModel>>(new(), CancellationToken.None);
         });
 
     }
@@ -126,7 +133,7 @@ public class CreateSolutionViewModel : ViewModelBase
     public ReactiveCommand<Unit, string> ChooseSolutionPath
     {
         get; set;
-    }   
+    }
     public ReactiveCommand<Unit, string> ChooseLogoPath
     {
         get; set;

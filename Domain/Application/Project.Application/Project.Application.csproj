@@ -10,12 +10,10 @@
     <Folder Include="AppValidationRules\Commands\" />
     <Folder Include="AppValidationRules\Queries\" />
     <Folder Include="App\Commands\" />
-    <Folder Include="App\Queries\" />
     <Folder Include="Common\" />
     <Folder Include="Editing\Commands\" />
     <Folder Include="Editing\Queries\" />
     <Folder Include="Solution\Commands\" />
-    <Folder Include="Solution\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

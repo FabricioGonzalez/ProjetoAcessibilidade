@@ -2,8 +2,8 @@
 public static class Constants
 {
     public const string AppName = "Gestor de Projeto ARPA";
-    public static string AppFolder = OperatingSystem.IsWindows() 
-        ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName) 
+    public static string AppFolder = OperatingSystem.IsWindows()
+        ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName)
         : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName);
 
     public static string AppCacheFolder = Path.Combine(AppFolder, "CacheData");
@@ -27,10 +27,10 @@ public static class Constants
     public const string items_groups = "items_groups";
     public const string items_groupsItemGroup = "item_group";
     public const string items_groupsItemGroupAttributeName = "Name";
-    public const string items_groups_item_group_item= "Item";
-    public const string items_groups_item_group_item_id= "Id";
-    public const string items_groups_item_group_item_name= "Name";
-    public const string items_groups_item_group_item_template_name= "TemplateName";
+    public const string items_groups_item_group_item = "Item";
+    public const string items_groups_item_group_item_id = "Id";
+    public const string items_groups_item_group_item_name = "Name";
+    public const string items_groups_item_group_item_template_name = "TemplateName";
 
 
     public const string report = "report";

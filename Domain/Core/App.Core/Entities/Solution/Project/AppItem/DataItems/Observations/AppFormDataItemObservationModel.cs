@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AppUsecases.Project.Contracts.Entity;
-using AppUsecases.Project.Enums;
-
-namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+﻿namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 public class AppFormDataItemObservationModel : IAppFormDataItemContract
 {
     public string Topic
@@ -15,11 +6,11 @@ public class AppFormDataItemObservationModel : IAppFormDataItemContract
         get;
         set;
     }
-    public AppFormDataTypeEnum Type
+    public AppFormDataType Type
     {
         get;
         set;
-    } = AppFormDataTypeEnum.Observation;
+    } = AppFormDataType.Observation;
     public string Observation
     {
         get; set;

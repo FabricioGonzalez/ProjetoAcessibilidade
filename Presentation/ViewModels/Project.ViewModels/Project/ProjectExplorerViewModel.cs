@@ -1,26 +1,29 @@
-﻿using System.Reactive.Disposables;
+﻿using System.Diagnostics;
+using System.Reactive;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+
+using App.Core.Entities.Solution;
+using App.Core.Entities.Solution.Explorer;
 
 using AppViewModels.Common;
 using AppViewModels.Dialogs;
+using AppViewModels.Dialogs.States;
+using AppViewModels.Interactions.Project;
+using AppViewModels.Project.ComposableViewModels;
+using AppViewModels.Project.Mappers;
+using AppViewModels.Project.Operations;
 using AppViewModels.Project.States;
+
+using Common;
+
+using Project.Application.Contracts;
+using Project.Application.Project.Queries.GetProjectItems;
+using Project.Application.Solution.Queries;
 
 using ReactiveUI;
 
-using Project.Application.Project.Queries.GetProjectItems;
-
 using Splat;
-
-using AppViewModels.Project.Mappers;
-using AppViewModels.Project.Operations;
-using AppViewModels.Dialogs.States;
-using Common;
-using System.Reactive.Linq;
-using AppViewModels.Project.ComposableViewModels;
-using System.Reactive;
-using System.Diagnostics;
-using AppViewModels.Interactions.Project;
-using Project.Application.Contracts;
-using App.Core.Entities.Solution.Explorer;
 
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
@@ -57,7 +60,6 @@ public class ProjectExplorerViewModel : ViewModelBase
         explorerOperations ??= Locator.Current.GetService<ProjectExplorerOperations>();
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
         SolutionModel ??= Locator.Current.GetService<SolutionStateViewModel>();
-        /*readSolution ??= Locator.Current.GetService<IQueryUsecase<string, ProjectSolutionModel>>();*/
 
         projectExplorerState = new();
 
@@ -77,7 +79,7 @@ public class ProjectExplorerViewModel : ViewModelBase
                     new FileProjectItemViewModel(
                         title: result.Name,
                         path: Path.Combine(item.Path, $"{result.Name}{Constants.AppProjectItemExtension}"),
-                        referencedItem: result.FilePath,
+                        referencedItem: result.Path,
                         inEditMode: true)
                     );
             }
@@ -149,7 +151,7 @@ public class ProjectExplorerViewModel : ViewModelBase
 
     public async Task<ProjectSolutionModel>? ReadSolution(string path)
     {
-        (await readSolution.executeAsync(path))
+        (await queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(new(path), CancellationToken.None))
                .OnError(out var data, out var message)
                .OnLoading(out data, out var isLoading)
                .OnSuccess(out data);
@@ -159,7 +161,7 @@ public class ProjectExplorerViewModel : ViewModelBase
             return data;
         }
 
-        return null;
+        return new();
 
     }
 
@@ -176,7 +178,7 @@ public class ProjectExplorerViewModel : ViewModelBase
         get;
     }
 
-    public Interaction<AddItemViewModel, FileTemplate?> ShowDialog
+    public Interaction<AddItemViewModel, ExplorerItem?> ShowDialog
     {
         get; private set;
     }

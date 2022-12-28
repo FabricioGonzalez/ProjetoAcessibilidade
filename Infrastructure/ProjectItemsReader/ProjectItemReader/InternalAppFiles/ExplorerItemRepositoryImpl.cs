@@ -248,7 +248,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             {
                 Directory.CreateDirectory(Path.Combine(item.Path, item.Name));
             }
-            item.Path = item.Path.Replace(Path.GetFileName(item.Path),item.Name);
+            item.Path = item.Path.Replace(Path.GetFileName(item.Path), item.Name);
         }
         return new Resource<ExplorerItem>.Success(item);
     }

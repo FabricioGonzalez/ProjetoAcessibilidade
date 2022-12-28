@@ -24,7 +24,7 @@ public static class MapExplorerItem
                 }
                 else
                 {
-                    thisnode = new FileProjectItemViewModel(title: dir.Name, path: dir.Path,referencedItem: dir.ReferencedItem, inEditMode: false);
+                    thisnode = new FileProjectItemViewModel(title: dir.Name, path: dir.Path, referencedItem: dir.ReferencedItem, inEditMode: false);
                 }
 
                 subfolders.Add(thisnode);
@@ -51,9 +51,9 @@ public static class MapExplorerItem
                 if (dir is FolderProjectItemViewModel folderItem)
                 {
                     if (folderItem.Children.Any())
-                       return folderItem.Children
-                        .ToList()
-                        .SearchFile(desiredItem);
+                        return folderItem.Children
+                         .ToList()
+                         .SearchFile(desiredItem);
                 }
             }
         }

@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
 
-using AppUsecases.App.Contracts.Usecases;
-using AppUsecases.Editing.Entities;
+using App.Core.Entities.Solution.Explorer;
 
 using AppViewModels.Common;
 
 using Common;
 
 using DynamicData.Binding;
+
+using Project.Application.App.Queries.GetAllTemplates;
+using Project.Application.Contracts;
 
 using ReactiveUI;
 
@@ -22,26 +19,26 @@ using Splat;
 namespace AppViewModels.Dialogs;
 public class AddItemViewModel : ViewModelBase
 {
-    private ObservableCollectionExtended<FileTemplate> items;
-    public ObservableCollectionExtended<FileTemplate> Items
+    private ObservableCollectionExtended<ExplorerItem> items;
+    public ObservableCollectionExtended<ExplorerItem> Items
     {
         get => items;
         set => this.RaiseAndSetIfChanged(ref items, value, nameof(Items));
     }
 
-    private FileTemplate item;
-    public FileTemplate Item
+    private ExplorerItem item;
+    public ExplorerItem Item
     {
         get => item;
         set => this.RaiseAndSetIfChanged(ref item, value, nameof(Item));
     }
 
 
-    private readonly IQueryUsecase<List<FileTemplate>> readProjectItems;
+    private readonly IQueryDispatcher queryDispatcher;
 
     public AddItemViewModel()
     {
-        readProjectItems ??= Locator.Current.GetService<IQueryUsecase<List<FileTemplate>>>();
+        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
 
         this.WhenActivated(async (Action<IDisposable> disposables) =>
         {
@@ -60,9 +57,9 @@ public class AddItemViewModel : ViewModelBase
         });
     }
 
-    public async Task<List<FileTemplate>> GetItems()
+    public async Task<List<ExplorerItem>> GetItems()
     {
-        var result = await readProjectItems.executeAsync();
+        var result = await queryDispatcher.Dispatch<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>(new(), CancellationToken.None);
 
         result
             .OnError(out var data, out var message)
@@ -78,7 +75,7 @@ public class AddItemViewModel : ViewModelBase
 
     }
 
-    public ReactiveCommand<Unit, FileTemplate?> SelectItemToCreateCommand
+    public ReactiveCommand<Unit, ExplorerItem?> SelectItemToCreateCommand
     {
         get; set;
     }

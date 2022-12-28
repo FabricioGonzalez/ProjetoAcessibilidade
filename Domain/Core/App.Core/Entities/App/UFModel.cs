@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace App.Core.Entities.App;
+﻿namespace App.Core.Entities.App;
 public class UFModel
 {
+    public UFModel(string code, string name)
+    {
+        Code = code;
+        Name = name;
+    }
     public string Code
     {
-        get; set;
+        get;
     }
     public string Name
     {
-        get; set;
+        get;
     }
 }

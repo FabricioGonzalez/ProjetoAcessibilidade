@@ -5,8 +5,6 @@ using Avalonia;
 using Avalonia.Dialogs;
 using Avalonia.ReactiveUI;
 
-using ProjectAvalonia.Views;
-
 using ReactiveUI;
 
 using Splat;
@@ -48,7 +46,6 @@ internal class Program
                 .AddRepositories()
                 .AddUsecases()
                 .AddServices()
-                .AddUIStates()
                 .AddViewModelOperations()
                 .AddMediator()
                 /*.CreateFolderStructure()*/;

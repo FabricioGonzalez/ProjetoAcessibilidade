@@ -3,11 +3,11 @@ public class UF
 {
     public string Code
     {
-    get; set; 
+        get; set;
     }
     public string Name
     {
-        get;set;
+        get; set;
     }
 
     public UF(string code, string name)

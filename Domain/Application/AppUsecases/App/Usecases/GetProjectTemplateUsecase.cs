@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using AppUsecases.App.Contracts.Repositories;
+﻿using AppUsecases.App.Contracts.Repositories;
 using AppUsecases.App.Contracts.Usecases;
 using AppUsecases.Editing.Entities;
 

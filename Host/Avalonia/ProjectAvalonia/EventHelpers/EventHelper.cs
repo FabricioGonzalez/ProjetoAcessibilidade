@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
-using Avalonia.Controls;
-
-using Avalonia.Interactivity;
 
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
 
 namespace ProjectAvalonia.EventHelpers;
 public class EventHelper

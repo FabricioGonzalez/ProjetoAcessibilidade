@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace App.Core.Entities.Solution.Project.AppItem;
+﻿namespace App.Core.Entities.Solution.Project.AppItem;
 
 public class AppLawModel
 {

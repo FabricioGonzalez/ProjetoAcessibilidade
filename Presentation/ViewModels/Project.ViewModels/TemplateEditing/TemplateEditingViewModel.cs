@@ -29,8 +29,9 @@ public class TemplateEditingViewModel : ViewModelBase, IRoutableViewModel
 
     public TemplateEditingViewModel()
     {
-        this.WhenActivated((CompositeDisposable disposables) => {
-            
+        this.WhenActivated((CompositeDisposable disposables) =>
+        {
+
         });
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace AppUsecases.App.Contracts.Repositories;
+﻿namespace AppUsecases.App.Contracts.Repositories;
 public interface IWriteContract<T>
 {
     public Task WriteAsync(T dataToWrite, string filePathToWrite)

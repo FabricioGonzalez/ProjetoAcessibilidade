@@ -1,6 +1,4 @@
-﻿using AppUsecases.Project.Entities.Project.EditingItems;
-
-using AppViewModels.Project.ComposableViewModels;
+﻿using AppViewModels.Project.ComposableViewModels;
 
 using ReactiveUI;
 

@@ -1,6 +1,4 @@
-﻿using App.Core.Common;
-
-namespace App.Core.Entities.Solution.Explorer;
+﻿namespace App.Core.Entities.Solution.Explorer;
 public class ExplorerItem : BaseAuditableEntity
 {
     public string Name

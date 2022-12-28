@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
 
 using DynamicData.Binding;
-
-using Neumorphism.Avalonia.Styles.Themes;
 
 namespace Project.AppInstaller.ViewModels;
 public class MainWindowViewModel : ViewModelBase

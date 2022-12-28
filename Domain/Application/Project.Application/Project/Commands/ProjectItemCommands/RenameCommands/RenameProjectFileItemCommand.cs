@@ -3,10 +3,12 @@
 using Common;
 
 using MediatR;
+
+using Project.Application.Contracts;
 using Project.Application.Project.Contracts;
 
-namespace Project.Application.Project.Commands.ProjectItemCommands;
-public class RenameProjectFileItemCommand : IRequest<FileItem>
+namespace Project.Application.Project.Commands.ProjectItemCommands.RenameCommands;
+public class RenameProjectFileItemCommand : IRequest<Resource<ExplorerItem>>
 {
     public RenameProjectFileItemCommand(FileItem item)
     {
@@ -18,7 +20,7 @@ public class RenameProjectFileItemCommand : IRequest<FileItem>
     }
 }
 
-public class RenameProjectFileItemCommandHandler
+public class RenameProjectFileItemCommandHandler : ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>
 {
     private readonly IExplorerItemRepository repository;
 
@@ -26,20 +28,10 @@ public class RenameProjectFileItemCommandHandler
     {
         this.repository = repository;
     }
-    public async Task<ExplorerItem> Handle(RenameProjectFileItemCommand request, CancellationToken cancellationToken)
+    public async Task<Resource<ExplorerItem>> Handle(RenameProjectFileItemCommand request, CancellationToken cancellationToken)
     {
         var result = await repository.RenameFileItemAsync(request.item);
 
-        result
-            .OnError(out var res, out var message)
-            .OnLoading(out res, out var isLoading)
-            .OnSuccess(out res);
-
-        if (res is not null)
-        {
-            return res;
-        }
-
-        return new();
+        return result;
     }
 }

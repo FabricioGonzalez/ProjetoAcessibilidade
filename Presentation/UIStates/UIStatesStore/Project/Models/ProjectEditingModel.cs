@@ -1,4 +1,4 @@
-﻿using AppUsecases.Project.Entities.Project;
+﻿using App.Core.Entities.Solution.Project.AppItem;
 
 namespace UIStatesStore.Project.Models;
 public class ProjectEditingModel

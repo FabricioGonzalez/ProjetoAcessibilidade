@@ -4,9 +4,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-using Project.Core.ViewModels;
-using Project.Core.ViewModels.Main;
-
 using ProjectAvalonia.Views;
 
 using Splat;
@@ -28,9 +25,9 @@ public partial class App : Application
 
             var windowViewModel = Locator.Current.GetService<MainViewModel>();
 
-         /*   if (args is not null)
-                windowViewModel.SetProjectPath(args.ToString());
-*/
+            /*   if (args is not null)
+                   windowViewModel.SetProjectPath(args.ToString());
+   */
             window.DataContext = windowViewModel;
 
             desktop.MainWindow = window;

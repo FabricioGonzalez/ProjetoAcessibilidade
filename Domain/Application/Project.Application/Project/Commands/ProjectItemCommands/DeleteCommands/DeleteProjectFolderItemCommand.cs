@@ -3,10 +3,12 @@
 using Common;
 
 using MediatR;
+
+using Project.Application.Contracts;
 using Project.Application.Project.Contracts;
 
-namespace Project.Application.Project.Commands.ProjectItemCommands;
-public class DeleteProjectFolderItemCommand : IRequest<FolderItem>
+namespace Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
+public class DeleteProjectFolderItemCommand : IRequest<Resource<ExplorerItem>>
 {
     public DeleteProjectFolderItemCommand(FolderItem item)
     {
@@ -18,7 +20,7 @@ public class DeleteProjectFolderItemCommand : IRequest<FolderItem>
     }
 }
 
-public class DeleteProjectFolderItemCommandHandler
+public class DeleteProjectFolderItemCommandHandler : ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>
 {
     private readonly IExplorerItemRepository repository;
 
@@ -26,20 +28,10 @@ public class DeleteProjectFolderItemCommandHandler
     {
         this.repository = repository;
     }
-    public async Task<ExplorerItem> Handle(DeleteProjectFolderItemCommand request, CancellationToken cancellationToken)
+    public async Task<Resource<ExplorerItem>> Handle(DeleteProjectFolderItemCommand request, CancellationToken cancellationToken)
     {
         var result = await repository.DeleteFolderItemAsync(request.item);
 
-        result
-            .OnError(out var res, out var message)
-            .OnLoading(out res, out var isLoading)
-            .OnSuccess(out res);
-
-        if (res is not null)
-        {
-            return res;
-        }
-
-        return new();
+        return result;
     }
 }

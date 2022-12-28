@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+﻿using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
 namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 public class AppFormDataItemCheckboxChildModel

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-using Neumorphism.Avalonia.Styles.Themes.Base;
-using Neumorphism.Avalonia.Styles.Themes;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Themes.Fluent;
 
 namespace ProjectAvalonia;

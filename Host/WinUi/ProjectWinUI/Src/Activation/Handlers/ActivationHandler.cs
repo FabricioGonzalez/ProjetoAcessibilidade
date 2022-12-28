@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+
 using ProjectWinUI.Src.Activation.Contracts;
 
 namespace ProjectWinUI.Src.Activation.Handlers;

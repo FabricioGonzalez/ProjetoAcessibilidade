@@ -18,8 +18,8 @@ public static class ViewRegister
     }
     public static IServiceCollection RegisterPages(this IServiceCollection service)
     {
-        PageService.Configure<ProjectViewModel,ProjectPage>();
-        
+        PageService.Configure<ProjectViewModel, ProjectPage>();
+
         return service;
     }
 }

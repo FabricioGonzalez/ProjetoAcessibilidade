@@ -1,28 +1,21 @@
+using System;
 using System.Reactive.Disposables;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
+
+using AppViewModels.Interactions.Project;
+using AppViewModels.Main;
 
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using Project.Core.ViewModels.Main;
-using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 
-using Project.Core.ViewModels.Project;
+using Neumorphism.Avalonia.Styles;
+
+using ProjectAvalonia.Dialogs.CreateSolutionDialog;
 
 using ReactiveUI;
-
-using Splat;
-using ProjectAvalonia.Dialogs.CreateSolutionDialog;
-using Project.Core.ViewModels.Dialogs;
-using Avalonia.Controls;
-using AppViewModels.Main;
-using Avalonia.Controls.Primitives;
-using Neumorphism.Avalonia.Styles;
-using AppViewModels.Interactions.Project;
-using System;
-using AppViewModels.Interactions.Main;
-using System.Reactive.Linq;
-using System.Reactive.Concurrency;
 
 namespace ProjectAvalonia.Views;
 public partial class MainWindow : ReactiveWindow<MainViewModel>
@@ -103,5 +96,5 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
             toggleButton.IsChecked = false;
             GlobalCommand.UseNeumorphismUILightTheme();
         }
-        }
+    }
 }

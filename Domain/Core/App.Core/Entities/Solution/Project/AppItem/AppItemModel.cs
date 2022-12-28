@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using AppUsecases.Project.Contracts.Entity;
+﻿using App.Core.Entities.Solution.Project.AppItem.DataItems;
 
 namespace App.Core.Entities.Solution.Project.AppItem;
 public class AppItemModel

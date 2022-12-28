@@ -7,7 +7,7 @@ public class ProjectViewModel : ViewModelBase, IRoutableViewModel
 {
     public IScreen HostScreen
     {
-        get;set;
+        get; set;
     }
     public string UrlPathSegment { get; } = "Project";
     public string strFolder

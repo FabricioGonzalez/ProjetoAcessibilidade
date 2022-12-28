@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Disposables;
-using System.Text;
-using System.Threading.Tasks;
 
 using AppViewModels.Common;
 using AppViewModels.Interactions.Project;

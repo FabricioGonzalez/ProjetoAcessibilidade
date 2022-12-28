@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-using AppViewModels.Interactions.Project;
+﻿using AppViewModels.Interactions.Project;
 
 using DynamicData.Binding;
 
@@ -9,7 +7,7 @@ using ReactiveUI;
 namespace AppViewModels.Project.ComposableViewModels;
 public class FolderProjectItemViewModel : ProjectItemViewModel
 {
-    public FolderProjectItemViewModel(string title, string path,string referencedItem, bool inEditMode = false)
+    public FolderProjectItemViewModel(string title, string path, string referencedItem, bool inEditMode = false)
         : base(Title: title, Path: path, referencedItem: referencedItem, inEditMode: inEditMode)
     {
         RenameCommand = ReactiveCommand.Create(() =>

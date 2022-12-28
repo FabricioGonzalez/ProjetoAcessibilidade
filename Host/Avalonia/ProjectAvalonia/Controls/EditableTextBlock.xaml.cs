@@ -1,4 +1,7 @@
-﻿using Avalonia;
+﻿using System;
+using System.Windows.Input;
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
@@ -6,9 +9,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Metadata;
 using Avalonia.Threading;
-
-using System;
-using System.Windows.Input;
 
 namespace ProjectAvalonia.Controls;
 
@@ -82,8 +82,8 @@ public class EditableTextBlock : TemplatedControl
     public static readonly DirectProperty<EditableTextBlock, ICommand> CommandProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand>(
         nameof(Command),
         component => component.Command,
-        (component, value) => component.Command = value); 
-    
+        (component, value) => component.Command = value);
+
     public static readonly DirectProperty<EditableTextBlock, object> CommandParameterProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, object>(
         nameof(Command),
         component => component.CommandParameter,

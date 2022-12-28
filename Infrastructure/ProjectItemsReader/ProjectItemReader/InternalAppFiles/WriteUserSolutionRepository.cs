@@ -1,4 +1,4 @@
-﻿using System.Xml;
+﻿/*using System.Xml;
 
 using AppUsecases.App.Contracts.Repositories;
 using AppUsecases.App.Models;
@@ -9,7 +9,7 @@ using Common;
 namespace ProjectItemReader.InternalAppFiles;
 public class WriteUserSolutionRepository : IWriteContract<ProjectSolutionModel>
 {
-    public async Task<ProjectSolutionModel> WriteDataAsync(ProjectSolutionModel dataToWrite, string filePathToWrite)
+*//*    public async Task<ProjectSolutionModel> WriteDataAsync(ProjectSolutionModel dataToWrite, string filePathToWrite)
     {
         var path = Directory.GetParent(filePathToWrite);
 
@@ -67,8 +67,8 @@ public class WriteUserSolutionRepository : IWriteContract<ProjectSolutionModel>
         return null;
 
     }
-
-    private XmlDocument SetItemsGroup(XmlDocument xml, List<ItemGroupModel> itemGroups)
+*/
+/*    private XmlDocument SetItemsGroup(XmlDocument xml, List<ItemGroupModel> itemGroups)
     {
         var elements = xml.GetElementsByTagName(Constants.items_groups);
         if (elements.Count > 0 && itemGroups.Count > 0)
@@ -111,8 +111,8 @@ public class WriteUserSolutionRepository : IWriteContract<ProjectSolutionModel>
         }
         return xml;
     }
-
-    private XmlDocument SetReportData(XmlDocument xml, ReportDataModel reportData)
+*/
+/*    private XmlDocument SetReportData(XmlDocument xml, ReportDataModel reportData)
     {
         var elements = xml.GetElementsByTagName(Constants.report);
         if (elements.Count > 0)
@@ -155,7 +155,7 @@ public class WriteUserSolutionRepository : IWriteContract<ProjectSolutionModel>
         }
 
         return xml;
-    }
+    }*//*
 
     private XmlDocument CreateSolutionStructure(XmlDocument document)
     {
@@ -189,3 +189,4 @@ public class WriteUserSolutionRepository : IWriteContract<ProjectSolutionModel>
 }
 
 
+*/

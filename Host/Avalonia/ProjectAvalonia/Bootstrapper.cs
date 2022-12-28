@@ -1,78 +1,66 @@
-﻿using Splat;
+﻿using System.Collections.Generic;
+using System.IO;
 
-using System.Collections.Generic;
+using App.Core.Entities.App;
+using App.Core.Entities.Solution;
+using App.Core.Entities.Solution.Project.AppItem;
+
+using AppViewModels.Contracts;
+using AppViewModels.Dialogs.States;
+using AppViewModels.Main;
+using AppViewModels.Project;
+using AppViewModels.Project.Operations;
+using AppViewModels.System;
+using AppViewModels.TemplateEditing;
+using AppViewModels.TemplateRules;
 
 using Common;
 
-using ProjectAvalonia.Views;
+using Project.Application.App.Contracts;
+using Project.Application.App.Queries.GetAllTemplates;
+using Project.Application.App.Queries.GetUFList;
+using Project.Application.Contracts;
+using Project.Application.Implementations;
+using Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
+using Project.Application.Project.Commands.ProjectItemCommands.RenameCommands;
+using Project.Application.Project.Contracts;
+using Project.Application.Project.Queries.GetProjectItemContent;
+using Project.Application.Project.Queries.GetProjectItems;
+using Project.Application.Solution.Contracts;
+using Project.Application.Solution.Queries;
+
 using ProjectAvalonia.Project.Components.ProjectExplorer;
+using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using ProjectAvalonia.Services;
+using ProjectAvalonia.Views;
 
 using ProjectItemReader.InternalAppFiles;
 using ProjectItemReader.XmlFile;
 
-using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
-using System.IO;
+using Splat;
 
-using Project.Core.ViewModels.Project;
-using AppUsecases.Project.Entities.FileTemplate;
-using AppUsecases.App.Usecases;
-using AppUsecases.Editing.Entities;
-using UIStatesStore.Project.Models;
-using UIStatesStore.Contracts;
-using UIStatesStore.App.Models;
-using UIStatesStore.Project.Observable;
-
-using UIStatesStore.App.Observable;
-using UIStatesStore.Solution.Observables;
-using AppViewModels.Main;
-using AppViewModels.Contracts;
-using Project.Application.Project.Contracts;
-using Project.Application.Project.Queries.GetProjectItems;
-using AppViewModels.Project.Operations;
-using Project.Application.Project.Commands.ProjectItemCommands;
-using AppViewModels.Dialogs.States;
-using AppViewModels.TemplateEditing;
-using AppViewModels.TemplateRules;
-using AppViewModels.System;
-using AppViewModels.Project;
-using Project.Application.App.Contracts;
-using AppUsecases.App.Contracts.Repositories;
-using AppUsecases.App.Contracts.Usecases;
-using AppUsecases.Project.Usecases;
-using Project.Application.Implementations;
-using Project.Application.Contracts;
-using Project.Application;
-using App.Core.Entities.Solution.Explorer;
 using ExplorerItem = App.Core.Entities.Solution.Explorer.ExplorerItem;
-using App.Core.Entities.Solution.Project.AppItem;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
 {
     public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
     {
-        /*service.RegisterLazySingleton(() => new MainWindowViewModel());*/
         service.RegisterLazySingleton(() => new MainViewModel());
 
         service.RegisterLazySingleton(() => new TemplateEditingViewModel());
 
         service.RegisterLazySingleton(() => new TemplateRulesViewModel());
 
-        service.RegisterLazySingleton(() => new AddItemViewModel());
-
         service.RegisterLazySingleton(() => new SolutionStateViewModel());
 
         service.RegisterLazySingleton(() => new SettingsViewModel());
 
-        /*service.RegisterLazySingleton(() => new ProjectViewModel());*/
-        service.RegisterLazySingleton(() => new AppViewModels.Project.ProjectViewModel());
+        service.RegisterLazySingleton(() => new ProjectViewModel());
 
         service.RegisterLazySingleton(() => new ProjectEditingViewModel());
 
-        /*service.Register(() => new ExplorerComponentViewModel());*/
-        service.Register(() => new AppViewModels.Project.ProjectExplorerViewModel());
-        service.Register(() => new ItemEditingViewModel());
+        service.Register(() => new ProjectExplorerViewModel());
 
         return service;
     }
@@ -88,57 +76,53 @@ public static class Bootstrapper
     }
     public static IMutableDependencyResolver AddViewModelOperations(this IMutableDependencyResolver service)
     {
-
         service.RegisterLazySingleton(() => new ProjectExplorerOperations());
-
 
         return service;
     }
     public static IMutableDependencyResolver AddUsecases(this IMutableDependencyResolver service)
     {
-        /*  service.Register<IQueryUsecase<string, List<ExplorerItem>>>(() => new GetProjectItemsUsecase(
-       Locator.Current.GetService<IReadContract<List<ExplorerItem>>>()
-      ));*/
-
-        service.Register(() => new GetProjectItemsQueryHandler(
+        service
+            .Register(() => new GetProjectItemsQueryHandler(
      Locator.Current.GetService<IExplorerItemRepository>()
     ));
-
-        service.Register(() => new RenameProjectFileItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
+        service
+            .Register<IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>>(() => new ReadSolutionProjectQueryHandler(
+     Locator.Current.GetService<ISolutionRepository>()
     ));
-
-        service.Register(() => new DeleteProjectFileItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
-    ));
-
-        service.Register(() => new DeleteProjectFolderItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
-    ));
-
-        service.Register(() => new RenameProjectFolderItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
-    ));
-
-        service.Register<IQueryUsecase<string, ProjectSolutionModel>>(() => new GetProjectSolutionUsecase(
-            Locator.Current.GetService<IReadContract<ProjectSolutionModel>>()
-            ));
-
-        service.Register<IQueryUsecase<List<FileTemplate>>>(() => new GetProjectTemplateUsecase(
-            Locator.Current.GetService<IReadContract<Resource<List<FileTemplate>>>>()
-            ));
-
-        service.Register<IQueryUsecase<string, AppItemModel>>(() => new GetProjectItemContentUsecase(
-            Locator.Current.GetService<IReadContract<AppItemModel>>()
-            ));
-
-        service.Register<ICommandUsecase<ProjectSolutionModel, ProjectSolutionModel>>(() => new CreateProjectSolutionUsecase(
-            Locator.Current.GetService<IWriteContract<ProjectSolutionModel>>()));
-
-        service.Register(() => new GetUFList());
 
         service
-            .RegisterLazySingleton<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(() => new GetProjectItemsQueryHandler(
+            .Register<ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFileItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
+
+        service
+            .Register<ICommandHandler<DeleteProjectFileItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFileItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
+
+        service
+            .Register<ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFolderItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
+
+        service
+            .Register<ICommandHandler<RenameProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFolderItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()
+    ));
+
+        service
+            .Register<IQueryHandler<GetAllUFQuery, IList<UFModel>>>(() => new GetAllUFQueryHandler());
+
+        service
+            .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetProjectItemContentQueryHandler());
+
+        service
+            .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(() => new GetAllTemplatesQueryHandler(
+                Locator.Current.GetService<IAppTemplateRepository>()));
+
+        service
+            .Register<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(() => new GetProjectItemsQueryHandler(
                 Locator.Current.GetService<IExplorerItemRepository>()));
 
         return service;
@@ -146,36 +130,20 @@ public static class Bootstrapper
     public static IMutableDependencyResolver AddRepositories(this IMutableDependencyResolver service)
     {
         service
-            .Register<IWriteContract<ProjectSolutionModel>>(() =>
-            new WriteUserSolutionRepository());
-
-        service
             .Register<IExplorerItemRepository>(() =>
             new ExplorerItemRepositoryImpl());
 
         service
-            .Register<IWriteContract<AppItemModel>>(() =>
-            new WriteTemplateContentRepository());
+            .Register<IProjectItemContentRepository>(() =>
+            new ProjectItemContentRepositoryImpl());
 
         service
-    .Register<IReadContract<AppItemModel>>(() =>
-    new ReadTemplateContentRepository());
+            .Register<ISolutionRepository>(() =>
+            new SolutionRepositoryImpl());
 
         service
-            .Register<IReadContract<ProjectSolutionModel>>(() =>
-            new ReadUserSolutionRepository());
-
-        service
-            .Register<IReadContract<List<FileTemplate>>>(() =>
-            new ReadAllRecentProjectFilesRepository());
-
-        service
-            .Register<IReadContract<Resource<List<FileTemplate>>>>(() =>
-            new ReadAppTemplatesRepository());
-
-        //service
-        //    .Register<IReadContract<List<ExplorerItem>>>(() =>
-        //    new ReadProjectFilesRepository());
+            .Register<IAppTemplateRepository>(() =>
+            new AppTemplateRepositoryImpl());
 
         return service;
     }
@@ -271,16 +239,6 @@ public static class Bootstrapper
         {
             return new NotificationMessageManagerService();
         });
-        return service;
-    }
-
-    public static IMutableDependencyResolver AddUIStates(this IMutableDependencyResolver service)
-    {
-        service.RegisterLazySingleton<IAppObservable<ProjectModel>>(() => new ProjectStateObservable());
-        service.RegisterLazySingleton<IAppObservable<AppErrorMessage>>(() => new AppErrorObservable());
-        service.RegisterLazySingleton<IAppObservable<ProjectEditingModel>>(() => new ProjectEditingStateObservable());
-        service.RegisterLazySingleton<IAppObservable<UIStatesStore.Solution.Models.ProjectSolutionModel>>(() => new SolutionObservable());
-
         return service;
     }
 

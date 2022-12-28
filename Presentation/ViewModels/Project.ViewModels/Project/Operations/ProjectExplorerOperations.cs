@@ -5,24 +5,20 @@ using AppViewModels.Project.Mappers;
 
 using Common;
 
-using Project.Application.Project.Commands.ProjectItemCommands;
+using Project.Application.Contracts;
+using Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
+using Project.Application.Project.Commands.ProjectItemCommands.RenameCommands;
 
 using Splat;
 
 namespace AppViewModels.Project.Operations;
 public class ProjectExplorerOperations
 {
-    private readonly RenameProjectFileItemCommandHandler renameProjectFileItemCommand;
-    private readonly RenameProjectFolderItemCommandHandler renameProjectFolderItemCommand;
-    private readonly DeleteProjectFileItemCommandHandler deleteProjectFileItemCommand;
-    private readonly DeleteProjectFolderItemCommandHandler deleteProjectFolderItemCommand;
+    private readonly ICommandDispatcher commandDispatcher;
 
     public ProjectExplorerOperations()
     {
-        renameProjectFileItemCommand = Locator.Current.GetService<RenameProjectFileItemCommandHandler>();
-        renameProjectFolderItemCommand = Locator.Current.GetService<RenameProjectFolderItemCommandHandler>();
-        deleteProjectFileItemCommand = Locator.Current.GetService<DeleteProjectFileItemCommandHandler>();
-        deleteProjectFolderItemCommand = Locator.Current.GetService<DeleteProjectFolderItemCommandHandler>();
+        commandDispatcher = Locator.Current.GetService<ICommandDispatcher>();
     }
     public async Task<FileProjectItemViewModel> RenameFile(FileProjectItemViewModel item, List<ProjectItemViewModel> items)
     {
@@ -30,16 +26,28 @@ public class ProjectExplorerOperations
 
         if (file is not null)
         {
-            var result = await renameProjectFileItemCommand.Handle(request: new(
+            var result = await commandDispatcher.Dispatch<RenameProjectFileItemCommand, Resource<ExplorerItem>>(new(
                  new()
                  {
                      Name = file.Title,
                      Path = file.Path,
                      ReferencedItem = file.ReferencedItem
                  }
-                 ), cancellationToken: CancellationToken.None);
+                 ), CancellationToken.None);
 
-            return new(title: result.Name, path: result.Path, referencedItem: result.ReferencedItem, inEditMode: false);
+            if (result is Resource<ExplorerItem>.Success operationResult)
+            {
+                return new(title: operationResult.Data.Name,
+                    path: operationResult.Data.Path,
+                    referencedItem: operationResult.Data.ReferencedItem,
+                    inEditMode: false);
+
+            }
+            if (result is Resource<ExplorerItem>.Error)
+            {
+
+            }
+            return item;
         }
 
         return item;
@@ -49,15 +57,13 @@ public class ProjectExplorerOperations
     {
         var folder = items.SearchFolder(item);
 
-        /*  if (folder is not null)
-          {*/
-        var result = await renameProjectFolderItemCommand.Handle(request: new(
+        var result = await commandDispatcher.Dispatch<RenameProjectFolderItemCommand, Resource<ExplorerItem>>(new(
              new()
              {
                  Name = item.Title,
                  Path = item.Path,
                  Children = item.Children
-                 .Select(x => new App.Core.Entities.Solution.Explorer.ExplorerItem()
+                 .Select(x => new ExplorerItem()
                  {
                      Name = x.Title,
                      Path = x.Path,
@@ -65,12 +71,21 @@ public class ProjectExplorerOperations
                  })
                  .ToList()
              }
-             ), cancellationToken: CancellationToken.None);
+             ), CancellationToken.None);
 
-        return new(title: result.Name, path: result.Path, referencedItem: result.ReferencedItem, inEditMode: false);
-        /*}*/
+        if (result is Resource<ExplorerItem>.Success operationResult)
+        {
+            return new(title: operationResult.Data.Name,
+                path: operationResult.Data.Path,
+                referencedItem: operationResult.Data.ReferencedItem,
+                inEditMode: false);
 
-        /*   return item;*/
+        }
+        if (result is Resource<ExplorerItem>.Error)
+        {
+
+        }
+        return item;
     }
 
     public async Task<FileProjectItemViewModel> DeleteFile(FileProjectItemViewModel item, List<ProjectItemViewModel> items)
@@ -79,21 +94,20 @@ public class ProjectExplorerOperations
 
         if (file is not null)
         {
-            var result = await deleteProjectFileItemCommand.Handle(request: new(
+            var result = await commandDispatcher.Dispatch<DeleteProjectFileItemCommand, Resource<ExplorerItem>>(new(
                  new()
                  {
                      Name = file.Title,
                      Path = file.Path,
                      ReferencedItem = file.ReferencedItem,
                  }
-                 ), cancellationToken: CancellationToken.None);
+                 ), CancellationToken.None);
             if (result is Resource<ExplorerItem>.Success operationResult)
             {
                 return new(title: operationResult.Data.Name,
                     path: operationResult.Data.Path,
                     referencedItem: operationResult.Data.ReferencedItem,
                     inEditMode: false);
-
             }
             if (result is Resource<ExplorerItem>.Error)
             {
@@ -110,7 +124,7 @@ public class ProjectExplorerOperations
 
         if (folder is not null)
         {
-            var result = await deleteProjectFolderItemCommand.Handle(request: new(
+            var result = await commandDispatcher.Dispatch<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>(new(
                  new()
                  {
                      Name = folder.Title,
@@ -124,9 +138,20 @@ public class ProjectExplorerOperations
                      })
                      .ToList()
                  }
-                 ), cancellationToken: CancellationToken.None);
+                 ), CancellationToken.None);
 
-            return new(title: result.Name, path: result.Path, referencedItem: result.ReferencedItem, inEditMode: false);
+            if (result is Resource<ExplorerItem>.Success operationResult)
+            {
+                return new(title: operationResult.Data.Name,
+                    path: operationResult.Data.Path,
+                    referencedItem: operationResult.Data.ReferencedItem,
+                    inEditMode: false);
+
+            }
+            if (result is Resource<ExplorerItem>.Error)
+            {
+
+            }
         }
 
         return item;

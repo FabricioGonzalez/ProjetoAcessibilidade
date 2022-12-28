@@ -4,8 +4,6 @@
 using System;
 using System.IO;
 
-using ProjectWinUI.Src.Helpers;
-
 using WinUIEx;
 
 // To learn more about WinUI, the WinUI project structure,

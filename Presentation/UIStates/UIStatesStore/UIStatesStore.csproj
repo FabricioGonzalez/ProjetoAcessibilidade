@@ -17,4 +17,8 @@
     <Folder Include="Solution\Observables\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Domain\Core\App.Core\App.Core.csproj" />
+  </ItemGroup>
+
 </Project>

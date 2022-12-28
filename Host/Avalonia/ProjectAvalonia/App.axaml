@@ -5,9 +5,9 @@
     xmlns:local="using:ProjectAvalonia"
     xmlns:notification="clr-namespace:Avalonia.Notification;assembly=Notification.Avalonia"
     xmlns:themes="clr-namespace:Neumorphism.Avalonia.Styles.Themes;assembly=Neumorphism.Avalonia">
-    <Application.DataTemplates>
+    <!--<Application.DataTemplates>
         <local:ViewLocator />
-    </Application.DataTemplates>
+    </Application.DataTemplates>-->
 
     <Application.Resources>
         <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>

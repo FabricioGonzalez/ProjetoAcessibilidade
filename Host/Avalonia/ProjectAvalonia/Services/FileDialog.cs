@@ -26,17 +26,17 @@ public class FileDialog : IFileDialog
         if (result != null)
         {
             var sb = new StringBuilder();
-           
-                try
-                {
-                    sb.Append(result);
-                }
-                catch (Exception ex)
-                {
-                    string text = string.Format("Error: {0}\n", ex.Message);
-                    sb.Append(text);
-                }
-            
+
+            try
+            {
+                sb.Append(result);
+            }
+            catch (Exception ex)
+            {
+                string text = string.Format("Error: {0}\n", ex.Message);
+                sb.Append(text);
+            }
+
             return sb.ToString();
         }
 
@@ -50,17 +50,17 @@ public class FileDialog : IFileDialog
         if (result != null)
         {
             var sb = new StringBuilder();
-           
-                try
-                {
-                    sb.Append(result);
-                }
-                catch (Exception ex)
-                {
-                    string text = string.Format("Error: {0}\n", ex.Message);
-                    sb.Append(text);
-                }
-            
+
+            try
+            {
+                sb.Append(result);
+            }
+            catch (Exception ex)
+            {
+                string text = string.Format("Error: {0}\n", ex.Message);
+                sb.Append(text);
+            }
+
             return sb.ToString();
         }
 
@@ -81,7 +81,7 @@ public class FileDialog : IFileDialog
             {
                 try
                 {
-                        sb.Append(fileName);                    
+                    sb.Append(fileName);
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +91,7 @@ public class FileDialog : IFileDialog
             }
             return sb.ToString();
         }
-        
+
         return "";
     }
 }

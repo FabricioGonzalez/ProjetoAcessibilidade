@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using App.Core.Entities.Solution.Explorer;
+﻿using App.Core.Entities.Solution.Explorer;
 
 using Common;
 
@@ -13,8 +7,8 @@ using MediatR;
 using Project.Application.Contracts;
 using Project.Application.Project.Contracts;
 
-namespace Project.Application.Project.Commands.ProjectItemCommands;
-public class DeleteProjectFileItemCommand : IRequest<FileItem>
+namespace Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
+public class DeleteProjectFileItemCommand : IRequest<Resource<ExplorerItem>>
 {
     public DeleteProjectFileItemCommand(FileItem item)
     {
@@ -38,16 +32,6 @@ public class DeleteProjectFileItemCommandHandler : ICommandHandler<DeleteProject
     {
         var result = await repository.DeleteFileItemAsync(request.item);
 
-        result
-            .OnError(out var res, out var message)
-            .OnLoading(out res, out var isLoading)
-            .OnSuccess(out res);
-
-        if (res is not null)
-        {
-            return new Resource<ExplorerItem>.Success(Data: res);
-        }
-
-        return new Resource<ExplorerItem>.Error(Message: "", Data: new());
+        return result;
     }
 }

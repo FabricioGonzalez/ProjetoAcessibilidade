@@ -70,8 +70,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
-        <ProjectReference Include="..\..\..\Presentation\UIStates\UIStatesStore\UIStatesStore.csproj" />
-        <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.Core\Project.Core.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>

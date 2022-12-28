@@ -1,11 +1,17 @@
 ﻿using System.Reactive;
+using System.Reactive.Disposables;
 
 using App.Core.Entities.App;
+using App.Core.Entities.Solution.ItemsGroup;
+using App.Core.Entities.Solution.ReportInfo;
 
 using AppViewModels.Common;
 using AppViewModels.Contracts;
 
 using DynamicData.Binding;
+
+using Project.Application.App.Queries.GetUFList;
+using Project.Application.Contracts;
 
 using ReactiveUI;
 
@@ -14,12 +20,12 @@ using Splat;
 namespace AppViewModels.Dialogs.States;
 public class SolutionStateViewModel : ViewModelBase
 {
-/*    private ReportDataModel reportData = new();
-    public ReportDataModel ReportData
+    private SolutionInfo reportData = new();
+    public SolutionInfo ReportData
     {
         get => reportData;
         set => this.RaiseAndSetIfChanged(ref reportData, value, nameof(ReportData));
-    }*/
+    }
 
     private string fileName = "";
     public string FileName
@@ -49,27 +55,26 @@ public class SolutionStateViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref parentFolderPath, value, nameof(ParentFolderPath));
     }
 
-/*    private ObservableCollectionExtended<ItemGroupModel> itemGroups = new();
+    private ObservableCollectionExtended<ItemGroupModel> itemGroups = new();
     public ObservableCollectionExtended<ItemGroupModel> ItemGroups
     {
         get => itemGroups;
         set => this.RaiseAndSetIfChanged(ref itemGroups, value, nameof(ItemGroups));
     }
-*/
+
     private ObservableCollectionExtended<UFModel> ufList;
     public ObservableCollectionExtended<UFModel> UFList
     {
         get => ufList;
         set => this.RaiseAndSetIfChanged(ref ufList, value, nameof(UFList));
     }
- /*  
-    private readonly GetUFList getUFList;*/
-    private readonly IFileDialog dialogService;
 
+    private readonly IQueryDispatcher queryDispatcher;
+    private readonly IFileDialog dialogService;
 
     public SolutionStateViewModel()
     {
-/*        getUFList = Locator.Current.GetService<GetUFList>();*/
+        queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
 
         dialogService = Locator.Current.GetService<IFileDialog>();
 
@@ -87,9 +92,13 @@ public class SolutionStateViewModel : ViewModelBase
             return path;
         });
 
-/*        UFList = new(getUFList
-         .GetAllUF()
-         .OrderBy(x => x.Name));*/
+        this.WhenActivated(async (CompositeDisposable disposables) =>
+        {
+            UFList = new(
+       (await queryDispatcher
+       .Dispatch<GetAllUFQuery, IList<UFModel>>(new(), CancellationToken.None)).OrderBy(x => x.Name));
+
+        });
     }
 
 

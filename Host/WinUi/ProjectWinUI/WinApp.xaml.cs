@@ -10,8 +10,6 @@ using Microsoft.UI.Xaml;
 
 using ProjectWinUI.DI;
 using ProjectWinUI.Src.Activation.Contracts;
-using ProjectWinUI.Src.Helpers;
-using ProjectWinUI.Src.Notifications.Contracts;
 using ProjectWinUI.Src.Settings.Models;
 
 using WinUIEx;
@@ -36,7 +34,8 @@ public partial class WinApp : Application
 
         AppHost = Host.CreateDefaultBuilder().
        UseContentRoot(AppContext.BaseDirectory).
-       ConfigureServices((context, services) => {
+       ConfigureServices((context, services) =>
+       {
            services
            .RegisterActivationHandlers()
            .RegisterServices()

@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
-
-using AppUsecases.Project.Contracts.Entity;
-using AppUsecases.Project.Enums;
-
-namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+﻿namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 public class AppFormDataItemCheckboxModel : IAppFormDataItemContract
 {
     public string Topic
     {
         get; set;
     }
-    public AppFormDataTypeEnum Type { get; set; } = AppFormDataTypeEnum.Checkbox;
+    public AppFormDataType Type { get; set; } = AppFormDataType.Checkbox;
     public List<AppFormDataItemCheckboxChildModel> Children
     {
         get; set;
