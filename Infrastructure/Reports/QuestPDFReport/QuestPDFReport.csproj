@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="QuestPDF" Version="2022.9.1" />
+    <PackageReference Include="QuestPDF" Version="2022.12.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

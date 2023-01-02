@@ -1,8 +1,8 @@
 ﻿using QuestPDF.Helpers;
 
-using QuestPDFTest.Models;
+using QuestPDFReport.Models;
 
-namespace QuestPDFTest;
+namespace QuestPDFReport;
 public static class DataSource
 {
     public static ReportModel GetReport()

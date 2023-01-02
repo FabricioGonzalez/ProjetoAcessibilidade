@@ -74,6 +74,9 @@
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Update="PDFPreviewer\Views\PreviewerControl.cs">
+          <DependentUpon>PreviewerControl</DependentUpon>
+        </Compile>
         <Compile Update="Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">
             <DependentUpon>EditingItem.axaml</DependentUpon>
         </Compile>

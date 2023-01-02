@@ -2,7 +2,7 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace QuestPDFTest.Components;
+namespace QuestPDFReport.Components;
 public class ImagePlaceholder : IComponent
 {
     public static bool Solid { get; set; } = false;

@@ -12,9 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\Logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\QuestPDFReport\QuestPDFReport.csproj" />
   </ItemGroup>
 
 </Project>

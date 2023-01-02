@@ -8,6 +8,7 @@ using App.Core.Entities.Solution.Project.AppItem;
 using AppViewModels.Contracts;
 using AppViewModels.Dialogs.States;
 using AppViewModels.Main;
+using AppViewModels.PDFViewer;
 using AppViewModels.Project;
 using AppViewModels.Project.Operations;
 using AppViewModels.System;
@@ -29,6 +30,7 @@ using Project.Application.Project.Queries.GetProjectItems;
 using Project.Application.Solution.Contracts;
 using Project.Application.Solution.Queries;
 
+using ProjectAvalonia.PDFPreviewer.Views;
 using ProjectAvalonia.Project.Components.ProjectExplorer;
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using ProjectAvalonia.Services;
@@ -60,6 +62,8 @@ public static class Bootstrapper
 
         service.RegisterLazySingleton(() => new ProjectEditingViewModel());
 
+        service.RegisterLazySingleton(() => new PreviewerViewModel());
+
         service.Register(() => new ProjectExplorerViewModel());
 
         return service;
@@ -67,6 +71,8 @@ public static class Bootstrapper
     public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
     {
         service.Register(() => new ExplorerComponent());
+
+        service.Register(() => new PreviewerPage());
 
         service.RegisterLazySingleton(() => new MainWindow());
 

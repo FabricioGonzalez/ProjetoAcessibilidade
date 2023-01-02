@@ -2,9 +2,9 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-using QuestPDFTest.Models;
+using QuestPDFReport.Models;
 
-namespace QuestPDFTest.Components;
+namespace QuestPDFReport.Components;
 public static class Helpers
 {
     static IContainer Cell(this IContainer container, bool background)

@@ -11,6 +11,7 @@ using AppViewModels.Dialogs.States;
 using AppViewModels.Interactions.Main;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Main.States;
+using AppViewModels.PDFViewer;
 using AppViewModels.Project;
 using AppViewModels.System;
 using AppViewModels.TemplateEditing;
@@ -44,8 +45,6 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
     public MainViewModel()
     {
         NotificationMessageManagerService ??= Locator.Current.GetService<INotificationMessageManagerService>();
-
-        /*projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();*/
 
         SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
 
@@ -120,6 +119,18 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
             }
         });
 
+        GoToPrintPreview = ReactiveCommand.Create(() =>
+        {
+            var printPreview = Locator.Current.GetService<PreviewerViewModel>();
+
+            if (printPreview is not null)
+            {
+                printPreview.HostScreen = this;
+
+                Router.Navigate.Execute(printPreview);
+            }
+        });
+
         this.WhenActivated((disposables) =>
         {
             OpenProjectCommand.Subscribe(solutionPath =>
@@ -168,6 +179,18 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
                       })
                       .DisposeWith(disposables);
 
+            AppInterations.PrintSolution
+            .RegisterHandler(interaction =>
+            {
+                GoToPrintPreview
+                .Execute()
+                .Subscribe()
+                .DisposeWith(disposables);
+
+                interaction.SetOutput(interaction.Input);
+
+            })
+            .DisposeWith(disposables);
 
             CreateProjectCommand.Subscribe(solutionPath =>
             {
@@ -211,6 +234,10 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
         get; private set;
     }
     public ReactiveCommand<Unit, string> CreateProjectCommand
+    {
+        get; private set;
+    }
+    public ReactiveCommand<Unit, Unit> GoToPrintPreview
     {
         get; private set;
     }

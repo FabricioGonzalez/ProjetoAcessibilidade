@@ -3,7 +3,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace QuestPDFTest.Components;
+namespace QuestPDFReport.Components;
 public class DifferentHeadersTemplate : IDocument
 {
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;

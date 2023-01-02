@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 
 using Avalonia.Notification;
 
@@ -11,7 +11,7 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
     {
         get;
     } = new NotificationMessageManager();
-    public void ShowDebug(string message) => Manager
+    public void ShowDebug(string message) => /* Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Animates(true)
@@ -20,11 +20,11 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
                 .HasMessage(message)
                 .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(5))
-                /*.Dismiss().WithButton("Update now", button => { })
+                *//*.Dismiss().WithButton("Update now", button => { })
                 .Dismiss().WithButton("Release notes", button => { })
-                .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*/
-                .Queue();
-    public void ShowError(string message) => Manager
+                .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*//*
+                .Queue()*/Debug.WriteLine($"Debug {message}");
+    public void ShowError(string message) => /*Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Animates(true)
@@ -33,11 +33,11 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
                 .HasMessage(message)
                 .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(5))
-                /*.Dismiss().WithButton("Update now", button => { })
+                *//*.Dismiss().WithButton("Update now", button => { })
                 .Dismiss().WithButton("Release notes", button => { })
-                .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*/
-                .Queue();
-    public void ShowInfo(string message) => Manager
+                .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*//*
+                .Queue();*/Debug.WriteLine($"Error {message}");
+    public void ShowInfo(string message) => /*Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Animates(true)
@@ -46,11 +46,11 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
                 .HasMessage(message)
                 .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(5))
-                /*.Dismiss().WithButton("Update now", button => { })
+                *//*.Dismiss().WithButton("Update now", button => { })
                 .Dismiss().WithButton("Release notes", button => { })
-                .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*/
-                .Queue();
-    public void ShowWarning(string message) => Manager
+                .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*//*
+                .Queue();*/ Debug.WriteLine($"Info {message}");
+    public void ShowWarning(string message) => /*Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Animates(true)
@@ -59,8 +59,8 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
                 .HasMessage(message)
                 .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(5))
-                /*.Dismiss().WithButton("Update now", button => { })
+                *//*.Dismiss().WithButton("Update now", button => { })
                 .Dismiss().WithButton("Release notes", button => { })
-                .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*/
-                .Queue();
+                .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*//*
+                .Queue();*/ Debug.WriteLine($"Warning {message}");
 }

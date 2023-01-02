@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.9.4" />
+    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="2.0.1" />
   </ItemGroup>
 
 </Project>

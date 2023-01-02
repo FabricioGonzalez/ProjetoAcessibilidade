@@ -9,6 +9,7 @@ using App.Core.Entities.Solution.Explorer;
 using AppViewModels.Common;
 using AppViewModels.Dialogs;
 using AppViewModels.Dialogs.States;
+using AppViewModels.Interactions.Main;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Project.ComposableViewModels;
 using AppViewModels.Project.Mappers;
@@ -59,6 +60,7 @@ public class ProjectExplorerViewModel : ViewModelBase
     {
         explorerOperations ??= Locator.Current.GetService<ProjectExplorerOperations>();
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+
         SolutionModel ??= Locator.Current.GetService<SolutionStateViewModel>();
 
         projectExplorerState = new();
@@ -111,6 +113,13 @@ public class ProjectExplorerViewModel : ViewModelBase
             .Subscribe();
         });
 
+        PrintDocument = ReactiveCommand.Create<string>((solutionPath) =>
+        {
+            var result = AppInterations.PrintSolution
+             .Handle(solutionPath)
+             .Subscribe();
+        });
+
         this.WhenActivated(disposables =>
         {
             this
@@ -134,15 +143,22 @@ public class ProjectExplorerViewModel : ViewModelBase
                      }
 
                  }
-             }).DisposeWith(disposables);
+             })
+             .DisposeWith(disposables);
 
-            SolutionModel.ChooseSolutionPath.Subscribe(result =>
+            PrintDocument
+            .Subscribe()
+            .DisposeWith(disposables);
+
+            SolutionModel.ChooseSolutionPath
+            .Subscribe(result =>
             {
                 SolutionModel.FilePath = result;
             })
            .DisposeWith(disposables);
 
-            SolutionModel.ChooseLogoPath.Subscribe(result =>
+            SolutionModel.ChooseLogoPath
+            .Subscribe(result =>
             {
                 SolutionModel.ReportData.LogoPath = result;
             }).DisposeWith(disposables);
@@ -163,6 +179,11 @@ public class ProjectExplorerViewModel : ViewModelBase
 
         return new();
 
+    }
+
+    public ReactiveCommand<string, Unit> PrintDocument
+    {
+        get;
     }
 
     public ReactiveCommand<ProjectItemViewModel, Unit> AddItemCommand

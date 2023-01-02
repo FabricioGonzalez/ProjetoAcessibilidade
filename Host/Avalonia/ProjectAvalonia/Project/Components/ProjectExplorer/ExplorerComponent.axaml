@@ -44,6 +44,8 @@
                 Width="36"
                 Height="36"
                 Classes="Icon"
+                Command="{Binding PrintDocument}"
+                CommandParameter="{Binding CurrentOpenProject}"
                 ToolTip.Tip="Imprimir">
                 <material:MaterialIcon Kind="Printer" />
             </Button>

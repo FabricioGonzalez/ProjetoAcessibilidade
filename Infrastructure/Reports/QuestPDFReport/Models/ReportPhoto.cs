@@ -1,4 +1,4 @@
-﻿namespace QuestPDFTest.Models;
+﻿namespace QuestPDFReport.Models;
 public class ReportPhoto
 {
     public Location Location

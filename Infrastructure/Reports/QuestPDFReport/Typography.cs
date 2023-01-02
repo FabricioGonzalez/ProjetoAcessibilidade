@@ -2,7 +2,7 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace QuestPDFTest;
+namespace QuestPDFReport;
 public static class Typography
 {
     public static TextStyle Title => TextStyle.Default.FontFamily(Fonts.Lato).FontColor(Colors.Blue.Darken3).FontSize(26).Black();

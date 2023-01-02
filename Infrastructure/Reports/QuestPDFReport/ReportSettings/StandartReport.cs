@@ -3,10 +3,10 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-using QuestPDFTest.Components;
-using QuestPDFTest.Models;
+using QuestPDFReport.Components;
+using QuestPDFReport.Models;
 
-namespace QuestPDFTest.ReportSettings;
+namespace QuestPDFReport.ReportSettings;
 public class StandardReport : IDocument
 {
     private ReportModel Model

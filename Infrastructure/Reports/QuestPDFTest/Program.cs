@@ -1,7 +1,7 @@
 ﻿using QuestPDF.Previewer;
 
-using QuestPDFTest;
-using QuestPDFTest.ReportSettings;
+using QuestPDFReport;
+using QuestPDFReport.ReportSettings;
 
 var model = DataSource.GetReport();
 var Report = new StandardReport(model);

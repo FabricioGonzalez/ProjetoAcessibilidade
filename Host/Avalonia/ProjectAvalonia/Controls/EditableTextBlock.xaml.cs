@@ -191,9 +191,8 @@ public class EditableTextBlock : TemplatedControl
         }
 
         InEditMode = false;
-
-        /*((VisualRoot as IInputRoot).MouseDevice as IPointer).Capture(null);*/
-        (VisualRoot as IInputRoot).MouseDevice.Capture(null);
+        ((VisualRoot as IInputRoot).MouseDevice).Capture(null);
+        /*  var element = (VisualRoot as IInputRoot).PointerOverElement;*/
         /*(VisualRoot as IPointer).Capture(null);*/
     }
 
