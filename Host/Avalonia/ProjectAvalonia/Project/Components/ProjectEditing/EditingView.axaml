@@ -7,6 +7,7 @@
     xmlns:appModelObservation="clr-namespace:AppUsecases.Entities.AppFormDataItems.Observations;assembly=AppUsecases"
     xmlns:appModelText="clr-namespace:AppUsecases.Entities.AppFormDataItems.Text;assembly=AppUsecases"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:editingItemTemplate="using:ProjectAvalonia.Project.Components.ProjectEditing.EditingItems"
     xmlns:itemType="clr-namespace:UIStatesStore.Project.Models;assembly=UIStatesStore"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -46,5 +47,11 @@
                 </StackPanel>
             </DataTemplate>
         </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+            <DataTemplate>
+                <editingItemTemplate:EditingItem Item="{Binding SelectedItem, Mode=OneWay}" />
+            </DataTemplate>
+        </TabControl.ContentTemplate>
+
     </TabControl>
 </UserControl>

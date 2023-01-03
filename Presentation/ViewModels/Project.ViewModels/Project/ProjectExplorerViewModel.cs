@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reactive;
+﻿using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -105,8 +104,6 @@ public class ProjectExplorerViewModel : ViewModelBase
 
         SelectSolutionItemCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
         {
-            Debug.WriteLine(item.Title);
-
             ProjectEditingInteractions
             .EditItem
             .Handle((item as FileProjectItemViewModel))

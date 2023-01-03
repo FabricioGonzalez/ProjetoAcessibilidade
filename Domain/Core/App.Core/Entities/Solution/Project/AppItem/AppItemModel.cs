@@ -16,5 +16,4 @@ public class AppItemModel
     {
         get; set;
     }
-
 }

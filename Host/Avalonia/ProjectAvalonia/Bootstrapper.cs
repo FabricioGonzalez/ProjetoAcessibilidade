@@ -64,7 +64,9 @@ public static class Bootstrapper
 
         service.RegisterLazySingleton(() => new PreviewerViewModel());
 
-        service.Register(() => new ProjectExplorerViewModel());
+        service.RegisterLazySingleton(() => new ProjectExplorerViewModel());
+
+        service.RegisterLazySingleton(() => new ProjectItemEditingViewModel());
 
         return service;
     }

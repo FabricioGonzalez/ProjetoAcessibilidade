@@ -62,6 +62,7 @@
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
+
                         <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxModel" DataType="appModelCheckBox:AppFormDataItemCheckboxModel">
                             <StackPanel Orientation="Vertical" Spacing="8">
                                 <TextBlock
