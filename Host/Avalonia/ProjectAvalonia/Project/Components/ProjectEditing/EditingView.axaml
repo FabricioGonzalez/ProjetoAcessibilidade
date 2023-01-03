@@ -49,7 +49,7 @@
         </TabControl.ItemTemplate>
         <TabControl.ContentTemplate>
             <DataTemplate>
-                <editingItemTemplate:EditingItem Item="{Binding SelectedItem, Mode=OneWay}" />
+                <editingItemTemplate:EditingItem />
             </DataTemplate>
         </TabControl.ContentTemplate>
 

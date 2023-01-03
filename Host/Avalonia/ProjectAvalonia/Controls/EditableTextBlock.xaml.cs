@@ -117,10 +117,14 @@ public class EditableTextBlock : TemplatedControl
     }
 
     public static readonly DirectProperty<EditableTextBlock, string> EditTextProperty =
-            AvaloniaProperty.RegisterDirect<EditableTextBlock, string>(nameof(EditText), o => o.EditText, (o, v) => o.EditText = v);
+            AvaloniaProperty.RegisterDirect<EditableTextBlock, string>(nameof(EditText),
+                o => o.EditText,
+                (o, v) => o.EditText = v);
 
     public static readonly StyledProperty<bool> InEditModeProperty =
-        AvaloniaProperty.Register<EditableTextBlock, bool>(nameof(InEditMode), defaultBindingMode: BindingMode.TwoWay);
+        AvaloniaProperty.Register<EditableTextBlock, bool>(
+            nameof(InEditMode),
+            defaultBindingMode: BindingMode.TwoWay);
 
     public bool InEditMode
     {

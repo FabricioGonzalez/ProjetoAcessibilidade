@@ -22,7 +22,7 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
 {
 
     private MenuItem CloseApp => this.FindControl<MenuItem>("CloseAppMenuItem");
-    private ToggleSwitch toggleButton => this.FindControl<ToggleSwitch>("toggleSwitchTheme");
+    private ToggleButton toggleButton => this.FindControl<ToggleButton>("toggleSwitchTheme");
     private Grid appContainer => this.Find<Grid>("AppContainer");
     public MainWindow()
     {

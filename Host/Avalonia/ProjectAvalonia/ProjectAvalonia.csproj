@@ -37,6 +37,7 @@
         <None Remove="Models\**" />
         <None Remove="Project\Components\ProjectEditing\Styles\**" />
         <None Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <Folder Include="Styles\Components\" />
         <Folder Include="TemplateEditing\Components\" />
         <Folder Include="TemplateRules\Components\" />
         <None Remove=".gitignore" />
@@ -63,6 +64,7 @@
         <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
         <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.18" />
         <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.18" />
+        <PackageReference Include="Dock.Avalonia" Version="0.10.18.1" />
         <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
