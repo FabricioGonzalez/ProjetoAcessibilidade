@@ -25,9 +25,17 @@
             Grid.Row="1"
             VerticalAlignment="Bottom"
             Manager="{Binding NotificationMessageManagerService.Manager}" />
-        <Panel Grid.Row="0" Background="Transparent">
+        <Panel
+            Grid.Row="0"
+            Width="{Binding #AppContainer.Width}"
+            HorizontalAlignment="Stretch"
+            Background="Transparent">
+            <Button Margin="8,0" HorizontalAlignment="Left">
+                <material:MaterialIcon Kind="ArrowLeft" />
+            </Button>
             <Menu
                 Height="30"
+                Margin="48,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="Transparent"
