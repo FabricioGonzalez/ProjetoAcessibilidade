@@ -43,22 +43,23 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
         ViewModel ??= Locator.Current.GetService<ProjectExplorerViewModel>();
         DataContext = ViewModel;
 
-        PrintButton.AddHandler(Button.ClickEvent, (sender, args) =>
-        {
-            var route = Locator.Current.GetService<PreviewerViewModel>();
-            var main = Locator.Current.GetService<MainViewModel>();
 
-            route.HostScreen = main;
-
-            main.Router.Navigate.Execute(route);
-
-            var result = AppInterations.PrintSolution
-            .Handle(ViewModel.CurrentOpenProject)
-            .Subscribe();
-        });
 
         this.WhenActivated(disposables =>
         {
+            PrintButton.AddHandler(Button.ClickEvent, (sender, args) =>
+            {
+                var route = Locator.Current.GetService<PreviewerViewModel>();
+                var main = Locator.Current.GetService<MainViewModel>();
+
+                route.HostScreen = main;
+
+                main.Router.Navigate.Execute(route);
+
+                var result = AppInterations.PrintSolution
+                .Handle(ViewModel.CurrentOpenProject)
+                .Subscribe();
+            });
             this.BindInteraction(
                 ViewModel,
                 vm => vm.ShowDialog,

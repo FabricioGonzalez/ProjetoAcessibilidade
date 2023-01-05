@@ -41,7 +41,7 @@
                 <material:MaterialIcon Kind="ContentSave" />
             </Button>
             <Button
-                Name="AppPrintButton"
+                x:Name="AppPrintButton"
                 Width="36"
                 Height="36"
                 Classes="Icon"

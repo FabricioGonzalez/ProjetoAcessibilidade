@@ -181,10 +181,10 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
             AppInterations.PrintSolution
             .RegisterHandler(interaction =>
             {
-                GoToPrintPreview
-                .Execute()
-                .Subscribe()
-                .DisposeWith(disposables);
+                /* GoToPrintPreview
+                 .Execute()
+                 .Subscribe()
+                 .DisposeWith(disposables);*/
 
                 interaction.SetOutput(interaction.Input);
 
