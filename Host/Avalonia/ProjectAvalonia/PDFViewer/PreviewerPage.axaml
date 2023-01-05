@@ -40,7 +40,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 CurrentScroll="{Binding CurrentScroll, Mode=TwoWay}"
-                Pages="{Binding Pages, Mode=OneWay}"
+                Pages="{Binding DocumentRenderer.Pages, Mode=OneWay}"
                 ScrollViewportSize="{Binding ScrollViewportSize, Mode=OneWayToSource}" />
 
             <StackPanel
@@ -49,11 +49,14 @@
                 Margin="32"
                 VerticalAlignment="Bottom"
                 Orientation="Vertical"
-                Spacing="16">
+                Spacing="16"
+                ZIndex="100">
                 <Button
-                    Classes="actions"
+                    Padding="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
                     Command="{Binding ShowPdfCommand, Mode=OneTime}"
-                    IsVisible="{Binding !!Pages.Count}"
+                    CornerRadius="100"
                     ToolTip.Tip="Generates PDF file and shows it in the default browser. Useful for testing compatibility and interactive links.">
                     <Viewbox Width="24" Height="24">
                         <Canvas Width="24" Height="24">
@@ -63,8 +66,11 @@
                 </Button>
 
                 <Button
-                    Classes="actions"
+                    Padding="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
                     Command="{Binding ShowDocumentationCommand, Mode=OneTime}"
+                    CornerRadius="100"
                     ToolTip.Tip="Opens official QuestPDF documentation">
                     <Viewbox Width="24" Height="24">
                         <Canvas Width="24" Height="24">
@@ -74,8 +80,11 @@
                 </Button>
 
                 <Button
-                    Classes="actions"
+                    Padding="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
                     Command="{Binding SponsorProjectCommand, Mode=OneTime}"
+                    CornerRadius="100"
                     ToolTip.Tip="Do you like QuestPDF? Please consider sponsoring the project. It really helps!">
                     <Viewbox Width="24" Height="24">
                         <Canvas Width="24" Height="24">

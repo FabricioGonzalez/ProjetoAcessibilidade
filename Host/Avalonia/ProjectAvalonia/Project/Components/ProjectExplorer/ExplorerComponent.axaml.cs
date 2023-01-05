@@ -9,6 +9,7 @@ using App.Core.Entities.Solution.Explorer;
 using AppViewModels.Dialogs;
 using AppViewModels.Interactions.Main;
 using AppViewModels.Interactions.Project;
+using AppViewModels.Main;
 using AppViewModels.Project;
 
 using Avalonia;
@@ -19,6 +20,8 @@ using Avalonia.ReactiveUI;
 using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using ProjectAvalonia.Views;
 
+using QuestPDF.Previewer;
+
 using ReactiveUI;
 
 using Splat;
@@ -27,6 +30,7 @@ namespace ProjectAvalonia.Project.Components.ProjectExplorer;
 public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerViewModel>
 {
     public TreeView ExplorerTree => this.FindControl<TreeView>("explorerTreeView");
+    public Button PrintButton => this.FindControl<Button>("AppPrintButton");
 
     public void FlyoutClosed_PointerPressed(object sender, EventArgs args)
     {
@@ -38,6 +42,20 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
     {
         ViewModel ??= Locator.Current.GetService<ProjectExplorerViewModel>();
         DataContext = ViewModel;
+
+        PrintButton.AddHandler(Button.ClickEvent, (sender, args) =>
+        {
+            var route = Locator.Current.GetService<PreviewerViewModel>();
+            var main = Locator.Current.GetService<MainViewModel>();
+
+            route.HostScreen = main;
+
+            main.Router.Navigate.Execute(route);
+
+            var result = AppInterations.PrintSolution
+            .Handle(ViewModel.CurrentOpenProject)
+            .Subscribe();
+        });
 
         this.WhenActivated(disposables =>
         {

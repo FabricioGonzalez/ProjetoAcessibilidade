@@ -11,7 +11,6 @@ using AppViewModels.Dialogs.States;
 using AppViewModels.Interactions.Main;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Main.States;
-using AppViewModels.PDFViewer;
 using AppViewModels.Project;
 using AppViewModels.System;
 using AppViewModels.TemplateEditing;
@@ -119,17 +118,17 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
             }
         });
 
-        GoToPrintPreview = ReactiveCommand.Create(() =>
-        {
-            var printPreview = Locator.Current.GetService<PreviewerViewModel>();
+        /*        GoToPrintPreview = ReactiveCommand.Create(() =>
+                {
+                    var printPreview = Locator.Current.GetService<PreviewerViewModel>();
 
-            if (printPreview is not null)
-            {
-                printPreview.HostScreen = this;
+                    if (printPreview is not null)
+                    {
+                        printPreview.HostScreen = this;
 
-                Router.Navigate.Execute(printPreview);
-            }
-        });
+                        Router.Navigate.Execute(printPreview);
+                    }
+                });*/
 
         this.WhenActivated((disposables) =>
         {

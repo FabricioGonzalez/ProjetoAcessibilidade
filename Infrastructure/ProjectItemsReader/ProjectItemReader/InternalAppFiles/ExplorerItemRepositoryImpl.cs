@@ -4,7 +4,7 @@ using Common;
 
 using Project.Application.Project.Contracts;
 
-namespace ProjectItemReader.InternalAppFiles;
+namespace ProjectItemReader.publicAppFiles;
 
 public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 {

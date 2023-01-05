@@ -6,7 +6,7 @@ using AppUsecases.Project.Entities.Project;
 
 using Common;
 
-namespace ProjectItemReader.InternalAppFiles;
+namespace ProjectItemReader.publicAppFiles;
 public class WriteUserSolutionRepository : IWriteContract<ProjectSolutionModel>
 {
 *//*    public async Task<ProjectSolutionModel> WriteDataAsync(ProjectSolutionModel dataToWrite, string filePathToWrite)

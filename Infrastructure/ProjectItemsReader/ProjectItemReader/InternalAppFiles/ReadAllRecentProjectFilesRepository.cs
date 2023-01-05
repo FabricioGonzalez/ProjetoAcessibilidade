@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AppUsecases.App.Contracts.Repositories;
 using AppUsecases.Editing.Entities;
 
-namespace ProjectItemReader.InternalAppFiles;
+namespace ProjectItemReader.publicAppFiles;
 public class ReadAllRecentProjectFilesRepository : IReadContract<List<FileTemplate>>
 {
     public async Task<List<FileTemplate>> ReadAsync(string path)

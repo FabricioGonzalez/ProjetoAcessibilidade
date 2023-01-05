@@ -75,7 +75,9 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
+        <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />
+        <ProjectReference Include="..\..\..\QuestPDF\QuestPDF.csproj" />
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>
     <ItemGroup>

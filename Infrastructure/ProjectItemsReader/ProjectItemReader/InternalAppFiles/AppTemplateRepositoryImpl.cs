@@ -4,7 +4,7 @@ using Common;
 
 using Project.Application.App.Contracts;
 
-namespace ProjectItemReader.InternalAppFiles;
+namespace ProjectItemReader.publicAppFiles;
 
 public class AppTemplateRepositoryImpl : IAppTemplateRepository
 {

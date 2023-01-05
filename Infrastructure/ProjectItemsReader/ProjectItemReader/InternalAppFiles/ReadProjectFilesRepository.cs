@@ -9,7 +9,7 @@ using AppUsecases.Project.Entities.FileTemplate;
 
 using Common;
 
-namespace ProjectItemReader.InternalAppFiles;
+namespace ProjectItemReader.publicAppFiles;
 public class ReadProjectFilesRepository : IReadContract<List<ExplorerItem>>
 {
     public async Task<List<ExplorerItem>> ReadAsync(string path)

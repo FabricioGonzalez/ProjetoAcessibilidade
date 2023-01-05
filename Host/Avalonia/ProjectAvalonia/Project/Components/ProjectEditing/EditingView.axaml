@@ -49,7 +49,7 @@
         </TabControl.ItemTemplate>
         <TabControl.ContentTemplate>
             <DataTemplate>
-                <editingItemTemplate:EditingItem />
+                <editingItemTemplate:EditingItem Item="{Binding #projectEditingView.DataContext.SelectedItem, Mode=TwoWay}" />
             </DataTemplate>
         </TabControl.ContentTemplate>
 

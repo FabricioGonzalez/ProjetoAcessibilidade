@@ -24,7 +24,7 @@ public static class DataSource
                     new ReportHeaderField()
                     {
                         Label = "Scope",
-                        Value = "Internal activities"
+                        Value = "public activities"
                     },
                     new ReportHeaderField()
                     {

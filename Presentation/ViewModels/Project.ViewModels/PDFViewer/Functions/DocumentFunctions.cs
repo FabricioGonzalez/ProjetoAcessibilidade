@@ -1,5 +1,5 @@
 ﻿/*namespace AppViewModels.PDFViewer.Functions;
-internal class DocumentFunctions
+public class DocumentFunctions
 {
     ICollection<PreviewerPicture> GetPictures()
     {

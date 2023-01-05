@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
 namespace ProjectWinUI.Src.Helpers;
-internal class TitleBarHelper
+public class TitleBarHelper
 {
     private const int WAINACTIVE = 0x00;
     private const int WAACTIVE = 0x01;

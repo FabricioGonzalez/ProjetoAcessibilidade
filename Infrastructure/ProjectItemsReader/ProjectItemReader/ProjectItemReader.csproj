@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="InternalAppFiles\" />
+    <Folder Include="publicAppFiles\" />
     <Folder Include="XmlFile\" />
   </ItemGroup>
   

@@ -8,7 +8,6 @@ using App.Core.Entities.Solution.Project.AppItem;
 using AppViewModels.Contracts;
 using AppViewModels.Dialogs.States;
 using AppViewModels.Main;
-using AppViewModels.PDFViewer;
 using AppViewModels.Project;
 using AppViewModels.Project.Operations;
 using AppViewModels.System;
@@ -36,8 +35,10 @@ using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using ProjectAvalonia.Services;
 using ProjectAvalonia.Views;
 
-using ProjectItemReader.InternalAppFiles;
+using ProjectItemReader.publicAppFiles;
 using ProjectItemReader.XmlFile;
+
+using QuestPDF.Previewer;
 
 using Splat;
 

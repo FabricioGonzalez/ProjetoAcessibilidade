@@ -10,7 +10,7 @@ using Common;
 
 using Project.Application.Solution.Contracts;
 
-namespace ProjectItemReader.InternalAppFiles;
+namespace ProjectItemReader.publicAppFiles;
 
 public class SolutionRepositoryImpl : ISolutionRepository
 {

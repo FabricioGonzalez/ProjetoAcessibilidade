@@ -42,7 +42,7 @@ class InteractiveCanvas : ICustomDrawOperation
     private const float PageSpacing = 25f;
     private const float SafeZone = 25f;
 
-    public float TotalPagesHeight => (Pages is not null && Pages.Any()) ? Pages.Sum(x => x.Height) + (Pages.Count - 1) * PageSpacing : 0;
+    public float TotalPagesHeight => Pages.Sum(x => x.Height) + (Pages.Count - 1) * PageSpacing;
     public float TotalHeight => TotalPagesHeight + SafeZone * 2 / Scale;
     public float MaxWidth => Pages.Any() ? Pages.Max(x => x.Width) : 0;
 
@@ -117,8 +117,10 @@ class InteractiveCanvas : ICustomDrawOperation
 
         LimitScale();
 
-        TranslateX -= x / Scale - x / oldScale;
-        TranslateY -= y / Scale - y / oldScale;
+        factor = Scale / oldScale;
+
+        TranslateX -= x / (oldScale * factor) - x / oldScale;
+        TranslateY -= y / (oldScale * factor) - y / oldScale;
 
         LimitTranslate();
     }
@@ -129,7 +131,7 @@ class InteractiveCanvas : ICustomDrawOperation
 
     public void Render(IDrawingContextImpl context)
     {
-        if (Pages is null || Pages.Count <= 0)
+        if (Pages.Count <= 0)
             return;
 
         LimitScale();
@@ -150,7 +152,7 @@ class InteractiveCanvas : ICustomDrawOperation
         foreach (var page in Pages)
         {
             canvas.Translate(-page.Width / 2f, 0);
-            DrawBlankPage(canvas, page.Width, page.Height);
+            DrawBlankPage(canvas, new QuestPDF.Infrastructure.Size(page.Width, page.Height));
             canvas.DrawPicture(page.Picture);
             canvas.Translate(page.Width / 2f, page.Height + PageSpacing);
         }
@@ -182,10 +184,10 @@ class InteractiveCanvas : ICustomDrawOperation
             SKImageFilter.CreateDropShadowOnly(0, 10, 14, 14, SKColors.Black.WithAlpha(32)))
     };
 
-    private void DrawBlankPage(SKCanvas canvas, float width, float height)
+    private void DrawBlankPage(SKCanvas canvas, QuestPDF.Infrastructure.Size size)
     {
-        canvas.DrawRect(0, 0, width, height, BlankPageShadowPaint);
-        canvas.DrawRect(0, 0, width, height, BlankPagePaint);
+        canvas.DrawRect(0, 0, size.Width, size.Height, BlankPageShadowPaint);
+        canvas.DrawRect(0, 0, size.Width, size.Height, BlankPagePaint);
     }
 
     #endregion
