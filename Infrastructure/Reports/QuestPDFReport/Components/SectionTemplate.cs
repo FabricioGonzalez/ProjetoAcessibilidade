@@ -31,33 +31,62 @@ public class SectionTemplate : IComponent
                     .Text(Model.Title)
                     .Style(Typography.Headline);
 
-                decoration.Content().Border(0.75f).BorderColor(Colors.Grey.Medium).Column(column =>
+                decoration
+                .Content()
+                .Border(0.75f)
+                .BorderColor(Colors.Grey.Medium)
+                .Column(column =>
                 {
                     foreach (var part in Model.Parts)
                     {
-                        column.Item().EnsureSpace(25).Row(row =>
+                        column
+                        .Item()
+                        .EnsureSpace(25)
+                        .Column(row =>
                         {
-                            row.ConstantItem(150).LabelCell().Text(part.Label);
-                            var frame = row.RelativeItem().ValueCell();
+                            row
+                            .Item()
+                            .LabelCell()
+                            .ExtendHorizontal()
+                            .Text(part.Label);
+
+                            var frame = row
+                            .Item()
+                            .ValueCell();
 
                             if (part is ReportSectionText text)
-                                frame.ShowEntire().Text(text.Text);
+                                frame
+                                .ShowEntire()
+                                .Text(text.Text);
 
                             if (part is ReportSectionCheckbox checkboxes)
                             {
-                                frame.Element(x => MapCheckboxes(x, checkboxes));
+                                frame
+                                .Element(x => MapCheckboxes(x, checkboxes));
                             }
 
+                            if (part is ReportSectionTitle title)
+                            {
+                                frame
+                                .Element(x => MapTitle(x, title));
+                            }
 
                             if (part is ReportSectionMap map)
-                                frame.Element(x => MapElement(x, map));
+                                frame
+                                .Element(x => MapElement(x, map));
 
                             if (part is ReportSectionPhotos photos)
-                                frame.Element(x => PhotosElement(x, photos));
+                                frame
+                                .Element(x => PhotosElement(x, photos));
                         });
                     }
                 });
             });
+    }
+
+    private void MapTitle(IContainer container, ReportSectionTitle title)
+    {
+        container.Text("No photos").Style(Typography.Normal);
     }
 
     private void MapCheckboxes(IContainer container, ReportSectionCheckbox checkboxes)
@@ -77,12 +106,12 @@ public class SectionTemplate : IComponent
                         layers.Layer().Canvas((canvas, size) =>
                         {
                             DrawRoundedRectangle(Colors.White, false);
-                            DrawRoundedRectangle(Colors.Blue.Darken2, true);
+                            DrawRoundedRectangle(Colors.Black, true);
 
                             if (item.IsChecked)
                             {
-                                DrawLine(Colors.Blue.Darken2, false, fromX: 2, fromY: 2, toX: 8, toY: 15);
-                                DrawLine(Colors.Blue.Darken2, false, fromX: 8, fromY: 15f, toX: 14, toY: -3.5f);
+                                DrawLine(Colors.Black, true, fromX: 6, fromY: 4, toX: 10, toY: 12);
+                                DrawLine(Colors.Black, true, fromX: 9.80f, fromY: 12.0f, toX: 15.5f, toY: -1f);
                             }
 
 
@@ -109,14 +138,14 @@ public class SectionTemplate : IComponent
                                     IsAntialias = true
                                 };
 
-                                canvas.DrawRoundRect(0, 0, 16, 16, 4, 8, paint);
+                                canvas.DrawRoundRect(4, 2, 12, 12, 2, 4, paint);
                             }
                         });
 
                         layers
                             .PrimaryLayer()
-                                                                                              /* .Text("Sample text")
-                                                                                               .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
+                                                                                                                                                      /* .Text("Sample text")
+                                                                                                                                                       .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
                     });
 
                     row.AutoItem().Text(item.Value);

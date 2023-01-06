@@ -80,7 +80,11 @@ namespace QuestPDF.Previewer
 
         public PreviewerViewModel()
         {
-            Activator.Deactivated.Subscribe((x) => UnregisterHotReloadHandler());
+            Activator.Deactivated.Subscribe((x) =>
+            {
+                UnregisterHotReloadHandler();
+                Document = null;
+            });
 
             ShowPdfCommand = ReactiveCommand.Create(ShowPdf);
             ShowDocumentationCommand = ReactiveCommand.Create(() => OpenLink("https://www.questpdf.com/documentation/api-reference.html"));

@@ -64,6 +64,9 @@ public static class DataSource
             if (random < 0.8f)
                 return GetCheckboxElement();
 
+            if (random < 0.85f)
+                return GetTitleElement();
+
             if (random < 0.9f)
                 return GetTextElement();
 
@@ -100,6 +103,14 @@ public static class DataSource
                         Value = Placeholders.Label()
                     }
                 }
+            };
+        }
+
+        ReportSectionTitle GetTitleElement()
+        {
+            return new ReportSectionTitle
+            {
+                Label = Placeholders.Label()
             };
         }
 

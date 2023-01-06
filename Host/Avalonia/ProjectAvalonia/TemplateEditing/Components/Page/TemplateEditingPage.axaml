@@ -7,5 +7,18 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    Welcome to Avalonia!
+    <Grid>
+        <TextBlock Text="{Binding $parent.Item.Name}" />
+        <ItemsControl>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Expander>
+                        <Expander.ContentTemplate>
+                            <DataTemplates />
+                        </Expander.ContentTemplate>
+                    </Expander>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

@@ -23,7 +23,8 @@ public class StandardReport : IDocument
     {
         return new DocumentMetadata()
         {
-            Title = Model.Title
+            Title = Model.Title,
+            DocumentLayoutExceptionThreshold = 5000,
         };
     }
 
@@ -34,8 +35,8 @@ public class StandardReport : IDocument
             {
                 page.DefaultTextStyle(Typography.Normal);
 
-                page.MarginVertical(40);
-                page.MarginHorizontal(50);
+                page.MarginVertical(10);
+                page.MarginHorizontal(30);
 
                 page.Size(PageSizes.A4);
 

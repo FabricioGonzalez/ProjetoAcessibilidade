@@ -34,7 +34,15 @@
                                 Command="{Binding #templateEditingView.DataContext.CommitItemCommand}"
                                 CommandParameter="{Binding}"
                                 InEditMode="{Binding IsEditing}"
-                                Text="{Binding Name}" />
+                                Text="{Binding Name}">
+                                <Controls:EditableTextBlock.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyout.Items>
+                                            <MenuItem Header="Renomear" />
+                                        </MenuFlyout.Items>
+                                    </MenuFlyout>
+                                </Controls:EditableTextBlock.ContextFlyout>
+                            </Controls:EditableTextBlock>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
