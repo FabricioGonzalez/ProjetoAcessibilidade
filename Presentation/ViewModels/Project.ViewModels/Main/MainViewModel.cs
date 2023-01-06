@@ -65,6 +65,11 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
             return "";
         });
 
+        NavigateBackCommand = ReactiveCommand.CreateFromTask(async (Unit) =>
+        {
+            await Router.NavigateBack.Execute();
+        });
+
         CreateProjectCommand = ReactiveCommand.CreateFromTask<Unit, string>(async (Unit) =>
         {
             /* ReturnToProject();
@@ -117,18 +122,6 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
                 Router.Navigate.Execute(settings);
             }
         });
-
-        /*        GoToPrintPreview = ReactiveCommand.Create(() =>
-                {
-                    var printPreview = Locator.Current.GetService<PreviewerViewModel>();
-
-                    if (printPreview is not null)
-                    {
-                        printPreview.HostScreen = this;
-
-                        Router.Navigate.Execute(printPreview);
-                    }
-                });*/
 
         this.WhenActivated((disposables) =>
         {
@@ -229,6 +222,11 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
     }
 
     public ReactiveCommand<Unit, string> OpenProjectCommand
+    {
+        get; private set;
+    }
+
+    public ReactiveCommand<Unit, Unit> NavigateBackCommand
     {
         get; private set;
     }

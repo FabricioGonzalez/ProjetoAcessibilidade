@@ -7,6 +7,7 @@ using AppViewModels.Common;
 
 using Avalonia.Threading;
 
+using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
 using ReactiveUI;
@@ -72,14 +73,19 @@ namespace QuestPDF.Previewer
         {
             get;
         }
+        public ReactiveCommand<Unit, Unit> PrintCommand
+        {
+            get;
+        }
 
         public PreviewerViewModel()
         {
-            HotReloadManager.UpdateApplicationRequested += InvalidateDocument;
+            Activator.Deactivated.Subscribe((x) => UnregisterHotReloadHandler());
 
             ShowPdfCommand = ReactiveCommand.Create(ShowPdf);
             ShowDocumentationCommand = ReactiveCommand.Create(() => OpenLink("https://www.questpdf.com/documentation/api-reference.html"));
-            SponsorProjectCommand = ReactiveCommand.Create(() => OpenLink("https://github.com/sponsors/QuestPDF"));
+            PrintCommand = ReactiveCommand.Create(() => OpenLink("https://github.com/sponsors/QuestPDF"));
+
         }
 
         public void UnregisterHotReloadHandler()
@@ -103,11 +109,11 @@ namespace QuestPDF.Previewer
 
             try
             {
-                /*Document?.GeneratePdf(filePath);*/
+                Document?.GeneratePdf(filePath);
             }
             catch (Exception exception)
             {
-                /*new ExceptionDocument(exception).GeneratePdf(filePath);*/
+                new ExceptionDocument(exception).GeneratePdf(filePath);
             }
 
             OpenLink(filePath);

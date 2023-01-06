@@ -20,7 +20,7 @@ class InteractiveCanvas : ICustomDrawOperation
     public ICollection<PreviewPage> Pages
     {
         get; set;
-    }
+    } = new List<PreviewPage>();
 
     private float Width => (float)Bounds.Width;
     private float Height => (float)Bounds.Height;

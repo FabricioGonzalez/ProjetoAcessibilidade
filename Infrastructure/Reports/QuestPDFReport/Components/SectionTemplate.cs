@@ -4,6 +4,8 @@ using QuestPDF.Infrastructure;
 
 using QuestPDFReport.Models;
 
+using SkiaSharp;
+
 namespace QuestPDFReport.Components;
 public class SectionTemplate : IComponent
 {
@@ -41,6 +43,12 @@ public class SectionTemplate : IComponent
                             if (part is ReportSectionText text)
                                 frame.ShowEntire().Text(text.Text);
 
+                            if (part is ReportSectionCheckbox checkboxes)
+                            {
+                                frame.Element(x => MapCheckboxes(x, checkboxes));
+                            }
+
+
                             if (part is ReportSectionMap map)
                                 frame.Element(x => MapElement(x, map));
 
@@ -50,6 +58,72 @@ public class SectionTemplate : IComponent
                     }
                 });
             });
+    }
+
+    private void MapCheckboxes(IContainer container, ReportSectionCheckbox checkboxes)
+    {
+        container.ShowEntire().Column(column =>
+        {
+            column.Spacing(5);
+            column.Item().Row(row =>
+            {
+                foreach (var item in checkboxes.Checkboxes)
+                {
+                    row.Spacing(5);
+
+                    row.ConstantItem(16)
+                    .Layers(layers =>
+                    {
+                        layers.Layer().Canvas((canvas, size) =>
+                        {
+                            DrawRoundedRectangle(Colors.White, false);
+                            DrawRoundedRectangle(Colors.Blue.Darken2, true);
+
+                            if (item.IsChecked)
+                            {
+                                DrawLine(Colors.Blue.Darken2, false, fromX: 2, fromY: 2, toX: 8, toY: 15);
+                                DrawLine(Colors.Blue.Darken2, false, fromX: 8, fromY: 15f, toX: 14, toY: -3.5f);
+                            }
+
+
+                            void DrawLine(string color, bool isStroke, float fromX, float fromY, float toX, float toY)
+                            {
+                                using var paint = new SKPaint
+                                {
+                                    Color = SKColor.Parse(color),
+                                    IsStroke = isStroke,
+                                    StrokeWidth = 1,
+                                    IsAntialias = true
+                                };
+
+                                canvas.DrawLine(new SKPoint(fromX, fromY), new SKPoint(toX, toY), paint);
+                            }
+
+                            void DrawRoundedRectangle(string color, bool isStroke)
+                            {
+                                using var paint = new SKPaint
+                                {
+                                    Color = SKColor.Parse(color),
+                                    IsStroke = isStroke,
+                                    StrokeWidth = 1,
+                                    IsAntialias = true
+                                };
+
+                                canvas.DrawRoundRect(0, 0, 16, 16, 4, 8, paint);
+                            }
+                        });
+
+                        layers
+                            .PrimaryLayer()
+                                                                                              /* .Text("Sample text")
+                                                                                               .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
+                    });
+
+                    row.AutoItem().Text(item.Value);
+                }
+            });
+
+        });
     }
 
     void MapElement(IContainer container, ReportSectionMap model)

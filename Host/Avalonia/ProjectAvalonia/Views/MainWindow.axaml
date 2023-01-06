@@ -28,9 +28,13 @@
         <Panel
             Grid.Row="0"
             Width="{Binding #AppContainer.Width}"
+            Margin="4"
             HorizontalAlignment="Stretch"
             Background="Transparent">
-            <Button Margin="8,0" HorizontalAlignment="Left">
+            <Button
+                Margin="8,0"
+                HorizontalAlignment="Left"
+                Command="{Binding NavigateBackCommand}">
                 <material:MaterialIcon Kind="ArrowLeft" />
             </Button>
             <Menu
@@ -119,19 +123,9 @@
                         Kind="NightLight" />
                 </Panel>
             </ToggleButton>
-            <!--<ToggleSwitch
-                Name="toggleSwitchTheme"
-                HorizontalAlignment="Right"
-                Command="{Binding #mainWindow.SwitchUITheme}"
-                CommandParameter="{Binding ElementName=toggleSwitchTheme}"
-                OffContent="Light theme"
-                OnContent="Dark theme" />-->
         </Panel>
 
-        <rxui:RoutedViewHost
-            Grid.Row="1"
-            Padding="4"
-            Router="{Binding Router}">
+        <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
             <rxui:RoutedViewHost.DefaultContent>
                 <StackPanel
                     HorizontalAlignment="Center"

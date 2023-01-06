@@ -190,7 +190,12 @@ public class EditableTextBlock : TemplatedControl
             Text = EditText;
             if (Command is not null)
             {
-                Command.Execute(null);
+                if (CommandParameter is not null)
+                {
+                    Command.Execute(CommandParameter);
+                }
+                else
+                    Command.Execute(null);
             }
         }
 

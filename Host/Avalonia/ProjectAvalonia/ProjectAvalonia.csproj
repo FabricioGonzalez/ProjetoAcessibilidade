@@ -38,7 +38,6 @@
         <None Remove="Project\Components\ProjectEditing\Styles\**" />
         <None Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
         <Folder Include="Styles\Components\" />
-        <Folder Include="TemplateEditing\Components\" />
         <Folder Include="TemplateRules\Components\" />
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
@@ -77,13 +76,10 @@
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />
-        <ProjectReference Include="..\..\..\QuestPDF\QuestPDF.csproj" />
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+        <ProjectReference Include="..\..\QuestPDF\QuestPDF\QuestPDF.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Update="PDFPreviewer\Views\PreviewerControl.cs">
-          <DependentUpon>PreviewerControl</DependentUpon>
-        </Compile>
         <Compile Update="Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">
             <DependentUpon>EditingItem.axaml</DependentUpon>
         </Compile>

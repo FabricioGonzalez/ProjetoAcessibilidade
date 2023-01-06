@@ -19,10 +19,12 @@ public partial class PreviewerPage : ReactiveUserControl<PreviewerViewModel>
     }
     private void InitializeComponent()
     {
+        var report = new StandardReport(DataSource.GetReport());
+
+
+
         this.WhenActivated((CompositeDisposable disposables) =>
         {
-            var report = new StandardReport(DataSource.GetReport());
-
             this.ViewModel.Document = report;
 
 

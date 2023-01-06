@@ -88,18 +88,32 @@ public class StandardReport : IDocument
         {
             column.Spacing(20);
 
-            column.Item().Component(new TableOfContentsTemplate(Model.Sections));
+            column
+            .Item()
+            .Component(new TableOfContentsTemplate(Model.Sections));
 
-            column.Item().PageBreak();
+            column
+            .Item()
+            .PageBreak();
 
             foreach (var section in Model.Sections)
-                column.Item().Section(section.Title).Component(new SectionTemplate(section));
+                column
+                .Item()
+                .Section(section.Title)
+                .Component(new SectionTemplate(section));
 
-            column.Item().PageBreak();
-            column.Item().Section("Photos");
+            column
+            .Item()
+            .PageBreak();
+
+            column
+            .Item()
+            .Section("Photos");
 
             foreach (var photo in Model.Photos)
-                column.Item().Component(new PhotoTemplate(photo));
+                column
+                .Item()
+                .Component(new PhotoTemplate(photo));
         });
     }
 }

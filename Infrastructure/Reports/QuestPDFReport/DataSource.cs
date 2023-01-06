@@ -61,6 +61,9 @@ public static class DataSource
         {
             var random = Helpers.Random.NextDouble();
 
+            if (random < 0.8f)
+                return GetCheckboxElement();
+
             if (random < 0.9f)
                 return GetTextElement();
 
@@ -76,6 +79,27 @@ public static class DataSource
             {
                 Label = Placeholders.Label(),
                 Text = Placeholders.Paragraph()
+            };
+        }
+
+        ReportSectionCheckbox GetCheckboxElement()
+        {
+            return new ReportSectionCheckbox
+            {
+                Label = Placeholders.Label(),
+                Checkboxes = new List<CheckboxModel>
+                {
+                    new CheckboxModel
+                    {
+                        IsChecked = false,
+                        Value = Placeholders.Label()
+                    },
+                     new CheckboxModel
+                    {
+                        IsChecked = true,
+                        Value = Placeholders.Label()
+                    }
+                }
             };
         }
 

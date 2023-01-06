@@ -46,7 +46,7 @@
                 Height="36"
                 Classes="Icon"
                 ToolTip.Tip="Imprimir">
-                <material:MaterialIcon Kind="Printer" />
+                <material:MaterialIcon Kind="PrintPreview" />
             </Button>
         </StackPanel>
         <TreeView
