@@ -13,9 +13,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Expander>
-                        <Expander.ContentTemplate>
-                            <DataTemplates />
-                        </Expander.ContentTemplate>
+                        <Expander.DataTemplates />
                     </Expander>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
