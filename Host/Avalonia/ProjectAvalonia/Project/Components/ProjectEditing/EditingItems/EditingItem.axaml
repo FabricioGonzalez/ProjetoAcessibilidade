@@ -22,10 +22,11 @@
             Orientation="Horizontal"
             Spacing="4">
             <Button>
-                <material:MaterialIcon Kind="Guardian" />
+                <material:MaterialIcon Kind="ContentSave" />
             </Button>
         </StackPanel>
         <ScrollViewer
+            Name="EditingScrollViewer"
             Grid.Row="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">

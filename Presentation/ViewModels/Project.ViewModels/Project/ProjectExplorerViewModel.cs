@@ -8,7 +8,6 @@ using App.Core.Entities.Solution.Explorer;
 using AppViewModels.Common;
 using AppViewModels.Dialogs;
 using AppViewModels.Dialogs.States;
-using AppViewModels.Interactions.Main;
 using AppViewModels.Interactions.Project;
 using AppViewModels.Project.ComposableViewModels;
 using AppViewModels.Project.Mappers;
@@ -28,7 +27,7 @@ using Splat;
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
 {
-    private string currentOpenProject;
+    private string currentOpenProject = null;
     public string CurrentOpenProject
     {
         get => currentOpenProject;
@@ -51,9 +50,12 @@ public class ProjectExplorerViewModel : ViewModelBase
         get;
     }
 
-    /*private readonly IQueryUsecase<string, ProjectSolutionModel> readSolution;*/
     public readonly ProjectExplorerOperations explorerOperations;
     private readonly IQueryDispatcher queryDispatcher;
+
+    public IObservable<bool>? HasProjectOpened => this
+           .WhenAnyValue(x => x.CurrentOpenProject)
+           .Select(path => !string.IsNullOrEmpty(path));
 
     public ProjectExplorerViewModel()
     {
@@ -84,7 +86,7 @@ public class ProjectExplorerViewModel : ViewModelBase
                         inEditMode: true)
                     );
             }
-        });
+        }, HasProjectOpened);
 
         AddFolderCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
         {
@@ -100,7 +102,7 @@ public class ProjectExplorerViewModel : ViewModelBase
                     referencedItem: "")
                     );
             }
-        });
+        }, HasProjectOpened);
 
         SelectSolutionItemCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
         {
@@ -108,14 +110,7 @@ public class ProjectExplorerViewModel : ViewModelBase
             .EditItem
             .Handle((item as FileProjectItemViewModel))
             .Subscribe();
-        });
-
-        PrintDocument = ReactiveCommand.Create<string>((solutionPath) =>
-        {
-            var result = AppInterations.PrintSolution
-             .Handle(solutionPath)
-             .Subscribe();
-        });
+        }, HasProjectOpened);
 
         this.WhenActivated(disposables =>
         {
@@ -143,7 +138,7 @@ public class ProjectExplorerViewModel : ViewModelBase
              })
              .DisposeWith(disposables);
 
-            PrintDocument
+            PrintDocument?
             .Subscribe()
             .DisposeWith(disposables);
 
@@ -158,7 +153,8 @@ public class ProjectExplorerViewModel : ViewModelBase
             .Subscribe(result =>
             {
                 SolutionModel.ReportData.LogoPath = result;
-            }).DisposeWith(disposables);
+            })
+            .DisposeWith(disposables);
         });
     }
 
@@ -180,7 +176,7 @@ public class ProjectExplorerViewModel : ViewModelBase
 
     public ReactiveCommand<string, Unit> PrintDocument
     {
-        get;
+        get; set;
     }
 
     public ReactiveCommand<ProjectItemViewModel, Unit> AddItemCommand

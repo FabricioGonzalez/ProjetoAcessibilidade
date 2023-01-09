@@ -12,15 +12,15 @@ public class ReportModel
     public List<ReportHeaderField> HeaderFields
     {
         get; set;
-    }
+    } = new();
 
     public List<ReportSection> Sections
     {
         get; set;
-    }
+    } = new();
     public List<ReportPhoto> Photos
     {
         get; set;
-    }
+    } = new();
 }
 

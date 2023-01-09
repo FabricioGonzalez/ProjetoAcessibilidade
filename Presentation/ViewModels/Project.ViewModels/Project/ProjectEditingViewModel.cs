@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -49,6 +50,7 @@ public class ProjectEditingViewModel : ViewModelBase
                 if (!Items.Contains(interation.Input))
                 {
                     Items.Add(interation.Input);
+                    SelectedItem = interation.Input;
                 }
                 interation.SetOutput(interation.Input);
             })
@@ -58,7 +60,7 @@ public class ProjectEditingViewModel : ViewModelBase
            .Where(prop => prop.Value is not null)
            .Subscribe(prop =>
            {
-               /*Debug.WriteLine(prop?.Value?.Path);*/
+               Debug.WriteLine(prop?.Value?.Path);
            })
 
           .DisposeWith(disposables);

@@ -316,7 +316,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                     itemTabelaName.AppendChild(itemTextoValue);
                 }
 
-                if (projectItem.Type.Equals(AppFormDataType.Image))
+                if (projectItem.Type.Equals(AppFormDataType.Images))
                 {
                     var itemType = doc.CreateElement("tipo");
                     itemType.InnerXml = projectItem.Type.ToString()

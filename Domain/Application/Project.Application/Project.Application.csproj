@@ -13,7 +13,6 @@
     <Folder Include="Common\" />
     <Folder Include="Editing\Commands\" />
     <Folder Include="Editing\Queries\" />
-    <Folder Include="Solution\Commands\" />
   </ItemGroup>
 
   <ItemGroup>

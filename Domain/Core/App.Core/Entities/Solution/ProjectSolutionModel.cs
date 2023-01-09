@@ -10,11 +10,14 @@ public class ProjectSolutionModel
         get => solutionReportInfo;
         set => solutionReportInfo = value;
     }
+
+    private List<ItemGroupModel> itemGroups;
     public List<ItemGroupModel> ItemGroups
     {
-        get;
-        set;
+        get => itemGroups;
+        set => itemGroups = value;
     }
+
     public string FileName
     {
         get;
@@ -25,6 +28,7 @@ public class ProjectSolutionModel
         get;
         set;
     }
+
     public string ParentFolderName
     {
         get;

@@ -25,6 +25,21 @@ namespace QuestPDF.Previewer
         public string UrlPathSegment { get; } = "PDFPreviewer";
         public DocumentRenderer DocumentRenderer { get; } = new();
 
+        private string solutionPath;
+
+        public string SolutionPath
+        {
+            get
+            {
+                return solutionPath;
+            }
+            set
+            {
+                solutionPath = value;
+            }
+        }
+
+
         private IDocument? _document;
         public IDocument? Document
         {
@@ -59,6 +74,13 @@ namespace QuestPDF.Previewer
         {
             get => _verticalScrollbarVisible;
             private set => Dispatcher.UIThread.Post(() => this.RaiseAndSetIfChanged(ref _verticalScrollbarVisible, value));
+        }
+
+        public PreviewerViewModel SetSolutionPath(string solutionPath)
+        {
+            SolutionPath = solutionPath;
+
+            return this;
         }
 
         public ReactiveCommand<Unit, Unit> ShowPdfCommand

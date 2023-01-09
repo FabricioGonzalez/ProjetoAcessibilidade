@@ -26,21 +26,19 @@ namespace AppViewModels.Main;
 public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 {
     public RoutingState Router { get; } = new RoutingState();
-
     public AppMessageState appMessage
     {
         get; set;
     } = new();
-
     public INotificationMessageManagerService NotificationMessageManagerService
     {
         get;
     }
-
     public SolutionStateViewModel SolutionModel
     {
         get;
     }
+
     public MainViewModel()
     {
         NotificationMessageManagerService ??= Locator.Current.GetService<INotificationMessageManagerService>();
@@ -65,10 +63,15 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
             return "";
         });
 
+        IObservable<bool>? canGoBack = this
+           .WhenAnyValue(x => x.Router.NavigationStack.Count)
+           .Select(count => count > 0);
+
         NavigateBackCommand = ReactiveCommand.CreateFromTask(async (Unit) =>
         {
             await Router.NavigateBack.Execute();
-        });
+        }, canGoBack);
+
 
         CreateProjectCommand = ReactiveCommand.CreateFromTask<Unit, string>(async (Unit) =>
         {
@@ -170,19 +173,6 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
                       })
                       .DisposeWith(disposables);
-
-            AppInterations.PrintSolution
-            .RegisterHandler(interaction =>
-            {
-                /* GoToPrintPreview
-                 .Execute()
-                 .Subscribe()
-                 .DisposeWith(disposables);*/
-
-                interaction.SetOutput(interaction.Input);
-
-            })
-            .DisposeWith(disposables);
 
             CreateProjectCommand.Subscribe(solutionPath =>
             {

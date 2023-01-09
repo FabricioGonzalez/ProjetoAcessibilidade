@@ -8,6 +8,6 @@ public class ReportSection
     public List<ReportSectionElement> Parts
     {
         get; set;
-    }
+    } = new();
 }
 

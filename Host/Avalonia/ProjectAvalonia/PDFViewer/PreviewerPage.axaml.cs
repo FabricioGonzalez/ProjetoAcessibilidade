@@ -19,15 +19,13 @@ public partial class PreviewerPage : ReactiveUserControl<PreviewerViewModel>
     }
     private void InitializeComponent()
     {
-        var report = new StandardReport(DataSource.GetReport());
 
 
-
-        this.WhenActivated((CompositeDisposable disposables) =>
+        this.WhenActivated(async (CompositeDisposable disposables) =>
         {
+            var report = new StandardReport(await DataSource.GetReport(ViewModel.SolutionPath));
+
             this.ViewModel.Document = report;
-
-
         });
         AvaloniaXamlLoader.Load(this);
     }

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Reactive.Disposables;
 
 using AppViewModels.TemplateEditing;
@@ -41,7 +40,10 @@ public partial class TemplateEditingPage : ReactiveUserControl<TemplateEditingPa
             this.WhenPropertyChanged(v => v.Item)
             .Subscribe(prop =>
             {
-                Debug.WriteLine(prop?.Value?.Name);
+                if (prop.Value is not null)
+                {
+                    ViewModel.SetEditingItem(prop.Value.Path);
+                }
             });
 
 

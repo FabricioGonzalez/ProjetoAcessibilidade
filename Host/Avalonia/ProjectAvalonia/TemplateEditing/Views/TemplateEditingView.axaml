@@ -10,8 +10,12 @@
     x:Name="templateEditingView"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    Background="Transparent"
     mc:Ignorable="d">
-    <SplitView DisplayMode="Inline" IsPaneOpen="True">
+    <SplitView
+        DisplayMode="Inline"
+        IsPaneOpen="True"
+        PaneBackground="Transparent">
         <SplitView.Pane>
             <Grid Margin="4" RowDefinitions="30, 1*">
                 <StackPanel Grid.Row="0" Spacing="16">
@@ -25,6 +29,7 @@
                 <ListBox
                     x:Name="TemplateList"
                     Grid.Row="1"
+                    Background="Transparent"
                     Items="{Binding ProjectItems}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

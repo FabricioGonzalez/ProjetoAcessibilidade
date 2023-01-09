@@ -3,6 +3,6 @@ public enum AppFormDataType
 {
     Text,
     Checkbox,
-    Image,
+    Images,
     Observation
 }

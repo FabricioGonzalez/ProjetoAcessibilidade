@@ -26,6 +26,7 @@
             Grid.Column="1"
             Margin="4"
             VerticalAlignment="Stretch"
+            Background="Transparent"
             CornerRadius="8" />
     </Grid>
 </UserControl>

@@ -35,7 +35,6 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
     public void FlyoutClosed_PointerPressed(object sender, EventArgs args)
     {
         ViewModel.IsDocumentSolutionEnabled = !ViewModel.IsDocumentSolutionEnabled;
-
     }
 
     public ExplorerComponent()
@@ -43,23 +42,18 @@ public partial class ExplorerComponent : ReactiveUserControl<ProjectExplorerView
         ViewModel ??= Locator.Current.GetService<ProjectExplorerViewModel>();
         DataContext = ViewModel;
 
-
-
         this.WhenActivated(disposables =>
         {
-            PrintButton.AddHandler(Button.ClickEvent, (sender, args) =>
+            ViewModel.PrintDocument = ReactiveCommand.Create<string>((path) =>
             {
                 var route = Locator.Current.GetService<PreviewerViewModel>();
                 var main = Locator.Current.GetService<MainViewModel>();
 
                 route.HostScreen = main;
 
-                main.Router.Navigate.Execute(route);
+                main.Router.Navigate.Execute(route.SetSolutionPath(ViewModel.CurrentOpenProject)).Subscribe();
+            }, ViewModel.HasProjectOpened);
 
-                var result = AppInterations.PrintSolution
-                .Handle(ViewModel.CurrentOpenProject)
-                .Subscribe();
-            });
             this.BindInteraction(
                 ViewModel,
                 vm => vm.ShowDialog,

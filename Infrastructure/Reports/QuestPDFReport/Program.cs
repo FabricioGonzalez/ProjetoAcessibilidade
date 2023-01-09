@@ -1,10 +1,18 @@
-﻿
+﻿using Common;
+
 using QuestPDF.Previewer;
 
 using QuestPDFReport;
 using QuestPDFReport.ReportSettings;
 
-var model = DataSource.GetReport();
+var path = "C:\\Users\\Ti\\Documents\\Teste\\Teste.prja";
+
+var res = Path.Combine(Directory.GetParent(path).FullName, Constants.AppProjectItemsFolderName);
+
+res = Constants.AppItemsTemplateFolder;
+
+var model = await DataSource.GetReport(res);
+
 var Report = new StandardReport(model);
 
 Report.ShowInPreviewer();

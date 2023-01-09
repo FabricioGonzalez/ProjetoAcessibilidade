@@ -23,6 +23,7 @@ using Project.Application.Contracts;
 using Project.Application.Implementations;
 using Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
 using Project.Application.Project.Commands.ProjectItemCommands.RenameCommands;
+using Project.Application.Project.Commands.ProjectItemCommands.SaveCommands;
 using Project.Application.Project.Contracts;
 using Project.Application.Project.Queries.GetProjectItemContent;
 using Project.Application.Project.Queries.GetProjectItems;
@@ -91,7 +92,7 @@ public static class Bootstrapper
 
         return service;
     }
-    public static IMutableDependencyResolver AddUsecases(this IMutableDependencyResolver service)
+    public static IMutableDependencyResolver AddQueryHandlers(this IMutableDependencyResolver service)
     {
         service
             .Register(() => new GetProjectItemsQueryHandler(
@@ -101,6 +102,28 @@ public static class Bootstrapper
             .Register<IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>>(() => new ReadSolutionProjectQueryHandler(
      Locator.Current.GetService<ISolutionRepository>()
     ));
+
+        service
+            .Register<IQueryHandler<GetAllUFQuery, IList<UFModel>>>(() => new GetAllUFQueryHandler());
+
+        service
+            .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetProjectItemContentQueryHandler(
+                Locator.Current.GetService<IProjectItemContentRepository>()));
+
+        service
+            .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(() => new GetAllTemplatesQueryHandler(
+                Locator.Current.GetService<IAppTemplateRepository>()));
+
+        service
+            .Register<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(() => new GetProjectItemsQueryHandler(
+                Locator.Current.GetService<IExplorerItemRepository>()));
+
+        return service;
+    }
+    public static IMutableDependencyResolver AddCommandHandlers(this IMutableDependencyResolver service)
+    {
+        service.Register<ICommandHandler<SaveProjectItemContentCommand, Resource<object>>>(() => new SaveProjectItemContentCommandHandler(
+          Locator.Current.GetService<IProjectItemContentRepository>()));
 
         service
             .Register<ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFileItemCommandHandler(
@@ -122,22 +145,9 @@ public static class Bootstrapper
      Locator.Current.GetService<IExplorerItemRepository>()
     ));
 
-        service
-            .Register<IQueryHandler<GetAllUFQuery, IList<UFModel>>>(() => new GetAllUFQueryHandler());
-
-        service
-            .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetProjectItemContentQueryHandler());
-
-        service
-            .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(() => new GetAllTemplatesQueryHandler(
-                Locator.Current.GetService<IAppTemplateRepository>()));
-
-        service
-            .Register<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(() => new GetProjectItemsQueryHandler(
-                Locator.Current.GetService<IExplorerItemRepository>()));
-
         return service;
     }
+
     public static IMutableDependencyResolver AddRepositories(this IMutableDependencyResolver service)
     {
         service

@@ -20,8 +20,6 @@ public class Program
     {
         try
         {
-            /* TODO Há um Bug ao mudar o tema onde o collection binding do UFList da erro*/
-
             // prepare and run your App here
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
@@ -44,7 +42,8 @@ public class Program
                 .AddViewModel()
                 .AddViewComponents()
                 .AddRepositories()
-                .AddUsecases()
+                .AddQueryHandlers()
+                .AddCommandHandlers()
                 .AddServices()
                 .AddViewModelOperations()
                 .AddMediator()

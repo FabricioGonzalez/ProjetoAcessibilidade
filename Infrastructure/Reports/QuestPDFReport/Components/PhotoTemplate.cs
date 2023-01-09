@@ -48,7 +48,10 @@ public class PhotoTemplate : IComponent
 
     void PhotoDetails(IContainer container)
     {
-        container.Border(0.75f).BorderColor(Colors.Grey.Medium).Grid(grid =>
+        container
+            .Border(0.75f)
+            .BorderColor(Colors.Grey.Medium)
+            .Grid(grid =>
         {
             grid.Columns(6);
 

@@ -27,6 +27,7 @@
                 Height="36"
                 Classes="Icon"
                 IsChecked="{Binding IsDocumentSolutionEnabled}"
+                IsVisible="{Binding HasProjectOpened}"
                 ToolTip.Tip="Visualizar Solução">
                 <material:MaterialIcon Kind="DocumentSign" />
                 <ToggleButton.Flyout>
@@ -37,6 +38,7 @@
                 Width="36"
                 Height="36"
                 Classes="Icon"
+                IsEnabled="{Binding HasProjectOpened}"
                 ToolTip.Tip="Sincronizar Solução">
                 <material:MaterialIcon Kind="ContentSave" />
             </Button>
@@ -45,6 +47,8 @@
                 Width="36"
                 Height="36"
                 Classes="Icon"
+                Command="{Binding PrintDocument}"
+                IsEnabled="{Binding HasProjectOpened}"
                 ToolTip.Tip="Imprimir">
                 <material:MaterialIcon Kind="PrintPreview" />
             </Button>

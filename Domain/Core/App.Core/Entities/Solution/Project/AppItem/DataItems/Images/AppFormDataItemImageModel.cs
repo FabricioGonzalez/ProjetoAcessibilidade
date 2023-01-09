@@ -10,7 +10,7 @@ public class AppFormDataItemImageModel : IAppFormDataItemContract
     {
         get;
         set;
-    } = AppFormDataType.Image;
+    } = AppFormDataType.Images;
     public ICollection<ImagesItem> ImagesItems
     {
         get; set;
