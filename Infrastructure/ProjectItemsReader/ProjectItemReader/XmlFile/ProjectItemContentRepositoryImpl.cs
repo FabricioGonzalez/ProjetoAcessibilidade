@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.ObjectModel;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
@@ -8,6 +9,7 @@ using App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 using App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 using App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+using App.Core.Enuns;
 
 using Project.Application.Project.Contracts;
 
@@ -20,18 +22,19 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
         {
             try
             {
-                XmlDocument doc = new XmlDocument();
-                using (StreamReader reader = new StreamReader(filePathToWrite))
-
+                var doc = new XmlDocument();
+                using (var reader = new StreamReader(filePathToWrite))
+                {
                     doc.Load(reader);
+                }
 
-                AppItemModel model = new();
+                var model = new AppItemModel();
 
                 var root = doc.GetElementsByTagName("item")[0];
 
                 model.ItemName = root!.ChildNodes[0]!.InnerXml.Replace("\n", "");
 
-                var modelTable = new List<IAppFormDataItemContract>();
+                var modelTable = new ObservableCollection<IAppFormDataItemContract>();
 
                 var lawModel = new List<AppLawModel>();
 
@@ -43,7 +46,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                         Regex.Replace(res, "^[a-z]", m => m.Value.ToUpper()),
                         out var type);
 
-                    if ((AppFormDataType)type! == AppFormDataType.Text)
+                    if ((AppFormDataType)type! == AppFormDataType.Texto)
                     {
                         var topicoText = (itemTable as XmlNode)!.ChildNodes[1]!.InnerXml.Replace("\n", "");
                         var unidadeText = "";
@@ -93,28 +96,31 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                         {
                             var checkbox = item;
 
-                            var newItem = new AppFormDataItemCheckboxChildModel();
-                            newItem.Options = new List<AppOptionModel>();
+                            var newItem = new AppFormDataItemCheckboxChildModel
+                            {
+                                Options = new ObservableCollection<AppOptionModel>(),
 
-                            newItem.Topic = checkbox.ChildNodes[0]!.InnerXml.Replace("\n", "");
+                                Topic = checkbox.ChildNodes[0]!.InnerXml.Replace("\n", "")
+                            };
 
                             foreach (XmlNode options in checkbox.ChildNodes[1]!.ChildNodes)
                             {
-                                var optionItem = new AppOptionModel();
-
-                                optionItem.IsChecked = bool.Parse(options.ChildNodes[0]!.InnerXml);
-                                optionItem.Value = options.ChildNodes[1]!.InnerXml;
+                                var optionItem = new AppOptionModel
+                                {
+                                    IsChecked = bool.Parse(options.ChildNodes[0]!.InnerXml),
+                                    Value = options.ChildNodes[1]!.InnerXml
+                                };
 
                                 newItem.Options.Add(optionItem);
                             }
-                            newItem.TextItems = new List<AppFormDataItemTextModel?>();
+                            newItem.TextItems = new ObservableCollection<AppFormDataItemTextModel?>();
 
                             if (checkbox.ChildNodes[2] is not null && checkbox.ChildNodes[2].Name == "texto")
                             {
                                 var textItem = new AppFormDataItemTextModel()
                                 {
                                     Topic = checkbox.ChildNodes[2].ChildNodes[0].InnerXml,
-                                    Type = AppFormDataType.Text,
+                                    Type = AppFormDataType.Texto,
                                     MeasurementUnit = checkbox.ChildNodes[2].ChildNodes[1].InnerXml,
                                     TextData = checkbox.ChildNodes[2].ChildNodes[2].InnerXml
                                 };
@@ -127,7 +133,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                         modelTable.Add(checkboxItem);
                     }
 
-                    if ((AppFormDataType)type == AppFormDataType.Observation)
+                    if ((AppFormDataType)type == AppFormDataType.Observação)
                     {
                         var value = (itemTable as XmlNode)!.ChildNodes[1]!.InnerXml;
 
@@ -143,9 +149,10 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
                 foreach (XmlNode itemLaw in root.ChildNodes[2]!.ChildNodes)
                 {
-                    var law = new AppLawModel();
-
-                    law.LawId = itemLaw.ChildNodes[0]?.InnerXml;
+                    var law = new AppLawModel
+                    {
+                        LawId = itemLaw.ChildNodes[0]?.InnerXml
+                    };
 
                     var lawContent = new StringBuilder();
 
@@ -179,7 +186,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
     {
         await Task.Run(() =>
         {
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
 
             var root = doc.CreateElement("item");
 
@@ -210,7 +217,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
                     itemTabelaName.AppendChild(itemType);
 
-                    XmlElement? checkboxes = doc.CreateElement("checkboxes");
+                    var checkboxes = doc.CreateElement("checkboxes");
 
                     foreach (var checkbox in (projectItem as AppFormDataItemCheckboxModel)!.Children)
                     {
@@ -225,13 +232,13 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
                         itemCheckbox.AppendChild(checkboxItemTopic);
 
-                        XmlElement? options = doc.CreateElement("opcoes");
+                        var options = doc.CreateElement("opcoes");
 
                         foreach (var option in checkbox.Options)
                         {
                             var itemOption = doc.CreateElement("opcao");
 
-                            XmlAttribute? optionItemAttribute = doc.CreateAttribute("item");
+                            var optionItemAttribute = doc.CreateAttribute("item");
                             attribute.Value = $"{checkbox?.Options.IndexOf(option) + 1}";
 
                             itemOption.Attributes.Append(attribute);
@@ -252,6 +259,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                         itemCheckbox.AppendChild(options);
 
                         if (checkbox.TextItems is not null && checkbox.TextItems.Count > 0)
+                        {
                             foreach (var textitem in checkbox.TextItems)
                             {
                                 var itemTexto = doc.CreateElement("texto");
@@ -271,6 +279,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
                                 itemCheckbox.AppendChild(itemTexto);
                             }
+                        }
 
                         checkboxes.AppendChild(itemCheckbox);
                     }
@@ -279,7 +288,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
                 }
 
-                if (projectItem.Type.Equals(AppFormDataType.Observation))
+                if (projectItem.Type.Equals(AppFormDataType.Observação))
                 {
                     var itemType = doc.CreateElement("tipo");
                     itemType.InnerXml = projectItem.Type.ToString()
@@ -294,7 +303,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                     itemTabelaName.AppendChild(itemObservationText);
                 }
 
-                if (projectItem.Type.Equals(AppFormDataType.Text))
+                if (projectItem.Type.Equals(AppFormDataType.Texto))
                 {
                     var itemType = doc.CreateElement("tipo");
                     itemType.InnerXml = projectItem.Type.ToString()
@@ -316,7 +325,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                     itemTabelaName.AppendChild(itemTextoValue);
                 }
 
-                if (projectItem.Type.Equals(AppFormDataType.Images))
+                if (projectItem.Type.Equals(AppFormDataType.Image))
                 {
                     var itemType = doc.CreateElement("tipo");
                     itemType.InnerXml = projectItem.Type.ToString()
@@ -326,7 +335,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                     var itemImageImages = doc.CreateElement("images");
 
                     if ((projectItem as AppFormDataItemImageModel)!.ImagesItems.Count > 0)
-
+                    {
                         foreach (var item in (projectItem as AppFormDataItemImageModel)!.ImagesItems)
                         {
                             var itemImageImagesPath = doc.CreateElement("imagePath");
@@ -338,6 +347,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                             itemImageImages.AppendChild(itemImageImagesPath);
                             itemImageImages.AppendChild(itemImageObservation);
                         }
+                    }
 
                     itemTabelaName.AppendChild(itemType);
                     itemTabelaName.AppendChild(itemImageImages);
@@ -376,7 +386,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
             root.AppendChild(leiName);
 
-            using (StreamWriter writer = new StreamWriter(filePathToWrite))
+            using (var writer = new StreamWriter(filePathToWrite))
             {
                 writer.Flush();
                 doc.Save(writer);

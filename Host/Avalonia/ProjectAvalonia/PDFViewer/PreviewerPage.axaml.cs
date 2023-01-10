@@ -3,6 +3,8 @@ using System.Reactive.Disposables;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
+using Common;
+
 using QuestPDF.Previewer;
 
 using QuestPDFReport;
@@ -19,13 +21,13 @@ public partial class PreviewerPage : ReactiveUserControl<PreviewerViewModel>
     }
     private void InitializeComponent()
     {
-
-
         this.WhenActivated(async (CompositeDisposable disposables) =>
         {
-            var report = new StandardReport(await DataSource.GetReport(ViewModel.SolutionPath));
+            var report = new StandardReport(await DataSource.GetReport(
+                path: ViewModel.SolutionPath,
+                extension: Constants.AppProjectItemExtension));
 
-            this.ViewModel.Document = report;
+            ViewModel.Document = report;
         });
         AvaloniaXamlLoader.Load(this);
     }

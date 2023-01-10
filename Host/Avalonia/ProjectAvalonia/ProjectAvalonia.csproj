@@ -86,6 +86,12 @@
         <Compile Update="Project\Components\ProjectEditing\EditingView.axaml.cs">
             <DependentUpon>EditingView.axaml</DependentUpon>
         </Compile>
+        <Compile Update="Project\Components\ProjectEditing\ItemsComponents\OptionsComponent.axaml.cs">
+          <DependentUpon>OptionsComponent.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Project\Components\ProjectEditing\ItemsComponents\TextBoxItemComponent.axaml.cs">
+          <DependentUpon>TextBoxItemComponent.axaml</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <None Update="Specifications\Itens.xml">

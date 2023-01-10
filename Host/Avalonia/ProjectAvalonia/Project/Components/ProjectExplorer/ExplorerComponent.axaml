@@ -23,22 +23,19 @@
             Orientation="Horizontal"
             Spacing="4">
             <ToggleButton
+                x:Name="SolutionFlyoutButton"
                 Width="36"
                 Height="36"
-                Classes="Icon"
-                IsChecked="{Binding IsDocumentSolutionEnabled}"
-                IsVisible="{Binding HasProjectOpened}"
                 ToolTip.Tip="Visualizar Solução">
                 <material:MaterialIcon Kind="DocumentSign" />
                 <ToggleButton.Flyout>
-                    <components:SolutionFlyout Closed="FlyoutClosed_PointerPressed" />
+                    <components:SolutionFlyout />
                 </ToggleButton.Flyout>
             </ToggleButton>
             <Button
+                x:Name="SaveSolutionButton"
                 Width="36"
                 Height="36"
-                Classes="Icon"
-                IsEnabled="{Binding HasProjectOpened}"
                 ToolTip.Tip="Sincronizar Solução">
                 <material:MaterialIcon Kind="ContentSave" />
             </Button>
@@ -46,9 +43,6 @@
                 x:Name="AppPrintButton"
                 Width="36"
                 Height="36"
-                Classes="Icon"
-                Command="{Binding PrintDocument}"
-                IsEnabled="{Binding HasProjectOpened}"
                 ToolTip.Tip="Imprimir">
                 <material:MaterialIcon Kind="PrintPreview" />
             </Button>
@@ -111,6 +105,5 @@
                 </DataTemplate>
             </TreeView.DataTemplates>
         </TreeView>
-
     </Grid>
 </UserControl>

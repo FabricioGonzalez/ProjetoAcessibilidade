@@ -103,18 +103,22 @@ public class StandardReport : IDocument
                 .Section(section.Title)
                 .Component(new SectionTemplate(section));
 
-            column
-            .Item()
-            .PageBreak();
 
-            column
-            .Item()
-            .Section("Photos");
+            if (Model.Photos.Count > 0)
+            {
 
-            foreach (var photo in Model.Photos)
                 column
                 .Item()
-                .Component(new PhotoTemplate(photo));
+                .PageBreak();
+                column
+                .Item()
+                .Section("Photos");
+
+                foreach (var photo in Model.Photos)
+                    column
+                    .Item()
+                    .Component(new PhotoTemplate(photo));
+            }
         });
     }
 }

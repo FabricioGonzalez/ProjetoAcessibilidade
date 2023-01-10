@@ -42,51 +42,57 @@ public class SectionTemplate : IComponent
                         column
                         .Item()
                         .EnsureSpace(25)
-                        .Column(row =>
+                        .Column(column =>
                         {
-                            row
+                            column
                             .Item()
                             .LabelCell()
                             .ExtendHorizontal()
                             .Text(part.Label);
 
-                            var frame = row
-                            .Item()
-                            .ValueCell();
+                            if (part is not ReportSectionTitle)
+                            {
+                                var frame = column
+                                .Item()
+                                .ValueCell();
 
-                            if (part is ReportSectionText text)
-                                frame
+                                if (part is ReportSectionText text)
+                                {
+                                    frame
                                 .ShowEntire()
                                 .Text(text.Text);
+                                }
 
-                            if (part is ReportSectionCheckbox checkboxes)
-                            {
-                                frame
+                                if (part is ReportSectionCheckbox checkboxes)
+                                {
+                                    frame
                                 .Element(x => MapCheckboxes(x, checkboxes));
-                            }
+                                }
 
-                            if (part is ReportSectionTitle title)
-                            {
-                                frame
-                                .Element(x => MapTitle(x, title));
-                            }
-
-                            if (part is ReportSectionMap map)
-                                frame
+                                if (part is ReportSectionMap map)
+                                {
+                                    frame
                                 .Element(x => MapElement(x, map));
+                                }
 
-                            if (part is ReportSectionPhotos photos)
-                                frame
+                                if (part is ReportSectionPhotos photos)
+                                {
+                                    frame
                                 .Element(x => PhotosElement(x, photos));
+                                }
+                            }
                         });
                     }
                 });
             });
     }
 
-    private void MapTitle(IContainer container, ReportSectionTitle title)
+    private void MapTitle(IContainer container, string title)
     {
-        container.Text("No photos").Style(Typography.Normal);
+        container.ShowEntire().Column(column =>
+        {
+            column.Item().Text(title).Style(Typography.Normal);
+        });
     }
 
     private void MapCheckboxes(IContainer container, ReportSectionCheckbox checkboxes)
@@ -144,8 +150,8 @@ public class SectionTemplate : IComponent
 
                         layers
                             .PrimaryLayer()
-                                                                                                                                                      /* .Text("Sample text")
-                                                                                                                                                       .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
+                                                                                                                                                                        /* .Text("Sample text")
+                                                                                                                                                                         .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
                     });
 
                     row.AutoItem().Text(item.Value);
@@ -155,7 +161,7 @@ public class SectionTemplate : IComponent
         });
     }
 
-    void MapElement(IContainer container, ReportSectionMap model)
+    private void MapElement(IContainer container, ReportSectionMap model)
     {
         if (model.Location == null)
         {
@@ -163,16 +169,26 @@ public class SectionTemplate : IComponent
             return;
         }
 
-        container.ShowEntire().Column(column =>
+        container
+            .ShowEntire()
+            .Column(column =>
         {
-            column.Spacing(5);
+            column
+            .Spacing(5);
 
-            column.Item().MaxWidth(250).AspectRatio(4 / 3f).Component<ImagePlaceholder>();
-            column.Item().Text(model.Location.Format());
+            column
+            .Item()
+            .MaxWidth(250)
+            .AspectRatio(4 / 3f)
+            .Component<ImagePlaceholder>();
+
+            column
+            .Item()
+            .Text(model.Location.Format());
         });
     }
 
-    void PhotosElement(IContainer container, ReportSectionPhotos model)
+    private void PhotosElement(IContainer container, ReportSectionPhotos model)
     {
         if (model.PhotoCount == 0)
         {
@@ -188,7 +204,11 @@ public class SectionTemplate : IComponent
             Enumerable
                 .Range(0, model.PhotoCount)
                 .ToList()
-                .ForEach(x => grid.Item().AspectRatio(4 / 3f).Component<ImagePlaceholder>());
+                .ForEach(x =>
+                grid
+                .Item()
+                .AspectRatio(4 / 3f)
+                .Component<ImagePlaceholder>());
         });
     }
 }

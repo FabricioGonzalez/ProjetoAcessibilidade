@@ -7,6 +7,7 @@
     xmlns:appModelObservation="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;assembly=App.Core"
     xmlns:appModelText="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Text;assembly=App.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:itemsComponents="using:ProjectAvalonia.Project.Components.ProjectEditing.ItemsComponents"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
@@ -41,27 +42,10 @@
                     Items="{Binding Item.FormData, Mode=OneWay}">
                     <ItemsControl.DataTemplates>
                         <DataTemplate x:DataType="appModelText:AppFormDataItemTextModel" DataType="appModelText:AppFormDataItemTextModel">
-                            <StackPanel
-                                Margin="0,4"
-                                Orientation="Vertical"
-                                Spacing="8">
-                                <TextBlock
-                                    FontWeight="Bold"
-                                    Text="{Binding Topic}"
-                                    TextWrapping="Wrap" />
-                                <StackPanel Orientation="Horizontal" Spacing="5">
-                                    <TextBox
-                                        Width="280"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch"
-                                        Text="{Binding TextData, Mode=TwoWay}" />
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontWeight="Bold"
-                                        Text="{Binding MeasurementUnit}" />
-                                </StackPanel>
-                            </StackPanel>
+                            <itemsComponents:TextBoxItemComponent
+                                MeasurementUnit="{Binding MeasurementUnit}"
+                                TextData="{Binding TextData}"
+                                Topic="{Binding Topic}" />
                         </DataTemplate>
 
                         <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxModel" DataType="appModelCheckBox:AppFormDataItemCheckboxModel">
@@ -70,58 +54,29 @@
                                     FontWeight="Bold"
                                     Text="{Binding Topic}"
                                     TextWrapping="Wrap" />
-                                <ItemsPresenter Items="{Binding Children}">
-                                    <ItemsPresenter.ItemTemplate>
+                                <ItemsControl Items="{Binding Children}">
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxChildModel">
                                             <StackPanel Margin="0,4">
                                                 <TextBlock
                                                     FontWeight="Bold"
                                                     Text="{Binding Topic}"
                                                     TextWrapping="Wrap" />
-                                                <ItemsPresenter Items="{Binding Options}">
-                                                    <ItemsPresenter.ItemTemplate>
-                                                        <DataTemplate x:DataType="appModelCheckBox:AppOptionModel">
-                                                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                                                <TextBlock
-                                                                    HorizontalAlignment="Center"
-                                                                    VerticalAlignment="Center"
-                                                                    Text="{Binding Value}" />
-                                                                <CheckBox
-                                                                    HorizontalAlignment="Center"
-                                                                    VerticalAlignment="Center"
-                                                                    IsChecked="{Binding IsChecked, Mode=TwoWay}" />
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </ItemsPresenter.ItemTemplate>
-                                                </ItemsPresenter>
-                                                <ItemsPresenter Items="{Binding TextItems}">
-                                                    <ItemsPresenter.ItemTemplate>
+                                                <itemsComponents:OptionsComponent Options="{Binding Options}" />
+                                                <ItemsControl Items="{Binding TextItems}">
+                                                    <ItemsControl.ItemTemplate>
                                                         <DataTemplate x:DataType="appModelText:AppFormDataItemTextModel">
-                                                            <StackPanel Orientation="Vertical" Spacing="8">
-                                                                <TextBlock
-                                                                    FontWeight="Bold"
-                                                                    Text="{Binding Topic}"
-                                                                    TextWrapping="Wrap" />
-                                                                <StackPanel Orientation="Horizontal" Spacing="5">
-                                                                    <TextBox
-                                                                        Width="280"
-                                                                        HorizontalAlignment="Stretch"
-                                                                        HorizontalContentAlignment="Stretch"
-                                                                        Text="{Binding TextData}" />
-                                                                    <TextBlock
-                                                                        HorizontalAlignment="Center"
-                                                                        VerticalAlignment="Center"
-                                                                        FontWeight="Bold"
-                                                                        Text="{Binding MeasurementUnit}" />
-                                                                </StackPanel>
-                                                            </StackPanel>
+                                                            <itemsComponents:TextBoxItemComponent
+                                                                MeasurementUnit="{Binding MeasurementUnit}"
+                                                                TextData="{Binding TextData}"
+                                                                Topic="{Binding Topic}" />
                                                         </DataTemplate>
-                                                    </ItemsPresenter.ItemTemplate>
-                                                </ItemsPresenter>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
                                             </StackPanel>
                                         </DataTemplate>
-                                    </ItemsPresenter.ItemTemplate>
-                                </ItemsPresenter>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </StackPanel>
                         </DataTemplate>
                         <DataTemplate />

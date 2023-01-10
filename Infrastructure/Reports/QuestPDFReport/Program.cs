@@ -11,7 +11,7 @@ var res = Path.Combine(Directory.GetParent(path).FullName, Constants.AppProjectI
 
 res = Constants.AppItemsTemplateFolder;
 
-var model = await DataSource.GetReport(res);
+var model = await DataSource.GetReport(res, Constants.AppProjectTemplateExtension);
 
 var Report = new StandardReport(model);
 

@@ -61,16 +61,16 @@
             </checkboxes>
         </itemtabela>
         <itemtabela item="2">
-            <tipo>text</tipo>
+            <tipo>texto</tipo>
             <topico>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo S.I.A, Adesivo S.I.A, display de mesa ou não possui);</topico>
             <value></value>
         </itemtabela>
         <itemtabela item="3">
-            <tipo>observation</tipo>
+            <tipo>observação</tipo>
             <value></value>
         </itemtabela>
         <itemtabela item="4">
-            <tipo>images</tipo>
+            <tipo>image</tipo>
             <images />
         </itemtabela>
     </tabela>

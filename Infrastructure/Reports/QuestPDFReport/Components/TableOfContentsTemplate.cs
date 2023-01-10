@@ -37,7 +37,7 @@ public class TableOfContentsTemplate : IComponent
                     for (var i = 0; i < Sections.Count; i++)
                         column.Item().Element(c => DrawLink(c, i + 1, Sections[i].Title));
 
-                    column.Item().Element(c => DrawLink(c, Sections.Count + 1, "Photos"));
+                    /*column.Item().Element(c => DrawLink(c, Sections.Count + 1, "Photos"));*/
                 });
             });
     }

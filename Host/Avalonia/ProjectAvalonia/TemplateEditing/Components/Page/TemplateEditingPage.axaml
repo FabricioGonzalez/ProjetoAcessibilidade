@@ -11,7 +11,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <ScrollViewer>
+    <ScrollViewer Padding="8">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock Text="{Binding $parent.Item.Name}" />
             <ItemsControl Items="{Binding EditingItem.FormData, Mode=OneWay}">
@@ -22,7 +22,12 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Spacing="16">
                                         <Controls:EditableTextBlock InEditMode="False" Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
-                                        <ComboBox Items="{Binding #templateEditingPage.DataContext.Types}" SelectedItem="{Binding Type, Mode=OneWay}" />
+                                        <ComboBox
+                                            Width="200"
+                                            HorizontalAlignment="Right"
+                                            IsTextSearchEnabled="True"
+                                            Items="{Binding #templateEditingPage.DataContext.Types}"
+                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </Expander.HeaderTemplate>
@@ -53,7 +58,12 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Spacing="16">
                                         <Controls:EditableTextBlock InEditMode="False" Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
-                                        <ComboBox Items="{Binding #templateEditingPage.DataContext.Types}" SelectedItem="{Binding Type, Mode=OneWay}" />
+                                        <ComboBox
+                                            Width="200"
+                                            HorizontalAlignment="Right"
+                                            IsTextSearchEnabled="True"
+                                            Items="{Binding #templateEditingPage.DataContext.Types}"
+                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </Expander.HeaderTemplate>

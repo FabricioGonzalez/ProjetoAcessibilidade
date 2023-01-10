@@ -29,8 +29,7 @@
             Grid.Row="0"
             Width="{Binding #AppContainer.Width}"
             Margin="4"
-            HorizontalAlignment="Stretch"
-            Background="Transparent">
+            HorizontalAlignment="Stretch">
             <Button
                 Margin="8,0"
                 HorizontalAlignment="Left"
@@ -42,64 +41,48 @@
                 Margin="48,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="Transparent"
                 Classes="mainMenu">
                 <Menu.Items>
-                    <MenuItem
-                        Height="30"
-                        Background="Transparent"
-                        Header="Arquivos">
+                    <MenuItem Height="30" Header="Arquivos">
                         <MenuItem.Items>
                             <MenuItem
                                 Height="30"
                                 Margin="4,0"
-                                Background="Transparent"
                                 Command="{Binding OpenProjectCommand}"
                                 Header="Abrir" />
                             <MenuItem
                                 Height="30"
                                 Margin="4,0"
-                                Background="Transparent"
                                 Command="{Binding CreateProjectCommand}"
                                 Header="Novo" />
-                            <Separator Background="Transparent" />
+                            <Separator />
                             <MenuItem
                                 Name="CloseAppMenuItem"
                                 Height="30"
                                 Margin="4,0"
-                                Background="Transparent"
                                 Command="{Binding CloseAppCommand}"
                                 Header="Sair" />
                         </MenuItem.Items>
                     </MenuItem>
-                    <MenuItem
-                        Height="30"
-                        Background="Transparent"
-                        Header="Templates">
+                    <MenuItem Height="30" Header="Templates">
                         <MenuItem.Items>
                             <MenuItem
                                 Height="30"
                                 Margin="4,0"
-                                Background="Transparent"
                                 Command="{Binding GoToTemplateEditing}"
                                 Header="Edição de Templates" />
                             <MenuItem
                                 Height="30"
                                 Margin="4,0"
-                                Background="Transparent"
                                 Command="{Binding GoToRulesEditing}"
                                 Header="Regras de Validação" />
                         </MenuItem.Items>
                     </MenuItem>
-                    <MenuItem
-                        Height="30"
-                        Background="Transparent"
-                        Header="Sistema">
+                    <MenuItem Height="30" Header="Sistema">
                         <MenuItem.Items>
                             <MenuItem
                                 Height="30"
                                 Margin="4,0"
-                                Background="Transparent"
                                 Command="{Binding GoToSetting}"
                                 Header="Configurações" />
                         </MenuItem.Items>

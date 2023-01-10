@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reactive;
+﻿using System.Reactive;
 using System.Reactive.Disposables;
 
 using App.Core.Entities.Solution.Project.AppItem;
@@ -44,7 +43,6 @@ public class ProjectItemEditingViewModel : ViewModelBase
 
         SaveItemCommand = ReactiveCommand.CreateFromTask<AppItemModel>(async (param) =>
         {
-            Debug.WriteLine("Hotkey funcionando", param.ItemName);
             await commandDispatcher
             .Dispatch<SaveProjectItemContentCommand, Resource<object>>(
                 new(param, SelectedItem.Path),

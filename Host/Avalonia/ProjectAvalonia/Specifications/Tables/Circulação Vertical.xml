@@ -49,19 +49,19 @@
             </checkboxes>
         </itemtabela>
         <itemtabela item="2">
-            <tipo>text</tipo>
+            <tipo>texto</tipo>
             <topico>Se plataforma, indicar o tipo:</topico>
             <unidade />
             <value />
         </itemtabela>
         <itemtabela item="3">
-            <tipo>text</tipo>
+            <tipo>texto</tipo>
             <topico>Atende à quais pavimentos? (Ex. subsolo ao térreo, térreo ao segundo, etc.</topico>
             <unidade />
             <value />
         </itemtabela>
         <itemtabela item="4">
-            <tipo>text</tipo>
+            <tipo>texto</tipo>
             <topico>Quantidade de paradas:</topico>
             <unidade>cm</unidade>
             <value />
@@ -361,17 +361,17 @@
             </checkboxes>
         </itemtabela>
         <itemtabela item="6">
-            <tipo>text</tipo>
+            <tipo>texto</tipo>
             <topico>Tipo de porta (automática-abertura lateral, automática-abertura central, manual-eixo vertical):</topico>
             <unidade />
             <value />
         </itemtabela>
         <itemtabela item="7">
-            <tipo>observation</tipo>
+            <tipo>observação</tipo>
             <value />
         </itemtabela>
         <itemtabela item="8">
-            <tipo>images</tipo>
+            <tipo>image</tipo>
         </itemtabela>
     </tabela>
     <lei />

@@ -26,19 +26,11 @@ namespace QuestPDF.Previewer
         public DocumentRenderer DocumentRenderer { get; } = new();
 
         private string solutionPath;
-
         public string SolutionPath
         {
-            get
-            {
-                return solutionPath;
-            }
-            set
-            {
-                solutionPath = value;
-            }
+            get => solutionPath;
+            set => solutionPath = value;
         }
-
 
         private IDocument? _document;
         public IDocument? Document

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reactive;
+﻿using System.Reactive;
 
 using App.Core.Entities.Solution.Explorer;
 
@@ -49,8 +48,6 @@ public class AddItemViewModel : ViewModelBase
         {
             if (Item is not null)
             {
-                Debug.WriteLine(Item.Name);
-
                 return Item;
             }
             return null;

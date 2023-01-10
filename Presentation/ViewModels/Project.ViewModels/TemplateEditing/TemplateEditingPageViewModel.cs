@@ -1,9 +1,9 @@
 ﻿using System.Reactive.Disposables;
 
 using App.Core.Entities.Solution.Project.AppItem;
-using App.Core.Entities.Solution.Project.AppItem.DataItems;
 using App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+using App.Core.Enuns;
 
 using AppViewModels.Common;
 
@@ -29,11 +29,9 @@ public class TemplateEditingPageViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref editingItem, value);
     }
 
-    public ObservableCollectionExtended<string> Types => new(
+    public ObservableCollectionExtended<AppFormDataType> Types => new(
         Enum
-        .GetValues<AppFormDataType>()
-        .Cast<AppFormDataType>()
-        .Select(x => x.ToString()));
+        .GetValues<AppFormDataType>());
 
     private readonly IQueryDispatcher queryDispatcher;
 

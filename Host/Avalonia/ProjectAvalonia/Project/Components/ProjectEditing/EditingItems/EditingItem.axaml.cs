@@ -23,16 +23,13 @@ public partial class EditingItem : ReactiveUserControl<ProjectItemEditingViewMod
 
     public static readonly AttachedProperty<FileProjectItemViewModel> ItemProperty =
           AvaloniaProperty.RegisterAttached<EditingItem, ReactiveUserControl<ProjectItemEditingViewModel>, FileProjectItemViewModel>(nameof(Item));
-
     public FileProjectItemViewModel? Item
     {
         get => GetValue(ItemProperty);
         set => SetValue(ItemProperty, value);
     }
 
-
     public ICommand? Command => this?.ViewModel?.SaveItemCommand;
-
     public object? CommandParameter => this?.ViewModel?.Item;
 
     public ScrollViewer editingScrollViewer => this.FindControl<ScrollViewer>("EditingScrollViewer");
@@ -57,7 +54,6 @@ public partial class EditingItem : ReactiveUserControl<ProjectItemEditingViewMod
                     await ViewModel.SetEditingItem(prop.Value.Path);
                     ViewModel.SelectedItem = prop.Value;
                     editingScrollViewer.ScrollToHome();
-
                 }
             })
             .DisposeWith(disposables);

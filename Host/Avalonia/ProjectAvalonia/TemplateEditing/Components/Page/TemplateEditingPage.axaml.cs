@@ -38,11 +38,11 @@ public partial class TemplateEditingPage : ReactiveUserControl<TemplateEditingPa
             ViewModel.Activator.Activate();
 
             this.WhenPropertyChanged(v => v.Item)
-            .Subscribe(prop =>
+            .Subscribe(async prop =>
             {
                 if (prop.Value is not null)
                 {
-                    ViewModel.SetEditingItem(prop.Value.Path);
+                    await ViewModel.SetEditingItem(prop.Value.Path);
                 }
             });
 

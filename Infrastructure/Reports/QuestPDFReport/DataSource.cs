@@ -12,7 +12,7 @@ using QuestPDFReport.Models;
 namespace QuestPDFReport;
 public static class DataSource
 {
-    public static async Task<ReportModel> GetReport(string path)
+    public static async Task<ReportModel> GetReport(string path, string extension)
     {
         List<ReportHeaderField> HeaderFields()
         {
@@ -49,7 +49,7 @@ public static class DataSource
 
         var res = Path.Combine(Directory.GetParent(path).FullName, Constants.AppProjectItemsFolderName);
 
-        var items = Directory.GetFiles(res, $"*.{Constants.AppProjectItemExtension}");
+        var items = Directory.GetFiles(res, $"*{extension}");
 
         var repository = new ProjectItemContentRepositoryImpl();
 
@@ -70,7 +70,8 @@ public static class DataSource
 
                 if (formData is AppFormDataItemCheckboxModel checkbox)
                 {
-                    section.Parts.Add(new ReportSectionTitle(checkbox.Topic is not null ? checkbox.Topic : ""));
+                    if (!string.IsNullOrWhiteSpace(checkbox.Topic))
+                        section.Parts.Add(new ReportSectionTitle(checkbox.Topic));
 
                     foreach (var options in checkbox.Children)
                     {

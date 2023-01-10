@@ -31,7 +31,7 @@ public class ProjectExplorerViewModel : ViewModelBase
     public string CurrentOpenProject
     {
         get => currentOpenProject;
-        set => this.RaiseAndSetIfChanged(ref currentOpenProject, value, nameof(CurrentOpenProject));
+        set => this.RaiseAndSetIfChanged(ref currentOpenProject, value);
     }
 
     private bool isDocumentSolutionEnabled = false;
@@ -53,9 +53,8 @@ public class ProjectExplorerViewModel : ViewModelBase
     public readonly ProjectExplorerOperations explorerOperations;
     private readonly IQueryDispatcher queryDispatcher;
 
-    public IObservable<bool>? HasProjectOpened => this
-           .WhenAnyValue(x => x.CurrentOpenProject)
-           .Select(path => !string.IsNullOrEmpty(path));
+    public IObservable<bool> IsProjectOpened;
+
 
     public ProjectExplorerViewModel()
     {
@@ -86,7 +85,7 @@ public class ProjectExplorerViewModel : ViewModelBase
                         inEditMode: true)
                     );
             }
-        }, HasProjectOpened);
+        }, IsProjectOpened);
 
         AddFolderCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
         {
@@ -102,7 +101,7 @@ public class ProjectExplorerViewModel : ViewModelBase
                     referencedItem: "")
                     );
             }
-        }, HasProjectOpened);
+        }, IsProjectOpened);
 
         SelectSolutionItemCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
         {
@@ -110,13 +109,15 @@ public class ProjectExplorerViewModel : ViewModelBase
             .EditItem
             .Handle((item as FileProjectItemViewModel))
             .Subscribe();
-        }, HasProjectOpened);
+        }, IsProjectOpened);
 
         this.WhenActivated(disposables =>
         {
+            IsProjectOpened = this.WhenAnyValue(x => x.CurrentOpenProject,
+             prop => !string.IsNullOrWhiteSpace(prop));
+
             this
              .WhenAnyValue(vm => vm.CurrentOpenProject)
-             .WhereNotNull()
              .Where(value => !string.IsNullOrEmpty(value))
              .Subscribe(async path =>
              {
@@ -137,10 +138,6 @@ public class ProjectExplorerViewModel : ViewModelBase
                  }
              })
              .DisposeWith(disposables);
-
-            PrintDocument?
-            .Subscribe()
-            .DisposeWith(disposables);
 
             SolutionModel.ChooseSolutionPath
             .Subscribe(result =>
@@ -173,12 +170,10 @@ public class ProjectExplorerViewModel : ViewModelBase
         return new();
 
     }
-
     public ReactiveCommand<string, Unit> PrintDocument
     {
         get; set;
     }
-
     public ReactiveCommand<ProjectItemViewModel, Unit> AddItemCommand
     {
         get;
@@ -191,7 +186,6 @@ public class ProjectExplorerViewModel : ViewModelBase
     {
         get;
     }
-
     public Interaction<AddItemViewModel, ExplorerItem?> ShowDialog
     {
         get; private set;

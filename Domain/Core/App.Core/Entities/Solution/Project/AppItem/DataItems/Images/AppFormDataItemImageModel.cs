@@ -1,4 +1,6 @@
-﻿namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+﻿using App.Core.Enuns;
+
+namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 public class AppFormDataItemImageModel : IAppFormDataItemContract
 {
     public string Topic
@@ -10,7 +12,7 @@ public class AppFormDataItemImageModel : IAppFormDataItemContract
     {
         get;
         set;
-    } = AppFormDataType.Images;
+    } = AppFormDataType.Image;
     public ICollection<ImagesItem> ImagesItems
     {
         get; set;
