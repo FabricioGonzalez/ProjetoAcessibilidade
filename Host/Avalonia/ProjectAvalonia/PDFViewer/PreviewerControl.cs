@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Threading;
 
 namespace QuestPDF.Previewer
 {
@@ -48,7 +49,7 @@ namespace QuestPDF.Previewer
             CurrentScrollProperty.Changed.Subscribe(x =>
             {
                 InteractiveCanvas.ScrollPercentY = x.NewValue.Value;
-                InvalidateVisual();
+                Dispatcher.UIThread.Post(() => InvalidateVisual());
             });
 
             ClipToBounds = true;
@@ -64,15 +65,17 @@ namespace QuestPDF.Previewer
                 var point = new Point(Bounds.Center.X, Bounds.Top) - e.GetPosition(this);
 
                 InteractiveCanvas.ZoomToPoint((float)point.X, -(float)point.Y, (float)scaleFactor);
+                InvalidateVisual();
             }
 
             if (e.KeyModifiers == KeyModifiers.None)
             {
                 var translation = (float)e.Delta.Y * 25;
                 InteractiveCanvas.TranslateWithCurrentScale(0, -translation);
+                InvalidateVisual();
             }
 
-            InvalidateVisual();
+
         }
 
         private bool IsMousePressed

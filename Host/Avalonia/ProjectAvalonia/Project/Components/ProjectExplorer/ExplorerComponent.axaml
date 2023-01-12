@@ -55,7 +55,10 @@
             CornerRadius="8">
             <TreeView.DataTemplates>
                 <TreeDataTemplate DataType="nodes:FolderProjectItemViewModel" ItemsSource="{Binding Children}">
-                    <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
+                    <Grid
+                        Margin="2"
+                        HorizontalAlignment="Stretch"
+                        ColumnDefinitions="32,1*">
                         <material:MaterialIcon Grid.Column="0" Kind="Folder" />
                         <Controls:EditableTextBlock
                             Grid.Column="1"
@@ -80,7 +83,10 @@
                     </Grid>
                 </TreeDataTemplate>
                 <DataTemplate DataType="nodes:FileProjectItemViewModel">
-                    <Grid HorizontalAlignment="Stretch" ColumnDefinitions="32,1*">
+                    <Grid
+                        Margin="2"
+                        HorizontalAlignment="Stretch"
+                        ColumnDefinitions="32,1*">
                         <i:Interaction.Behaviors>
                             <ia:EventTriggerBehavior EventName="DoubleTapped">
                                 <ia:InvokeCommandAction Command="{Binding #explorerView.DataContext.SelectSolutionItemCommand}" CommandParameter="{Binding}" />

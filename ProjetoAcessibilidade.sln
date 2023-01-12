@@ -31,8 +31,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Publish", "Publish", "{2A25
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6487D63E-23A2-4DF4-9EB5-610AD80B3C9F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{2701BCE3-DDBB-4070-B3B4-8202CD287B73}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{E27892F2-386A-4E6A-8303-78BB92570F1C}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ProjectAvalonia.Builder", "Build\ProjectAvalonia.Builder\ProjectAvalonia.Builder.vdproj", "{17559D11-872A-4E73-9F86-E9D9D438DDAE}"

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using AppViewModels.Contracts;
 
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 
 using ProjectAvalonia.Views;
 
@@ -46,14 +48,15 @@ public class FileDialog : IFileDialog
     {
         var dlg = new OpenFolderDialog();
 
-        var result = await dlg.ShowAsync(window);
-        if (result != null)
+        var folder = await window.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions() { AllowMultiple = false });
+
+        if (folder != null)
         {
             var sb = new StringBuilder();
 
             try
             {
-                sb.Append(result);
+                sb.Append(folder[0]);
             }
             catch (Exception ex)
             {
@@ -89,6 +92,37 @@ public class FileDialog : IFileDialog
                     sb.Append(text);
                 }
             }
+            return sb.ToString();
+        }
+
+        return "";
+    }
+
+    public async Task<string> GetFile(string[] fileFilters)
+    {
+
+        var openedFile = await window.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+        {
+            FileTypeFilter = fileFilters.Select(item => new FilePickerFileType(item)).ToList(),
+            AllowMultiple = false
+        });
+        var dlg = new OpenFolderDialog();
+
+        //var result = await dlg.ShowAsync(window);
+        if (openedFile != null)
+        {
+            var sb = new StringBuilder();
+
+            try
+            {
+                sb.Append(openedFile[0]);
+            }
+            catch (Exception ex)
+            {
+                string text = string.Format("Error: {0}\n", ex.Message);
+                sb.Append(text);
+            }
+
             return sb.ToString();
         }
 

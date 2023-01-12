@@ -87,17 +87,18 @@ public class SolutionStateViewModel : ViewModelBase
 
         ChooseLogoPath = ReactiveCommand.CreateFromTask(async () =>
         {
-            var path = await dialogService.GetFolder();
+            var path = await dialogService.GetFile(new string[] { "png" });
 
             return path;
         });
 
         this.WhenActivated(async (CompositeDisposable disposables) =>
         {
-            UFList = new(
-       (await queryDispatcher
-       .Dispatch<GetAllUFQuery, IList<UFModel>>(new(), CancellationToken.None)).OrderBy(x => x.Name));
+            var result = (await queryDispatcher
+            .Dispatch<GetAllUFQuery, IList<UFModel>>(new(), CancellationToken.None)
+            ).OrderBy(x => x.Name);
 
+            UFList = new ObservableCollectionExtended<UFModel>(result);
         });
     }
 

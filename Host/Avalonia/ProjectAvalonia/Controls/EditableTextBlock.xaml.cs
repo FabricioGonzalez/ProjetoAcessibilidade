@@ -167,7 +167,7 @@ public class EditableTextBlock : TemplatedControl
         EditText = Text;
         InEditMode = true;
         /*((VisualRoot as IInputRoot).MouseDevice as IPointer).Capture(_textBox);*/
-        (VisualRoot as IInputRoot).MouseDevice.Capture(_textBox);
+        /*(VisualRoot as IInputRoot).MouseDevice.Capture(_textBox);*/
         /*(VisualRoot as IPointer).Capture(_textBox);*/
         _textBox.CaretIndex = Text.Length;
         _textBox.SelectionStart = 0;
@@ -200,18 +200,18 @@ public class EditableTextBlock : TemplatedControl
         }
 
         InEditMode = false;
-        ((VisualRoot as IInputRoot).MouseDevice).Capture(null);
+        /*((VisualRoot as IInputRoot).MouseDevice).Capture(null);*/
         /*  var element = (VisualRoot as IInputRoot).PointerOverElement;*/
         /*(VisualRoot as IPointer).Capture(null);*/
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
         if (change.Property == InEditModeProperty)
         {
-            PseudoClasses.Set(":editing", change.NewValue.GetValueOrDefault<bool>());
+            PseudoClasses.Set(":editing", (bool)change.NewValue);
         }
     }
 }

@@ -23,7 +23,6 @@
             Spacing="8">
             <TextBox
                 HorizontalAlignment="Stretch"
-                Classes="Outline"
                 Text="{Binding SolutionModel.ReportData.NomeEmpresa}"
                 UseFloatingWatermark="True"
                 Watermark="Nome da Empresa" />
@@ -31,14 +30,12 @@
             <DatePicker
                 Classes="Outline"
                 DayVisible="True"
-                Header="Data do Relatório"
                 MonthVisible="True"
                 SelectedDate="{Binding SolutionModel.ReportData.Data}"
                 YearVisible="True" />
 
             <ComboBox
                 HorizontalAlignment="Stretch"
-                Classes="Outline"
                 Items="{Binding SolutionModel.UFList, Mode=TwoWay}"
                 PlaceholderText="UF">
                 <ComboBox.ItemTemplate>
@@ -50,28 +47,24 @@
 
             <TextBox
                 HorizontalAlignment="Stretch"
-                Classes="Outline"
                 Text="{Binding SolutionModel.ReportData.Responsavel}"
                 UseFloatingWatermark="True"
                 Watermark="Responsável pelo Projeto" />
 
             <TextBox
                 HorizontalAlignment="Stretch"
-                Classes="Outline"
                 Text="{Binding SolutionModel.ReportData.Endereco}"
                 UseFloatingWatermark="True"
                 Watermark="Endereço da Empresa" />
 
             <TextBox
                 HorizontalAlignment="Stretch"
-                Classes="Outline"
                 Text="{Binding SolutionModel.ReportData.Email}"
                 UseFloatingWatermark="True"
                 Watermark="Email do Responsável" />
 
             <MaskedTextBox
                 HorizontalAlignment="Stretch"
-                Classes="Outline"
                 Mask="(00)0000-0000"
                 Text="{Binding SolutionModel.ReportData.Telefone}"
                 UseFloatingWatermark="True"
@@ -79,14 +72,13 @@
 
             <TextBox
                 HorizontalAlignment="Stretch"
-                Classes="Outline"
                 Text="{Binding SolutionModel.FileName}"
                 UseFloatingWatermark="True"
                 Watermark="Nome da Solução" />
 
             <TextBox
                 Margin="4,0"
-                Classes="Header"
+                IsReadOnly="True"
                 Text="{Binding SolutionModel.ReportData.LogoPath}"
                 UseFloatingWatermark="True"
                 Watermark="Local da Logo da Empresa">

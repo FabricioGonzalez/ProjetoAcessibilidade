@@ -116,6 +116,8 @@ public class ProjectExplorerViewModel : ViewModelBase
             IsProjectOpened = this.WhenAnyValue(x => x.CurrentOpenProject,
              prop => !string.IsNullOrWhiteSpace(prop));
 
+            SolutionModel.Activator.Activate();
+
             this
              .WhenAnyValue(vm => vm.CurrentOpenProject)
              .Where(value => !string.IsNullOrEmpty(value))

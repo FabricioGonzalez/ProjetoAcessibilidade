@@ -16,7 +16,6 @@
     VerticalAlignment="Stretch"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    HotKeyManager.HotKey="Ctrl+S"
     mc:Ignorable="d">
     <TabControl
         Name="ProjectEditingTabHost"
@@ -50,7 +49,17 @@
         </TabControl.ItemTemplate>
         <TabControl.ContentTemplate>
             <DataTemplate>
-                <editingItemTemplate:EditingItem HotKeyManager.HotKey="Ctrl+S" Item="{Binding #projectEditingView.DataContext.SelectedItem, Mode=TwoWay}" />
+                <editingItemTemplate:EditingItem
+                    Name="editingItem"
+                    HorizontalAlignment="Stretch"
+                    Item="{Binding #projectEditingView.DataContext.SelectedItem, Mode=TwoWay}">
+                    <editingItemTemplate:EditingItem.KeyBindings>
+                        <KeyBinding
+                            Command="{Binding #editingItem.DataContext.SaveItemCommand}"
+                            CommandParameter="{Binding #editingItem.DataContext.Item}"
+                            Gesture="Ctrl+S" />
+                    </editingItemTemplate:EditingItem.KeyBindings>
+                </editingItemTemplate:EditingItem>
             </DataTemplate>
         </TabControl.ContentTemplate>
 

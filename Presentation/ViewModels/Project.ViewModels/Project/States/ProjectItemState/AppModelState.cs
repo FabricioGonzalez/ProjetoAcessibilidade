@@ -1,4 +1,6 @@
-﻿using App.Core.Entities.Solution.Project.AppItem.DataItems;
+﻿using AppViewModels.Project.States.ProjectItemState.LawItemState;
+
+using DynamicData.Binding;
 
 using ReactiveUI;
 
@@ -12,11 +14,18 @@ public class AppModelState : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref itemName, value);
     }
 
-    private IList<IAppFormDataItemContract> formData;
-
-    /*public SourceList<IAppFormDataItemContract> FormData
+    private ObservableCollectionExtended<ReactiveObject> formData;
+    public ObservableCollectionExtended<ReactiveObject> FormData
     {
-        get => new(formData.AsObservableChangeSet());
-        set =>
-    }*/
+        get => formData;
+        set => this.RaiseAndSetIfChanged(ref formData, value);
+    }
+
+    private ObservableCollectionExtended<LawStateItem> lawItems;
+    public ObservableCollectionExtended<LawStateItem> LawItems
+    {
+        get => lawItems;
+        set => this.RaiseAndSetIfChanged(ref lawItems, value);
+    }
+
 }

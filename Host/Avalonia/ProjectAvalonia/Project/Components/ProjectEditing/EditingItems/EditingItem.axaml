@@ -6,10 +6,13 @@
     xmlns:appModelImages="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Images;assembly=App.Core"
     xmlns:appModelObservation="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;assembly=App.Core"
     xmlns:appModelText="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Text;assembly=App.Core"
+    xmlns:appModels="clr-namespace:AppViewModels.Project.States.ProjectItemState.FormItemState;assembly=AppViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:itemsComponents="using:ProjectAvalonia.Project.Components.ProjectEditing.ItemsComponents"
+    xmlns:lawModels="clr-namespace:AppViewModels.Project.States.ProjectItemState.LawItemState;assembly=AppViewModels;assembly=AppViewModels"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    HorizontalAlignment="Stretch"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -26,9 +29,10 @@
                 <material:MaterialIcon Kind="ContentSave" />
             </Button>
         </StackPanel>
-        <ScrollViewer
+        <ScrollViewer 
             Name="EditingScrollViewer"
             Grid.Row="1"
+            Padding="8"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
             <Grid
@@ -37,65 +41,137 @@
                 RowDefinitions="auto,auto">
                 <ItemsControl
                     Grid.Row="0"
+                    Padding="8"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Items="{Binding Item.FormData, Mode=OneWay}">
                     <ItemsControl.DataTemplates>
-                        <DataTemplate x:DataType="appModelText:AppFormDataItemTextModel" DataType="appModelText:AppFormDataItemTextModel">
-                            <itemsComponents:TextBoxItemComponent
-                                MeasurementUnit="{Binding MeasurementUnit}"
-                                TextData="{Binding TextData}"
-                                Topic="{Binding Topic}" />
+                        <DataTemplate x:DataType="appModels:TextItemState" DataType="appModels:TextItemState">
+                            <Border
+                                Margin="0,8"
+                                Padding="8"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                CornerRadius="8">
+                                <itemsComponents:TextBoxItemComponent
+                                    Margin="0,8"
+                                    MeasurementUnit="{Binding MeasurementUnit}"
+                                    TextData="{Binding TextData}"
+                                    Topic="{Binding Topic}" />
+                            </Border>
                         </DataTemplate>
 
-                        <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxModel" DataType="appModelCheckBox:AppFormDataItemCheckboxModel">
-                            <StackPanel Orientation="Vertical" Spacing="8">
-                                <TextBlock
-                                    FontWeight="Bold"
-                                    Text="{Binding Topic}"
-                                    TextWrapping="Wrap" />
-                                <ItemsControl Items="{Binding Children}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="appModelCheckBox:AppFormDataItemCheckboxChildModel">
-                                            <StackPanel Margin="0,4">
-                                                <TextBlock
-                                                    FontWeight="Bold"
-                                                    Text="{Binding Topic}"
-                                                    TextWrapping="Wrap" />
-                                                <itemsComponents:OptionsComponent Options="{Binding Options}" />
-                                                <ItemsControl Items="{Binding TextItems}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate x:DataType="appModelText:AppFormDataItemTextModel">
-                                                            <itemsComponents:TextBoxItemComponent
-                                                                MeasurementUnit="{Binding MeasurementUnit}"
-                                                                TextData="{Binding TextData}"
-                                                                Topic="{Binding Topic}" />
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
+                        <DataTemplate x:DataType="appModels:CheckboxContainerItemState" DataType="appModels:CheckboxContainerItemState">
+                            <Border
+                                Margin="0,8"
+                                Padding="8"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                CornerRadius="8">
+                                <StackPanel
+                                    Margin="0,8"
+                                    Orientation="Vertical"
+                                    Spacing="8">
+                                    <TextBlock
+                                        FontWeight="Bold"
+                                        Text="{Binding Topic}"
+                                        TextWrapping="Wrap" />
+                                    <ItemsControl Items="{Binding Children}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="appModels:CheckboxItemState">
+                                                <StackPanel Margin="0,4">
+                                                    <TextBlock
+                                                        FontWeight="Bold"
+                                                        Text="{Binding Topic}"
+                                                        TextWrapping="Wrap" />
+                                                    <itemsComponents:OptionsComponent Options="{Binding Options}" />
+                                                    <ItemsControl Items="{Binding TextItems}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate x:DataType="appModels:TextItemState">
+                                                                <itemsComponents:TextBoxItemComponent
+                                                                    MeasurementUnit="{Binding MeasurementUnit}"
+                                                                    TextData="{Binding TextData}"
+                                                                    Topic="{Binding Topic}" />
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
                         </DataTemplate>
-                        <DataTemplate />
+
+                        <DataTemplate x:DataType="appModels:ImageContainerItemState" DataType="appModels:ImageContainerItemState">
+                            <Border
+                                Margin="0,8"
+                                Padding="8"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                CornerRadius="8">
+
+                                <StackPanel
+                                    Margin="0,8"
+                                    Orientation="Vertical"
+                                    Spacing="8">
+                                    <TextBlock
+                                        FontWeight="Bold"
+                                        Text="{Binding Topic}"
+                                        TextWrapping="Wrap" />
+                                    <ItemsControl Items="{Binding ImagesItems}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="appModels:ImageItemState">
+                                                <StackPanel Margin="0,4">
+                                                    <Image Source="{Binding ImagePath}" />
+                                                    <TextBox
+                                                        AcceptsReturn="True"
+                                                        AcceptsTab="True"
+                                                        Text="{Binding ImageObservation}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+
+                        <DataTemplate x:DataType="appModels:ObservationItemState" DataType="appModels:ObservationItemState">
+                            <Border
+                                Margin="0,8"
+                                Padding="8"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                CornerRadius="8">
+                                <TextBox
+                                    MinHeight="200"
+                                    Margin="0,8"
+                                    AcceptsReturn="True"
+                                    AcceptsTab="True"
+                                    Text="{Binding Observation}"
+                                    UseFloatingWatermark="True"
+                                    Watermark="Observações" />
+                            </Border>
+                        </DataTemplate>
                     </ItemsControl.DataTemplates>
                 </ItemsControl>
-                <ItemsControl
+                <Border
                     Grid.Row="1"
+                    Margin="4"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    Items="{Binding Item.LawList, Mode=OneWay}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,4">
-                                <TextBlock FontWeight="Bold" Text="{Binding LawId, Mode=OneWay}" />
-                                <TextBlock Text="{Binding LawTextContent, Mode=OneWay}" TextWrapping="Wrap" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    CornerRadius="8">
+                    <ItemsControl Items="{Binding Item.LawItems, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,4">
+                                    <TextBlock FontWeight="Bold" Text="{Binding LawId}" />
+                                    <TextBlock Text="{Binding LawContent}" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
             </Grid>
         </ScrollViewer>
     </Grid>

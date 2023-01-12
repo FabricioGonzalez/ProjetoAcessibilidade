@@ -54,6 +54,7 @@ public class Program
             .UseManagedSystemDialogs()
                 .UsePlatformDetect()
                 .LogToTrace()
+                .UseSkia()
                 .UseReactiveUI();
 
         return result;

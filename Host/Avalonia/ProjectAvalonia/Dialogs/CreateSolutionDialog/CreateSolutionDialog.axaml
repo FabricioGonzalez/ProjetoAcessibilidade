@@ -19,7 +19,6 @@
     Background="Transparent"
     CanResize="False"
     ExtendClientAreaToDecorationsHint="True"
-    HasSystemDecorations="True"
     ShowInTaskbar="True"
     SystemDecorations="BorderOnly"
     TransparencyLevelHint="AcrylicBlur"
@@ -68,7 +67,6 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         DayVisible="True"
-                        Header="Data do Relatório"
                         MonthVisible="True"
                         SelectedDate="{Binding SolutionModel.ReportData.Data}"
                         YearVisible="True" />

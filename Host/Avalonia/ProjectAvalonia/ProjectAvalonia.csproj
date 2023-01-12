@@ -37,7 +37,6 @@
         <None Remove="Models\**" />
         <None Remove="Project\Components\ProjectEditing\Styles\**" />
         <None Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
-        <Folder Include="Styles\Components\" />
         <Folder Include="TemplateRules\Components\" />
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
@@ -56,15 +55,17 @@
         <TrimmableAssembly Include="Avalonia.Themes.Default" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <PackageReference Include="Avalonia" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview4" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.18" />
-        <PackageReference Include="Dock.Avalonia" Version="0.10.18.1" />
-        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Skia" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.0-preview4" />
+        <PackageReference Include="Dock.Avalonia" Version="11.0.0-preview4" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="1.2.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
         <PackageReference Include="Neumorphism.Avalonia" Version="0.4.0" />
