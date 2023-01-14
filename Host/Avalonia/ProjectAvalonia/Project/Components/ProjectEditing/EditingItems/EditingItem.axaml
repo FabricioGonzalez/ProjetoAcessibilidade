@@ -25,11 +25,11 @@
             HorizontalAlignment="Stretch"
             Orientation="Horizontal"
             Spacing="4">
-            <Button>
+            <Button Command="{Binding SaveItemCommand, Mode=OneWay}" CommandParameter="{Binding Item, Mode=OneWay}">
                 <material:MaterialIcon Kind="ContentSave" />
             </Button>
         </StackPanel>
-        <ScrollViewer 
+        <ScrollViewer
             Name="EditingScrollViewer"
             Grid.Row="1"
             Padding="8"
