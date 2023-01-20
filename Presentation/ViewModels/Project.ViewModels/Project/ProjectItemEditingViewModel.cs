@@ -10,6 +10,7 @@ using App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
 using AppViewModels.Common;
+using AppViewModels.Contracts;
 using AppViewModels.Project.ComposableViewModels;
 using AppViewModels.Project.States.ProjectItemState;
 using AppViewModels.Project.States.ProjectItemState.FormItemState;
@@ -52,17 +53,19 @@ public class ProjectItemEditingViewModel : ViewModelBase
 
     private readonly IQueryDispatcher? queryDispatcher;
     private readonly ICommandDispatcher? commandDispatcher;
+    private readonly IFileDialog? fileSelector;
 
     public ProjectItemEditingViewModel()
     {
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
         commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
+        fileSelector ??= Locator.Current.GetService<IFileDialog>();
 
         var canSave = this
            .WhenAnyValue(vm => vm.Item)
            .Select(prop => prop is not null);
 
-        SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState, Unit>(
+        SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState>(
        execute: async (appModel) =>
        {
            if (appModel is not null)
@@ -156,11 +159,20 @@ public class ProjectItemEditingViewModel : ViewModelBase
                          itemModel, SelectedItem.Path),
                      CancellationToken.None);
 
-               return Unit.Default;
            }
-           return Unit.Default;
        },
        canExecute: canSave);
+
+        AddPhotoCommand = ReactiveCommand.Create<ImageContainerItemState>(
+     execute: async (imageContainer) =>
+     {
+         var file = await fileSelector.GetFile(fileFilters: new string[] { ".png", ".jpeg" });
+
+         if (file is not null)
+
+             imageContainer.ImagesItems.Add(new() { ImagePath = file });
+     },
+     canExecute: canSave);
 
 
         this.WhenActivated((CompositeDisposable disposables) =>
@@ -174,9 +186,17 @@ public class ProjectItemEditingViewModel : ViewModelBase
     {
         get; private set;
     }
+    public ReactiveCommand<ImageContainerItemState, Unit> AddPhotoCommand
+    {
+        get; private set;
+    }
     public async Task SetEditingItem(string path)
     {
-        var result = await queryDispatcher.Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(new(path), CancellationToken.None);
+        var result = await queryDispatcher
+            .Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
+            new(path),
+            CancellationToken.None);
+
         if (result is Resource<AppItemModel>.Error err) { }
         if (result is Resource<AppItemModel>.Success success)
         {
@@ -255,7 +275,6 @@ public class ProjectItemEditingViewModel : ViewModelBase
                                 ImageObservation = image.imageObservation
                             }))
                         };
-                        ;
                     }
                     return null;
                 })),

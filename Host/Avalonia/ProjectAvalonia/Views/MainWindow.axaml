@@ -109,7 +109,11 @@
             </ToggleButton>
         </Panel>
 
-        <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+        <rxui:RoutedViewHost
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Router="{Binding Router}" >
             <rxui:RoutedViewHost.DefaultContent>
                 <StackPanel
                     HorizontalAlignment="Center"

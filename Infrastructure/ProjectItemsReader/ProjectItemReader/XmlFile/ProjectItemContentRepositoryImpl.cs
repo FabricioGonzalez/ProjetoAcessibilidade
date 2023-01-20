@@ -145,6 +145,31 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                         modelTable.Add(observation);
                     }
 
+                    if ((AppFormDataType)type == AppFormDataType.Image)
+                    {
+                        var value = (itemTable as XmlNode);
+
+                        var image = new AppFormDataItemImageModel()
+                        {
+                            Type = (AppFormDataType)type,
+                            ImagesItems = new List<ImagesItem>(),
+                            Topic = "Imagens",
+                        };
+
+                        if ((itemTable as XmlNode)!.ChildNodes[1] is not null)
+                        {
+                            foreach (XmlNode item in (itemTable as XmlNode)!.ChildNodes[1])
+                            {
+                                image.ImagesItems.Add(new()
+                                {
+                                    imagePath = item.ChildNodes[0].InnerXml,
+                                    imageObservation = item.ChildNodes[1].InnerXml,
+                                });
+                            }
+
+                        }
+                        modelTable.Add(image);
+                    }
                 }
 
                 foreach (XmlNode itemLaw in root.ChildNodes[2]!.ChildNodes)

@@ -7,12 +7,17 @@
     xmlns:appModelObservation="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;assembly=App.Core"
     xmlns:appModelText="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Text;assembly=App.Core"
     xmlns:appModels="clr-namespace:AppViewModels.Project.States.ProjectItemState.FormItemState;assembly=AppViewModels"
+    xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:itemsComponents="using:ProjectAvalonia.Project.Components.ProjectEditing.ItemsComponents"
     xmlns:lawModels="clr-namespace:AppViewModels.Project.States.ProjectItemState.LawItemState;assembly=AppViewModels;assembly=AppViewModels"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="editingItem"
     HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -32,24 +37,19 @@
         <ScrollViewer
             Name="EditingScrollViewer"
             Grid.Row="1"
-            Padding="8"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
-            <Grid
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                RowDefinitions="auto,auto">
+            <StackPanel MaxWidth="{Binding EditingScrollViewer.Width}" MaxHeight="{Binding EditingScrollViewer.Height}">
                 <ItemsControl
-                    Grid.Row="0"
-                    Padding="8"
+                    Padding="16"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Items="{Binding Item.FormData, Mode=OneWay}">
                     <ItemsControl.DataTemplates>
                         <DataTemplate x:DataType="appModels:TextItemState" DataType="appModels:TextItemState">
                             <Border
-                                Margin="0,8"
-                                Padding="8"
+                                Margin="0,4"
+                                Padding="4"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="8">
@@ -63,8 +63,8 @@
 
                         <DataTemplate x:DataType="appModels:CheckboxContainerItemState" DataType="appModels:CheckboxContainerItemState">
                             <Border
-                                Margin="0,8"
-                                Padding="8"
+                                Margin="0,4"
+                                Padding="4"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="8">
@@ -105,25 +105,35 @@
 
                         <DataTemplate x:DataType="appModels:ImageContainerItemState" DataType="appModels:ImageContainerItemState">
                             <Border
-                                Margin="0,8"
-                                Padding="8"
+                                Margin="0,4"
+                                Padding="4"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="8">
-
-                                <StackPanel
-                                    Margin="0,8"
-                                    Orientation="Vertical"
-                                    Spacing="8">
-                                    <TextBlock
-                                        FontWeight="Bold"
-                                        Text="{Binding Topic}"
-                                        TextWrapping="Wrap" />
-                                    <ItemsControl Items="{Binding ImagesItems}">
+                                <Expander Margin="0,8" HorizontalAlignment="Stretch">
+                                    <Expander.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Grid HorizontalAlignment="Stretch" ColumnDefinitions="1* 1*">
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    FontWeight="Bold"
+                                                    Text="{Binding $parent[Border].DataContext.Topic}"
+                                                    TextWrapping="Wrap" />
+                                                <Button
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Right"
+                                                    Command="{Binding #editingItem.DataContext.AddPhotoCommand}"
+                                                    CommandParameter="{Binding $parent[Border].DataContext}">
+                                                    <material:MaterialIcon Kind="PhotoCamera" />
+                                                </Button>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Expander.HeaderTemplate>
+                                    <ItemsControl Items="{Binding ImagesItems, Mode=OneWay}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="appModels:ImageItemState">
                                                 <StackPanel Margin="0,4">
-                                                    <Image Source="{Binding ImagePath}" />
+                                                    <Image asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=OneWay}" />
                                                     <TextBox
                                                         AcceptsReturn="True"
                                                         AcceptsTab="True"
@@ -132,14 +142,14 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                </StackPanel>
+                                </Expander>
                             </Border>
                         </DataTemplate>
 
                         <DataTemplate x:DataType="appModels:ObservationItemState" DataType="appModels:ObservationItemState">
                             <Border
-                                Margin="0,8"
-                                Padding="8"
+                                Margin="0,4"
+                                Padding="4"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="8">
@@ -153,11 +163,13 @@
                                     Watermark="Observações" />
                             </Border>
                         </DataTemplate>
+
                     </ItemsControl.DataTemplates>
                 </ItemsControl>
+
                 <Border
-                    Grid.Row="1"
-                    Margin="4"
+                    Margin="16,8"
+                    Padding="8"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     CornerRadius="8">
@@ -172,7 +184,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Border>
-            </Grid>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>

@@ -20,7 +20,9 @@ public partial class EditingItem : ReactiveUserControl<ProjectItemEditingViewMod
 {
 
     public static readonly AttachedProperty<FileProjectItemViewModel> ItemProperty =
-          AvaloniaProperty.RegisterAttached<EditingItem, ReactiveUserControl<ProjectItemEditingViewModel>, FileProjectItemViewModel>(nameof(Item));
+          AvaloniaProperty.RegisterAttached<EditingItem, ReactiveUserControl<ProjectItemEditingViewModel>, FileProjectItemViewModel>(
+              nameof(Item)
+              );
     public FileProjectItemViewModel? Item
     {
         get => GetValue(ItemProperty);
