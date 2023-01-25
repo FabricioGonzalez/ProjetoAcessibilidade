@@ -33,17 +33,30 @@ public class StandardReport : IDocument
         container
             .Page(page =>
             {
-                page.DefaultTextStyle(Typography.Normal);
+                page
+                .DefaultTextStyle(Typography.Normal);
 
-                page.MarginVertical(10);
-                page.MarginHorizontal(30);
+                page
+                .MarginVertical(10);
 
-                page.Size(PageSizes.A4);
+                page
+                .MarginHorizontal(30);
 
-                page.Header().Element(ComposeHeader);
-                page.Content().Element(ComposeContent);
+                page
+                .Size(PageSizes.A4);
 
-                page.Footer().AlignCenter().Text(text =>
+                page
+                .Header()
+                .Element(ComposeHeader);
+
+                page
+                .Content()
+                .Element(ComposeContent);
+
+                page
+                .Footer()
+                .AlignCenter()
+                .Text(text =>
                 {
                     text.CurrentPageNumber();
                     text.Span(" / ");

@@ -168,9 +168,10 @@ public class ProjectItemEditingViewModel : ViewModelBase
      {
          var file = await fileSelector.GetFile(fileFilters: new string[] { ".png", ".jpeg" });
 
-         if (file is not null)
-
+         if (!string.IsNullOrWhiteSpace(file))
+         {
              imageContainer.ImagesItems.Add(new() { ImagePath = file });
+         }
      },
      canExecute: canSave);
 

@@ -1,7 +1,7 @@
 ﻿namespace QuestPDFReport.Models;
-public class ReportSectionPhotos : ReportSectionElement
+public class ReportSectionPhotoContainer : ReportSectionElement
 {
-    public int PhotoCount
+    public List<ReportSectionPhoto> Photos
     {
         get; set;
     }

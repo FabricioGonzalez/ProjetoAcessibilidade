@@ -69,22 +69,36 @@ public class SectionTemplate : IComponent
                                 .Element(x => MapCheckboxes(x, checkboxes));
                                 }
 
-                                if (part is ReportSectionMap map)
+                                /* if (part is ReportSectionMap map)
+                                 {
+                                     frame
+                                 .Element(x => MapElement(x, map));
+                                 }*/
+
+                                if (part is ReportSectionPhotoContainer photos)
                                 {
                                     frame
-                                .Element(x => MapElement(x, map));
+                                    .Element(x => PhotosElement(x, photos));
                                 }
 
-                                if (part is ReportSectionPhotos photos)
+                                if (part is ReportSectionObservation observation)
                                 {
                                     frame
-                                .Element(x => PhotosElement(x, photos));
+                                     .Background(Colors.Yellow.Medium)
+                                    .Element(x => ObservationElement(x, observation));
                                 }
                             }
                         });
                     }
                 });
             });
+    }
+
+    private void ObservationElement(IContainer x, ReportSectionObservation observation)
+    {
+        x
+            .Text(observation.Observation)
+            .Style(Typography.Normal);
     }
 
     private void MapTitle(IContainer container, string title)
@@ -150,8 +164,8 @@ public class SectionTemplate : IComponent
 
                         layers
                             .PrimaryLayer()
-                                                                                                                                                                        /* .Text("Sample text")
-                                                                                                                                                                         .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
+                                                                                                                                                                                                                    /* .Text("Sample text")
+                                                                                                                                                                                                                     .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
                     });
 
                     row.AutoItem().Text(item.Value);
@@ -188,27 +202,33 @@ public class SectionTemplate : IComponent
         });
     }
 
-    private void PhotosElement(IContainer container, ReportSectionPhotos model)
+    private void PhotosElement(IContainer container, ReportSectionPhotoContainer model)
     {
-        if (model.PhotoCount == 0)
+        if (model.Photos.Count == 0)
         {
             container.Text("No photos").Style(Typography.Normal);
             return;
         }
 
-        container.DebugArea("Photos").Grid(grid =>
+        container
+            //.DebugArea("Photos")
+            .Grid(grid =>
         {
             grid.Spacing(5);
-            grid.Columns(3);
+            grid.Columns(2);
 
-            Enumerable
-                .Range(0, model.PhotoCount)
-                .ToList()
-                .ForEach(x =>
+            model.Photos.ForEach(x =>
+            {
+                var image = new ImagePlaceholder()
+                {
+                    ImagePath = x.Path,
+                    Observation = x.Observation
+                };
                 grid
                 .Item()
-                .AspectRatio(4 / 3f)
-                .Component<ImagePlaceholder>());
+                .AspectRatio(4 / 3f, AspectRatioOption.FitArea)
+                .Component(image);
+            });
         });
     }
 }

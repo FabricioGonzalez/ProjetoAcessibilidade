@@ -116,7 +116,7 @@ public class FileDialog : IFileDialog
             try
             {
                 openedFile[0].TryGetUri(out var uri);
-                sb.Append(uri.ToString());
+                sb.Append(uri);
             }
             catch (Exception ex)
             {

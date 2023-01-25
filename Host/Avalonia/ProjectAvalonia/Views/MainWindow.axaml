@@ -20,15 +20,10 @@
     Icon="/Assets/avalonia-logo.ico"
     mc:Ignorable="d">
     <Grid Name="AppContainer" RowDefinitions="auto,1*,28">
-        <controls:NotificationMessageContainer
-            Grid.Row="1"
-            VerticalAlignment="Bottom"
-            Manager="{Binding NotificationMessageManagerService.Manager}" />
         <Panel
             Grid.Row="0"
             Width="{Binding #AppContainer.Width}"
-            HorizontalAlignment="Stretch"
-            Background="{DynamicResource SystemAccentColor}">
+            HorizontalAlignment="Stretch">
             <Button
                 Margin="8,0"
                 HorizontalAlignment="Left"

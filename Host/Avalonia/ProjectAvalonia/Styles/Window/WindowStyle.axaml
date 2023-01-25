@@ -9,7 +9,7 @@
         <Setter Property="Background" Value="{DynamicResource SystemAltMediumColor}" />
         <Setter Property="TextBox.FontWeight" Value="Medium" />
         <Setter Property="TextBox.FontSize" Value="14" />
-        <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+        <!--<Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />-->
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel Margin="0">

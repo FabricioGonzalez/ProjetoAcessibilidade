@@ -1,4 +1,6 @@
 ﻿using App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
 using Common;
@@ -82,6 +84,34 @@ public static class DataSource
                         section.Parts.Add(reportCheckbox);
                     }
                 }
+
+                if (formData is AppFormDataItemImageModel imageContainer)
+                {
+
+                    var container = new ReportSectionPhotoContainer()
+                    {
+                        Label = "Imagens",
+                        Photos = imageContainer
+                         .ImagesItems
+                         .Select(x =>
+                         new ReportSectionPhoto()
+                         {
+                             Path = x.imagePath,
+                             Observation = x.imageObservation
+                         })
+                         .ToList()
+                    };
+                    section.Parts.Add(container);
+
+                }
+                if (formData is AppFormDataItemObservationModel observation)
+                {
+                    section.Parts.Add(new ReportSectionObservation()
+                    {
+                        Label = "Observações",
+                        Observation = observation.Observation
+                    });
+                }
             }
 
             report.Sections.Add(section);
@@ -98,7 +128,7 @@ public static class DataSource
 
             LogoData = Helpers.GetImage("Logo.png"),
             Sections = Enumerable.Range(0, 40).Select(x => GenerateSection()).ToList(),
-            Photos = Enumerable.Range(0, 25).Select(x => GetReportPhotos()).ToList()
+            /* Photos = Enumerable.Range(0, 25).Select(x => GetReportPhotos()).ToList()*/
         };
 
         List<ReportHeaderField> HeaderFields()
@@ -192,12 +222,12 @@ public static class DataSource
             };
         }
 
-        ReportSectionPhotos GetPhotosElement()
+        ReportSectionPhotoContainer GetPhotosElement()
         {
-            return new ReportSectionPhotos
+            return new ReportSectionPhotoContainer
             {
                 Label = "Photos",
-                PhotoCount = Helpers.Random.Next(1, 15)
+                Photos = new()
             };
         }
 
