@@ -26,23 +26,23 @@
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
         <AvaloniaXaml Remove="Models\**" />
-        <AvaloniaXaml Remove="Project\Components\ProjectEditing\Styles\**" />
-        <AvaloniaXaml Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <AvaloniaXaml Remove="Features\Project\Components\ProjectEditing\Styles\**" />
+        <AvaloniaXaml Remove="Features\Project\Components\ProjectEditing\TemplateSelectors\**" />
         <Compile Remove="Models\**" />
-        <Compile Remove="Project\Components\ProjectEditing\Styles\**" />
-        <Compile Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <Compile Remove="Features\Project\Components\ProjectEditing\Styles\**" />
+        <Compile Remove="Features\Project\Components\ProjectEditing\TemplateSelectors\**" />
         <EmbeddedResource Remove="Models\**" />
-        <EmbeddedResource Remove="Project\Components\ProjectEditing\Styles\**" />
-        <EmbeddedResource Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <EmbeddedResource Remove="Features\Project\Components\ProjectEditing\Styles\**" />
+        <EmbeddedResource Remove="Features\Project\Components\ProjectEditing\TemplateSelectors\**" />
         <None Remove="Models\**" />
-        <None Remove="Project\Components\ProjectEditing\Styles\**" />
-        <None Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
-        <Folder Include="TemplateRules\Components\" />
+        <None Remove="Features\Project\Components\ProjectEditing\Styles\**" />
+        <None Remove="Features\Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <Folder Include="Features\TemplateRules\Components\" />
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
     </ItemGroup>
     <ItemGroup>
-        <AvaloniaResource Include="Controls\EditableTextBlock.xaml" />
+        <AvaloniaResource Include="Common\Controls\EditableTextBlock.xaml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Assets\avalonia-logo.ico" />
@@ -82,16 +82,16 @@
         <ProjectReference Include="..\..\QuestPDF\QuestPDF\QuestPDF.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Update="Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">
+        <Compile Update="Features\Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">
             <DependentUpon>EditingItem.axaml</DependentUpon>
         </Compile>
-        <Compile Update="Project\Components\ProjectEditing\EditingView.axaml.cs">
+        <Compile Update="Features\Project\Components\ProjectEditing\EditingView.axaml.cs">
             <DependentUpon>EditingView.axaml</DependentUpon>
         </Compile>
-        <Compile Update="Project\Components\ProjectEditing\ItemsComponents\OptionsComponent.axaml.cs">
+        <Compile Update="Features\Project\Components\ProjectEditing\ItemsComponents\OptionsComponent.axaml.cs">
           <DependentUpon>OptionsComponent.axaml</DependentUpon>
         </Compile>
-        <Compile Update="Project\Components\ProjectEditing\ItemsComponents\TextBoxItemComponent.axaml.cs">
+        <Compile Update="Features\Project\Components\ProjectEditing\ItemsComponents\TextBoxItemComponent.axaml.cs">
           <DependentUpon>TextBoxItemComponent.axaml</DependentUpon>
         </Compile>
     </ItemGroup>

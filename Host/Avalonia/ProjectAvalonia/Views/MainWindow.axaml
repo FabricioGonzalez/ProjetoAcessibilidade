@@ -17,9 +17,7 @@
     Title="ProjectAvalonia"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Classes="Window"
     Icon="/Assets/avalonia-logo.ico"
-    WindowState="Maximized"
     mc:Ignorable="d">
     <Grid Name="AppContainer" RowDefinitions="auto,1*,28">
         <controls:NotificationMessageContainer
@@ -29,8 +27,8 @@
         <Panel
             Grid.Row="0"
             Width="{Binding #AppContainer.Width}"
-            Margin="4"
-            HorizontalAlignment="Stretch">
+            HorizontalAlignment="Stretch"
+            Background="{DynamicResource SystemAccentColor}">
             <Button
                 Margin="8,0"
                 HorizontalAlignment="Left"
@@ -111,9 +109,10 @@
 
         <rxui:RoutedViewHost
             Grid.Row="1"
+            Margin="8,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Router="{Binding Router}" >
+            Router="{Binding Router}">
             <rxui:RoutedViewHost.DefaultContent>
                 <StackPanel
                     HorizontalAlignment="Center"
@@ -127,20 +126,5 @@
                 </StackPanel>
             </rxui:RoutedViewHost.DefaultContent>
         </rxui:RoutedViewHost>
-
-        <Grid
-            Grid.Row="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="{DynamicResource SystemBaseLowColor}">
-            <Button
-                ToolTip.HorizontalOffset="8"
-                ToolTip.Placement="Top"
-                ToolTip.Tip="Notifications"
-                ToolTip.VerticalOffset="8">
-                <material:MaterialIcon Kind="Message" />
-            </Button>
-        </Grid>
-
     </Grid>
 </Window>

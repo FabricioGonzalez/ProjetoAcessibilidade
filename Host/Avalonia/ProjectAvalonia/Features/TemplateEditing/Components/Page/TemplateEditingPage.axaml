@@ -17,7 +17,7 @@
             <ItemsControl Items="{Binding EditingItem.FormData, Mode=OneWay}">
                 <ItemsControl.DataTemplates>
                     <DataTemplate x:DataType="checkbox:AppFormDataItemCheckboxModel" DataType="checkbox:AppFormDataItemCheckboxModel">
-                        <Expander Margin="4">
+                        <Expander Margin="4" HorizontalAlignment="Stretch">
                             <Expander.HeaderTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Spacing="16">
@@ -53,7 +53,7 @@
                         </Expander>
                     </DataTemplate>
                     <DataTemplate x:DataType="text:AppFormDataItemTextModel" DataType="text:AppFormDataItemTextModel">
-                        <Expander Margin="4">
+                        <Expander Margin="4" HorizontalAlignment="Stretch">
                             <Expander.HeaderTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Spacing="16">

@@ -2,6 +2,7 @@
     x:Class="ProjectAvalonia.Project.Components.ProjectEditing.EditingItems.EditingItem"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:afwp="clr-namespace:AvaloniaFixedWrapPanel;assembly=AvaloniaFixedWrapPanel"
     xmlns:appModelCheckBox="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;assembly=App.Core"
     xmlns:appModelImages="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Images;assembly=App.Core"
     xmlns:appModelObservation="clr-namespace:App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;assembly=App.Core"
@@ -130,9 +131,18 @@
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
                                     <ItemsControl Items="{Binding ImagesItems, Mode=OneWay}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel ItemWidth="1100" Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="appModels:ImageItemState">
-                                                <StackPanel Margin="0,4">
+                                                <StackPanel
+                                                    Width="450"
+                                                    Height="500"
+                                                    Margin="0,4"
+                                                    Spacing="16">
                                                     <Image asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=OneWay}" />
                                                     <TextBox
                                                         AcceptsReturn="True"

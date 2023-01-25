@@ -162,8 +162,8 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                             {
                                 image.ImagesItems.Add(new()
                                 {
-                                    imagePath = item.ChildNodes[0].InnerXml,
-                                    imageObservation = item.ChildNodes[1].InnerXml,
+                                    imagePath = item?.ChildNodes[0]?.InnerXml,
+                                    imageObservation = item?.ChildNodes[1]?.InnerXml,
                                 });
                             }
 
@@ -363,14 +363,17 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
                     {
                         foreach (var item in (projectItem as AppFormDataItemImageModel)!.ImagesItems)
                         {
+                            var itemContainer = doc.CreateElement("imageitem");
                             var itemImageImagesPath = doc.CreateElement("imagePath");
                             itemImageImagesPath.InnerXml = item.imagePath;
 
                             var itemImageObservation = doc.CreateElement("imageObservation");
                             itemImageObservation.InnerXml = item.imageObservation;
 
-                            itemImageImages.AppendChild(itemImageImagesPath);
-                            itemImageImages.AppendChild(itemImageObservation);
+                            itemContainer.AppendChild(itemImageImagesPath);
+                            itemContainer.AppendChild(itemImageObservation);
+
+                            itemImageImages.AppendChild(itemContainer);
                         }
                     }
 
