@@ -55,8 +55,7 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
             if (dialog is not null)
             {
-                var result = await dialog.GetFile();
-
+                var result = await dialog.GetFile(new string[] { "prja", "*" });
                 return result;
             }
 

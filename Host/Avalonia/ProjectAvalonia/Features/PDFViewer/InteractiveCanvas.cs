@@ -136,11 +136,13 @@ class InteractiveCanvas : ICustomDrawOperation
         LimitScale();
         LimitTranslate();
 
-        // Avalonia 11.0.0 preview feature method
-        var skia = context.GetFeature<ISkiaSharpApiLeaseFeature>();
-        using var lease = skia.Lease();
+        /*        // Avalonia 11.0.0 preview feature method
+                var skia = context.GetFeature<ISkiaSharpApiLeaseFeature>();
+                using var lease = skia.Lease();
 
-        SKCanvas canvas = lease.SkCanvas;
+                SKCanvas canvas = lease.SkCanvas;*/
+        var canvas = (context as ISkiaDrawingContextImpl)?.SkCanvas;
+
         if (canvas == null)
             throw new InvalidOperationException($"Context needs to be ISkiaDrawingContextImpl but got {nameof(context)}");
         var originalMatrix = canvas.TotalMatrix;

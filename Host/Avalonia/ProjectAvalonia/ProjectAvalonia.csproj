@@ -1,43 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <!--<AvaloniaXamlIlDebuggerLaunch>true</AvaloniaXamlIlDebuggerLaunch>-->
-        <Nullable>enable</Nullable>
-        <OutputType>WinExe</OutputType>
-        <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
-        <TrimMode>copyused</TrimMode>
-        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <Platforms>AnyCPU;x64</Platforms>
-        <AssemblyName>ProjectAvalonia</AssemblyName>
+      <TargetFramework>net7.0</TargetFramework>
+      <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+      <AnalysisLevel>latest</AnalysisLevel>
+      <Nullable>enable</Nullable>
+      <LangVersion>latest</LangVersion>
+      <NoWarn>1701;1702;1705;1591;1573;CA1031</NoWarn>
+      <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+      <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\$(TargetFramework)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+      <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+      <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+      <InvariantGlobalization>true</InvariantGlobalization>
+      <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia</PathMap>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <DebugType>embedded</DebugType>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DebugType>embedded</DebugType>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-        <DebugType>embedded</DebugType>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-        <DebugType>embedded</DebugType>
+      <AvaloniaVersion>0.10.18</AvaloniaVersion>
     </PropertyGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
+        <AvaloniaXaml Remove="Features\Project\**" />
+        <AvaloniaXaml Remove="Features\TemplateEditing\**" />
+        <AvaloniaXaml Remove="Features\TemplateRules\**" />
         <AvaloniaXaml Remove="Models\**" />
-        <AvaloniaXaml Remove="Features\Project\Components\ProjectEditing\Styles\**" />
-        <AvaloniaXaml Remove="Features\Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <Compile Remove="Features\Project\**" />
+        <Compile Remove="Features\TemplateEditing\**" />
+        <Compile Remove="Features\TemplateRules\**" />
         <Compile Remove="Models\**" />
-        <Compile Remove="Features\Project\Components\ProjectEditing\Styles\**" />
-        <Compile Remove="Features\Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <EmbeddedResource Remove="Features\Project\**" />
+        <EmbeddedResource Remove="Features\TemplateEditing\**" />
+        <EmbeddedResource Remove="Features\TemplateRules\**" />
         <EmbeddedResource Remove="Models\**" />
-        <EmbeddedResource Remove="Features\Project\Components\ProjectEditing\Styles\**" />
-        <EmbeddedResource Remove="Features\Project\Components\ProjectEditing\TemplateSelectors\**" />
+        <None Remove="Features\Project\**" />
+        <None Remove="Features\TemplateEditing\**" />
+        <None Remove="Features\TemplateRules\**" />
         <None Remove="Models\**" />
-        <None Remove="Features\Project\Components\ProjectEditing\Styles\**" />
-        <None Remove="Features\Project\Components\ProjectEditing\TemplateSelectors\**" />
-        <Folder Include="Features\TemplateRules\Components\" />
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
     </ItemGroup>
@@ -46,6 +42,10 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="Assets\avalonia-logo.ico" />
+        <Content Include="Assets\Fonts\Objectivity-Light.otf" />
+        <Content Include="Assets\Fonts\Objectivity-Regular.otf" />
+        <Content Include="Assets\Fonts\RobotoMono-Regular.ttf" />
+        <Content Include="Assets\Loading\loading.png" />
     </ItemGroup>
     <ItemGroup>
         <!--This helps with theme dll-s trimming.
@@ -55,20 +55,23 @@
         <TrimmableAssembly Include="Avalonia.Themes.Default" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="AsyncImageLoader.Avalonia" Version="3.0.0-avalonia11-preview2" />
-        <PackageReference Include="Avalonia" Version="11.0.0-preview4" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview4" />
+        <PackageReference Include="AsyncImageLoader.Avalonia" Version="2.4.0" />
+        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+      <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview4" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview4" />
-        <PackageReference Include="Avalonia.Skia" Version="11.0.0-preview4" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-preview4" />
-        <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.0-preview4" />
-        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.0-preview4" />
-        <PackageReference Include="Dock.Avalonia" Version="11.0.0-preview4" />
-        <PackageReference Include="Material.Icons.Avalonia" Version="1.2.0" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Dock.Avalonia" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Win32.SystemEvents" Version="4.5.0" />
         <PackageReference Include="Neumorphism.Avalonia" Version="0.4.0" />
         <PackageReference Include="Notification.Avalonia" Version="1.1.0" />
         <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
@@ -81,20 +84,9 @@
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
         <ProjectReference Include="..\..\QuestPDF\QuestPDF\QuestPDF.csproj" />
     </ItemGroup>
-    <ItemGroup>
-        <Compile Update="Features\Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">
-            <DependentUpon>EditingItem.axaml</DependentUpon>
-        </Compile>
-        <Compile Update="Features\Project\Components\ProjectEditing\EditingView.axaml.cs">
-            <DependentUpon>EditingView.axaml</DependentUpon>
-        </Compile>
-        <Compile Update="Features\Project\Components\ProjectEditing\ItemsComponents\OptionsComponent.axaml.cs">
-          <DependentUpon>OptionsComponent.axaml</DependentUpon>
-        </Compile>
-        <Compile Update="Features\Project\Components\ProjectEditing\ItemsComponents\TextBoxItemComponent.axaml.cs">
-          <DependentUpon>TextBoxItemComponent.axaml</DependentUpon>
-        </Compile>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectAvalonia.Generators\ProjectAvalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+</ItemGroup>
     <ItemGroup>
         <None Update="Specifications\Itens.xml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>

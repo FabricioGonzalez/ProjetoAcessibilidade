@@ -31,8 +31,6 @@ using Project.Application.Solution.Contracts;
 using Project.Application.Solution.Queries;
 
 using ProjectAvalonia.PDFPreviewer.Views;
-using ProjectAvalonia.Project.Components.ProjectExplorer;
-using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
 using ProjectAvalonia.Services;
 using ProjectAvalonia.Views;
 
@@ -76,13 +74,13 @@ public static class Bootstrapper
     }
     public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
     {
-        service.Register(() => new ExplorerComponent());
-
+        /*        service.Register(() => new ExplorerComponent());
+        */
         service.Register(() => new PreviewerPage());
 
         service.RegisterLazySingleton(() => new MainWindow());
 
-        service.Register(() => new AddItemWindow());
+        /*        service.Register(() => new AddItemWindow());*/
 
         return service;
     }

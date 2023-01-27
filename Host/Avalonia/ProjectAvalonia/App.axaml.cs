@@ -1,16 +1,34 @@
-using AppViewModels.Main;
+using System;
+using System.Reactive.Concurrency;
+using System.Threading.Tasks;
 
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-using ProjectAvalonia.Views;
+using ProjectAvalonia.ViewModels;
 
-using Splat;
+using ReactiveUI;
 
 namespace ProjectAvalonia;
 public partial class App : Application
 {
+    private readonly bool _startInBg;
+    private readonly Func<Task>? _backendInitialiseAsync;
+    private ApplicationStateManager? _applicationStateManager;
+
+    public App()
+    {
+        Name = "Wasabi Wallet";
+    }
+
+    public App(Func<Task> backendInitialiseAsync, bool startInBg) : this()
+    {
+        _startInBg = startInBg;
+        _backendInitialiseAsync = backendInitialiseAsync;
+    }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -18,19 +36,25 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (!Design.IsDesignMode)
         {
-            var args = desktop.Args;
-            var window = Locator.Current.GetService<MainWindow>();
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                _applicationStateManager =
+                    new ApplicationStateManager(desktop, _startInBg);
 
-            var windowViewModel = Locator.Current.GetService<MainViewModel>();
+                DataContext = _applicationStateManager.ApplicationViewModel;
 
-            /*   if (args is not null)
-                   windowViewModel.SetProjectPath(args.ToString());
-   */
-            window.DataContext = windowViewModel;
+                desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            desktop.MainWindow = window;
+                RxApp.MainThreadScheduler.Schedule(
+                    async () =>
+                    {
+                        await _backendInitialiseAsync!(); // Guaranteed not to be null when not in designer.
+
+                        MainViewModel.Instance.Initialize();
+                    });
+            }
         }
 
         base.OnFrameworkInitializationCompleted();

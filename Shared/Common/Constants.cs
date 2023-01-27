@@ -2,6 +2,8 @@
 public static class Constants
 {
     public const string AppName = "Gestor de Projeto ARPA";
+
+    public const string ExecutableName = "Gestor de Projeto ARPA";
     public static string AppFolder = OperatingSystem.IsWindows()
         ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName)
         : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName);
@@ -12,6 +14,7 @@ public static class Constants
 
     public static string AppSettingsFolder = Path.Combine(AppFolder, "Settings");
     public static string AppUISettings = Path.Combine(AppSettingsFolder, "UISettings");
+    public static string AppLogsSettings = Path.Combine(AppSettingsFolder, "Logs");
 
     public static string AppTemplatesFolder = Path.Combine(AppFolder, "Templates");
     public static string AppItemsTemplateFolder = Path.Combine(AppTemplatesFolder, AppProjectItemsFolderName);

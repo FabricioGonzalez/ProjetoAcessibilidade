@@ -19,7 +19,7 @@ public class ImagePlaceholder : IComponent
     {
         if (!string.IsNullOrWhiteSpace(ImagePath))
         {
-            var s = new Uri(ImagePath).AbsolutePath.Replace("%20", " ");
+            var s = ImagePath;
             using var stream = new FileStream(path: s, mode: FileMode.Open);
             container.Decoration(decoration =>
               {

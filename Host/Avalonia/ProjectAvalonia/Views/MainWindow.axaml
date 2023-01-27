@@ -2,124 +2,40 @@
     x:Class="ProjectAvalonia.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:assists="clr-namespace:Neumorphism.Avalonia.Styles.Assists;assembly=Neumorphism.Avalonia"
-    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-    xmlns:controls="clr-namespace:Avalonia.Notification.Controls;assembly=Notification.Avalonia"
+    xmlns:behaviors="using:ProjectAvalonia.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:ProjectAvalonia;assembly=ProjectAvalonia"
-    xmlns:material="using:Material.Icons.Avalonia"
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:rxui="http://reactiveui.net"
-    xmlns:styles="clr-namespace:Neumorphism.Avalonia.Styles;assembly=Neumorphism.Avalonia"
-    xmlns:views="clr-namespace:ProjectAvalonia.Views;assembly=ProjectAvalonia"
-    xmlns:vm="clr-namespace:Project.Core.ViewModels.ViewModels;assembly=Project.Core"
-    Name="mainWindow"
-    Title="ProjectAvalonia"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:shell="clr-namespace:ProjectAvalonia.Features.Shell"
+    xmlns:viewModels="clr-namespace:ProjectAvalonia.ViewModels"
+    x:Name="mainWindow"
+    Title="Gestor de Projeto ARPA"
+    MinWidth="720"
+    MinHeight="480"
+    d:DesignHeight="459"
+    d:DesignWidth="536"
+    x:CompileBindings="True"
+    x:DataType="viewModels:MainViewModel"
+    Background="{x:Null}"
+    ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
+    ExtendClientAreaTitleBarHeightHint="50"
+    ExtendClientAreaToDecorationsHint="True"
+    Focusable="{Binding SearchBar.IsSearchListVisible}"
     Icon="/Assets/avalonia-logo.ico"
+    TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterScreen"
+    WindowState="{Binding WindowState, Mode=TwoWay}"
     mc:Ignorable="d">
-    <Grid Name="AppContainer" RowDefinitions="auto,1*,28">
-        <Panel
-            Grid.Row="0"
-            Width="{Binding #AppContainer.Width}"
-            HorizontalAlignment="Stretch">
-            <Button
-                Margin="8,0"
-                HorizontalAlignment="Left"
-                Command="{Binding NavigateBackCommand}">
-                <material:MaterialIcon Kind="ArrowLeft" />
-            </Button>
-            <Menu
-                Height="30"
-                Margin="48,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Classes="mainMenu">
-                <Menu.Items>
-                    <MenuItem Height="30" Header="Arquivos">
-                        <MenuItem.Items>
-                            <MenuItem
-                                Height="30"
-                                Margin="4,0"
-                                Command="{Binding OpenProjectCommand}"
-                                Header="Abrir" />
-                            <MenuItem
-                                Height="30"
-                                Margin="4,0"
-                                Command="{Binding CreateProjectCommand}"
-                                Header="Novo" />
-                            <Separator />
-                            <MenuItem
-                                Name="CloseAppMenuItem"
-                                Height="30"
-                                Margin="4,0"
-                                Command="{Binding CloseAppCommand}"
-                                Header="Sair" />
-                        </MenuItem.Items>
-                    </MenuItem>
-                    <MenuItem Height="30" Header="Templates">
-                        <MenuItem.Items>
-                            <MenuItem
-                                Height="30"
-                                Margin="4,0"
-                                Command="{Binding GoToTemplateEditing}"
-                                Header="Edição de Templates" />
-                            <MenuItem
-                                Height="30"
-                                Margin="4,0"
-                                Command="{Binding GoToRulesEditing}"
-                                Header="Regras de Validação" />
-                        </MenuItem.Items>
-                    </MenuItem>
-                    <MenuItem Height="30" Header="Sistema">
-                        <MenuItem.Items>
-                            <MenuItem
-                                Height="30"
-                                Margin="4,0"
-                                Command="{Binding GoToSetting}"
-                                Header="Configurações" />
-                        </MenuItem.Items>
-                    </MenuItem>
-                </Menu.Items>
-            </Menu>
-            <ToggleButton
-                Name="toggleSwitchTheme"
-                Margin="8,0"
-                HorizontalAlignment="Right"
-                Command="{Binding #mainWindow.SwitchUITheme}"
-                CommandParameter="{Binding ElementName=toggleSwitchTheme}"
-                ToolTip.Tip="Tema">
-                <Panel>
-                    <material:MaterialIcon Classes="tbunchecked" Kind="Lights" />
-                    <material:MaterialIcon
-                        Width="14"
-                        Height="14"
-                        Margin="14,14,0,0"
-                        Classes="tbchecked"
-                        Kind="NightLight" />
-                </Panel>
-            </ToggleButton>
-        </Panel>
+    <Window.Styles>
+        <Style Selector="TitleBar">
+            <Setter Property="Foreground" Value="{DynamicResource AcrylicTrimForeground}" />
+        </Style>
+    </Window.Styles>
+    <i:Interaction.Behaviors>
+        <behaviors:RegisterNotificationHostBehavior />
+    </i:Interaction.Behaviors>
 
-        <rxui:RoutedViewHost
-            Grid.Row="1"
-            Margin="8,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Router="{Binding Router}">
-            <rxui:RoutedViewHost.DefaultContent>
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Background="Transparent">
-                    <TextBlock Classes="h1" Text="Sample Avalonia Application" />
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        Text="Loading..."
-                        TextAlignment="Center" />
-                </StackPanel>
-            </rxui:RoutedViewHost.DefaultContent>
-        </rxui:RoutedViewHost>
-    </Grid>
+    <Panel Margin="{Binding #mainWindow.OffScreenMargin}">
+        <shell:Shell />
+    </Panel>
 </Window>

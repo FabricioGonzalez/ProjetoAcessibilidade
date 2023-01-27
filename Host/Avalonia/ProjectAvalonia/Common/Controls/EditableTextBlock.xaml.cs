@@ -10,7 +10,7 @@ using Avalonia.Interactivity;
 using Avalonia.Metadata;
 using Avalonia.Threading;
 
-namespace ProjectAvalonia.Controls;
+namespace ProjectAvalonia.Common.Controls;
 
 public class EditableTextBlock : TemplatedControl
 {
@@ -205,13 +205,13 @@ public class EditableTextBlock : TemplatedControl
         /*(VisualRoot as IPointer).Capture(null);*/
     }
 
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
     {
         base.OnPropertyChanged(change);
 
         if (change.Property == InEditModeProperty)
         {
-            PseudoClasses.Set(":editing", (bool)change.NewValue);
+            PseudoClasses.Set(":editing", change.NewValue.GetValueOrDefault<bool>());
         }
     }
 }
