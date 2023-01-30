@@ -11,7 +11,7 @@ public static class LinuxStartupHelper
     public static async Task AddOrRemoveDesktopFileAsync(bool runOnSystemStartup)
     {
         string pathToDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config", "autostart");
-        string pathToDesktopFile = Path.Combine(pathToDir, "Wasabi.desktop");
+        string pathToDesktopFile = Path.Combine(pathToDir, $"{Constants.AppName}.desktop");
 
         IoHelpers.EnsureContainingDirectoryExists(pathToDesktopFile);
 

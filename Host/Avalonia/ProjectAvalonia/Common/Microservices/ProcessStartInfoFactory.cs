@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace WalletWasabi.Microservices;
+namespace ProjectAvalonia.Common.Microservices;
 
 /// <summary>
 /// Factory for <see cref="ProcessStartInfo"/> with pre-defined properties as needed in Wasabi Wallet.

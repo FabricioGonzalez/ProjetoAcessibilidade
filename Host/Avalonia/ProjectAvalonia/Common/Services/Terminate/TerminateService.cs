@@ -5,6 +5,8 @@ using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Common;
+
 using Microsoft.Win32;
 
 using ProjectAvalonia.Common.Extensions;
@@ -137,6 +139,6 @@ public class TerminateService
         // Indicate that the termination procedure finished. So other callers can return.
         Interlocked.Exchange(ref _terminateStatus, TerminateStatusFinished);
 
-        Logger.LogSoftwareStopped("Wasabi");
+        Logger.LogSoftwareStopped(Constants.AppName);
     }
 }

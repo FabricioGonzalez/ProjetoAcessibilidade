@@ -1,15 +1,13 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ProjectAvalonia.Features.Settings;
-
-public partial class ThemeChangeView : UserControl
+namespace ProjectAvalonia.Features.TemplateEdit.Views;
+public partial class TemplateEditView : UserControl
 {
-    public ThemeChangeView()
+    public TemplateEditView()
     {
         InitializeComponent();
     }
-
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);

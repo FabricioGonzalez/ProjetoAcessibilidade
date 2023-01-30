@@ -144,15 +144,15 @@ public class Program
             // Trigger the CrashReport process if required.
             /* CrashReporter.Invoke(exceptionToReport);*/
         }
-        else if (ServicesConfig.UpdateManager.DoUpdateOnClose)
-        {
-            ServicesConfig.UpdateManager.StartInstallingNewVersion();
-        }
+        /* else if (ServicesConfig.UpdateManager.DoUpdateOnClose)
+         {
+             ServicesConfig.UpdateManager.StartInstallingNewVersion();
+         }*/
 
         AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
         TaskScheduler.UnobservedTaskException -= TaskScheduler_UnobservedTaskException;
 
-        Logger.LogSoftwareStopped("Wasabi");
+        Logger.LogSoftwareStopped(Constants.AppName);
 
         return exceptionToReport is { } ? 1 : 0;
     }
@@ -186,10 +186,10 @@ public class Program
     {
         Directory.CreateDirectory(dataDir);
 
-        UiConfig uiConfig = new(Path.Combine(Constants.AppUISettings, "UiConfig.json"));
+        UiConfig uiConfig = new(Path.Combine(Constants.AppUISettings, Constants.AppUISettingsFile));
         uiConfig.LoadOrCreateDefaultFile();
 
-        Config config = new(Path.Combine(Constants.AppSettingsFolder, "Config.json"));
+        Config config = new(Path.Combine(Constants.AppSettingsFolder, Constants.AppSettingsFile));
         config.LoadOrCreateDefaultFile();
 
         return (uiConfig, config);

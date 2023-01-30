@@ -7,6 +7,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
+using Common;
+
 using ProjectAvalonia.ViewModels;
 
 using ReactiveUI;
@@ -21,7 +23,7 @@ public class App : Application
 
     public App()
     {
-        Name = "Wasabi Wallet";
+        Name = Constants.AppName;
     }
 
     public App(Func<Task> backendInitialiseAsync, bool startInBg) : this()

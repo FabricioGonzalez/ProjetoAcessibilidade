@@ -4,9 +4,8 @@ using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 
+using ProjectAvalonia.Common.Microservices;
 using ProjectAvalonia.ViewModels;
-
-using WalletWasabi.Microservices;
 
 namespace ProjectAvalonia.Common.Helpers;
 

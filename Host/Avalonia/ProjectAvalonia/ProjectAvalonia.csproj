@@ -15,22 +15,20 @@
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
       <AvaloniaVersion>0.10.18</AvaloniaVersion>
+
+        <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
     </PropertyGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
-        <AvaloniaXaml Remove="Features\Project\**" />
         <AvaloniaXaml Remove="Features\TemplateEditing\**" />
         <AvaloniaXaml Remove="Features\TemplateRules\**" />
         <AvaloniaXaml Remove="Models\**" />
-        <Compile Remove="Features\Project\**" />
         <Compile Remove="Features\TemplateEditing\**" />
         <Compile Remove="Features\TemplateRules\**" />
         <Compile Remove="Models\**" />
-        <EmbeddedResource Remove="Features\Project\**" />
         <EmbeddedResource Remove="Features\TemplateEditing\**" />
         <EmbeddedResource Remove="Features\TemplateRules\**" />
         <EmbeddedResource Remove="Models\**" />
-        <None Remove="Features\Project\**" />
         <None Remove="Features\TemplateEditing\**" />
         <None Remove="Features\TemplateRules\**" />
         <None Remove="Models\**" />
@@ -47,6 +45,7 @@
         <Content Include="Assets\Fonts\RobotoMono-Regular.ttf" />
         <Content Include="Assets\Loading\loading.png" />
     </ItemGroup>
+  
     <ItemGroup>
         <!--This helps with theme dll-s trimming.
 	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
@@ -78,6 +77,7 @@
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Domain\Core\App.Core\App.Core.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />
@@ -152,5 +152,17 @@
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Table.xsd</LinuxPath>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Features\Project\Views\ProjectView.axaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Features\TemplateEdit\Views\ItemValidationView.axaml.cs">
+        <DependentUpon>ItemValidationView.axaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Features\ItemValidation\ViewModels\" />
+      <Folder Include="Features\ItemValidation\Views\" />
     </ItemGroup>
 </Project>

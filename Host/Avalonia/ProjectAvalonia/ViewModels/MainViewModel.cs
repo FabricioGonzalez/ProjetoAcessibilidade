@@ -9,9 +9,11 @@ using Avalonia.Controls;
 using Common;
 
 using ProjectAvalonia.Features.NavBar;
+using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.Features.SearchBar;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
+using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 
@@ -21,6 +23,8 @@ namespace ProjectAvalonia.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     private readonly SettingsPageViewModel _settingsPage;
+    private readonly TemplateEditViewModel _templatePage;
+    private readonly ProjectViewModel _projectPage;
     [AutoNotify] private DialogScreenViewModel _dialogScreen;
     [AutoNotify] private DialogScreenViewModel _fullScreen;
     [AutoNotify] private DialogScreenViewModel _compactDialogScreen;
@@ -38,11 +42,16 @@ public partial class MainViewModel : ViewModelBase
         _fullScreen = new DialogScreenViewModel(NavigationTarget.FullScreen);
         _compactDialogScreen = new DialogScreenViewModel(NavigationTarget.CompactDialogScreen);
         MainScreen = new TargettedNavigationStack(NavigationTarget.HomeScreen);
-        NavigationState.Register(MainScreen, DialogScreen, FullScreen, CompactDialogScreen);
+        NavigationState.Register(MainScreen,
+            DialogScreen,
+            FullScreen,
+            CompactDialogScreen);
 
         UiServices.Initialize();
 
         _settingsPage = new SettingsPageViewModel();
+        _templatePage = new TemplateEditViewModel();
+        _projectPage = new ProjectViewModel();
         _navBar = new NavBarViewModel();
 
         NavigationManager.RegisterType(_navBar);
@@ -126,6 +135,10 @@ public partial class MainViewModel : ViewModelBase
     {
         SettingsPageViewModel.Register(_settingsPage);
 
+        TemplateEditViewModel.Register(_templatePage);
+
+        ProjectViewModel.Register(_projectPage);
+
         GeneralSettingsTabViewModel.RegisterLazy(() =>
         {
             _settingsPage.SelectedTab = 0;
@@ -137,6 +150,15 @@ public partial class MainViewModel : ViewModelBase
             _settingsPage.SelectedTab = 2;
             return _settingsPage;
         });
+
+        TemplateEditTabViewModel.RegisterLazy(() =>
+        {
+            _templatePage.SelectedTab = 0;
+
+            return _templatePage;
+        });
+
+
         /*
                 AboutViewModel.RegisterLazy(() => new AboutViewModel());
                 BroadcasterViewModel.RegisterLazy(() => new BroadcasterViewModel());
@@ -158,9 +180,9 @@ public partial class MainViewModel : ViewModelBase
                     }
 
                     return null;
-                });*/
+                });
 
-        /*  CoinJoinSettingsViewModel.RegisterLazy(() =>
+         CoinJoinSettingsViewModel.RegisterLazy(() =>
           {
               if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel) && !walletViewModel.IsWatchOnly)
               {
@@ -217,8 +239,8 @@ public partial class MainViewModel : ViewModelBase
 
               return NoWalletInfo();
           });
-  */
-        /*   SendViewModel.RegisterLazy(() =>
+  
+          SendViewModel.RegisterLazy(() =>
            {
                if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel))
                {

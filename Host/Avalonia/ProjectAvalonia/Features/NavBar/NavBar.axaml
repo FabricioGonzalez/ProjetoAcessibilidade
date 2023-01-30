@@ -143,6 +143,27 @@
         <!--  Separator  -->
         <Separator DockPanel.Dock="Bottom" />
 
+        <!--  Bottom items  -->
+        <ItemsControl Items="{Binding TopItems}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ReversibleStackPanel ReverseOrder="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.DataTemplates>
+                <DataTemplate DataType="vm:NavBarItemViewModel">
+                    <c:NavBarItem>
+                        <StackPanel>
+                            <PathIcon Classes="new size24" />
+                            <LayoutTransformControl>
+                                <c:FadeOutTextBlock Text="{Binding Title}" />
+                            </LayoutTransformControl>
+                        </StackPanel>
+                    </c:NavBarItem>
+                </DataTemplate>
+            </ItemsControl.DataTemplates>
+        </ItemsControl>
+
         <!--  Wallet List  -->
         <!--<ScrollViewer>
             <ItemsControl Items="{Binding Wallets}">

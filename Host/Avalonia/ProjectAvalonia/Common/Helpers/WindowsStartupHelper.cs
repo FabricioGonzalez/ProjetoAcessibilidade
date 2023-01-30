@@ -33,7 +33,7 @@ public static class WindowsStartupHelper
         }
         else
         {
-            key.DeleteValue(nameof(WalletWasabi), false);
+            key.DeleteValue(nameof(ProjectAvalonia), false);
         }
     }
 }

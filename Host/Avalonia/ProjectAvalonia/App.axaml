@@ -4,7 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:local="using:ProjectAvalonia"
+    xmlns:models="using:ProjectAvalonia.Common.Models"
     xmlns:notification="clr-namespace:Avalonia.Notification;assembly=Notification.Avalonia">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+        <DataTemplate x:DataType="models:ErrorDescriptor" DataType="models:ErrorDescriptor">
+            <TextBlock
+                x:CompileBindings="True"
+                Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                Text="{Binding Message}"
+                TextWrapping="Wrap" />
+        </DataTemplate>
+    </Application.DataTemplates>
 
     <Application.Resources>
         <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>

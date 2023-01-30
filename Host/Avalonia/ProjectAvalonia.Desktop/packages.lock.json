@@ -1142,6 +1142,7 @@
       "projectavalonia": {
         "type": "Project",
         "dependencies": {
+          "App.Core": "[1.0.0, )",
           "AppViewModels": "[1.0.0, )",
           "AsyncImageLoader.Avalonia": "[2.4.0, )",
           "Avalonia": "[0.10.18, )",

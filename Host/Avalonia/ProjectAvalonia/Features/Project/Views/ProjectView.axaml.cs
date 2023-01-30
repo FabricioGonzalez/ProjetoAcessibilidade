@@ -1,11 +1,10 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ProjectAvalonia.Features.Settings;
-
-public partial class AdvancedSettingsTabView : UserControl
+namespace ProjectAvalonia.Features.Project.Views;
+public partial class ProjectView : UserControl
 {
-    public AdvancedSettingsTabView()
+    public ProjectView()
     {
         InitializeComponent();
     }

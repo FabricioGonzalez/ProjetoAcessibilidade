@@ -1,29 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using ReactiveUI;
-
 namespace ProjectAvalonia.ViewModels.Navigation;
 
 public partial class NavigationStack<T> : ViewModelBase, INavigationStack<T> where T : class, INavigatable
 {
     private readonly Stack<T> _backStack;
-    /*    [AutoNotify] private T? _currentPage;
-        [AutoNotify] private bool _canNavigateBack; */
-    private T? _currentPage;
-
-    public T? CurrentPage
-    {
-        get => _currentPage;
-        set => this.RaiseAndSetIfChanged(ref _currentPage, value);
-    }
-    private bool _canNavigateBack;
-
-    public bool CanNavigateBack
-    {
-        get => _canNavigateBack;
-        set => this.RaiseAndSetIfChanged(ref _canNavigateBack, value);
-    }
+    [AutoNotify] private T? _currentPage;
+    [AutoNotify] private bool _canNavigateBack;
 
     private bool _operationsEnabled = true;
 

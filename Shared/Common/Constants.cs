@@ -13,7 +13,11 @@ public static class Constants
     public static string AppUnclosedItemsFolder = Path.Combine(AppCacheFolder, "UnclosedItems");
 
     public static string AppSettingsFolder = Path.Combine(AppFolder, "Settings");
+    public const string AppSettingsFile = "Config.json";
+
+    public const string AppUISettingsFile = "UiConfig.json";
     public static string AppUISettings = Path.Combine(AppSettingsFolder, "UISettings");
+
     public static string AppLogsSettings = Path.Combine(AppSettingsFolder, "Logs");
 
     public static string AppTemplatesFolder = Path.Combine(AppFolder, "Templates");
@@ -23,7 +27,6 @@ public static class Constants
     public const string AppProjectSolutionExtension = ".prja";
     public const string AppProjectTemplateExtension = ".xml";
     public const string AppProjectItemExtension = ".prjd";
-
 
     public const string solutionRoot = "solution";
 
