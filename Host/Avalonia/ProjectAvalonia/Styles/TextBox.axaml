@@ -5,12 +5,20 @@
     xmlns:c="using:ProjectAvalonia.Common.Controls"
     xmlns:conv="clr-namespace:ProjectAvalonia.Common.Converters"
     xmlns:i="using:Avalonia.Xaml.Interactivity"
-    xmlns:validation="clr-namespace:ProjectAvalonia.Validation">
+    xmlns:validation="clr-namespace:ProjectAvalonia.Common.Validation">
     <Styles.Resources>
         <Thickness x:Key="TextControlBorderThemeThickness">0,0,0,2</Thickness>
         <Thickness x:Key="TextControlBorderThemeThicknessFocused">0,0,0,2</Thickness>
         <Thickness x:Key="TextControlThemePadding">15,10,15,8</Thickness>
     </Styles.Resources>
+
+    <Design.PreviewWith>
+        <Border Padding="20">
+
+            <TextBox />
+
+        </Border>
+    </Design.PreviewWith>
 
     <Style Selector="TextBox">
         <Setter Property="Template">
@@ -38,12 +46,12 @@
                                 <behaviors:CheckMarkVisibilityBehavior OwnerTextBox="{Binding ., RelativeSource={RelativeSource TemplatedParent}}" />
                             </i:Interaction.Behaviors>
                         </PathIcon>
-                        <!--<PathIcon
+                        <PathIcon
                             Margin="15,0"
                             VerticalAlignment="Center"
                             Classes="checkMark checkMarkBoolean"
                             DockPanel.Dock="Right"
-                            Opacity="{Binding (validation:CheckMarkStatus.IsEnabled), RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static conv:BoolOpacityConverters.BoolToOpacity}}" />-->
+                            Opacity="{Binding (validation:CheckMarkStatus.IsEnabled), RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static conv:BoolOpacityConverters.BoolToOpacity}}" />
                         <Panel>
                             <Border
                                 Name="PART_BorderElement"

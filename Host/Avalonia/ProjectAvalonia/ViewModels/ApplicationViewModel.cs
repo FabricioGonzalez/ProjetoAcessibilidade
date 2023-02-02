@@ -39,7 +39,7 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
 
         AboutCommand = ReactiveCommand.Create(AboutExecute, AboutCanExecute());
 
-        using var bitmap = AssetHelpers.GetBitmapAsset("avares://ProjectAvalonia/Assets/avalonia-logo.ico");
+        using var bitmap = AssetHelpers.GetBitmapAsset("avares://ProjectAvalonia/Assets/logo.ico");
         TrayIcon = new WindowIcon(bitmap);
     }
 

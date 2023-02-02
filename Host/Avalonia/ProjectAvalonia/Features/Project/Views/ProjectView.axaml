@@ -3,11 +3,51 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ProjectAvalonia.Features.Project.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:project="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="project:ProjectViewModel"
     mc:Ignorable="d">
-    Welcome to Avalonia!
+    <Grid RowDefinitions="35,1*">
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            Background="{DynamicResource SystemBaseLowColor}"
+            Orientation="Horizontal"
+            Spacing="4">
+            <Button
+                Width="42"
+                Height="28"
+                Margin="4,2"
+                Classes="action"
+                Command="{Binding OpenProjectCommand}"
+                ToolTip.Tip="Abrir">
+                <Button.Content>
+                    <PathIcon Data="{StaticResource document_regular}" />
+                </Button.Content>
+            </Button>
+            <Button
+                Width="42"
+                Height="28"
+                Margin="4,2"
+                Classes="action"
+                Command="{Binding CreateProjectCommand}"
+                ToolTip.Tip="Novo">
+                <Button.Content>
+                    <PathIcon Data="{StaticResource add_regular}" />
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        <DockPanel Grid.Row="1">
+            <local:ProjectExplorerView
+                Width="350"
+                VerticalAlignment="Stretch"
+                DataContext="{Binding projectExplorerViewModel}"
+                DockPanel.Dock="Right" />
+            <local:ProjectEditingView />
+        </DockPanel>
+
+    </Grid>
 </UserControl>

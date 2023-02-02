@@ -157,8 +157,6 @@ public partial class MainViewModel : ViewModelBase
 
             return _templatePage;
         });
-
-
         /*
                 AboutViewModel.RegisterLazy(() => new AboutViewModel());
                 BroadcasterViewModel.RegisterLazy(() => new BroadcasterViewModel());

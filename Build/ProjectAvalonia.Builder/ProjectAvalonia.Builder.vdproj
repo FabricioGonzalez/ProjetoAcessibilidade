@@ -21,7 +21,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_09EDA6DA9DD04F169CEC69E136F35799"
+        "MsmKey" = "8:_1167610705C34FA2B4121B6DCFCE291A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -45,6 +45,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_292099E4ADCF46E5BC4868ED21C9CC73"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2B2AE847B2D446E0B57C9B8D312EBCB1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -52,12 +58,6 @@
         "Entry"
         {
         "MsmKey" = "8:_33D3EB0530284824839A29E2D96EA050"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_368503679EF942C9809CC55DF65AB525"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -269,10 +269,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_09EDA6DA9DD04F169CEC69E136F35799"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1167610705C34FA2B4121B6DCFCE291A"
             {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Assets\\avalonia-logo.ico"
-            "TargetName" = "8:avalonia-logo.ico"
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia.Desktop\\Assets\\logo.ico"
+            "TargetName" = "8:logo.ico"
             "Tag" = "8:"
             "Folder" = "8:_010AF24278494D01AF7160838EC26B5E"
             "Condition" = "8:"
@@ -618,11 +618,11 @@
             "Description" = "8:Abrir Arquivo"
             "Extensions" = "8:prja"
             "MIME" = "8:"
-            "Icon" = "8:"
+            "Icon" = "8:_1167610705C34FA2B4121B6DCFCE291A"
             "IconIndex" = "3:0"
                 "Command"
                 {
-                "Command" = "8:_368503679EF942C9809CC55DF65AB525"
+                "Command" = "8:_292099E4ADCF46E5BC4868ED21C9CC73"
                 }
                 "Verbs"
                 {
@@ -915,7 +915,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7058513E891A4BBEB1B2972BB0E6C559"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4483258138D445E79B731D58E7CB98E6"
             {
             "Name" = "8:Gestor de Projetos ARPA"
             "Arguments" = "8:"
@@ -923,24 +923,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_368503679EF942C9809CC55DF65AB525"
-            "Folder" = "8:_14013D0771D143F48933BEFE92FCDF12"
-            "WorkingFolder" = "8:_010AF24278494D01AF7160838EC26B5E"
-            "Icon" = "8:_09EDA6DA9DD04F169CEC69E136F35799"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D165343A384D41E1A54BDC3097AC3C41"
-            {
-            "Name" = "8:Gestor de Projetos ARPA"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_368503679EF942C9809CC55DF65AB525"
+            "Target" = "8:_292099E4ADCF46E5BC4868ED21C9CC73"
             "Folder" = "8:_26E57A0D235B4D32A967A440B05DBAF8"
             "WorkingFolder" = "8:_010AF24278494D01AF7160838EC26B5E"
-            "Icon" = "8:_09EDA6DA9DD04F169CEC69E136F35799"
+            "Icon" = "8:_1167610705C34FA2B4121B6DCFCE291A"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_EA8398721B7F4EDFAA86CCF4BB6CFCB3"
@@ -955,6 +941,20 @@
             "Folder" = "8:_14013D0771D143F48933BEFE92FCDF12"
             "WorkingFolder" = "8:_952691F26C2B436ABB8E67625390ACF6"
             "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_ED08319E69E64E86999401196AC07B55"
+            {
+            "Name" = "8:Gestor de Projetos ARPA"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_292099E4ADCF46E5BC4868ED21C9CC73"
+            "Folder" = "8:_14013D0771D143F48933BEFE92FCDF12"
+            "WorkingFolder" = "8:_010AF24278494D01AF7160838EC26B5E"
+            "Icon" = "8:_1167610705C34FA2B4121B6DCFCE291A"
             "Feature" = "8:"
             }
         }
@@ -1356,9 +1356,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_368503679EF942C9809CC55DF65AB525"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_292099E4ADCF46E5BC4868ED21C9CC73"
             {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\obj\\x64\\Debug\\net6.0\\apphost.exe"
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia.Desktop\\obj\\Release\\net7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_010AF24278494D01AF7160838EC26B5E"
@@ -1378,7 +1378,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:PublishItems"
-            "OutputProjectGuid" = "8:{A28C20D8-45AE-4B54-89FD-3DBF9FEA794D}"
+            "OutputProjectGuid" = "8:{1C1C17A0-4B88-4AF0-8C11-48B5028EF871}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

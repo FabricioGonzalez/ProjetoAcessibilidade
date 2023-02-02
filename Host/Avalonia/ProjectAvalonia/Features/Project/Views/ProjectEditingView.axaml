@@ -1,0 +1,13 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.Project.Views.ProjectEditingView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:ProjectAvalonia.Features.Project.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="viewModels:ProjectEditingViewModel"
+    mc:Ignorable="d">
+    Welcome to Avalonia!
+</UserControl>

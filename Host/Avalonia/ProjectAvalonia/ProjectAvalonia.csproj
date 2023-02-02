@@ -13,7 +13,7 @@
       <InvariantGlobalization>true</InvariantGlobalization>
       <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia</PathMap>
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
+        <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
       <AvaloniaVersion>0.10.18</AvaloniaVersion>
 
         <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
@@ -157,6 +157,9 @@
       <UpToDateCheckInput Remove="Features\Project\Views\ProjectView.axaml" />
     </ItemGroup>
     <ItemGroup>
+      <Compile Update="Features\PDFViewer\Views\PreviewerView.axaml.cs">
+        <DependentUpon>PreviewerView.axaml</DependentUpon>
+      </Compile>
       <Compile Update="Features\TemplateEdit\Views\ItemValidationView.axaml.cs">
         <DependentUpon>ItemValidationView.axaml</DependentUpon>
       </Compile>

@@ -24,7 +24,7 @@ public partial class NavigationStack<T> : ViewModelBase, INavigationStack<T> whe
     {
     }
 
-    private void NavigationOperation(T? oldPage, bool oldInStack, T? newPage, bool newInStack)
+    private void NavigationOperation(T? oldPage, bool oldInStack, T? newPage, bool newInStack, object Parameter = null)
     {
         if (_operationsEnabled)
         {
@@ -45,7 +45,11 @@ public partial class NavigationStack<T> : ViewModelBase, INavigationStack<T> whe
 
         if (_operationsEnabled && newPage is { })
         {
-            newPage.OnNavigatedTo(newInStack);
+            if (Parameter is null)
+                newPage.OnNavigatedTo(newInStack);
+
+            else
+                newPage.OnNavigatedTo(newInStack, Parameter);
         }
 
         UpdateCanNavigateBack();
@@ -131,7 +135,28 @@ public partial class NavigationStack<T> : ViewModelBase, INavigationStack<T> whe
         }
     }
 
-    public void To(T viewmodel, NavigationMode mode = NavigationMode.Normal)
+    public void Back()
+    {
+        if (_backStack.Count > 0)
+        {
+            var oldPage = CurrentPage;
+
+            CurrentPage = _backStack.Pop();
+
+            NavigationOperation(oldPage, false, CurrentPage, true);
+        }
+        else
+        {
+            Clear(); // in this case only CurrentPage might be set and Clear will provide correct behavior.
+        }
+    }
+
+    private void UpdateCanNavigateBack()
+    {
+        CanNavigateBack = _backStack.Count > 0;
+    }
+
+    public void To(T viewmodel, NavigationMode mode = NavigationMode.Normal, object? Parameter = null)
     {
         var oldPage = CurrentPage;
 
@@ -158,28 +183,6 @@ public partial class NavigationStack<T> : ViewModelBase, INavigationStack<T> whe
                 // Do not push old page on the back stack.
                 break;
         }
-
-        NavigationOperation(oldPage, oldInStack, viewmodel, newInStack);
-    }
-
-    public void Back()
-    {
-        if (_backStack.Count > 0)
-        {
-            var oldPage = CurrentPage;
-
-            CurrentPage = _backStack.Pop();
-
-            NavigationOperation(oldPage, false, CurrentPage, true);
-        }
-        else
-        {
-            Clear(); // in this case only CurrentPage might be set and Clear will provide correct behavior.
-        }
-    }
-
-    private void UpdateCanNavigateBack()
-    {
-        CanNavigateBack = _backStack.Count > 0;
+        NavigationOperation(oldPage, oldInStack, viewmodel, newInStack, Parameter);
     }
 }

@@ -49,14 +49,8 @@ class InteractiveCanvas : ICustomDrawOperation
 
     public float ScrollPercentY
     {
-        get
-        {
-            return TranslateY / MaxTranslateY;
-        }
-        set
-        {
-            TranslateY = value * MaxTranslateY;
-        }
+        get => TranslateY / MaxTranslateY;
+        set => TranslateY = value * MaxTranslateY;
     }
 
     public float ScrollViewportSizeY
@@ -130,7 +124,7 @@ class InteractiveCanvas : ICustomDrawOperation
 
     public void Render(IDrawingContextImpl context)
     {
-        if (Pages.Count <= 0)
+        if (!Pages.Any())
             return;
 
         LimitScale();

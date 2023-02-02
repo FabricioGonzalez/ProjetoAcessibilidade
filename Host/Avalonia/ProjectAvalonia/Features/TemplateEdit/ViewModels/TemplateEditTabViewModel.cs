@@ -4,6 +4,7 @@
     Title = "Template Editing",
     Caption = "Manage general settings",
     Order = 0,
+    Searchable = false,
     Category = "Templates",
     Keywords = new[]
     {

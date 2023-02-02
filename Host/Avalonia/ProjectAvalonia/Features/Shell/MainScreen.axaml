@@ -67,10 +67,7 @@
                             HorizontalAlignment="Center"
                             DataContext="{Binding CurrentWallet^}"
                             DockPanel.Dock="Bottom" />-->
-                        <ContentControl
-                            Padding="8"
-                            ClipToBounds="False"
-                            Content="{Binding MainScreen.CurrentPage}" />
+                        <ContentControl ClipToBounds="False" Content="{Binding MainScreen.CurrentPage}" />
                     </DockPanel>
                     <Border
                         Margin="0,0,-5,-5"

@@ -38,8 +38,8 @@
       <PackageTags>project;avalonia</PackageTags>
       <RepositoryType>git</RepositoryType>
       <RepositoryUrl>https://github.com/zkSNACKs/WalletWasabi/</RepositoryUrl>
-      <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
-      <PackageIcon>Assets\avalonia-logo.ico</PackageIcon>
+      <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+      <PackageIcon>Assets\logo.ico</PackageIcon>
       <Product>Project Avalonia</Product>
       <!-- owners is not supported in MSBuild -->
       <AvaloniaVersion>0.10.18</AvaloniaVersion>
@@ -51,6 +51,7 @@
 
     <ItemGroup>
       <None Remove="Assets\avalonia-logo.ico" />
+      <None Remove="Assets\logo.ico" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />

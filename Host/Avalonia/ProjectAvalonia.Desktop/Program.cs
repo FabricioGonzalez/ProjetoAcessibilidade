@@ -22,6 +22,8 @@ using ProjectAvalonia.ViewModels;
 
 using ReactiveUI;
 
+using Splat;
+
 using LogLevel = ProjectAvalonia.Logging.LogLevel;
 
 namespace ProjectAvalonia.Desktop;
@@ -114,6 +116,10 @@ public class Program
                     async () =>
                     await Global.InitializeNoWalletAsync(terminateService), runGuiInBackground))
                 .UseReactiveUI()
+                .AddQueryHandlers()
+                .AddCommandHandlers()
+                .AddRepositories()
+                .AddMediator()
                 .SetupAppBuilder()
                 .AfterSetup(_ =>
                     {

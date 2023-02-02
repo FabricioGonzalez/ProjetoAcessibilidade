@@ -1,0 +1,105 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.PDFViewer.Views.PreviewerView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ProjectAvalonia.PDFPreviewer.Views"
+    xmlns:material="using:Material.Icons.Avalonia"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:quest="clr-namespace:QuestPDF.Previewer;assembly=ProjectAvalonia"
+    xmlns:viewModels="using:ProjectAvalonia.Features.PDFViewer.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="viewModels:PreviewerViewModel"
+    mc:Ignorable="d">
+    <Panel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="14"
+                FontWeight="Regular"
+                IsHitTestVisible="False"
+                Text="Imprimir Documento"
+                TextAlignment="Center" />
+
+            <SplitView
+                Grid.Row="1"
+                Grid.Column="0"
+                DisplayMode="Inline"
+                IsPaneOpen="True"
+                PaneBackground="{StaticResource SystemBaseLowColor}">
+                <SplitView.Pane>
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="32"
+                        VerticalAlignment="Bottom"
+                        Orientation="Vertical"
+                        Spacing="16"
+                        ZIndex="100">
+                        <Button
+                            Padding="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding ShowPdfCommand, Mode=OneTime}"
+                            CornerRadius="100"
+                            ToolTip.Tip="Gerar PDF">
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Data="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H13C12.59,21.75 12.2,21.44 11.86,21.1C11.53,20.77 11.25,20.4 11,20H6V4H13V9H18V10.18C18.71,10.34 19.39,10.61 20,11V8L14,2M20.31,18.9C21.64,16.79 21,14 18.91,12.68C16.8,11.35 14,12 12.69,14.08C11.35,16.19 12,18.97 14.09,20.3C15.55,21.23 17.41,21.23 18.88,20.32L22,23.39L23.39,22L20.31,18.9M16.5,19A2.5,2.5 0 0,1 14,16.5A2.5,2.5 0 0,1 16.5,14A2.5,2.5 0 0,1 19,16.5A2.5,2.5 0 0,1 16.5,19Z" Fill="White" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+
+                        <Button
+                            Padding="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding PrintCommand, Mode=OneTime}"
+                            CornerRadius="100"
+                            ToolTip.Tip="Imprimir">
+                            <Viewbox Width="24" Height="24">
+                                <material:MaterialIcon Foreground="White" Kind="Printer" />
+                            </Viewbox>
+                        </Button>
+                    </StackPanel>
+                </SplitView.Pane>
+                <SplitView.Content>
+                    <quest:PreviewerControl
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        CurrentScroll="{Binding CurrentScroll, Mode=TwoWay}"
+                        Pages="{Binding DocumentRenderer.Pages, Mode=TwoWay}"
+                        ScrollViewportSize="{Binding ScrollViewportSize, Mode=TwoWay}" />
+                </SplitView.Content>
+            </SplitView>
+            <ScrollBar
+                Grid.Row="1"
+                Grid.Column="1"
+                AllowAutoHide="False"
+                IsVisible="{Binding VerticalScrollbarVisible, Mode=OneWay}"
+                Maximum="1"
+                Minimum="0"
+                Orientation="Vertical"
+                ViewportSize="{Binding ScrollViewportSize, Mode=OneWay}"
+                Value="{Binding CurrentScroll, Mode=TwoWay}" />
+        </Grid>
+    </Panel>
+</UserControl>

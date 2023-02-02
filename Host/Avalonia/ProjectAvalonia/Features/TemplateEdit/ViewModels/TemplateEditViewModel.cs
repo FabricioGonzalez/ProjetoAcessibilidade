@@ -13,7 +13,8 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
             "Templates", "Editing"
     },
         NavBarPosition = NavBarPosition.Top,
-    NavigationTarget = NavigationTarget.HomeScreen)]
+    NavigationTarget = NavigationTarget.HomeScreen,
+    IconName = "edit_regular")]
 public partial class TemplateEditViewModel : NavBarItemViewModel
 {
     [AutoNotify] private int _selectedTab;
