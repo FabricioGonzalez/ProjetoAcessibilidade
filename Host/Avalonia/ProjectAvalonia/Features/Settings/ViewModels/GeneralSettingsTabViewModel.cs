@@ -28,6 +28,7 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
     [AutoNotify] private bool _autoPaste;
     [AutoNotify] private bool _runOnSystemStartup;
     [AutoNotify] private bool _hideOnClose;
+    [AutoNotify] private bool _downloadNewVersion;
 
     public GeneralSettingsTabViewModel()
     {
@@ -35,6 +36,7 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
         _autoCopy = ServicesConfig.UiConfig.Autocopy;
         _autoPaste = ServicesConfig.UiConfig.AutoPaste;
         _runOnSystemStartup = ServicesConfig.UiConfig.RunOnSystemStartup;
+        _downloadNewVersion = ServicesConfig.UiConfig.RunOnSystemStartup;
         _hideOnClose = ServicesConfig.UiConfig.HideOnClose;
 
         this.WhenAnyValue(x => x.DarkModeEnabled)

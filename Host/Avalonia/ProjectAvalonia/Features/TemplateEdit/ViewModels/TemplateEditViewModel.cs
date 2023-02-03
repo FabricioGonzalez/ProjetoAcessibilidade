@@ -1,4 +1,29 @@
-﻿using ProjectAvalonia.Features.NavBar;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using App.Core.Entities.Solution.Explorer;
+
+using Common;
+
+using DynamicData;
+using DynamicData.Binding;
+
+using Project.Application.App.Queries.GetAllTemplates;
+using Project.Application.Contracts;
+
+using ProjectAvalonia.Features.NavBar;
+
+using ReactiveUI;
+
+using Splat;
+
+using FileItem = ProjectAvalonia.Common.Models.FileItems.FileItem;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -18,17 +43,69 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 public partial class TemplateEditViewModel : NavBarItemViewModel
 {
     [AutoNotify] private int _selectedTab;
+    [AutoNotify] private ReadOnlyObservableCollection<FileItem> _items;
+    public ObservableCollectionExtended<FileItem> Source
+    {
+        get;
+    } = new();
+
+    private readonly IQueryDispatcher queryDispatcher;
+
+    public async Task LoadItems()
+    {
+        var result = await queryDispatcher
+            .Dispatch<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>(
+            query: new(),
+            cancellation: CancellationToken.None);
+
+        result.OnError((res) =>
+        {
+
+        })
+        .OnLoading((res) =>
+        {
+        })
+        .OnSuccess((res) =>
+        {
+            if (res.Data is not null)
+            {
+                Source.Load(
+                    res.Data.Select(item => new FileItem()
+                    {
+                        Name = item.Name,
+                        FilePath = item.Path
+                    }));
+            }
+        });
+    }
 
     public TemplateEditViewModel()
     {
-        _selectedTab = 0;
+        queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+
+        Source.ToObservableChangeSet()
+             .ObserveOn(RxApp.MainThreadScheduler)
+             .Bind(out _items)
+             .Subscribe();
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
-        TemplateEditTab = new();
+        _selectedTab = 0;
+
+        TemplateEditTab = new TemplateEditTabViewModel();
+
 
     }
     public TemplateEditTabViewModel TemplateEditTab
+    {
+        get;
+    }
+
+    public ICommand AddNewItemCommand
+    {
+        get;
+    }
+    public ICommand CommitItemCommand
     {
         get;
     }

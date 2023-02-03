@@ -1,4 +1,12 @@
-﻿namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
+﻿using System;
+using System.Reactive.Linq;
+
+using ProjectAvalonia.Common.Models.FileItems;
+using ProjectAvalonia.Logging;
+
+using ReactiveUI;
+
+namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
 [NavigationMetaData(
     Title = "Template Editing",
@@ -15,4 +23,17 @@
 
 public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
 {
+    [AutoNotify] private FileItem _selectedItem;
+
+
+    public TemplateEditTabViewModel()
+    {
+        this.WhenAnyValue(vm => vm.SelectedItem)
+            .WhereNotNull()
+            .Subscribe((prop) =>
+            {
+                Logger.LogDebug(prop.Name);
+            });
+    }
+
 }

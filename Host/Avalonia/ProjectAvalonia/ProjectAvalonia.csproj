@@ -163,9 +163,21 @@
       <Compile Update="Features\TemplateEdit\Views\ItemValidationView.axaml.cs">
         <DependentUpon>ItemValidationView.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Properties\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Features\ItemValidation\ViewModels\" />
       <Folder Include="Features\ItemValidation\Views\" />
+      <Folder Include="Languages\" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 </Project>

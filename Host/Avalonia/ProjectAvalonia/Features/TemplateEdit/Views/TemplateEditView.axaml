@@ -8,8 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:v="using:ProjectAvalonia.Features.TemplateEdit.Views"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
+    x:Name="templateEditView"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:CompileBindings="True"
     x:DataType="viewModels:TemplateEditViewModel"
     mc:Ignorable="d">
 
@@ -42,15 +44,13 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Background="Transparent"
-                    Items="{Binding ProjectItems}">
+                    Items="{Binding Items}"
+                    SelectedItem="{Binding TemplateEditTab.SelectedItem, Mode=TwoWay}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <controls:EditableTextBlock
                                 Grid.Column="1"
                                 HorizontalAlignment="Stretch"
-                                Command="{Binding #templateEditingView.DataContext.CommitItemCommand}"
-                                CommandParameter="{Binding}"
-                                InEditMode="{Binding IsEditing}"
                                 Text="{Binding Name}">
                                 <controls:EditableTextBlock.ContextFlyout>
                                     <MenuFlyout>
@@ -68,7 +68,7 @@
         <TabControl SelectedIndex="{Binding SelectedTab, Mode=TwoWay}">
             <TabItem Header="Template">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <v:TemplateEditTabView DataContext="{Binding TemplateEditTab}" />
+                    <v:TemplateEditTabView DataContext="{Binding TemplateEditTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
         </TabControl>

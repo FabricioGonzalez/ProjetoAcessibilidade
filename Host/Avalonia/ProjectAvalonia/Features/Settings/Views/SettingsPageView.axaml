@@ -6,6 +6,7 @@
     xmlns:conv="using:ProjectAvalonia.Common.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:settings="using:ProjectAvalonia.Features.Settings.ViewModels"
     xmlns:v="using:ProjectAvalonia.Features.Settings.Views"
     d:DesignHeight="371"
@@ -29,7 +30,7 @@
 
     <c:ContentArea
         Title="{Binding Title}"
-        Caption="Manage appearance, privacy and other settings"
+        Caption="{x:Static p:Resources.SettingsPageCaption}"
         EnableNext="True"
         NextContent="Done"
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -42,12 +43,12 @@
                 Foreground="{StaticResource WarningMessageForeground}"
                 Opacity="{Binding IsModified, Converter={x:Static conv:BoolOpacityConverters.BoolToOpacity}}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Changes will be applied after restarting the application." />
+                    <TextBlock Text="{x:Static p:Resources.RestartNotificationLabel}" />
                     <Button
                         Margin="5,0,0,0"
                         Classes="activeHyperLink plain"
                         Command="{Binding RestartCommand}"
-                        Content="Restart Wasabi" />
+                        Content="{x:Static p:Resources.RestartAppLabel}" />
                 </StackPanel>
             </c:InfoMessage>
 

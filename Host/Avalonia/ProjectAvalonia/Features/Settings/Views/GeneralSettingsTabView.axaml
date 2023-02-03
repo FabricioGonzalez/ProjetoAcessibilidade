@@ -5,6 +5,7 @@
     xmlns:conv="using:ProjectAvalonia.Common.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:settings="using:ProjectAvalonia.Features.Settings.ViewModels"
     d:DesignHeight="371"
     d:DesignWidth="428"
@@ -14,27 +15,27 @@
     <StackPanel Classes="settingsLayout">
 
         <DockPanel>
-            <TextBlock Text="Dark mode" />
+            <TextBlock Text="{x:Static p:Resources.DarkThemeLabel}" />
             <ToggleSwitch IsChecked="{Binding DarkModeEnabled}" />
         </DockPanel>
 
         <DockPanel>
-            <TextBlock Text="Run Wasabi when computer starts" />
+            <TextBlock Text="{x:Static p:Resources.onStartupBehaviorLabel}" />
             <ToggleSwitch Command="{Binding StartupCommand}" IsChecked="{Binding RunOnSystemStartup}" />
         </DockPanel>
 
         <DockPanel>
-            <TextBlock Text="Run in background when window closed" />
+            <TextBlock Text="{x:Static p:Resources.onClosedBehaviorLabel}" />
             <ToggleSwitch IsChecked="{Binding HideOnClose}" />
         </DockPanel>
 
         <DockPanel>
-            <TextBlock Text="Auto copy addresses" />
+            <TextBlock Text="{x:Static p:Resources.AutoCopyBehaviorLabel}" />
             <ToggleSwitch IsChecked="{Binding AutoCopy}" />
         </DockPanel>
 
         <DockPanel>
-            <TextBlock Text="Auto paste addresses" />
+            <TextBlock Text="{x:Static p:Resources.AutoPasteBehaviorLabel}" />
             <ToggleSwitch IsChecked="{Binding AutoPaste}" />
         </DockPanel>
         <!-- Temporarily remove from settings view for release
@@ -55,10 +56,10 @@
             <ToggleSwitch IsChecked="{Binding TerminateTorOnExit}" />
         </DockPanel>-->
 
-        <!--<DockPanel>
-            <TextBlock Text="Auto download new version" />
+        <DockPanel>
+            <TextBlock Text="{x:Static p:Resources.AutoDownloadLabel}" />
             <ToggleSwitch IsChecked="{Binding DownloadNewVersion}" />
-        </DockPanel>-->
+        </DockPanel>
 
     </StackPanel>
 </UserControl>

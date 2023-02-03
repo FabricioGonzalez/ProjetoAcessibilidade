@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:settings="using:ProjectAvalonia.Features.Settings.ViewModels"
     d:DesignHeight="371"
     d:DesignWidth="428"
@@ -12,8 +13,8 @@
     mc:Ignorable="d">
     <StackPanel Classes="settingsLayout">
 
-        <DockPanel ToolTip.Tip="When enabled use a graphics card (GPU) to render user interface. Using a GPU rather than the CPU can improve performance.">
-            <TextBlock Text="Enable GPU" />
+        <DockPanel ToolTip.Tip="{x:Static p:Resources.EnabledGPUTooltip}">
+            <TextBlock Text="{x:Static p:Resources.EnabledGPULabel}" />
             <ToggleSwitch IsChecked="{Binding EnableGpu}" />
         </DockPanel>
 
