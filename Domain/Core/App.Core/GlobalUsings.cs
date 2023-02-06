@@ -1,1 +1,1 @@
-﻿global using App.Core.Common;
+﻿global using Core.Common;

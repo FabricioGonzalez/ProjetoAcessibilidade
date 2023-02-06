@@ -1,6 +1,6 @@
-﻿using App.Core.Entities.Solution.Project.AppItem.DataItems;
+﻿using Core.Entities.Solution.Project.AppItem.DataItems;
 
-namespace App.Core.Entities.Solution.Project.AppItem;
+namespace Core.Entities.Solution.Project.AppItem;
 public class AppItemModel
 {
 

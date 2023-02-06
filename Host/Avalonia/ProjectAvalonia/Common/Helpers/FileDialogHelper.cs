@@ -34,6 +34,12 @@ public static class FileDialogHelper
         sfd.Filters = GenerateFilters(filterExtTypes);
         return await GetDialogResultAsync(sfd);
     }
+    public static async Task<string?> ShowOpenFolderDialogAsync(string title, string? directory = null)
+    {
+        var sfd = CreateOpenFolderDialog(title, directory);
+
+        return await GetDialogResultAsync(sfd);
+    }
 
     private static SaveFileDialog CreateSaveFileDialog(string title, IEnumerable<string> filterExtTypes, string? directory = null)
     {
@@ -59,6 +65,18 @@ public static class FileDialogHelper
 
         return null;
     }
+    private static async Task<string?> GetDialogResultAsync(OpenFolderDialog ofd)
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime &&
+            lifetime.MainWindow is { })
+        {
+            var selected = await ofd.ShowAsync(lifetime.MainWindow);
+
+            return selected;
+        }
+
+        return null;
+    }
 
     private static async Task<string?> GetDialogResultAsync(SaveFileDialog sfd)
     {
@@ -76,6 +94,25 @@ public static class FileDialogHelper
         var ofd = new OpenFileDialog
         {
             AllowMultiple = false,
+            Title = title,
+        };
+
+        if (directory is null)
+        {
+            SetDefaultDirectory(ofd);
+        }
+        else
+        {
+            ofd.Directory = directory;
+        }
+
+        return ofd;
+    }
+
+    private static OpenFolderDialog CreateOpenFolderDialog(string title, string? directory = null)
+    {
+        var ofd = new OpenFolderDialog
+        {
             Title = title,
         };
 

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -26,6 +27,9 @@ public class Config : ConfigBase
     [JsonProperty(PropertyName = "EnableGpu")]
     public bool EnableGpu { get; internal set; } = true;
 
+    [DefaultValue(true)]
+    [JsonProperty(PropertyName = "DownloadNewVersion", DefaultValueHandling = DefaultValueHandling.Populate)]
+    public bool DownloadNewVersion { get; internal set; } = true;
 
     /// <inheritdoc />
     public override void LoadFile()

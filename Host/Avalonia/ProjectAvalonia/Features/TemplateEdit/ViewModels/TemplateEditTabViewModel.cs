@@ -1,10 +1,23 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+using Common;
+
+using Core.Entities.Solution.Project.AppItem;
+using Core.Enuns;
+
+using Project.Application.Contracts;
+using Project.Application.Project.Queries.GetProjectItemContent;
 
 using ProjectAvalonia.Common.Models.FileItems;
 using ProjectAvalonia.Logging;
 
 using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -24,16 +37,47 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
 {
     [AutoNotify] private FileItem _selectedItem;
+    [AutoNotify] private AppItemModel _editingItem;
 
+    public ObservableCollection<AppFormDataType> Types => new(
+           Enum
+           .GetValues<AppFormDataType>());
+
+    private readonly IQueryDispatcher queryDispatcher;
 
     public TemplateEditTabViewModel()
     {
+        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+
         this.WhenAnyValue(vm => vm.SelectedItem)
             .WhereNotNull()
-            .Subscribe((prop) =>
+            .Subscribe(async (prop) =>
             {
+                await LoadItemData(prop.FilePath);
                 Logger.LogDebug(prop.Name);
             });
+    }
+
+    private async Task LoadItemData(string path)
+    {
+        (await queryDispatcher
+            .Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
+            query: new(path),
+            cancellation: CancellationToken.None))
+        .OnLoading(isLoading =>
+        {
+
+        })
+        .OnSuccess(success =>
+        {
+            EditingItem = success.Data;
+        })
+        .OnError(error =>
+        {
+
+        });
+
+
     }
 
 }

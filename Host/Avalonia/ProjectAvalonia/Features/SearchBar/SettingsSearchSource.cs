@@ -10,6 +10,7 @@ using ProjectAvalonia.Features.SearchBar.SearchItems;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.SearchBars.ViewModels.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
+using ProjectAvalonia.ViewModels.SearchBar.Settings;
 
 namespace ProjectAvalonia.Features.SearchBar;
 
@@ -38,18 +39,16 @@ public class SettingsSearchSource : ISearchSource
     {
         return new ISearchItem[]
         {
-        /*    new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(_settingsPage.GeneralSettingsTab,
+            new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(_settingsPage.GeneralSettingsTab,
             b => b.DarkModeEnabled), "Dark mode",
-            "Appearance", 
-            new List<string> { "Black", "White", "Theme", "Dark", "Light" }, 
+            "Appearance",
+            new List<string> { "Black", "White", "Theme", "Dark", "Light" },
             "nav_settings_regular") { IsDefault = false },
             new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(_settingsPage.GeneralSettingsTab, b => b.AutoCopy), "Auto copy addresses", "Settings", new List<string>(), "nav_settings_regular") { IsDefault = false },
             new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(_settingsPage.GeneralSettingsTab, b => b.AutoPaste), "Auto paste addresses", "Settings", new List<string>(), "nav_settings_regular") { IsDefault = false },
             new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(_settingsPage.GeneralSettingsTab, b => b.HideOnClose), "Run in background when closed", "Settings", new List<string>() { "hide", "tray" }, "nav_settings_regular") { IsDefault = false },
             new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(_settingsPage.GeneralSettingsTab, b => b.RunOnSystemStartup), "Run Wasabi when computer starts", "Settings", new List<string>() { "startup", "boot" }, "nav_settings_regular") { IsDefault = false },
-            new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(_settingsPage.GeneralSettingsTab, b => b.UseTor), "Network anonymization (Tor)", "Settings", new List<string>(), "nav_settings_regular") { IsDefault = false },
-            new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(_settingsPage.GeneralSettingsTab, b => b.TerminateTorOnExit), "Terminate Tor when Wasabi shuts down", "Settings", new List<string>(), "nav_settings_regular") { IsDefault = false },
-            new NonActionableSearchItem(new Setting<AdvancedSettingsTabViewModel, bool>(_settingsPage.AdvancedSettingsTab, b => b.EnableGpu), "Enable GPU", "Settings", new List<string>(), "nav_settings_regular") { IsDefault = false },*/
+            new NonActionableSearchItem(new Setting<AdvancedSettingsTabViewModel, bool>(_settingsPage.AdvancedSettingsTab, b => b.EnableGpu), "Enable GPU", "Settings", new List<string>(), "nav_settings_regular") { IsDefault = false },
         };
     }
 }

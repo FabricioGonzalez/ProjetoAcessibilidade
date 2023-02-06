@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Application.csproj" />
-    <ProjectReference Include="..\..\..\Domain\Core\App.Core\App.Core.csproj" />
+    <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj" />
     <ProjectReference Include="..\..\..\Host\QuestPDF\QuestPDF\QuestPDF.csproj" />
   </ItemGroup>
 

@@ -7,9 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using App.Core.Entities.Solution.Explorer;
-
 using Common;
+
+using Core.Entities.Solution.Explorer;
 
 using DynamicData;
 using DynamicData.Binding;

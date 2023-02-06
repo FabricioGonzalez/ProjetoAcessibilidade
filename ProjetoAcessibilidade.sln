@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{071F97
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B935E4A4-AD35-485E-B511-E64421C2720E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Core", "Domain\Core\App.Core\App.Core.csproj", "{7B20A711-9E9D-4877-A6A8-DA98F713C764}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Domain\Core\App.Core\Core.csproj", "{7B20A711-9E9D-4877-A6A8-DA98F713C764}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Application", "Domain\Application\Project.Application\Project.Application.csproj", "{2C2FEEA3-3ED9-4AC3-B4AC-2C9B8FED7583}"
 EndProject

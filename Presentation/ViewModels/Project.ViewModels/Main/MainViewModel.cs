@@ -2,8 +2,6 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-using App.Core.Entities.App;
-
 using AppViewModels.Common;
 using AppViewModels.Contracts;
 using AppViewModels.Dialogs;
@@ -15,6 +13,8 @@ using AppViewModels.Project;
 using AppViewModels.System;
 using AppViewModels.TemplateEditing;
 using AppViewModels.TemplateRules;
+
+using Core.Entities.App;
 
 using Project.Application.App.Contracts;
 

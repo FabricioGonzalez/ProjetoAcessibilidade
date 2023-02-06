@@ -1,4 +1,4 @@
-﻿namespace App.Core.Entities.Solution.Project.AppItem;
+﻿namespace Core.Entities.Solution.Project.AppItem;
 
 public class AppLawModel
 {

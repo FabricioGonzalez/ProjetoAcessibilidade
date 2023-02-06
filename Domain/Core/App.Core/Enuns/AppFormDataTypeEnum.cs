@@ -1,4 +1,4 @@
-﻿namespace App.Core.Enuns;
+﻿namespace Core.Enuns;
 public enum AppFormDataType
 {
     Texto,

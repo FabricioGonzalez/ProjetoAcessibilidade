@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-using App.Core.Entities.App;
-using App.Core.Entities.Solution;
-using App.Core.Entities.Solution.Project.AppItem;
-
 using Avalonia;
 
 using Common;
+
+using Core.Entities.App;
+using Core.Entities.Solution;
+using Core.Entities.Solution.Project.AppItem;
 
 using Project.Application.App.Contracts;
 using Project.Application.App.Queries.GetAllTemplates;
@@ -28,7 +28,7 @@ using ProjectItemReader.XmlFile;
 
 using Splat;
 
-using ExplorerItem = App.Core.Entities.Solution.Explorer.ExplorerItem;
+using ExplorerItem = Core.Entities.Solution.Explorer.ExplorerItem;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 using Nito.AsyncEx;
 
+using ProjectAvalonia.Common.Http;
 using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
 using ProjectAvalonia.Logging;
@@ -24,6 +25,10 @@ public class Global
 
 
     /// <summary>HTTP client factory for sending HTTP requests.</summary>
+	public IHttpClient HttpClientFactory
+    {
+        get;
+    }
     public Config Config
     {
         get;
@@ -55,7 +60,7 @@ public class Global
 
         HostedServices = new HostedServices();
 
-        /*  UpdateManager = new(DataDir, Config.DownloadNewVersion, HttpClientFactory.NewHttpClient(Mode.DefaultCircuit));*/
+        UpdateManager = new(DataDir, Config.DownloadNewVersion, new ProjectHttpClient(new System.Net.Http.HttpClient()));
 
         Cache = new MemoryCache(new MemoryCacheOptions
         {

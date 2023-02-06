@@ -1,10 +1,10 @@
 ﻿using System.Reactive;
 
-using App.Core.Entities.Solution.Explorer;
-
 using AppViewModels.Common;
 
 using Common;
+
+using Core.Entities.Solution.Explorer;
 
 using DynamicData.Binding;
 

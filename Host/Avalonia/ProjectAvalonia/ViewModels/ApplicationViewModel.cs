@@ -16,7 +16,7 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
 {
     private readonly IMainWindowService _mainWindowService;
     [AutoNotify] private bool _isMainWindowShown = true;
-
+    [AutoNotify] private bool _isShuttingDown = false;
     public ApplicationViewModel(IMainWindowService mainWindowService)
     {
         _mainWindowService = mainWindowService;
@@ -86,10 +86,11 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
     {
         MainViewModel.Instance.ApplyUiConfigWindowSate(); // Will pop the window if it was minimized.
         MainViewModel.Instance.CompactDialogScreen.To(new ShuttingDownViewModel(this, restartRequest));
+        IsShuttingDown = true;
     }
 
     public bool CanShutdown()
     {
-        return true;
+        return IsShuttingDown;
     }
 }

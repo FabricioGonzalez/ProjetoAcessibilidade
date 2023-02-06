@@ -1,4 +1,4 @@
-﻿using App.Core.Entities.Solution;
+﻿using Core.Entities.Solution;
 
 namespace Project.Application.Solution.Contracts;
 public interface ISolutionRepository

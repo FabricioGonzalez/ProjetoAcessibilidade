@@ -24,6 +24,7 @@ public partial class MainViewModel : ViewModelBase
 {
     private readonly SettingsPageViewModel _settingsPage;
     private readonly TemplateEditViewModel _templatePage;
+    private readonly CreateSolutionViewModel _createSolution;
     private readonly ProjectViewModel _projectPage;
     [AutoNotify] private DialogScreenViewModel _dialogScreen;
     [AutoNotify] private DialogScreenViewModel _fullScreen;

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 using ProjectAvalonia.Common.Helpers;
-using ProjectAvalonia.Common.Interfaces;
+using ProjectAvalonia.Common.Http;
 using ProjectAvalonia.Common.Microservices;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Logging;

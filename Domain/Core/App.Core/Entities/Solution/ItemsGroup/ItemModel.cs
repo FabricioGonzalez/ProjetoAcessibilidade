@@ -1,4 +1,4 @@
-﻿namespace App.Core.Entities.Solution.ItemsGroup;
+﻿namespace Core.Entities.Solution.ItemsGroup;
 
 public class ItemModel
 {

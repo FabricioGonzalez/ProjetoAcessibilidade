@@ -2,9 +2,6 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-using App.Core.Entities.Solution;
-using App.Core.Entities.Solution.Explorer;
-
 using AppViewModels.Common;
 using AppViewModels.Dialogs;
 using AppViewModels.Dialogs.States;
@@ -15,6 +12,9 @@ using AppViewModels.Project.Operations;
 using AppViewModels.Project.States;
 
 using Common;
+
+using Core.Entities.Solution;
+using Core.Entities.Solution.Explorer;
 
 using Project.Application.Contracts;
 using Project.Application.Project.Queries.GetProjectItems;

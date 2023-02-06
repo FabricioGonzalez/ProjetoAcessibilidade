@@ -2,13 +2,6 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-using App.Core.Entities.Solution.Project.AppItem;
-using App.Core.Entities.Solution.Project.AppItem.DataItems;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
-
 using AppViewModels.Common;
 using AppViewModels.Contracts;
 using AppViewModels.Project.ComposableViewModels;
@@ -17,6 +10,14 @@ using AppViewModels.Project.States.ProjectItemState.FormItemState;
 using AppViewModels.Project.States.ProjectItemState.LawItemState;
 
 using Common;
+
+using Core.Entities.Solution.Project.AppItem;
+using Core.Entities.Solution.Project.AppItem.DataItems;
+using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+using Core.Entities.Solution.Project.AppItem.DataItems.Text;
+using Core.Enuns;
 
 using Project.Application.Contracts;
 using Project.Application.Project.Commands.ProjectItemCommands.SaveCommands;
@@ -137,7 +138,7 @@ public class ProjectItemEditingViewModel : ViewModelBase
                            {
                                Topic = observation.Topic,
                                Observation = observation.Observation,
-                               Type = App.Core.Enuns.AppFormDataType.Observação
+                               Type = AppFormDataType.Observação
                            };
                        }
                        return null;

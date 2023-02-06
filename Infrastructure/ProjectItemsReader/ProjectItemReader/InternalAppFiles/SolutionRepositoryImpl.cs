@@ -1,12 +1,11 @@
 ﻿using System.Xml;
 
-
-using App.Core.Entities.App;
-using App.Core.Entities.Solution;
-using App.Core.Entities.Solution.ItemsGroup;
-using App.Core.Entities.Solution.ReportInfo;
-
 using Common;
+
+using Core.Entities.App;
+using Core.Entities.Solution;
+using Core.Entities.Solution.ItemsGroup;
+using Core.Entities.Solution.ReportInfo;
 
 using Project.Application.Solution.Contracts;
 

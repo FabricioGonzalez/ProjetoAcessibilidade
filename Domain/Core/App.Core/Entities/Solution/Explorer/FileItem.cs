@@ -1,4 +1,4 @@
-﻿namespace App.Core.Entities.Solution.Explorer;
+﻿namespace Core.Entities.Solution.Explorer;
 public class FileItem : ExplorerItem
 {
 }

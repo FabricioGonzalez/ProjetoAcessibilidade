@@ -150,6 +150,12 @@
   <data name="SettingsPageCaption" xml:space="preserve">
     <value>Gerenciar aparência, e outras configurações</value>
   </data>
+  <data name="ShutdownMessagePart1" xml:space="preserve">
+    <value>Terminando os preparativos para finalizar a aplicação.</value>
+  </data>
+  <data name="ShutdownMessagePart2" xml:space="preserve">
+    <value>Pode levar algum  tempo para finalizarmos, por favor aguarde...</value>
+  </data>
   <data name="ThemeChangingLabel" xml:space="preserve">
     <value>O Tema está sendo Alterarado... Aguarde...</value>
   </data>

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace App.Core.Common;
+namespace Core.Common;
 public class BaseEvent : INotification
 {
 }

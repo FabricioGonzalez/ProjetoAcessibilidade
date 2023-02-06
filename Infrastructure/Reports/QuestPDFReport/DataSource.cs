@@ -1,9 +1,9 @@
-﻿using App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+﻿using Common;
 
-using Common;
+using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
 using ProjectItemReader.XmlFile;
 

@@ -1,6 +1,6 @@
-﻿using App.Core.Enuns;
+﻿using Core.Enuns;
 
-namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+namespace Core.Entities.Solution.Project.AppItem.DataItems.Text;
 public class AppFormDataItemTextModel : IAppFormDataItemContract
 {
     public string Topic { get; set; } = "";

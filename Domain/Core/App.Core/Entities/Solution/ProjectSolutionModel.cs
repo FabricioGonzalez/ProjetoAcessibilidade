@@ -1,7 +1,7 @@
-﻿using App.Core.Entities.Solution.ItemsGroup;
-using App.Core.Entities.Solution.ReportInfo;
+﻿using Core.Entities.Solution.ItemsGroup;
+using Core.Entities.Solution.ReportInfo;
 
-namespace App.Core.Entities.Solution;
+namespace Core.Entities.Solution;
 public class ProjectSolutionModel
 {
     private SolutionInfo solutionReportInfo;

@@ -1,6 +1,6 @@
-﻿using App.Core.Entities.Solution.Project.AppItem;
+﻿using Common;
 
-using Common;
+using Core.Entities.Solution.Project.AppItem;
 
 using MediatR;
 

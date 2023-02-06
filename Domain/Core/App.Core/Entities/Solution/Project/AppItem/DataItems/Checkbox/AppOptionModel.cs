@@ -1,4 +1,4 @@
-﻿namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+﻿namespace Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 
 public class AppOptionModel
 {

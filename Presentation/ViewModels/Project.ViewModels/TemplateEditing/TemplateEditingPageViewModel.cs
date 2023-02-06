@@ -1,13 +1,13 @@
 ﻿using System.Reactive.Disposables;
 
-using App.Core.Entities.Solution.Project.AppItem;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
-using App.Core.Enuns;
-
 using AppViewModels.Common;
 
 using Common;
+
+using Core.Entities.Solution.Project.AppItem;
+using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using Core.Entities.Solution.Project.AppItem.DataItems.Text;
+using Core.Enuns;
 
 using DynamicData.Binding;
 

@@ -1,12 +1,12 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
 
-using App.Core.Entities.App;
-using App.Core.Entities.Solution.ItemsGroup;
-using App.Core.Entities.Solution.ReportInfo;
-
 using AppViewModels.Common;
 using AppViewModels.Contracts;
+
+using Core.Entities.App;
+using Core.Entities.Solution.ItemsGroup;
+using Core.Entities.Solution.ReportInfo;
 
 using DynamicData.Binding;
 

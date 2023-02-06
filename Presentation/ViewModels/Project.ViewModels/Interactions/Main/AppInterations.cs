@@ -1,4 +1,4 @@
-﻿using App.Core.Entities.App;
+﻿using Core.Entities.App;
 
 using ReactiveUI;
 

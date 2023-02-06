@@ -77,12 +77,23 @@ public partial class ProjectViewModel : NavBarItemViewModel
             Logger.LogError("Error!", exception);
         });
 
-        CreateProjectCommand = ReactiveCommand.Create(execute: () =>
+        CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: async () =>
         {
-            NotificationHelpers.Show(title: "Create", "Create Project?", () =>
+            var dialogResult = await NavigateDialogAsync(
+            new CreateSolutionViewModel("Criar Solução")
+            , NavigationTarget.CompactDialogScreen);
+
+            if (dialogResult.Result is { } dialogData)
             {
-                Logger.LogDebug("create Project");
-            });
+                IsBusy = true;
+
+                NotificationHelpers.Show(title: "Create", "Create Project?", () =>
+                {
+                    Logger.LogDebug($"create Project {dialogData.FileName}");
+                });
+
+                IsBusy = false;
+            }
         });
         ((ReactiveCommand<Unit, Unit>)CreateProjectCommand)
            .ThrownExceptions

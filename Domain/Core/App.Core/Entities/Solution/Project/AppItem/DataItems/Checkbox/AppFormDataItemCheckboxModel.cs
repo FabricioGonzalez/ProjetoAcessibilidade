@@ -1,6 +1,6 @@
-﻿using App.Core.Enuns;
+﻿using Core.Enuns;
 
-namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+namespace Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 public class AppFormDataItemCheckboxModel : IAppFormDataItemContract
 {
     public string Topic

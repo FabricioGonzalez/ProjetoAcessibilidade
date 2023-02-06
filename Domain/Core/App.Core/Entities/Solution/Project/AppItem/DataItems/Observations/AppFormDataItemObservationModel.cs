@@ -1,6 +1,6 @@
-﻿using App.Core.Enuns;
+﻿using Core.Enuns;
 
-namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+namespace Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 public class AppFormDataItemObservationModel : IAppFormDataItemContract
 {
     public string Topic

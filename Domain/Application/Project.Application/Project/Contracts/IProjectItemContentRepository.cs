@@ -1,4 +1,4 @@
-﻿using App.Core.Entities.Solution.Project.AppItem;
+﻿using Core.Entities.Solution.Project.AppItem;
 
 namespace Project.Application.Project.Contracts;
 public interface IProjectItemContentRepository

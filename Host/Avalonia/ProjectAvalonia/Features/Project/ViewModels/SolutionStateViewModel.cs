@@ -1,100 +1,72 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
-
-using App.Core.Entities.App;
-using App.Core.Entities.Solution.ItemsGroup;
-using App.Core.Entities.Solution.ReportInfo;
+using System.Windows.Input;
 
 using AppViewModels.Common;
-using AppViewModels.Contracts;
 
 using Avalonia.Threading;
+
+using Core.Entities.App;
+using Core.Entities.Solution.ItemsGroup;
+using Core.Entities.Solution.ReportInfo;
 
 using DynamicData.Binding;
 
 using Project.Application.App.Queries.GetUFList;
 using Project.Application.Contracts;
 
+using ProjectAvalonia.Common.Helpers;
+
 using ReactiveUI;
 
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
-public class SolutionStateViewModel : ViewModelBase
+public partial class SolutionStateViewModel : ViewModelBase
 {
-    private SolutionInfo reportData = new();
-    public SolutionInfo ReportData
-    {
-        get => reportData;
-        set => this.RaiseAndSetIfChanged(ref reportData, value, nameof(ReportData));
-    }
+    [AutoNotify] private SolutionInfo _reportData = new();
 
-    private string fileName = "";
-    public string FileName
-    {
-        get => fileName;
-        set => this.RaiseAndSetIfChanged(ref fileName, value, nameof(FileName));
-    }
+    [AutoNotify] private string _fileName = "";
 
-    private string filePath = "";
-    public string FilePath
-    {
-        get => filePath;
-        set => this.RaiseAndSetIfChanged(ref filePath, value, nameof(FilePath));
-    }
+    [AutoNotify] private string _filePath = "";
 
-    private string parentFolderName = "";
-    public string ParentFolderName
-    {
-        get => parentFolderName;
-        set => this.RaiseAndSetIfChanged(ref parentFolderName, value, nameof(ParentFolderName));
-    }
+    [AutoNotify] private string _parentFolderName = "";
 
-    private string parentFolderPath = "";
-    public string ParentFolderPath
-    {
-        get => parentFolderPath;
-        set => this.RaiseAndSetIfChanged(ref parentFolderPath, value, nameof(ParentFolderPath));
-    }
+    [AutoNotify] private string _parentFolderPath = "";
 
-    private ObservableCollectionExtended<ItemGroupModel> itemGroups = new();
-    public ObservableCollectionExtended<ItemGroupModel> ItemGroups
-    {
-        get => itemGroups;
-        set => this.RaiseAndSetIfChanged(ref itemGroups, value, nameof(ItemGroups));
-    }
 
-    private ObservableCollectionExtended<UFModel> ufList;
-    public ObservableCollectionExtended<UFModel> UFList
-    {
-        get => ufList;
-        set => this.RaiseAndSetIfChanged(ref ufList, value, nameof(UFList));
-    }
+    [AutoNotify] private ObservableCollectionExtended<ItemGroupModel> _itemGroups = new();
+
+    [AutoNotify] private ObservableCollectionExtended<UFModel> _ufList;
 
     private readonly IQueryDispatcher queryDispatcher;
-    private readonly IFileDialog dialogService;
 
     public SolutionStateViewModel()
     {
         queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
 
-        dialogService = Locator.Current.GetService<IFileDialog>();
-
-        ChooseSolutionPath = ReactiveCommand.CreateFromTask(async () =>
+        ChooseSolutionPath = ReactiveCommand.Create(async () =>
         {
-            var path = await dialogService.GetFolder();
+            var path = await FileDialogHelper.ShowOpenFolderDialogAsync("Local da Solução");
 
-            return path;
+            Dispatcher.UIThread.Post(() =>
+            {
+                FilePath = path;
+                FileName = Path.GetFileNameWithoutExtension(path);
+            });
         });
 
-        ChooseLogoPath = ReactiveCommand.CreateFromTask(async () =>
+        ChooseLogoPath = ReactiveCommand.Create(async () =>
         {
-            var path = await dialogService.GetFile(new string[] { "png" });
+            var path = await FileDialogHelper.ShowOpenFileDialogAsync("Logo da Empresa", new string[] { "png" });
 
-            return path;
+            Dispatcher.UIThread.Post(() =>
+            {
+                ReportData.LogoPath = path;
+            });
         });
 
         Task.Run(async () =>
@@ -104,16 +76,16 @@ public class SolutionStateViewModel : ViewModelBase
          .Dispatch<GetAllUFQuery, IList<UFModel>>(new(), CancellationToken.None)
          ).OrderBy(x => x.Name));
 
-            Dispatcher.UIThread.Post(() => UFList = result);
+            Dispatcher.UIThread.Post(() => UfList = result);
         });
     }
 
-    public ReactiveCommand<Unit, string> ChooseSolutionPath
+    public ICommand ChooseSolutionPath
     {
-        get; set;
+        get;
     }
-    public ReactiveCommand<Unit, string> ChooseLogoPath
+    public ICommand ChooseLogoPath
     {
-        get; set;
+        get;
     }
 }

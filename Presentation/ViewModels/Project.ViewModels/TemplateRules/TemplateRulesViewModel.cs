@@ -1,12 +1,12 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
 
-using App.Core.Entities.Solution.Explorer;
-
 using AppViewModels.Common;
 using AppViewModels.TemplateEditing.Models;
 
 using Common;
+
+using Core.Entities.Solution.Explorer;
 
 using DynamicData.Binding;
 

@@ -1,4 +1,4 @@
-﻿using App.Core.Enuns;
+﻿using Core.Enuns;
 
 using DynamicData.Binding;
 

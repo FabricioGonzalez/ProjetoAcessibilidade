@@ -5,6 +5,7 @@
       <AnalysisLevel>latest</AnalysisLevel>
       <Nullable>enable</Nullable>
       <LangVersion>latest</LangVersion>
+      
       <NoWarn>1701;1702;1705;1591;1573;CA1031</NoWarn>
       <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
       <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\$(TargetFramework)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
@@ -17,6 +18,8 @@
       <AvaloniaVersion>0.10.18</AvaloniaVersion>
 
         <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
+
+        <SignAssembly>False</SignAssembly>
     </PropertyGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
@@ -77,7 +80,7 @@
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Domain\Core\App.Core\App.Core.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />

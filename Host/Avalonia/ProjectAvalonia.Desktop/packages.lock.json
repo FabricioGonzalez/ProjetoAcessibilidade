@@ -1108,16 +1108,10 @@
         "resolved": "1.5.1",
         "contentHash": "93lBHaDNxEmERbqVEnSEHxPLe77J1i0LoxeqtVaRSC0PnQMd/c1BaltoL6crXBmWftxbvGiag5BSlVKIArW3pg=="
       },
-      "app.core": {
-        "type": "Project",
-        "dependencies": {
-          "MediatR": "[11.1.0, )"
-        }
-      },
       "appviewmodels": {
         "type": "Project",
         "dependencies": {
-          "App.Core": "[1.0.0, )",
+          "Core": "[1.0.0, )",
           "MediatR": "[11.1.0, )",
           "Project.Application": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",
@@ -1130,11 +1124,17 @@
       "common": {
         "type": "Project"
       },
+      "core": {
+        "type": "Project",
+        "dependencies": {
+          "MediatR": "[11.1.0, )"
+        }
+      },
       "project.application": {
         "type": "Project",
         "dependencies": {
-          "App.Core": "[1.0.0, )",
           "Common": "[1.0.0, )",
+          "Core": "[1.0.0, )",
           "MediatR": "[11.1.0, )",
           "Splat": "[14.6.1, )"
         }
@@ -1142,7 +1142,6 @@
       "projectavalonia": {
         "type": "Project",
         "dependencies": {
-          "App.Core": "[1.0.0, )",
           "AppViewModels": "[1.0.0, )",
           "AsyncImageLoader.Avalonia": "[2.4.0, )",
           "Avalonia": "[0.10.18, )",
@@ -1154,6 +1153,7 @@
           "Avalonia.Xaml.Interactions": "[0.10.18, )",
           "Avalonia.Xaml.Interactivity": "[0.10.18, )",
           "Common": "[1.0.0, )",
+          "Core": "[1.0.0, )",
           "Dock.Avalonia": "[0.10.18, )",
           "Material.Icons.Avalonia": "[1.1.10, )",
           "MathNet.Numerics": "[5.0.0, )",

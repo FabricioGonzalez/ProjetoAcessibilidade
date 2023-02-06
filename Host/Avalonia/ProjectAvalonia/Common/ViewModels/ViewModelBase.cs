@@ -8,7 +8,7 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels;
 
-public class ViewModelBase : ReactiveObject, INotifyDataErrorInfo
+public class ViewModelBase : ReactiveObject, INotifyDataErrorInfo, IRegisterValidationMethod
 {
     private Validations _validations;
 
@@ -52,8 +52,8 @@ public class ViewModelBase : ReactiveObject, INotifyDataErrorInfo
         return _validations.GetErrors(propertyName);
     }
 
-    /*    void IRegisterValidationMethod.RegisterValidationMethod(string propertyName, ValidateMethod validateMethod)
-        {
-            ((IRegisterValidationMethod)_validations).RegisterValidationMethod(propertyName, validateMethod);
-        }*/
+    void IRegisterValidationMethod.RegisterValidationMethod(string propertyName, ValidateMethod validateMethod)
+    {
+        ((IRegisterValidationMethod)_validations).RegisterValidationMethod(propertyName, validateMethod);
+    }
 }

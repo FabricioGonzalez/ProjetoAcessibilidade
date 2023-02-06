@@ -2,20 +2,23 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.TemplateEditTabView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:checkbox="using:App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox"
+    xmlns:checkbox="clr-namespace:Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;assembly=Core"
     xmlns:controls="using:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:text="using:App.Core.Entities.Solution.Project.AppItem.DataItems.Text"
+    xmlns:text="clr-namespace:Core.Entities.Solution.Project.AppItem.DataItems.Text;assembly=Core"
     xmlns:viewModels="using:ProjectAvalonia.Features.TemplateEdit.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="viewModels:TemplateEditTabViewModel"
     mc:Ignorable="d">
     <ScrollViewer Padding="8">
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock Text="{Binding $parent.Item.Name}" />
-            <ItemsControl Items="{Binding EditingItem.FormData, Mode=OneWay}">
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            RowDefinitions="35,1*">
+            <TextBlock Grid.Row="0" Text="{Binding $parent[UserControl].DataContext.SelectedItem.Name}" />
+            <ItemsControl Grid.Row="1" Items="{Binding EditingItem.FormData, Mode=TwoWay}">
                 <ItemsControl.DataTemplates>
                     <DataTemplate x:DataType="checkbox:AppFormDataItemCheckboxModel" DataType="checkbox:AppFormDataItemCheckboxModel">
                         <Expander Margin="4" HorizontalAlignment="Stretch">
@@ -27,7 +30,7 @@
                                             Width="200"
                                             HorizontalAlignment="Right"
                                             IsTextSearchEnabled="True"
-                                            Items="{Binding #templateEditingPage.DataContext.Types}"
+                                            Items="{Binding $parent[UserControl].DataContext.Types}"
                                             SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}" />
                                     </StackPanel>
                                 </DataTemplate>

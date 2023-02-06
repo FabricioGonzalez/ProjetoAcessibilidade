@@ -160,6 +160,24 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Terminando os preparativos para finalizar a aplicação..
+        /// </summary>
+        public static string ShutdownMessagePart1 {
+            get {
+                return ResourceManager.GetString("ShutdownMessagePart1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Pode levar algum  tempo para finalizarmos, por favor aguarde....
+        /// </summary>
+        public static string ShutdownMessagePart2 {
+            get {
+                return ResourceManager.GetString("ShutdownMessagePart2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O Tema está sendo Alterarado... Aguarde....
         /// </summary>
         public static string ThemeChangingLabel {
