@@ -17,18 +17,19 @@ namespace ProjectAvalonia.ViewModels.SearchBar.Settings;
 
 public partial class Setting<TTarget, TProperty> : ReactiveObject
 {
+    private const int SkippedItems = 1;
     [AutoNotify] private TProperty? _value;
 
     public Setting([DisallowNull] TTarget target, Expression<Func<TTarget, TProperty>> selector)
     {
         if (target == null)
         {
-            throw new ArgumentNullException(nameof(target));
+            throw new ArgumentNullException(paramName: nameof(target));
         }
 
         if (selector == null)
         {
-            throw new ArgumentNullException(nameof(selector));
+            throw new ArgumentNullException(paramName: nameof(selector));
         }
 
         if (PropertyHelper<TTarget>.GetProperty(selector) is not { } pr)
@@ -38,23 +39,24 @@ public partial class Setting<TTarget, TProperty> : ReactiveObject
 
         Value = (TProperty?)pr.GetValue(target);
 
-        SetValueCommand = ReactiveCommand.Create(() => pr.SetValue(target, Value));
+        SetValueCommand = ReactiveCommand.Create(() => pr.SetValue(obj: target, value: Value));
 
-        ShowNotificationCommand = ReactiveCommand.Create(() => NotificationHelpers.Show(new RestartViewModel($"To apply the new setting, {Constants.AppName} needs to be restarted")));
+        ShowNotificationCommand = ReactiveCommand.Create(() => NotificationHelpers.Show(
+            viewModel: new RestartViewModel(message: $"To apply the new setting, {Constants.AppName} needs to be restarted")));
 
-        this.WhenAnyValue(x => x.Value)
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Skip(1)
-            .Select(_ => Unit.Default)
+        this.WhenAnyValue(property1: x => x.Value)
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+            .Skip(count: Setting<TTarget, TProperty>.SkippedItems)
+            .Select(selector: _ => Unit.Default)
             .InvokeCommand(SetValueCommand);
 
-        this.WhenAnyValue(x => x.Value)
-            .Skip(1)
-            .Throttle(TimeSpan.FromMilliseconds(SettingsTabViewModelBase.ThrottleTime + 50))
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Where(_ => SettingsTabViewModelBase.CheckIfRestartIsNeeded())
-            .Select(_ => Unit.Default)
-            .InvokeCommand(ShowNotificationCommand);
+        this.WhenAnyValue(property1: x => x.Value)
+            .Skip(count: Setting<TTarget, TProperty>.SkippedItems)
+            .Throttle(dueTime: TimeSpan.FromMilliseconds(value: SettingsTabViewModelBase.ThrottleTime + 50))
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+            .Where(predicate: _ => SettingsTabViewModelBase.CheckIfRestartIsNeeded())
+            .Select(selector: _ => Unit.Default)
+            .InvokeCommand(command: ShowNotificationCommand);
     }
 
     public ICommand SetValueCommand

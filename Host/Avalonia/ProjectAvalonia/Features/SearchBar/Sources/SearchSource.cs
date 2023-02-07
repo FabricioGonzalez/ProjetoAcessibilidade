@@ -11,13 +11,13 @@ public static class SearchSource
     {
         return item =>
         {
-            if (string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(value: query))
             {
                 return item.IsDefault;
             }
 
-            return new[] { item.Name, item.Description, }.Concat(item.Keywords)
-                .Any(s => s.Contains(query, StringComparison.InvariantCultureIgnoreCase));
+            return new[] { item.Name, item.Description, }.Concat(second: item.Keywords)
+                .Any(predicate: s => s.Contains(value: query, comparisonType: StringComparison.InvariantCultureIgnoreCase));
         };
     }
 }

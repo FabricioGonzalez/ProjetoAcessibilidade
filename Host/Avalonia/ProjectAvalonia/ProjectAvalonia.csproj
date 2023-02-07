@@ -183,4 +183,10 @@
         <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
+    <ItemGroup>
+      <EditorConfigFiles Remove="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
+    </ItemGroup>
 </Project>

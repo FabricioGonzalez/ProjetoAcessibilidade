@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 using Common;
 
 using Core.Entities.Solution.Project.AppItem;
+using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using Core.Enuns;
 
 using Project.Application.Contracts;
@@ -70,6 +73,11 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
         })
         .OnSuccess(success =>
         {
+            success.Data.FormData.Where(item =>
+            {
+                return item is AppFormDataItemCheckboxModel || item is AppFormDataItemTextModel;
+            });
+
             EditingItem = success.Data;
         })
         .OnError(error =>

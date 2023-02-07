@@ -21,12 +21,12 @@ public class ActionsSearchSource : ISearchSource
 {
     public ActionsSearchSource(IObservable<string> query)
     {
-        var filter = query.Select(SearchSource.DefaultFilter);
+        var filter = query.Select(selector: SearchSource.DefaultFilter);
 
         Changes = GetItemsFromMetadata()
             .ToObservable()
-            .ToObservableChangeSet(x => x.Key)
-            .Filter(filter);
+            .ToObservableChangeSet(keySelector: x => x.Key)
+            .Filter(predicateChanged: filter);
     }
 
     public IObservable<IChangeSet<ISearchItem, ComposedKey>> Changes
@@ -37,11 +37,15 @@ public class ActionsSearchSource : ISearchSource
     private static IEnumerable<ISearchItem> GetItemsFromMetadata()
     {
         return NavigationManager.MetaData
-            .Where(m => m.Searchable)
-            .Select(m =>
+            .Where(predicate: m => m.Searchable)
+            .Select(selector: m =>
             {
-                var onActivate = CreateOnActivateFunction(m);
-                var searchItem = new ActionableItem(m.Title, m.Caption, onActivate, m.Category ?? "No category", m.Keywords)
+                var onActivate = CreateOnActivateFunction(navigationMetaData: m);
+                var searchItem = new ActionableItem(name: m.Title,
+                                                    description: m.Caption,
+                                                    onExecution: onActivate,
+                                                    category: m.Category ?? "No category",
+                                                    keywords: m.Keywords)
                 {
                     Icon = m.IconName,
                     IsDefault = true,
@@ -54,23 +58,26 @@ public class ActionsSearchSource : ISearchSource
     {
         return async () =>
         {
-            var vm = await NavigationManager.MaterialiseViewModelAsync(navigationMetaData);
+            var vm = await NavigationManager.MaterialiseViewModelAsync(metaData: navigationMetaData);
             if (vm is null)
             {
                 return;
             }
 
-            if (vm is NavBarItemViewModel item && item.OpenCommand.CanExecute(default))
+            if (vm is NavBarItemViewModel item && item.OpenCommand.CanExecute(parameter: default))
             {
-                item.OpenCommand.Execute(default);
+                item.OpenCommand.Execute(parameter: default);
             }
-            else if (vm is TriggerCommandViewModel triggerCommandViewModel && triggerCommandViewModel.TargetCommand.CanExecute(default))
+            else if (vm is TriggerCommandViewModel triggerCommandViewModel
+            && triggerCommandViewModel.TargetCommand.CanExecute(parameter: default))
             {
-                triggerCommandViewModel.TargetCommand.Execute(default);
+                triggerCommandViewModel.TargetCommand.Execute(parameter: default);
             }
             else
             {
-                RoutableViewModel.Navigate(vm.DefaultTarget).To(vm);
+                RoutableViewModel
+                .Navigate(currentTarget: vm.DefaultTarget)
+                .To(viewmodel: vm);
             }
         };
     }

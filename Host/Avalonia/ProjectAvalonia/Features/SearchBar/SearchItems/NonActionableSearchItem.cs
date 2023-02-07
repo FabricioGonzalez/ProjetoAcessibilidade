@@ -23,7 +23,7 @@ public class NonActionableSearchItem : ISearchItem
     {
         get;
     }
-    public ComposedKey Key => new(Name);
+    public ComposedKey Key => new(keys: Name);
     public string Description => "";
     public string? Icon
     {

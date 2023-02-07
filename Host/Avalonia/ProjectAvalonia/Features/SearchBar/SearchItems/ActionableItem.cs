@@ -38,7 +38,7 @@ public class ActionableItem : IActionableItem
     {
         get;
     }
-    public ComposedKey Key => new(Name);
+    public ComposedKey Key => new(keys: Name);
     public string? Icon
     {
         get; set;

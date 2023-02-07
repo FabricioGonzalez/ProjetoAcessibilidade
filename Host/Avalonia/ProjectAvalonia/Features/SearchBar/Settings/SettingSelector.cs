@@ -13,16 +13,16 @@ public class SettingSelector : IDataTemplate
     public IControl Build(object param)
     {
         var prop = param.GetType().GetProperty("Value");
-        var template = DataTemplates.FirstOrDefault(d =>
+        var template = DataTemplates.FirstOrDefault(predicate: d =>
         {
-            var value = prop?.GetValue(param);
+            var value = prop?.GetValue(obj: param);
 
             if (value is null)
             {
                 return false;
             }
 
-            return d.Match(value);
+            return d.Match(data: value);
         });
 
         if (template is not null)
@@ -35,6 +35,6 @@ public class SettingSelector : IDataTemplate
 
     public bool Match(object data)
     {
-        return data.GetType().Name.Contains("Setting");
+        return data.GetType().Name.Contains(value: "Setting");
     }
 }

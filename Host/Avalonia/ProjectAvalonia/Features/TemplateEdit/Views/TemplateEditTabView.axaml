@@ -30,8 +30,14 @@
                                             Width="200"
                                             HorizontalAlignment="Right"
                                             IsTextSearchEnabled="True"
-                                            Items="{Binding $parent[UserControl].DataContext.Types}"
-                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}" />
+                                            Items="{Binding $parent[UserControl].DataContext.Types, Mode=OneWay}"
+                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
                                     </StackPanel>
                                 </DataTemplate>
                             </Expander.HeaderTemplate>
@@ -66,8 +72,14 @@
                                             Width="200"
                                             HorizontalAlignment="Right"
                                             IsTextSearchEnabled="True"
-                                            Items="{Binding #templateEditingPage.DataContext.Types}"
-                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}" />
+                                            Items="{Binding $parent[UserControl].DataContext.Types, Mode=OneWay}"
+                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
                                     </StackPanel>
                                 </DataTemplate>
                             </Expander.HeaderTemplate>
@@ -76,6 +88,7 @@
                             </Grid>
                         </Expander>
                     </DataTemplate>
+                    <DataTemplate />
                 </ItemsControl.DataTemplates>
             </ItemsControl>
         </Grid>
