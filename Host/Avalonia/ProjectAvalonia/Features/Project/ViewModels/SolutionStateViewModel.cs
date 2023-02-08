@@ -10,6 +10,7 @@ using AppViewModels.Common;
 using Avalonia.Threading;
 
 using Core.Entities.App;
+using Core.Entities.Solution;
 using Core.Entities.Solution.ItemsGroup;
 using Core.Entities.Solution.ReportInfo;
 
@@ -87,5 +88,33 @@ public partial class SolutionStateViewModel : ViewModelBase
     public ICommand ChooseLogoPath
     {
         get;
+    }
+}
+
+public static class Extension
+{
+    public static ProjectSolutionModel ToSolutionModel(this SolutionStateViewModel model)
+    {
+        return new()
+        {
+            FileName = model.FileName,
+            FilePath = model.FilePath,
+            ItemGroups = new(model.ItemGroups),
+            SolutionReportInfo = model.ReportData,
+            ParentFolderName = model.ParentFolderName,
+            ParentFolderPath = model.ParentFolderPath
+        };
+    }
+    public static SolutionStateViewModel ToSolutionState(this ProjectSolutionModel model)
+    {
+        return new()
+        {
+            FileName = model.FileName,
+            FilePath = model.FilePath,
+            ItemGroups = new(model.ItemGroups),
+            ReportData = model.SolutionReportInfo,
+            ParentFolderName = model.ParentFolderName,
+            ParentFolderPath = model.ParentFolderPath
+        };
     }
 }

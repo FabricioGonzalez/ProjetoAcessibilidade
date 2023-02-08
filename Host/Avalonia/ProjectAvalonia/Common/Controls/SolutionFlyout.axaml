@@ -6,9 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    FlyoutPresenterClasses="solutionExplorerStyle"
     Placement="LeftEdgeAlignedTop"
     ShowMode="Standard"
     mc:Ignorable="d">

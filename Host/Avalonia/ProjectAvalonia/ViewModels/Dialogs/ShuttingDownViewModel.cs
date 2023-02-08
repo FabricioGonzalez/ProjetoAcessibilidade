@@ -2,13 +2,15 @@ using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
+using Common;
+
 using ProjectAvalonia.ViewModels.Navigation;
 
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Dialogs;
 
-[NavigationMetaData(Title = "Please wait to shut down...")]
+[NavigationMetaData(Title = Constants.ShuttingDownLabel)]
 public partial class ShuttingDownViewModel : RoutableViewModel
 {
     private readonly ApplicationViewModel _applicationViewModel;
@@ -19,7 +21,6 @@ public partial class ShuttingDownViewModel : RoutableViewModel
         _applicationViewModel = applicationViewModel;
         _restart = restart;
         NextCommand = CancelCommand;
-
     }
 
     protected override void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables)

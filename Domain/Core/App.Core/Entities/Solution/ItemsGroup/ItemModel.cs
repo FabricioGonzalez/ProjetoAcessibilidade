@@ -12,6 +12,11 @@ public class ItemModel
         get;
         set;
     }
+    public string ItemPath
+    {
+        get;
+        set;
+    }
     public string TemplateName
     {
         get;

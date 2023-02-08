@@ -11,10 +11,10 @@ using ReactiveUI;
 namespace ProjectAvalonia.Features.Settings.ViewModels;
 
 [NavigationMetaData(
-    Title = "General",
-    Caption = "Manage general settings",
+    Title = "Opções Gerais",
+    Caption = "Gerenciar Opções Gerais",
     Order = 0,
-    Category = "Settings",
+    Category = "Opções",
     Keywords = new[]
     {
             "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",

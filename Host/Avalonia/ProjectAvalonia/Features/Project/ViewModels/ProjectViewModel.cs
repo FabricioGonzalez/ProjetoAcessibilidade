@@ -1,7 +1,17 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Windows.Input;
+
+using Avalonia.Threading;
+
+using Common;
+
+using Core.Entities.Solution;
+
+using Project.Application.Contracts;
+using Project.Application.Solution.Queries;
 
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
@@ -9,6 +19,8 @@ using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Logging;
 
 using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -26,16 +38,27 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     IconName = "edit_file_regular")]
 public partial class ProjectViewModel : NavBarItemViewModel
 {
-
     [AutoNotify] private string _currentOpenProject = "";
+    /*[AutoNotify] private SolutionStateViewModel _solutionModel;*/
+
+    private readonly IQueryDispatcher queryDispatcher;
 
     public ProjectViewModel()
     {
+        queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+
         SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
         projectExplorerViewModel = new ProjectExplorerViewModel();
+
+        projectExplorerViewModel.WhenAnyValue(vm => vm.SelectedItem)
+            .WhereNotNull()
+            .Subscribe(item =>
+            {
+                Logger.LogDebug(item.Name);
+            });
 
         projectExplorerViewModel.PrintProjectCommand = ReactiveCommand.Create(execute: () =>
         {
@@ -47,7 +70,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
 
         projectExplorerViewModel.OpenSolutionCommand = ReactiveCommand.Create(execute: () =>
         {
-            projectExplorerViewModel.SolutionModel = new();
+
 
         }, canExecute: IsSolutionOpened());
 
@@ -63,11 +86,24 @@ public partial class ProjectViewModel : NavBarItemViewModel
             {
                 CurrentOpenProject = path;
 
-                /*NotificationHelpers.Show(title: "Open", "Open Project?", () =>
-                {
-                    Logger.LogDebug("Open Project");
-                    Logger.LogDebug($"selected: {path}");
-                });*/
+                (await queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
+                    query: new(solutionPath: path),
+                    cancellation: CancellationToken.None)).OnSuccess(
+                    (result) =>
+                    {
+                        Dispatcher
+                        .UIThread
+                        .Post(() => projectExplorerViewModel.SolutionModel = result.Data.ToSolutionState());
+                    })
+                    .OnError(error =>
+                    {
+
+                    })
+                    .OnLoading(loading =>
+                    {
+
+                    });
+
             }
         });
         ((ReactiveCommand<Unit, Unit>)OpenProjectCommand)

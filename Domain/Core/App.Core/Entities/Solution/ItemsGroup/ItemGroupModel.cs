@@ -6,9 +6,9 @@ public class ItemGroupModel
         get;
         set;
     }
-    public IEnumerable<ItemModel> Items
+    public List<ItemModel> Items
     {
         get;
         set;
-    }
+    } = new();
 }

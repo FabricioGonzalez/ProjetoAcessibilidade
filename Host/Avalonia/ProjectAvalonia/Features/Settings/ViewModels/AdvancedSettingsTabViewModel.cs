@@ -6,10 +6,10 @@ using ReactiveUI;
 namespace ProjectAvalonia.Features.Settings.ViewModels;
 
 [NavigationMetaData(
-    Title = "Advanced",
-    Caption = "Manage advanced settings",
+    Title = "Opções Avançadas",
+    Caption = "Gerenciamento de Opções Avançadas",
     Order = 2,
-    Category = "Settings",
+    Category = "Opções",
     Keywords = new[]
     {
             "Settings", "Advanced", "Enable", "GPU"
