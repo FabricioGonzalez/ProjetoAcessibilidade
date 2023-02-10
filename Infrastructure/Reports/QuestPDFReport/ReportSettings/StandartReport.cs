@@ -9,12 +9,12 @@ using QuestPDFReport.Models;
 namespace QuestPDFReport.ReportSettings;
 public class StandardReport : IDocument
 {
-    private ReportModel Model
+    private IReport Model
     {
         get;
     }
 
-    public StandardReport(ReportModel model)
+    public StandardReport(IReport model)
     {
         Model = model;
     }
@@ -98,40 +98,87 @@ public class StandardReport : IDocument
 
     void ComposeContent(IContainer container)
     {
-        container.PaddingVertical(20).Column(column =>
+        if (Model is NestedReportModel nestedModel)
         {
-            column.Spacing(20);
+            container.PaddingVertical(20).Column(column =>
+            {
+                column.Spacing(20);
 
-            column
-            .Item()
-            .Component(new TableOfContentsTemplate(Model.Sections));
-
-            column
-            .Item()
-            .PageBreak();
-
-            foreach (var section in Model.Sections)
                 column
                 .Item()
-                .Section(section.Title)
-                .Component(new SectionTemplate(section));
-
-
-            if (Model.Photos.Count > 0)
-            {
+                .Component(new TableOfContentsTemplate(nestedModel
+                .Sections
+                .Cast<IReportSection>()
+                .ToList()));
 
                 column
                 .Item()
                 .PageBreak();
-                column
-                .Item()
-                .Section("Photos");
 
-                foreach (var photo in Model.Photos)
+                foreach (var section in nestedModel.Sections)
                     column
                     .Item()
-                    .Component(new PhotoTemplate(photo));
-            }
-        });
+                    .Section(section.Title)
+                    .Component(new SectionTemplate(section));
+
+
+                if (nestedModel.Photos.Count > 0)
+                {
+                    column
+                    .Item()
+                    .PageBreak();
+                    column
+                    .Item()
+                    .Section("Photos");
+
+                    foreach (var photo in nestedModel.Photos)
+                        column
+                        .Item()
+                        .Component(new PhotoTemplate(photo));
+                }
+            });
+        }
+
+        if (Model is ReportModel reportModel)
+        {
+            container.PaddingVertical(20).Column(column =>
+            {
+                column.Spacing(20);
+
+                column
+                .Item()
+                .Component(new TableOfContentsTemplate(
+                    reportModel
+                .Sections
+                .Cast<IReportSection>()
+                .ToList()));
+
+                column
+                .Item()
+                .PageBreak();
+
+                foreach (var section in reportModel.Sections)
+                    column
+                    .Item()
+                    .Section(section.Title)
+                    .Component(new SectionTemplate(section));
+
+
+                if (reportModel.Photos.Count > 0)
+                {
+                    column
+                    .Item()
+                    .PageBreak();
+                    column
+                    .Item()
+                    .Section("Photos");
+
+                    foreach (var photo in reportModel.Photos)
+                        column
+                        .Item()
+                        .Component(new PhotoTemplate(photo));
+                }
+            });
+        }
     }
 }

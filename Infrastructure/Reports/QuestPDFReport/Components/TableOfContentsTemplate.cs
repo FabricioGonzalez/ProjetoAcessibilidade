@@ -9,37 +9,57 @@ using SkiaSharp;
 namespace QuestPDFReport.Components;
 public class TableOfContentsTemplate : IComponent
 {
-    private List<ReportSection> Sections
+    private List<IReportSection>? Sections
     {
         get;
     }
 
-    public TableOfContentsTemplate(List<ReportSection> sections)
+    public TableOfContentsTemplate(List<IReportSection>? sections = null)
     {
         Sections = sections;
     }
 
     public void Compose(IContainer container)
     {
-        container
-            .Decoration(decoration =>
-            {
-                decoration
-                    .Before()
-                    .PaddingBottom(5)
-                    .Text("Table of contents")
-                    .Style(Typography.Headline);
+        try
+        {
+            container
+           .Decoration(decoration =>
+           {
+               decoration
+                   .Before()
+                   .PaddingBottom(5)
+                   .Text("Table of contents")
+                   .Style(Typography.Headline);
 
-                decoration.Content().Column(column =>
-                {
-                    column.Spacing(5);
+               decoration.Content().Column(column =>
+               {
+                   column.Spacing(5);
 
-                    for (var i = 0; i < Sections.Count; i++)
-                        column.Item().Element(c => DrawLink(c, i + 1, Sections[i].Title));
+                   for (var i = 0; i < Sections.Count; i++)
+                   {
 
-                    /*column.Item().Element(c => DrawLink(c, Sections.Count + 1, "Photos"));*/
-                });
-            });
+                       if (Sections[i] is ReportSection reportSection)
+                       {
+                           column.Item().Element(c => DrawLink(c, i + 1, reportSection.Title));
+                       }
+                       if (Sections[i] is ReportSectionGroup reportSectionGroup)
+                       {
+                           column.Item().Element(c => DrawLink(c, i + 1, reportSectionGroup.Title));
+                       }
+                   }
+               });
+           });
+        }
+        catch (ArgumentNullException)
+        {
+            return;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
     }
 
     private void DrawLink(IContainer container, int number, string locationName)

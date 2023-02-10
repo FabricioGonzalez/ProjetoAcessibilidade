@@ -1,5 +1,5 @@
 ﻿namespace QuestPDFReport.Models;
-public class ReportSection
+public class ReportSection : IReportSection
 {
     public string Title
     {
@@ -9,5 +9,25 @@ public class ReportSection
     {
         get; set;
     } = new();
+}
+
+public class ReportSectionGroup : IReportSection
+{
+    public string Title
+    {
+        get; set;
+    }
+    public List<ReportSection> Parts
+    {
+        get; set;
+    } = new();
+}
+
+public interface IReportSection
+{
+    public string Title
+    {
+        get; set;
+    }
 }
 

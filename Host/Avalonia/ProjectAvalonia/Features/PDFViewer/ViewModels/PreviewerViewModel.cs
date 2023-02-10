@@ -10,6 +10,7 @@ using Avalonia.Threading;
 using Common;
 
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 
 using QuestPDF.Fluent;
@@ -40,6 +41,7 @@ public partial class PreviewerViewModel : DialogViewModelBase
     public DocumentRenderer DocumentRenderer { get; } = new();
 
     [AutoNotify] private string _solutionPath;
+    [AutoNotify] private SolutionStateViewModel _solutionState;
 
     [AutoNotify] private IDocument? _document;
 
@@ -93,6 +95,17 @@ public partial class PreviewerViewModel : DialogViewModelBase
                 Document = report;
             });
 
+        this.WhenAnyValue(vm => vm.SolutionState)
+           .WhereNotNull()
+           .SubscribeAsync(async prop =>
+           {
+               var report = new StandardReport(await DataSource.GetReport(
+               solutionModel: prop.ToSolutionModel(),
+               extension: Constants.AppProjectItemExtension));
+
+               Document = report;
+           });
+
         this.WhenAnyValue(vm => vm.Document)
             .Subscribe(prop =>
             {
@@ -116,6 +129,10 @@ public partial class PreviewerViewModel : DialogViewModelBase
         if (Parameter is string path && !string.IsNullOrWhiteSpace(path))
         {
             SolutionPath = path;
+        }
+        if (Parameter is SolutionStateViewModel solution)
+        {
+            SolutionState = solution;
         }
     }
 

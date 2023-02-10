@@ -9,89 +9,168 @@ using SkiaSharp;
 namespace QuestPDFReport.Components;
 public class SectionTemplate : IComponent
 {
-    public ReportSection Model
+    public IReportSection Model
     {
         get; set;
     }
 
-    public SectionTemplate(ReportSection model)
+    public SectionTemplate(IReportSection model)
     {
         Model = model;
     }
 
     public void Compose(IContainer container)
     {
-        container
-            .EnsureSpace()
-            .Decoration(decoration =>
-            {
-                decoration
-                    .Before()
-                    .PaddingBottom(5)
-                    .Text(Model.Title)
-                    .Style(Typography.Headline);
-
-                decoration
-                .Content()
-                .Border(0.75f)
-                .BorderColor(Colors.Grey.Medium)
-                .Column(column =>
+        if (Model is ReportSection reportSection)
+        {
+            container
+                .EnsureSpace()
+                .Decoration(decoration =>
                 {
-                    foreach (var part in Model.Parts)
+                    decoration
+                        .Before()
+                        .PaddingBottom(5)
+                        .Text(Model.Title)
+                        .Style(Typography.Headline);
+
+                    decoration
+                    .Content()
+                    .Border(0.75f)
+                    .BorderColor(Colors.Grey.Medium)
+                    .Column(column =>
                     {
-                        column
-                        .Item()
-                        .EnsureSpace(25)
-                        .Column(column =>
+                        foreach (var part in reportSection.Parts)
                         {
                             column
                             .Item()
-                            .LabelCell()
-                            .ExtendHorizontal()
-                            .Text(part.Label);
-
-                            if (part is not ReportSectionTitle)
+                            .EnsureSpace(25)
+                            .Column(column =>
                             {
-                                var frame = column
+                                column
                                 .Item()
-                                .ValueCell();
+                                .LabelCell()
+                                .ExtendHorizontal()
+                                .Text(part.Label);
 
-                                if (part is ReportSectionText text)
+                                if (part is not ReportSectionTitle)
                                 {
-                                    frame
-                                .ShowEntire()
-                                .Text(text.Text);
-                                }
+                                    var frame = column
+                                    .Item()
+                                    .ValueCell();
 
-                                if (part is ReportSectionCheckbox checkboxes)
+                                    if (part is ReportSectionText text)
+                                    {
+                                        frame
+                                    .ShowEntire()
+                                    .Text(text.Text);
+                                    }
+
+                                    if (part is ReportSectionCheckbox checkboxes)
+                                    {
+                                        frame
+                                    .Element(x => MapCheckboxes(x, checkboxes));
+                                    }
+
+                                    if (part is ReportSectionPhotoContainer photos)
+                                    {
+                                        frame
+                                        .Element(x => PhotosElement(x, photos));
+                                    }
+
+                                    if (part is ReportSectionObservation observation)
+                                    {
+                                        frame
+                                         .Background(Colors.Yellow.Medium)
+                                        .Element(x => ObservationElement(x, observation));
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+        }
+        if (Model is ReportSectionGroup reportSectionGroup)
+        {
+            container
+                .EnsureSpace()
+                .Decoration(decoration =>
+                {
+                    decoration
+                        .Before()
+                        .PaddingBottom(5)
+                        .ShowOnce()
+                        .Text(Model.Title)
+                        .Style(Typography.Headline);
+
+                    decoration
+                    .Content()
+                    .Border(0.75f)
+                    .BorderColor(Colors.Grey.Medium)
+                    .Column(column =>
+                    {
+
+                        foreach (var part in reportSectionGroup.Parts)
+                        {
+                            column
+                            .Item()
+                            .ShowOnce()
+                            .Text(part.Title);
+
+                            column.Item().Column(items =>
+                        {
+                            foreach (var part in part.Parts)
+                            {
+                                column
+                                .Item()
+                                .ValueCell()
+                                .EnsureSpace(25)
+                                .Column(column =>
                                 {
-                                    frame
-                                .Element(x => MapCheckboxes(x, checkboxes));
-                                }
+                                    column
+                                    .Item()
+                                    .LabelCell()
+                                    .ExtendHorizontal()
+                                    .Text(part.Label);
 
-                                /* if (part is ReportSectionMap map)
-                                 {
-                                     frame
-                                 .Element(x => MapElement(x, map));
-                                 }*/
+                                    if (part is not ReportSectionTitle)
+                                    {
+                                        var frame = column
+                                        .Item()
+                                        .ValueCell();
 
-                                if (part is ReportSectionPhotoContainer photos)
-                                {
-                                    frame
-                                    .Element(x => PhotosElement(x, photos));
-                                }
+                                        if (part is ReportSectionText text)
+                                        {
+                                            frame
+                                        .ShowEntire()
+                                        .Text(text.Text);
+                                        }
 
-                                if (part is ReportSectionObservation observation)
-                                {
-                                    frame
-                                     .Background(Colors.Yellow.Medium)
-                                    .Element(x => ObservationElement(x, observation));
-                                }
+                                        if (part is ReportSectionCheckbox checkboxes)
+                                        {
+                                            frame
+                                        .Element(x => MapCheckboxes(x, checkboxes));
+                                        }
+
+                                        if (part is ReportSectionPhotoContainer photos)
+                                        {
+                                            frame
+                                            .Element(x => PhotosElement(x, photos));
+                                        }
+
+                                        if (part is ReportSectionObservation observation)
+                                        {
+                                            frame
+                                             .Background(Colors.Yellow.Medium)
+                                            .Element(x => ObservationElement(x, observation));
+                                        }
+                                    }
+                                });
                             }
                         });
-                    }
+                        }
+                    });
                 });
-            });
+        }
     }
 
     private void ObservationElement(IContainer x, ReportSectionObservation observation)
@@ -164,8 +243,8 @@ public class SectionTemplate : IComponent
 
                         layers
                             .PrimaryLayer()
-                                                                                                                                                                                                                    /* .Text("Sample text")
-                                                                                                                                                                                                                     .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
+                                                                                                                                                                                                                                                           /* .Text("Sample text")
+                                                                                                                                                                                                                                                            .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
                     });
 
                     row.AutoItem().Text(item.Value);

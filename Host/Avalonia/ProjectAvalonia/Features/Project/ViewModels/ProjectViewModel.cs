@@ -53,7 +53,8 @@ public partial class ProjectViewModel : NavBarItemViewModel
 
         projectExplorerViewModel = new ProjectExplorerViewModel();
 
-        projectExplorerViewModel.WhenAnyValue(vm => vm.SelectedItem)
+        projectExplorerViewModel
+            .WhenAnyValue(vm => vm.SelectedItem)
             .WhereNotNull()
             .Subscribe(item =>
             {
@@ -65,7 +66,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
             Navigate(NavigationTarget.FullScreen)
             .To(printPreviewViewModel,
             ProjectAvalonia.ViewModels.Navigation.NavigationMode.Normal,
-            CurrentOpenProject);
+            projectExplorerViewModel.SolutionModel);
         }, canExecute: IsSolutionOpened());
 
         projectExplorerViewModel.OpenSolutionCommand = ReactiveCommand.Create(execute: () =>
