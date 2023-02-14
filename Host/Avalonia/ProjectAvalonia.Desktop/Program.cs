@@ -191,6 +191,7 @@ public class Program
     private static (UiConfig uiConfig, Config config) LoadOrCreateConfigs(string dataDir)
     {
         Directory.CreateDirectory(dataDir);
+        Directory.CreateDirectory(Constants.AppUISettings);
 
         UiConfig uiConfig = new(Path.Combine(Constants.AppUISettings, Constants.AppUISettingsFile));
         uiConfig.LoadOrCreateDefaultFile();

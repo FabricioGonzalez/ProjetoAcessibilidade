@@ -41,11 +41,13 @@ public partial class ProjectViewModel : NavBarItemViewModel
     [AutoNotify] private string _currentOpenProject = "";
     /*[AutoNotify] private SolutionStateViewModel _solutionModel;*/
 
-    private readonly IQueryDispatcher queryDispatcher;
+    private readonly IQueryDispatcher? queryDispatcher;
+    private readonly ICommandDispatcher? commandDispatcher;
 
     public ProjectViewModel()
     {
-        queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+        commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
 
         SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
@@ -89,7 +91,8 @@ public partial class ProjectViewModel : NavBarItemViewModel
 
                 (await queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
                     query: new(solutionPath: path),
-                    cancellation: CancellationToken.None)).OnSuccess(
+                    cancellation: CancellationToken.None))
+                    .OnSuccess(
                     (result) =>
                     {
                         Dispatcher
@@ -100,7 +103,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
                     {
 
                     })
-                    .OnLoading(loading =>
+                    .OnLoadingStarted(loading =>
                     {
 
                     });

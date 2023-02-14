@@ -62,7 +62,7 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
         {
 
         })
-        .OnLoading((res) =>
+        .OnLoadingStarted((res) =>
         {
         })
         .OnSuccess((res) =>

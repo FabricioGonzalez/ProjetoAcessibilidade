@@ -15,4 +15,4 @@ var model = await DataSource.GetReport(res, Constants.AppProjectTemplateExtensio
 
 var Report = new StandardReport(model);
 
-Report.ShowInPreviewer();
+// Report.ShowInPreviewer();

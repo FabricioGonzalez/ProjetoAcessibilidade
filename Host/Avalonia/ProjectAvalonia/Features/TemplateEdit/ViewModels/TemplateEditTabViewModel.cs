@@ -67,7 +67,7 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
             .Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
             query: new(path),
             cancellation: CancellationToken.None))
-        .OnLoading(isLoading =>
+        .OnLoadingStarted(isLoading =>
         {
 
         })
