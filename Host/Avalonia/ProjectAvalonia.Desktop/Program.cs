@@ -204,8 +204,6 @@ public class Program
 
     private static Global CreateGlobal(string dataDir, UiConfig uiConfig, Config config)
     {
-
-
         return new Global(dataDir, config, uiConfig);
     }
 

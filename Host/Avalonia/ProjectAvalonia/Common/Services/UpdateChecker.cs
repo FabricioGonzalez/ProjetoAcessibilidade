@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ public class UpdateChecker : PeriodicRunner
     {
         UpdateStatus = new UpdateStatus(true, true, new Version(), 0, new Version());
 
-        /*Synchronizer.PropertyChanged += Synchronizer_PropertyChanged;*/
+        /* Synchronizer.PropertyChanged += Synchronizer_PropertyChanged; */
     }
 
     public event EventHandler<UpdateStatus>? UpdateStatusChanged;
@@ -22,24 +23,32 @@ public class UpdateChecker : PeriodicRunner
     {
         get; private set;
     }
-    /*    public AppClient AppClient
+    public AppClient AppClient
+    {
+        get;
+    }
+    private void Synchronizer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        /* if (e.PropertyName == nameof(WasabiSynchronizer.BackendStatus) &&
+            Synchronizer.BackendStatus == BackendStatus.Connected)
         {
-            get;
-        }*/
-
+            // Any time when the synchronizer detects the backend, we immediately check the versions. GUI relies on UpdateStatus changes.
+            TriggerRound();
+        } */
+    }
     protected override async Task ActionAsync(CancellationToken cancel)
     {
-        /*        var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(false);
-                if (newUpdateStatus != UpdateStatus)
-                {
-                    UpdateStatus = newUpdateStatus;
-                    UpdateStatusChanged?.Invoke(this, newUpdateStatus);
-                }*/
+        var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(false);
+        if (newUpdateStatus != UpdateStatus)
+        {
+            UpdateStatus = newUpdateStatus;
+            UpdateStatusChanged?.Invoke(this, newUpdateStatus);
+        }
     }
 
     public override void Dispose()
     {
-        /*Synchronizer.PropertyChanged -= Synchronizer_PropertyChanged;*/
+        /*  Synchronizer.PropertyChanged -= Synchronizer_PropertyChanged; */
         base.Dispose();
     }
 }

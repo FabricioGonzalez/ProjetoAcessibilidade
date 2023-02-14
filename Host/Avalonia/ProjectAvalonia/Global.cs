@@ -94,10 +94,10 @@ public class Global
 
             try
             {
-                /*  HostedServices.Register<UpdateChecker>(() => new UpdateChecker(TimeSpan.FromMinutes(7)), "Software Update Checker");
-                  var updateChecker = HostedServices.Get<UpdateChecker>();
+                HostedServices.Register<UpdateChecker>(() => new UpdateChecker(TimeSpan.FromMinutes(7)), "Software Update Checker");
+                var updateChecker = HostedServices.Get<UpdateChecker>();
 
-                  UpdateManager.Initialize(updateChecker, cancel);*/
+                UpdateManager.Initialize(updateChecker, cancel);
 
                 cancel.ThrowIfCancellationRequested();
 

@@ -20,6 +20,8 @@ using Project.Application.Project.Commands.ProjectItemCommands.SaveCommands;
 using Project.Application.Project.Contracts;
 using Project.Application.Project.Queries.GetProjectItemContent;
 using Project.Application.Project.Queries.GetProjectItems;
+using Project.Application.Solution.Commands.CreateSolutionCommands;
+using Project.Application.Solution.Commands.SyncSolutionCommands;
 using Project.Application.Solution.Contracts;
 using Project.Application.Solution.Queries;
 
@@ -59,6 +61,7 @@ public static class Bootstrapper
 
          return service;
      }*/
+
     /*    public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
         {
             service.Register(() => new ExplorerComponent());
@@ -78,17 +81,18 @@ public static class Bootstrapper
 
         return service;
     }*/
+
     public static AppBuilder AddQueryHandlers(this AppBuilder app)
     {
         var service = Locator.CurrentMutable;
 
         service
             .Register(() => new GetProjectItemsQueryHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
+     Locator.Current.GetService<IExplorerItemRepository>()!
     ));
         service
             .Register<IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>>(() => new ReadSolutionProjectQueryHandler(
-     Locator.Current.GetService<ISolutionRepository>()
+     Locator.Current.GetService<ISolutionRepository>()!
     ));
 
         service
@@ -96,15 +100,15 @@ public static class Bootstrapper
 
         service
             .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetProjectItemContentQueryHandler(
-                Locator.Current.GetService<IProjectItemContentRepository>()));
+                Locator.Current.GetService<IProjectItemContentRepository>()!));
 
         service
             .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(() => new GetAllTemplatesQueryHandler(
-                Locator.Current.GetService<IAppTemplateRepository>()));
+                Locator.Current.GetService<IAppTemplateRepository>()!));
 
         service
             .Register<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(() => new GetProjectItemsQueryHandler(
-                Locator.Current.GetService<IExplorerItemRepository>()));
+                Locator.Current.GetService<IExplorerItemRepository>()!));
 
         return app;
     }
@@ -113,26 +117,32 @@ public static class Bootstrapper
         var service = Locator.CurrentMutable;
 
         service.Register<ICommandHandler<SaveProjectItemContentCommand, Resource<object>>>(() => new SaveProjectItemContentCommandHandler(
-          Locator.Current.GetService<IProjectItemContentRepository>()));
+          Locator.Current.GetService<IProjectItemContentRepository>()!));
+
+        service.Register<ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>>(() => new SyncSolutionCommandHandler(
+          Locator.Current.GetService<ISolutionRepository>()!));
+
+        service.Register<ICommandHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>>(() => new CreateSolutionCommandHandler(
+          Locator.Current.GetService<ISolutionRepository>()!));
 
         service
             .Register<ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFileItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
+     Locator.Current.GetService<IExplorerItemRepository>()!
     ));
 
         service
             .Register<ICommandHandler<DeleteProjectFileItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFileItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
+     Locator.Current.GetService<IExplorerItemRepository>()!
     ));
 
         service
             .Register<ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFolderItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
+     Locator.Current.GetService<IExplorerItemRepository>()!
     ));
 
         service
             .Register<ICommandHandler<RenameProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFolderItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
+     Locator.Current.GetService<IExplorerItemRepository>()!
     ));
 
         return app;

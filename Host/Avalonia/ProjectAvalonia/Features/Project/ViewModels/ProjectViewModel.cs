@@ -11,6 +11,7 @@ using Common;
 using Core.Entities.Solution;
 
 using Project.Application.Contracts;
+using Project.Application.Solution.Commands.SyncSolutionCommands;
 using Project.Application.Solution.Queries;
 
 using ProjectAvalonia.Common.Helpers;
@@ -77,7 +78,14 @@ public partial class ProjectViewModel : NavBarItemViewModel
 
         }, canExecute: IsSolutionOpened());
 
-        projectExplorerViewModel.SaveSolutionCommand = ReactiveCommand.Create(execute: () => { }, canExecute: IsSolutionOpened());
+        projectExplorerViewModel.SaveSolutionCommand = ReactiveCommand.CreateFromTask<SolutionStateViewModel>(execute: async (solution) =>
+        {
+            await commandDispatcher.Dispatch<SyncSolutionCommand, Resource<ProjectSolutionModel>>(
+                command: new(
+                solutionData: solution.ToSolutionModel(),
+                solutionPath: solution.FilePath),
+                cancellation: CancellationToken.None);
+        }, canExecute: IsSolutionOpened());
 
         printPreviewViewModel = new PreviewerViewModel();
 
