@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj",
+                "${workspaceFolder}/Host/Avalonia//ProjectAvalonia.Desktop//ProjectAvalonia.Desktop.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj",
+                "${workspaceFolder}/Host/Avalonia//ProjectAvalonia.Desktop//ProjectAvalonia.Desktop.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj"
+                "${workspaceFolder}/Host/Avalonia//ProjectAvalonia.Desktop//ProjectAvalonia.Desktop.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
