@@ -115,11 +115,11 @@
             </checkboxes>
         </itemtabela>
         <itemtabela item="1">
-            <tipo>observation</tipo>
+            <tipo>observação</tipo>
             <value></value>
         </itemtabela>
         <itemtabela item="1">
-            <tipo>images</tipo>
+            <tipo>image</tipo>
             <images />
         </itemtabela>
     </tabela>

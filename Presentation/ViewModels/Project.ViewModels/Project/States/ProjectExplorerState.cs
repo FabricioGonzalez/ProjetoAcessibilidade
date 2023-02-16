@@ -1,6 +1,6 @@
-﻿using App.Core.Entities.Solution.Explorer;
+﻿using AppViewModels.Project.ComposableViewModels;
 
-using AppViewModels.Project.ComposableViewModels;
+using Core.Entities.Solution.Explorer;
 
 using DynamicData;
 using DynamicData.Binding;

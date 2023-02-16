@@ -1,7 +1,7 @@
 ﻿using ReactiveUI.Fody.Helpers;
 
 namespace AppViewModels.Common;
-internal class ViewModelBase<TModel> : ViewModelBase
+public class ViewModelBase<TModel> : ViewModelBase
 {
     [Reactive]
     public TModel Model

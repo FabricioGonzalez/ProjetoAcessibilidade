@@ -4,7 +4,7 @@
     <name>Circulação Horizontal</name>
     <tabela>
         <itemtabela item="1">
-            <tipo>text</tipo>
+            <tipo>texto</tipo>
             <topico>Largura do Corredor:</topico>
             <unidade>m</unidade>
             <value />
@@ -104,11 +104,11 @@
             </checkboxes>
         </itemtabela>
         <itemtabela item="3">
-            <tipo>observation</tipo>
+            <tipo>observação</tipo>
             <value />
         </itemtabela>
         <itemtabela item="4">
-            <tipo>images</tipo>
+            <tipo>image</tipo>
             <images></images>
         </itemtabela>
     </tabela>

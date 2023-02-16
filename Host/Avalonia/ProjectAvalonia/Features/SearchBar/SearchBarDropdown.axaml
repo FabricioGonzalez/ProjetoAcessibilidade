@@ -1,0 +1,169 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.SearchBar.SearchBarDropdown"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:ProjectAvalonia.Common.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:ProjectAvalonia.Common.Helpers"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sb="clr-namespace:ProjectAvalonia.Features.SearchBar"
+    xmlns:searchItems="clr-namespace:ProjectAvalonia.Features.SearchBar.SearchItems"
+    xmlns:settings="clr-namespace:ProjectAvalonia.Features.SearchBar.Settings"
+    d:DesignHeight="450"
+    d:DesignWidth="400"
+    x:CompileBindings="True"
+    x:DataType="sb:SearchBarViewModel"
+    mc:Ignorable="d">
+    <Design.DataContext>
+        <sb:SearchBarDesignViewModel />
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <Style Selector="Button.searchItem /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <Style Selector="Button:pointerover.searchItem /template/ ContentPresenter">
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource AcrylicTrimForeground}" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="0.3" Color="{DynamicResource AcrylicTrimForeground}" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Styles>
+
+    <UserControl.Resources>
+
+        <SolidColorBrush x:Key="ToggleSwitchContentForeground" Color="{DynamicResource AcrylicTrimForeground}" />
+
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOff" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOn" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOff" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOn" Color="{DynamicResource AcrylicTrimForeground}" />
+
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOffPointerOver" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOnPointerOver" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOffPointerOver" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOnPointerOver" Color="{DynamicResource AcrylicTrimForeground}" />
+
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOffPressed" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOnPressed" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOffPressed" Color="{DynamicResource AcrylicTrimForeground}" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOnPressed" Color="{DynamicResource AcrylicTrimForeground}" />
+    </UserControl.Resources>
+
+    <UserControl.DataTemplates>
+
+        <settings:SettingSelector>
+            <settings:SettingSelector.DataTemplates>
+                <DataTemplate DataType="x:Boolean">
+                    <ToggleSwitch
+                        HorizontalAlignment="Right"
+                        x:CompileBindings="False"
+                        IsChecked="{Binding Value, Mode=TwoWay}" />
+                </DataTemplate>
+            </settings:SettingSelector.DataTemplates>
+        </settings:SettingSelector>
+
+        <DataTemplate DataType="searchItems:NonActionableSearchItem">
+
+            <DockPanel Margin="10" Background="Transparent">
+                <Panel
+                    Width="16"
+                    Height="16"
+                    VerticalAlignment="Center"
+                    DockPanel.Dock="Left"
+                    Opacity="0.8">
+                    <PathIcon Data="{Binding Icon, Converter={x:Static conv:NavBarIconConverter.Instance}}" />
+                </Panel>
+                <TextBlock
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding Name, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                    Text="{Binding Name}" />
+                <ContentControl
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Content="{Binding Content}" />
+            </DockPanel>
+
+        </DataTemplate>
+
+        <DataTemplate DataType="searchItems:ActionableItem">
+
+            <Button
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                Background="Transparent"
+                Classes="searchItem"
+                ClickMode="Press"
+                Command="{Binding Command}"
+                Cursor="Hand"
+                Foreground="{DynamicResource AcrylicTrimForeground}">
+
+                <Grid
+                    Margin="10"
+                    Background="Transparent"
+                    ColumnDefinitions="16 Auto *">
+                    <PathIcon
+                        Width="16"
+                        Height="16"
+                        VerticalAlignment="Center"
+                        Data="{Binding Icon, Converter={x:Static conv:NavBarIconConverter.Instance}}"
+                        Foreground="{DynamicResource AcrylicTrimForeground}"
+                        Opacity="0.8" />
+                    <TextBlock
+                        Grid.Column="1"
+                        MaxWidth="150"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"
+                        ToolTip.Tip="{Binding Name}" />
+                    <TextBlock
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Opacity="0.5"
+                        Text="{Binding Description}"
+                        TextTrimming="CharacterEllipsis"
+                        ToolTip.Tip="{Binding Description}" />
+                </Grid>
+
+                <i:Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="Click">
+                        <CallMethodAction MethodName="Focus" TargetObject="{x:Static helpers:ApplicationHelper.MainWindow}" />
+                    </EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+
+            </Button>
+        </DataTemplate>
+
+    </UserControl.DataTemplates>
+
+    <Panel VerticalAlignment="Center">
+        <TextBlock Margin="10" IsVisible="{Binding !HasResults^, FallbackValue=False}">No results</TextBlock>
+        <ItemsControl IsVisible="{Binding HasResults^}" Items="{Binding Groups}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type sb:SearchItemGroup}">
+                    <DockPanel Margin="0,0,0,10">
+                        <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" />
+                        <ItemsControl x:Name="ListBox" Items="{Binding Items}" />
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Panel>
+
+</UserControl>

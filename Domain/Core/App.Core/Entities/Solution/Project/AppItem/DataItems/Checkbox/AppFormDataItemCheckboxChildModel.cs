@@ -1,6 +1,6 @@
-﻿using App.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+﻿using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
-namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+namespace Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 public class AppFormDataItemCheckboxChildModel
 {
     public string Topic

@@ -95,4 +95,38 @@ public static class Extensions
         }
         return resource;
     }
+
+    public static Resource<T> OnError<T>(this Resource<T> resource, Action<Resource<T>.Error> onErrorAction)
+    {
+        if (resource is Resource<T>.Error error)
+        {
+            onErrorAction.Invoke(error);
+        }
+        return resource;
+    }
+    public static Resource<T> OnSuccess<T>(this Resource<T> resource, Action<Resource<T>.Success> onSuccessAction)
+    {
+        if (resource is Resource<T>.Success success)
+        {            
+            onSuccessAction.Invoke(success);
+        }
+        return resource;
+    }
+    public static Resource<T> OnLoadingStarted<T>(this Resource<T> resource, Action<Resource<T>.IsLoading> onIsLoadingAction)
+    {
+        if (resource is Resource<T>.IsLoading IsLoading)
+        {
+            onIsLoadingAction.Invoke(IsLoading);
+        }
+        return resource;
+    }
+    public static Resource<T> OnLoadingEnded<T>(this Resource<T> resource, Action<Resource<T>> onIsLoadingAction)
+    {
+        if (resource is not Resource<T>.IsLoading)
+        {
+            onIsLoadingAction.Invoke(resource);
+        }
+        return resource;
+    }
+
 }

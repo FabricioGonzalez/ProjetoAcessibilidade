@@ -1,12 +1,12 @@
 ﻿using System.Reactive;
 using System.Reactive.Disposables;
 
-using App.Core.Entities.Solution;
-
 using AppViewModels.Common;
 using AppViewModels.Dialogs.States;
 
 using Common;
+
+using Core.Entities.Solution;
 
 using Project.Application.Contracts;
 

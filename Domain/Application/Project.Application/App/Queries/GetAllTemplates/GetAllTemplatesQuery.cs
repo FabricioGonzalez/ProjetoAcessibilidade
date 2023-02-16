@@ -1,6 +1,6 @@
-﻿using App.Core.Entities.Solution.Explorer;
+﻿using Common;
 
-using Common;
+using Core.Entities.Solution.Explorer;
 
 using MediatR;
 

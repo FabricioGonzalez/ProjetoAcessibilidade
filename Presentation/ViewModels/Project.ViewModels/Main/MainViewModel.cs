@@ -2,8 +2,6 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-using App.Core.Entities.App;
-
 using AppViewModels.Common;
 using AppViewModels.Contracts;
 using AppViewModels.Dialogs;
@@ -16,6 +14,8 @@ using AppViewModels.System;
 using AppViewModels.TemplateEditing;
 using AppViewModels.TemplateRules;
 
+using Core.Entities.App;
+
 using Project.Application.App.Contracts;
 
 using ReactiveUI;
@@ -26,26 +26,22 @@ namespace AppViewModels.Main;
 public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 {
     public RoutingState Router { get; } = new RoutingState();
-
     public AppMessageState appMessage
     {
         get; set;
     } = new();
-
     public INotificationMessageManagerService NotificationMessageManagerService
     {
         get;
     }
-
     public SolutionStateViewModel SolutionModel
     {
         get;
     }
+
     public MainViewModel()
     {
         NotificationMessageManagerService ??= Locator.Current.GetService<INotificationMessageManagerService>();
-
-        /*projectState ??= Locator.Current.GetService<IAppObservable<ProjectModel>>();*/
 
         SolutionModel = Locator.Current.GetService<SolutionStateViewModel>();
 
@@ -59,13 +55,22 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
 
             if (dialog is not null)
             {
-                var result = await dialog.GetFile();
-
+                var result = await dialog.GetFile(new string[] { "prja", "*" });
                 return result;
             }
 
             return "";
         });
+
+        IObservable<bool>? canGoBack = this
+           .WhenAnyValue(x => x.Router.NavigationStack.Count)
+           .Select(count => count > 0);
+
+        NavigateBackCommand = ReactiveCommand.CreateFromTask(async (Unit) =>
+        {
+            await Router.NavigateBack.Execute();
+        }, canGoBack);
+
 
         CreateProjectCommand = ReactiveCommand.CreateFromTask<Unit, string>(async (Unit) =>
         {
@@ -168,7 +173,6 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
                       })
                       .DisposeWith(disposables);
 
-
             CreateProjectCommand.Subscribe(solutionPath =>
             {
                 ProjectInteractions
@@ -210,7 +214,16 @@ public class MainViewModel : ViewModelBase, IActivatableViewModel, IScreen
     {
         get; private set;
     }
+
+    public ReactiveCommand<Unit, Unit> NavigateBackCommand
+    {
+        get; private set;
+    }
     public ReactiveCommand<Unit, string> CreateProjectCommand
+    {
+        get; private set;
+    }
+    public ReactiveCommand<Unit, Unit> GoToPrintPreview
     {
         get; private set;
     }

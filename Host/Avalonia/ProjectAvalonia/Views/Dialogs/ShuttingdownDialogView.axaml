@@ -1,0 +1,47 @@
+<UserControl
+    x:Class="ProjectAvalonia.Views.Dialogs.ShuttingDownView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:ProjectAvalonia.Common.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialog="using:ProjectAvalonia.ViewModels.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="using:ProjectAvalonia.Properties"
+    d:DesignHeight="371"
+    d:DesignWidth="428"
+    x:CompileBindings="True"
+    x:DataType="dialog:ShuttingDownViewModel"
+    mc:Ignorable="d">
+    <c:ContentArea
+        EnableNext="True"
+        NextContent="{x:Static p:Resources.CancelActionLabel}"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <c:ContentArea.Title>
+            <TextBlock Text="{Binding Title}" TextAlignment="Center" />
+        </c:ContentArea.Title>
+        <DockPanel VerticalAlignment="Center">
+            <StackPanel
+                MaxWidth="500"
+                Margin="20,0"
+                DockPanel.Dock="Bottom"
+                Spacing="5">
+                <TextBlock
+                    Text="{x:Static p:Resources.ShutdownMessagePart1}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    MaxWidth="500"
+                    Text="{x:Static p:Resources.ShutdownMessagePart2}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <Viewbox MaxHeight="100" Margin="40">
+                <c:ProgressRing
+                    Width="100"
+                    Height="100"
+                    IsIndeterminate="True" />
+            </Viewbox>
+        </DockPanel>
+    </c:ContentArea>
+</UserControl>

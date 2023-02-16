@@ -1,0 +1,238 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
+    xmlns:navBar="clr-namespace:ProjectAvalonia.Features.NavBar">
+
+    <Design.PreviewWith>
+        <Grid
+            Width="200"
+            Height="200"
+            Margin="20"
+            ColumnDefinitions="*,20,*">
+            <ScrollViewer>
+                <ItemsControl>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 1</TextBlock>
+                </ItemsControl>
+            </ScrollViewer>
+            <ScrollViewer Grid.Column="2">
+                <Border Height="1000" Background="#ccc" />
+            </ScrollViewer>
+        </Grid>
+    </Design.PreviewWith>
+
+    <Style Selector="navBar|NavBar ScrollViewer">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
+
+                    <Grid.Resources>
+                        <StreamGeometry x:Key="UpArrow">M 0 4 L 8 4 L 4 0 Z</StreamGeometry>
+                        <StreamGeometry x:Key="DownArrow">M 0 0 L 4 4 L 8 0 Z</StreamGeometry>
+                    </Grid.Resources>
+
+                    <ScrollContentPresenter
+                        Name="PART_ContentPresenter"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
+                        CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}"
+                        Content="{TemplateBinding Content}"
+                        Extent="{TemplateBinding Extent,
+                                                 Mode=TwoWay}"
+                        Viewport="{TemplateBinding Viewport,
+                                                   Mode=TwoWay}"
+                        Offset="{TemplateBinding Offset,
+                                                 Mode=TwoWay}">
+
+                        <Classes.bottomCue>
+                            <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                <Binding Path="#ScrollCues.IsVisible" />
+                                <Binding Path="#BottomCue.IsVisible" />
+                                <Binding Path="!#TopCue.IsVisible" />
+                            </MultiBinding>
+                        </Classes.bottomCue>
+                        <Classes.topCue>
+                            <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                <Binding Path="#ScrollCues.IsVisible" />
+                                <Binding Path="!#BottomCue.IsVisible" />
+                                <Binding Path="#TopCue.IsVisible" />
+                            </MultiBinding>
+                        </Classes.topCue>
+                        <Classes.bothCues>
+                            <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                <Binding Path="#ScrollCues.IsVisible" />
+                                <Binding Path="#BottomCue.IsVisible" />
+                                <Binding Path="#TopCue.IsVisible" />
+                            </MultiBinding>
+                        </Classes.bothCues>
+
+                        <ScrollContentPresenter.Styles>
+                            <Style Selector="ScrollContentPresenter.bottomCue">
+                                <Setter Property="OpacityMask">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                            <GradientStop Offset="0.9" Color="Black" />
+                                            <GradientStop Offset="1" Color="Transparent" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style Selector="ScrollContentPresenter.topCue">
+                                <Setter Property="OpacityMask">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0%,100%" EndPoint="0%,0%">
+                                            <GradientStop Offset="0.9" Color="Black" />
+                                            <GradientStop Offset="1" Color="Transparent" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style Selector="ScrollContentPresenter.bothCues">
+                                <Setter Property="OpacityMask">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                            <GradientStop Offset="0.0" Color="#00000000" />
+                                            <GradientStop Offset="0.2" Color="Black" />
+                                            <GradientStop Offset="0.8" Color="Black" />
+                                            <GradientStop Offset="1" Color="#00000000" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ScrollContentPresenter.Styles>
+
+                        <ScrollContentPresenter.GestureRecognizers>
+                            <ScrollGestureRecognizer CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}" CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}" />
+                        </ScrollContentPresenter.GestureRecognizers>
+                    </ScrollContentPresenter>
+
+                    <ScrollBar
+                        Name="PART_HorizontalScrollBar"
+                        Grid.Row="1"
+                        MinHeight="2"
+                        MaxHeight="10"
+                        AllowAutoHide="{TemplateBinding AllowAutoHide}"
+                        Classes="cued"
+                        Focusable="False"
+                        LargeChange="{Binding LargeChange.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                        Maximum="{TemplateBinding HorizontalScrollBarMaximum}"
+                        Orientation="Horizontal"
+                        SmallChange="{Binding SmallChange.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                        ViewportSize="{TemplateBinding HorizontalScrollBarViewportSize}"
+                        Visibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                        Value="{TemplateBinding HorizontalScrollBarValue,
+                                                Mode=TwoWay}" />
+
+                    <ScrollBar
+                        Name="PART_VerticalScrollBar"
+                        Grid.Column="1"
+                        MinWidth="2"
+                        MaxWidth="10"
+                        AllowAutoHide="{TemplateBinding AllowAutoHide}"
+                        Classes="cued"
+                        Focusable="False"
+                        LargeChange="{Binding LargeChange.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                        Maximum="{TemplateBinding VerticalScrollBarMaximum}"
+                        Orientation="Vertical"
+                        SmallChange="{Binding SmallChange.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                        ViewportSize="{TemplateBinding VerticalScrollBarViewportSize}"
+                        Visibility="{TemplateBinding VerticalScrollBarVisibility}"
+                        Value="{TemplateBinding VerticalScrollBarValue,
+                                                Mode=TwoWay}" />
+
+                    <Panel
+                        x:Name="PART_ScrollBarsSeparator"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Background="{DynamicResource ScrollViewerScrollBarsSeparatorBackground}" />
+
+                    <!--  Scroll cues (hints)  -->
+                    <!--  They are disabled for now. If we want to enable them, just remove the IsVisible="False" attribute below  -->
+                    <Panel
+                        x:Name="ScrollCues"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        IsVisible="False">
+                        <RepeatButton
+                            x:Name="TopCue"
+                            VerticalAlignment="Top"
+                            Command="{Binding LineUp, RelativeSource={RelativeSource TemplatedParent}}">
+                            <RepeatButton.IsVisible>
+                                <MultiBinding Converter="{x:Static converters:MenuScrollingVisibilityConverter.Instance}" ConverterParameter="0">
+                                    <Binding Path="VerticalScrollBarVisibility" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="Offset.Y" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="Extent.Height" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="Viewport.Height" RelativeSource="{RelativeSource TemplatedParent}" />
+                                </MultiBinding>
+                            </RepeatButton.IsVisible>
+                            <Viewbox Classes="ScrollViewerCuePath">
+                                <Path Classes="ScrollViewerCuePath" Data="{StaticResource UpArrow}" />
+                            </Viewbox>
+                        </RepeatButton>
+
+                        <RepeatButton
+                            x:Name="BottomCue"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding LineDown, RelativeSource={RelativeSource TemplatedParent}}">
+                            <RepeatButton.IsVisible>
+                                <MultiBinding Converter="{x:Static converters:MenuScrollingVisibilityConverter.Instance}" ConverterParameter="100">
+                                    <Binding Path="VerticalScrollBarVisibility" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="Offset.Y" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="Extent.Height" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="Viewport.Height" RelativeSource="{RelativeSource TemplatedParent}" />
+                                </MultiBinding>
+
+                            </RepeatButton.IsVisible>
+                            <Viewbox Classes="ScrollViewerCuePath">
+                                <Path Classes="ScrollViewerCuePath" Data="{StaticResource DownArrow}" />
+                            </Viewbox>
+                        </RepeatButton>
+                    </Panel>
+                </Grid>
+
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="Path.ScrollViewerCuePath">
+        <Setter Property="Fill" Value="{StaticResource AcrylicTrimForeground}" />
+        <Setter Property="Opacity" Value="0.9" />
+    </Style>
+
+    <Style Selector="Viewbox.ScrollViewerCuePath">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Stretch" Value="Fill" />
+    </Style>
+
+    <Style Selector="navBar|NavBar RepeatButton">
+        <Setter Property="IsVisible" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Grid.ColumnSpan" Value="2" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+</Styles>

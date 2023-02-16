@@ -1,4 +1,4 @@
-﻿namespace App.Core.Entities.Solution.ItemsGroup;
+﻿namespace Core.Entities.Solution.ItemsGroup;
 public class ItemGroupModel
 {
     public string Name
@@ -6,9 +6,9 @@ public class ItemGroupModel
         get;
         set;
     }
-    public IEnumerable<ItemModel> Items
+    public List<ItemModel> Items
     {
         get;
         set;
-    }
+    } = new();
 }

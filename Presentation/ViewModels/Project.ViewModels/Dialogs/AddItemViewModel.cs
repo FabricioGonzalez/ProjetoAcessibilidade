@@ -1,11 +1,10 @@
-﻿using System.Diagnostics;
-using System.Reactive;
-
-using App.Core.Entities.Solution.Explorer;
+﻿using System.Reactive;
 
 using AppViewModels.Common;
 
 using Common;
+
+using Core.Entities.Solution.Explorer;
 
 using DynamicData.Binding;
 
@@ -49,8 +48,6 @@ public class AddItemViewModel : ViewModelBase
         {
             if (Item is not null)
             {
-                Debug.WriteLine(Item.Name);
-
                 return Item;
             }
             return null;

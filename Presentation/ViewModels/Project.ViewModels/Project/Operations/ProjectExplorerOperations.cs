@@ -1,9 +1,9 @@
-﻿using App.Core.Entities.Solution.Explorer;
-
-using AppViewModels.Project.ComposableViewModels;
+﻿using AppViewModels.Project.ComposableViewModels;
 using AppViewModels.Project.Mappers;
 
 using Common;
+
+using Core.Entities.Solution.Explorer;
 
 using Project.Application.Contracts;
 using Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
@@ -130,7 +130,7 @@ public class ProjectExplorerOperations
                      Name = folder.Title,
                      Path = folder.Path,
                      Children = folder.Children
-                     .Select(x => new App.Core.Entities.Solution.Explorer.ExplorerItem()
+                     .Select(x => new ExplorerItem()
                      {
                          Name = x.Title,
                          Path = x.Path,

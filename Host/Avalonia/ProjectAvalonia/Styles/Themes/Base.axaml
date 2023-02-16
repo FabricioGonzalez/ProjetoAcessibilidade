@@ -1,4 +1,4 @@
-﻿<Styles
+<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=System.Runtime">
@@ -76,7 +76,7 @@
         <SolidColorBrush x:Key="NavBarSeparatorBrush">#FFFFFFFF</SolidColorBrush>
         <SolidColorBrush x:Key="PrivacyIndicatorWalletNotchBrush">#FF99A3B5</SolidColorBrush>
 
-        <Color x:Key="LogoFixedAccentColor">#97D234</Color>
+        <Color x:Key="LogoFixedAccentColor">#fff88c20</Color>
         <Color x:Key="LogoFixedForegroundColor">#D8DED7</Color>
 
         <SolidColorBrush x:Key="PrivacyLevelMediumBrush" Color="#A9C35E" />
@@ -131,7 +131,7 @@
             </LinearGradientBrush.GradientStops>
         </LinearGradientBrush>
 
-        <SolidColorBrush x:Key="LogoAccentColor" Color="#FF77C600" />
+        <SolidColorBrush x:Key="LogoAccentColor" Color="#fff88c20" />
 
         <LinearGradientBrush x:Key="LogoGradientFixed" StartPoint="62%,31%" EndPoint="24%,81%">
             <LinearGradientBrush.GradientStops>

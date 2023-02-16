@@ -2,61 +2,53 @@
     x:Class="ProjectAvalonia.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:language="using:ProjectAvalonia.Properties"
     xmlns:local="using:ProjectAvalonia"
-    xmlns:notification="clr-namespace:Avalonia.Notification;assembly=Notification.Avalonia"
-    xmlns:themes="clr-namespace:Neumorphism.Avalonia.Styles.Themes;assembly=Neumorphism.Avalonia">
-    <!--<Application.DataTemplates>
+    xmlns:models="using:ProjectAvalonia.Common.Models"
+    xmlns:notification="clr-namespace:Avalonia.Notification;assembly=Notification.Avalonia">
+
+    <Application.DataTemplates>
         <local:ViewLocator />
-    </Application.DataTemplates>-->
+        <DataTemplate x:DataType="models:ErrorDescriptor" DataType="models:ErrorDescriptor">
+            <TextBlock
+                x:CompileBindings="True"
+                Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                Text="{Binding Message}"
+                TextWrapping="Wrap" />
+        </DataTemplate>
+    </Application.DataTemplates>
 
     <Application.Resources>
         <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
     </Application.Resources>
 
     <Application.Styles>
-        <FluentTheme Mode="Dark" />
-        <StyleInclude Source="/Styles/ProjectModuleStyles.axaml" />
-        <!--<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />-->
-        <!--<themes:NeumorphismTheme
-            BaseTheme="Light"
-            PrimaryColor="Purple"
-            SecondaryColor="Lime" />-->
-        <notification:NotificationStyle />
+
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/EditableTextBlock.xaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Styles/Themes/BaseDark.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Icons/Icons.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Styles/Styles.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ContentArea.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/InfoMessage.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/Dialog.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ProgressRingArc.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ProgressRing.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TagControl.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TagsBox.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/NavBarItem.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TileButton.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/QuestionControl.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/PreviewItem.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/AdorningContentControl.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TileControl.axaml" />
+        <!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/StatusItem.axaml" />-->
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/PrivacyContentControl.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/LabelsItemsPresenter.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/SuggestionItem.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ClipboardCopyButton.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/CopyableItem.axaml" />
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Controls/EditableTextBlock.xaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Styles/Window/WindowStyle.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Styles/SolutionExplorer/SolutionExplorerFlyoutStyle.axaml" />
-        <StyleInclude Source="/Styles/ProjectEditingTabStyles.axaml" />
-        <StyleInclude Source="/Styles/HorizontalScroller.axaml" />
+
     </Application.Styles>
-    <!--<TrayIcon.Icons>
-        <TrayIcons>
-            <TrayIcon Icon="/Assets/avalonia-logo.ico" ToolTipText="Avalonia Tray Icon ToolTip">
-                <TrayIcon.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="Settings">
-                            <NativeMenu>
-                                <NativeMenuItem
-                                    Header="Option 1"
-                                    IsChecked="True"
-                                    ToggleType="Radio" />
-                                <NativeMenuItem
-                                    Header="Option 2"
-                                    IsChecked="True"
-                                    ToggleType="Radio" />
-                                <NativeMenuItemSeparator />
-                                <NativeMenuItem
-                                    Header="Option 3"
-                                    IsChecked="True"
-                                    ToggleType="CheckBox" />
-                                <NativeMenuItem Header="Restore Defaults" Icon="/Assets/avalonia-logo.ico" />
-                                <NativeMenuItem Header="Disabled option" IsEnabled="False" />
-                            </NativeMenu>
-                        </NativeMenuItem>
-                        <NativeMenuItem Header="Exit" />
-                    </NativeMenu>
-                </TrayIcon.Menu>
-            </TrayIcon>
-        </TrayIcons>
-    </TrayIcon.Icons>-->
 </Application>

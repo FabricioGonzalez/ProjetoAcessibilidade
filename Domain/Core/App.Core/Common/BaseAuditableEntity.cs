@@ -1,4 +1,4 @@
-﻿namespace App.Core.Common;
+﻿namespace Core.Common;
 public abstract class BaseAuditableEntity : BaseEntity
 {
     public DateTime Created

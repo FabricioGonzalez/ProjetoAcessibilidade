@@ -1,0 +1,170 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.Project.Views.ProjectView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ProjectAvalonia.Features.Project.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:project="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:CompileBindings="True"
+    x:DataType="project:ProjectViewModel"
+    mc:Ignorable="d">
+    <Grid RowDefinitions="35,1*">
+        <DockPanel Grid.Row="0" Background="{DynamicResource SystemBaseLowColor}">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                <Button
+                    Width="42"
+                    Height="28"
+                    Margin="4,2"
+                    Classes="function"
+                    Command="{Binding OpenProjectCommand}"
+                    ToolTip.Tip="Abrir">
+                    <Button.Content>
+                        <PathIcon Data="{StaticResource document_regular}" />
+                    </Button.Content>
+                </Button>
+                <Button
+                    Width="42"
+                    Height="28"
+                    Margin="4,2"
+                    Classes="function"
+                    Command="{Binding CreateProjectCommand}"
+                    ToolTip.Tip="Novo">
+                    <Button.Content>
+                        <PathIcon Data="{StaticResource add_regular}" />
+                    </Button.Content>
+                </Button>
+
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <ToggleButton
+                    Width="42"
+                    Height="28"
+                    Margin="4,2"
+                    Classes="function"
+                    IsChecked="{Binding projectExplorerViewModel.IsDocumentSolutionEnabled, Mode=TwoWay}"
+                    ToolTip.Tip="Visualizar Solução">
+                    <PathIcon Data="{StaticResource document_regular}" />
+                    <ToggleButton.Flyout>
+                        <Flyout>
+                            <ScrollViewer Width="400">
+                                <StackPanel
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Spacing="8">
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.NomeEmpresa}"
+                                        UseFloatingWatermark="True"
+                                        Watermark="Nome da Empresa" />
+
+                                    <DatePicker
+                                        Classes="Outline"
+                                        DayVisible="True"
+                                        MonthVisible="True"
+                                        SelectedDate="{Binding projectExplorerViewModel.SolutionModel.ReportData.Data}"
+                                        YearVisible="True" />
+
+                                    <ComboBox
+                                        HorizontalAlignment="Stretch"
+                                        Items="{Binding projectExplorerViewModel.SolutionModel.UfList, Mode=TwoWay}"
+                                        PlaceholderText="UF"
+                                        SelectedItem="{Binding projectExplorerViewModel.SolutionModel.ReportData.UF, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Code}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.Responsavel}"
+                                        UseFloatingWatermark="True"
+                                        Watermark="Responsável pelo Projeto" />
+
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.Endereco}"
+                                        UseFloatingWatermark="True"
+                                        Watermark="Endereço da Empresa" />
+
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.Email}"
+                                        UseFloatingWatermark="True"
+                                        Watermark="Email do Responsável" />
+
+                                    <MaskedTextBox
+                                        HorizontalAlignment="Stretch"
+                                        Mask="(00)0000-0000"
+                                        Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.Telefone}"
+                                        UseFloatingWatermark="True"
+                                        Watermark="Telefone do Responsável" />
+
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        Text="{Binding projectExplorerViewModel.SolutionModel.FileName}"
+                                        UseFloatingWatermark="True"
+                                        Watermark="Nome da Solução" />
+
+                                    <TextBox
+                                        Margin="4,0"
+                                        IsReadOnly="True"
+                                        Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.LogoPath}"
+                                        UseFloatingWatermark="True"
+                                        Watermark="Local da Logo da Empresa">
+                                        <TextBox.InnerRightContent>
+                                            <Button
+                                                VerticalAlignment="Stretch"
+                                                Classes="no-material"
+                                                Command="{Binding projectExplorerViewModel.SolutionModel.ChooseLogoPath}"
+                                                Cursor="Arrow">
+                                                <PathIcon Data="{StaticResource folder_regular}" />
+                                            </Button>
+                                        </TextBox.InnerRightContent>
+                                    </TextBox>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Flyout>
+                    </ToggleButton.Flyout>
+                </ToggleButton>
+                <Button
+                    x:Name="SaveSolutionButton"
+                    Width="42"
+                    Height="28"
+                    Margin="4,2"
+                    Classes="function"
+                    Command="{Binding projectExplorerViewModel.SaveSolutionCommand}"
+                    CommandParameter="{Binding projectExplorerViewModel.SolutionModel}"
+                    ToolTip.Tip="Sincronizar Solução">
+                    <PathIcon Data="{StaticResource save_regular}" />
+                </Button>
+
+                <Button
+                    x:Name="AppPrintButton"
+                    Width="42"
+                    Height="28"
+                    Margin="4,2"
+                    Classes="function"
+                    Command="{Binding projectExplorerViewModel.PrintProjectCommand}"
+                    ToolTip.Tip="Imprimir">
+                    <PathIcon Data="{StaticResource printer_regular}" />
+                </Button>
+
+            </StackPanel>
+        </DockPanel>
+        <DockPanel Grid.Row="1">
+            <local:ProjectExplorerView
+                Width="350"
+                VerticalAlignment="Stretch"
+                DataContext="{Binding projectExplorerViewModel}"
+                DockPanel.Dock="Right" />
+            <local:ProjectEditingView />
+        </DockPanel>
+
+    </Grid>
+</UserControl>

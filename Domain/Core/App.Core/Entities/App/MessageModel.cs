@@ -1,4 +1,4 @@
-﻿namespace App.Core.Entities.App;
+﻿namespace Core.Entities.App;
 public class MessageModel
 {
     public MessageType Type

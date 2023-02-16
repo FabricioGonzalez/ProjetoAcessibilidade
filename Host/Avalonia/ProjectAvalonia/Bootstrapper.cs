@@ -1,20 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-using App.Core.Entities.App;
-using App.Core.Entities.Solution;
-using App.Core.Entities.Solution.Project.AppItem;
-
-using AppViewModels.Contracts;
-using AppViewModels.Dialogs.States;
-using AppViewModels.Main;
-using AppViewModels.Project;
-using AppViewModels.Project.Operations;
-using AppViewModels.System;
-using AppViewModels.TemplateEditing;
-using AppViewModels.TemplateRules;
+using Avalonia;
 
 using Common;
+
+using Core.Entities.App;
+using Core.Entities.Solution;
+using Core.Entities.Solution.Project.AppItem;
 
 using Project.Application.App.Contracts;
 using Project.Application.App.Queries.GetAllTemplates;
@@ -23,112 +16,142 @@ using Project.Application.Contracts;
 using Project.Application.Implementations;
 using Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
 using Project.Application.Project.Commands.ProjectItemCommands.RenameCommands;
+using Project.Application.Project.Commands.ProjectItemCommands.SaveCommands;
 using Project.Application.Project.Contracts;
 using Project.Application.Project.Queries.GetProjectItemContent;
 using Project.Application.Project.Queries.GetProjectItems;
+using Project.Application.Solution.Commands.CreateSolutionCommands;
+using Project.Application.Solution.Commands.SyncSolutionCommands;
 using Project.Application.Solution.Contracts;
 using Project.Application.Solution.Queries;
 
-using ProjectAvalonia.Project.Components.ProjectExplorer;
-using ProjectAvalonia.Project.Components.ProjectExplorer.Dialogs;
-using ProjectAvalonia.Services;
-using ProjectAvalonia.Views;
-
-using ProjectItemReader.InternalAppFiles;
+using ProjectItemReader.publicAppFiles;
 using ProjectItemReader.XmlFile;
 
 using Splat;
 
-using ExplorerItem = App.Core.Entities.Solution.Explorer.ExplorerItem;
+using ExplorerItem = Core.Entities.Solution.Explorer.ExplorerItem;
 
 namespace ProjectAvalonia;
 public static class Bootstrapper
 {
-    public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
-    {
-        service.RegisterLazySingleton(() => new MainViewModel());
+    /* public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
+     {
+         service.RegisterLazySingleton(() => new MainViewModel());
 
-        service.RegisterLazySingleton(() => new TemplateEditingViewModel());
+         service.RegisterLazySingleton(() => new TemplateEditingViewModel());
 
-        service.RegisterLazySingleton(() => new TemplateRulesViewModel());
+         service.RegisterLazySingleton(() => new TemplateRulesViewModel());
 
-        service.RegisterLazySingleton(() => new SolutionStateViewModel());
+         service.RegisterLazySingleton(() => new SolutionStateViewModel());
 
-        service.RegisterLazySingleton(() => new SettingsViewModel());
+         service.RegisterLazySingleton(() => new SettingsViewModel());
 
-        service.RegisterLazySingleton(() => new ProjectViewModel());
+         service.RegisterLazySingleton(() => new ProjectViewModel());
 
-        service.RegisterLazySingleton(() => new ProjectEditingViewModel());
+         service.RegisterLazySingleton(() => new ProjectEditingViewModel());
 
-        service.Register(() => new ProjectExplorerViewModel());
+         service.RegisterLazySingleton(() => new PreviewerViewModel());
 
-        return service;
-    }
-    public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
-    {
-        service.Register(() => new ExplorerComponent());
+         service.RegisterLazySingleton(() => new TemplateEditingPageViewModel());
 
-        service.RegisterLazySingleton(() => new MainWindow());
+         service.RegisterLazySingleton(() => new ProjectExplorerViewModel());
 
-        service.Register(() => new AddItemWindow());
+         service.RegisterLazySingleton(() => new ProjectItemEditingViewModel());
 
-        return service;
-    }
-    public static IMutableDependencyResolver AddViewModelOperations(this IMutableDependencyResolver service)
+         return service;
+     }*/
+
+    /*    public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
+        {
+            service.Register(() => new ExplorerComponent());
+
+            service.Register(() => new PreviewerPage());
+
+            service.RegisterLazySingleton(() => new MainWindow());
+
+            service.Register(() => new AddItemWindow());
+
+            return service;
+        }*/
+
+    /*public static IMutableDependencyResolver AddViewModelOperations(this IMutableDependencyResolver service)
     {
         service.RegisterLazySingleton(() => new ProjectExplorerOperations());
 
         return service;
-    }
-    public static IMutableDependencyResolver AddUsecases(this IMutableDependencyResolver service)
+    }*/
+
+    public static AppBuilder AddQueryHandlers(this AppBuilder app)
     {
+        var service = Locator.CurrentMutable;
+
         service
             .Register(() => new GetProjectItemsQueryHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
+     Locator.Current.GetService<IExplorerItemRepository>()!
     ));
         service
             .Register<IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>>(() => new ReadSolutionProjectQueryHandler(
-     Locator.Current.GetService<ISolutionRepository>()
-    ));
-
-        service
-            .Register<ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFileItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
-    ));
-
-        service
-            .Register<ICommandHandler<DeleteProjectFileItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFileItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
-    ));
-
-        service
-            .Register<ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFolderItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
-    ));
-
-        service
-            .Register<ICommandHandler<RenameProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFolderItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()
+     Locator.Current.GetService<ISolutionRepository>()!
     ));
 
         service
             .Register<IQueryHandler<GetAllUFQuery, IList<UFModel>>>(() => new GetAllUFQueryHandler());
 
         service
-            .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetProjectItemContentQueryHandler());
+            .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetProjectItemContentQueryHandler(
+                Locator.Current.GetService<IProjectItemContentRepository>()!));
 
         service
             .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(() => new GetAllTemplatesQueryHandler(
-                Locator.Current.GetService<IAppTemplateRepository>()));
+                Locator.Current.GetService<IAppTemplateRepository>()!));
 
         service
             .Register<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(() => new GetProjectItemsQueryHandler(
-                Locator.Current.GetService<IExplorerItemRepository>()));
+                Locator.Current.GetService<IExplorerItemRepository>()!));
 
-        return service;
+        return app;
     }
-    public static IMutableDependencyResolver AddRepositories(this IMutableDependencyResolver service)
+    public static AppBuilder AddCommandHandlers(this AppBuilder app)
     {
+        var service = Locator.CurrentMutable;
+
+        service.Register<ICommandHandler<SaveProjectItemContentCommand, Resource<object>>>(() => new SaveProjectItemContentCommandHandler(
+          Locator.Current.GetService<IProjectItemContentRepository>()!));
+
+        service.Register<ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>>(() => new SyncSolutionCommandHandler(
+          Locator.Current.GetService<ISolutionRepository>()!));
+
+        service.Register<ICommandHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>>(() => new CreateSolutionCommandHandler(
+          Locator.Current.GetService<ISolutionRepository>()!));
+
+        service
+            .Register<ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFileItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()!
+    ));
+
+        service
+            .Register<ICommandHandler<DeleteProjectFileItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFileItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()!
+    ));
+
+        service
+            .Register<ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFolderItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()!
+    ));
+
+        service
+            .Register<ICommandHandler<RenameProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFolderItemCommandHandler(
+     Locator.Current.GetService<IExplorerItemRepository>()!
+    ));
+
+        return app;
+    }
+
+    public static AppBuilder AddRepositories(this AppBuilder app)
+    {
+        var service = Locator.CurrentMutable;
+
         service
             .Register<IExplorerItemRepository>(() =>
             new ExplorerItemRepositoryImpl());
@@ -145,13 +168,13 @@ public static class Bootstrapper
             .Register<IAppTemplateRepository>(() =>
             new AppTemplateRepositoryImpl());
 
-        return service;
+        return app;
     }
 
-    /* public static void AddApplication(this IMutableDependencyResolver services, IApplication app)
-     {
-         services.RegisterConstant<IApplication>(app);
-     }*/
+    /*    public static void AddApplication(this IMutableDependencyResolver services, IApplication app)
+        {
+            services.RegisterConstant<IApplication>(app);
+        }*/
 
     /*    public static void AddApplicationInfo(this IMutableDependencyResolver services)
         {
@@ -161,86 +184,29 @@ public static class Bootstrapper
             });
         }*/
 
-    /*    public static void AddAutomapper(this IMutableDependencyResolver services)
-        {
-            services.RegisterLazySingleton(() =>
-            {
-                var config = new MapperConfiguration(cfg =>
-                {
-                    cfg.AddProfile(new MappingProfile());
-                });
-
-                return config.CreateMapper();
-            });
-        }*/
-
-    /*    public static void AddSettingsProvider(this IMutableDependencyResolver services)
-        {
-            string settingsPath = "";
-
-            var platformInfo = AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo();
-
-            AppSettings defaultAppSettings = null;
-
-            if (platformInfo.OperatingSystem == OperatingSystemType.WinNT)
-            {
-                settingsPath = Environment.ExpandEnvironmentVariables("%APPDATA%\\SampleAvaloniaApplicationClient\\appsettings.json");
-                defaultAppSettings = new AppSettings();
-            }
-            else if (platformInfo.OperatingSystem == OperatingSystemType.Linux)
-            {
-                settingsPath = Environment.ExpandEnvironmentVariables("/%HOME%/SampleAvaloniaApplicationClient/appsettings.json");
-                defaultAppSettings = new AppSettings()
-                {
-                    DbFilename = "/%HOME%/SampleAvaloniaApplicationClient/data.db",
-                    LogsFolder = "/%HOME%/SampleAvaloniaApplicationClient/Logs"
-                };
-            }
-
-            var settingsProvider = new JsonSettingsProvider<AppSettings>(settingsPath, defaultAppSettings, new JsonSerializerOptions() { WriteIndented = true });
-
-            services.RegisterLazySingleton<ISettingsProvider<AppSettings>>(() =>
-                new JsonSettingsProvider<AppSettings>(settingsPath, defaultAppSettings, new JsonSerializerOptions() { WriteIndented = true }));
-        }*/
-
-    /*    public static void AddLogging(this IMutableDependencyResolver services)
-        {
-            services.RegisterLazySingleton(() =>
-            {
-                var settings = Locator.Current.GetService<ISettingsProvider<AppSettings>>();
-
-                var logger = new LoggerConfiguration()
-                    .MinimumLevel.Verbose()
-                    .WriteTo.File(Path.Combine(Environment.ExpandEnvironmentVariables(settings.Settings.LogsFolder), "log-.txt"),
-                        rollingInterval: RollingInterval.Day,
-                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-                    .CreateLogger();
-
-                return new SerilogLoggerProvider(logger).CreateLogger(nameof(SampleAvaloniaApplicationClientApplication));
-            });
-        }*/
-
-    public static IMutableDependencyResolver AddMediator(this IMutableDependencyResolver service)
+    public static AppBuilder AddMediator(this AppBuilder app)
     {
+        var service = Locator.CurrentMutable;
+
         service.RegisterLazySingleton<ICommandDispatcher>(() => new CommandDispatcher(Locator.Current));
         service.RegisterLazySingleton<IQueryDispatcher>(() => new QueryDispatcher(Locator.Current));
 
-        return service;
+        return app;
     }
 
-    public static IMutableDependencyResolver AddServices(this IMutableDependencyResolver service)
-    {
-        service.RegisterLazySingleton<IFileDialog>(() =>
+    /*    public static IMutableDependencyResolver AddServices(this IMutableDependencyResolver service)
         {
-            return new FileDialog(Locator.Current.GetService<MainWindow>());
-        });
+            service.RegisterLazySingleton<IFileDialog>(() =>
+            {
+                return new FileDialog(Locator.Current.GetService<MainWindow>());
+            });
 
-        service.RegisterLazySingleton<INotificationMessageManagerService>(() =>
-        {
-            return new NotificationMessageManagerService();
-        });
-        return service;
-    }
+            service.RegisterLazySingleton<INotificationMessageManagerService>(() =>
+            {
+                return new NotificationMessageManagerService();
+            });
+            return service;
+        }*/
 
     public static IMutableDependencyResolver CreateFolderStructure(this IMutableDependencyResolver service)
     {

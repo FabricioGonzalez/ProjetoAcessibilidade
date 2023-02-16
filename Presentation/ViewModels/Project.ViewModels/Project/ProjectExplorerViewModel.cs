@@ -1,10 +1,6 @@
-﻿using System.Diagnostics;
-using System.Reactive;
+﻿using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
-using App.Core.Entities.Solution;
-using App.Core.Entities.Solution.Explorer;
 
 using AppViewModels.Common;
 using AppViewModels.Dialogs;
@@ -17,6 +13,9 @@ using AppViewModels.Project.States;
 
 using Common;
 
+using Core.Entities.Solution;
+using Core.Entities.Solution.Explorer;
+
 using Project.Application.Contracts;
 using Project.Application.Project.Queries.GetProjectItems;
 using Project.Application.Solution.Queries;
@@ -28,11 +27,11 @@ using Splat;
 namespace AppViewModels.Project;
 public class ProjectExplorerViewModel : ViewModelBase
 {
-    private string currentOpenProject;
+    private string currentOpenProject = null;
     public string CurrentOpenProject
     {
         get => currentOpenProject;
-        set => this.RaiseAndSetIfChanged(ref currentOpenProject, value, nameof(CurrentOpenProject));
+        set => this.RaiseAndSetIfChanged(ref currentOpenProject, value);
     }
 
     private bool isDocumentSolutionEnabled = false;
@@ -51,14 +50,17 @@ public class ProjectExplorerViewModel : ViewModelBase
         get;
     }
 
-    /*private readonly IQueryUsecase<string, ProjectSolutionModel> readSolution;*/
     public readonly ProjectExplorerOperations explorerOperations;
     private readonly IQueryDispatcher queryDispatcher;
+
+    public IObservable<bool> IsProjectOpened;
+
 
     public ProjectExplorerViewModel()
     {
         explorerOperations ??= Locator.Current.GetService<ProjectExplorerOperations>();
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+
         SolutionModel ??= Locator.Current.GetService<SolutionStateViewModel>();
 
         projectExplorerState = new();
@@ -83,7 +85,7 @@ public class ProjectExplorerViewModel : ViewModelBase
                         inEditMode: true)
                     );
             }
-        });
+        }, IsProjectOpened);
 
         AddFolderCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
         {
@@ -99,23 +101,25 @@ public class ProjectExplorerViewModel : ViewModelBase
                     referencedItem: "")
                     );
             }
-        });
+        }, IsProjectOpened);
 
         SelectSolutionItemCommand = ReactiveCommand.Create<ProjectItemViewModel>((item) =>
         {
-            Debug.WriteLine(item.Title);
-
             ProjectEditingInteractions
             .EditItem
             .Handle((item as FileProjectItemViewModel))
             .Subscribe();
-        });
+        }, IsProjectOpened);
 
         this.WhenActivated(disposables =>
         {
+            IsProjectOpened = this.WhenAnyValue(x => x.CurrentOpenProject,
+             prop => !string.IsNullOrWhiteSpace(prop));
+
+            SolutionModel.Activator.Activate();
+
             this
              .WhenAnyValue(vm => vm.CurrentOpenProject)
-             .WhereNotNull()
              .Where(value => !string.IsNullOrEmpty(value))
              .Subscribe(async path =>
              {
@@ -134,18 +138,22 @@ public class ProjectExplorerViewModel : ViewModelBase
                      }
 
                  }
-             }).DisposeWith(disposables);
+             })
+             .DisposeWith(disposables);
 
-            SolutionModel.ChooseSolutionPath.Subscribe(result =>
+            SolutionModel.ChooseSolutionPath
+            .Subscribe(result =>
             {
                 SolutionModel.FilePath = result;
             })
            .DisposeWith(disposables);
 
-            SolutionModel.ChooseLogoPath.Subscribe(result =>
+            SolutionModel.ChooseLogoPath
+            .Subscribe(result =>
             {
                 SolutionModel.ReportData.LogoPath = result;
-            }).DisposeWith(disposables);
+            })
+            .DisposeWith(disposables);
         });
     }
 
@@ -164,7 +172,10 @@ public class ProjectExplorerViewModel : ViewModelBase
         return new();
 
     }
-
+    public ReactiveCommand<string, Unit> PrintDocument
+    {
+        get; set;
+    }
     public ReactiveCommand<ProjectItemViewModel, Unit> AddItemCommand
     {
         get;
@@ -177,7 +188,6 @@ public class ProjectExplorerViewModel : ViewModelBase
     {
         get;
     }
-
     public Interaction<AddItemViewModel, ExplorerItem?> ShowDialog
     {
         get; private set;

@@ -1,10 +1,10 @@
-﻿using App.Core.Entities.Solution.Explorer;
+﻿using Common;
 
-using Common;
+using Core.Entities.Solution.Explorer;
 
 using Project.Application.Project.Contracts;
 
-namespace ProjectItemReader.InternalAppFiles;
+namespace ProjectItemReader.publicAppFiles;
 
 public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 {

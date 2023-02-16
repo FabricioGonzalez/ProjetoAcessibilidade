@@ -1,9 +1,9 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <Color x:Key="SystemAccentColor">#FF5E96ED</Color>
+                    <Color x:Key="SystemAccentColor">#fff88c20</Color>
                     <Color x:Key="SystemAltHighColor">#FF000000</Color>
                     <Color x:Key="SystemAltLowColor">#FF000000</Color>
                     <Color x:Key="SystemAltMediumColor">#FF000000</Color>
@@ -33,21 +33,21 @@
                     <Color x:Key="SystemChromeAltHighColor">#FF232A33</Color>
                     <Color x:Key="SystemRevealListLowColor">#FF0E192C</Color>
                     <Color x:Key="SystemRevealListMediumColor">#FF232A33</Color>
-                    <Color x:Key="SystemAccentColorDark1">#FF71A3F1</Color>
-                    <Color x:Key="SystemAccentColorDark2">#FF83B1F4</Color>
-                    <Color x:Key="SystemAccentColorDark3">#FF96BEF8</Color>
-                    <Color x:Key="SystemAccentColorLight1">#FF4B84DA</Color>
-                    <Color x:Key="SystemAccentColorLight2">#FF3872C7</Color>
-                    <Color x:Key="SystemAccentColorLight3">#FF265FB3</Color>
+                    <Color x:Key="SystemAccentColorDark1">#cf751b</Color>
+                    <Color x:Key="SystemAccentColorDark2">#b06315</Color>
+                    <Color x:Key="SystemAccentColorDark3">#874c10</Color>
+                    <Color x:Key="SystemAccentColorLight1">#fff29c46</Color>
+                    <Color x:Key="SystemAccentColorLight2">#f09f4f</Color>
+                    <Color x:Key="SystemAccentColorLight3">#f5b97d</Color>
                     <Color x:Key="RegionColor">#191D24</Color>
                     <Color x:Key="ActionForegroundColor">Black</Color>
-                    <Color x:Key="ActionColorDark1">#FF4BD894</Color>
-                    <Color x:Key="ActionColorDark2">#FF62DEA3</Color>
-                    <Color x:Key="ActionColorDark3">#FF79E5B1</Color>
-                    <Color x:Key="ActionColorLight1">#FF2ABC71</Color>
-                    <Color x:Key="ActionColorLight2">#FF1FA75D</Color>
-                    <Color x:Key="ActionColorLight3">#FF159148</Color>
-                    <Color x:Key="ActionColor">#34D286</Color>
+                    <Color x:Key="ActionColorDark1">#cf751b</Color>
+                    <Color x:Key="ActionColorDark2">#b06315</Color>
+                    <Color x:Key="ActionColorDark3">#874c10</Color>
+                    <Color x:Key="ActionColorLight1">#fff29c46</Color>
+                    <Color x:Key="ActionColorLight2">#f09f4f</Color>
+                    <Color x:Key="ActionColorLight3">#f5b97d</Color>
+                    <Color x:Key="ActionColor">#fff88c20</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -102,7 +102,7 @@
     <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentDark.xaml" />
 
     <!--  Needs to be here because of dependency reason  -->
-    <!--<StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml" />-->
+    <StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml" />
 
     <StyleInclude Source="avares://Avalonia.Xaml.Interactions/Draggable/Styles.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Styles/Themes/Base.axaml" />

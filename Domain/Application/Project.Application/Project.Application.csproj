@@ -13,17 +13,16 @@
     <Folder Include="Common\" />
     <Folder Include="Editing\Commands\" />
     <Folder Include="Editing\Queries\" />
-    <Folder Include="Solution\Commands\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.1.0" />
-    <PackageReference Include="Splat" Version="14.5.1" />
+    <PackageReference Include="Splat" Version="14.6.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-    <ProjectReference Include="..\..\Core\App.Core\App.Core.csproj" />
+    <ProjectReference Include="..\..\Core\App.Core\Core.csproj" />
   </ItemGroup>
 
 </Project>

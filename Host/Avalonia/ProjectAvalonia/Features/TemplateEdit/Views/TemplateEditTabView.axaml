@@ -1,0 +1,109 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.TemplateEdit.Views.TemplateEditTabView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:checkbox="clr-namespace:Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;assembly=Core"
+    xmlns:controls="using:ProjectAvalonia.Common.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:text="clr-namespace:Core.Entities.Solution.Project.AppItem.DataItems.Text;assembly=Core"
+    xmlns:viewModels="using:ProjectAvalonia.Features.TemplateEdit.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="viewModels:TemplateEditTabViewModel"
+    mc:Ignorable="d">
+    <ScrollViewer Padding="8">
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            RowDefinitions="35,1*,0.3*">
+            <TextBox Grid.Row="0" Text="{Binding EditingItem.ItemName}" />
+            <ItemsControl Grid.Row="1" Items="{Binding EditingItem.FormData, Mode=TwoWay}">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate x:DataType="checkbox:AppFormDataItemCheckboxModel" DataType="checkbox:AppFormDataItemCheckboxModel">
+                        <Expander Margin="4" HorizontalAlignment="Stretch">
+                            <Expander.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="16">
+                                        <TextBox Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
+                                        <ComboBox
+                                            Width="200"
+                                            HorizontalAlignment="Right"
+                                            IsTextSearchEnabled="True"
+                                            Items="{Binding $parent[UserControl].DataContext.Types, Mode=OneWay}"
+                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Expander.HeaderTemplate>
+                            <Grid RowDefinitions="auto auto">
+                                <TextBlock Grid.Row="0" Text="{Binding Topic, Mode=TwoWay}" />
+                                <ItemsControl Grid.Row="1" Items="{Binding Children, Mode=TwoWay}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBox Text="{Binding Topic, Mode=TwoWay}" />
+                                                <ItemsControl Items="{Binding Options}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBox Text="{Binding Value, Mode=TwoWay}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </Expander>
+                    </DataTemplate>
+                    <DataTemplate x:DataType="text:AppFormDataItemTextModel" DataType="text:AppFormDataItemTextModel">
+                        <Expander Margin="4" HorizontalAlignment="Stretch">
+                            <Expander.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="16">
+                                        <TextBox Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
+                                        <ComboBox
+                                            Width="200"
+                                            HorizontalAlignment="Right"
+                                            IsTextSearchEnabled="True"
+                                            Items="{Binding $parent[UserControl].DataContext.Types, Mode=OneWay}"
+                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Expander.HeaderTemplate>
+                            <Grid RowDefinitions="auto auto">
+                                <TextBox Grid.Row="1" Text="{Binding MeasurementUnit, Mode=TwoWay}" />
+                            </Grid>
+                        </Expander>
+                    </DataTemplate>
+                    <DataTemplate />
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+            <ItemsControl Grid.Row="2" Items="{Binding EditingItem.LawList}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="0.2*,1*">
+                            <TextBox Grid.Row="0" Text="{Binding LawId}" />
+                            <TextBox
+                                Grid.Row="1"
+                                Text="{Binding LawTextContent}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

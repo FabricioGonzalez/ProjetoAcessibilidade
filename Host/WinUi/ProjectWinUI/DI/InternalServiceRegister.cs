@@ -14,7 +14,7 @@ using ProjectWinUI.Src.Theming.Contracts;
 using ProjectWinUI.Src.Theming.Services;
 
 namespace ProjectWinUI.DI;
-public static class InternalServiceRegister
+public static class publicServiceRegister
 {
     public static IServiceCollection RegisterServices(this IServiceCollection service)
     {

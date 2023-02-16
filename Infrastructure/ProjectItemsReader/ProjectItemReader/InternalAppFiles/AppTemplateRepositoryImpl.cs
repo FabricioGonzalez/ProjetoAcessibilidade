@@ -1,10 +1,10 @@
-﻿using App.Core.Entities.Solution.Explorer;
+﻿using Common;
 
-using Common;
+using Core.Entities.Solution.Explorer;
 
 using Project.Application.App.Contracts;
 
-namespace ProjectItemReader.InternalAppFiles;
+namespace ProjectItemReader.publicAppFiles;
 
 public class AppTemplateRepositoryImpl : IAppTemplateRepository
 {
@@ -14,8 +14,7 @@ public class AppTemplateRepositoryImpl : IAppTemplateRepository
         {
             var task = new Task<Resource<List<ExplorerItem>>>(() =>
             {
-                var files = Directory.GetFiles(Path.Combine(
-                    Constants.AppItemsTemplateFolder));
+                var files = Directory.GetFiles(Constants.AppItemsTemplateFolder);
 
                 var filesList = new List<ExplorerItem>();
 

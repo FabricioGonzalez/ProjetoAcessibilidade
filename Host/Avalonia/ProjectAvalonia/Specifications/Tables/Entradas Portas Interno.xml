@@ -4,7 +4,7 @@
     <name>Entradas-Portas-Interno</name>
     <tabela>
         <itemtabela item="1">
-            <tipo>text</tipo>
+            <tipo>texto</tipo>
             <topico>Possui vão livre de:</topico>
             <unidade>m</unidade>
             <value />
@@ -141,11 +141,11 @@
             </checkboxes>
         </itemtabela>
         <itemtabela item="3">
-            <tipo>observation</tipo>
+            <tipo>observação</tipo>
             <value />
         </itemtabela>
         <itemtabela item="4">
-            <tipo>images</tipo>
+            <tipo>image</tipo>
         </itemtabela>
     </tabela>
     <lei>

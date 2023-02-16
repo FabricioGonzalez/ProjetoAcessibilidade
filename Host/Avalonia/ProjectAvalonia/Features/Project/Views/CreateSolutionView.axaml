@@ -1,0 +1,154 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.Project.Views.CreateSolutionView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:ProjectAvalonia.Common.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="using:ProjectAvalonia.Properties"
+    xmlns:project="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="project:CreateSolutionViewModel"
+    mc:Ignorable="d">
+    <c:ContentArea
+        Title="{Binding Title}"
+        CancelContent="{x:Static p:Resources.CancelActionLabel}"
+        Caption="{Binding Caption}"
+        EnableBack="{Binding EnableBack}"
+        EnableCancel="{Binding EnableCancel}"
+        EnableNext="True"
+        NextContent="{x:Static p:Resources.ContinueActionLabel}">
+        <StackPanel>
+
+            <Grid
+                Grid.Row="0"
+                Margin="8"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                ColumnDefinitions="1*,1*"
+                RowDefinitions="1*">
+
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,4,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding SolutionModel.ReportData.NomeEmpresa}"
+                    UseFloatingWatermark="True"
+                    Watermark="Nome da Empresa" />
+
+                <StackPanel Grid.Column="1" Spacing="8">
+                    <DatePicker
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        DayVisible="True"
+                        Header="Data do Relatório"
+                        MonthVisible="True"
+                        SelectedDate="{Binding SolutionModel.ReportData.Data}"
+                        YearVisible="True" />
+
+                    <ComboBox
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        Items="{Binding SolutionModel.UfList}"
+                        PlaceholderText="UF"
+                        SelectedItem="{Binding SolutionModel.ReportData.UF}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Code}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                Grid.Column="0"
+                ColumnDefinitions="1*,1*">
+                <StackPanel Grid.Column="0" Margin="0,0,4,0">
+
+                    <TextBox
+                        VerticalAlignment="Center"
+                        Text="{Binding SolutionModel.ReportData.Responsavel}"
+                        UseFloatingWatermark="True"
+                        Watermark="Responsável pelo Projeto" />
+
+                    <TextBox
+                        VerticalAlignment="Center"
+                        Text="{Binding SolutionModel.ReportData.Endereco}"
+                        UseFloatingWatermark="True"
+                        Watermark="Endereço da Empresa" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+
+                    <TextBox
+                        VerticalAlignment="Center"
+                        Text="{Binding SolutionModel.ReportData.Email}"
+                        UseFloatingWatermark="True"
+                        Watermark="Email do Responsável" />
+
+                    <TextBox
+                        VerticalAlignment="Center"
+                        Classes="Outline"
+                        Text="{Binding SolutionModel.ReportData.Telefone}"
+                        UseFloatingWatermark="True"
+                        Watermark="Telefone do Responsável" />
+                </StackPanel>
+            </Grid>
+            <TextBox
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Text="{Binding SolutionModel.FileName}"
+                UseFloatingWatermark="True"
+                Watermark="Nome da Solução" />
+
+            <TextBox
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Classes="Header"
+                IsEnabled="True"
+                IsReadOnly="True"
+                Text="{Binding SolutionModel.FilePath}"
+                UseFloatingWatermark="True"
+                Watermark="Local da Solução">
+                <TextBox.InnerRightContent>
+                    <Button
+                        Classes="action"
+                        Command="{Binding SolutionModel.ChooseSolutionPath}"
+                        Cursor="Arrow"
+                        ZIndex="2">
+                        <PathIcon Data="{StaticResource folder_move_regular}" />
+                    </Button>
+                </TextBox.InnerRightContent>
+            </TextBox>
+
+            <TextBox
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Classes="Header"
+                IsEnabled="True"
+                IsReadOnly="True"
+                Text="{Binding SolutionModel.ReportData.LogoPath, Mode=TwoWay}"
+                UseFloatingWatermark="True"
+                Watermark="Local da Logo da Empresa">
+                <TextBox.InnerRightContent>
+                    <Button
+                        Classes="action"
+                        Command="{Binding SolutionModel.ChooseLogoPath}"
+                        Cursor="Arrow"
+                        ZIndex="2">
+                        <PathIcon Data="{StaticResource folder_move_regular}" />
+                    </Button>
+                </TextBox.InnerRightContent>
+            </TextBox>
+
+        </StackPanel>
+    </c:ContentArea>
+</UserControl>

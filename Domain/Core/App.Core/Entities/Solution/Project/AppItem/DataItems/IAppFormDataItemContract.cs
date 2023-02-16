@@ -1,4 +1,6 @@
-﻿namespace App.Core.Entities.Solution.Project.AppItem.DataItems;
+﻿using Core.Enuns;
+
+namespace Core.Entities.Solution.Project.AppItem.DataItems;
 public interface IAppFormDataItemContract
 {
     public string Topic

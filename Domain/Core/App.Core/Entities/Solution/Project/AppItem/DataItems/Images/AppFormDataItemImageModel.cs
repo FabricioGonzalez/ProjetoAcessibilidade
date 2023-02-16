@@ -1,4 +1,6 @@
-﻿namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+﻿using Core.Enuns;
+
+namespace Core.Entities.Solution.Project.AppItem.DataItems.Images;
 public class AppFormDataItemImageModel : IAppFormDataItemContract
 {
     public string Topic

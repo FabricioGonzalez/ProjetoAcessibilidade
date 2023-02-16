@@ -1,50 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <!--<AvaloniaXamlIlDebuggerLaunch>true</AvaloniaXamlIlDebuggerLaunch>-->
-        <Nullable>enable</Nullable>
-        <OutputType>WinExe</OutputType>
-        <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
-        <TrimMode>copyused</TrimMode>
-        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <Platforms>AnyCPU;x64</Platforms>
-        <AssemblyName>ProjectAvalonia</AssemblyName>
-        <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <DebugType>embedded</DebugType>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DebugType>embedded</DebugType>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-        <DebugType>embedded</DebugType>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-        <DebugType>embedded</DebugType>
+      <TargetFramework>net7.0</TargetFramework>
+      <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+      <AnalysisLevel>latest</AnalysisLevel>
+      <Nullable>enable</Nullable>
+      <LangVersion>latest</LangVersion>
+      
+      <NoWarn>1701;1702;1705;1591;1573;CA1031</NoWarn>
+      <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+      <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\$(TargetFramework)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+      <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+      <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+      <InvariantGlobalization>true</InvariantGlobalization>
+      <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia</PathMap>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+      <AvaloniaVersion>0.10.18</AvaloniaVersion>
+
+        <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
+
+        <SignAssembly>False</SignAssembly>
     </PropertyGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
-        <AvaloniaXaml Remove="Project\Components\ProjectEditing\Styles\**" />
-        <AvaloniaXaml Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
-        <Compile Remove="Project\Components\ProjectEditing\Styles\**" />
-        <Compile Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
-        <EmbeddedResource Remove="Project\Components\ProjectEditing\Styles\**" />
-        <EmbeddedResource Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
-        <None Remove="Project\Components\ProjectEditing\Styles\**" />
-        <None Remove="Project\Components\ProjectEditing\TemplateSelectors\**" />
-        <Folder Include="Models\" />
-        <Folder Include="TemplateEditing\Components\" />
-        <Folder Include="TemplateRules\Components\" />
+        <AvaloniaXaml Remove="Features\TemplateEditing\**" />
+        <AvaloniaXaml Remove="Features\TemplateRules\**" />
+        <AvaloniaXaml Remove="Models\**" />
+        <Compile Remove="Features\TemplateEditing\**" />
+        <Compile Remove="Features\TemplateRules\**" />
+        <Compile Remove="Models\**" />
+        <EmbeddedResource Remove="Features\TemplateEditing\**" />
+        <EmbeddedResource Remove="Features\TemplateRules\**" />
+        <EmbeddedResource Remove="Models\**" />
+        <None Remove="Features\TemplateEditing\**" />
+        <None Remove="Features\TemplateRules\**" />
+        <None Remove="Models\**" />
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
     </ItemGroup>
     <ItemGroup>
-        <AvaloniaResource Include="Controls\EditableTextBlock.xaml" />
+        <AvaloniaResource Include="Common\Controls\EditableTextBlock.xaml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Assets\avalonia-logo.ico" />
+        <Content Include="Assets\Fonts\Objectivity-Light.otf" />
+        <Content Include="Assets\Fonts\Objectivity-Regular.otf" />
+        <Content Include="Assets\Fonts\RobotoMono-Regular.ttf" />
+        <Content Include="Assets\Loading\loading.png" />
     </ItemGroup>
+  
     <ItemGroup>
         <!--This helps with theme dll-s trimming.
 	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
@@ -53,34 +57,39 @@
         <TrimmableAssembly Include="Avalonia.Themes.Default" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <PackageReference Include="AsyncImageLoader.Avalonia" Version="2.4.0" />
+        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+      <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.18" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Dock.Avalonia" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Win32.SystemEvents" Version="4.5.0" />
         <PackageReference Include="Neumorphism.Avalonia" Version="0.4.0" />
         <PackageReference Include="Notification.Avalonia" Version="1.1.0" />
         <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
+        <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+        <ProjectReference Include="..\..\QuestPDF\QuestPDF\QuestPDF.csproj" />
     </ItemGroup>
-    <ItemGroup>
-        <Compile Update="Project\Components\ProjectEditing\EditingItems\EditingItem.axaml.cs">
-            <DependentUpon>EditingItem.axaml</DependentUpon>
-        </Compile>
-        <Compile Update="Project\Components\ProjectEditing\EditingView.axaml.cs">
-            <DependentUpon>EditingView.axaml</DependentUpon>
-        </Compile>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectAvalonia.Generators\ProjectAvalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+</ItemGroup>
     <ItemGroup>
         <None Update="Specifications\Itens.xml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -146,5 +155,38 @@
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Table.xsd</LinuxPath>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Features\Project\Views\ProjectView.axaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Features\PDFViewer\Views\PreviewerView.axaml.cs">
+        <DependentUpon>PreviewerView.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Features\TemplateEdit\Views\ItemValidationView.axaml.cs">
+        <DependentUpon>ItemValidationView.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Properties\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Features\ItemValidation\ViewModels\" />
+      <Folder Include="Features\ItemValidation\Views\" />
+      <Folder Include="Languages\" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <EditorConfigFiles Remove="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
     </ItemGroup>
 </Project>

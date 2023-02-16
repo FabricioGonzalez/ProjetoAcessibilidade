@@ -1,0 +1,39 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="using:System">
+    <Styles.Resources>
+        <sys:Double x:Key="IconElementThemeHeight">16</sys:Double>
+        <Easing x:Key="FluentEasing">0.4,0,0.6,1</Easing>
+        <KeySpline x:Key="FluentKeySpline">0.4,0,0.6,1</KeySpline>
+        <FontFamily x:Key="MonospacedFont">avares://ProjectAvalonia/Assets/Fonts#Roboto Mono</FontFamily>
+        <FontFamily x:Key="WasabiLogoTextFont">avares://ProjectAvalonia/Assets/Fonts#Objectivity</FontFamily>
+        <sys:Int32 x:Key="MaxLabelLength">50</sys:Int32>
+    </Styles.Resources>
+
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/Button.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/Checkmark.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/FontSizes.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/IconButton.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/Label.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/OptionButton.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/PathIcon.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/Separator.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/SplitView.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/TextBox.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/NotificationCard.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/HyperlinkButton.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/AnimatedButton.axaml" />
+    <!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/CurrencyEntryBox.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/DualCurrencyEntryBox.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/HistoryPlaceholderPanel.axaml" />-->
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/TreeDataGrid.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/RadioButton.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/SettingsLayout.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/Slider.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/ToolTip.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/FlyoutPresenter.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/ToggleSwitch.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/ScrollViewer.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/CuedScrollViewer.axaml" />
+</Styles>

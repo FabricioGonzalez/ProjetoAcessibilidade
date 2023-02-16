@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="publicAppFiles\" />
+    <Folder Include="XmlFile\" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Application.csproj" />
     <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
   </ItemGroup>

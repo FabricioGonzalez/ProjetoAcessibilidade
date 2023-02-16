@@ -1,4 +1,6 @@
-﻿namespace App.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+﻿using Core.Enuns;
+
+namespace Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 public class AppFormDataItemObservationModel : IAppFormDataItemContract
 {
     public string Topic
@@ -10,7 +12,7 @@ public class AppFormDataItemObservationModel : IAppFormDataItemContract
     {
         get;
         set;
-    } = AppFormDataType.Observation;
+    } = AppFormDataType.Observação;
     public string Observation
     {
         get; set;

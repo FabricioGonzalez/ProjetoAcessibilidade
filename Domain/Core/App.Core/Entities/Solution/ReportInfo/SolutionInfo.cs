@@ -1,6 +1,6 @@
-﻿using App.Core.Entities.App;
+﻿using Core.Entities.App;
 
-namespace App.Core.Entities.Solution.ReportInfo;
+namespace Core.Entities.Solution.ReportInfo;
 public class SolutionInfo
 {
     public string Email

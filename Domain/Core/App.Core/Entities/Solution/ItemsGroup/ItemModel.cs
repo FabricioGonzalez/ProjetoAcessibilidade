@@ -1,4 +1,4 @@
-﻿namespace App.Core.Entities.Solution.ItemsGroup;
+﻿namespace Core.Entities.Solution.ItemsGroup;
 
 public class ItemModel
 {
@@ -8,6 +8,11 @@ public class ItemModel
         set;
     }
     public string Name
+    {
+        get;
+        set;
+    }
+    public string ItemPath
     {
         get;
         set;

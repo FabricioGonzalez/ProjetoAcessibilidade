@@ -21,12 +21,12 @@ public class AppNotificationActivationHandler : ActivationHandler<LaunchActivate
         _notificationService = notificationService;
     }
 
-    protected override bool CanHandleInternal(LaunchActivatedEventArgs args)
+    protected override bool CanHandlepublic(LaunchActivatedEventArgs args)
     {
         return AppInstance.GetCurrent().GetActivatedEventArgs()?.Kind == ExtendedActivationKind.AppNotification;
     }
 
-    protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
+    protected async override Task HandlepublicAsync(LaunchActivatedEventArgs args)
     {
         // TODO: Handle notification activations.
 

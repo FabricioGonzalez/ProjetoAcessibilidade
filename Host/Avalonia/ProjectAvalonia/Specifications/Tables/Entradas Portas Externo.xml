@@ -4,7 +4,7 @@
     <name>Entradas(Portas)</name>
     <tabela>
         <itemtabela item="1">
-            <tipo>text</tipo>
+            <tipo>texto</tipo>
             <topico>Porta possui vão livre de:</topico>
             <value />
         </itemtabela>
@@ -267,11 +267,11 @@
             </checkboxes>
         </itemtabela>
         <itemtabela item="1">
-            <tipo>observation</tipo>
+            <tipo>observação</tipo>
             <value />
         </itemtabela>
         <itemtabela item="2">
-            <tipo>images</tipo>
+            <tipo>image</tipo>
         </itemtabela>
     </tabela>
     <lei>
