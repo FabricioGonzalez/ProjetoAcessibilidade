@@ -174,15 +174,23 @@ public partial class PreviewerViewModel : DialogViewModelBase
     }
     private void OpenLink(string path)
     {
-        var openBrowserProcess = new Process
+        try
         {
-            StartInfo = new()
+            var openBrowserProcess = new Process
             {
-                UseShellExecute = true,
-                FileName = path
-            }
-        };
+                StartInfo = new ProcessStartInfo()
+                {
+                    UseShellExecute = true,
+                    FileName = path
+                }
+            };
 
-        openBrowserProcess.Start();
+            openBrowserProcess.Start();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
     }
 }

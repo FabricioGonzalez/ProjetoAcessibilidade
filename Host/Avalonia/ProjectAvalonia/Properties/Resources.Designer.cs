@@ -88,6 +88,33 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Cancelar.
+        /// </summary>
+        public static string CancelActionLabel {
+            get {
+                return ResourceManager.GetString("CancelActionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Confirmar.
+        /// </summary>
+        public static string ConfirmActionLabel {
+            get {
+                return ResourceManager.GetString("ConfirmActionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Continuar.
+        /// </summary>
+        public static string ContinueActionLabel {
+            get {
+                return ResourceManager.GetString("ContinueActionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Tema Noturno.
         /// </summary>
         public static string DarkThemeLabel {
@@ -174,6 +201,15 @@ namespace ProjectAvalonia.Properties {
         public static string ShutdownMessagePart2 {
             get {
                 return ResourceManager.GetString("ShutdownMessagePart2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Pular.
+        /// </summary>
+        public static string SkipActionLabel {
+            get {
+                return ResourceManager.GetString("SkipActionLabel", resourceCulture);
             }
         }
         

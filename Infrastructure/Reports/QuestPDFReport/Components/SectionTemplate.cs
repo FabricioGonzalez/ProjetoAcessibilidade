@@ -89,6 +89,7 @@ public class SectionTemplate : IComponent
                     });
                 });
         }
+
         if (Model is ReportSectionGroup reportSectionGroup)
         {
             container
@@ -113,8 +114,10 @@ public class SectionTemplate : IComponent
                         {
                             column
                             .Item()
+                            .PaddingLeft(8)
                             .ShowOnce()
-                            .Text(part.Title);
+                            .Text(part.Title)
+                            .Style(Typography.SubLine);
 
                             column.Item().Column(items =>
                         {
@@ -243,8 +246,8 @@ public class SectionTemplate : IComponent
 
                         layers
                             .PrimaryLayer()
-                                                                                                                                                                                                                                                           /* .Text("Sample text")
-                                                                                                                                                                                                                                                            .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
+                                                                                                                                                                                                                                                                 /* .Text("Sample text")
+                                                                                                                                                                                                                                                                  .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
                     });
 
                     row.AutoItem().Text(item.Value);

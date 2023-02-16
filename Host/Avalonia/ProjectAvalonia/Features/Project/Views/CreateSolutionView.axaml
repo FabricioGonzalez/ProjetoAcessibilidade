@@ -5,6 +5,7 @@
     xmlns:c="using:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="using:ProjectAvalonia.Properties"
     xmlns:project="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -12,12 +13,12 @@
     mc:Ignorable="d">
     <c:ContentArea
         Title="{Binding Title}"
-        CancelContent="Cancel"
+        CancelContent="{x:Static p:Resources.CancelActionLabel}"
         Caption="{Binding Caption}"
         EnableBack="{Binding EnableBack}"
         EnableCancel="{Binding EnableCancel}"
         EnableNext="True"
-        NextContent="Continue">
+        NextContent="{x:Static p:Resources.ContinueActionLabel}">
         <StackPanel>
 
             <Grid

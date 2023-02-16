@@ -3,14 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:ProjectAvalonia.Behaviors"
     xmlns:c="using:ProjectAvalonia.Common.Controls"
-    xmlns:i="using:Avalonia.Xaml.Interactivity">
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
+    xmlns:p="using:ProjectAvalonia.Properties">
     <Design.PreviewWith>
         <Panel Background="{DynamicResource RegionColor}">
             <c:ContentArea
                 Title="Add a Wallet"
                 Width="500"
                 Height="300"
-                CancelContent="Cancel"
+                CancelContent="{x:Static p:Resources.CancelActionLabel}"
                 Caption="Type in your Wallet's name and select an option below:"
                 EnableBack="True"
                 EnableCancel="True"

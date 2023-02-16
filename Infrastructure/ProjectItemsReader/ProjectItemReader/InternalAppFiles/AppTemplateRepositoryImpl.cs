@@ -14,8 +14,7 @@ public class AppTemplateRepositoryImpl : IAppTemplateRepository
         {
             var task = new Task<Resource<List<ExplorerItem>>>(() =>
             {
-                var files = Directory.GetFiles(Path.Combine(
-                    Constants.AppItemsTemplateFolder));
+                var files = Directory.GetFiles(Constants.AppItemsTemplateFolder);
 
                 var filesList = new List<ExplorerItem>();
 

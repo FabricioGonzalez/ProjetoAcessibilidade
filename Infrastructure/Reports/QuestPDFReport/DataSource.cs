@@ -170,15 +170,18 @@ public static class DataSource
             {
                 var data = await repository.GetProjectItemContent(itemModel.ItemPath);
 
+                var section = new ReportSection();
+                section.Title = itemModel.Name;
+
                 foreach (var formData in data.FormData)
                 {
-                    var section = new ReportSection();
-
-                    section.Title = data.ItemName;
 
                     if (formData is AppFormDataItemTextModel text)
                     {
-                        section.Parts.Add(new ReportSectionText(label: text.Topic, text: $"{text.TextData} {(text.MeasurementUnit is not null ? text.MeasurementUnit : "")}"));
+                        section
+                            .Parts
+                            .Add(new ReportSectionText(label: text.Topic,
+                            text: $"{text.TextData} {(text.MeasurementUnit is not null ? text.MeasurementUnit : "")}"));
                     }
 
                     if (formData is AppFormDataItemCheckboxModel checkbox)
@@ -188,9 +191,16 @@ public static class DataSource
 
                         foreach (var options in checkbox.Children)
                         {
-                            var checkboxModels = options.Options.Select(item => new CheckboxModel(isChecked: item.IsChecked, value: item.Value));
+                            var checkboxModels = options
+                                .Options
+                                .Select(item =>
+                                new CheckboxModel(isChecked: item.IsChecked, value: item.Value));
 
-                            var reportCheckbox = new ReportSectionCheckbox() { Label = options.Topic, Checkboxes = checkboxModels.ToList() };
+                            var reportCheckbox = new ReportSectionCheckbox()
+                            {
+                                Label = options.Topic,
+                                Checkboxes = checkboxModels.ToList()
+                            };
 
                             section.Parts.Add(reportCheckbox);
                         }
@@ -214,6 +224,7 @@ public static class DataSource
                         section.Parts.Add(container);
 
                     }
+
                     if (formData is AppFormDataItemObservationModel observation)
                     {
                         section.Parts.Add(new ReportSectionObservation()
@@ -222,8 +233,10 @@ public static class DataSource
                             Observation = observation.Observation
                         });
                     }
-                    sectionGroup.Parts.Add(section);
+
                 }
+
+                sectionGroup.Parts.Add(section);
 
             }
 

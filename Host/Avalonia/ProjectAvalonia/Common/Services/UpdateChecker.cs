@@ -38,12 +38,12 @@ public class UpdateChecker : PeriodicRunner
     }
     protected override async Task ActionAsync(CancellationToken cancel)
     {
-        var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(false);
-        if (newUpdateStatus != UpdateStatus)
-        {
-            UpdateStatus = newUpdateStatus;
-            UpdateStatusChanged?.Invoke(this, newUpdateStatus);
-        }
+        /*       var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(false);
+               if (newUpdateStatus != UpdateStatus)
+               {
+                   UpdateStatus = newUpdateStatus;
+                   UpdateStatusChanged?.Invoke(this, newUpdateStatus);
+               }*/
     }
 
     public override void Dispose()

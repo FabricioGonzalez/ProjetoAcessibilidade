@@ -126,6 +126,15 @@
   <data name="AutoPasteBehaviorLabel" xml:space="preserve">
     <value>Auto colar</value>
   </data>
+  <data name="CancelActionLabel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ConfirmActionLabel" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
+  <data name="ContinueActionLabel" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
   <data name="DarkThemeLabel" xml:space="preserve">
     <value>Tema Noturno</value>
   </data>
@@ -155,6 +164,9 @@
   </data>
   <data name="ShutdownMessagePart2" xml:space="preserve">
     <value>Pode levar algum  tempo para finalizarmos, por favor aguarde...</value>
+  </data>
+  <data name="SkipActionLabel" xml:space="preserve">
+    <value>Pular</value>
   </data>
   <data name="ThemeChangingLabel" xml:space="preserve">
     <value>O Tema está sendo Alterarado... Aguarde...</value>
