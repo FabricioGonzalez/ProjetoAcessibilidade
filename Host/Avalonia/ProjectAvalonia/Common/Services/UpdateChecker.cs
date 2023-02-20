@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ProjectAvalonia.Common.Bases;
+using ProjectAvalonia.Common.Http;
 using ProjectAvalonia.Common.Models;
 
 namespace ProjectAvalonia.Common.Services;
@@ -14,6 +15,7 @@ public class UpdateChecker : PeriodicRunner
     {
         UpdateStatus = new UpdateStatus(true, true, new Version(), 0, new Version());
 
+        AppClient = new(new ProjectHttpClient());
         /* Synchronizer.PropertyChanged += Synchronizer_PropertyChanged; */
     }
 
@@ -36,14 +38,14 @@ public class UpdateChecker : PeriodicRunner
             TriggerRound();
         } */
     }
-    protected override async Task ActionAsync(CancellationToken cancel)
+    protected async override Task ActionAsync(CancellationToken cancel)
     {
-        /*       var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(false);
-               if (newUpdateStatus != UpdateStatus)
-               {
-                   UpdateStatus = newUpdateStatus;
-                   UpdateStatusChanged?.Invoke(this, newUpdateStatus);
-               }*/
+        var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(false);
+        if (newUpdateStatus != UpdateStatus)
+        {
+            UpdateStatus = newUpdateStatus;
+            UpdateStatusChanged?.Invoke(this, newUpdateStatus);
+        }
     }
 
     public override void Dispose()

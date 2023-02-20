@@ -16,6 +16,11 @@ public partial class ProjectExplorerViewModel : ViewModelBase
     {
 
     }
+    public ICommand CreateItemCommand
+    {
+        get; set;
+    }
+
     public ICommand PrintProjectCommand
     {
         get; set;

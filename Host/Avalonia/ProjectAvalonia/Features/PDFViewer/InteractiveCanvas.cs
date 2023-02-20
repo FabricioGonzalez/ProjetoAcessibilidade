@@ -22,8 +22,8 @@ class InteractiveCanvas : ICustomDrawOperation
         get; set;
     } = new List<PreviewPage>();
 
-    private float Width => (float)Bounds.Width;
-    private float Height => (float)Bounds.Height;
+    public float ViewportWidth => (float)Bounds.Width;
+    public float ViewportHeight => (float)Bounds.Height;
 
     public float Scale { get; private set; } = 1;
     public float TranslateX
@@ -45,7 +45,7 @@ class InteractiveCanvas : ICustomDrawOperation
     public float TotalHeight => TotalPagesHeight + SafeZone * 2 / Scale;
     public float MaxWidth => Pages.Any() ? Pages.Max(x => x.Size.Width) : 0;
 
-    public float MaxTranslateY => TotalHeight - Height / Scale;
+    public float MaxTranslateY => TotalHeight - ViewportHeight / Scale;
 
     public float ScrollPercentY
     {
@@ -57,10 +57,51 @@ class InteractiveCanvas : ICustomDrawOperation
     {
         get
         {
-            var viewPortSize = Height / Scale / TotalHeight;
+            var viewPortSize = ViewportHeight / Scale / TotalHeight;
             return Math.Clamp(viewPortSize, 0, 1);
         }
     }
+
+    public IEnumerable<(int pageNumber, float beginY, float endY)> GetPagePosition()
+    {
+        var pageNumber = 1;
+        var currentPagePosition = SafeZone / Scale;
+
+        foreach (var page in Pages)
+        {
+            yield return (pageNumber, currentPagePosition, currentPagePosition + page.Size.Height);
+            currentPagePosition += page.Size.Height + PageSpacing;
+            pageNumber++;
+        }
+    }
+
+    public (int pageNumber, float x, float y)? FindClickedPointOnThePage(float x, float y)
+    {
+        x -= ViewportWidth / 2;
+        x /= Scale;
+        x += TranslateX;
+
+        y /= Scale;
+        y += TranslateY;
+
+        var location = GetPagePosition().FirstOrDefault
+            (p => p.beginY <= y && y <= p.endY);
+
+        if (location == default)
+            return null;
+
+        var page = Pages.ElementAt(location.pageNumber - 1);
+
+        x += page.Size.Width / 2;
+
+        if (x < 0 || page.Size.Width < x)
+            return null;
+
+        y -= location.beginY;
+
+        return (location.pageNumber, x, y);
+    }
+
 
     #region transformations
 
@@ -72,19 +113,19 @@ class InteractiveCanvas : ICustomDrawOperation
 
     private void LimitTranslate()
     {
-        if (TotalPagesHeight > Height / Scale)
+        if (TotalPagesHeight > ViewportHeight / Scale)
         {
             TranslateY = Math.Min(TranslateY, MaxTranslateY);
             TranslateY = Math.Max(TranslateY, 0);
         }
         else
         {
-            TranslateY = (TotalPagesHeight - Height / Scale) / 2;
+            TranslateY = (TotalPagesHeight - ViewportHeight / Scale) / 2;
         }
 
-        if (Width / Scale < MaxWidth)
+        if (ViewportWidth / Scale < MaxWidth)
         {
-            var maxTranslateX = (Width / 2 - SafeZone) / Scale - MaxWidth / 2;
+            var maxTranslateX = (ViewportWidth / 2 - SafeZone) / Scale - MaxWidth / 2;
 
             TranslateX = Math.Min(TranslateX, -maxTranslateX);
             TranslateX = Math.Max(TranslateX, maxTranslateX);
@@ -141,7 +182,7 @@ class InteractiveCanvas : ICustomDrawOperation
             throw new InvalidOperationException($"Context needs to be ISkiaDrawingContextImpl but got {nameof(context)}");
         var originalMatrix = canvas.TotalMatrix;
 
-        canvas.Translate(Width / 2, 0);
+        canvas.Translate(ViewportWidth / 2, 0);
 
         canvas.Scale(Scale);
         canvas.Translate(TranslateX, -TranslateY + SafeZone / Scale);
@@ -181,7 +222,7 @@ class InteractiveCanvas : ICustomDrawOperation
             SKImageFilter.CreateDropShadowOnly(0, 10, 14, 14, SKColors.Black.WithAlpha(32)))
     };
 
-    private void DrawBlankPage(SKCanvas canvas, QuestPDF.Infrastructure.Size size)
+    private void DrawBlankPage(SKCanvas canvas, Infrastructure.Size size)
     {
         canvas.DrawRect(0, 0, size.Width, size.Height, BlankPageShadowPaint);
         canvas.DrawRect(0, 0, size.Width, size.Height, BlankPagePaint);
@@ -214,7 +255,7 @@ class InteractiveCanvas : ICustomDrawOperation
                 SKShaderTileMode.Clamp)
         };
 
-        canvas.DrawRect(0, 0, Width, InnerGradientSize, fogPaint);
+        canvas.DrawRect(0, 0, ViewportWidth, InnerGradientSize, fogPaint);
     }
 
     #endregion

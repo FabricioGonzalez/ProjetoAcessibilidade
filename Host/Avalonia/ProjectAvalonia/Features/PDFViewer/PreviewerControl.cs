@@ -58,7 +58,6 @@ class PreviewerControl : Control
 
         ClipToBounds = true;
     }
-
     protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
     {
         base.OnPointerWheelChanged(e);
@@ -105,11 +104,13 @@ class PreviewerControl : Control
         }
 
         MousePosition = e.GetPosition(this);
+
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
         base.OnPointerPressed(e);
+
         IsMousePressed = true;
     }
 

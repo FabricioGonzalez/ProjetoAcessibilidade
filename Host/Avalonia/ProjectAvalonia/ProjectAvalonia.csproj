@@ -16,9 +16,7 @@
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
       <AvaloniaVersion>0.10.18</AvaloniaVersion>
-
         <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
-
         <SignAssembly>False</SignAssembly>
     </PropertyGroup>
     <ItemGroup>

@@ -94,8 +94,9 @@ public class Global
 
             try
             {
-                HostedServices.Register<UpdateChecker>(() => new UpdateChecker(TimeSpan.FromMinutes(7)), "Software Update Checker");
+                HostedServices.Register<UpdateChecker>(() => new UpdateChecker(TimeSpan.FromMinutes(7)) { AppClient = new() }, "Software Update Checker");
                 var updateChecker = HostedServices.Get<UpdateChecker>();
+
 
                 UpdateManager.Initialize(updateChecker, cancel);
 

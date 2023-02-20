@@ -64,6 +64,11 @@ public partial class ProjectViewModel : NavBarItemViewModel
                 Logger.LogDebug(item.Name);
             });
 
+        projectExplorerViewModel.CreateItemCommand = ReactiveCommand.Create(execute: () =>
+        {
+
+        });
+
         projectExplorerViewModel.PrintProjectCommand = ReactiveCommand.Create(execute: () =>
         {
             Navigate(NavigationTarget.FullScreen)

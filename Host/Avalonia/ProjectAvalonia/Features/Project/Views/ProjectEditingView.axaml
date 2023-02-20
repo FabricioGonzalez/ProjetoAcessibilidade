@@ -3,11 +3,55 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:editingItemTemplate="using:ProjectAvalonia.Features.Project.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:ProjectAvalonia.Features.Project.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="viewModels:ProjectEditingViewModel"
     mc:Ignorable="d">
-    Welcome to Avalonia!
+    <TabControl
+        Name="ProjectEditingTabHost"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch"
+        Background="Transparent"
+        Classes="horizontalScroller"
+        Items="{Binding Items, Mode=OneWay}"
+        TabStripPlacement="Top">
+        <TabControl.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock
+                        Background="Transparent"
+                        FontSize="12"
+                        Text="{Binding Title, Mode=OneWay}" />
+                    <Button
+                        Width="16"
+                        Height="16"
+                        Command="{Binding #projectEditingView.DataContext.CloseItemCommand}"
+                        CommandParameter="{Binding $self.DataContext}">
+                        <PathIcon Data="{StaticResource dismiss_light}" />
+                    </Button>
+                </StackPanel>
+            </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+            <DataTemplate>
+                <editingItemTemplate:EditingItem
+                    Name="editingItem"
+                    HorizontalAlignment="Stretch"
+                    Item="{Binding #projectEditingView.DataContext.SelectedItem, Mode=TwoWay}">
+                    <editingItemTemplate:EditingItem.KeyBindings>
+                        <KeyBinding
+                            Command="{Binding #editingItem.DataContext.SaveItemCommand}"
+                            CommandParameter="{Binding #editingItem.DataContext.Item}"
+                            Gesture="Ctrl+S" />
+                    </editingItemTemplate:EditingItem.KeyBindings>
+                </editingItemTemplate:EditingItem>
+            </DataTemplate>
+        </TabControl.ContentTemplate>
+
+    </TabControl>
 </UserControl>
