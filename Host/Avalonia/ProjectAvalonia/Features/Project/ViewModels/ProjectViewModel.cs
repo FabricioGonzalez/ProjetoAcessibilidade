@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using Common;
 
 using Core.Entities.Solution;
+using Core.Entities.Solution.ItemsGroup;
 
 using Project.Application.Contracts;
 using Project.Application.Solution.Commands.SyncSolutionCommands;
@@ -55,18 +56,19 @@ public partial class ProjectViewModel : NavBarItemViewModel
         SelectionMode = NavBarItemSelectionMode.Button;
 
         projectExplorerViewModel = new ProjectExplorerViewModel();
+        projectEditingViewModel = new ProjectEditingViewModel();
 
         projectExplorerViewModel
             .WhenAnyValue(vm => vm.SelectedItem)
             .WhereNotNull()
             .Subscribe(item =>
             {
-                Logger.LogDebug(item.Name);
+                projectEditingViewModel.SelectedItem = item;
             });
 
-        projectExplorerViewModel.CreateItemCommand = ReactiveCommand.Create(execute: () =>
+        projectExplorerViewModel.CreateItemCommand = ReactiveCommand.Create<ItemModel>(execute: (item) =>
         {
-
+            projectEditingViewModel.SelectedItem = item;
         });
 
         projectExplorerViewModel.PrintProjectCommand = ReactiveCommand.Create(execute: () =>
@@ -163,6 +165,11 @@ public partial class ProjectViewModel : NavBarItemViewModel
     }
 
     public ProjectExplorerViewModel projectExplorerViewModel
+    {
+        get;
+    }
+
+    public ProjectEditingViewModel projectEditingViewModel
     {
         get;
     }

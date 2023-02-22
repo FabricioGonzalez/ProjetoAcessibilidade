@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ProjectAvalonia.Common.Bases;
-using ProjectAvalonia.Common.Http;
 using ProjectAvalonia.Common.Models;
 
 namespace ProjectAvalonia.Common.Services;
@@ -14,8 +13,6 @@ public class UpdateChecker : PeriodicRunner
     public UpdateChecker(TimeSpan period) : base(period)
     {
         UpdateStatus = new UpdateStatus(true, true, new Version(), 0, new Version());
-
-        AppClient = new(new ProjectHttpClient());
         /* Synchronizer.PropertyChanged += Synchronizer_PropertyChanged; */
     }
 
@@ -27,7 +24,7 @@ public class UpdateChecker : PeriodicRunner
     }
     public AppClient AppClient
     {
-        get;
+        get; set;
     }
     private void Synchronizer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {

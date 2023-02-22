@@ -142,6 +142,51 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Itens de Relatório.
+        /// </summary>
+        public static string ItemFormDataLabel {
+            get {
+                return ResourceManager.GetString("ItemFormDataLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Descrição da Lei.
+        /// </summary>
+        public static string ItemLawItemContentLabel {
+            get {
+                return ResourceManager.GetString("ItemLawItemContentLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Identificador da Lei.
+        /// </summary>
+        public static string ItemLawItemIdLabel {
+            get {
+                return ResourceManager.GetString("ItemLawItemIdLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Legislações.
+        /// </summary>
+        public static string ItemLawItemsLabel {
+            get {
+                return ResourceManager.GetString("ItemLawItemsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do Item.
+        /// </summary>
+        public static string ItemNameLabel {
+            get {
+                return ResourceManager.GetString("ItemNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Manter aplicativo rodando em background.
         /// </summary>
         public static string onClosedBehaviorLabel {

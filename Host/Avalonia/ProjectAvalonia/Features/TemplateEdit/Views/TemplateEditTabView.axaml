@@ -6,104 +6,225 @@
     xmlns:controls="using:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="using:ProjectAvalonia.Properties"
     xmlns:text="clr-namespace:Core.Entities.Solution.Project.AppItem.DataItems.Text;assembly=Core"
     xmlns:viewModels="using:ProjectAvalonia.Features.TemplateEdit.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="viewModels:TemplateEditTabViewModel"
+    Background="{DynamicResource SystemBaseLowColor}"
     mc:Ignorable="d">
-    <ScrollViewer Padding="8">
+    <ScrollViewer Padding="2,16">
         <Grid
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            RowDefinitions="35,1*,0.3*">
-            <TextBox Grid.Row="0" Text="{Binding EditingItem.ItemName}" />
-            <ItemsControl Grid.Row="1" Items="{Binding EditingItem.FormData, Mode=TwoWay}">
-                <ItemsControl.DataTemplates>
-                    <DataTemplate x:DataType="checkbox:AppFormDataItemCheckboxModel" DataType="checkbox:AppFormDataItemCheckboxModel">
-                        <Expander Margin="4" HorizontalAlignment="Stretch">
-                            <Expander.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Spacing="16">
-                                        <TextBox Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
-                                        <ComboBox
-                                            Width="200"
-                                            HorizontalAlignment="Right"
-                                            IsTextSearchEnabled="True"
-                                            Items="{Binding $parent[UserControl].DataContext.Types, Mode=OneWay}"
-                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding}" />
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Expander.HeaderTemplate>
-                            <Grid RowDefinitions="auto auto">
-                                <TextBlock Grid.Row="0" Text="{Binding Topic, Mode=TwoWay}" />
-                                <ItemsControl Grid.Row="1" Items="{Binding Children, Mode=TwoWay}">
-                                    <ItemsControl.ItemTemplate>
+            RowDefinitions="0.08*,1*,0.3*">
+            <TextBox
+                Grid.Row="0"
+                Margin="8,0"
+                Text="{Binding EditingItem.ItemName, Mode=OneWay}"
+                UseFloatingWatermark="True"
+                Watermark="{x:Static p:Resources.ItemNameLabel}" />
+            <Border
+                Grid.Row="1"
+                Margin="8,2"
+                Background="{DynamicResource AcrylicTrimBackground}"
+                CornerRadius="8">
+                <DockPanel Margin="8,2" LastChildFill="True">
+                    <Grid
+                        Width="{Binding $parent.Width}"
+                        Margin="4"
+                        ColumnDefinitions="1*,1*"
+                        DockPanel.Dock="Top">
+
+                        <TextBlock Grid.Column="0" Text="{x:Static p:Resources.ItemFormDataLabel}" />
+                        <Button
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Classes="function">
+                            <PathIcon Data="{StaticResource add_regular}" />
+                        </Button>
+                    </Grid>
+                    <ItemsControl Items="{Binding EditingItem.FormData, Mode=TwoWay}">
+                        <ItemsControl.DataTemplates>
+                            <DataTemplate x:DataType="checkbox:AppFormDataItemCheckboxModel" DataType="checkbox:AppFormDataItemCheckboxModel">
+                                <Expander Margin="4" HorizontalAlignment="Stretch">
+                                    <Expander.HeaderTemplate>
                                         <DataTemplate>
-                                            <StackPanel>
-                                                <TextBox Text="{Binding Topic, Mode=TwoWay}" />
-                                                <ItemsControl Items="{Binding Options}">
-                                                    <ItemsControl.ItemTemplate>
+                                            <Grid ColumnDefinitions="1*,1*,1*">
+                                                <TextBox Grid.Column="0" Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
+                                                <ComboBox
+                                                    Grid.Column="1"
+                                                    Width="200"
+                                                    HorizontalAlignment="Right"
+                                                    IsTextSearchEnabled="True"
+                                                    Items="{Binding $parent[UserControl].DataContext.Types, Mode=OneWay}"
+                                                    SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
+                                                    <ComboBox.ItemTemplate>
                                                         <DataTemplate>
-                                                            <TextBox Text="{Binding Value, Mode=TwoWay}" />
+                                                            <TextBlock Text="{Binding}" />
                                                         </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <Button
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Right"
+                                                    Classes="function">
+                                                    <PathIcon Data="{StaticResource dismiss_light}" />
+                                                </Button>
+                                            </Grid>
                                         </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </Grid>
-                        </Expander>
-                    </DataTemplate>
-                    <DataTemplate x:DataType="text:AppFormDataItemTextModel" DataType="text:AppFormDataItemTextModel">
-                        <Expander Margin="4" HorizontalAlignment="Stretch">
-                            <Expander.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Spacing="16">
-                                        <TextBox Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
-                                        <ComboBox
-                                            Width="200"
+                                    </Expander.HeaderTemplate>
+                                    <Grid ColumnDefinitions="1*,1*" RowDefinitions="auto auto">
+                                        <TextBox
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Text="{Binding Topic, Mode=TwoWay}" />
+                                        <Button
+                                            Grid.Column="1"
                                             HorizontalAlignment="Right"
-                                            IsTextSearchEnabled="True"
-                                            Items="{Binding $parent[UserControl].DataContext.Types, Mode=OneWay}"
-                                            SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
-                                            <ComboBox.ItemTemplate>
+                                            Classes="function">
+                                            <PathIcon Data="{StaticResource dismiss_light}" />
+                                        </Button>
+                                        <ItemsControl
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            Items="{Binding Children, Mode=TwoWay}">
+                                            <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding}" />
+                                                    <Border Background="{DynamicResource SystemBaseLowColor}" CornerRadius="8">
+                                                        <Grid ColumnDefinitions="1*,1*" RowDefinitions="auto auto">
+                                                            <TextBox
+                                                                Grid.Row="0"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Center"
+                                                                Text="{Binding Topic, Mode=TwoWay}" />
+                                                            <Button
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Center"
+                                                                Classes="function">
+                                                                <PathIcon Data="{StaticResource dismiss_light}" />
+                                                            </Button>
+                                                            <ItemsControl
+                                                                Grid.Row="1"
+                                                                Grid.ColumnSpan="2"
+                                                                Items="{Binding Options}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Border Background="{DynamicResource SystemBaseLowColor}">
+                                                                            <Grid ColumnDefinitions="1*,1*">
+                                                                                <TextBox Text="{Binding Value, Mode=TwoWay}" />
+                                                                                <Button
+                                                                                    Grid.Column="1"
+                                                                                    HorizontalAlignment="Right"
+                                                                                    Classes="function">
+                                                                                    <PathIcon Data="{StaticResource dismiss_light}" />
+                                                                                </Button>
+                                                                            </Grid>
+                                                                        </Border>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </Grid>
+                                                    </Border>
                                                 </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Expander.HeaderTemplate>
-                            <Grid RowDefinitions="auto auto">
-                                <TextBox Grid.Row="1" Text="{Binding MeasurementUnit, Mode=TwoWay}" />
-                            </Grid>
-                        </Expander>
-                    </DataTemplate>
-                    <DataTemplate />
-                </ItemsControl.DataTemplates>
-            </ItemsControl>
-            <ItemsControl Grid.Row="2" Items="{Binding EditingItem.LawList}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid RowDefinitions="0.2*,1*">
-                            <TextBox Grid.Row="0" Text="{Binding LawId}" />
-                            <TextBox
-                                Grid.Row="1"
-                                Text="{Binding LawTextContent}"
-                                TextWrapping="Wrap" />
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+
+                                </Expander>
+                            </DataTemplate>
+
+                            <DataTemplate x:DataType="text:AppFormDataItemTextModel" DataType="text:AppFormDataItemTextModel">
+                                <Expander Margin="4" HorizontalAlignment="Stretch">
+                                    <Expander.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="1*,1*,1*">
+                                                <TextBox Grid.Column="0" Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
+                                                <ComboBox
+                                                    Grid.Column="1"
+                                                    Width="200"
+                                                    HorizontalAlignment="Right"
+                                                    IsTextSearchEnabled="True"
+                                                    Items="{Binding $parent[UserControl].DataContext.Types, Mode=OneWay}"
+                                                    SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <Button
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Right"
+                                                    Classes="function">
+                                                    <PathIcon Data="{StaticResource dismiss_light}" />
+                                                </Button>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Expander.HeaderTemplate>
+                                    <Grid RowDefinitions="auto auto">
+                                        <TextBox Grid.Row="1" Text="{Binding MeasurementUnit, Mode=TwoWay}" />
+                                    </Grid>
+                                </Expander>
+                            </DataTemplate>
+                            <DataTemplate />
+                        </ItemsControl.DataTemplates>
+                    </ItemsControl>
+                </DockPanel>
+
+            </Border>
+            <Border
+                Grid.Row="2"
+                Margin="8,2"
+                Background="{DynamicResource AcrylicTrimBackground}"
+                CornerRadius="8">
+                <DockPanel Margin="8,2" LastChildFill="True">
+                    <Grid
+                        Margin="4"
+                        ColumnDefinitions="1*,1*"
+                        DockPanel.Dock="Top">
+                        <TextBlock Text="{x:Static p:Resources.ItemLawItemsLabel}" />
+
+                        <Button
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Classes="function">
+                            <PathIcon Data="{StaticResource add_regular}" />
+                        </Button>
+                    </Grid>
+                    <ItemsControl Items="{Binding EditingItem.LawList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{DynamicResource SystemBaseLowColor}" CornerRadius="8">
+
+                                    <Grid ColumnDefinitions="1*,1*" RowDefinitions="1*,3*">
+                                        <TextBox
+                                            Grid.Column="0"
+                                            Text="{Binding LawId}"
+                                            UseFloatingWatermark="True"
+                                            Watermark="Identificador da Lei" />
+                                        <Button
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Classes="function">
+                                            <PathIcon Data="{StaticResource dismiss_light}" />
+                                        </Button>
+                                        <TextBox
+                                            Grid.Row="1"
+                                            Text="{Binding LawTextContent}"
+                                            TextWrapping="Wrap"
+                                            UseFloatingWatermark="True"
+                                            Watermark="Descrição da Lei" />
+                                    </Grid>
+                                </Border>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+            </Border>
         </Grid>
     </ScrollViewer>
 </UserControl>

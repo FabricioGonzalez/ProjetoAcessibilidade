@@ -144,6 +144,21 @@
   <data name="EnabledGPUTooltip" xml:space="preserve">
     <value>Quando a placa de video(GPU) está habilitada para renderizar a interface de usuário(UI). Usar a GPU ao invés da CPU pode melhor a performance.</value>
   </data>
+  <data name="ItemFormDataLabel" xml:space="preserve">
+    <value>Itens de Relatório</value>
+  </data>
+  <data name="ItemLawItemContentLabel" xml:space="preserve">
+    <value>Descrição da Lei</value>
+  </data>
+  <data name="ItemLawItemIdLabel" xml:space="preserve">
+    <value>Identificador da Lei</value>
+  </data>
+  <data name="ItemLawItemsLabel" xml:space="preserve">
+    <value>Legislações</value>
+  </data>
+  <data name="ItemNameLabel" xml:space="preserve">
+    <value>Nome do Item</value>
+  </data>
   <data name="onClosedBehaviorLabel" xml:space="preserve">
     <value>Manter aplicativo rodando em background</value>
   </data>

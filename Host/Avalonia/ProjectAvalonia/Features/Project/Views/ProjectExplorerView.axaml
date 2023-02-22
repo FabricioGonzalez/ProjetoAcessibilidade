@@ -21,8 +21,7 @@
             VerticalAlignment="Stretch"
             CornerRadius="8"
             Items="{Binding SolutionModel.ItemGroups}"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-            SelectionMode="Toggle">
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <TreeView.ItemTemplate>
                 <DataTemplate>
                     <TreeViewItem Header="{Binding Name}" Items="{Binding Items}">
@@ -36,7 +35,7 @@
                             <DataTemplate>
                                 <Panel>
                                     <i:Interaction.Behaviors>
-                                        <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding $parent[UserControl].DataContext.}" />
+                                        <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding $parent[UserControl].DataContext.CreateItemCommand}" CommandParameter="{Binding}" />
                                     </i:Interaction.Behaviors>
                                     <TextBlock Text="{Binding Name}" />
                                     <Panel.ContextMenu>
@@ -47,7 +46,6 @@
                                 </Panel>
                             </DataTemplate>
                         </TreeViewItem.ItemTemplate>
-
                     </TreeViewItem>
                 </DataTemplate>
             </TreeView.ItemTemplate>

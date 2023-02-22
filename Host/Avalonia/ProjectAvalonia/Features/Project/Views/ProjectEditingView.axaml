@@ -19,6 +19,7 @@
         Background="Transparent"
         Classes="horizontalScroller"
         Items="{Binding Items, Mode=OneWay}"
+        SelectedItem="{Binding Item, Mode=TwoWay}"
         TabStripPlacement="Top">
         <TabControl.ItemTemplate>
             <DataTemplate>
@@ -26,11 +27,11 @@
                     <TextBlock
                         Background="Transparent"
                         FontSize="12"
-                        Text="{Binding Title, Mode=OneWay}" />
+                        Text="{Binding ItemName, Mode=OneWay}" />
                     <Button
                         Width="16"
                         Height="16"
-                        Command="{Binding #projectEditingView.DataContext.CloseItemCommand}"
+                        Command="{Binding $parent[UserControl].DataContext.CloseItemCommand}"
                         CommandParameter="{Binding $self.DataContext}">
                         <PathIcon Data="{StaticResource dismiss_light}" />
                     </Button>
@@ -42,11 +43,11 @@
                 <editingItemTemplate:EditingItem
                     Name="editingItem"
                     HorizontalAlignment="Stretch"
-                    Item="{Binding #projectEditingView.DataContext.SelectedItem, Mode=TwoWay}">
+                    DataContext="{Binding $parent[UserControl].DataContext}">
                     <editingItemTemplate:EditingItem.KeyBindings>
                         <KeyBinding
-                            Command="{Binding #editingItem.DataContext.SaveItemCommand}"
-                            CommandParameter="{Binding #editingItem.DataContext.Item}"
+                            Command="{Binding $parent[UserControl].DataContext.SaveItemCommand}"
+                            CommandParameter="{Binding $parent[UserControl].DataContext.Item}"
                             Gesture="Ctrl+S" />
                     </editingItemTemplate:EditingItem.KeyBindings>
                 </editingItemTemplate:EditingItem>

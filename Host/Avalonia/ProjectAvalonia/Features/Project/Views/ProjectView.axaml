@@ -163,7 +163,7 @@
                 VerticalAlignment="Stretch"
                 DataContext="{Binding projectExplorerViewModel}"
                 DockPanel.Dock="Right" />
-            <local:ProjectEditingView />
+            <local:ProjectEditingView DataContext="{Binding projectEditingViewModel}" />
         </DockPanel>
 
     </Grid>

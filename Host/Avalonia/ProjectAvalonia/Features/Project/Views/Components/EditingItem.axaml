@@ -7,8 +7,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:itemsComponents="using:ProjectAvalonia.Features.Project.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:ProjectAvalonia.Features.Project.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:DataType="viewModels:ProjectEditingViewModel"
     mc:Ignorable="d">
     <Grid
         HorizontalAlignment="Stretch"

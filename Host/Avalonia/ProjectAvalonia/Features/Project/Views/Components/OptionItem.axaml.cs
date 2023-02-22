@@ -40,7 +40,7 @@ public partial class OptionItem : UserControl
     {
         if (prop.Value.GetValueOrDefault())
         {
-            if ((prop.Sender.Parent.Parent as ItemsControl).ItemCount == 2)
+            if ((prop.Sender?.Parent?.Parent as ItemsControl)?.ItemCount == 2)
             {
                 foreach (OptionsItemState item in (prop.Sender.Parent.Parent as ItemsControl).Items)
                 {
@@ -50,7 +50,7 @@ public partial class OptionItem : UserControl
                     }
                 }
             }
-            if ((prop.Sender.Parent.Parent as ItemsControl).ItemCount >= 4)
+            if ((prop.Sender?.Parent?.Parent as ItemsControl)?.ItemCount >= 4)
             {
                 var list1 = new List<OptionsItemState>();
                 var list2 = new List<OptionsItemState>();
@@ -69,7 +69,8 @@ public partial class OptionItem : UserControl
                 }
                 list1.ForEach(i1 =>
                 {
-                    if (list1.Contains(prop.Sender.DataContext as OptionsItemState) && i1.Value != (prop.Sender.DataContext as OptionsItemState).Value && i1.IsChecked)
+                    if (list1.Contains(prop.Sender.DataContext as OptionsItemState)
+                    && i1.Value != (prop.Sender.DataContext as OptionsItemState).Value && i1.IsChecked)
                     {
                         i1.IsChecked = false;
                     }
@@ -77,7 +78,8 @@ public partial class OptionItem : UserControl
                 });
                 list2.ForEach(i2 =>
                 {
-                    if (list2.Contains(prop.Sender.DataContext as OptionsItemState) && i2.Value != (prop.Sender.DataContext as OptionsItemState).Value && i2.IsChecked)
+                    if (list2.Contains(prop.Sender.DataContext as OptionsItemState)
+                    && i2.Value != (prop.Sender.DataContext as OptionsItemState).Value && i2.IsChecked)
                     {
                         i2.IsChecked = false;
                     }
