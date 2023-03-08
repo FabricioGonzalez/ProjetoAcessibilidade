@@ -64,7 +64,7 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
     private async Task LoadItemData(string path)
     {
         (await queryDispatcher
-            .Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
+            .Dispatch<GetSystemProjectItemContentQuery, Resource<AppItemModel>>(
             query: new(path),
             cancellation: CancellationToken.None))
         .OnLoadingStarted(isLoading =>
@@ -73,12 +73,12 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
         })
         .OnSuccess(success =>
         {
-            success.Data.FormData.Where(item =>
+            success?.Data?.FormData.Where(item =>
             {
                 return item is AppFormDataItemCheckboxModel || item is AppFormDataItemTextModel;
             });
 
-            EditingItem = success.Data;
+            EditingItem = success?.Data;
         })
         .OnError(error =>
         {

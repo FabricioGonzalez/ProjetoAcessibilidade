@@ -7,6 +7,20 @@ using ReactiveUI;
 namespace AppViewModels.Project.States.ProjectItemState;
 public class AppModelState : ReactiveObject
 {
+    private string id;
+    public string Id
+    {
+        get => id;
+        set => this.RaiseAndSetIfChanged(ref id, value);
+    }
+
+    private string templateName;
+    public string TemplateName
+    {
+        get => templateName;
+        set => this.RaiseAndSetIfChanged(ref templateName, value);
+    }
+
     private string itemName;
     public string ItemName
     {

@@ -8,6 +8,13 @@ using ReactiveUI;
 namespace ProjectAvalonia.Features.Project.States;
 public class AppModelState : ReactiveObject
 {
+    private string id;
+    public string Id
+    {
+        get => id;
+        set => this.RaiseAndSetIfChanged(ref id, value);
+    }
+
     private string itemName;
     public string ItemName
     {

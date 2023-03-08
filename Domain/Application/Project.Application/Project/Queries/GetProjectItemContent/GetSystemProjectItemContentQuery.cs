@@ -8,9 +8,9 @@ using Project.Application.Contracts;
 using Project.Application.Project.Contracts;
 
 namespace Project.Application.Project.Queries.GetProjectItemContent;
-public class GetProjectItemContentQuery : IRequest<AppItemModel>
+public class GetSystemProjectItemContentQuery : IRequest<AppItemModel>
 {
-    public GetProjectItemContentQuery(string itemPath)
+    public GetSystemProjectItemContentQuery(string itemPath)
     {
         ItemPath = itemPath;
     }
@@ -21,22 +21,20 @@ public class GetProjectItemContentQuery : IRequest<AppItemModel>
     }
 }
 
-public class GetProjectItemContentQueryHandler : IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>
+public class GetSystemProjectItemContentQueryHandler : IQueryHandler<GetSystemProjectItemContentQuery, Resource<AppItemModel>>
 {
     private readonly IProjectItemContentRepository contentRepository;
-    public GetProjectItemContentQueryHandler(IProjectItemContentRepository contentRepository)
+    public GetSystemProjectItemContentQueryHandler(IProjectItemContentRepository contentRepository)
     {
         this.contentRepository = contentRepository;
     }
 
-    public async Task<Resource<AppItemModel>> Handle(GetProjectItemContentQuery query, CancellationToken cancellation)
+    public async Task<Resource<AppItemModel>> Handle(GetSystemProjectItemContentQuery query, CancellationToken cancellation)
     {
-        var result = await contentRepository.GetProjectItemContent(query.ItemPath);
+        var result = await contentRepository.GetSystemProjectItemContent(query.ItemPath);
 
         if (result is not null)
         {
-            result.Id = string.IsNullOrWhiteSpace(result.Id) ? Guid.NewGuid().ToString() : result.Id;
-
             return new Resource<AppItemModel>.Success(Data: result);
         }
         return new Resource<AppItemModel>.Error(Data: result, Message: $"Erro ao ler arquivo {Path.GetFileName(query.ItemPath)}");

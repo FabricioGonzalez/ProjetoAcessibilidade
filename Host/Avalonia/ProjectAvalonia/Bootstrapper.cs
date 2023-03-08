@@ -9,6 +9,8 @@ using Core.Entities.App;
 using Core.Entities.Solution;
 using Core.Entities.Solution.Project.AppItem;
 
+using MediatR;
+
 using Project.Application.App.Contracts;
 using Project.Application.App.Queries.GetAllTemplates;
 using Project.Application.App.Queries.GetUFList;
@@ -101,6 +103,9 @@ public static class Bootstrapper
         service
             .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetProjectItemContentQueryHandler(
                 Locator.Current.GetService<IProjectItemContentRepository>()!));
+        service
+            .Register<IQueryHandler<GetSystemProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetSystemProjectItemContentQueryHandler(
+                Locator.Current.GetService<IProjectItemContentRepository>()!));
 
         service
             .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(() => new GetAllTemplatesQueryHandler(
@@ -116,7 +121,10 @@ public static class Bootstrapper
     {
         var service = Locator.CurrentMutable;
 
-        service.Register<ICommandHandler<SaveProjectItemContentCommand, Resource<object>>>(() => new SaveProjectItemContentCommandHandler(
+        service.Register<ICommandHandler<SaveProjectItemContentCommand, Resource<Unit>>>(() => new SaveProjectItemContentCommandHandler(
+          Locator.Current.GetService<IProjectItemContentRepository>()!));
+
+        service.Register<ICommandHandler<SaveSystemProjectItemContentCommand, Resource<Unit>>>(() => new SaveSystemProjectItemContentCommandHandler(
           Locator.Current.GetService<IProjectItemContentRepository>()!));
 
         service.Register<ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>>(() => new SyncSolutionCommandHandler(

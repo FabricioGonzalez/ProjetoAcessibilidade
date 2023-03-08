@@ -8,7 +8,7 @@ using Project.Application.Contracts;
 using Project.Application.Project.Contracts;
 
 namespace Project.Application.Project.Commands.ProjectItemCommands.SaveCommands;
-public class SaveProjectItemContentCommand : IRequest<Resource<object>>
+public class SaveProjectItemContentCommand : IRequest<Resource<Unit>>
 {
     public AppItemModel appItem;
     public string itemPath;
@@ -19,7 +19,7 @@ public class SaveProjectItemContentCommand : IRequest<Resource<object>>
     }
 }
 
-public class SaveProjectItemContentCommandHandler : ICommandHandler<SaveProjectItemContentCommand, Resource<object>>
+public class SaveProjectItemContentCommandHandler : ICommandHandler<SaveProjectItemContentCommand, Resource<Unit>>
 {
     private readonly IProjectItemContentRepository contentRepository;
     public SaveProjectItemContentCommandHandler(IProjectItemContentRepository content)
@@ -27,11 +27,11 @@ public class SaveProjectItemContentCommandHandler : ICommandHandler<SaveProjectI
         contentRepository = content;
     }
 
-    public async Task<Resource<object>> Handle(SaveProjectItemContentCommand command, CancellationToken cancellation)
+    public async Task<Resource<Unit>> Handle(SaveProjectItemContentCommand command, CancellationToken cancellation)
     {
         await contentRepository.SaveProjectItemContent(command.appItem, command.itemPath);
 
-        return null;
+        return new Resource<Unit>.Success(Unit.Value);
     }
 }
 

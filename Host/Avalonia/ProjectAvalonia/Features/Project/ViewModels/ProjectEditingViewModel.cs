@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -32,6 +33,8 @@ using ProjectAvalonia.ViewModels;
 using ReactiveUI;
 
 using Splat;
+
+using unit = MediatR.Unit;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 public partial class ProjectEditingViewModel : ViewModelBase
@@ -148,7 +151,7 @@ public partial class ProjectEditingViewModel : ViewModelBase
                };
 
                await commandDispatcher
-                 .Dispatch<SaveProjectItemContentCommand, Resource<object>>(
+                 .Dispatch<SaveProjectItemContentCommand, Resource<unit>>(
                      new(
                          itemModel, SelectedItem.ItemPath),
                      CancellationToken.None);
@@ -174,6 +177,7 @@ public partial class ProjectEditingViewModel : ViewModelBase
         CloseItemCommand = ReactiveCommand.Create<AppModelState>(execute: (item) =>
         {
             Logger.LogDebug(item.ItemName);
+            Items.Remove(item);
         });
 
     }
@@ -203,9 +207,10 @@ public partial class ProjectEditingViewModel : ViewModelBase
         {
             Dispatcher.UIThread.Post(() =>
             {
-                Item = new()
+                var res = new AppModelState()
                 {
-                    ItemName = success.Data.ItemName,
+                    Id = success?.Data?.Id ?? Guid.NewGuid().ToString(),
+                    ItemName = success?.Data?.ItemName ?? "",
                     FormData = new(
                    success
                .Data
@@ -248,7 +253,7 @@ public partial class ProjectEditingViewModel : ViewModelBase
                        {
                            Topic = text.Topic,
                            Type = text.Type,
-                           MeasurementUnit = text.MeasurementUnit,
+                           MeasurementUnit = text.MeasurementUnit ?? "",
                            TextData = text.TextData,
                        };
                    }
@@ -289,8 +294,12 @@ public partial class ProjectEditingViewModel : ViewModelBase
                new LawStateItem() { LawId = item.LawId, LawContent = item.LawTextContent }))
                 };
 
-                if (!Items.Contains(Item))
-                    Items.Add(Item);
+                Item = res;
+
+                var repitedItems = Items.Any(i => i.Id == res.Id);
+
+                if (!repitedItems)
+                    Items.Add(res);
 
             });
 
