@@ -9,6 +9,7 @@ using Avalonia.Controls;
 using Common;
 
 using ProjectAvalonia.Features.NavBar;
+using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.Features.SearchBar;
 using ProjectAvalonia.Features.SearchBar.Sources;
@@ -26,6 +27,8 @@ public partial class MainViewModel : ViewModelBase
     private readonly TemplateEditViewModel _templatePage;
     private readonly CreateSolutionViewModel _createSolution;
     private readonly ProjectViewModel _projectPage;
+    private readonly PreviewerViewModel _previewPrintPage;
+
     [AutoNotify] private DialogScreenViewModel _dialogScreen;
     [AutoNotify] private DialogScreenViewModel _fullScreen;
     [AutoNotify] private DialogScreenViewModel _compactDialogScreen;
@@ -53,6 +56,7 @@ public partial class MainViewModel : ViewModelBase
         _settingsPage = new SettingsPageViewModel();
         _templatePage = new TemplateEditViewModel();
         _projectPage = new ProjectViewModel();
+        _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
 
         NavigationManager.RegisterType(_navBar);
@@ -139,6 +143,7 @@ public partial class MainViewModel : ViewModelBase
         TemplateEditViewModel.Register(_templatePage);
 
         ProjectViewModel.Register(_projectPage);
+        PreviewerViewModel.Register(_previewPrintPage);
 
         GeneralSettingsTabViewModel.RegisterLazy(() =>
         {

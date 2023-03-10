@@ -16,6 +16,7 @@
                 EnableBack="True"
                 EnableCancel="True"
                 EnableNext="True"
+                EnableSkip="True"
                 FocusCancel="False"
                 FocusNext="True"
                 IsBusy="False"
@@ -38,21 +39,21 @@
                         IsIndeterminate="True"
                         IsVisible="{TemplateBinding IsBusy}" />
                     <DockPanel Name="MainDockPanel" IsVisible="{Binding !#LoadingRing.IsVisible}">
-
-                        <Panel x:Name="PART_ButtonArea" DockPanel.Dock="Bottom">
+                        <DockPanel x:Name="PART_ButtonArea" DockPanel.Dock="Bottom">
                             <Button
                                 Name="PART_CancelButton"
-                                HorizontalAlignment="Left"
                                 Classes="invisible"
                                 Command="{Binding CancelCommand}"
                                 Content="{TemplateBinding CancelContent}"
+                                DockPanel.Dock="Left"
                                 IsVisible="{TemplateBinding EnableCancel}">
                                 <i:Interaction.Behaviors>
                                     <behaviors:FocusOnAttachedBehavior IsEnabled="{Binding FocusCancel, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </i:Interaction.Behaviors>
                             </Button>
+
                             <StackPanel
-                                HorizontalAlignment="Right"
+                                DockPanel.Dock="Right"
                                 Orientation="Horizontal"
                                 Spacing="30">
                                 <Button
@@ -74,7 +75,12 @@
                                     </i:Interaction.Behaviors>
                                 </Button>
                             </StackPanel>
-                        </Panel>
+
+                            <Border
+                                Margin="4,4"
+                                VerticalAlignment="Bottom"
+                                Child="{TemplateBinding FooterContent}" />
+                        </DockPanel>
 
                         <Panel DockPanel.Dock="Top">
                             <Panel Background="{TemplateBinding HeaderBackground}" IsHitTestVisible="False" />

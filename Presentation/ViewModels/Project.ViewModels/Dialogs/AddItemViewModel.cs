@@ -39,6 +39,7 @@ public class AddItemViewModel : ViewModelBase
     {
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
 
+
         this.WhenActivated(async (Action<IDisposable> disposables) =>
         {
             Items = new(await GetItems());

@@ -6,11 +6,8 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Avalonia.Threading;
-
 using Common;
 
-using Core.Entities.Solution.ItemsGroup;
 using Core.Entities.Solution.Project.AppItem;
 using Core.Entities.Solution.Project.AppItem.DataItems;
 using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
@@ -27,6 +24,7 @@ using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Features.Project.States.FormItemState;
 using ProjectAvalonia.Features.Project.States.LawItemState;
+using ProjectAvalonia.Features.Project.States.ProjectItems;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.ViewModels;
 
@@ -39,8 +37,9 @@ using unit = MediatR.Unit;
 namespace ProjectAvalonia.Features.Project.ViewModels;
 public partial class ProjectEditingViewModel : ViewModelBase
 {
-    [AutoNotify] private ItemModel _selectedItem;
+    [AutoNotify] private ItemState _selectedItem;
     [AutoNotify] private AppModelState _item;
+    [AutoNotify] private int _selectedIndex;
     [AutoNotify] private ObservableCollection<AppModelState> _items = new();
 
     private readonly IQueryDispatcher? queryDispatcher;
@@ -59,7 +58,11 @@ public partial class ProjectEditingViewModel : ViewModelBase
             .WhereNotNull()
             .SubscribeAsync(async prop =>
             {
-                await SetEditingItem(prop.ItemPath);
+                Item = await SetEditingItem(prop.ItemPath);
+
+                var itemIndex = Items.IndexOf(Item);
+
+                SelectedIndex = itemIndex != -1 ? itemIndex : 0;
             });
 
         SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState>(
@@ -160,8 +163,6 @@ public partial class ProjectEditingViewModel : ViewModelBase
        },
        canExecute: canSave);
 
-
-
         AddPhotoCommand = ReactiveCommand.Create<ImageContainerItemState>(
      execute: async (imageContainer) =>
      {
@@ -179,7 +180,6 @@ public partial class ProjectEditingViewModel : ViewModelBase
             Logger.LogDebug(item.ItemName);
             Items.Remove(item);
         });
-
     }
 
     public ReactiveCommand<AppModelState, Unit> SaveItemCommand
@@ -195,114 +195,117 @@ public partial class ProjectEditingViewModel : ViewModelBase
     {
         get; private set;
     }
-    public async Task SetEditingItem(string path)
+    public async Task<AppModelState> SetEditingItem(string path)
     {
         var result = await queryDispatcher
             .Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
             new(path),
             CancellationToken.None);
 
-        if (result is Resource<AppItemModel>.Error err) { }
+        if (result is Resource<AppItemModel>.Error err)
+        {
+            return null;
+        }
+
         if (result is Resource<AppItemModel>.Success success)
         {
-            Dispatcher.UIThread.Post(() =>
+            var res = new AppModelState()
             {
-                var res = new AppModelState()
+                Id = success?.Data?.Id ?? Guid.NewGuid().ToString(),
+                ItemName = success?.Data?.ItemName ?? "",
+                FormData = new(
+   success
+?.Data
+?.FormData
+?.Select<IAppFormDataItemContract, ReactiveObject>(item =>
+{
+    if (item is AppFormDataItemCheckboxModel checkbox)
+    {
+        return new CheckboxContainerItemState()
+        {
+            Topic = checkbox.Topic,
+            Children = new(checkbox.Children
+            .Select(checkboxItem =>
+            {
+                return new CheckboxItemState()
                 {
-                    Id = success?.Data?.Id ?? Guid.NewGuid().ToString(),
-                    ItemName = success?.Data?.ItemName ?? "",
-                    FormData = new(
-                   success
-               .Data
-               .FormData
-               .Select<IAppFormDataItemContract, ReactiveObject>(item =>
-               {
-                   if (item is AppFormDataItemCheckboxModel checkbox)
-                   {
-                       return new CheckboxContainerItemState()
-                       {
-                           Topic = checkbox.Topic,
-                           Children = new(checkbox.Children
-                           .Select(checkboxItem =>
-                           {
-                               return new CheckboxItemState()
-                               {
-                                   Topic = checkboxItem.Topic,
-                                   TextItems = new(
-                                       checkboxItem.TextItems.Select(textItem =>
-                                       {
-                                           return new TextItemState()
-                                           {
-                                               Topic = textItem.Topic,
-                                               Type = textItem.Type,
-                                               MeasurementUnit = textItem.MeasurementUnit,
-                                               TextData = textItem.TextData,
-                                           };
-                                       })),
-                                   Options = new(
-                                       checkboxItem.Options
-                                       .Select(opt => new OptionsItemState() { IsChecked = opt.IsChecked, Value = opt.Value }))
-                               };
-                           }))
-                       };
-                   }
-
-                   if (item is AppFormDataItemTextModel text)
-                   {
-                       return new TextItemState()
-                       {
-                           Topic = text.Topic,
-                           Type = text.Type,
-                           MeasurementUnit = text.MeasurementUnit ?? "",
-                           TextData = text.TextData,
-                       };
-                   }
-
-                   if (item is AppFormDataItemObservationModel observation)
-                   {
-                       return new ObservationItemState()
-                       {
-                           Topic = observation.Topic,
-                           Observation = observation.Observation
-                       };
-                   }
-
-                   if (item is AppFormDataItemImageModel images)
-                   {
-                       return new ImageContainerItemState()
-                       {
-                           Topic = images.Topic,
-                           Type = images.Type,
-                           ImagesItems = new(
-                               images
-                           .ImagesItems
-                           .Select(image =>
-                           new ImageItemState()
-                           {
-                               ImagePath = image.imagePath,
-                               ImageObservation = image.imageObservation
-                           }))
-                       };
-                   }
-                   return null;
-               })),
-                    LawItems = new(
-                   success
-               .Data
-               .LawList
-               .Select(item =>
-               new LawStateItem() { LawId = item.LawId, LawContent = item.LawTextContent }))
+                    Topic = checkboxItem.Topic,
+                    TextItems = new(
+                        checkboxItem.TextItems.Select(textItem =>
+                        {
+                            return new TextItemState()
+                            {
+                                Topic = textItem.Topic,
+                                Type = textItem.Type,
+                                MeasurementUnit = textItem.MeasurementUnit,
+                                TextData = textItem.TextData,
+                            };
+                        })),
+                    Options = new(
+                        checkboxItem.Options
+                        .Select(opt => new OptionsItemState() { IsChecked = opt.IsChecked, Value = opt.Value }))
                 };
+            }))
+        };
+    }
 
-                Item = res;
+    if (item is AppFormDataItemTextModel text)
+    {
+        return new TextItemState()
+        {
+            Topic = text.Topic,
+            Type = text.Type,
+            MeasurementUnit = text.MeasurementUnit ?? "",
+            TextData = text.TextData,
+        };
+    }
 
-                var repitedItems = Items.Any(i => i.Id == res.Id);
+    if (item is AppFormDataItemObservationModel observation)
+    {
+        return new ObservationItemState()
+        {
+            Topic = observation.Topic,
+            Observation = observation.Observation
+        };
+    }
 
-                if (!repitedItems)
-                    Items.Add(res);
+    if (item is AppFormDataItemImageModel images)
+    {
+        return new ImageContainerItemState()
+        {
+            Topic = images.Topic,
+            Type = images.Type,
+            ImagesItems = new(
+                images
+            .ImagesItems
+            .Select(image =>
+            new ImageItemState()
+            {
+                ImagePath = image.imagePath,
+                ImageObservation = image.imageObservation
+            }))
+        };
+    }
+    return null;
+})),
+                LawItems = new(
+   success
+.Data
+.LawList
+.Select(item =>
+new LawStateItem() { LawId = item.LawId, LawContent = item.LawTextContent }))
+            };
 
-            });
+            var repitedItems = Items.Any(i => i.Id == res.Id);
+
+            /*Logger.LogDebug(res.Id);*/
+
+            if (!repitedItems)
+                Items.Add(res);
+
+            return Items.FirstOrDefault(i => i.Id == res.Id);
 
         }
+        return null;
     }
 }

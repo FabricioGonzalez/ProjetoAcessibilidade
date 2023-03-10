@@ -1,7 +1,9 @@
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -117,6 +119,19 @@ public class ApplicationStateManager : IMainWindowService
         _stateMachine.Fire(e.Cancel ? Trigger.ShutdownPrevented : Trigger.ShutdownRequested);
     }
 
+    private async Task CheckAction(string args)
+    {
+        if (args.Contains("open="))
+        {
+            ApplicationViewModel.GoToOpenProject(args.Split("=")[1]);
+        }
+        if (args.Contains("print="))
+        {
+            await ApplicationViewModel.GoToOpenPrint(args.Split("=")[1]);
+        }
+    }
+
+
     private void CreateAndShowMainWindow()
     {
         if (_lifetime.MainWindow is { })
@@ -169,6 +184,15 @@ public class ApplicationStateManager : IMainWindowService
         {
             SetWindowSize(result);
         }
+
+        if (_lifetime.Args.Any())
+        {
+            foreach (var item in _lifetime.Args)
+            {
+                Task.Run(async () => await CheckAction(item));
+            }
+        }
+
 
         ObserveWindowSize(result, _compositeDisposable);
 

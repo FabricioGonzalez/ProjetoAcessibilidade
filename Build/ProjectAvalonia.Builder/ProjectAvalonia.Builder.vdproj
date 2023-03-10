@@ -630,14 +630,14 @@
                     {
                     "Command" = "8:&Open"
                     "Verb" = "8:open"
-                    "Arguments" = "8:\"%1\""
+                    "Arguments" = "8:\"open=%1\""
                     "Order" = "3:0"
                     }
                     "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_FCEEAF3ADF70480D98E1CAB3070DE371"
                     {
                     "Command" = "8:&Print"
                     "Verb" = "8:print"
-                    "Arguments" = "8:\"%1\""
+                    "Arguments" = "8:\"print=%1\""
                     "Order" = "3:1"
                     }
                 }
@@ -795,7 +795,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Gestor de Projetos ARPA"
         "ProductCode" = "8:{4B131B0E-6616-48AB-B94E-F1629FE7EBF2}"
-        "PackageCode" = "8:{7AC6B78B-38AD-45D2-AEBF-C6C11CF2FEAB}"
+        "PackageCode" = "8:{AD6DF24C-2075-4E1C-8595-CDCC91A76CA1}"
         "UpgradeCode" = "8:{2FE20B19-09B5-466F-8D6F-3524BC50A954}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1358,7 +1358,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_292099E4ADCF46E5BC4868ED21C9CC73"
             {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia.Desktop\\obj\\Release\\net7.0\\apphost.exe"
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia.Desktop\\obj\\Debug\\net7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_010AF24278494D01AF7160838EC26B5E"

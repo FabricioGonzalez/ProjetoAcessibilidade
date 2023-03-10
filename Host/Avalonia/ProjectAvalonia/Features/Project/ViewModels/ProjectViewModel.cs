@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Input;
@@ -9,15 +10,16 @@ using Avalonia.Threading;
 using Common;
 
 using Core.Entities.Solution;
-using Core.Entities.Solution.ItemsGroup;
 
 using Project.Application.Contracts;
 using Project.Application.Solution.Commands.SyncSolutionCommands;
 using Project.Application.Solution.Queries;
 
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
+using ProjectAvalonia.Features.Project.States.ProjectItems;
 using ProjectAvalonia.Logging;
 
 using ReactiveUI;
@@ -58,15 +60,38 @@ public partial class ProjectViewModel : NavBarItemViewModel
         projectExplorerViewModel = new ProjectExplorerViewModel();
         projectEditingViewModel = new ProjectEditingViewModel();
 
-        projectExplorerViewModel
-            .WhenAnyValue(vm => vm.SelectedItem)
+        this.WhenAnyValue(vm => vm.projectExplorerViewModel.SelectedItem)
             .WhereNotNull()
             .Subscribe(item =>
             {
                 projectEditingViewModel.SelectedItem = item;
             });
 
-        projectExplorerViewModel.CreateItemCommand = ReactiveCommand.Create<ItemModel>(execute: (item) =>
+        this.WhenAnyValue(vm => vm.CurrentOpenProject)
+            .Where(prop => !string.IsNullOrWhiteSpace(prop))
+            .SubscribeAsync(async prop =>
+            {
+                (await queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
+                    query: new(solutionPath: prop),
+                    cancellation: CancellationToken.None))
+                    .OnSuccess(
+                    (result) =>
+                    {
+                        Dispatcher
+                        .UIThread
+                        .Post(() => projectExplorerViewModel.SolutionModel = result.Data.ToSolutionState());
+                    })
+                    .OnError(error =>
+                    {
+
+                    })
+                    .OnLoadingStarted(loading =>
+                    {
+
+                    });
+            });
+
+        projectExplorerViewModel.CreateItemCommand = ReactiveCommand.Create<ItemState>(execute: (item) =>
         {
             projectEditingViewModel.SelectedItem = item;
         });
@@ -103,28 +128,9 @@ public partial class ProjectViewModel : NavBarItemViewModel
             if (path is not null)
             {
                 CurrentOpenProject = path;
-
-                (await queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
-                    query: new(solutionPath: path),
-                    cancellation: CancellationToken.None))
-                    .OnSuccess(
-                    (result) =>
-                    {
-                        Dispatcher
-                        .UIThread
-                        .Post(() => projectExplorerViewModel.SolutionModel = result.Data.ToSolutionState());
-                    })
-                    .OnError(error =>
-                    {
-
-                    })
-                    .OnLoadingStarted(loading =>
-                    {
-
-                    });
-
             }
         });
+
         ((ReactiveCommand<Unit, Unit>)OpenProjectCommand)
             .ThrownExceptions
             .Subscribe(exception =>
@@ -150,12 +156,21 @@ public partial class ProjectViewModel : NavBarItemViewModel
                 IsBusy = false;
             }
         });
+
         ((ReactiveCommand<Unit, Unit>)CreateProjectCommand)
            .ThrownExceptions
            .Subscribe(exception =>
            {
                Logger.LogError("Error!", exception);
            });
+    }
+
+    protected override void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables, object? Parameter = null)
+    {
+        if (Parameter is string path && !string.IsNullOrWhiteSpace(path))
+        {
+            CurrentOpenProject = path;
+        }
     }
 
     private IObservable<bool> IsSolutionOpened()
@@ -173,6 +188,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
     {
         get;
     }
+
     public PreviewerViewModel printPreviewViewModel
     {
         get;
@@ -182,6 +198,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
     {
         get;
     }
+
     public ICommand CreateProjectCommand
     {
         get;

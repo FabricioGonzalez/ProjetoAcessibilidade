@@ -11,15 +11,15 @@
     x:DataType="viewModels:ProjectEditingViewModel"
     mc:Ignorable="d">
     <TabControl
-        Name="ProjectEditingTabHost"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
         VerticalContentAlignment="Stretch"
+        AutoScrollToSelectedItem="True"
         Background="Transparent"
-        Classes="horizontalScroller"
         Items="{Binding Items, Mode=OneWay}"
         SelectedItem="{Binding Item, Mode=TwoWay}"
+        TabIndex="{Binding SelectedIndex, Mode=TwoWay}"
         TabStripPlacement="Top">
         <TabControl.ItemTemplate>
             <DataTemplate>
@@ -36,8 +36,10 @@
                         <PathIcon Data="{StaticResource dismiss_light}" />
                     </Button>
                 </StackPanel>
+
             </DataTemplate>
         </TabControl.ItemTemplate>
+
         <TabControl.ContentTemplate>
             <DataTemplate>
                 <editingItemTemplate:EditingItem

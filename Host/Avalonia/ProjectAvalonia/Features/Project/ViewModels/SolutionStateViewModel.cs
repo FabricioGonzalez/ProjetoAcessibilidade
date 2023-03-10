@@ -5,8 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using AppViewModels.Common;
-
 using Avalonia.Threading;
 
 using Core.Entities.App;
@@ -20,14 +18,20 @@ using Project.Application.App.Queries.GetUFList;
 using Project.Application.Contracts;
 
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.Features.Project.States.ProjectItems;
+using ProjectAvalonia.Logging;
+using ProjectAvalonia.ViewModels.Navigation;
 
 using ReactiveUI;
 
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
-public partial class SolutionStateViewModel : ViewModelBase
+
+[NavigationMetaData(Title = "Success")]
+public partial class SolutionStateViewModel : RoutableViewModel
 {
+
     [AutoNotify] private SolutionInfo _reportData = new();
 
     [AutoNotify] private string _fileName = "";
@@ -39,7 +43,7 @@ public partial class SolutionStateViewModel : ViewModelBase
     [AutoNotify] private string _parentFolderPath = "";
 
 
-    [AutoNotify] private ObservableCollectionExtended<ItemGroupModel> _itemGroups = new();
+    [AutoNotify] private ObservableCollectionExtended<ItemGroupState> _itemGroups = new();
 
     [AutoNotify] private ObservableCollectionExtended<UFModel> _ufList;
 
@@ -49,7 +53,7 @@ public partial class SolutionStateViewModel : ViewModelBase
     {
         queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
 
-        ChooseSolutionPath = ReactiveCommand.Create(async () =>
+        ChooseSolutionPath = ReactiveCommand.CreateFromTask(async () =>
         {
             var path = await FileDialogHelper.ShowOpenFolderDialogAsync("Local da Solução");
 
@@ -60,7 +64,7 @@ public partial class SolutionStateViewModel : ViewModelBase
             });
         });
 
-        ChooseLogoPath = ReactiveCommand.Create(async () =>
+        ChooseLogoPath = ReactiveCommand.CreateFromTask(async () =>
         {
             var path = await FileDialogHelper.ShowOpenFileDialogAsync("Logo da Empresa", new string[] { "png" });
 
@@ -68,6 +72,34 @@ public partial class SolutionStateViewModel : ViewModelBase
             {
                 ReportData.LogoPath = path;
             });
+        });
+
+        ExcludeFileCommand = ReactiveCommand.Create<ItemState>((model) =>
+        {
+            Logger.LogInfo(model.Name);
+        });
+
+        RenameFileCommand = ReactiveCommand.Create<ItemState>((model) =>
+        {
+            Logger.LogInfo(model.Name);
+        });
+
+        ExcludeFolderCommand = ReactiveCommand.Create<ItemGroupState>((groupModels) =>
+        {
+            Logger.LogInfo(groupModels.Name);
+        });
+
+        AddProjectItemCommand = ReactiveCommand.CreateFromTask<ItemGroupState>(async (groupModels) =>
+        {
+            Logger.LogInfo(groupModels.Name);
+
+            var addItemViewModel = new AddItemViewModel();
+
+            var dialogResult = await NavigateDialogAsync(addItemViewModel,
+                NavigationTarget.DialogScreen);
+
+            ItemGroups.FirstOrDefault(groupModels)
+            .Items.Add(dialogResult.Result);
         });
 
         Task.Run(async () =>
@@ -80,7 +112,22 @@ public partial class SolutionStateViewModel : ViewModelBase
             Dispatcher.UIThread.Post(() => UfList = result);
         });
     }
-
+    public ICommand ExcludeFileCommand
+    {
+        get; set;
+    }
+    public ICommand RenameFileCommand
+    {
+        get; set;
+    }
+    public ICommand ExcludeFolderCommand
+    {
+        get; set;
+    }
+    public ICommand AddProjectItemCommand
+    {
+        get; set;
+    }
     public ICommand ChooseSolutionPath
     {
         get;
@@ -99,7 +146,22 @@ public static class Extension
         {
             FileName = model.FileName,
             FilePath = model.FilePath,
-            ItemGroups = new(model.ItemGroups),
+            ItemGroups = model
+            .ItemGroups
+            .Select(item => new ItemGroupModel()
+            {
+                Name = item.Name,
+                Items = item
+                .Items
+                .Select(child => new ItemModel()
+                {
+                    Id = child.Id,
+                    Name = child.Name,
+                    ItemPath = child.ItemPath,
+                    TemplateName = child.TemplateName
+                }).ToList()
+            })
+            .ToList(),
             SolutionReportInfo = model.ReportData,
             ParentFolderName = model.ParentFolderName,
             ParentFolderPath = model.ParentFolderPath
@@ -111,7 +173,21 @@ public static class Extension
         {
             FileName = model.FileName,
             FilePath = model.FilePath,
-            ItemGroups = new(model.ItemGroups),
+            ItemGroups = new(model
+            .ItemGroups
+            .Select(item => new ItemGroupState()
+            {
+                Name = item.Name,
+                Items = new(item
+                .Items
+                .Select(child => new ItemState()
+                {
+                    Id = child.Id,
+                    Name = child.Name,
+                    ItemPath = child.ItemPath,
+                    TemplateName = child.TemplateName
+                }))
+            })),
             ReportData = model.SolutionReportInfo,
             ParentFolderName = model.ParentFolderName,
             ParentFolderPath = model.ParentFolderPath

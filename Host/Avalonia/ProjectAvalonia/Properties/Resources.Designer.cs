@@ -61,6 +61,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do Item.
+        /// </summary>
+        public static string AddItemNameLabel {
+            get {
+                return ResourceManager.GetString("AddItemNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Auto copiar.
         /// </summary>
         public static string AutoCopyBehaviorLabel {

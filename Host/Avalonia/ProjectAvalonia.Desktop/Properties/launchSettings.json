@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ProjectAvalonia.Desktop": {
+      "commandName": "Project",
+      "commandLineArgs": "open=C:\\Users\\Ti\\Documents\\Teste\\Teste.prja"
+    }
+  }
+}

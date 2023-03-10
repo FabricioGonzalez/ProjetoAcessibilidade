@@ -94,7 +94,13 @@ public class Global
 
             try
             {
-                HostedServices.Register<UpdateChecker>(() => new UpdateChecker(TimeSpan.FromMinutes(7)) { AppClient = new(new ProjectHttpClient(new System.Net.Http.HttpClient())) }, "Software Update Checker");
+                HostedServices.Register<UpdateChecker>(() => new UpdateChecker(TimeSpan.FromMinutes(7))
+                {
+                    AppClient = new(new ProjectHttpClient(new System.Net.Http.HttpClient(), () =>
+                {
+                    return new Uri("https://api.github.com/repos/FabricioGonzalez/ProjetoAcessibilidade/releases/latest");
+                }))
+                }, "Software Update Checker");
                 var updateChecker = HostedServices.Get<UpdateChecker>();
 
 

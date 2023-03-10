@@ -11,7 +11,7 @@ using Common;
 
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.ViewModels;
-using ProjectAvalonia.ViewModels.Dialogs.Base;
+using ProjectAvalonia.ViewModels.Navigation;
 
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
@@ -35,8 +35,8 @@ namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
     IconName = "printer_regular",
     Searchable = false,
     NavBarPosition = NavBarPosition.None,
-    NavigationTarget = NavigationTarget.DialogScreen)]
-public partial class PreviewerViewModel : DialogViewModelBase
+    NavigationTarget = NavigationTarget.FullScreen)]
+public partial class PreviewerViewModel : RoutableViewModel
 {
     public DocumentRenderer DocumentRenderer { get; } = new();
 

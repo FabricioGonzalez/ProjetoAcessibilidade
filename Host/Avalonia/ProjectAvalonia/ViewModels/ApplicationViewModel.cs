@@ -1,24 +1,42 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Avalonia.Controls;
 
+using Common;
+
+using Core.Entities.Solution;
+
+using Project.Application.Contracts;
+using Project.Application.Solution.Queries;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
+using ProjectAvalonia.Features.PDFViewer.ViewModels;
+using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
+using ProjectAvalonia.ViewModels.Navigation;
 
 using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.ViewModels;
 public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
 {
     private readonly IMainWindowService _mainWindowService;
+    private readonly IQueryDispatcher _queryDispatcher;
+
     [AutoNotify] private bool _isMainWindowShown = true;
     [AutoNotify] private bool _isShuttingDown = false;
+
     public ApplicationViewModel(IMainWindowService mainWindowService)
     {
+        _queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
         _mainWindowService = mainWindowService;
 
         QuitCommand = ReactiveCommand.Create(() => Shutdown(false));
@@ -92,5 +110,40 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
     public bool CanShutdown()
     {
         return IsShuttingDown;
+    }
+
+    internal async Task GoToOpenPrint(string v)
+    {
+
+        (await _queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
+    query: new(solutionPath: v),
+    cancellation: CancellationToken.None))
+    .OnSuccess(
+    async (result) =>
+    {
+
+        MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
+                  , Parameter: result.Data.ToSolutionState());
+
+        MainViewModel.Instance.MainScreen.To(
+                    await NavigationManager.MaterialiseViewModelAsync(ProjectViewModel.MetaData)
+                   , Parameter: v);
+    })
+    .OnError(error =>
+    {
+
+    })
+    .OnLoadingStarted(loading =>
+    {
+
+    });
+
+
+    }
+
+    internal void GoToOpenProject(string v)
+    {
+        MainViewModel.Instance.MainScreen.To(
+         new ProjectViewModel() { CurrentOpenProject = v });
     }
 }

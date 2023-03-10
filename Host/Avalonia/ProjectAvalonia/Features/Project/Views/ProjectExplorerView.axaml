@@ -24,11 +24,20 @@
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <TreeView.ItemTemplate>
                 <DataTemplate>
-                    <TreeViewItem Header="{Binding Name}" Items="{Binding Items}">
+                    <TreeViewItem Items="{Binding Items}">
+                        <TreeViewItem.Header>
+                            <controls:EditableTextBlock InEditMode="{Binding InEditMode}" Text="{Binding Name}" />
+                        </TreeViewItem.Header>
                         <TreeViewItem.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Adicionar Item" />
-                                <MenuItem Header="Excluir Pasta" />
+                                <MenuItem
+                                    Command="{Binding $parent[UserControl].DataContext.SolutionModel.AddProjectItemCommand}"
+                                    CommandParameter="{Binding}"
+                                    Header="Adicionar Item" />
+                                <MenuItem
+                                    Command="{Binding $parent[UserControl].DataContext.SolutionModel.ExcludeFolderCommand}"
+                                    CommandParameter="{Binding}"
+                                    Header="Excluir Pasta" />
                             </ContextMenu>
                         </TreeViewItem.ContextMenu>
                         <TreeViewItem.ItemTemplate>
@@ -37,10 +46,17 @@
                                     <i:Interaction.Behaviors>
                                         <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding $parent[UserControl].DataContext.CreateItemCommand}" CommandParameter="{Binding}" />
                                     </i:Interaction.Behaviors>
-                                    <TextBlock Text="{Binding Name}" />
+                                    <controls:EditableTextBlock InEditMode="{Binding InEditMode}" Text="{Binding Name}" />
                                     <Panel.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Excluir" />
+                                            <MenuItem
+                                                Command="{Binding $parent[UserControl].DataContext.SolutionModel.ExcludeFileCommand}"
+                                                CommandParameter="{Binding}"
+                                                Header="Excluir" />
+                                            <MenuItem
+                                                Command="{Binding $parent[UserControl].DataContext.SolutionModel.RenameFileCommand}"
+                                                CommandParameter="{Binding}"
+                                                Header="Renomear" />
                                         </ContextMenu>
                                     </Panel.ContextMenu>
                                 </Panel>
