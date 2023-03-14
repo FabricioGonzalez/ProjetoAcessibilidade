@@ -10,6 +10,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="project:CreateSolutionViewModel"
+    xml:lang="pt-br"
     mc:Ignorable="d">
     <c:ContentArea
         Title="{Binding Title}"
@@ -47,7 +48,7 @@
                         DayVisible="True"
                         Header="Data do Relatório"
                         MonthVisible="True"
-                        SelectedDate="{Binding SolutionModel.ReportData.Data}"
+                        SelectedDate="{Binding SolutionModel.ReportData.Data, StringFormat=dd-MM-yyyy}"
                         YearVisible="True" />
 
                     <ComboBox

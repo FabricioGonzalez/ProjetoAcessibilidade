@@ -8,7 +8,7 @@ using Core.Entities.Solution;
 using Core.Entities.Solution.ItemsGroup;
 using Core.Entities.Solution.ReportInfo;
 
-using Project.Application.Solution.Contracts;
+using Project.Domain.Solution.Contracts;
 
 namespace ProjectItemReader.publicAppFiles;
 

@@ -4,10 +4,10 @@ using Core.Entities.Solution.Project.AppItem;
 
 using MediatR;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Contracts;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Contracts;
 
-namespace Project.Application.Project.Commands.ProjectItemCommands.SaveCommands;
+namespace Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
 public class SaveProjectItemContentCommand : IRequest<Resource<Unit>>
 {
     public AppItemModel appItem;

@@ -1,6 +1,6 @@
 ﻿using Core.Entities.Solution.Project.AppItem;
 
-namespace Project.Application.Project.Contracts;
+namespace Project.Domain.Project.Contracts;
 public interface IProjectItemContentRepository
 {
     public Task<AppItemModel> GetProjectItemContent(string filePathToWrite);

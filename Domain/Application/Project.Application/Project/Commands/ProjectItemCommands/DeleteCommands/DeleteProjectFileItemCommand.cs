@@ -4,10 +4,10 @@ using Core.Entities.Solution.Explorer;
 
 using MediatR;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Contracts;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Contracts;
 
-namespace Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
+namespace Project.Domain.Project.Commands.ProjectItemCommands.DeleteCommands;
 public class DeleteProjectFileItemCommand : IRequest<Resource<ExplorerItem>>
 {
     public DeleteProjectFileItemCommand(FileItem item)

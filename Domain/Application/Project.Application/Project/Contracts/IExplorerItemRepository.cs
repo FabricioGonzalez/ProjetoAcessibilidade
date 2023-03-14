@@ -2,7 +2,7 @@
 
 using Core.Entities.Solution.Explorer;
 
-namespace Project.Application.Project.Contracts;
+namespace Project.Domain.Project.Contracts;
 public interface IExplorerItemRepository
 {
     Task<Resource<List<ExplorerItem>>> GetAllItemsAsync(string solutionPath);

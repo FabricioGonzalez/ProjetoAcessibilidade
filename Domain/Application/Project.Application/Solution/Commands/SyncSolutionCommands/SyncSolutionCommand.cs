@@ -4,10 +4,10 @@ using Core.Entities.Solution;
 
 using MediatR;
 
-using Project.Application.Contracts;
-using Project.Application.Solution.Contracts;
+using Project.Domain.Contracts;
+using Project.Domain.Solution.Contracts;
 
-namespace Project.Application.Solution.Commands.SyncSolutionCommands;
+namespace Project.Domain.Solution.Commands.SyncSolutionCommands;
 public class SyncSolutionCommand : IRequest<Resource<ProjectSolutionModel>>
 {
     public SyncSolutionCommand(string solutionPath, ProjectSolutionModel solutionData)

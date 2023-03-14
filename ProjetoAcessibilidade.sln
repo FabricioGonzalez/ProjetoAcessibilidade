@@ -18,6 +18,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Report", "Report", "{5F4A8E0A-8A43-477E-8703-BBDE1BDF8419}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Avalonia", "Avalonia", "{2562C417-84FD-474F-BDD8-F68C8CEDC02D}"
+	ProjectSection(SolutionItems) = preProject
+		appsettings.json = appsettings.json
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModels", "ViewModels", "{39AB43AD-F68B-4683-988B-90BA41135CDB}"
 EndProject
@@ -47,7 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B935E4A4-A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Domain\Core\App.Core\Core.csproj", "{7B20A711-9E9D-4877-A6A8-DA98F713C764}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Application", "Domain\Application\Project.Application\Project.Application.csproj", "{2C2FEEA3-3ED9-4AC3-B4AC-2C9B8FED7583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Domain", "Domain\Application\Project.Application\Project.Domain.csproj", "{2C2FEEA3-3ED9-4AC3-B4AC-2C9B8FED7583}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppViewModels", "Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj", "{FB8B0C94-42DB-4920-A7CD-037850853A75}"
 EndProject

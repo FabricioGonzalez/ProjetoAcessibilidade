@@ -1,12 +1,18 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 
+using Project.Domain.App.Contracts;
+
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Logging;
 
 using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
 
@@ -29,6 +35,8 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
     [AutoNotify] private bool _runOnSystemStartup;
     [AutoNotify] private bool _hideOnClose;
     [AutoNotify] private bool _downloadNewVersion;
+    [AutoNotify] private ObservableCollection<AppLanguageModel> _languages;
+    [AutoNotify] private AppLanguageModel _language;
 
     public GeneralSettingsTabViewModel()
     {
@@ -38,6 +46,22 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
         _runOnSystemStartup = ServicesConfig.UiConfig.RunOnSystemStartup;
         _downloadNewVersion = ServicesConfig.UiConfig.RunOnSystemStartup;
         _hideOnClose = ServicesConfig.UiConfig.HideOnClose;
+
+        var languageManager = Locator.Current.GetService<ILanguageManager>();
+
+        Languages = new ObservableCollection<AppLanguageModel>(languageManager.AllLanguages.Select(item => item.ToAppLanguageModel()));
+        Language = languageManager.CurrentLanguage.ToAppLanguageModel();
+
+
+        this.WhenAnyValue(vm => vm.Language)
+            .WhereNotNull()
+            .Subscribe((prop) =>
+            {
+                languageManager.SetLanguage(prop.ToLanguageModel());
+
+                var result = "ThemeChangingLabel".GetLocalized();
+
+            });
 
         this.WhenAnyValue(x => x.DarkModeEnabled)
             .Skip(1)

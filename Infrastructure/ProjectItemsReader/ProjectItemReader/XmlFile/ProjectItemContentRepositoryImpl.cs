@@ -11,7 +11,7 @@ using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using Core.Enuns;
 
-using Project.Application.Project.Contracts;
+using Project.Domain.Project.Contracts;
 
 namespace ProjectItemReader.XmlFile;
 public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository

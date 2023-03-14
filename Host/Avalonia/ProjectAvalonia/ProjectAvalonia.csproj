@@ -5,13 +5,11 @@
       <AnalysisLevel>latest</AnalysisLevel>
       <Nullable>enable</Nullable>
       <LangVersion>latest</LangVersion>
-      
       <NoWarn>1701;1702;1705;1591;1573;CA1031</NoWarn>
       <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
       <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\$(TargetFramework)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
       <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
       <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-      <InvariantGlobalization>true</InvariantGlobalization>
       <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia</PathMap>
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
@@ -33,6 +31,7 @@
         <None Remove="Features\TemplateEditing\**" />
         <None Remove="Features\TemplateRules\**" />
         <None Remove="Models\**" />
+        <Content Remove="C:\Users\Ti\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
     </ItemGroup>
@@ -75,9 +74,11 @@
         <PackageReference Include="Neumorphism.Avalonia" Version="0.4.0" />
         <PackageReference Include="Notification.Avalonia" Version="1.1.0" />
         <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
+        <PackageReference Include="SukiUI" Version="3.0.0" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Domain.csproj" />
         <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
@@ -89,6 +90,9 @@
     <ProjectReference Include="..\ProjectAvalonia.Generators\ProjectAvalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 </ItemGroup>
     <ItemGroup>
+        <None Update="appsettings.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="Specifications\Itens.xml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens.xml</LinuxPath>
@@ -176,6 +180,10 @@
       <Folder Include="Languages\" />
     </ItemGroup>
     <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.pt.resx">
+        <LastGenOutput>Resources.pt.Designer.cs</LastGenOutput>
+        <Generator>PublicResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
       <EmbeddedResource Update="Properties\Resources.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -93,7 +93,11 @@ namespace ProjectAvalonia
 
     public void Initialize(GeneratorInitializationContext context)
     {
-        // System.Diagnostics.Debugger.Launch();
+
+        /*System.Diagnostics.Debugger.Launch();*/
+
+        /*var Resource = new ResourceManager(ProjectAvalonia.Generators);*/
+
         context.RegisterForPostInitialization((i) => i.AddSource("NavigationMetaDataAttribute.cs", SourceText.From(AttributeText, Encoding.UTF8)));
 
         context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());

@@ -11,9 +11,9 @@ using Common;
 
 using Core.Entities.Solution;
 
-using Project.Application.Contracts;
-using Project.Application.Solution.Commands.SyncSolutionCommands;
-using Project.Application.Solution.Queries;
+using Project.Domain.Contracts;
+using Project.Domain.Solution.Commands.SyncSolutionCommands;
+using Project.Domain.Solution.Queries;
 
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;

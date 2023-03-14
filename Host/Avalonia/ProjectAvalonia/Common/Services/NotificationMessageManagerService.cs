@@ -2,7 +2,7 @@
 
 using Avalonia.Notification;
 
-using Project.Application.App.Contracts;
+using Project.Domain.App.Contracts;
 
 namespace ProjectAvalonia.Services;
 public class NotificationMessageManagerService : INotificationMessageManagerService

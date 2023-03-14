@@ -2,7 +2,7 @@
 
 using Core.Entities.Solution.Explorer;
 
-using Project.Application.App.Contracts;
+using Project.Domain.App.Contracts;
 
 namespace ProjectItemReader.publicAppFiles;
 

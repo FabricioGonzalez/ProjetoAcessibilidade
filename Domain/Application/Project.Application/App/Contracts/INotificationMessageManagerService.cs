@@ -1,4 +1,4 @@
-﻿namespace Project.Application.App.Contracts;
+﻿namespace Project.Domain.App.Contracts;
 public interface INotificationMessageManagerService
 {
     void ShowInfo(string message);

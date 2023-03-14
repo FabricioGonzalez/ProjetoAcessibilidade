@@ -11,27 +11,33 @@ using Core.Entities.Solution.Project.AppItem;
 
 using MediatR;
 
-using Project.Application.App.Contracts;
-using Project.Application.App.Queries.GetAllTemplates;
-using Project.Application.App.Queries.GetUFList;
-using Project.Application.Contracts;
-using Project.Application.Implementations;
-using Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
-using Project.Application.Project.Commands.ProjectItemCommands.RenameCommands;
-using Project.Application.Project.Commands.ProjectItemCommands.SaveCommands;
-using Project.Application.Project.Contracts;
-using Project.Application.Project.Queries.GetProjectItemContent;
-using Project.Application.Project.Queries.GetProjectItems;
-using Project.Application.Solution.Commands.CreateSolutionCommands;
-using Project.Application.Solution.Commands.SyncSolutionCommands;
-using Project.Application.Solution.Contracts;
-using Project.Application.Solution.Queries;
+using Microsoft.Extensions.Configuration;
+
+using Project.Domain.App.Contracts;
+using Project.Domain.App.Queries.GetAllTemplates;
+using Project.Domain.App.Queries.GetUFList;
+using Project.Domain.Contracts;
+using Project.Domain.Implementations;
+using Project.Domain.Project.Commands.ProjectItemCommands.DeleteCommands;
+using Project.Domain.Project.Commands.ProjectItemCommands.RenameCommands;
+using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
+using Project.Domain.Project.Contracts;
+using Project.Domain.Project.Queries.GetProjectItemContent;
+using Project.Domain.Project.Queries.GetProjectItems;
+using Project.Domain.Solution.Commands.CreateSolutionCommands;
+using Project.Domain.Solution.Commands.SyncSolutionCommands;
+using Project.Domain.Solution.Contracts;
+using Project.Domain.Solution.Queries;
+
+using ProjectAvalonia.Common.Models;
+using ProjectAvalonia.Common.Services;
 
 using ProjectItemReader.publicAppFiles;
 using ProjectItemReader.XmlFile;
 
 using Splat;
 
+using Constants = Common.Constants;
 using ExplorerItem = Core.Entities.Solution.Explorer.ExplorerItem;
 
 namespace ProjectAvalonia;
@@ -191,6 +197,35 @@ public static class Bootstrapper
                 return new ApplicationInfo(Assembly.GetExecutingAssembly());
             });
         }*/
+
+    private static IConfiguration BuildConfiguration() =>
+       new ConfigurationBuilder()
+           .AddJsonFile("appsettings.json")
+           .Build();
+
+
+    public static AppBuilder AddConfiguration(this AppBuilder app)
+    {
+        var configuration = BuildConfiguration();
+
+        var service = Locator.CurrentMutable;
+
+        var config = new LanguagesConfiguration();
+        configuration.GetSection("Languages").Bind(config);
+        service.RegisterConstant(config);
+
+        return app;
+    }
+
+    public static AppBuilder AddServices(this AppBuilder app)
+    {
+        var service = Locator.CurrentMutable;
+        service.RegisterLazySingleton<ILanguageManager>(() => new LanguageManager(
+           Locator.Current.GetService<LanguagesConfiguration>()
+       ));
+
+        return app;
+    }
 
     public static AppBuilder AddMediator(this AppBuilder app)
     {

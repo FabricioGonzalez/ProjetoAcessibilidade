@@ -1,6 +1,6 @@
 ﻿using Core.Entities.Solution;
 
-namespace Project.Application.Solution.Contracts;
+namespace Project.Domain.Solution.Contracts;
 public interface ISolutionRepository
 {
     public Task<ProjectSolutionModel> ReadSolution(string solutionPath);

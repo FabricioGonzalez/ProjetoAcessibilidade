@@ -4,10 +4,10 @@ using Core.Entities.Solution.Explorer;
 
 using MediatR;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Contracts;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Contracts;
 
-namespace Project.Application.Project.Commands.ProjectItemCommands.RenameCommands;
+namespace Project.Domain.Project.Commands.ProjectItemCommands.RenameCommands;
 public class RenameProjectFileItemCommand : IRequest<Resource<ExplorerItem>>
 {
     public RenameProjectFileItemCommand(FileItem item)

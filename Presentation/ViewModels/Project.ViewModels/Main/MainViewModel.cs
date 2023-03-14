@@ -16,7 +16,7 @@ using AppViewModels.TemplateRules;
 
 using Core.Entities.App;
 
-using Project.Application.App.Contracts;
+using Project.Domain.App.Contracts;
 
 using ReactiveUI;
 

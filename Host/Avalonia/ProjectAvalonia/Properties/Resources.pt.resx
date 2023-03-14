@@ -118,78 +118,87 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddItemNameLabel" xml:space="preserve">
-    <value>Item name</value>
+    <value>Nome do Item</value>
+  </data>
+  <data name="AppearanceLabel" xml:space="preserve">
+    <value>Aparência</value>
   </data>
   <data name="AutoCopyBehaviorLabel" xml:space="preserve">
-    <value>Auto copy</value>
+    <value>Auto copiar</value>
   </data>
   <data name="AutoDownloadLabel" xml:space="preserve">
-    <value>Download latest version automatically</value>
+    <value>Baixar versão mais atual automaticamente</value>
   </data>
   <data name="AutoPasteBehaviorLabel" xml:space="preserve">
-    <value>Auto paste</value>
+    <value>Auto colar</value>
   </data>
   <data name="CancelActionLabel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="ConfirmActionLabel" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Confirmar</value>
   </data>
   <data name="ContinueActionLabel" xml:space="preserve">
-    <value>Continue</value>
+    <value>Continuar</value>
+  </data>
+  <data name="DarkModeLabel" xml:space="preserve">
+    <value>Modo Noturno</value>
   </data>
   <data name="DarkThemeLabel" xml:space="preserve">
-    <value>Night Mode</value>
+    <value>Tema Noturno</value>
   </data>
   <data name="EnabledGPULabel" xml:space="preserve">
-    <value>Turn on GPU Acceleration</value>
+    <value>Ativar Renderização por GPU</value>
   </data>
   <data name="EnabledGPUTooltip" xml:space="preserve">
-    <value>When the GPU Acceleration is enabled to render the UI. Using the GPU instead of CPU may improve performance.</value>
+    <value>Quando a placa de video(GPU) está habilitada para renderizar a interface de usuário(UI). Usar a GPU ao invés da CPU pode melhor a performance.</value>
   </data>
   <data name="ItemFormDataLabel" xml:space="preserve">
-    <value>Report Items</value>
+    <value>Itens de Relatório</value>
   </data>
   <data name="ItemLawItemContentLabel" xml:space="preserve">
-    <value>Law Content</value>
+    <value>Descrição da Lei</value>
   </data>
   <data name="ItemLawItemIdLabel" xml:space="preserve">
-    <value>Law ID</value>
+    <value>Identificador da Lei</value>
   </data>
   <data name="ItemLawItemsLabel" xml:space="preserve">
-    <value>Laws</value>
+    <value>Legislações</value>
   </data>
   <data name="ItemNameLabel" xml:space="preserve">
-    <value>Item Name</value>
+    <value>Nome do Item</value>
   </data>
   <data name="LanguageSelectorLabel" xml:space="preserve">
-    <value>Select a Language</value>
+    <value>Selecione um Idioma</value>
   </data>
   <data name="onClosedBehaviorLabel" xml:space="preserve">
-    <value>Keep running the app on background</value>
+    <value>Manter aplicativo rodando em background</value>
   </data>
   <data name="onStartupBehaviorLabel" xml:space="preserve">
-    <value>Start app with windows</value>
+    <value>Iniciar o aplicativo juntamente ao Windows</value>
   </data>
   <data name="RestartAppLabel" xml:space="preserve">
-    <value>Restart App</value>
+    <value>Reiniciar o aplicativo</value>
   </data>
   <data name="RestartNotificationLabel" xml:space="preserve">
-    <value>The changes will be commited after restarting the application.</value>
+    <value>As modificações serão aplicadas após o aplicativo ser reiniciado.</value>
   </data>
   <data name="SettingsPageCaption" xml:space="preserve">
-    <value>Manages appearence, and other settings</value>
+    <value>Gerenciar aparência, e outras configurações</value>
   </data>
   <data name="ShutdownMessagePart1" xml:space="preserve">
-    <value>Setting everything down to finished the application.</value>
+    <value>Terminando os preparativos para finalizar a aplicação.</value>
   </data>
   <data name="ShutdownMessagePart2" xml:space="preserve">
-    <value>It may take some time to be finished. Please, wait...</value>
+    <value>Pode levar algum  tempo para finalizarmos, por favor aguarde...</value>
   </data>
   <data name="SkipActionLabel" xml:space="preserve">
-    <value>Skip</value>
+    <value>Pular</value>
   </data>
   <data name="ThemeChangingLabel" xml:space="preserve">
-    <value>Theme is changing... Please Wait...</value>
+    <value>O Tema está sendo Alterarado... Aguarde...</value>
+  </data>
+  <data name="ThemeKeyWords" xml:space="preserve">
+    <value>Preto,Branco,Tema,Escuro,Claro</value>
   </data>
 </root>

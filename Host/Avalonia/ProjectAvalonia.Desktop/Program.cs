@@ -116,6 +116,8 @@ public class Program
                     async () =>
                     await Global.InitializeNoWalletAsync(terminateService), runGuiInBackground))
                 .UseReactiveUI()
+                .AddConfiguration()
+                .AddServices()
                 .AddQueryHandlers()
                 .AddCommandHandlers()
                 .AddRepositories()

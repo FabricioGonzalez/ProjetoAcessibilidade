@@ -38,6 +38,20 @@
             <TextBlock Text="{x:Static p:Resources.AutoPasteBehaviorLabel}" />
             <ToggleSwitch IsChecked="{Binding AutoPaste}" />
         </DockPanel>
+
+
+        <ComboBox
+            HorizontalAlignment="Stretch"
+            Items="{Binding Languages}"
+            PlaceholderText="{x:Static p:Resources.LanguageSelectorLabel}"
+            SelectedItem="{Binding Language, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
         <!-- Temporarily remove from settings view for release
     TODO: Make Custom change address active/implement.
     <DockPanel>

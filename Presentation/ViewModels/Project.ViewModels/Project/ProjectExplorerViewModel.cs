@@ -16,9 +16,9 @@ using Common;
 using Core.Entities.Solution;
 using Core.Entities.Solution.Explorer;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Queries.GetProjectItems;
-using Project.Application.Solution.Queries;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Queries.GetProjectItems;
+using Project.Domain.Solution.Queries;
 
 using ReactiveUI;
 

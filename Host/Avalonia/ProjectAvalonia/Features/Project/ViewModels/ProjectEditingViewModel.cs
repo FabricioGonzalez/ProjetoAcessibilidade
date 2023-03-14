@@ -15,9 +15,9 @@ using Core.Entities.Solution.Project.AppItem.DataItems.Images;
 using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Commands.ProjectItemCommands.SaveCommands;
-using Project.Application.Project.Queries.GetProjectItemContent;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
+using Project.Domain.Project.Queries.GetProjectItemContent;
 
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;

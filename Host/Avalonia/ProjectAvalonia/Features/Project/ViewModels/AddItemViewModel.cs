@@ -14,8 +14,8 @@ using Core.Entities.Solution.Explorer;
 
 using DynamicData.Binding;
 
-using Project.Application.App.Queries.GetAllTemplates;
-using Project.Application.Contracts;
+using Project.Domain.App.Queries.GetAllTemplates;
+using Project.Domain.Contracts;
 
 using ProjectAvalonia.Features.Project.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;

@@ -4,10 +4,10 @@ using Core.Entities.Solution.Explorer;
 
 using MediatR;
 
-using Project.Application.App.Contracts;
-using Project.Application.Contracts;
+using Project.Domain.App.Contracts;
+using Project.Domain.Contracts;
 
-namespace Project.Application.App.Queries.GetAllTemplates;
+namespace Project.Domain.App.Queries.GetAllTemplates;
 public class GetAllTemplatesQuery : IRequest<Resource<List<ExplorerItem>>>
 {
 

@@ -5,9 +5,9 @@ using Common;
 
 using Core.Entities.Solution.Explorer;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Commands.ProjectItemCommands.DeleteCommands;
-using Project.Application.Project.Commands.ProjectItemCommands.RenameCommands;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Commands.ProjectItemCommands.DeleteCommands;
+using Project.Domain.Project.Commands.ProjectItemCommands.RenameCommands;
 
 using Splat;
 

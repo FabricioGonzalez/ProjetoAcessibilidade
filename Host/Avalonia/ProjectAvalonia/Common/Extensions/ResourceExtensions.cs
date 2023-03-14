@@ -1,7 +1,14 @@
-﻿namespace ProjectAvalonia.Common.Extensions;
-/*internal static class ResourceExtensions
-{
-    private static readonly ResourceLoader _resourceLoader = new();
+﻿using System.Resources;
+using System.Threading;
 
-    public static string GetLocalized(this string resourceKey) => _resourceLoader.GetString(resourceKey);
-}*/
+namespace ProjectAvalonia.Common.Extensions;
+internal static class ResourceExtensions
+{
+    private static readonly ResourceManager _resourceLoader = new ResourceManager(typeof(Properties.Resources));
+
+    public static string GetLocalized(this string resourceKey)
+    {
+
+        return _resourceLoader.GetString(resourceKey, Thread.CurrentThread.CurrentCulture);
+    }
+}

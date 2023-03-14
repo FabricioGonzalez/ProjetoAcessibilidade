@@ -1,8 +1,8 @@
-﻿using Project.Application.Contracts;
+﻿using Project.Domain.Contracts;
 
 using Splat;
 
-namespace Project.Application.Implementations;
+namespace Project.Domain.Implementations;
 public class CommandDispatcher : ICommandDispatcher
 {
     private readonly IReadonlyDependencyResolver _serviceProvider;

@@ -38,10 +38,10 @@ public class ContentArea : ContentControl
         AvaloniaProperty.Register<ContentArea, object>(nameof(NextContent), "Done");
 
     public static readonly StyledProperty<object> SkipContentProperty =
-        AvaloniaProperty.Register<ContentArea, object>(nameof(NextContent), "Skip");
+        AvaloniaProperty.Register<ContentArea, object>(nameof(SkipContent), "Skip");
 
     public static readonly StyledProperty<object> FooterContentProperty =
-        AvaloniaProperty.Register<ContentArea, object>(nameof(NextContent), new Panel());
+        AvaloniaProperty.Register<ContentArea, object>(nameof(FooterContent), null);
 
     public static readonly StyledProperty<bool> IsBusyProperty =
         AvaloniaProperty.Register<ContentArea, bool>(nameof(IsBusy));

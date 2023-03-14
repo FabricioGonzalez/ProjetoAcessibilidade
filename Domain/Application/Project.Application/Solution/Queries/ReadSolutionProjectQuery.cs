@@ -4,10 +4,10 @@ using Core.Entities.Solution;
 
 using MediatR;
 
-using Project.Application.Contracts;
-using Project.Application.Solution.Contracts;
+using Project.Domain.Contracts;
+using Project.Domain.Solution.Contracts;
 
-namespace Project.Application.Solution.Queries;
+namespace Project.Domain.Solution.Queries;
 public class ReadSolutionProjectQuery : IRequest<Resource<ProjectSolutionModel>>
 {
     public ReadSolutionProjectQuery(string solutionPath)

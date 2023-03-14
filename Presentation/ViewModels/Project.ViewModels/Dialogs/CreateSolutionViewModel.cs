@@ -8,7 +8,7 @@ using Common;
 
 using Core.Entities.Solution;
 
-using Project.Application.Contracts;
+using Project.Domain.Contracts;
 
 using ReactiveUI;
 

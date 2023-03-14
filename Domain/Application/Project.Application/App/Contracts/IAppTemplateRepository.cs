@@ -2,7 +2,7 @@
 
 using Core.Entities.Solution.Explorer;
 
-namespace Project.Application.App.Contracts;
+namespace Project.Domain.App.Contracts;
 public interface IAppTemplateRepository
 {
     Task<Resource<List<ExplorerItem>>> ReadAllTemplateItems();

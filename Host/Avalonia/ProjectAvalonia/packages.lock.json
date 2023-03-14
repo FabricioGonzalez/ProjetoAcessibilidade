@@ -223,6 +223,19 @@
           "Splat": "14.6.1"
         }
       },
+      "SukiUI": {
+        "type": "Direct",
+        "requested": "[3.0.0, )",
+        "resolved": "3.0.0",
+        "contentHash": "YN8vlMPQSmv4/zxOxi0Opa6ANi9xEwxGGXjPF/DVFOyku8We+Wx+lnQYHeREGiTBhOH9Vl/gsyPDT2xhc4vDMQ==",
+        "dependencies": {
+          "Avalonia": "0.10.17",
+          "Avalonia.Controls.DataGrid": "0.10.12",
+          "DialogHost.Avalonia": "0.4.0",
+          "Material.Icons.Avalonia": "1.0.2",
+          "ReactiveUI": "13.2.10"
+        }
+      },
       "XamlNameReferenceGenerator": {
         "type": "Direct",
         "requested": "[1.5.1, )",
@@ -1131,7 +1144,7 @@
         "dependencies": {
           "Core": "[1.0.0, )",
           "MediatR": "[11.1.0, )",
-          "Project.Application": "[1.0.0, )",
+          "Project.Domain": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",
           "ReactiveUI": "[18.4.1, )",
           "ReactiveUI.Fody": "[18.4.1, )",
@@ -1148,7 +1161,7 @@
           "MediatR": "[11.1.0, )"
         }
       },
-      "project.application": {
+      "project.domain": {
         "type": "Project",
         "dependencies": {
           "Common": "[1.0.0, )",
@@ -1161,7 +1174,7 @@
         "type": "Project",
         "dependencies": {
           "Common": "[1.0.0, )",
-          "Project.Application": "[1.0.0, )"
+          "Project.Domain": "[1.0.0, )"
         }
       },
       "questpdf": {

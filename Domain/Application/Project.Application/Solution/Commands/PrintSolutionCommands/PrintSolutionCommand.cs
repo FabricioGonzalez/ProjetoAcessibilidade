@@ -2,9 +2,9 @@
 
 using MediatR;
 
-using Project.Application.Contracts;
+using Project.Domain.Contracts;
 
-namespace Project.Application.Solution.Commands.PrintSolutionCommands;
+namespace Project.Domain.Solution.Commands.PrintSolutionCommands;
 public class PrintSolutionCommand : IRequest<Resource<object>>
 {
     public string solutionPath

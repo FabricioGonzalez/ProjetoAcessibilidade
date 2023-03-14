@@ -4,10 +4,10 @@ using Core.Entities.Solution.Project.AppItem;
 
 using MediatR;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Contracts;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Contracts;
 
-namespace Project.Application.Project.Queries.GetProjectItemContent;
+namespace Project.Domain.Project.Queries.GetProjectItemContent;
 public class GetProjectItemContentQuery : IRequest<AppItemModel>
 {
     public GetProjectItemContentQuery(string itemPath)

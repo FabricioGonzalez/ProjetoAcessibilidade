@@ -61,7 +61,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do Item.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Item name.
         /// </summary>
         public static string AddItemNameLabel {
             get {
@@ -70,7 +70,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Auto copiar.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Auto copy.
         /// </summary>
         public static string AutoCopyBehaviorLabel {
             get {
@@ -79,7 +79,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Baixar versão mais atual automaticamente.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Download latest version automatically.
         /// </summary>
         public static string AutoDownloadLabel {
             get {
@@ -88,7 +88,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Auto colar.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Auto paste.
         /// </summary>
         public static string AutoPasteBehaviorLabel {
             get {
@@ -97,7 +97,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Cancelar.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Cancel.
         /// </summary>
         public static string CancelActionLabel {
             get {
@@ -106,7 +106,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Confirmar.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Confirm.
         /// </summary>
         public static string ConfirmActionLabel {
             get {
@@ -115,7 +115,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Continuar.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Continue.
         /// </summary>
         public static string ContinueActionLabel {
             get {
@@ -124,7 +124,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Tema Noturno.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Night Mode.
         /// </summary>
         public static string DarkThemeLabel {
             get {
@@ -133,7 +133,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Ativar Renderização por GPU.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Turn on GPU Acceleration.
         /// </summary>
         public static string EnabledGPULabel {
             get {
@@ -142,7 +142,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Quando a placa de video(GPU) está habilitada para renderizar a interface de usuário(UI). Usar a GPU ao invés da CPU pode melhor a performance..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a When the GPU Acceleration is enabled to render the UI. Using the GPU instead of CPU may improve performance..
         /// </summary>
         public static string EnabledGPUTooltip {
             get {
@@ -151,7 +151,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Itens de Relatório.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Report Items.
         /// </summary>
         public static string ItemFormDataLabel {
             get {
@@ -160,7 +160,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Descrição da Lei.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Law Content.
         /// </summary>
         public static string ItemLawItemContentLabel {
             get {
@@ -169,7 +169,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Identificador da Lei.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Law ID.
         /// </summary>
         public static string ItemLawItemIdLabel {
             get {
@@ -178,7 +178,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Legislações.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Laws.
         /// </summary>
         public static string ItemLawItemsLabel {
             get {
@@ -187,7 +187,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do Item.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Item Name.
         /// </summary>
         public static string ItemNameLabel {
             get {
@@ -196,7 +196,16 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Manter aplicativo rodando em background.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Select a Language.
+        /// </summary>
+        public static string LanguageSelectorLabel {
+            get {
+                return ResourceManager.GetString("LanguageSelectorLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Keep running the app on background.
         /// </summary>
         public static string onClosedBehaviorLabel {
             get {
@@ -205,7 +214,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Iniciar o aplicativo juntamente ao Windows.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Start app with windows.
         /// </summary>
         public static string onStartupBehaviorLabel {
             get {
@@ -214,7 +223,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Reiniciar o aplicativo.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Restart App.
         /// </summary>
         public static string RestartAppLabel {
             get {
@@ -223,7 +232,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a As modificações serão aplicadas após o aplicativo ser reiniciado..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a The changes will be commited after restarting the application..
         /// </summary>
         public static string RestartNotificationLabel {
             get {
@@ -232,7 +241,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Gerenciar aparência, e outras configurações.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Manages appearence, and other settings.
         /// </summary>
         public static string SettingsPageCaption {
             get {
@@ -241,7 +250,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Terminando os preparativos para finalizar a aplicação..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Setting everything down to finished the application..
         /// </summary>
         public static string ShutdownMessagePart1 {
             get {
@@ -250,7 +259,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Pode levar algum  tempo para finalizarmos, por favor aguarde....
+        ///   Consulta uma cadeia de caracteres localizada semelhante a It may take some time to be finished. Please, wait....
         /// </summary>
         public static string ShutdownMessagePart2 {
             get {
@@ -259,7 +268,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Pular.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Skip.
         /// </summary>
         public static string SkipActionLabel {
             get {
@@ -268,7 +277,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a O Tema está sendo Alterarado... Aguarde....
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Theme is changing... Please Wait....
         /// </summary>
         public static string ThemeChangingLabel {
             get {

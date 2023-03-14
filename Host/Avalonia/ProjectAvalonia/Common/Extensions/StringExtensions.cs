@@ -27,7 +27,20 @@ public static class StringExtensions
         }
         return me;
     }
+    public static string ToTitleCase(this string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return value;
+        }
 
+        if (value.Length < 2)
+        {
+            return value.ToUpper();
+        }
+
+        return char.ToUpper(value[0]) + value[1..];
+    }
     /// <summary>
     /// Returns true if the string contains leading or trailing whitespace, otherwise returns false.
     /// </summary>

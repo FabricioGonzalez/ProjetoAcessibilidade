@@ -14,8 +14,8 @@ using Core.Entities.Solution.ReportInfo;
 
 using DynamicData.Binding;
 
-using Project.Application.App.Queries.GetUFList;
-using Project.Application.Contracts;
+using Project.Domain.App.Queries.GetUFList;
+using Project.Domain.Contracts;
 
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.States.ProjectItems;

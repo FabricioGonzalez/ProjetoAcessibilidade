@@ -11,8 +11,8 @@ using Core.Enuns;
 
 using DynamicData.Binding;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Queries.GetProjectItemContent;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Queries.GetProjectItemContent;
 
 using ReactiveUI;
 

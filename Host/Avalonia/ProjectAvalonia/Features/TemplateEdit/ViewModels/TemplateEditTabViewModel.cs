@@ -12,8 +12,8 @@ using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using Core.Enuns;
 
-using Project.Application.Contracts;
-using Project.Application.Project.Queries.GetProjectItemContent;
+using Project.Domain.Contracts;
+using Project.Domain.Project.Queries.GetProjectItemContent;
 
 using ProjectAvalonia.Common.Models.FileItems;
 using ProjectAvalonia.Logging;

@@ -4,10 +4,10 @@ using Core.Entities.Solution;
 
 using MediatR;
 
-using Project.Application.Contracts;
-using Project.Application.Solution.Contracts;
+using Project.Domain.Contracts;
+using Project.Domain.Solution.Contracts;
 
-namespace Project.Application.Solution.Commands.CreateSolutionCommands;
+namespace Project.Domain.Solution.Commands.CreateSolutionCommands;
 public class CreateSolutionCommand : IRequest<Resource<ProjectSolutionModel>>
 {
     public CreateSolutionCommand(string solutionPath, ProjectSolutionModel solutionData)

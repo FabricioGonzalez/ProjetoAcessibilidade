@@ -2,9 +2,9 @@
 
 using MediatR;
 
-using Project.Application.Contracts;
+using Project.Domain.Contracts;
 
-namespace Project.Application.App.Queries.GetUFList;
+namespace Project.Domain.App.Queries.GetUFList;
 
 public class GetAllUFQuery : IRequest<UFModel>
 {
