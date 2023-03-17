@@ -186,6 +186,9 @@
   <data name="SettingsPageCaption" xml:space="preserve">
     <value>Gerenciar aparência, e outras configurações</value>
   </data>
+  <data name="SettingsPageLabel" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
   <data name="ShutdownMessagePart1" xml:space="preserve">
     <value>Terminando os preparativos para finalizar a aplicação.</value>
   </data>

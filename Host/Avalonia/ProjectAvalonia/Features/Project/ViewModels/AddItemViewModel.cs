@@ -47,6 +47,14 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>
 
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
 
+        this.WhenAnyValue(vm => vm.Item)
+            .WhereNotNull()
+            .Subscribe(item =>
+            {
+                if (string.IsNullOrWhiteSpace(ItemName))
+                    ItemName = Item.TemplateName;
+            });
+
         NextCommand = ReactiveCommand.Create(
             OnNext,
             this.WhenAnyValue(x => x.Item)

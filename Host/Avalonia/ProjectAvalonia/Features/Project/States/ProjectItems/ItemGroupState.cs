@@ -7,6 +7,8 @@ public partial class ItemGroupState : ReactiveObject
 {
     [AutoNotify]
     private string _name = "";
+    [AutoNotify]
+    private string _itemPath = "";
 
     [AutoNotify]
     private bool _inEditMode = false;

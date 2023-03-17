@@ -157,6 +157,58 @@
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Table.xsd</LinuxPath>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Specifications\ValidationRules\Acesso a Equipamentos.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso a Equipamentos.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Acesso.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Balcão de Atendimento Recepção.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Balcão de Atendimento Recepção.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Circulação Horizontal.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Horizontal.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Circulação Vertical.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Vertical.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Entradas Portas Externo.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Externo.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Entradas Portas Interno.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Interno.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Mapa Tátil.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mapa Tátil.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Mesas.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mesas.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Piso Tátil.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Piso Tátil.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Portas de Emergência.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Portas de Emergência.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Sanitários Comuns.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sanitários Comuns.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Sánitario Acessível.vldr">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sánitario Acessível.xml</LinuxPath>
+        </None>
     </ItemGroup>
     <ItemGroup>
       <UpToDateCheckInput Remove="Features\Project\Views\ProjectView.axaml" />

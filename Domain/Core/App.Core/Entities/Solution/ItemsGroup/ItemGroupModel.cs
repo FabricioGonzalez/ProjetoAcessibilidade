@@ -6,6 +6,11 @@ public class ItemGroupModel
         get;
         set;
     }
+    public string ItemPath
+    {
+        get;
+        set;
+    }
     public List<ItemModel> Items
     {
         get;

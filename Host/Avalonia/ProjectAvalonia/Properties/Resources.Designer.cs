@@ -250,6 +250,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Settings.
+        /// </summary>
+        public static string SettingsPageLabel {
+            get {
+                return ResourceManager.GetString("SettingsPageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Setting everything down to finished the application..
         /// </summary>
         public static string ShutdownMessagePart1 {

@@ -180,6 +180,9 @@
   <data name="SettingsPageCaption" xml:space="preserve">
     <value>Manages appearence, and other settings</value>
   </data>
+  <data name="SettingsPageLabel" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="ShutdownMessagePart1" xml:space="preserve">
     <value>Setting everything down to finished the application.</value>
   </data>

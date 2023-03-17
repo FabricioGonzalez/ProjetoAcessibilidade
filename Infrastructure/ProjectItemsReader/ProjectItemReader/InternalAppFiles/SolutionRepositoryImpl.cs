@@ -31,7 +31,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
                 ParentFolderName = Path.GetFileName(Directory.GetParent(solutionPath).FullName),
                 ParentFolderPath = Directory.GetParent(solutionPath).FullName,
                 SolutionReportInfo = ReadSolutionInfo(xml),
-                ItemGroups = ReadProjectItems(xml)
+                ItemGroups = ReadProjectItems(xml, solutionPath)
             };
 
             return solution;
@@ -77,7 +77,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
         }
         return default;
     }
-    private ItemGroupModel ReadItemGroups(XmlNode listItems)
+    private ItemGroupModel ReadItemGroups(XmlNode listItems, string solutionPath)
     {
         var items = new ItemGroupModel();
 
@@ -86,6 +86,11 @@ public class SolutionRepositoryImpl : ISolutionRepository
             .First(x =>
             x.Name.Equals(Constants.items_groupsItemGroupAttributeName))
             .Value;
+
+        items.ItemPath = Path.Combine(
+            string.Join(Path.DirectorySeparatorChar, solutionPath.Split(Path.DirectorySeparatorChar)[..^1]),
+            Constants.AppProjectItemsFolderName,
+            items.Name);
 
         foreach (XmlNode item in listItems.ChildNodes)
         {
@@ -107,7 +112,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
         return item;
     }
 
-    private List<ItemGroupModel> ReadProjectItems(XmlDocument document)
+    private List<ItemGroupModel> ReadProjectItems(XmlDocument document, string solutionPath)
     {
         var elements = document.GetElementsByTagName(Constants.project_items);
 
@@ -115,7 +120,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
 
         foreach (XmlNode result in elements[0].ChildNodes)
         {
-            var itemResult = ReadItemGroups(result);
+            var itemResult = ReadItemGroups(result, solutionPath);
 
             items.Add(itemResult);
         }

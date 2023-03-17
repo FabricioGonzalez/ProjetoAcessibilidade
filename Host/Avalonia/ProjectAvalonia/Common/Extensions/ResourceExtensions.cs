@@ -8,7 +8,11 @@ internal static class ResourceExtensions
 
     public static string GetLocalized(this string resourceKey)
     {
+        return _resourceLoader?.GetString(resourceKey, Thread.CurrentThread.CurrentCulture) ?? "";
+    }
 
-        return _resourceLoader.GetString(resourceKey, Thread.CurrentThread.CurrentCulture);
+    public static bool HasProperty(this string resourceKey)
+    {
+        return _resourceLoader.GetString(resourceKey, Thread.CurrentThread.CurrentCulture) is not null;
     }
 }

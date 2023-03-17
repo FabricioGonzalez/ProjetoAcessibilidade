@@ -18,6 +18,7 @@ using Project.Domain.App.Queries.GetAllTemplates;
 using Project.Domain.App.Queries.GetUFList;
 using Project.Domain.Contracts;
 using Project.Domain.Implementations;
+using Project.Domain.Project.Commands.ProjectItemCommands.CreateItemCommands;
 using Project.Domain.Project.Commands.ProjectItemCommands.DeleteCommands;
 using Project.Domain.Project.Commands.ProjectItemCommands.RenameCommands;
 using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
@@ -157,6 +158,11 @@ public static class Bootstrapper
         service
             .Register<ICommandHandler<RenameProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFolderItemCommandHandler(
      Locator.Current.GetService<IExplorerItemRepository>()!
+    ));
+        service
+            .Register<ICommandHandler<CreateItemCommand, Resource<Unit>>>(() =>
+            new CreateItemCommandHandler(
+     Locator.Current.GetService<IProjectItemContentRepository>()!
     ));
 
         return app;

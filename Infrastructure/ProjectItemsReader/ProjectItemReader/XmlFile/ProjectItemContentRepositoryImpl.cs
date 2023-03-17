@@ -615,7 +615,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
             root.AppendChild(leiName);
 
-            using (var writer = new StreamWriter(filePathToWrite))
+            using (var writer = new StreamWriter(File.Create(filePathToWrite)))
             {
                 writer.Flush();
                 doc.Save(writer);

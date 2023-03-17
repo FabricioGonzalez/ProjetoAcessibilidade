@@ -7,6 +7,8 @@ using System.Windows.Input;
 
 using Avalonia.Threading;
 
+using Common;
+
 using Core.Entities.App;
 using Core.Entities.Solution;
 using Core.Entities.Solution.ItemsGroup;
@@ -14,8 +16,11 @@ using Core.Entities.Solution.ReportInfo;
 
 using DynamicData.Binding;
 
+using MediatR;
+
 using Project.Domain.App.Queries.GetUFList;
 using Project.Domain.Contracts;
+using Project.Domain.Project.Commands.ProjectItemCommands.CreateItemCommands;
 
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.States.ProjectItems;
@@ -48,10 +53,12 @@ public partial class SolutionStateViewModel : RoutableViewModel
     [AutoNotify] private ObservableCollectionExtended<UFModel> _ufList;
 
     private readonly IQueryDispatcher queryDispatcher;
+    private readonly ICommandDispatcher commandDispatcher;
 
     public SolutionStateViewModel()
     {
         queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+        commandDispatcher = Locator.Current.GetService<ICommandDispatcher>();
 
         ChooseSolutionPath = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -98,8 +105,10 @@ public partial class SolutionStateViewModel : RoutableViewModel
             var dialogResult = await NavigateDialogAsync(addItemViewModel,
                 NavigationTarget.DialogScreen);
 
-            ItemGroups.FirstOrDefault(groupModels)
-            .Items.Add(dialogResult.Result);
+            var group = ItemGroups.FirstOrDefault(groupModels);
+
+            AddItemToGroup(group, dialogResult.Result);
+
         });
 
         Task.Run(async () =>
@@ -112,6 +121,30 @@ public partial class SolutionStateViewModel : RoutableViewModel
             Dispatcher.UIThread.Post(() => UfList = result);
         });
     }
+
+    private void AddItemToGroup(ItemGroupState group, ItemState itemToAdd)
+    {
+        if (!group.Items.Any(i => i.Name == itemToAdd.Name))
+        {
+            var item = itemToAdd.ItemPath.Split(Path.DirectorySeparatorChar).Last().Split(".").First();
+
+            itemToAdd.ItemPath = Path.Combine(group.ItemPath, $"{item}{Constants.AppProjectItemExtension}");
+
+            group.Items.Add(itemToAdd);
+            CreateFileOnLocal(
+                itemPath: itemToAdd.ItemPath,
+                itemName: itemToAdd.TemplateName);
+        }
+    }
+
+    private async Task CreateFileOnLocal(string itemPath, string itemName)
+    {
+        await commandDispatcher.Dispatch<CreateItemCommand, Resource<Unit>>(
+            command: new(path: itemPath, itemName: itemName), cancellation: CancellationToken.None);
+
+        Logger.LogDebug(itemPath);
+    }
+
     public ICommand ExcludeFileCommand
     {
         get; set;
@@ -151,6 +184,7 @@ public static class Extension
             .Select(item => new ItemGroupModel()
             {
                 Name = item.Name,
+                ItemPath = item.ItemPath,
                 Items = item
                 .Items
                 .Select(child => new ItemModel()
@@ -178,6 +212,7 @@ public static class Extension
             .Select(item => new ItemGroupState()
             {
                 Name = item.Name,
+                ItemPath = item.ItemPath,
                 Items = new(item
                 .Items
                 .Select(child => new ItemState()
