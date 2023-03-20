@@ -6,7 +6,6 @@ using System.Windows.Input;
 
 using Project.Domain.App.Contracts;
 
-using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Logging;
 
@@ -38,8 +37,12 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
     [AutoNotify] private ObservableCollection<AppLanguageModel> _languages;
     [AutoNotify] private AppLanguageModel _language;
 
+    private readonly ILanguageManager languageManager;
+
     public GeneralSettingsTabViewModel()
     {
+        languageManager = Locator.Current.GetService<ILanguageManager>();
+
         _darkModeEnabled = ServicesConfig.UiConfig.DarkModeEnabled;
         _autoCopy = ServicesConfig.UiConfig.Autocopy;
         _autoPaste = ServicesConfig.UiConfig.AutoPaste;
@@ -47,19 +50,17 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
         _downloadNewVersion = ServicesConfig.UiConfig.RunOnSystemStartup;
         _hideOnClose = ServicesConfig.UiConfig.HideOnClose;
 
-        var languageManager = Locator.Current.GetService<ILanguageManager>();
-
         Languages = new ObservableCollection<AppLanguageModel>(languageManager.AllLanguages.Select(item => item.ToAppLanguageModel()));
-        Language = languageManager.CurrentLanguage.ToAppLanguageModel();
 
+        Language = Languages.FirstOrDefault(i => i.Code == ServicesConfig.Config.AppLanguage)
+            ?? languageManager.CurrentLanguage.ToAppLanguageModel();
 
         this.WhenAnyValue(vm => vm.Language)
             .WhereNotNull()
             .Subscribe((prop) =>
             {
                 languageManager.SetLanguage(prop.ToLanguageModel());
-
-                var result = "ThemeChangingLabel".GetLocalized();
+                ServicesConfig.Config.AppLanguage = prop.Code;
 
             });
 

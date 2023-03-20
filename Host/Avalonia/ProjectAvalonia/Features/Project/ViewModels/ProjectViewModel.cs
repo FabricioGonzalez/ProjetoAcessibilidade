@@ -43,7 +43,6 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
 public partial class ProjectViewModel : NavBarItemViewModel
 {
     [AutoNotify] private string _currentOpenProject = "";
-    /*[AutoNotify] private SolutionStateViewModel _solutionModel;*/
 
     private readonly IQueryDispatcher? queryDispatcher;
     private readonly ICommandDispatcher? commandDispatcher;

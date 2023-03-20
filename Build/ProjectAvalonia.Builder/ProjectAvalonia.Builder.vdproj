@@ -213,7 +213,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\ProjectAvalonia.Builder.msi"
+        "OutputFilename" = "8:Debug\\Gestor de Projetos ARPA.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -232,25 +232,15 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.7.0.x64"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 e x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    "Name" = "8:Runtime do .NET 7.0.4 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.7.0.x64"
                     }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.EdgeRuntime"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.7.0.x64"
                     {
-                    "Name" = "8:Edge WebView runtime"
-                    "ProductCode" = "8:Microsoft.EdgeRuntime"
-                    }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.6.0.x64"
-                    {
-                    "Name" = "8:Runtime do .NET 6.0.11 (x64)"
-                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.6.0.x64"
-                    }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.6.0.x64"
-                    {
-                    "Name" = "8:Runtime do .NET Desktop 6.0.11 (x64)"
-                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.6.0.x64"
+                    "Name" = "8:Runtime do .NET Desktop 7.0.4 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.7.0.x64"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.14.0.x64"
                     {
@@ -270,7 +260,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\ProjectAvalonia.Builder.msi"
+        "OutputFilename" = "8:Release\\Gestor de Projetos ARPA.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1144,7 +1134,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Gestor de Projetos ARPA"
         "ProductCode" = "8:{4B131B0E-6616-48AB-B94E-F1629FE7EBF2}"
-        "PackageCode" = "8:{AD6DF24C-2075-4E1C-8595-CDCC91A76CA1}"
+        "PackageCode" = "8:{6F82CFFB-FCC7-4FE9-896B-3299ACF62F02}"
         "UpgradeCode" = "8:{2FE20B19-09B5-466F-8D6F-3524BC50A954}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1339,7 +1329,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "UpdateText"
@@ -1366,7 +1357,7 @@
             "Attributes" = "3:3"
                 "Dialogs"
                 {
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_FD38EA2267784F709216DA8E5917D907"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_7DB67D426CFB424487C6B6AE305F64CF"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Concluído"
@@ -1383,7 +1374,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -1414,7 +1406,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "InstallAllUsersVisible"
@@ -1449,7 +1442,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -1497,7 +1491,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -1534,7 +1529,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -1556,7 +1552,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -1578,7 +1575,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -1635,7 +1633,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"
@@ -1679,7 +1678,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_1167610705C34FA2B4121B6DCFCE291A"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"

@@ -31,6 +31,12 @@ public class Config : ConfigBase
     [JsonProperty(PropertyName = "DownloadNewVersion", DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool DownloadNewVersion { get; internal set; } = true;
 
+    [JsonProperty(PropertyName = "AppVersion", DefaultValueHandling = DefaultValueHandling.Populate)]
+    public string AppVersion { get; internal set; } = "";
+
+    [JsonProperty(PropertyName = "AppLanguage", DefaultValueHandling = DefaultValueHandling.Populate)]
+    public string AppLanguage { get; internal set; } = "en";
+
     /// <inheritdoc />
     public override void LoadFile()
     {

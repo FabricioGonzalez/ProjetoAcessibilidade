@@ -5,12 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
 
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Http;
 using ProjectAvalonia.Common.Microservices;
@@ -23,7 +25,6 @@ public class UpdateManager : IDisposable
 {
     private string InstallerPath { get; set; } = "";
     private const byte MaxTries = 2;
-    private const string ReleaseURL = "https://api.github.com/repos/FabricioGonzalez/ProjetoAcessibilidade/releases/latest";
 
     public UpdateManager(string dataDir, bool downloadNewVersion, IHttpClient httpClient)
     {
@@ -35,7 +36,7 @@ public class UpdateManager : IDisposable
     private async void UpdateChecker_UpdateStatusChangedAsync(object? sender, UpdateStatus updateStatus)
     {
         var tries = 0;
-        bool updateAvailable = !updateStatus.ClientUpToDate || !updateStatus.BackendCompatible;
+        bool updateAvailable = !updateStatus.ClientUpToDate /*|| !updateStatus.BackendCompatible*/;
         Version targetVersion = updateStatus.ClientVersion;
 
         if (!updateAvailable)
@@ -87,10 +88,10 @@ public class UpdateManager : IDisposable
     private async Task<(string filePath, Version newVersion)> GetInstallerAsync(Version targetVersion)
     {
         var result = await GetLatestReleaseFromGithubAsync(targetVersion).ConfigureAwait(false);
-        var sha256SumsFilePath = Path.Combine(InstallerDir, "SHA256SUMS.asc");
+        /*        var sha256SumsFilePath = Path.Combine(InstallerDir, "SHA256SUMS.asc");*/
 
         // This will throw InvalidOperationException in case of invalid signature.
-        await DownloadAndValidateWasabiSignatureAsync(sha256SumsFilePath, result.Sha256SumsUrl, result.WasabiSigUrl).ConfigureAwait(false);
+        /*  await DownloadAndValidateWasabiSignatureAsync(sha256SumsFilePath, result.Sha256SumsUrl, result.WasabiSigUrl).ConfigureAwait(false);*/
 
         var installerFilePath = Path.Combine(InstallerDir, result.InstallerFileName);
 
@@ -111,8 +112,8 @@ public class UpdateManager : IDisposable
 
                 await CopyStreamContentToFileAsync(stream, installerFilePath).ConfigureAwait(false);
             }
-            var expectedHash = await GetHashFromSha256SumsFileAsync(result.InstallerFileName, sha256SumsFilePath).ConfigureAwait(false);
-            await VerifyInstallerHashAsync(installerFilePath, expectedHash).ConfigureAwait(false);
+            /* var expectedHash = await GetHashFromSha256SumsFileAsync(result.InstallerFileName, sha256SumsFilePath).ConfigureAwait(false);
+             await VerifyInstallerHashAsync(installerFilePath, expectedHash).ConfigureAwait(false);*/
         }
         catch (IOException)
         {
@@ -128,16 +129,16 @@ public class UpdateManager : IDisposable
 
     }
 
-    private async Task<string> GetHashFromSha256SumsFileAsync(string installerFileName, string sha256SumsFilePath)
-    {
-        var lines = await File.ReadAllLinesAsync(sha256SumsFilePath).ConfigureAwait(false);
-        var correctLine = lines.FirstOrDefault(line => line.Contains(installerFileName));
-        if (correctLine == null)
+    /*    private async Task<string> GetHashFromSha256SumsFileAsync(string installerFileName, string sha256SumsFilePath)
         {
-            throw new InvalidOperationException($"{installerFileName} was not found.");
-        }
-        return correctLine.Split(" ")[0];
-    }
+            var lines = await File.ReadAllLinesAsync(sha256SumsFilePath).ConfigureAwait(false);
+            var correctLine = lines.FirstOrDefault(line => line.Contains(installerFileName));
+            if (correctLine == null)
+            {
+                throw new InvalidOperationException($"{installerFileName} was not found.");
+            }
+            return correctLine.Split(" ")[0];
+        }*/
 
     private async Task CopyStreamContentToFileAsync(Stream stream, string filePath)
     {
@@ -157,10 +158,11 @@ public class UpdateManager : IDisposable
         File.Move(tmpFilePath, filePath);
     }
 
-    private async Task<(Version LatestVersion, string InstallerDownloadUrl, string InstallerFileName, string Sha256SumsUrl, string WasabiSigUrl)> GetLatestReleaseFromGithubAsync(Version targetVersion)
+    private async Task<(Version LatestVersion, string InstallerDownloadUrl, string InstallerFileName/*, string Sha256SumsUrl, string WasabiSigUrl*/)>
+        GetLatestReleaseFromGithubAsync(Version targetVersion)
     {
-        using HttpRequestMessage message = new(HttpMethod.Get, ReleaseURL);
-        message.Headers.UserAgent.Add(new("WalletWasabi", "2.0"));
+        using HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, AppConstants.ReleaseURL);
+        message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ProjetoAcessibilidade", "2.0"));
         var response = await HttpClient.SendAsync(message, CancellationToken).ConfigureAwait(false);
 
         JObject jsonResponse = JObject.Parse(await response.Content.ReadAsStringAsync(CancellationToken).ConfigureAwait(false));
@@ -183,12 +185,12 @@ public class UpdateManager : IDisposable
             assetDownloadUrls.Add(asset["browser_download_url"]?.ToString() ?? throw new InvalidDataException("Missing download url from response."));
         }
 
-        var sha256SumsUrl = assetDownloadUrls.Where(url => url.Contains("SHA256SUMS.asc")).First();
-        var wasabiSigUrl = assetDownloadUrls.Where(url => url.Contains("SHA256SUMS.wasabisig")).First();
+        /*  var sha256SumsUrl = assetDownloadUrls.Where(url => url.Contains("SHA256SUMS.asc")).First();
+          var wasabiSigUrl = assetDownloadUrls.Where(url => url.Contains("SHA256SUMS.wasabisig")).First();*/
 
         (var url, var fileName) = GetAssetToDownload(assetDownloadUrls);
 
-        return (githubVersion, url, fileName, sha256SumsUrl, wasabiSigUrl);
+        return (githubVersion, url, fileName/*, sha256SumsUrl, wasabiSigUrl*/);
     }
 
     private async Task DownloadAndValidateWasabiSignatureAsync(string sha256SumsFilePath, string sha256SumsUrl, string wasabiSigUrl)
@@ -199,14 +201,20 @@ public class UpdateManager : IDisposable
 
         try
         {
-            using (var stream = await httpClient.GetStreamAsync(sha256SumsUrl, CancellationToken).ConfigureAwait(false))
+            using (var stream = await httpClient
+                .GetStreamAsync(sha256SumsUrl, CancellationToken)
+                .ConfigureAwait(false))
             {
-                await CopyStreamContentToFileAsync(stream, sha256SumsFilePath).ConfigureAwait(false);
+                await CopyStreamContentToFileAsync(stream, sha256SumsFilePath)
+                    .ConfigureAwait(false);
             }
 
-            using (var stream = await httpClient.GetStreamAsync(wasabiSigUrl, CancellationToken).ConfigureAwait(false))
+            using (var stream = await httpClient
+                .GetStreamAsync(wasabiSigUrl, CancellationToken)
+                .ConfigureAwait(false))
             {
-                await CopyStreamContentToFileAsync(stream, wasabiSigFilePath).ConfigureAwait(false);
+                await CopyStreamContentToFileAsync(stream, wasabiSigFilePath)
+                    .ConfigureAwait(false);
             }
         }
         catch (HttpRequestException exc)

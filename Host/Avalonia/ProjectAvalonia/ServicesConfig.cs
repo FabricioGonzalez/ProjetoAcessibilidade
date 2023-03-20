@@ -52,7 +52,7 @@ public static class ServicesConfig
         Config = global.Config;
         HostedServices = global.HostedServices;
         UiConfig = global.UiConfig;
-        /*UpdateManager = global.UpdateManager;*/
+        UpdateManager = global.UpdateManager;
 
         IsInitialized = true;
     }

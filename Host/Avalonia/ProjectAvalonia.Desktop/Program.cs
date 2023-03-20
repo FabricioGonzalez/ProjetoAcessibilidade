@@ -152,10 +152,10 @@ public class Program
             // Trigger the CrashReport process if required.
             /* CrashReporter.Invoke(exceptionToReport);*/
         }
-        /* else if (ServicesConfig.UpdateManager.DoUpdateOnClose)
-         {
-             ServicesConfig.UpdateManager.StartInstallingNewVersion();
-         }*/
+        else if (ServicesConfig.UpdateManager.DoUpdateOnClose)
+        {
+            ServicesConfig.UpdateManager.StartInstallingNewVersion();
+        }
 
         AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
         TaskScheduler.UnobservedTaskException -= TaskScheduler_UnobservedTaskException;

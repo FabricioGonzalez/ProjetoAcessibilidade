@@ -98,7 +98,7 @@ public class Global
                 {
                     AppClient = new(new ProjectHttpClient(new System.Net.Http.HttpClient(), () =>
                 {
-                    return new Uri("https://api.github.com/repos/FabricioGonzalez/ProjetoAcessibilidade/releases/latest");
+                    return new Uri("https://api.github.com/repos/FabricioGonzalez/ProjetoAcessibilidade/releases");
                 }))
                 }, "Software Update Checker");
                 var updateChecker = HostedServices.Get<UpdateChecker>();

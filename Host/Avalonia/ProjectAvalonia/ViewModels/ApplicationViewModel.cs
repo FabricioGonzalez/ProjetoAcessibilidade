@@ -16,10 +16,8 @@ using Project.Domain.Solution.Queries;
 
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
-using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
-using ProjectAvalonia.ViewModels.Navigation;
 
 using ReactiveUI;
 
@@ -121,13 +119,14 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
     .OnSuccess(
     async (result) =>
     {
+        MainViewModel.Instance.PrintProject(result.Data.ToSolutionState());
 
-        MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
-                  , Parameter: result.Data.ToSolutionState());
+        /*  MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
+                    , Parameter: result.Data.ToSolutionState());
 
-        MainViewModel.Instance.MainScreen.To(
-                    await NavigationManager.MaterialiseViewModelAsync(ProjectViewModel.MetaData)
-                   , Parameter: v);
+          MainViewModel.Instance.MainScreen.To(
+                      await NavigationManager.MaterialiseViewModelAsync(ProjectViewModel.MetaData)
+                     , Parameter: v);*/
     })
     .OnError(error =>
     {
@@ -143,7 +142,8 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
 
     internal void GoToOpenProject(string v)
     {
-        MainViewModel.Instance.MainScreen.To(
-         new ProjectViewModel() { CurrentOpenProject = v });
+        MainViewModel.Instance.OpenProject(v);
+
+
     }
 }

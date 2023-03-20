@@ -125,7 +125,23 @@ public partial class MainViewModel : ViewModelBase
         FullScreen.Clear();
         CompactDialogScreen.Clear();
     }
+    public void OpenProject(string projectPath)
+    {
+        _projectPage.CurrentOpenProject = projectPath;
 
+        Instance.MainScreen.To(_projectPage);
+    }
+
+    public void PrintProject(SolutionStateViewModel solutionState)
+    {
+        _projectPage.CurrentOpenProject = solutionState.FilePath;
+
+        _previewPrintPage.SolutionState = solutionState;
+
+        Instance.FullScreen.To(_previewPrintPage);
+
+        OpenProject(solutionState.FilePath);
+    }
     public void Initialize()
     {
         /*   StatusIcon.Initialize();*/
