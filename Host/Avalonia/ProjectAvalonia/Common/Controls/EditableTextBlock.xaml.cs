@@ -79,25 +79,25 @@ public class EditableTextBlock : TemplatedControl
             defaultBindingMode: BindingMode.TwoWay,
             enableDataValidation: true);
 
-    public static readonly DirectProperty<EditableTextBlock, ICommand> CommandProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand>(
+    public static readonly DirectProperty<EditableTextBlock, ICommand> CommandProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand?>(
         nameof(Command),
         component => component.Command,
         (component, value) => component.Command = value);
 
-    public static readonly DirectProperty<EditableTextBlock, object> CommandParameterProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, object>(
-        nameof(Command),
+    public static readonly DirectProperty<EditableTextBlock, object?> CommandParameterProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, object?>(
+        nameof(CommandParameter),
         component => component.CommandParameter,
         (component, value) => component.CommandParameter = value);
 
-    private ICommand command;
-    public ICommand Command
+    private ICommand? command;
+    public ICommand? Command
     {
         get => command;
         set => SetAndRaise(CommandProperty, ref command, value);
     }
 
-    private object commandParameter;
-    public object CommandParameter
+    private object? commandParameter;
+    public object? CommandParameter
     {
         get => commandParameter;
         set => SetAndRaise(CommandParameterProperty, ref commandParameter, value);

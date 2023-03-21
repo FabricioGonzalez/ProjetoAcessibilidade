@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 using Common;
 
 using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using Core.Enuns;
 
 using Project.Domain.Contracts;
 using Project.Domain.Project.Queries.GetProjectItemContent;
 
 using ProjectAvalonia.Common.Models.FileItems;
+using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Logging;
 
 using ReactiveUI;
@@ -40,7 +39,7 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
 {
     [AutoNotify] private FileItem _selectedItem;
-    [AutoNotify] private AppItemModel _editingItem;
+    [AutoNotify] private AppModelState _editingItem;
 
     public ObservableCollection<AppFormDataType> Types => new(
            Enum
@@ -57,8 +56,17 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
             .Subscribe(async (prop) =>
             {
                 await LoadItemData(prop.FilePath);
-                Logger.LogDebug(prop.Name);
+                /*Logger.LogDebug(prop.Name);*/
             });
+        AddFormItemCommand = ReactiveCommand.Create(() =>
+        {
+            Logger.LogDebug("Add Form Item");
+        });
+
+        AddLawCommand = ReactiveCommand.Create(() =>
+        {
+            Logger.LogDebug("Add Law Item");
+        });
     }
 
     private async Task LoadItemData(string path)
@@ -73,19 +81,24 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
         })
         .OnSuccess(success =>
         {
-            success?.Data?.FormData.Where(item =>
+            /*success?.Data?.FormData.Where(item =>
             {
                 return item is AppFormDataItemCheckboxModel || item is AppFormDataItemTextModel;
-            });
+            });*/
 
-            EditingItem = success?.Data;
+            EditingItem = success?.Data.ToAppState();
         })
         .OnError(error =>
         {
-
         });
-
-
     }
 
+    public ICommand AddFormItemCommand
+    {
+        get;
+    }
+    public ICommand AddLawCommand
+    {
+        get;
+    }
 }

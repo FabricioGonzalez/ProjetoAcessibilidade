@@ -2,12 +2,11 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.TemplateEditTabView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:checkbox="clr-namespace:Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;assembly=Core"
     xmlns:controls="using:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:formItemState="clr-namespace:ProjectAvalonia.Features.Project.States.FormItemState;assembly=ProjectAvalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="using:ProjectAvalonia.Properties"
-    xmlns:text="clr-namespace:Core.Entities.Solution.Project.AppItem.DataItems.Text;assembly=Core"
     xmlns:viewModels="using:ProjectAvalonia.Features.TemplateEdit.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -41,18 +40,23 @@
                         <Button
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            Classes="function">
+                            Classes="function"
+                            Command="{Binding $parent[UserControl].DataContext.AddFormItemCommand}">
                             <PathIcon Data="{StaticResource add_regular}" />
                         </Button>
                     </Grid>
                     <ItemsControl Items="{Binding EditingItem.FormData, Mode=TwoWay}">
                         <ItemsControl.DataTemplates>
-                            <DataTemplate x:DataType="checkbox:AppFormDataItemCheckboxModel" DataType="checkbox:AppFormDataItemCheckboxModel">
+                            <DataTemplate x:DataType="formItemState:CheckboxContainerItemState" DataType="formItemState:CheckboxContainerItemState">
                                 <Expander Margin="4" HorizontalAlignment="Stretch">
                                     <Expander.HeaderTemplate>
                                         <DataTemplate>
                                             <Grid ColumnDefinitions="1*,1*,1*">
-                                                <TextBox Grid.Column="0" Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
+                                                <TextBox
+                                                    Grid.Column="0"
+                                                    Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}"
+                                                    UseFloatingWatermark="True"
+                                                    Watermark="{x:Static p:Resources.CheckboxContainerTopicLabel}" />
                                                 <ComboBox
                                                     Grid.Column="1"
                                                     Width="200"
@@ -69,21 +73,29 @@
                                                 <Button
                                                     Grid.Column="2"
                                                     HorizontalAlignment="Right"
-                                                    Classes="function">
+                                                    Classes="function"
+                                                    Command="{Binding $parent[UserControl].DataContext.RemoveFormItemCommand}">
                                                     <PathIcon Data="{StaticResource dismiss_light}" />
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
-                                    <Grid ColumnDefinitions="1*,1*" RowDefinitions="auto auto">
+                                    <Grid
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        ColumnDefinitions="1*,1*"
+                                        RowDefinitions="auto auto">
                                         <TextBox
                                             Grid.Row="0"
                                             Grid.Column="0"
-                                            Text="{Binding Topic, Mode=TwoWay}" />
+                                            Text="{Binding Topic, Mode=TwoWay}"
+                                            UseFloatingWatermark="True"
+                                            Watermark="{x:Static p:Resources.CheckboxContainerTopicLabel}" />
                                         <Button
                                             Grid.Column="1"
                                             HorizontalAlignment="Right"
-                                            Classes="function">
+                                            Classes="function"
+                                            Command="{Binding $parent[UserControl].DataContext.RemoveFormItemCommand}">
                                             <PathIcon Data="{StaticResource dismiss_light}" />
                                         </Button>
                                         <ItemsControl
@@ -92,13 +104,20 @@
                                             Items="{Binding Children, Mode=TwoWay}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Border Background="{DynamicResource SystemBaseLowColor}" CornerRadius="8">
+                                                    <Border
+                                                        Margin="0,4"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch"
+                                                        Background="{DynamicResource SystemBaseLowColor}"
+                                                        CornerRadius="8">
                                                         <Grid ColumnDefinitions="1*,1*" RowDefinitions="auto auto">
                                                             <TextBox
                                                                 Grid.Row="0"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
-                                                                Text="{Binding Topic, Mode=TwoWay}" />
+                                                                Text="{Binding Topic, Mode=TwoWay}"
+                                                                UseFloatingWatermark="True"
+                                                                Watermark="{x:Static p:Resources.CheckboxItemTopicLabel}" />
                                                             <Button
                                                                 Grid.Column="1"
                                                                 HorizontalAlignment="Right"
@@ -112,9 +131,16 @@
                                                                 Items="{Binding Options}">
                                                                 <ItemsControl.ItemTemplate>
                                                                     <DataTemplate>
-                                                                        <Border Background="{DynamicResource SystemBaseLowColor}">
+                                                                        <Border
+                                                                            Margin="0,4"
+                                                                            HorizontalAlignment="Stretch"
+                                                                            VerticalAlignment="Stretch"
+                                                                            Background="{DynamicResource SystemBaseLowColor}">
                                                                             <Grid ColumnDefinitions="1*,1*">
-                                                                                <TextBox Text="{Binding Value, Mode=TwoWay}" />
+                                                                                <TextBox
+                                                                                    Text="{Binding Value, Mode=TwoWay}"
+                                                                                    UseFloatingWatermark="True"
+                                                                                    Watermark="{x:Static p:Resources.CheckboxItemValueLabel}" />
                                                                                 <Button
                                                                                     Grid.Column="1"
                                                                                     HorizontalAlignment="Right"
@@ -132,16 +158,19 @@
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
                                     </Grid>
-
                                 </Expander>
                             </DataTemplate>
 
-                            <DataTemplate x:DataType="text:AppFormDataItemTextModel" DataType="text:AppFormDataItemTextModel">
+                            <DataTemplate x:DataType="formItemState:TextItemState" DataType="formItemState:TextItemState">
                                 <Expander Margin="4" HorizontalAlignment="Stretch">
                                     <Expander.HeaderTemplate>
                                         <DataTemplate>
                                             <Grid ColumnDefinitions="1*,1*,1*">
-                                                <TextBox Grid.Column="0" Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}" />
+                                                <TextBox
+                                                    Grid.Column="0"
+                                                    Text="{Binding $parent[Expander].DataContext.Topic, Mode=TwoWay}"
+                                                    UseFloatingWatermark="True"
+                                                    Watermark="{x:Static p:Resources.TextBoxItemTopicLabel}" />
                                                 <ComboBox
                                                     Grid.Column="1"
                                                     Width="200"
@@ -164,12 +193,22 @@
                                             </Grid>
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
-                                    <Grid RowDefinitions="auto auto">
-                                        <TextBox Grid.Row="1" Text="{Binding MeasurementUnit, Mode=TwoWay}" />
+                                    <Grid
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        RowDefinitions="auto auto">
+                                        <TextBox
+                                            Grid.Row="1"
+                                            Text="{Binding MeasurementUnit, Mode=TwoWay}"
+                                            UseFloatingWatermark="True"
+                                            Watermark="{x:Static p:Resources.TextBoxItemMeasurementUnitLabel}" />
                                     </Grid>
                                 </Expander>
                             </DataTemplate>
-                            <DataTemplate />
+
+                            <DataTemplate>
+                                <Grid IsVisible="False" />
+                            </DataTemplate>
                         </ItemsControl.DataTemplates>
                     </ItemsControl>
                 </DockPanel>
@@ -190,15 +229,15 @@
                         <Button
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            Classes="function">
+                            Classes="function"
+                            Command="{Binding $parent[UserControl].DataContext.AddLawCommand}">
                             <PathIcon Data="{StaticResource add_regular}" />
                         </Button>
                     </Grid>
-                    <ItemsControl Items="{Binding EditingItem.LawList}">
+                    <ItemsControl Items="{Binding EditingItem.LawItems, Mode=TwoWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="{DynamicResource SystemBaseLowColor}" CornerRadius="8">
-
                                     <Grid ColumnDefinitions="1*,1*" RowDefinitions="1*,3*">
                                         <TextBox
                                             Grid.Column="0"
@@ -208,18 +247,18 @@
                                         <Button
                                             Grid.Column="1"
                                             HorizontalAlignment="Right"
-                                            Classes="function">
+                                            Classes="function"
+                                            Command="{Binding $parent[UserControl].DataContext.RemoveLawItemCommand}">
                                             <PathIcon Data="{StaticResource dismiss_light}" />
                                         </Button>
                                         <TextBox
                                             Grid.Row="1"
-                                            Text="{Binding LawTextContent}"
+                                            Text="{Binding LawContent}"
                                             TextWrapping="Wrap"
                                             UseFloatingWatermark="True"
                                             Watermark="Descrição da Lei" />
                                     </Grid>
                                 </Border>
-
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

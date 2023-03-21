@@ -19,15 +19,19 @@
     </PropertyGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
+        <AvaloniaXaml Remove="Features\ItemValidation\**" />
         <AvaloniaXaml Remove="Features\TemplateEditing\**" />
         <AvaloniaXaml Remove="Features\TemplateRules\**" />
         <AvaloniaXaml Remove="Models\**" />
+        <Compile Remove="Features\ItemValidation\**" />
         <Compile Remove="Features\TemplateEditing\**" />
         <Compile Remove="Features\TemplateRules\**" />
         <Compile Remove="Models\**" />
+        <EmbeddedResource Remove="Features\ItemValidation\**" />
         <EmbeddedResource Remove="Features\TemplateEditing\**" />
         <EmbeddedResource Remove="Features\TemplateRules\**" />
         <EmbeddedResource Remove="Models\**" />
+        <None Remove="Features\ItemValidation\**" />
         <None Remove="Features\TemplateEditing\**" />
         <None Remove="Features\TemplateRules\**" />
         <None Remove="Models\**" />
@@ -217,6 +221,9 @@
       <Compile Update="Features\PDFViewer\Views\PreviewerView.axaml.cs">
         <DependentUpon>PreviewerView.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Features\Project\Views\Dialogs\DeleteDialogView.axaml.cs">
+        <DependentUpon>DeleteDialogView.axaml</DependentUpon>
+      </Compile>
       <Compile Update="Features\TemplateEdit\Views\ItemValidationView.axaml.cs">
         <DependentUpon>ItemValidationView.axaml</DependentUpon>
       </Compile>
@@ -227,8 +234,6 @@
       </Compile>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Features\ItemValidation\ViewModels\" />
-      <Folder Include="Features\ItemValidation\Views\" />
       <Folder Include="Languages\" />
     </ItemGroup>
     <ItemGroup>

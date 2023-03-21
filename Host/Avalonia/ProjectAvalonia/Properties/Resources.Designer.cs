@@ -106,6 +106,33 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Topic.
+        /// </summary>
+        public static string CheckboxContainerTopicLabel {
+            get {
+                return ResourceManager.GetString("CheckboxContainerTopicLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Topic.
+        /// </summary>
+        public static string CheckboxItemTopicLabel {
+            get {
+                return ResourceManager.GetString("CheckboxItemTopicLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Value.
+        /// </summary>
+        public static string CheckboxItemValueLabel {
+            get {
+                return ResourceManager.GetString("CheckboxItemValueLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Confirm.
         /// </summary>
         public static string ConfirmActionLabel {
@@ -282,6 +309,24 @@ namespace ProjectAvalonia.Properties {
         public static string SkipActionLabel {
             get {
                 return ResourceManager.GetString("SkipActionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Measurement unit.
+        /// </summary>
+        public static string TextBoxItemMeasurementUnitLabel {
+            get {
+                return ResourceManager.GetString("TextBoxItemMeasurementUnitLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Topic.
+        /// </summary>
+        public static string TextBoxItemTopicLabel {
+            get {
+                return ResourceManager.GetString("TextBoxItemTopicLabel", resourceCulture);
             }
         }
         

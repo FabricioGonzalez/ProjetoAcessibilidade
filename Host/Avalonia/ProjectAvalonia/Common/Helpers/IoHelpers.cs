@@ -84,6 +84,11 @@ public static class IoHelpers
         }
     }
 
+    public static bool CheckIfFileExists(string filePath)
+    {
+        return File.Exists(filePath);
+    }
+
     public static void OpenFolderInFileExplorer(string dirPath)
     {
         if (Directory.Exists(dirPath))

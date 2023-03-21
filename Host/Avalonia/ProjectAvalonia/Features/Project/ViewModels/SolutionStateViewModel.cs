@@ -24,6 +24,7 @@ using Project.Domain.Project.Commands.ProjectItemCommands.CreateItemCommands;
 
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.States.ProjectItems;
+using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.ViewModels.Navigation;
 
@@ -81,9 +82,15 @@ public partial class SolutionStateViewModel : RoutableViewModel
             });
         });
 
-        ExcludeFileCommand = ReactiveCommand.Create<ItemState>((model) =>
+        ExcludeFileCommand = ReactiveCommand.CreateFromTask<ItemState>(async (model) =>
         {
-            Logger.LogInfo(model.Name);
+            var dialog = new DeleteDialogViewModel(
+                message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
+
+            if ((await NavigateDialogAsync(dialog, NavigationTarget.CompactDialogScreen)).Result == true)
+            {
+                Logger.LogInfo(model.Name);
+            }
         });
 
         RenameFileCommand = ReactiveCommand.Create<ItemState>((model) =>
@@ -91,9 +98,15 @@ public partial class SolutionStateViewModel : RoutableViewModel
             Logger.LogInfo(model.Name);
         });
 
-        ExcludeFolderCommand = ReactiveCommand.Create<ItemGroupState>((groupModels) =>
+        ExcludeFolderCommand = ReactiveCommand.CreateFromTask<ItemGroupState>(async (groupModels) =>
         {
-            Logger.LogInfo(groupModels.Name);
+            var dialog = new DeleteDialogViewModel(
+               message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
+
+            if ((await NavigateDialogAsync(dialog, NavigationTarget.CompactDialogScreen)).Result == true)
+            {
+                Logger.LogInfo(groupModels.Name);
+            }
         });
 
         AddProjectItemCommand = ReactiveCommand.CreateFromTask<ItemGroupState>(async (groupModels) =>

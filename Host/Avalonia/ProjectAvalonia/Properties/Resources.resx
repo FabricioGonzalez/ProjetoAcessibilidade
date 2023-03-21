@@ -132,6 +132,15 @@
   <data name="CancelActionLabel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CheckboxContainerTopicLabel" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="CheckboxItemTopicLabel" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="CheckboxItemValueLabel" xml:space="preserve">
+    <value>Value</value>
+  </data>
   <data name="ConfirmActionLabel" xml:space="preserve">
     <value>Confirm</value>
   </data>
@@ -191,6 +200,12 @@
   </data>
   <data name="SkipActionLabel" xml:space="preserve">
     <value>Skip</value>
+  </data>
+  <data name="TextBoxItemMeasurementUnitLabel" xml:space="preserve">
+    <value>Measurement unit</value>
+  </data>
+  <data name="TextBoxItemTopicLabel" xml:space="preserve">
+    <value>Topic</value>
   </data>
   <data name="ThemeChangingLabel" xml:space="preserve">
     <value>Theme is changing... Please Wait...</value>
