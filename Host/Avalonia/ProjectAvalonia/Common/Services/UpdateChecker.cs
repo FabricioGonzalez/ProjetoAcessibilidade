@@ -12,7 +12,7 @@ public class UpdateChecker : PeriodicRunner
 {
     public UpdateChecker(TimeSpan period) : base(period)
     {
-        UpdateStatus = new UpdateStatus(true, true, new Version(), 0, new Version());
+        UpdateStatus = new UpdateStatus(clientUpToDate: true, clientVersion: new Version());
         /* Synchronizer.PropertyChanged += Synchronizer_PropertyChanged; */
     }
 
@@ -37,11 +37,11 @@ public class UpdateChecker : PeriodicRunner
     }
     protected async override Task ActionAsync(CancellationToken cancel)
     {
-        var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(false);
+        var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(continueOnCapturedContext: false);
         if (newUpdateStatus != UpdateStatus)
         {
             UpdateStatus = newUpdateStatus;
-            UpdateStatusChanged?.Invoke(this, newUpdateStatus);
+            UpdateStatusChanged?.Invoke(this, e: newUpdateStatus);
         }
     }
 

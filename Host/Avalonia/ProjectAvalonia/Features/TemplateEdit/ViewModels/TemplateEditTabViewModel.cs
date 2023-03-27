@@ -15,6 +15,8 @@ using Project.Domain.Project.Queries.GetProjectItemContent;
 
 using ProjectAvalonia.Common.Models.FileItems;
 using ProjectAvalonia.Features.Project.States;
+using ProjectAvalonia.Features.Project.States.FormItemState;
+using ProjectAvalonia.Features.Project.States.LawItemState;
 using ProjectAvalonia.Logging;
 
 using ReactiveUI;
@@ -65,7 +67,29 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
 
         AddLawCommand = ReactiveCommand.Create(() =>
         {
+            EditingItem.LawItems.Add(new());
             Logger.LogDebug("Add Law Item");
+        });
+
+        RemoveFormItemCommand = ReactiveCommand.Create<ReactiveObject>((item) =>
+        {
+            if (item is CheckboxContainerItemState checkbox)
+            {
+                Logger.LogDebug($"Remove Item {checkbox.Topic}");
+            }
+            if (item is TextItemState textItem)
+            {
+                Logger.LogDebug($"Remove Item {textItem.Topic}");
+            }
+        });
+        RemoveLawItemCommand = ReactiveCommand.Create<LawStateItem>((lawItem) =>
+        {
+            if (lawItem is not null)
+            {
+                EditingItem.LawItems.Remove(lawItem);
+
+                Logger.LogDebug($"Remove Law {lawItem.LawId}");
+            }
         });
     }
 
@@ -97,7 +121,15 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
     {
         get;
     }
+    public ICommand RemoveFormItemCommand
+    {
+        get;
+    }
     public ICommand AddLawCommand
+    {
+        get;
+    }
+    public ICommand RemoveLawItemCommand
     {
         get;
     }

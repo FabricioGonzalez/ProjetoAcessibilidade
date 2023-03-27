@@ -111,14 +111,14 @@ public partial class SolutionStateViewModel : RoutableViewModel
 
         AddProjectItemCommand = ReactiveCommand.CreateFromTask<ItemGroupState>(async (groupModels) =>
         {
-            Logger.LogInfo(groupModels.Name);
+            Logger.LogDebug(groupModels.Name);
 
             var addItemViewModel = new AddItemViewModel();
 
             var dialogResult = await NavigateDialogAsync(addItemViewModel,
                 NavigationTarget.DialogScreen);
 
-            var group = ItemGroups.FirstOrDefault(groupModels);
+            var group = ItemGroups.FirstOrDefault(item => item.Name == groupModels.Name);
 
             AddItemToGroup(group, dialogResult.Result);
 

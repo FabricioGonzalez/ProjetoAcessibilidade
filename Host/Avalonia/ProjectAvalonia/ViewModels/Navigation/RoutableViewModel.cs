@@ -67,12 +67,12 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
     {
         if (_currentDisposable is { })
         {
-            throw new Exception("Can't navigate to something that has already been navigated to.");
+            throw new Exception(message: "Can't navigate to something that has already been navigated to.");
         }
 
         _currentDisposable = new CompositeDisposable();
 
-        OnNavigatedTo(isInHistory, _currentDisposable);
+        OnNavigatedTo(isInHistory, disposables: _currentDisposable);
     }
     private void DoNavigateTo(bool isInHistory, object? Parameter = null)
     {
@@ -84,10 +84,10 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
         _currentDisposable = new CompositeDisposable();
 
         if (Parameter is null)
-            OnNavigatedTo(isInHistory, _currentDisposable);
+            OnNavigatedTo(isInHistory, disposables: _currentDisposable);
 
         else
-            OnNavigatedTo(isInHistory, _currentDisposable, Parameter);
+            OnNavigatedTo(isInHistory, disposables: _currentDisposable, Parameter: Parameter);
     }
 
     protected virtual void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables)

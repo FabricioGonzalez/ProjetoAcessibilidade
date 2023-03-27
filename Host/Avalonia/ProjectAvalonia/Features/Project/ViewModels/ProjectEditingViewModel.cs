@@ -78,7 +78,7 @@ public partial class ProjectEditingViewModel : ViewModelBase
         AddPhotoCommand = ReactiveCommand.Create<ImageContainerItemState>(
      execute: async (imageContainer) =>
      {
-         var file = await FileDialogHelper.ShowOpenFileDialogAsync("Obter Image", filterExtTypes: new string[] { ".png", ".jpeg" });
+         var file = await FileDialogHelper.ShowOpenFileDialogAsync("Obter Image", filterExtTypes: new string[] { "Images/*", "png", "jpeg" });
 
          if (!string.IsNullOrWhiteSpace(file))
          {

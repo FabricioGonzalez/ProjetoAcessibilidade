@@ -22,6 +22,7 @@ using Project.Domain.App.Queries.GetAllTemplates;
 using Project.Domain.Contracts;
 using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
 
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -104,6 +105,22 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
 
         TemplateEditTab = new TemplateEditTabViewModel();
 
+
+        this.WhenPropertyChanged(vm => vm.TemplateEditTab.SelectedItem)
+            .SubscribeAsync(async prop =>
+            {
+                var dialog = new DeleteDialogViewModel(
+               message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
+
+                if (prop.Value is not null)
+                {
+                    if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
+                    {
+                        Logger.LogDebug(prop.Value.FilePath);
+                    }
+                }
+            });
+
         AddNewItemCommand = ReactiveCommand.Create(() =>
         {
             Source.Add(new FileItem() { InEditMode = true });
@@ -114,7 +131,7 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
             var dialog = new DeleteDialogViewModel(
                 message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
 
-            if ((await NavigateDialogAsync(dialog, NavigationTarget.CompactDialogScreen)).Result == true)
+            if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
             {
                 /*Logger.LogInfo(groupModels.Name);*/
             }

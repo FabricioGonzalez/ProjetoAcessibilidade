@@ -17,10 +17,12 @@
         VerticalContentAlignment="Stretch"
         AutoScrollToSelectedItem="True"
         Background="Transparent"
+        Classes="horizontalScroller"
         Items="{Binding Items, Mode=OneWay}"
         SelectedItem="{Binding Item, Mode=TwoWay}"
         TabIndex="{Binding SelectedIndex, Mode=TwoWay}"
-        TabStripPlacement="Top">
+        TabStripPlacement="Top"
+        Template="{DynamicResource TabControlControlTemplate1}">
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal" Spacing="8">
@@ -29,14 +31,18 @@
                         FontSize="12"
                         Text="{Binding ItemName, Mode=OneWay}" />
                     <Button
-                        Width="16"
-                        Height="16"
+                        Width="20"
+                        Height="20"
+                        Padding="0"
+                        Classes="action"
                         Command="{Binding $parent[UserControl].DataContext.CloseItemCommand}"
                         CommandParameter="{Binding $self.DataContext}">
-                        <PathIcon Data="{StaticResource dismiss_light}" />
+                        <PathIcon
+                            Width="8"
+                            Height="8"
+                            Data="{StaticResource dismiss_light}" />
                     </Button>
                 </StackPanel>
-
             </DataTemplate>
         </TabControl.ItemTemplate>
 

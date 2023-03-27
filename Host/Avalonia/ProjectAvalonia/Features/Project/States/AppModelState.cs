@@ -158,6 +158,7 @@ public static class Extensions
                         .ToList(),
                     };
                 }
+
                 if (item is TextItemState text)
                 {
                     return new AppFormDataItemTextModel()

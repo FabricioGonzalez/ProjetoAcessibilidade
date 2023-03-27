@@ -70,8 +70,8 @@ public class AppClient
     }
     public async Task<UpdateStatus> CheckUpdatesAsync(CancellationToken cancel)
     {
-        var (clientVersion, backendMajorVersion, legalDocumentsVersion) =
-            await GetVersionsAsync(cancel).ConfigureAwait(false);
+        /* var (clientVersion, backendMajorVersion, legalDocumentsVersion) =
+             await GetVersionsAsync(cancel).ConfigureAwait(false);*/
 
         var appVersion = await GetVersionFromGithub().ConfigureAwait(false);
 
@@ -79,22 +79,11 @@ public class AppClient
 
         var clientUpToDate = /*AppConstants.ClientVersion >= clientVersion ||*/ currentVersion >= appVersion; // If the client version locally is greater than or equal to the backend's reported client version, then good.
         var backendCompatible = int.Parse(AppConstants.ClientSupportBackendVersionMax)
-        >= backendMajorVersion && backendMajorVersion
         >= int.Parse(AppConstants.ClientSupportBackendVersionMin);
         // If ClientSupportBackendVersionMin <= backend major <= ClientSupportBackendVersionMax, then our software is compatible.
-        var currentBackendMajorVersion = backendMajorVersion;
-
-        if (backendCompatible)
-        {
-            // Only refresh if compatible.
-            ApiVersion = currentBackendMajorVersion;
-        }
 
         return new UpdateStatus(
-            backendCompatible: true,
             clientUpToDate: clientUpToDate,
-            legalDocumentsVersion: legalDocumentsVersion,
-            currentBackendMajorVersion: currentBackendMajorVersion,
             clientVersion: appVersion);
     }
 

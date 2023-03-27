@@ -32,7 +32,7 @@ public class Config : ConfigBase
     public bool DownloadNewVersion { get; internal set; } = true;
 
     [JsonProperty(PropertyName = "AppVersion", DefaultValueHandling = DefaultValueHandling.Populate)]
-    public string AppVersion { get; internal set; } = "";
+    public string AppVersion { get; internal set; } = "1.0.0";
 
     [JsonProperty(PropertyName = "AppLanguage", DefaultValueHandling = DefaultValueHandling.Populate)]
     public string AppLanguage { get; internal set; } = "en";

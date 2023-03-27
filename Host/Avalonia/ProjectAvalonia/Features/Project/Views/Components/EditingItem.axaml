@@ -101,7 +101,10 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="8">
-                                <Expander Margin="0,8" HorizontalAlignment="Stretch">
+                                <Expander
+                                    Margin="0,8"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch">
                                     <Expander.HeaderTemplate>
                                         <DataTemplate>
                                             <Grid HorizontalAlignment="Stretch" ColumnDefinitions="1* 1*">
@@ -113,23 +116,33 @@
                                                 <Button
                                                     Grid.Column="1"
                                                     HorizontalAlignment="Right"
-                                                    Command="{Binding #editingItem.DataContext.AddPhotoCommand}"
+                                                    Command="{Binding $parent[UserControl].DataContext.AddPhotoCommand}"
                                                     CommandParameter="{Binding $parent[Border].DataContext}">
                                                     <PathIcon Data="{StaticResource addphoto_regular}" />
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
-                                    <ItemsControl Items="{Binding ImagesItems, Mode=OneWay}">
+                                    <ItemsControl HorizontalAlignment="Stretch" Items="{Binding ImagesItems, Mode=OneWay}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid MaxHeight="400" Columns="2" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="appModels:ImageItemState">
-                                                <StackPanel Margin="0,4">
-                                                    <Image asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=OneWay}" />
+                                                <DockPanel
+                                                    Margin="4,4"
+                                                    HorizontalAlignment="Stretch"
+                                                    LastChildFill="True">
                                                     <TextBox
+                                                        Margin="0,4,0,0"
                                                         AcceptsReturn="True"
                                                         AcceptsTab="True"
+                                                        DockPanel.Dock="Bottom"
                                                         Text="{Binding ImageObservation}" />
-                                                </StackPanel>
+                                                    <Image asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=OneWay}" ClipToBounds="True" />
+                                                </DockPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>

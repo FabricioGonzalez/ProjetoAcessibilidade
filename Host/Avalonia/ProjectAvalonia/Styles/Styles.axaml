@@ -23,6 +23,7 @@
     <StyleInclude Source="avares://ProjectAvalonia/Styles/TextBox.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Styles/NotificationCard.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Styles/HyperlinkButton.axaml" />
+    <StyleInclude Source="avares://ProjectAvalonia/Styles/ScrollableTabControl.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/AnimatedButton.axaml" />
     <!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/CurrencyEntryBox.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/DualCurrencyEntryBox.axaml" />
