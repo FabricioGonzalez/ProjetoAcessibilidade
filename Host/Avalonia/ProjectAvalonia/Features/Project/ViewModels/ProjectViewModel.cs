@@ -71,7 +71,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
             .SubscribeAsync(async prop =>
             {
                 (await queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
-                    query: new(solutionPath: prop),
+                    query: new(SolutionPath: prop),
                     cancellation: CancellationToken.None))
                     .OnSuccess(
                     (result) =>
@@ -113,8 +113,8 @@ public partial class ProjectViewModel : NavBarItemViewModel
         {
             await commandDispatcher.Dispatch<SyncSolutionCommand, Resource<ProjectSolutionModel>>(
                 command: new(
-                solutionData: solution.ToSolutionModel(),
-                solutionPath: solution.FilePath),
+                SolutionData: solution.ToSolutionModel(),
+                SolutionPath: solution.FilePath),
                 cancellation: CancellationToken.None);
         }, canExecute: IsSolutionOpened());
 

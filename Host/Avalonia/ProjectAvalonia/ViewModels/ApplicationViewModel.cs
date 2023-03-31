@@ -114,7 +114,7 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
     {
 
         (await _queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
-    query: new(solutionPath: v),
+    query: new(SolutionPath: v),
     cancellation: CancellationToken.None))
     .OnSuccess(
     async (result) =>

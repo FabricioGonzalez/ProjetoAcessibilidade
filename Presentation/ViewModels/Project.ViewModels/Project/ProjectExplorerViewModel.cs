@@ -126,7 +126,9 @@ public class ProjectExplorerViewModel : ViewModelBase
                  if (path.Length > 0)
                  {
                      var result = await queryDispatcher
-                     .Dispatch<GetProjectItemsQuery, Resource<List<ExplorerItem>>>(new(path), CancellationToken.None);
+                     .Dispatch<GetProjectItemsQuery, Resource<List<ExplorerItem>>>(
+                         query: new(path),
+                         cancellation: CancellationToken.None);
                      if (result is Resource<List<ExplorerItem>>.Success data)
                      {
                          var items = data.Data.GetSubfolders();

@@ -9,6 +9,7 @@ using Common;
 
 using Core.Entities.Solution.Project.AppItem;
 
+using Project.Domain.App.Models;
 using Project.Domain.Contracts;
 using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
 using Project.Domain.Project.Queries.GetProjectItemContent;
@@ -24,8 +25,6 @@ using ProjectAvalonia.ViewModels;
 using ReactiveUI;
 
 using Splat;
-
-using unit = MediatR.Unit;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 public partial class ProjectEditingViewModel : ViewModelBase
@@ -66,10 +65,10 @@ public partial class ProjectEditingViewModel : ViewModelBase
                AppItemModel itemModel = appModel.ToAppModel();
 
                await commandDispatcher
-                 .Dispatch<SaveProjectItemContentCommand, Resource<unit>>(
-                     new(
-                         itemModel, SelectedItem.ItemPath),
-                     CancellationToken.None);
+                 .Dispatch<SaveProjectItemContentCommand, Resource<Empty>>(
+                     command: new(
+                         AppItem: itemModel, SelectedItem.ItemPath),
+                     cancellation: CancellationToken.None);
 
            }
        },

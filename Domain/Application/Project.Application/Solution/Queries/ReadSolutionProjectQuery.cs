@@ -2,25 +2,13 @@
 
 using Core.Entities.Solution;
 
-using MediatR;
-
 using Project.Domain.Contracts;
 using Project.Domain.Solution.Contracts;
 
 namespace Project.Domain.Solution.Queries;
-public class ReadSolutionProjectQuery : IRequest<Resource<ProjectSolutionModel>>
-{
-    public ReadSolutionProjectQuery(string solutionPath)
-    {
-        SolutionPath = solutionPath;
-    }
-    public string SolutionPath
-    {
-        get;
-    }
-}
+public sealed record ReadSolutionProjectQuery(string SolutionPath) : IRequest<Resource<ProjectSolutionModel>>;
 
-public class ReadSolutionProjectQueryHandler : IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>
+public sealed class ReadSolutionProjectQueryHandler : IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>
 {
     public ISolutionRepository repository;
     public ReadSolutionProjectQueryHandler(ISolutionRepository solutionRepository)

@@ -2,24 +2,13 @@
 
 using Core.Entities.Solution.Project.AppItem;
 
-using MediatR;
-
+using Project.Domain.App.Models;
 using Project.Domain.Contracts;
 using Project.Domain.Project.Contracts;
 
 namespace Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
-public class SaveSystemProjectItemContentCommand : IRequest<Resource<Unit>>
-{
-    public AppItemModel appItem;
-    public string itemPath;
-    public SaveSystemProjectItemContentCommand(AppItemModel appItem, string itemPath)
-    {
-        this.appItem = appItem;
-        this.itemPath = itemPath;
-    }
-}
-
-public class SaveSystemProjectItemContentCommandHandler : ICommandHandler<SaveSystemProjectItemContentCommand, Resource<Unit>>
+public sealed record SaveSystemProjectItemContentCommand(AppItemModel AppItem, string ItemPath) : IRequest<Resource<Empty>>;
+public class SaveSystemProjectItemContentCommandHandler : ICommandHandler<SaveSystemProjectItemContentCommand, Resource<Empty>>
 {
     private readonly IProjectItemContentRepository contentRepository;
     public SaveSystemProjectItemContentCommandHandler(IProjectItemContentRepository content)
@@ -27,10 +16,10 @@ public class SaveSystemProjectItemContentCommandHandler : ICommandHandler<SaveSy
         contentRepository = content;
     }
 
-    public async Task<Resource<Unit>> Handle(SaveSystemProjectItemContentCommand command, CancellationToken cancellation)
+    public async Task<Resource<Empty>> Handle(SaveSystemProjectItemContentCommand command, CancellationToken cancellation)
     {
-        await contentRepository.SaveSystemProjectItemContent(command.appItem, command.itemPath);
+        await contentRepository.SaveSystemProjectItemContent(command.AppItem, command.ItemPath);
 
-        return new Resource<Unit>.Success(Unit.Value);
+        return new Resource<Empty>.Success(Empty.Value);
     }
 }

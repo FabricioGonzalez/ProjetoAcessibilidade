@@ -2,18 +2,16 @@
 
 using Core.Entities.Solution.Explorer;
 
-using MediatR;
-
 using Project.Domain.App.Contracts;
 using Project.Domain.Contracts;
 
 namespace Project.Domain.App.Queries.GetAllTemplates;
-public class GetAllTemplatesQuery : IRequest<Resource<List<ExplorerItem>>>
+public sealed record GetAllTemplatesQuery : IRequest<Resource<List<ExplorerItem>>>
 {
 
 }
 
-public class GetAllTemplatesQueryHandler : IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>
+public sealed class GetAllTemplatesQueryHandler : IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>
 {
 
     private readonly IAppTemplateRepository repository;

@@ -26,14 +26,15 @@ public class ProjectExplorerOperations
 
         if (file is not null)
         {
-            var result = await commandDispatcher.Dispatch<RenameProjectFileItemCommand, Resource<ExplorerItem>>(new(
-                 new()
+            var result = await commandDispatcher.Dispatch<RenameProjectFileItemCommand, Resource<ExplorerItem>>(
+                command: new RenameProjectFileItemCommand(
+                 Item: new()
                  {
                      Name = file.Title,
                      Path = file.Path,
                      ReferencedItem = file.ReferencedItem
                  }
-                 ), CancellationToken.None);
+                 ), cancellation: CancellationToken.None);
 
             if (result is Resource<ExplorerItem>.Success operationResult)
             {
@@ -57,13 +58,14 @@ public class ProjectExplorerOperations
     {
         var folder = items.SearchFolder(item);
 
-        var result = await commandDispatcher.Dispatch<RenameProjectFolderItemCommand, Resource<ExplorerItem>>(new(
-             new()
+        var result = await commandDispatcher.Dispatch<RenameProjectFolderItemCommand, Resource<ExplorerItem>>(
+            command: new RenameProjectFolderItemCommand(
+             Item: new()
              {
                  Name = item.Title,
                  Path = item.Path,
                  Children = item.Children
-                 .Select(x => new ExplorerItem()
+                 .Select(selector: x => new ExplorerItem()
                  {
                      Name = x.Title,
                      Path = x.Path,
@@ -71,7 +73,7 @@ public class ProjectExplorerOperations
                  })
                  .ToList()
              }
-             ), CancellationToken.None);
+             ), cancellation: CancellationToken.None);
 
         if (result is Resource<ExplorerItem>.Success operationResult)
         {
@@ -94,14 +96,15 @@ public class ProjectExplorerOperations
 
         if (file is not null)
         {
-            var result = await commandDispatcher.Dispatch<DeleteProjectFileItemCommand, Resource<ExplorerItem>>(new(
-                 new()
+            var result = await commandDispatcher.Dispatch<DeleteProjectFileItemCommand, Resource<ExplorerItem>>(
+                command: new DeleteProjectFileItemCommand(
+                 Item: new()
                  {
                      Name = file.Title,
                      Path = file.Path,
                      ReferencedItem = file.ReferencedItem,
                  }
-                 ), CancellationToken.None);
+                 ), cancellation: CancellationToken.None);
             if (result is Resource<ExplorerItem>.Success operationResult)
             {
                 return new(title: operationResult.Data.Name,

@@ -21,6 +21,7 @@ using Core.Enuns;
 
 using DynamicData.Binding;
 
+using Project.Domain.App.Models;
 using Project.Domain.Contracts;
 using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
 using Project.Domain.Project.Queries.GetProjectItemContent;
@@ -28,8 +29,6 @@ using Project.Domain.Project.Queries.GetProjectItemContent;
 using ReactiveUI;
 
 using Splat;
-
-using unit = MediatR.Unit;
 
 namespace AppViewModels.Project;
 public class ProjectItemEditingViewModel : ViewModelBase
@@ -161,10 +160,10 @@ public class ProjectItemEditingViewModel : ViewModelBase
                };
 
                await commandDispatcher
-                 ?.Dispatch<SaveProjectItemContentCommand, Resource<unit>>(
-                     new(
-                         itemModel, SelectedItem.Path),
-                     CancellationToken.None);
+                 ?.Dispatch<SaveProjectItemContentCommand, Resource<Empty>>(
+                     command: new(
+                         AppItem: itemModel, ItemPath: SelectedItem.Path),
+                     cancellation: CancellationToken.None);
 
 
 

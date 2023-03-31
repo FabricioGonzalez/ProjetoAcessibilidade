@@ -2,25 +2,13 @@
 
 using Core.Entities.Solution.Explorer;
 
-using MediatR;
-
 using Project.Domain.Contracts;
 using Project.Domain.Project.Contracts;
 
 namespace Project.Domain.Project.Commands.ProjectItemCommands.DeleteCommands;
-public class DeleteProjectFileItemCommand : IRequest<Resource<ExplorerItem>>
-{
-    public DeleteProjectFileItemCommand(FileItem item)
-    {
-        this.item = item;
-    }
-    public FileItem item
-    {
-        get; init;
-    }
-}
+public sealed record DeleteProjectFileItemCommand(FileItem Item) : IRequest<Resource<ExplorerItem>>;
 
-public class DeleteProjectFileItemCommandHandler : ICommandHandler<DeleteProjectFileItemCommand, Resource<ExplorerItem>>
+public sealed class DeleteProjectFileItemCommandHandler : ICommandHandler<DeleteProjectFileItemCommand, Resource<ExplorerItem>>
 {
     private readonly IExplorerItemRepository repository;
 
@@ -30,7 +18,7 @@ public class DeleteProjectFileItemCommandHandler : ICommandHandler<DeleteProject
     }
     public async Task<Resource<ExplorerItem>> Handle(DeleteProjectFileItemCommand request, CancellationToken cancellationToken)
     {
-        var result = await repository.DeleteFileItemAsync(request.item);
+        var result = await repository.DeleteFileItemAsync(request.Item);
 
         return result;
     }

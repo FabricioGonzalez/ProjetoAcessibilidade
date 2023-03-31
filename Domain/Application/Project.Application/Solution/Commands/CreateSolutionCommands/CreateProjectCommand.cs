@@ -2,30 +2,16 @@
 
 using Core.Entities.Solution;
 
-using MediatR;
-
 using Project.Domain.Contracts;
 using Project.Domain.Solution.Contracts;
 
 namespace Project.Domain.Solution.Commands.CreateSolutionCommands;
-public class CreateSolutionCommand : IRequest<Resource<ProjectSolutionModel>>
-{
-    public CreateSolutionCommand(string solutionPath, ProjectSolutionModel solutionData)
-    {
-        SolutionPath = solutionPath;
-        SolutionData = solutionData;
-    }
-    public string SolutionPath
-    {
-        get;
-    }
-    public ProjectSolutionModel SolutionData
-    {
-        get;
-    }
-}
+public sealed record CreateSolutionCommand(
+    string SolutionPath,
+    ProjectSolutionModel SolutionData)
+    : IRequest<Resource<ProjectSolutionModel>>;
 
-public class CreateSolutionCommandHandler : ICommandHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>
+public sealed class CreateSolutionCommandHandler : ICommandHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>
 {
     public ISolutionRepository repository;
     public CreateSolutionCommandHandler(ISolutionRepository solutionRepository)

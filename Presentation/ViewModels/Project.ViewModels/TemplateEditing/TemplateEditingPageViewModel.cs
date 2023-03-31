@@ -48,7 +48,8 @@ public class TemplateEditingPageViewModel : ViewModelBase
 
     public async Task SetEditingItem(string path)
     {
-        var result = await queryDispatcher.Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(new(path), CancellationToken.None);
+        var result = await queryDispatcher.Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(query:
+            new(ItemPath: path), cancellation: CancellationToken.None);
         if (result is Resource<AppItemModel>.Error err) { }
         if (result is Resource<AppItemModel>.Success success)
         {

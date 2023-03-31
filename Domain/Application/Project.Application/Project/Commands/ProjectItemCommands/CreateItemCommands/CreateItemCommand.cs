@@ -1,36 +1,20 @@
 ﻿using Common;
 
-using MediatR;
-
+using Project.Domain.App.Models;
 using Project.Domain.Contracts;
 using Project.Domain.Project.Contracts;
 
 namespace Project.Domain.Project.Commands.ProjectItemCommands.CreateItemCommands;
-public class CreateItemCommand : IRequest<Unit>
-{
-    public string ItemPath
-    {
-        get;
-    }
-    public string ItemName
-    {
-        get;
-    }
-    public CreateItemCommand(string path, string itemName)
-    {
-        ItemPath = path;
-        ItemName = itemName;
+public sealed record CreateItemCommand(string ItemPath, string ItemName) : IRequest<Resource<Empty>>;
 
-    }
-}
-public class CreateItemCommandHandler : ICommandHandler<CreateItemCommand, Resource<Unit>>
+public sealed class CreateItemCommandHandler : ICommandHandler<CreateItemCommand, Resource<Empty>>
 {
     private readonly IProjectItemContentRepository contentRepository;
     public CreateItemCommandHandler(IProjectItemContentRepository content)
     {
         contentRepository = content;
     }
-    public async Task<Resource<Unit>> Handle(CreateItemCommand command, CancellationToken cancellation)
+    public async Task<Resource<Empty>> Handle(CreateItemCommand command, CancellationToken cancellation)
     {
         await contentRepository.SaveProjectItemContent(
             await contentRepository
@@ -39,6 +23,6 @@ public class CreateItemCommandHandler : ICommandHandler<CreateItemCommand, Resou
                 Constants.AppItemsTemplateFolder, $"{command.ItemName}{Constants.AppProjectTemplateExtension}")),
             command.ItemPath);
 
-        return new Resource<Unit>.Success(Unit.Value);
+        return new Resource<Empty>.Success(Empty.Value);
     }
 }

@@ -186,4 +186,13 @@ public static class EnvironmentHelpers
         var fluentExecutable = Path.Combine(fullBaseDir, assemblyName);
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? $"{fluentExecutable}.exe" : $"{fluentExecutable}";
     }
+
+    public static string GetExecutableVersion()
+    {
+
+        var versInfo = FileVersionInfo.GetVersionInfo(GetExecutablePath());
+
+        return versInfo?.ProductVersion;
+
+    }
 }

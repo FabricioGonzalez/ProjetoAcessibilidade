@@ -126,12 +126,13 @@
                                     <ItemsControl HorizontalAlignment="Stretch" Items="{Binding ImagesItems, Mode=OneWay}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <UniformGrid MaxHeight="400" Columns="2" />
+                                                <UniformGrid MaxHeight="600" Columns="2" />
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="appModels:ImageItemState">
                                                 <DockPanel
+                                                    MaxHeight="600"
                                                     Margin="4,4"
                                                     HorizontalAlignment="Stretch"
                                                     LastChildFill="True">
@@ -141,7 +142,11 @@
                                                         AcceptsTab="True"
                                                         DockPanel.Dock="Bottom"
                                                         Text="{Binding ImageObservation}" />
-                                                    <Image asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=OneWay}" ClipToBounds="True" />
+                                                    <Image
+                                                        Width="{Binding $parent.Width}"
+                                                        asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=OneWay}"
+                                                        Clip=""
+                                                        ClipToBounds="True" />
                                                 </DockPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

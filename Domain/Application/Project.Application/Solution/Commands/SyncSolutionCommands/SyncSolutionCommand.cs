@@ -2,30 +2,13 @@
 
 using Core.Entities.Solution;
 
-using MediatR;
-
 using Project.Domain.Contracts;
 using Project.Domain.Solution.Contracts;
 
 namespace Project.Domain.Solution.Commands.SyncSolutionCommands;
-public class SyncSolutionCommand : IRequest<Resource<ProjectSolutionModel>>
-{
-    public SyncSolutionCommand(string solutionPath, ProjectSolutionModel solutionData)
-    {
-        SolutionPath = solutionPath;
-        SolutionData = solutionData;
-    }
-    public string SolutionPath
-    {
-        get;
-    }
-    public ProjectSolutionModel SolutionData
-    {
-        get;
-    }
-}
+public sealed record SyncSolutionCommand(string SolutionPath, ProjectSolutionModel SolutionData) : IRequest<Resource<ProjectSolutionModel>>;
 
-public class SyncSolutionCommandHandler : ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>
+public sealed class SyncSolutionCommandHandler : ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>
 {
     public ISolutionRepository repository;
     public SyncSolutionCommandHandler(ISolutionRepository solutionRepository)

@@ -16,8 +16,7 @@ using Core.Entities.Solution.ReportInfo;
 
 using DynamicData.Binding;
 
-using MediatR;
-
+using Project.Domain.App.Models;
 using Project.Domain.App.Queries.GetUFList;
 using Project.Domain.Contracts;
 using Project.Domain.Project.Commands.ProjectItemCommands.CreateItemCommands;
@@ -127,8 +126,8 @@ public partial class SolutionStateViewModel : RoutableViewModel
         Task.Run(async () =>
         {
             var result = new ObservableCollectionExtended<UFModel>(
-           (await queryDispatcher
-         .Dispatch<GetAllUFQuery, IList<UFModel>>(new(), CancellationToken.None)
+           collection: (await queryDispatcher
+         .Dispatch<GetAllUFQuery, IList<UFModel>>(query: new(), cancellation: CancellationToken.None)
          ).OrderBy(x => x.Name));
 
             Dispatcher.UIThread.Post(() => UfList = result);
@@ -152,8 +151,8 @@ public partial class SolutionStateViewModel : RoutableViewModel
 
     private async Task CreateFileOnLocal(string itemPath, string itemName)
     {
-        await commandDispatcher.Dispatch<CreateItemCommand, Resource<Unit>>(
-            command: new(path: itemPath, itemName: itemName), cancellation: CancellationToken.None);
+        await commandDispatcher.Dispatch<CreateItemCommand, Resource<Empty>>(
+            command: new(ItemPath: itemPath, ItemName: itemName), cancellation: CancellationToken.None);
 
         Logger.LogDebug(itemPath);
     }

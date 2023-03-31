@@ -18,11 +18,11 @@ using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using DynamicData;
 using DynamicData.Binding;
 
+using Project.Domain.App.Models;
 using Project.Domain.App.Queries.GetAllTemplates;
 using Project.Domain.Contracts;
 using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
 
-using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -106,21 +106,34 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
         TemplateEditTab = new TemplateEditTabViewModel();
 
 
-        this.WhenPropertyChanged(vm => vm.TemplateEditTab.SelectedItem)
-            .SubscribeAsync(async prop =>
-            {
-                var dialog = new DeleteDialogViewModel(
-               message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
-
-                if (prop.Value is not null)
-                {
-                    if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
+        /*        TemplateEditTab.Selection.SelectionChanged*/
+        /*
+                this.WhenAnyValue(vm => vm.TemplateEditTab.SelectedItem)
+                    .Buffer(2, 1)
+                    .Select(b => (Previous: b[0], Current: b[1]))
+                    .Subscribe(async (prop) =>
                     {
-                        Logger.LogDebug(prop.Value.FilePath);
-                    }
-                }
-            });
+                        if (prop.Previous is not null && prop.Current is not null)
+                        {
+                            var dialog = new DeleteDialogViewModel(
+                      message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
+                            if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
+                            {
+                                TemplateEditTab.InEditingItem = prop.Current;
+                                Logger.LogDebug(prop.Current.FilePath);
+                            }
+                            else
+                            {
+                                return;
+                                if (prop.Current.Name != prop.Previous.Name)
+                                {
 
+                                }
+                            }
+                        }
+                        *//*Logger.LogDebug(prop.Name);*//*
+                    });
+        */
         AddNewItemCommand = ReactiveCommand.Create(() =>
         {
             Source.Add(new FileItem() { InEditMode = true });
@@ -170,7 +183,7 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
                 };
 
                 if (!IoHelpers.CheckIfFileExists(result.FilePath))
-                    commandDispatcher.Dispatch<SaveSystemProjectItemContentCommand, Resource<MediatR.Unit>>(
+                    commandDispatcher.Dispatch<SaveSystemProjectItemContentCommand, Resource<Empty>>(
                         new(appItem, result.FilePath),
                         CancellationToken.None);
 
@@ -179,9 +192,9 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
         });
 
         (CommitItemCommand as ReactiveCommand<FileItem, System.Reactive.Unit>).ThrownExceptions.Subscribe(exception =>
-    {
-        Source.Remove(Source.Last());
-    });
+        {
+            Source.Remove(Source.Last());
+        });
 
     }
     public TemplateEditTabViewModel TemplateEditTab

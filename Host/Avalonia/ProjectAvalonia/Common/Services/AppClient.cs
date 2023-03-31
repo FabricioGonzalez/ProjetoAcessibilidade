@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Http;
 using ProjectAvalonia.Common.Http.Extensions;
 using ProjectAvalonia.Common.Models;
@@ -75,9 +76,11 @@ public class AppClient
 
         var appVersion = await GetVersionFromGithub().ConfigureAwait(false);
 
-        var currentVersion = Version.Parse(ServicesConfig.Config.AppVersion);
+        /*var currentVersion = Version.Parse(ServicesConfig.Config.AppVersion);*/
 
-        var clientUpToDate = /*AppConstants.ClientVersion >= clientVersion ||*/ currentVersion >= appVersion; // If the client version locally is greater than or equal to the backend's reported client version, then good.
+        var ver = EnvironmentHelpers.GetExecutableVersion();
+
+        var clientUpToDate = /*AppConstants.ClientVersion >= clientVersion ||*/ Version.Parse(ver) >= appVersion; // If the client version locally is greater than or equal to the backend's reported client version, then good.
         var backendCompatible = int.Parse(AppConstants.ClientSupportBackendVersionMax)
         >= int.Parse(AppConstants.ClientSupportBackendVersionMin);
         // If ClientSupportBackendVersionMin <= backend major <= ClientSupportBackendVersionMax, then our software is compatible.

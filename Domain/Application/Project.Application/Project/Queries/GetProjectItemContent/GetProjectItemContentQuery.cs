@@ -2,26 +2,13 @@
 
 using Core.Entities.Solution.Project.AppItem;
 
-using MediatR;
-
 using Project.Domain.Contracts;
 using Project.Domain.Project.Contracts;
 
 namespace Project.Domain.Project.Queries.GetProjectItemContent;
-public class GetProjectItemContentQuery : IRequest<AppItemModel>
-{
-    public GetProjectItemContentQuery(string itemPath)
-    {
-        ItemPath = itemPath;
-    }
+public sealed record class GetProjectItemContentQuery(string ItemPath) : IRequest<Resource<AppItemModel>>;
 
-    public string ItemPath
-    {
-        get; set;
-    }
-}
-
-public class GetProjectItemContentQueryHandler : IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>
+public sealed class GetProjectItemContentQueryHandler : IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>
 {
     private readonly IProjectItemContentRepository contentRepository;
     public GetProjectItemContentQueryHandler(IProjectItemContentRepository contentRepository)

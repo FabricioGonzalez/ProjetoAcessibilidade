@@ -1,16 +1,14 @@
 ﻿using Core.Entities.App;
 
-using MediatR;
-
 using Project.Domain.Contracts;
 
 namespace Project.Domain.App.Queries.GetUFList;
 
-public class GetAllUFQuery : IRequest<UFModel>
+public sealed record GetAllUFQuery : IRequest<IList<UFModel>>
 {
 }
 
-public class GetAllUFQueryHandler : IQueryHandler<GetAllUFQuery, IList<UFModel>>
+public sealed class GetAllUFQueryHandler : IQueryHandler<GetAllUFQuery, IList<UFModel>>
 {
     public async Task<IList<UFModel>> Handle(GetAllUFQuery query, CancellationToken cancellation)
     {

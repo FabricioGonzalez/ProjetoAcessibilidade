@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using Avalonia.Threading;
+
 using Common;
 
 using Core.Entities.Solution.Project.AppItem;
@@ -17,6 +19,7 @@ using ProjectAvalonia.Common.Models.FileItems;
 using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Features.Project.States.FormItemState;
 using ProjectAvalonia.Features.Project.States.LawItemState;
+using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Logging;
 
 using ReactiveUI;
@@ -40,7 +43,27 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
 public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
 {
-    [AutoNotify] private FileItem _selectedItem;
+    private FileItem _selectedItem;
+    public FileItem SelectedItem
+    {
+        get => _selectedItem;
+        set
+        {
+            if ((InEditingItem is not null) && (value.Name == InEditingItem.Name))
+            {
+                Dispatcher.UIThread.InvokeAsync(async () =>
+                {
+                    var dialog = new DeleteDialogViewModel(
+                                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
+                    if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
+                    {
+                    }
+                });
+
+            }
+        }
+    }
+    [AutoNotify] private FileItem _inEditingItem;
     [AutoNotify] private AppModelState _editingItem;
 
     public ObservableCollection<AppFormDataType> Types => new(
@@ -53,13 +76,17 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
     {
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
 
-        this.WhenAnyValue(vm => vm.SelectedItem)
+
+        LoadItemCommand = ReactiveCommand.CreateFromTask(async (FileItem item) =>
+        {
+            await LoadItemData(item.FilePath);
+        });
+
+
+        this.WhenAnyValue(vm => vm.InEditingItem)
             .WhereNotNull()
-            .Subscribe(async (prop) =>
-            {
-                await LoadItemData(prop.FilePath);
-                /*Logger.LogDebug(prop.Name);*/
-            });
+            .InvokeCommand(LoadItemCommand);
+
         AddFormItemCommand = ReactiveCommand.Create(() =>
         {
             Logger.LogDebug("Add Form Item");
@@ -115,6 +142,11 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
         .OnError(error =>
         {
         });
+    }
+
+    private ICommand LoadItemCommand
+    {
+        get;
     }
 
     public ICommand AddFormItemCommand
