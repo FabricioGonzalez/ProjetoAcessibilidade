@@ -58,6 +58,10 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
                     if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
                     {
                     }
+                    else
+                    {
+
+                    }
                 });
 
             }
