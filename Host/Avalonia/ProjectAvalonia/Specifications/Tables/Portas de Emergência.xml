@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="Table.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <item>
+    <id />
     <name>Portas De Emergência</name>
-    <tabela>
-        <itemtabela item="1">
-            <tipo>checkbox</tipo>
-            <topico></topico>
+    <template_name>Portas De Emergência</template_name>
+    <table>
+        <checkbox_items>
+            <id />
+            <type>checkbox</type>
+            <topic></topic>
             <checkboxes>
-                <checkboxitem item="1">
-                    <topico>Possui porta de emergência?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                <checkbox_item>
+                    <id />
+                    <topic>Possui porta de emergência?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
-                <checkboxitem item="2">
-                    <topico>A porta de emergência possui barras antipânico?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id />
+                    <topic>A porta de emergência possui barras antipânico?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
+                        </option>
+                    </options>
+                </checkbox_item>
             </checkboxes>
-        </itemtabela>
-        <itemtabela item="2">
-            <tipo>observação</tipo>
-            <value></value>
-        </itemtabela>
-        <itemtabela item="3">
-            <tipo>image</tipo>
+        </checkbox_items>
+        <observation_item>
+            <id />
+            <type>observation</type>
+            <observation />
+        </observation_item>
+        <image_items>
+            <id />
+            <type>image</type>
             <images />
-        </itemtabela>
-    </tabela>
-    <lei></lei>
+        </image_items>
+    </table>
+    <law />
 </item>

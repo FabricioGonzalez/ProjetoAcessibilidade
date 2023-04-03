@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Xml;
+using System.Xml.Serialization;
 
 using Common;
 
@@ -10,7 +11,10 @@ using Core.Entities.Solution.ReportInfo;
 
 using Project.Domain.Solution.Contracts;
 
-namespace ProjectItemReader.publicAppFiles;
+using ProjectItemReader.InternalAppFiles.DTO;
+using ProjectItemReader.XmlFile.DTO;
+
+namespace ProjectItemReader.InternalAppFiles;
 
 public class SolutionRepositoryImpl : ISolutionRepository
 {
@@ -131,7 +135,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
 
     public async Task SaveSolution(string solutionPath, ProjectSolutionModel dataToWrite)
     {
-        var path = Directory.GetParent(solutionPath);
+        /*ar path = Directory.GetParent(solutionPath);
 
         var appProject = Path.Combine(path.FullName, Path.GetFileNameWithoutExtension(solutionPath));
 
@@ -181,7 +185,12 @@ public class SolutionRepositoryImpl : ISolutionRepository
             await writer.DisposeAsync();
 
             return;
-        }
+        }*/
+        var serializer = new XmlSerializer(typeof(SolutionItemRoot));
+
+        using var writer = new StreamWriter(File.Create(solutionPath));
+
+        serializer.Serialize(writer, dataToWrite.ToItemRoot());
     }
 
     private XmlDocument SetItemsGroup(XmlDocument xml, List<ItemGroupModel> itemGroups)
@@ -226,7 +235,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
                     itemGroupItemElement.AppendChild(subItem);
                 }
 
-                itemGroupsElement.AppendChild(itemGroupItemElement);
+                itemGroupsElement?.AppendChild(itemGroupItemElement);
             }
         }
         return xml;
@@ -263,14 +272,14 @@ public class SolutionRepositoryImpl : ISolutionRepository
             var solutionName = xml.CreateElement(Constants.reportItemSolutionName);
             solutionName.InnerXml = reportData.SolutionName;
 
-            element.AppendChild(nomeEmpresa);
-            element.AppendChild(responsavel);
-            element.AppendChild(email);
-            element.AppendChild(endereco);
-            element.AppendChild(telefone);
-            element.AppendChild(data);
-            element.AppendChild(logo);
-            element.AppendChild(solutionName);
+            element?.AppendChild(nomeEmpresa);
+            element?.AppendChild(responsavel);
+            element?.AppendChild(email);
+            element?.AppendChild(endereco);
+            element?.AppendChild(telefone);
+            element?.AppendChild(data);
+            element?.AppendChild(logo);
+            element?.AppendChild(solutionName);
         }
 
         return xml;
@@ -311,7 +320,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
         xml = SetReportData(xml, dataToWrite.SolutionReportInfo);
         xml = SetItemsGroup(xml, dataToWrite.ItemGroups);
 
-        StreamWriter writer = new StreamWriter(
+        var writer = new StreamWriter(
                 solutionPath, append: false);
 
         xml.Save(writer);

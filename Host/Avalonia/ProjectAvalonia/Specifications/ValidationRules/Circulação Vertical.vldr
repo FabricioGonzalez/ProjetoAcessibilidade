@@ -5,10 +5,10 @@
     <tabela>
         <itemtabela item="1">
             <tipo>checkbox</tipo>
-            <topico>Detalhes do elevador</topico>
+            <topic>Detalhes do elevador</topic>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui elevadores?</topico>
+                    <topic>Possui elevadores?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -21,7 +21,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Situação:</topico>
+                    <topic>Situação:</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -34,7 +34,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Tipo de elevador:</topico>
+                    <topic>Tipo de elevador:</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -50,28 +50,28 @@
         </itemtabela>
         <itemtabela item="2">
             <tipo>texto</tipo>
-            <topico>Se plataforma, indicar o tipo:</topico>
+            <topic>Se plataforma, indicar o tipo:</topic>
             <unidade />
             <value />
         </itemtabela>
         <itemtabela item="3">
             <tipo>texto</tipo>
-            <topico>Atende à quais pavimentos? (Ex. subsolo ao térreo, térreo ao segundo, etc.</topico>
+            <topic>Atende à quais pavimentos? (Ex. subsolo ao térreo, térreo ao segundo, etc.</topic>
             <unidade />
             <value />
         </itemtabela>
         <itemtabela item="4">
             <tipo>texto</tipo>
-            <topico>Quantidade de paradas:</topico>
+            <topic>Quantidade de paradas:</topic>
             <unidade>cm</unidade>
             <value />
         </itemtabela>
         <itemtabela item="5">
             <tipo>checkbox</tipo>
-            <topico />
+            <topic />
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui identificação externa em braile na botoeira?</topico>
+                    <topic>Possui identificação externa em braile na botoeira?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -92,7 +92,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Possui identificação interna em braile nos comandos?</topico>
+                    <topic>Possui identificação interna em braile nos comandos?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -113,7 +113,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Possui idenficação externa em braile no batente?</topico>
+                    <topic>Possui idenficação externa em braile no batente?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -134,7 +134,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Possui aviso sonoro?</topico>
+                    <topic>Possui aviso sonoro?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -155,7 +155,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="5">
-                    <topico>Sinalização visual(SIA)</topico>
+                    <topic>Sinalização visual(SIA)</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -176,7 +176,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="6">
-                    <topico>Altura dos comandos conforme Norma</topico>
+                    <topic>Altura dos comandos conforme Norma</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -197,7 +197,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="7">
-                    <topico>Espelho</topico>
+                    <topic>Espelho</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -218,7 +218,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="8">
-                    <topico>Corrimão</topico>
+                    <topic>Corrimão</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -239,7 +239,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="9">
-                    <topico>Botoeira externa</topico>
+                    <topic>Botoeira externa</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -260,7 +260,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="10">
-                    <topico>Botoeiras de comando internas</topico>
+                    <topic>Botoeiras de comando internas</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -281,7 +281,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="11">
-                    <topico>Sinalização tátil de alerta</topico>
+                    <topic>Sinalização tátil de alerta</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -302,7 +302,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="12">
-                    <topico>Sistema de reabertura da porta em caso de obstrução</topico>
+                    <topic>Sistema de reabertura da porta em caso de obstrução</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -323,7 +323,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="13">
-                    <topico>Painel de comando</topico>
+                    <topic>Painel de comando</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -335,13 +335,13 @@
                         </opcao>
                     </opcoes>
                     <texto>
-                        <topico>Onde se localiza</topico>
+                        <topic>Onde se localiza</topic>
                         <unidade />
                         <value />
                     </texto>
                 </checkboxitem>
                 <checkboxitem item="14">
-                    <topico>Desnível</topico>
+                    <topic>Desnível</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -353,7 +353,7 @@
                         </opcao>
                     </opcoes>
                     <texto>
-                        <topico>Desnível:</topico>
+                        <topic>Desnível:</topic>
                         <unidade>cm</unidade>
                         <value />
                     </texto>
@@ -362,7 +362,7 @@
         </itemtabela>
         <itemtabela item="6">
             <tipo>texto</tipo>
-            <topico>Tipo de porta (automática-abertura lateral, automática-abertura central, manual-eixo vertical):</topico>
+            <topic>Tipo de porta (automática-abertura lateral, automática-abertura central, manual-eixo vertical):</topic>
             <unidade />
             <value />
         </itemtabela>

@@ -6,5 +6,9 @@ public abstract class ReportSectionElement
     {
         get; set;
     }
+    public string Id
+    {
+        get; set;
+    }
 }
 

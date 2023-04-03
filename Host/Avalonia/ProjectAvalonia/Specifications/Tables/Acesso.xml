@@ -1,126 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="Table.xsd"?>
 <item>
+    <id />
     <name>Acesso</name>
-    <tabela>
-        <itemtabela item="1">
-            <tipo>texto</tipo>
-            <topico>Acesso-Principal:</topico>
+    <template_name>Acesso</template_name>
+    <table>
+        <text_item>
+            <id />
+            <type>text</type>
+            <topic>Acesso-Principal:</topic>
             <value></value>
-        </itemtabela>
-        <itemtabela item="2">
-            <tipo>texto</tipo>
-            <topico>Possuí desnível de:</topico>
-            <unidade>m</unidade>
+        </text_item>
+        <text_item>
+            <id />
+            <type>text</type>
+            <topic>Possuí desnível de:</topic>
+            <measurement_unit>m</measurement_unit>
             <value></value>
-        </itemtabela>
-        <itemtabela item="3">
-            <tipo>checkbox</tipo>
-            <topico>Acesso à Edificação:</topico>
+        </text_item>
+        <checkbox_items>
+            <id />
+            <type>checkbox</type>
+            <topic>Acesso à Edificação:</topic>
             <checkboxes>
-                <checkboxitem item="1">
-                    <topico>Há garantia de pelo menos, um dos acessos ao seu interior, com comunicação com todas as suas dependências e serviços, livre de barreiras e de obstáculos?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                <checkbox_item>
+                    <id />
+                    <topic>Há garantia de pelo menos, um dos acessos ao seu interior, com
+                        comunicação com todas as suas dependências e serviços, livre de barreiras e
+                        de obstáculos?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
-                <checkboxitem item="2">
-                    <topico>Há a possibilidade de ampliação do número de acessos livres de obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há sinalização informativa, indicativa edirecional da localização das entradas acessíveis?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                        </option>ice </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id />
+                    <topic>Há a possibilidade de ampliação do número de acessos livres de
+                        obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há
+                        sinalização informativa, indicativa edirecional da localização das entradas
+                        acessíveis?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
+                        </option>
+                    </options>
+                </checkbox_item>
             </checkboxes>
-
-        </itemtabela>
-        <itemtabela item="4">
-            <tipo>checkbox</tipo>
-            <topico>Quanto ao piso de acesso utilizado:</topico>
+        </checkbox_items>
+        <checkbox_items>
+            <id />
+            <type>checkbox</type>
+            <topic>Quanto ao piso de acesso utilizado:</topic>
             <checkboxes>
-                <checkboxitem item="1">
-                    <topico>Antiderrapante?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                <checkbox_item>
+                    <id />
+                    <topic>Antiderrapante?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
-                <checkboxitem item="2">
-                    <topico>É regular, estável e não trepidante?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id />
+                    <topic>É regular, estável e não trepidante?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
-                <checkboxitem item="3">
-                    <topico>Possui sinalização informativa e direcional dos acessos da edificação?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id />
+                    <topic>Possui sinalização informativa e direcional dos acessos da edificação?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
-                <checkboxitem item="4">
-                    <topico>Possui sinalização direcional dos acessos da edificação até o balcão de informação?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id />
+                    <topic>Possui sinalização direcional dos acessos da edificação até o balcão de
+                        informação?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
+                        </option>
+                    </options>
+                </checkbox_item>
             </checkboxes>
-        </itemtabela>
-        <itemtabela item="5">
-            <tipo>observação</tipo>
-            <value></value>
-        </itemtabela>
-        <itemtabela item="6">
-            <tipo>image</tipo>
+        </checkbox_items>
+        <observation_item>
+            <id />
+            <type>observation</type>
+            <observation />
+        </observation_item>
+        <image_items>
+            <id />
+            <type>image</type>
             <images></images>
-        </itemtabela>
-    </tabela>
-    <lei>
-        <leiitem item="1">
+        </image_items>
+    </table>
+    <law>
+        <law_item>
             <id>NBR9050/20</id>
-            <descricao>
-                <itemdescricao item="1">4.6.9 Altura para comandos e controles.</itemdescricao>
-                <itemdescricao item="2">A Figura 26 mostra as alturas recomendadas para o posicionamento de diferentes tipos de comandos e controles.</itemdescricao>
-            </descricao>
-        </leiitem>
-    </lei>
+            <content>
+                A Figura 26 mostra as alturas recomendadas para o
+                posicionamento de diferentes types de comandos e controles.
+            </content>
+        </law_item>
+    </law>
 </item>

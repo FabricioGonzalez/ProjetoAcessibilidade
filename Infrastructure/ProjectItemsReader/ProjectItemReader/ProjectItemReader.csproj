@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="publicAppFiles\" />
-    <Folder Include="XmlFile\" />
+    <Compile Remove="publicAppFiles\**" />
+    <EmbeddedResource Remove="publicAppFiles\**" />
+    <None Remove="publicAppFiles\**" />
   </ItemGroup>
   
   <ItemGroup>

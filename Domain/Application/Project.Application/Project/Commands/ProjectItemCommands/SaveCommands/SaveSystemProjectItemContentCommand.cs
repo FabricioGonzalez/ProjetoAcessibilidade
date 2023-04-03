@@ -18,7 +18,7 @@ public class SaveSystemProjectItemContentCommandHandler : ICommandHandler<SaveSy
 
     public async Task<Resource<Empty>> Handle(SaveSystemProjectItemContentCommand command, CancellationToken cancellation)
     {
-        await contentRepository.SaveSystemProjectItemContent(command.AppItem, command.ItemPath);
+        await contentRepository.SaveSystemProjectItemContentSerealizer(command.AppItem, command.ItemPath);
 
         return new Resource<Empty>.Success(Empty.Value);
     }

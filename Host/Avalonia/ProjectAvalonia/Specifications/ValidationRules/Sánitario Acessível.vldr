@@ -5,10 +5,10 @@
     <tabela>
         <itemtabela item="1">
             <tipo>checkbox</tipo>
-            <topico>Detalhes do(s) sanitário(s) adaptado(s)</topico>
+            <topic>Detalhes do(s) sanitário(s) adaptado(s)</topic>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui sinalização nas portas?</topico>
+                    <topic>Possui sinalização nas portas?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -29,7 +29,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Possui sinalização de parede com Braile</topico>
+                    <topic>Possui sinalização de parede com Braile</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -50,7 +50,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Possui maçaneta tipo alavanca?</topico>
+                    <topic>Possui maçaneta tipo alavanca?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -71,7 +71,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Possui torneira alavanca?</topico>
+                    <topic>Possui torneira alavanca?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -92,7 +92,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="5">
-                    <topico>Possui chapa anti-impacto na porta?</topico>
+                    <topic>Possui chapa anti-impacto na porta?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -113,7 +113,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="6">
-                    <topico>Possui 1 barra de segurança na porta?</topico>
+                    <topic>Possui 1 barra de segurança na porta?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -134,7 +134,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="7">
-                    <topico>Possui 2 barras de segurança no lavatório?</topico>
+                    <topic>Possui 2 barras de segurança no lavatório?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -155,7 +155,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="8">
-                    <topico>Possui 2 barras horizontais 80cm de segurança na bacia sanitária?</topico>
+                    <topic>Possui 2 barras horizontais 80cm de segurança na bacia sanitária?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -176,7 +176,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="9">
-                    <topico>Possui 1 barra vertical 70cm de segurança na bacia snitária?</topico>
+                    <topic>Possui 1 barra vertical 70cm de segurança na bacia snitária?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -197,7 +197,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="10">
-                    <topico>Possui lavatório?</topico>
+                    <topic>Possui lavatório?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -218,7 +218,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="11">
-                    <topico>Possui bacia sanitária?</topico>
+                    <topic>Possui bacia sanitária?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -239,7 +239,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="12">
-                    <topico>Possui alarme de emergência?</topico>
+                    <topic>Possui alarme de emergência?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -260,7 +260,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="13">
-                    <topico>Possui válvula de descarga atendendo à altura de 1m?</topico>
+                    <topic>Possui válvula de descarga atendendo à altura de 1m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -281,7 +281,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="14">
-                    <topico>Possui espelho com base a partir de 90cm de altura?</topico>
+                    <topic>Possui espelho com base a partir de 90cm de altura?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -302,7 +302,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="15">
-                    <topico>Possui acessórios fixados conforme a Norma?</topico>
+                    <topic>Possui acessórios fixados conforme a Norma?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>

@@ -5,7 +5,7 @@
     <tabela>
         <itemtabela item="1">
             <tipo>texto</tipo>
-            <topico>Possui vão livre de:</topico>
+            <topic>Possui vão livre de:</topic>
             <unidade>m</unidade>
             <value />
         </itemtabela>
@@ -13,7 +13,7 @@
             <tipo>checkbox</tipo>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Maçanetas tipo alavanca altura entre 0m, 90m, 1,10m?</topico>
+                    <topic>Maçanetas tipo alavanca altura entre 0m, 90m, 1,10m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -34,7 +34,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Largura livre mínima de 0,80m e altura de 2,10m?</topico>
+                    <topic>Largura livre mínima de 0,80m e altura de 2,10m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -55,7 +55,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Possui largura mínima de 1,50m em frente à porta (sentido da abertura)?</topico>
+                    <topic>Possui largura mínima de 1,50m em frente à porta (sentido da abertura)?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -76,7 +76,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Possui largura mínima de 1,20m em frente à porta (sentido contrário da abertura)?</topico>
+                    <topic>Possui largura mínima de 1,20m em frente à porta (sentido contrário da abertura)?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -97,7 +97,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="5">
-                    <topico>Possui espaço lateral à porta (sentido da abertura) de, no mínima,0,60m q possibilite a aproximação à maçaneta?</topico>
+                    <topic>Possui espaço lateral à porta (sentido da abertura) de, no mínima,0,60m q possibilite a aproximação à maçaneta?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -118,7 +118,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="6">
-                    <topico>Possui espaço lateral à porta (sentido contrário da abertura) de, no mínimo, 0,30m que possibilite a aproximação à maçaneta?</topico>
+                    <topic>Possui espaço lateral à porta (sentido contrário da abertura) de, no mínimo, 0,30m que possibilite a aproximação à maçaneta?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>

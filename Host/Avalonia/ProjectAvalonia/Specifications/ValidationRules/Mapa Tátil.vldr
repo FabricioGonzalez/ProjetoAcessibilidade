@@ -7,7 +7,7 @@
             <tipo>checkbox</tipo>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui?</topico>
+                    <topic>Possui?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>

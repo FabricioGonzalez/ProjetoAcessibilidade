@@ -5,21 +5,21 @@
     <tabela>
         <itemtabela item="1">
             <tipo>text</tipo>
-            <topico>Acesso-Principal:</topico>
+            <topic>Acesso-Principal:</topic>
             <value></value>
         </itemtabela>
         <itemtabela item="2">
             <tipo>text</tipo>
-            <topico>Possuí desnível de:</topico>
+            <topic>Possuí desnível de:</topic>
             <unidade>m</unidade>
             <value></value>
         </itemtabela>
         <itemtabela item="3">
             <tipo>checkbox</tipo>
-            <topico>Acesso à Edificação:</topico>
+            <topic>Acesso à Edificação:</topic>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Há garantia de pelo menos, um dos acessos ao seu interior, com comunicação com todas as suas dependências e serviços, livre de barreiras e de obstáculos?</topico>
+                    <topic>Há garantia de pelo menos, um dos acessos ao seu interior, com comunicação com todas as suas dependências e serviços, livre de barreiras e de obstáculos?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -32,7 +32,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Há a possibilidade de ampliação do número de acessos livres de obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há sinalização informativa, indicativa edirecional da localização das entradas acessíveis?</topico>
+                    <topic>Há a possibilidade de ampliação do número de acessos livres de obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há sinalização informativa, indicativa edirecional da localização das entradas acessíveis?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -49,10 +49,10 @@
         </itemtabela>
         <itemtabela item="4">
             <tipo>checkbox</tipo>
-            <topico>Quanto ao piso de acesso utilizado:</topico>
+            <topic>Quanto ao piso de acesso utilizado:</topic>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Antiderrapante?</topico>
+                    <topic>Antiderrapante?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -65,7 +65,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>É regular, estável e não trepidante?</topico>
+                    <topic>É regular, estável e não trepidante?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -78,7 +78,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Possui sinalização informativa e direcional dos acessos da edificação?</topico>
+                    <topic>Possui sinalização informativa e direcional dos acessos da edificação?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -91,7 +91,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Possui sinalização direcional dos acessos da edificação até o balcão de informação?</topico>
+                    <topic>Possui sinalização direcional dos acessos da edificação até o balcão de informação?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>

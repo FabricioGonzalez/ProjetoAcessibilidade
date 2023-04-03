@@ -5,15 +5,15 @@
     <tabela>
         <itemtabela item="1">
             <tipo>texto</tipo>
-            <topico>Porta possui vão livre de:</topico>
+            <topic>Porta possui vão livre de:</topic>
             <value />
         </itemtabela>
         <itemtabela item="2">
             <tipo>checkbox</tipo>
-            <topico>Porta Principal:</topico>
+            <topic>Porta Principal:</topic>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Piso tátil no(s) degrau(s)?</topico>
+                    <topic>Piso tátil no(s) degrau(s)?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -34,7 +34,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Proteção anti-impacto na porta?</topico>
+                    <topic>Proteção anti-impacto na porta?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -55,7 +55,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Adesivo Puxe/Empurre com Braille?</topico>
+                    <topic>Adesivo Puxe/Empurre com Braille?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -76,7 +76,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Adesivo S.I.A. na porta? </topico>
+                    <topic>Adesivo S.I.A. na porta? </topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -97,7 +97,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="5">
-                    <topico>Fechadura Eletromagnética?</topico>
+                    <topic>Fechadura Eletromagnética?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -118,7 +118,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="6">
-                    <topico>Maçanetas tipo alavanca altura entre 0,90m e 1,10m?</topico>
+                    <topic>Maçanetas tipo alavanca altura entre 0,90m e 1,10m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -139,7 +139,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="7">
-                    <topico>Largura livre mínima de 0,80m e altura de 2,10m?</topico>
+                    <topic>Largura livre mínima de 0,80m e altura de 2,10m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -160,7 +160,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="8">
-                    <topico>Em caso da necessidade de portas giratórias ou catracas, existe outro acesso vinculado à rota acessível?</topico>
+                    <topic>Em caso da necessidade de portas giratórias ou catracas, existe outro acesso vinculado à rota acessível?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -181,7 +181,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="9">
-                    <topico>Possui largura mínima de 1,50m em frente à porta (sentido da abertura)?</topico>
+                    <topic>Possui largura mínima de 1,50m em frente à porta (sentido da abertura)?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -202,7 +202,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="10">
-                    <topico>Possui largura mínima de 1,20m em frente à porta (sentido contrário da abertura)?</topico>
+                    <topic>Possui largura mínima de 1,20m em frente à porta (sentido contrário da abertura)?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -223,7 +223,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="11">
-                    <topico>Possui espaço lateral à porta (sentido da abertura) de, no mínimo, 0,60m que possibilite a aproximação à maçaneta?</topico>
+                    <topic>Possui espaço lateral à porta (sentido da abertura) de, no mínimo, 0,60m que possibilite a aproximação à maçaneta?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -244,7 +244,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="12">
-                    <topico>Possui espaço lateral à porta (sentido contrário da abertura) de, no mínimo, 0,30m que possibilite a aproximação à maçaneta?</topico>
+                    <topic>Possui espaço lateral à porta (sentido contrário da abertura) de, no mínimo, 0,30m que possibilite a aproximação à maçaneta?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>

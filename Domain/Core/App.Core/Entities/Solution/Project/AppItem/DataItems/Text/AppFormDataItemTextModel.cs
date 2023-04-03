@@ -3,11 +3,18 @@
 namespace Core.Entities.Solution.Project.AppItem.DataItems.Text;
 public class AppFormDataItemTextModel : IAppFormDataItemContract
 {
-    public string Topic { get; set; } = "";
-    public AppFormDataType Type { get; set; } = AppFormDataType.Texto;
+    public AppFormDataItemTextModel(
+        string id,
+        string topic,
+        AppFormDataType type = AppFormDataType.Texto,
+        string textData = "",
+        string? measurementUnit = null)
+        : base(id: id, topic: topic, type: type)
+    {
+        TextData = textData;
+        MeasurementUnit = measurementUnit;
+    }
     public string TextData { get; set; } = "";
 
-#nullable enable
     public string? MeasurementUnit { get; set; } = null;
-#nullable disable
 }

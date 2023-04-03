@@ -83,32 +83,26 @@ public class ProjectItemEditingViewModel : ViewModelBase
                    {
                        if (item is CheckboxContainerItemState checkbox)
                        {
-                           return new AppFormDataItemCheckboxModel()
+                           return new AppFormDataItemCheckboxModel(
+                               id: "",
+                               topic: checkbox.Topic,
+                               type: checkbox.Type)
                            {
-                               Topic = checkbox.Topic,
-                               Type = checkbox.Type,
-                               Children = checkbox.Children.Select(item => new AppFormDataItemCheckboxChildModel()
+                               Children = checkbox.Children.Select(item =>
+                               new AppFormDataItemCheckboxChildModel(id: "", topic: item.Topic)
                                {
-                                   Topic = item.Topic,
                                    Options = item
                                     .Options
                                     .Select(item =>
-                                    new AppOptionModel()
-                                    {
-                                        IsChecked = item.IsChecked,
-                                        Value = item.Value
-                                    })
+                                    new AppOptionModel(value: item.Value, isChecked: item.IsChecked, id: ""))
                                     .ToList(),
                                    TextItems =
                                    item
                                    .TextItems
-                                   .Select(item => new AppFormDataItemTextModel()
-                                   {
-                                       Topic = item.Topic,
-                                       MeasurementUnit = item.MeasurementUnit,
-                                       TextData = item.TextData,
-                                       Type = item.Type
-                                   })
+                                   .Select(item => new AppFormDataItemTextModel(
+                                       id: "",
+                                   topic: item.Topic,
+                                   type: item.Type, textData: item.TextData, measurementUnit: item.MeasurementUnit))
                                    .ToList()
                                })
                                .ToList(),
@@ -116,46 +110,41 @@ public class ProjectItemEditingViewModel : ViewModelBase
                        }
                        if (item is TextItemState text)
                        {
-                           return new AppFormDataItemTextModel()
-                           {
-                               Topic = text.Topic,
-                               MeasurementUnit = text.MeasurementUnit,
-                               TextData = text.TextData,
-                               Type = text.Type
-                           };
+                           return new AppFormDataItemTextModel(
+                                       id: "",
+                                   topic: text.Topic,
+                                   type: text.Type,
+                                   textData: text.TextData,
+                                   measurementUnit: text.MeasurementUnit);
                        }
                        if (item is ImageContainerItemState images)
                        {
-                           return new AppFormDataItemImageModel()
+                           return new AppFormDataItemImageModel(id: "", topic: images.Topic, type: images.Type)
                            {
-                               Topic = images.Topic,
-                               ImagesItems = images.ImagesItems.Select(item => new ImagesItem()
-                               {
-                                   imageObservation = item.ImageObservation,
-                                   imagePath = item.ImagePath
-                               }).ToList(),
-                               Type = images.Type
+                               ImagesItems = images.ImagesItems.Select(item =>
+                               new ImagesItem(
+                                   id: "",
+                               imagePath: item.ImagePath,
+                               imageObservation: item.ImageObservation))
+                               .ToList(),
                            };
                        }
                        if (item is ObservationItemState observation)
                        {
-                           return new AppFormDataItemObservationModel()
-                           {
-                               Topic = observation.Topic,
-                               Observation = observation.Observation,
-                               Type = AppFormDataType.Observação
-                           };
+                           return new AppFormDataItemObservationModel(
+                               id: "",
+                               observation: observation.Observation,
+                               topic: observation.Topic,
+                               type: AppFormDataType.Observação);
                        }
                        return null;
 
                    }).ToList(),
                    LawList = appModel
                     .LawItems
-                    .Select(x => new AppLawModel()
-                    {
-                        LawId = x.LawId,
-                        LawTextContent = x.LawContent
-                    })
+                    .Select(x => new AppLawModel(
+                        lawId: x.LawId,
+                        lawTextContent: x.LawContent))
                     .ToList()
                };
 
@@ -281,8 +270,8 @@ public class ProjectItemEditingViewModel : ViewModelBase
                         .Select(image =>
                         new ImageItemState()
                         {
-                            ImagePath = image.imagePath,
-                            ImageObservation = image.imageObservation
+                            ImagePath = image.ImagePath,
+                            ImageObservation = image.ImageObservation
                         }))
                     };
                 }

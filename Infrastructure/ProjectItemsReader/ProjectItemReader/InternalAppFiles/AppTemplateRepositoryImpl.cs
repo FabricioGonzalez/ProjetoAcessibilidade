@@ -4,7 +4,7 @@ using Core.Entities.Solution.Explorer;
 
 using Project.Domain.App.Contracts;
 
-namespace ProjectItemReader.publicAppFiles;
+namespace ProjectItemReader.InternalAppFiles;
 
 public class AppTemplateRepositoryImpl : IAppTemplateRepository
 {

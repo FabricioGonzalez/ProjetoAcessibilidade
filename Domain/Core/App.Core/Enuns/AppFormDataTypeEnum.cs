@@ -4,5 +4,6 @@ public enum AppFormDataType
     Texto,
     Checkbox,
     Image,
-    Observação
+    Observação,
+    Empty
 }

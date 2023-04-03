@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="Table.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <item>
+    <id />
     <name>Piso Tátil</name>
-    <tabela>
-        <itemtabela item="1">
-            <tipo>checkbox</tipo>
+    <template_name>Piso Tátil</template_name>
+    <table>
+        <checkbox_items>
+            <id />
+            <type>checkbox</type>
             <checkboxes>
-                <checkboxitem item="1">
-                    <topico>Possui piso tátil no atendimento da recepção?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                <checkbox_item>
+                    <id />
+                    <topic>Possui piso tátil no atendimento da recepção?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
+                        </option>
+                    </options>
+                </checkbox_item>
             </checkboxes>
-        </itemtabela>
-        <itemtabela item="2">
-            <tipo>observação</tipo>
+        </checkbox_items>
+        <observation_item>
+            <id />
+            <type>observation</type>
             <value></value>
-        </itemtabela>
-        <itemtabela item="3">
-            <tipo>image</tipo>
+        </observation_item>
+        <image_items>
+            <id />
+            <type>image</type>
             <images />
-        </itemtabela>
-    </tabela>
-    <lei></lei>
+        </image_items>
+    </table>
+    <law />
 </item>

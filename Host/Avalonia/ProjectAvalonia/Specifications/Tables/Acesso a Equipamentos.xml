@@ -1,55 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="Table.xsd"?>
 <item>
+    <id />
     <name>Acesso à Equipamentos</name>
-    <tabela>
-        <itemtabela item="1">
-            <tipo>checkbox</tipo>
+    <template_name>Acesso à Equipamentos</template_name>
+    <table>
+        <checkbox_items>
+            <id />
+            <topic />
+            <type>checkbox</type>
             <checkboxes>
-                <checkboxitem item="1">
-                    <topico>Possui obstáculo de acesso aos comandos?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                <checkbox_item>
+                    <id />
+                    <topic>Possui obstáculo de acesso aos comandos?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
-                <checkboxitem item="2">
-                    <topico>Possuí altura máxima de 1,20m?</topico>
-                    <opcoes>
-                        <opcao item="1">
-                            <checked>false</checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <topic>Possuí altura máxima de 1,20m?</topic>
+                    <options>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Sim</value>
-                        </opcao>
-                        <opcao item="2">
-                            <checked>false</checked>
+                        </option>
+                        <option>
+                            <id />
+                            <is_checked>false</is_checked>
                             <value>Não</value>
-                        </opcao>
-                    </opcoes>
-                </checkboxitem>
+                        </option>
+                    </options>
+                </checkbox_item>
             </checkboxes>
-        </itemtabela>
-        <itemtabela item="2">
-            <tipo>observação</tipo>
-            <value></value>
-        </itemtabela>
-        <itemtabela item="2">
-            <tipo>image</tipo>
+        </checkbox_items>
+        <observation_item>
+            <id />
+            <type>observation</type>
+            <observation />
+        </observation_item>
+        <itemtabela>
+            <id />
+            <type>image</type>
             <images></images>
         </itemtabela>
-    </tabela>
-    <lei>
-        <leiitem item="1">
+    </table>
+    <law>
+        <law_item>
             <id>NBR9050/20</id>
-            <descricao>
-                <itemdescricao item="1">4.6.9 Altura para comandos e controles.</itemdescricao>
-                <itemdescricao item="2">A Figura 26 mostra as alturas recomendadas para o posicionamento de diferentes tipos de comandos e controles.</itemdescricao>
-            </descricao>
-        </leiitem>
-    </lei>
+            <content>
+                4.6.9 Altura para comandos e controles.
+                A Figura 26 mostra as alturas recomendadas para o
+                posicionamento de diferentes tipos de comandos e controles.
+            </content>
+        </law_item>
+    </law>
 </item>

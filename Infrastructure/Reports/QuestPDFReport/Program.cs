@@ -1,5 +1,7 @@
 ﻿using Common;
 
+using ProjectItemReader.InternalAppFiles;
+
 using QuestPDF.Previewer;
 
 using QuestPDFReport;
@@ -11,8 +13,11 @@ var res = Path.Combine(Directory.GetParent(path).FullName, Constants.AppProjectI
 
 res = Constants.AppItemsTemplateFolder;
 
-var model = await DataSource.GetReport(res, Constants.AppProjectTemplateExtension);
+var solutionReader = new SolutionRepositoryImpl();
+
+var model = await DataSource.GetReport(solutionModel: await solutionReader.ReadSolution(path),
+    extension: Constants.AppProjectTemplateExtension);
 
 var Report = new StandardReport(model);
 
-// Report.ShowInPreviewer();
+Report.ShowInPreviewer();

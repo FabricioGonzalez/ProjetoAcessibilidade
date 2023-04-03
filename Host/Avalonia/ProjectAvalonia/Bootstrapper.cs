@@ -32,7 +32,7 @@ using Project.Domain.Solution.Queries;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
 
-using ProjectItemReader.publicAppFiles;
+using ProjectItemReader.InternalAppFiles;
 using ProjectItemReader.XmlFile;
 
 using Splat;

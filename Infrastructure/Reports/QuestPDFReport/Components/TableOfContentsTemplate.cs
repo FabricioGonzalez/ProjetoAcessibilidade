@@ -48,13 +48,13 @@ public class TableOfContentsTemplate : IComponent
                            column.Item().Column(colItem =>
                            {
                                colItem.Item()
-                               .Element(c => DrawLink(c, i + 1, reportSectionGroup.Title));
+                               .Element(c => DrawLink(c, i + 1, locationName: reportSectionGroup.Title));
 
                                for (var part = 0; part < reportSectionGroup.Parts.Count; part++)
                                {
                                    colItem.Item()
                                    .Element(
-                                       c => DrawDeepLink(c, i + 1, part + 1, reportSectionGroup.Parts[part].Title));
+                                       c => DrawDeepLink(c, i + 1, part + 1, locationName: reportSectionGroup.Parts[part].Title));
                                }
 
                            });

@@ -47,11 +47,7 @@
                     VerticalAlignment="Stretch"
                     Background="Transparent"
                     Items="{Binding Items}"
-                    Selection="{Binding TemplateEditTab.Selection, Mode=TwoWay}">
-                    <i:Interaction.Behaviors>
-
-                        <behaviors:ExecuteCommandOnTappedBehavior />
-                    </i:Interaction.Behaviors>
+                    SelectedItem="{Binding TemplateEditTab.SelectedItem, Mode=TwoWay}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <controls:EditableTextBlock

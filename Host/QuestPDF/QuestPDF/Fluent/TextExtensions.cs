@@ -170,7 +170,12 @@ namespace QuestPDF.Fluent
         public TextPageNumberDescriptor BeginPageNumberOfSection(string locationName)
         {
             var result =
-                PageNumber(x => x.GetLocation(locationName)?.PageStart);
+                PageNumber(x =>
+                {
+                    var result = x.GetLocation(locationName)?.PageStart;
+
+                    return result;
+                });
             return result;
         }
 
@@ -178,7 +183,12 @@ namespace QuestPDF.Fluent
         {
             var result =
 
-                PageNumber(x => x.GetLocation(locationName)?.PageEnd);
+                PageNumber(x =>
+                {
+                    var result = x.GetLocation(locationName)?.PageEnd;
+
+                    return result;
+                });
             return result;
         }
 

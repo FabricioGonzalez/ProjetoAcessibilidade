@@ -246,8 +246,8 @@ public class SectionTemplate : IComponent
 
                         layers
                             .PrimaryLayer()
-                                                                                                                                                                                                                                                                 /* .Text("Sample text")
-                                                                                                                                                                                                                                                                  .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
+                                                                                                                                                                                                                                                                         /* .Text("Sample text")
+                                                                                                                                                                                                                                                                          .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
                     });
 
                     row.AutoItem().Text(item.Value);
@@ -308,7 +308,8 @@ public class SectionTemplate : IComponent
                 };
                 grid
                 .Item()
-                .AspectRatio(4 / 3f, AspectRatioOption.FitArea)
+                .AlignCenter()
+                .ScaleToFit()
                 .Component(image);
             });
         });

@@ -26,15 +26,16 @@ public class ImagePlaceholder : IComponent
                   decoration
                    .Before()
                    .Height(2f, Unit.Inch)
-                   .Border(0.75f)
+                   .Border(0.25f)
                    .BorderColor(Colors.Grey.Medium)
-                   .Image(stream);
+                   .ScaleToFit()
+                   .Image(fileStream: stream, scaling: ImageScaling.FitArea);
 
                   decoration
                    .Content()
-                   .Border(0.75f)
-                   .BorderColor(Colors.Grey.Medium)
-                   .Text(Observation);
+                   .Border(value: 0.25f)
+                   .BorderColor(color: Colors.Grey.Medium)
+                   .Text(text: Observation);
               });
         }
         else

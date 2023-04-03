@@ -7,7 +7,7 @@
             <tipo>checkbox</tipo>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui mesa com altura do tampo entre 75cm a 85cm?</topico>
+                    <topic>Possui mesa com altura do tampo entre 75cm a 85cm?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -20,7 +20,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Possui altura livre de 73cm sob a mesa?</topico>
+                    <topic>Possui altura livre de 73cm sob a mesa?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -33,7 +33,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Possui tampo com largura mínima de 0,90m?</topico>
+                    <topic>Possui tampo com largura mínima de 0,90m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -46,7 +46,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Profundidade livre mínima de 0,50m?</topico>
+                    <topic>Profundidade livre mínima de 0,50m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -62,7 +62,7 @@
         </itemtabela>
         <itemtabela item="2">
             <tipo>texto</tipo>
-            <topico>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo S.I.A, Adesivo S.I.A, display de mesa ou não possui);</topico>
+            <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo S.I.A, Adesivo S.I.A, display de mesa ou não possui);</topic>
             <value></value>
         </itemtabela>
         <itemtabela item="3">

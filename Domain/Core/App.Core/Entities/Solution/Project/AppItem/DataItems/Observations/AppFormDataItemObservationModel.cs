@@ -3,16 +3,15 @@
 namespace Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 public class AppFormDataItemObservationModel : IAppFormDataItemContract
 {
-    public string Topic
+    public AppFormDataItemObservationModel(
+        string observation,
+        string id,
+        string topic,
+        AppFormDataType type = AppFormDataType.Observação)
+        : base(id, topic, type)
     {
-        get;
-        set;
+        Observation = observation;
     }
-    public AppFormDataType Type
-    {
-        get;
-        set;
-    } = AppFormDataType.Observação;
     public string Observation
     {
         get; set;

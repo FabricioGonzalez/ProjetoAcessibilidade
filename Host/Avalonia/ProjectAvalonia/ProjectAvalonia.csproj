@@ -22,18 +22,22 @@
         <AvaloniaXaml Remove="Features\ItemValidation\**" />
         <AvaloniaXaml Remove="Features\TemplateEditing\**" />
         <AvaloniaXaml Remove="Features\TemplateRules\**" />
+        <AvaloniaXaml Remove="Languages\**" />
         <AvaloniaXaml Remove="Models\**" />
         <Compile Remove="Features\ItemValidation\**" />
         <Compile Remove="Features\TemplateEditing\**" />
         <Compile Remove="Features\TemplateRules\**" />
+        <Compile Remove="Languages\**" />
         <Compile Remove="Models\**" />
         <EmbeddedResource Remove="Features\ItemValidation\**" />
         <EmbeddedResource Remove="Features\TemplateEditing\**" />
         <EmbeddedResource Remove="Features\TemplateRules\**" />
+        <EmbeddedResource Remove="Languages\**" />
         <EmbeddedResource Remove="Models\**" />
         <None Remove="Features\ItemValidation\**" />
         <None Remove="Features\TemplateEditing\**" />
         <None Remove="Features\TemplateRules\**" />
+        <None Remove="Languages\**" />
         <None Remove="Models\**" />
         <Content Remove="C:\Users\Ti\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
         <None Remove=".gitignore" />
@@ -232,9 +236,6 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Languages\" />
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Update="Properties\Resources.pt.resx">

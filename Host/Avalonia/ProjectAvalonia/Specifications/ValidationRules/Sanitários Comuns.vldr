@@ -5,10 +5,10 @@
     <tabela>
         <itemtabela item="1">
             <tipo>checkbox</tipo>
-            <topico></topico>
+            <topic></topic>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Porta de acesso possui maçaneta tipo alavanca?</topico>
+                    <topic>Porta de acesso possui maçaneta tipo alavanca?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -29,7 +29,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Porta de acesso possui vão mínimo de 80cm?</topico>
+                    <topic>Porta de acesso possui vão mínimo de 80cm?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -50,7 +50,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Possui 2 barras (vertical 70cm) ao menos em um mictório?</topico>
+                    <topic>Possui 2 barras (vertical 70cm) ao menos em um mictório?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -71,7 +71,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Box possui área livre de no mínimo 60cm de diâmetro</topico>
+                    <topic>Box possui área livre de no mínimo 60cm de diâmetro</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -92,7 +92,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="5">
-                    <topico>Porta do box possui vão mínimo de 60cm? (edificação existente)</topico>
+                    <topic>Porta do box possui vão mínimo de 60cm? (edificação existente)</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>

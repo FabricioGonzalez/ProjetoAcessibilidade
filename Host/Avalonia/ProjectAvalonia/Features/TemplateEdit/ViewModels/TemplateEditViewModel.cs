@@ -105,35 +105,6 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
 
         TemplateEditTab = new TemplateEditTabViewModel();
 
-
-        /*        TemplateEditTab.Selection.SelectionChanged*/
-        /*
-                this.WhenAnyValue(vm => vm.TemplateEditTab.SelectedItem)
-                    .Buffer(2, 1)
-                    .Select(b => (Previous: b[0], Current: b[1]))
-                    .Subscribe(async (prop) =>
-                    {
-                        if (prop.Previous is not null && prop.Current is not null)
-                        {
-                            var dialog = new DeleteDialogViewModel(
-                      message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
-                            if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
-                            {
-                                TemplateEditTab.InEditingItem = prop.Current;
-                                Logger.LogDebug(prop.Current.FilePath);
-                            }
-                            else
-                            {
-                                return;
-                                if (prop.Current.Name != prop.Previous.Name)
-                                {
-
-                                }
-                            }
-                        }
-                        *//*Logger.LogDebug(prop.Name);*//*
-                    });
-        */
         AddNewItemCommand = ReactiveCommand.Create(() =>
         {
             Source.Add(new FileItem() { InEditMode = true });
@@ -171,13 +142,17 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
                     Id = Guid.NewGuid().ToString(),
                     LawList = new List<AppLawModel>(),
                     FormData = new List<IAppFormDataItemContract>()
-                    { new AppFormDataItemObservationModel()
-                    { Type = Core.Enuns.AppFormDataType.Observação,
-                Observation = "",
-                Topic = "Observações"},
-                    new AppFormDataItemImageModel(){
-                    Topic = "Imagens",
-                    Type = Core.Enuns.AppFormDataType.Image,
+                    {
+                        new AppFormDataItemObservationModel(
+                        type: Core.Enuns.AppFormDataType.Observação,
+                    topic: "Observações",
+                    observation: "",
+                    id:""),
+
+                    new AppFormDataItemImageModel(
+                        topic:"Imagens",
+                        id: "",
+                        type: Core.Enuns.AppFormDataType.Image){
                     ImagesItems = new List<ImagesItem>()
                     } }
                 };

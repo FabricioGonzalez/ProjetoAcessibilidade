@@ -7,6 +7,7 @@ using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
 using ProjectItemReader.XmlFile;
+using ProjectItemReader.XmlFile.DTO.FormItem;
 
 using QuestPDF.Helpers;
 
@@ -68,19 +69,20 @@ public static class DataSource
 
                 if (formData is AppFormDataItemTextModel text)
                 {
-                    section.Parts.Add(new ReportSectionText(label: text.Topic, text: $"{text.TextData} {(text.MeasurementUnit is not null ? text.MeasurementUnit : "")}"));
+                    section.Parts.Add(new ReportSectionText(label: text.Topic,
+                        text: $"{text.TextData} {(text.MeasurementUnit is not null ? text.MeasurementUnit : "")}", id: text.Id));
                 }
 
                 if (formData is AppFormDataItemCheckboxModel checkbox)
                 {
                     if (!string.IsNullOrWhiteSpace(checkbox.Topic))
-                        section.Parts.Add(new ReportSectionTitle(checkbox.Topic));
+                        section.Parts.Add(new ReportSectionTitle(checkbox.Topic, id: checkbox.Id));
 
                     foreach (var options in checkbox.Children)
                     {
                         var checkboxModels = options.Options.Select(item => new CheckboxModel(isChecked: item.IsChecked, value: item.Value));
 
-                        var reportCheckbox = new ReportSectionCheckbox() { Label = options.Topic, Checkboxes = checkboxModels.ToList() };
+                        var reportCheckbox = new ReportSectionCheckbox(label: options.Topic, id: options.Id) { Checkboxes = checkboxModels.ToList() };
 
                         section.Parts.Add(reportCheckbox);
                     }
@@ -95,27 +97,23 @@ public static class DataSource
                         Photos = imageContainer
                          .ImagesItems
                          .Select(x =>
-                         new ReportSectionPhoto()
-                         {
-                             Path = x.imagePath,
-                             Observation = x.imageObservation
-                         })
+                         new ReportSectionPhoto(observation: x.ImageObservation, path: x.ImagePath, id: x.Id))
                          .ToList()
                     };
-                    section.Parts.Add(container);
+                    section.Parts.Add(item: container);
 
                 }
                 if (formData is AppFormDataItemObservationModel observation)
                 {
-                    section.Parts.Add(new ReportSectionObservation()
-                    {
-                        Label = "Observações",
-                        Observation = observation.Observation
-                    });
+                    section.Parts.Add(
+                        item: new ReportSectionObservation(
+                            label: "Observações",
+                        id: observation.Id,
+                        observation: observation.Observation));
                 }
             }
 
-            report.Sections.Add(section);
+            report.Sections.Add(item: section);
         }
 
         return report;
@@ -180,14 +178,20 @@ public static class DataSource
                     {
                         section
                             .Parts
-                            .Add(new ReportSectionText(label: text.Topic,
-                            text: $"{text.TextData} {(text.MeasurementUnit is not null ? text.MeasurementUnit : "")}"));
+                            .Add(new ReportSectionText(
+                                label: text.Topic,
+                            text: $"{text.TextData} {(text.MeasurementUnit is not null ? text.MeasurementUnit : "")}",
+                            id: text.Id));
                     }
 
                     if (formData is AppFormDataItemCheckboxModel checkbox)
                     {
                         if (!string.IsNullOrWhiteSpace(checkbox.Topic))
-                            section.Parts.Add(new ReportSectionTitle(checkbox.Topic));
+                            section.Parts.Add(
+                                item: new ReportSectionTitle(
+                                    Topic: checkbox.Topic,
+                                    id: checkbox.Id
+                                    ));
 
                         foreach (var options in checkbox.Children)
                         {
@@ -196,9 +200,10 @@ public static class DataSource
                                 .Select(item =>
                                 new CheckboxModel(isChecked: item.IsChecked, value: item.Value));
 
-                            var reportCheckbox = new ReportSectionCheckbox()
+                            var reportCheckbox = new ReportSectionCheckbox(
+                                label: options.Topic,
+                                id: options.Id)
                             {
-                                Label = options.Topic,
                                 Checkboxes = checkboxModels.ToList()
                             };
 
@@ -214,11 +219,11 @@ public static class DataSource
                             Photos = imageContainer
                              .ImagesItems
                              .Select(x =>
-                             new ReportSectionPhoto()
-                             {
-                                 Path = x.imagePath,
-                                 Observation = x.imageObservation
-                             })
+                             new ReportSectionPhoto(
+                                 observation: x.ImageObservation,
+                             path: x.ImagePath,
+                             id: x.Id)
+                            )
                              .ToList()
                         };
                         section.Parts.Add(container);
@@ -227,11 +232,11 @@ public static class DataSource
 
                     if (formData is AppFormDataItemObservationModel observation)
                     {
-                        section.Parts.Add(new ReportSectionObservation()
-                        {
-                            Label = "Observações",
-                            Observation = observation.Observation
-                        });
+                        section.Parts.Add(
+                            item: new ReportSectionObservation(
+                            label: "Observações",
+                            id: observation.Id,
+                            observation: observation.Observation));
                     }
 
                 }
@@ -319,14 +324,13 @@ public static class DataSource
 
         ReportSectionText GetTextElement()
         {
-            return new ReportSectionText(label: Placeholders.Label(), text: Placeholders.Paragraph());
+            return new ReportSectionText(label: Placeholders.Label(), text: Placeholders.Paragraph(), id: Guid.NewGuid().ToString());
         }
 
         ReportSectionCheckbox GetCheckboxElement()
         {
-            return new ReportSectionCheckbox
+            return new ReportSectionCheckbox(label: Placeholders.Label(), id: Guid.NewGuid().ToString())
             {
-                Label = Placeholders.Label(),
                 Checkboxes = new List<CheckboxModel>
                 {
                     new CheckboxModel(isChecked:false,value:Placeholders.Label()),
@@ -337,14 +341,13 @@ public static class DataSource
 
         ReportSectionTitle GetTitleElement()
         {
-            return new ReportSectionTitle(Placeholders.Label());
+            return new ReportSectionTitle(Topic: Placeholders.Label(), id: Guid.NewGuid().ToString());
         }
 
         ReportSectionMap GetMapElement()
         {
-            return new ReportSectionMap
+            return new ReportSectionMap(label: "Location", id: Guid.NewGuid().ToString())
             {
-                Label = "Location",
                 Location = Helpers.RandomLocation()
             };
         }

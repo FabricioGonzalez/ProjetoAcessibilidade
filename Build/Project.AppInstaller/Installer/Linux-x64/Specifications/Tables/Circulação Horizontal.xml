@@ -5,17 +5,17 @@
     <tabela>
         <itemtabela item="1">
             <tipo>text</tipo>
-            <topico>Largura do Corredor:</topico>
+            <topic>Largura do Corredor:</topic>
             <unidade>m</unidade>
             <value />
         </itemtabela>
 
         <itemtabela item="2">
             <tipo>checkbox</tipo>
-            <topico>Corredores</topico>
+            <topic>Corredores</topic>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>A largura dos corredores é de no mínimo 1.20m?</topico>
+                    <topic>A largura dos corredores é de no mínimo 1.20m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -36,7 +36,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>É antiderrapante, regular, estável e não trepidante?</topico>
+                    <topic>É antiderrapante, regular, estável e não trepidante?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -57,7 +57,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Possui forrações, tapetes e carpetes embutido no piso e nívelados, firmemente fixados ao piso e com felpas de, no máximo, 6mm?</topico>
+                    <topic>Possui forrações, tapetes e carpetes embutido no piso e nívelados, firmemente fixados ao piso e com felpas de, no máximo, 6mm?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -78,7 +78,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Largura para transposição de obstáculo, mínimo 80cm?</topico>
+                    <topic>Largura para transposição de obstáculo, mínimo 80cm?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>

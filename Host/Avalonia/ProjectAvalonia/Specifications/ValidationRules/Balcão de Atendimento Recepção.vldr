@@ -7,7 +7,7 @@
             <tipo>checkbox</tipo>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui mesa/balcão rebaixado?</topico>
+                    <topic>Possui mesa/balcão rebaixado?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -20,7 +20,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Possui altura livre de 73cm sob o tampo?</topico>
+                    <topic>Possui altura livre de 73cm sob o tampo?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -33,7 +33,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Possui tampo com largura mínima d e 0,90cm?</topico>
+                    <topic>Possui tampo com largura mínima d e 0,90cm?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -46,7 +46,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Possui largura livre mínima sob a superfície de 0,80cm?</topico>
+                    <topic>Possui largura livre mínima sob a superfície de 0,80cm?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -59,7 +59,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="5">
-                    <topico>Profundidade livre mínima de 0,30cm?</topico>
+                    <topic>Profundidade livre mínima de 0,30cm?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -75,7 +75,7 @@
         </itemtabela>
         <itemtabela item="2">
             <tipo>texto</tipo>
-            <topico>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo SIA, Adesivo S.I.A, display de mesa ou não possui):</topico>
+            <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo SIA, Adesivo S.I.A, display de mesa ou não possui):</topic>
             <value></value>
         </itemtabela>
         <itemtabela item="3">

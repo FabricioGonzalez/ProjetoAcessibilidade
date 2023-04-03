@@ -49,7 +49,7 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
         get => _selectedItem;
         set
         {
-            if ((InEditingItem is not null) && (value.Name == InEditingItem.Name))
+            if ((InEditingItem is not null) && (value.Name != InEditingItem.Name))
             {
                 Dispatcher.UIThread.InvokeAsync(async () =>
                 {
@@ -57,13 +57,22 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
                                         message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
                     if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
                     {
+                        InEditingItem = value;
+                        _selectedItem = value;
+                        this.RaisePropertyChanged(nameof(SelectedItem));
                     }
                     else
                     {
-
+                        _selectedItem = InEditingItem;
+                        this.RaisePropertyChanged(nameof(SelectedItem));
                     }
                 });
-
+            }
+            if (InEditingItem is null)
+            {
+                InEditingItem = value;
+                _selectedItem = value;
+                this.RaisePropertyChanged(nameof(SelectedItem));
             }
         }
     }

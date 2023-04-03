@@ -18,7 +18,7 @@ public sealed class GetSystemProjectItemContentQueryHandler : IQueryHandler<GetS
 
     public async Task<Resource<AppItemModel>> Handle(GetSystemProjectItemContentQuery query, CancellationToken cancellation)
     {
-        var result = await contentRepository.GetSystemProjectItemContent(query.ItemPath);
+        var result = await contentRepository.GetSystemProjectItemContentSerealizer(query.ItemPath);
 
         if (result is not null)
         {

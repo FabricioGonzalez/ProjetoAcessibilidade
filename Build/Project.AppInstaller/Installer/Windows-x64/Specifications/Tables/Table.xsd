@@ -20,14 +20,14 @@
                                                 </xs:restriction>
                                             </xs:simpleType>
                                         </xs:element>
-                                        <xs:element name="topico" minOccurs="0" type="xs:string" />
+                                        <xs:element name="topic" minOccurs="0" type="xs:string" />
                                         <xs:element name="checkboxes" minOccurs="0">
                                             <xs:complexType>
                                                 <xs:sequence>
                                                     <xs:element name="checkboxitem" maxOccurs="unbounded">
                                                         <xs:complexType>
                                                             <xs:sequence>
-                                                                <xs:element name="topico" type="xs:string" />
+                                                                <xs:element name="topic" type="xs:string" />
                                                                 <xs:element name="opcoes">
                                                                     <xs:complexType>
                                                                         <xs:sequence>
@@ -55,7 +55,7 @@
                                                                 <xs:element name="texto" minOccurs="0">
                                                                     <xs:complexType>
                                                                         <xs:sequence>
-                                                                            <xs:element name="topico" minOccurs="0" />
+                                                                            <xs:element name="topic" minOccurs="0" />
                                                                             <xs:element name="unidade" minOccurs="0" />
                                                                             <xs:element name="value" minOccurs="0" />
                                                                         </xs:sequence>

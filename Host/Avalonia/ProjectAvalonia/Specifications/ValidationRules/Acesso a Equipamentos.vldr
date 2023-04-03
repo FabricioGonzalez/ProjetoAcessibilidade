@@ -7,7 +7,7 @@
             <tipo>checkbox</tipo>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui obstáculo de acesso aos comandos?</topico>
+                    <topic>Possui obstáculo de acesso aos comandos?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -20,7 +20,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Possuí altura máxima de 1,20m?</topico>
+                    <topic>Possuí altura máxima de 1,20m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
