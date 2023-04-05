@@ -123,6 +123,20 @@ public partial class SolutionStateViewModel : RoutableViewModel
 
         });
 
+        CreateFolderCommand = ReactiveCommand.Create(() =>
+        {
+            ItemGroups.Add(new()
+            {
+                InEditMode = true
+            });
+
+        });
+
+        CommitFolderCommand = ReactiveCommand.Create<ItemGroupState>((itemsGroup) =>
+        {
+            Logger.LogDebug(itemsGroup.Name);
+        });
+
         Task.Run(async () =>
         {
             var result = new ObservableCollectionExtended<UFModel>(
@@ -170,6 +184,14 @@ public partial class SolutionStateViewModel : RoutableViewModel
         get; set;
     }
     public ICommand AddProjectItemCommand
+    {
+        get; set;
+    }
+    public ICommand CreateFolderCommand
+    {
+        get; set;
+    }
+    public ICommand CommitFolderCommand
     {
         get; set;
     }

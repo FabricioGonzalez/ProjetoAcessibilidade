@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using Avalonia;
 using Avalonia.Threading;
 
 using Common;
@@ -12,7 +12,9 @@ using Common;
 using Core.Entities.Solution.Project.AppItem;
 using Core.Enuns;
 
+using Project.Domain.App.Models;
 using Project.Domain.Contracts;
+using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
 using Project.Domain.Project.Queries.GetProjectItemContent;
 
 using ProjectAvalonia.Common.Models.FileItems;
@@ -49,56 +51,69 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
         get => _selectedItem;
         set
         {
-            if ((InEditingItem is not null) && (value.Name != InEditingItem.Name))
+            if (value is { })
             {
-                Dispatcher.UIThread.InvokeAsync(async () =>
+                if ((InEditingItem is not null) && (value?.Name != InEditingItem.Name))
                 {
-                    var dialog = new DeleteDialogViewModel(
-                                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
-                    if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
+                    Dispatcher.UIThread.InvokeAsync(async () =>
                     {
-                        InEditingItem = value;
-                        _selectedItem = value;
-                        this.RaisePropertyChanged(nameof(SelectedItem));
-                    }
-                    else
-                    {
-                        _selectedItem = InEditingItem;
-                        this.RaisePropertyChanged(nameof(SelectedItem));
-                    }
-                });
-            }
-            if (InEditingItem is null)
-            {
-                InEditingItem = value;
-                _selectedItem = value;
-                this.RaisePropertyChanged(nameof(SelectedItem));
+                        var dialog = new DeleteDialogViewModel(
+                                            message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
+                        if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
+                        {
+                            _selectedItem = value;
+                            InEditingItem = _selectedItem;
+                            this.RaisePropertyChanged(nameof(SelectedItem));
+                            this.RaisePropertyChanged(nameof(InEditingItem));
+                        }
+                        else
+                        {
+                            _selectedItem = InEditingItem;
+                            this.RaisePropertyChanged(nameof(SelectedItem));
+                        }
+                    });
+                }
+                if (InEditingItem is null)
+                {
+                    _selectedItem = value;
+                    InEditingItem = _selectedItem;
+                    this.RaisePropertyChanged(nameof(SelectedItem));
+                    this.RaisePropertyChanged(nameof(InEditingItem));
+                }
             }
         }
     }
+
     [AutoNotify] private FileItem _inEditingItem;
+
     [AutoNotify] private AppModelState _editingItem;
 
-    public ObservableCollection<AppFormDataType> Types => new(
-           Enum
-           .GetValues<AppFormDataType>());
+    public ObservableCollection<AppFormDataType> Types => new()
+    {AppFormDataType.Texto,
+        AppFormDataType.Checkbox
+    };
 
     private readonly IQueryDispatcher queryDispatcher;
+    private readonly ICommandDispatcher commandDispatcher;
 
     public TemplateEditTabViewModel()
     {
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
-
+        commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
 
         LoadItemCommand = ReactiveCommand.CreateFromTask(async (FileItem item) =>
         {
-            await LoadItemData(item.FilePath);
+            if (item is not null)
+                await LoadItemData(item.FilePath);
         });
 
-
-        this.WhenAnyValue(vm => vm.InEditingItem)
-            .WhereNotNull()
-            .InvokeCommand(LoadItemCommand);
+        SaveItemCommand = ReactiveCommand.CreateFromTask(async (AppModelState item) =>
+        {
+            if (item is not null)
+            {
+                await SaveItemData(item);
+            }
+        });
 
         AddFormItemCommand = ReactiveCommand.Create(() =>
         {
@@ -107,7 +122,7 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
 
         AddLawCommand = ReactiveCommand.Create(() =>
         {
-            EditingItem.LawItems.Add(new());
+            EditingItem.AddLawItems(new());
             Logger.LogDebug("Add Law Item");
         });
 
@@ -122,15 +137,29 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
                 Logger.LogDebug($"Remove Item {textItem.Topic}");
             }
         });
+
         RemoveLawItemCommand = ReactiveCommand.Create<LawStateItem>((lawItem) =>
         {
             if (lawItem is not null)
             {
-                EditingItem.LawItems.Remove(lawItem);
+                EditingItem.RemoveLawItem(lawItem);
 
                 Logger.LogDebug($"Remove Law {lawItem.LawId}");
             }
         });
+
+        ChangeItemTypeCommand = ReactiveCommand.Create<FormItemStateBase>((item) =>
+        {
+            if (item is not null && EditingItem.FormData.IndexOf(item) != -1)
+            {
+                var res = EditingItem.FormData.IndexOf(item);
+                Logger.LogDebug($"Remove Law {item.Type} at {res}");
+            }
+        });
+
+        this
+           .WhenAnyValue(vm => vm.InEditingItem)
+           .InvokeCommand(LoadItemCommand);
     }
 
     private async Task LoadItemData(string path)
@@ -145,23 +174,35 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
         })
         .OnSuccess(success =>
         {
-            /*success?.Data?.FormData.Where(item =>
-            {
-                return item is AppFormDataItemCheckboxModel || item is AppFormDataItemTextModel;
-            });*/
-
             EditingItem = success?.Data.ToAppState();
         })
         .OnError(error =>
         {
         });
     }
+    private async Task SaveItemData(AppModelState item)
+    {
+        /*InEditingItem*/
+        await commandDispatcher
+        .Dispatch<SaveSystemProjectItemContentCommand, Resource<Empty>>(new(
+            AppItem: item.ToAppModel(),
+            ItemPath: InEditingItem.FilePath),
+            CancellationToken.None);
+    }
 
+    private ICommand SaveItemCommand
+    {
+        get;
+    }
     private ICommand LoadItemCommand
     {
         get;
     }
 
+    public ICommand ChangeItemTypeCommand
+    {
+        get;
+    }
     public ICommand AddFormItemCommand
     {
         get;

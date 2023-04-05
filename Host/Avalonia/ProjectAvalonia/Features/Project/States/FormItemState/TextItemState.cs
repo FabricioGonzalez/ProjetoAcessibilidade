@@ -1,36 +1,24 @@
 ﻿using Core.Enuns;
 
-using ReactiveUI;
-
 namespace ProjectAvalonia.Features.Project.States.FormItemState;
-public class TextItemState : ReactiveObject
+public partial class TextItemState : FormItemStateBase
 {
-    private string topic;
-    public string Topic
-    {
-        get => topic;
-        set => this.RaiseAndSetIfChanged(ref topic, value);
-    }
+    [AutoNotify]
+    private string _topic = "";
+    [AutoNotify]
+    private string _textData = "";
+    [AutoNotify]
+    private string? _measurementUnit = null;
 
-    private AppFormDataType type;
-    public AppFormDataType Type
+    public TextItemState(string topic,
+        string textData,
+        string? measurementUnit = null,
+        AppFormDataType type = AppFormDataType.Texto,
+        string id = "")
+        : base(type, id)
     {
-        get => type;
-        set => this.RaiseAndSetIfChanged(ref type, value);
+        Topic = topic;
+        TextData = textData;
+        MeasurementUnit = measurementUnit;
     }
-
-    private string textData = "";
-    public string TextData
-    {
-        get => textData;
-        set => this.RaiseAndSetIfChanged(ref textData, value);
-    }
-
-    private string measurementUnit = null;
-    public string MeasurementUnit
-    {
-        get => measurementUnit;
-        set => this.RaiseAndSetIfChanged(ref measurementUnit, value);
-    }
-
 }

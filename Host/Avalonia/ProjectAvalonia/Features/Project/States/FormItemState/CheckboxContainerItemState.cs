@@ -2,30 +2,21 @@
 
 using DynamicData.Binding;
 
-using ReactiveUI;
-
 namespace ProjectAvalonia.Features.Project.States.FormItemState;
-public class CheckboxContainerItemState : ReactiveObject
+public partial class CheckboxContainerItemState : FormItemStateBase
 {
+    [AutoNotify]
     private string topic;
-    public string Topic
-    {
-        get => topic;
-        set => this.RaiseAndSetIfChanged(ref topic, value);
-    }
-
-    private AppFormDataType type = AppFormDataType.Checkbox;
-    public AppFormDataType Type
-    {
-        get => type;
-        set => this.RaiseAndSetIfChanged(ref type, value);
-    }
-
+    [AutoNotify]
     private ObservableCollectionExtended<CheckboxItemState> children;
-    public ObservableCollectionExtended<CheckboxItemState> Children
+
+    public CheckboxContainerItemState(string topic,
+        AppFormDataType type = AppFormDataType.Checkbox,
+        string id = "")
+        : base(type, id)
     {
-        get => children;
-        set => this.RaiseAndSetIfChanged(ref children, value);
+        Topic = topic;
+        Children = new();
     }
 
 }

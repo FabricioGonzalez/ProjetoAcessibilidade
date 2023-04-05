@@ -3,26 +3,17 @@
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.States.FormItemState;
-public class CheckboxItemState : ReactiveObject
+public partial class CheckboxItemState : ReactiveObject
 {
-    private string topic;
-    public string Topic
-    {
-        get => topic;
-        set => this.RaiseAndSetIfChanged(ref topic, value);
-    }
+    [AutoNotify]
+    private string _id;
 
-    private ObservableCollectionExtended<OptionsItemState> options;
-    public ObservableCollectionExtended<OptionsItemState> Options
-    {
-        get => options;
-        set => this.RaiseAndSetIfChanged(ref options, value);
-    }
+    [AutoNotify]
+    private string _topic;
 
-    private ObservableCollectionExtended<TextItemState> textItems;
-    public ObservableCollectionExtended<TextItemState> TextItems
-    {
-        get => textItems;
-        set => this.RaiseAndSetIfChanged(ref textItems, value);
-    }
+    [AutoNotify]
+    private ObservableCollectionExtended<OptionsItemState> _options;
+
+    [AutoNotify]
+    private ObservableCollectionExtended<TextItemState> _textItems;
 }

@@ -13,7 +13,6 @@ public partial class ProjectExplorerViewModel : ViewModelBase
 
     public ProjectExplorerViewModel()
     {
-
     }
     public ICommand CreateItemCommand
     {

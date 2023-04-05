@@ -13,10 +13,12 @@
     d:DesignWidth="800"
     x:DataType="viewModels:ProjectExplorerViewModel"
     mc:Ignorable="d">
-    <Grid Name="ExplorerRoot" RowDefinitions="1*">
+    <Grid Name="ExplorerRoot" RowDefinitions="35,35,1*">
+        <TextBlock Text="Explorador de Solução" />
+        <TextBox />
         <TreeView
             x:Name="explorerTreeView"
-            Grid.Row="0"
+            Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             CornerRadius="8"
@@ -65,6 +67,12 @@
                     </TreeViewItem>
                 </DataTemplate>
             </TreeView.ItemTemplate>
+            <TreeView.ContextMenu>
+                <MenuItem
+                    Command="{Binding $parent[UserControl].DataContext.SolutionModel.AddProjectItemCommand}"
+                    CommandParameter="{Binding}"
+                    Header="Adicionar Item" />
+            </TreeView.ContextMenu>
         </TreeView>
     </Grid>
 </UserControl>

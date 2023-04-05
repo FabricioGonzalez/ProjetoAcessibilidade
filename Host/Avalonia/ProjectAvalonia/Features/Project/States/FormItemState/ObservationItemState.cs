@@ -1,19 +1,18 @@
-﻿using ReactiveUI;
+﻿using Core.Enuns;
 
 namespace ProjectAvalonia.Features.Project.States.FormItemState;
-public class ObservationItemState : ReactiveObject
+public partial class ObservationItemState : FormItemStateBase
 {
-    private string topic = "";
-    public string Topic
-    {
-        get => topic;
-        set => this.RaiseAndSetIfChanged(ref topic, value);
-    }
+    [AutoNotify]
+    private string _topic = "";
 
-    private string observation = "";
-    public string Observation
+    [AutoNotify]
+    private string _observation = "";
+
+    public ObservationItemState(string topic, string observation, AppFormDataType type = AppFormDataType.Observação, string id = "")
+        : base(type: type, id)
     {
-        get => observation;
-        set => this.RaiseAndSetIfChanged(ref observation, value);
+        Observation = observation;
+        Topic = topic;
     }
 }

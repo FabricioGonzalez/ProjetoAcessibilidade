@@ -2,29 +2,19 @@
 
 using DynamicData.Binding;
 
-using ReactiveUI;
-
 namespace ProjectAvalonia.Features.Project.States.FormItemState;
-public class ImageContainerItemState : ReactiveObject
+public partial class ImageContainerItemState : FormItemStateBase
 {
-    private string topic = "";
-    public string Topic
-    {
-        get => topic;
-        set => this.RaiseAndSetIfChanged(ref topic, value);
-    }
+    [AutoNotify]
+    private string _topic = "Imagens";
 
-    private AppFormDataType type = AppFormDataType.Image;
-    public AppFormDataType Type
-    {
-        get => type;
-        set => this.RaiseAndSetIfChanged(ref type, value);
-    }
+    [AutoNotify]
+    private ObservableCollectionExtended<ImageItemState> _imagesItems = new();
 
-    private ObservableCollectionExtended<ImageItemState> imagesItems = new();
-    public ObservableCollectionExtended<ImageItemState> ImagesItems
+    public ImageContainerItemState(AppFormDataType type = AppFormDataType.Image,
+        string id = "")
+        : base(type, id)
     {
-        get => imagesItems;
-        set => this.RaiseAndSetIfChanged(ref imagesItems, value);
+
     }
 }
