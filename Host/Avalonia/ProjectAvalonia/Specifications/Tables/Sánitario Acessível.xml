@@ -1,400 +1,400 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <id />
+    <id/>
     <name>Sanitário Acessivel</name>
     <template_name>Sanitário Acessivel</template_name>
     <table>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
             <topic>Detalhes do(s) sanitário(s) adaptado(s)</topic>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui sinalização nas portas?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
-                        <id />
+                        <id/>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui sinalização de parede com Braile</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui maçaneta type alavanca?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui torneira alavanca?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui chapa anti-impacto na porta?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui 1 barra de segurança na porta?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui 2 barras de segurança no lavatório?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui 2 barras horizontais 80cm de segurança na bacia sanitária?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui 1 barra vertical 70cm de segurança na bacia snitária?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui lavatório?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui bacia sanitária?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui alarme de emergência?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui válvula de descarga atendendo à altura de 1m?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui espelho com base a partir de 90cm de altura?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui acessórios fixados conforme a Norma?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
@@ -403,14 +403,14 @@
             </checkboxes>
         </checkbox_items>
         <observation_item>
-            <id />
+            <id/>
             <type>observation</type>
-            <observation />
+            <observation/>
         </observation_item>
         <image_items item="3">
-            <id />
+            <id/>
             <type>image</type>
-            <images />
+            <images/>
         </image_items>
     </table>
     <law>
@@ -433,7 +433,7 @@
         </law_item>
         <law_item>
             <id>NBR9050/20</id>
-            <content> 7.7.2.2.1 Junto à bacia sanitária, quando houver parede lateral, devem ser
+            <content>7.7.2.2.1 Junto à bacia sanitária, quando houver parede lateral, devem ser
                 instaladas barras para apoio e transferência. Uma barra reta horizontal com
                 comprimento mínimo de 0,80 m, posicionada horizontalmente, a 0,75 m de altura do
                 piso acabado (medidos pelos eixos de fixação) a um distância de 0,40 m entre o eixo

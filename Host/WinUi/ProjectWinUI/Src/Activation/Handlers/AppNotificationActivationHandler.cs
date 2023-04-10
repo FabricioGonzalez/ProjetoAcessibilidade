@@ -1,32 +1,33 @@
-﻿using System;
-
-using System.Threading.Tasks;
-
+﻿using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-
 using ProjectWinUI.Src.Navigation.Contracts;
 using ProjectWinUI.Src.Notifications.Contracts;
 
 namespace ProjectWinUI.Src.Activation.Handlers;
+
 public class AppNotificationActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
 {
     private readonly INavigationService _navigationService;
     private readonly IAppNotificationService _notificationService;
 
-    public AppNotificationActivationHandler(INavigationService navigationService, IAppNotificationService notificationService)
+    public AppNotificationActivationHandler(
+        INavigationService navigationService
+        , IAppNotificationService notificationService
+    )
     {
         _navigationService = navigationService;
         _notificationService = notificationService;
     }
 
-    protected override bool CanHandlepublic(LaunchActivatedEventArgs args)
-    {
-        return AppInstance.GetCurrent().GetActivatedEventArgs()?.Kind == ExtendedActivationKind.AppNotification;
-    }
+    protected override bool CanHandlepublic(
+        LaunchActivatedEventArgs args
+    ) => AppInstance.GetCurrent().GetActivatedEventArgs()?.Kind == ExtendedActivationKind.AppNotification;
 
-    protected async override Task HandlepublicAsync(LaunchActivatedEventArgs args)
+    protected async override Task HandlepublicAsync(
+        LaunchActivatedEventArgs args
+    )
     {
         // TODO: Handle notification activations.
 
@@ -43,9 +44,10 @@ public class AppNotificationActivationHandler : ActivationHandler<LaunchActivate
         ////     });
         //// }
 
-        WinApp.MainWindow.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
+        WinApp.MainWindow.DispatcherQueue.TryEnqueue(priority: DispatcherQueuePriority.Low, callback: () =>
         {
-            WinApp.MainWindow.ShowMessageDialogAsync("TODO: Handle notification activations.", "Notification Activation");
+            WinApp.MainWindow.ShowMessageDialogAsync(content: "TODO: Handle notification activations."
+                , title: "Notification Activation");
         });
 
         await Task.CompletedTask;

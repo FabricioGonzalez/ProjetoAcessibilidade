@@ -2,9 +2,9 @@
 {
     public enum ImageScaling
     {
-        FitWidth,
-        FitHeight,
-        FitArea,
-        Resize
+        FitWidth
+        , FitHeight
+        , FitArea
+        , Resize
     }
 }

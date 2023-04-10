@@ -2,22 +2,32 @@
 
 public class ImagesItem
 {
-    public ImagesItem(string id, string imagePath, string imageObservation)
+    public ImagesItem(
+        string id
+        , string imagePath
+        , string imageObservation
+    )
     {
         Id = id;
         ImagePath = imagePath;
         ImageObservation = imageObservation;
     }
+
     public string Id
     {
-        get; set;
+        get;
+        set;
     }
+
     public string ImagePath
     {
-        get; set;
+        get;
+        set;
     }
+
     public string ImageObservation
     {
-        get; set;
+        get;
+        set;
     }
 }

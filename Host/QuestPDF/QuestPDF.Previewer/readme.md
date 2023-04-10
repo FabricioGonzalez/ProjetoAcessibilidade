@@ -16,7 +16,7 @@ Run on custom port
 questpdf-previewer 12500
 ```
 
-Remove nuget locally 
+Remove nuget locally
 
 ```
 dotnet tool uninstall QuestPDF.Previewer --global

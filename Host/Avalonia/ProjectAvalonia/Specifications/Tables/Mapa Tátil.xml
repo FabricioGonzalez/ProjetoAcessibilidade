@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <id />
+    <id/>
     <name>Mapa Tátil</name>
     <template_name>Mapa Tátil</template_name>
     <table>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -32,8 +32,8 @@
         </observation_item>
         <image_items>
             <type>image</type>
-            <images />
+            <images/>
         </image_items>
     </table>
-    <law />
+    <law/>
 </item>

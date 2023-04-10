@@ -6,68 +6,73 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Common;
-
 using Microsoft.Win32;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Microservices;
 using ProjectAvalonia.Logging;
 
 namespace ProjectAvalonia.Common.Helpers;
+
 public static class EnvironmentHelpers
 {
     // appName, dataDir
-    private static ConcurrentDictionary<string, string> DataDirDict { get; } = new ConcurrentDictionary<string, string>();
+    private static ConcurrentDictionary<string, string> DataDirDict
+    {
+        get;
+    } = new();
 
     // Do not change the output of this function. Backwards compatibility depends on it.
-    public static string GetDataDir(string appName)
+    public static string GetDataDir(
+        string appName
+    )
     {
-        if (DataDirDict.TryGetValue(appName, out string? dataDir))
+        if (DataDirDict.TryGetValue(key: appName, value: out var dataDir))
         {
             return dataDir;
         }
 
         string directory;
 
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (!RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
         {
-            var home = Environment.GetEnvironmentVariable("HOME");
-            if (!string.IsNullOrEmpty(home))
+            var home = Environment.GetEnvironmentVariable(variable: "HOME");
+            if (!string.IsNullOrEmpty(value: home))
             {
-                directory = Path.Combine(home, "." + appName.ToLowerInvariant());
-                Logger.LogInfo($"Using HOME environment variable for initializing application data at `{directory}`.");
+                directory = Path.Combine(path1: home, path2: "." + appName.ToLowerInvariant());
+                Logger.LogInfo(
+                    message: $"Using HOME environment variable for initializing application data at `{directory}`.");
             }
             else
             {
-                throw new DirectoryNotFoundException("Could not find suitable datadir.");
+                throw new DirectoryNotFoundException(message: "Could not find suitable datadir.");
             }
         }
         else
         {
-            var localAppData = Environment.GetEnvironmentVariable("APPDATA");
-            if (!string.IsNullOrEmpty(localAppData))
+            var localAppData = Environment.GetEnvironmentVariable(variable: "APPDATA");
+            if (!string.IsNullOrEmpty(value: localAppData))
             {
-                directory = Path.Combine(localAppData, appName);
-                Logger.LogInfo($"Using APPDATA environment variable for initializing application data at `{directory}`.");
+                directory = Path.Combine(path1: localAppData, path2: appName);
+                Logger.LogInfo(
+                    message: $"Using APPDATA environment variable for initializing application data at `{directory}`.");
             }
             else
             {
-                throw new DirectoryNotFoundException("Could not find suitable datadir.");
+                throw new DirectoryNotFoundException(message: "Could not find suitable datadir.");
             }
         }
 
-        if (Directory.Exists(directory))
+        if (Directory.Exists(path: directory))
         {
-            DataDirDict.TryAdd(appName, directory);
+            DataDirDict.TryAdd(key: appName, value: directory);
             return directory;
         }
 
-        Logger.LogInfo($"Creating data directory at `{directory}`.");
-        Directory.CreateDirectory(directory);
+        Logger.LogInfo(message: $"Creating data directory at `{directory}`.");
+        Directory.CreateDirectory(path: directory);
 
-        DataDirDict.TryAdd(appName, directory);
+        DataDirDict.TryAdd(key: appName, value: directory);
         return directory;
     }
 
@@ -80,12 +85,14 @@ public static class EnvironmentHelpers
     // In Windows and Linux that string is a valid path and that means Path.GetFileNameWithoutExtension
     // can extract the file name but in the case of OSX the same string is not a valid path so, it assumes
     // the whole string is the file name.
-    public static string ExtractFileName(string callerFilePath)
+    public static string ExtractFileName(
+        string callerFilePath
+    )
     {
-        var lastSeparatorIndex = callerFilePath.LastIndexOf("\\");
+        var lastSeparatorIndex = callerFilePath.LastIndexOf(value: "\\");
         if (lastSeparatorIndex == -1)
         {
-            lastSeparatorIndex = callerFilePath.LastIndexOf("/");
+            lastSeparatorIndex = callerFilePath.LastIndexOf(value: "/");
         }
 
         var fileName = callerFilePath;
@@ -96,77 +103,83 @@ public static class EnvironmentHelpers
             fileName = callerFilePath[lastSeparatorIndex..]; // From lastSeparatorIndex until the end of the string.
         }
 
-        var fileNameWithoutExtension = fileName.TrimEnd(".cs", StringComparison.InvariantCultureIgnoreCase);
+        var fileNameWithoutExtension =
+            fileName.TrimEnd(trimString: ".cs", comparisonType: StringComparison.InvariantCultureIgnoreCase);
         return fileNameWithoutExtension;
     }
 
     /// <summary>
-    /// Executes a command with Bourne shell.
-    /// https://stackoverflow.com/a/47918132/2061103
+    ///     Executes a command with Bourne shell.
+    ///     https://stackoverflow.com/a/47918132/2061103
     /// </summary>
-    public static async Task ShellExecAsync(string cmd, bool waitForExit = true)
+    public static async Task ShellExecAsync(
+        string cmd
+        , bool waitForExit = true
+    )
     {
-        var escapedArgs = cmd.Replace("\"", "\\\"");
+        var escapedArgs = cmd.Replace(oldValue: "\"", newValue: "\\\"");
 
         var startInfo = new ProcessStartInfo
         {
-            FileName = "/usr/bin/env",
-            Arguments = $"sh -c \"{escapedArgs}\"",
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            WindowStyle = ProcessWindowStyle.Hidden
+            FileName = "/usr/bin/env", Arguments = $"sh -c \"{escapedArgs}\"", RedirectStandardOutput = true
+            , UseShellExecute = false, CreateNoWindow = true, WindowStyle = ProcessWindowStyle.Hidden
         };
 
         if (waitForExit)
         {
-            using var process = new ProcessAsync(startInfo);
+            using var process = new ProcessAsync(startInfo: startInfo);
             process.Start();
 
-            await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
+            await process.WaitForExitAsync(cancellationToken: CancellationToken.None)
+                .ConfigureAwait(continueOnCapturedContext: false);
 
             if (process.ExitCode != 0)
             {
-                Logger.LogError($"{nameof(ShellExecAsync)} command: {cmd} exited with exit code: {process.ExitCode}, instead of 0.");
+                Logger.LogError(
+                    message:
+                    $"{nameof(ShellExecAsync)} command: {cmd} exited with exit code: {process.ExitCode}, instead of 0.");
             }
         }
         else
         {
-            using var process = Process.Start(startInfo);
+            using var process = Process.Start(startInfo: startInfo);
         }
     }
 
-    public static bool IsFileTypeAssociated(string fileExtension)
+    public static bool IsFileTypeAssociated(
+        string fileExtension
+    )
     {
         // Source article: https://edi.wang/post/2019/3/4/read-and-write-windows-registry-in-net-core
 
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (!RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
         {
-            throw new InvalidOperationException("Operation only supported on windows.");
+            throw new InvalidOperationException(message: "Operation only supported on windows.");
         }
 
-        fileExtension = fileExtension.TrimStart('.'); // Remove . if added by the caller.
+        fileExtension = fileExtension.TrimStart(trimChar: '.'); // Remove . if added by the caller.
 
-        using (var key = Registry.ClassesRoot.OpenSubKey($".{fileExtension}"))
+        using (var key = Registry.ClassesRoot.OpenSubKey(name: $".{fileExtension}"))
         {
             // Read the (Default) value.
-            if (key?.GetValue(null) is not null)
+            if (key?.GetValue(name: null) is not null)
             {
                 return true;
             }
         }
+
         return false;
     }
 
     public static string GetFullBaseDirectory()
     {
-        var fullBaseDirectory = Path.GetFullPath(AppContext.BaseDirectory);
+        var fullBaseDirectory = Path.GetFullPath(path: AppContext.BaseDirectory);
 
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (!RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
         {
-            if (!fullBaseDirectory.StartsWith('/'))
+            if (!fullBaseDirectory.StartsWith(value: '/'))
             {
-                fullBaseDirectory = fullBaseDirectory.Insert(0, "/");
+                fullBaseDirectory = fullBaseDirectory.Insert(startIndex: 0, value: "/");
             }
         }
 
@@ -176,23 +189,27 @@ public static class EnvironmentHelpers
     public static string GetExecutablePath()
     {
         var fullBaseDir = GetFullBaseDirectory();
-        var executablePath = Path.Combine(fullBaseDir, Constants.ExecutableName);
-        executablePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? $"{executablePath}.exe" : $"{executablePath}";
-        if (File.Exists(executablePath))
+        var executablePath = Path.Combine(path1: fullBaseDir, path2: Constants.ExecutableName);
+        executablePath = RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows)
+            ? $"{executablePath}.exe"
+            : $"{executablePath}";
+        if (File.Exists(path: executablePath))
         {
             return executablePath;
         }
-        var assemblyName = Assembly.GetEntryAssembly()?.GetName().Name ?? throw new NullReferenceException("Assembly or Assembly's Name was null.");
-        var fluentExecutable = Path.Combine(fullBaseDir, assemblyName);
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? $"{fluentExecutable}.exe" : $"{fluentExecutable}";
+
+        var assemblyName = Assembly.GetEntryAssembly()?.GetName().Name ??
+                           throw new NullReferenceException(message: "Assembly or Assembly's Name was null.");
+        var fluentExecutable = Path.Combine(path1: fullBaseDir, path2: assemblyName);
+        return RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows)
+            ? $"{fluentExecutable}.exe"
+            : $"{fluentExecutable}";
     }
 
     public static string GetExecutableVersion()
     {
-
-        var versInfo = FileVersionInfo.GetVersionInfo(GetExecutablePath());
+        var versInfo = FileVersionInfo.GetVersionInfo(fileName: GetExecutablePath());
 
         return versInfo?.ProductVersion;
-
     }
 }

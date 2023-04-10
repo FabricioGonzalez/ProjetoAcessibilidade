@@ -2,8 +2,8 @@
 {
     public enum SpacePlanType
     {
-        Wrap,
-        PartialRender,
-        FullRender
+        Wrap
+        , PartialRender
+        , FullRender
     }
 }

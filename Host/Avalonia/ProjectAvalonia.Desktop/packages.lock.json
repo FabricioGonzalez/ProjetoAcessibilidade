@@ -26,6 +26,16 @@
           "System.Reactive": "5.0.0"
         }
       },
+      "ReactiveUI": {
+        "type": "Direct",
+        "requested": "[18.4.26, )",
+        "resolved": "18.4.26",
+        "contentHash": "39AplwnC5zu6yvLdE1vRI7YaLvVJyBSkMGCb3fb+3deGW5Q3EKybpqpNQzqx2nuBUAFYnULKWjbQqPdXssN3ow==",
+        "dependencies": {
+          "DynamicData": "7.13.1",
+          "Splat": "14.6.8"
+        }
+      },
       "AsyncImageLoader.Avalonia": {
         "type": "Transitive",
         "resolved": "2.4.0",
@@ -193,16 +203,11 @@
       },
       "DynamicData": {
         "type": "Transitive",
-        "resolved": "7.12.8",
-        "contentHash": "MIOpDgdFF7GgbuIfu2o70KJxV9dqtTyTMFrdwupdjQ7I0MIkpvbmvdcrsM66T8rCFL0FGye7BmURFYgaDTw7/w==",
+        "resolved": "7.13.1",
+        "contentHash": "IlJh7MMpE7CEpVH1sm+hxyOijWdtwt2Bm6gnncP4Zgjq7D9f/gB7Bko+bYoBX/O+gaTGHtdHqwBmu2AX5O4MVw==",
         "dependencies": {
           "System.Reactive": "5.0.0"
         }
-      },
-      "Fody": {
-        "type": "Transitive",
-        "resolved": "6.6.4",
-        "contentHash": "vLZS+oa+ndUHYPlx/8n9bBTT3dHkCF0riml4paKq4D663+cZd47x1uagQo32D/gKFZ/sfmV1oqKaLmH0elxq4A=="
       },
       "HarfBuzzSharp": {
         "type": "Transitive",
@@ -674,32 +679,6 @@
           "Avalonia": "0.10.15"
         }
       },
-      "ReactiveUI": {
-        "type": "Transitive",
-        "resolved": "18.4.1",
-        "contentHash": "uMFeRHeLc7IQ9rzl0Z6GIh4Zq3NN6DP3o8oHklslE5ZdrQncCJBNgaTR7D2yiaefbiMwduggGHphqDqfuIzz2A==",
-        "dependencies": {
-          "DynamicData": "7.12.8",
-          "Splat": "14.5.1"
-        }
-      },
-      "ReactiveUI.Fody": {
-        "type": "Transitive",
-        "resolved": "18.4.1",
-        "contentHash": "su/CVNAzHjpkBV4X5JRPiTWN3/s5vpvLs3fw1udn1hmGG8aEeb6gYhlGdRlnk2WRRlJttUWQxFWfHimJSnMDGg==",
-        "dependencies": {
-          "Fody": "6.6.4",
-          "ReactiveUI": "18.4.1"
-        }
-      },
-      "ReactiveUI.Validation": {
-        "type": "Transitive",
-        "resolved": "3.0.22",
-        "contentHash": "kgCs4+yXbvG1z7UkJW+mXL+GOQgRH2xI9EPrAWj/UxswT57KcqoRCxPWrZZW+fMxHctRNo7Dxuuc1tIKMJj1ZA==",
-        "dependencies": {
-          "ReactiveUI": "18.4.1"
-        }
-      },
       "SkiaSharp": {
         "type": "Transitive",
         "resolved": "2.88.3",
@@ -734,8 +713,8 @@
       },
       "Splat": {
         "type": "Transitive",
-        "resolved": "14.6.1",
-        "contentHash": "jOxCaZCZtTzSWR3cobXOhavz2BHKFeDq36vMfFkux118sWEjDvHJDR1Ea3vFhFlKVV1gx4EIZVpXKctnd0+tHA=="
+        "resolved": "14.6.8",
+        "contentHash": "WdhGXUvsWPNPzBLc/LC1Q5jLOczupHDc+4Skl0JaTEuyoDjxxe/Dme8UjGTkCPYbhnVWEsEJprWqyWDY5RNB9A=="
       },
       "Splat.Microsoft.Extensions.DependencyInjection": {
         "type": "Transitive",
@@ -1120,19 +1099,6 @@
         "resolved": "1.5.1",
         "contentHash": "93lBHaDNxEmERbqVEnSEHxPLe77J1i0LoxeqtVaRSC0PnQMd/c1BaltoL6crXBmWftxbvGiag5BSlVKIArW3pg=="
       },
-      "appviewmodels": {
-        "type": "Project",
-        "dependencies": {
-          "Core": "[1.0.0, )",
-          "MediatR": "[11.1.0, )",
-          "Project.Domain": "[1.0.0, )",
-          "QuestPDF": "[2022.3.1, )",
-          "ReactiveUI": "[18.4.1, )",
-          "ReactiveUI.Fody": "[18.4.1, )",
-          "ReactiveUI.Validation": "[3.0.22, )",
-          "SkiaSharp": "[2.88.3, )"
-        }
-      },
       "common": {
         "type": "Project"
       },
@@ -1154,7 +1120,6 @@
       "projectavalonia": {
         "type": "Project",
         "dependencies": {
-          "AppViewModels": "[1.0.0, )",
           "AsyncImageLoader.Avalonia": "[2.4.0, )",
           "Avalonia": "[0.10.18, )",
           "Avalonia.Controls.TreeDataGrid": "[0.10.18, )",
@@ -1179,6 +1144,7 @@
           "ProjectItemReader": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",
           "QuestPDFReport": "[1.0.0, )",
+          "ReactiveUI": "[18.4.26, )",
           "Splat.Microsoft.Extensions.DependencyInjection": "[14.6.1, )",
           "SukiUI": "[3.0.0, )",
           "XamlNameReferenceGenerator": "[1.5.1, )"

@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-
 using DynamicData;
-using DynamicData.PLinq;
-
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
@@ -19,7 +16,9 @@ namespace ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
 
 public class ActionsSearchSource : ISearchSource
 {
-    public ActionsSearchSource(IObservable<string> query)
+    public ActionsSearchSource(
+        IObservable<string> query
+    )
     {
         var filter = query.Select(selector: SearchSource.DefaultFilter);
 
@@ -34,29 +33,27 @@ public class ActionsSearchSource : ISearchSource
         get;
     }
 
-    private static IEnumerable<ISearchItem> GetItemsFromMetadata()
-    {
-        return NavigationManager.MetaData
+    private static IEnumerable<ISearchItem> GetItemsFromMetadata() =>
+        NavigationManager.MetaData
             .Where(predicate: m => m.Searchable)
             .Select(selector: m =>
             {
                 var onActivate = CreateOnActivateFunction(navigationMetaData: m);
                 var searchItem = new ActionableItem(name: m.Title,
-                                                    description: m.Caption,
-                                                    onExecution: onActivate,
-                                                    category: m.Category ?? "No category",
-                                                    keywords: m.Keywords)
+                    description: m.Caption,
+                    onExecution: onActivate,
+                    category: m.Category ?? "No category",
+                    keywords: m.Keywords)
                 {
-                    Icon = m.IconName,
-                    IsDefault = true,
+                    Icon = m.IconName, IsDefault = true
                 };
                 return searchItem;
             });
-    }
 
-    private static Func<Task> CreateOnActivateFunction(NavigationMetaData navigationMetaData)
-    {
-        return async () =>
+    private static Func<Task> CreateOnActivateFunction(
+        NavigationMetaData navigationMetaData
+    ) =>
+        async () =>
         {
             var vm = await NavigationManager.MaterialiseViewModelAsync(metaData: navigationMetaData);
             if (vm is null)
@@ -69,16 +66,15 @@ public class ActionsSearchSource : ISearchSource
                 item.OpenCommand.Execute(parameter: default);
             }
             else if (vm is TriggerCommandViewModel triggerCommandViewModel
-            && triggerCommandViewModel.TargetCommand.CanExecute(parameter: default))
+                     && triggerCommandViewModel.TargetCommand.CanExecute(parameter: default))
             {
                 triggerCommandViewModel.TargetCommand.Execute(parameter: default);
             }
             else
             {
                 RoutableViewModel
-                .Navigate(currentTarget: vm.DefaultTarget)
-                .To(viewmodel: vm);
+                    .Navigate(currentTarget: vm.DefaultTarget)
+                    .To(viewmodel: vm);
             }
         };
-    }
 }

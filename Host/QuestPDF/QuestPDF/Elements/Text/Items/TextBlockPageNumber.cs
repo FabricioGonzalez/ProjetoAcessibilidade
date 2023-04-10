@@ -7,23 +7,31 @@ namespace QuestPDF.Elements.Text.Items
     public class TextBlockPageNumber : TextBlockSpan
     {
         public const string PageNumberPlaceholder = "123";
-        public Func<IPageContext, string> Source { get; set; } = _ => PageNumberPlaceholder;
-        
-        public override TextMeasurementResult? Measure(TextMeasurementRequest request)
+
+        public Func<IPageContext, string> Source
         {
-            UpdatePageNumberText(request.PageContext);
-            return MeasureWithoutCache(request);
+            get;
+            set;
+        } = _ => PageNumberPlaceholder;
+
+        public override TextMeasurementResult? Measure(
+            TextMeasurementRequest request
+        )
+        {
+            UpdatePageNumberText(context: request.PageContext);
+            return MeasureWithoutCache(request: request);
         }
 
-        public override void Draw(TextDrawingRequest request)
+        public override void Draw(
+            TextDrawingRequest request
+        )
         {
-            UpdatePageNumberText(request.PageContext);
-            base.Draw(request);
+            UpdatePageNumberText(context: request.PageContext);
+            base.Draw(request: request);
         }
 
-        private void UpdatePageNumberText(IPageContext context)
-        {
-            Text = Source(context) ?? string.Empty;
-        }
+        private void UpdatePageNumberText(
+            IPageContext context
+        ) => Text = Source(arg: context) ?? string.Empty;
     }
 }

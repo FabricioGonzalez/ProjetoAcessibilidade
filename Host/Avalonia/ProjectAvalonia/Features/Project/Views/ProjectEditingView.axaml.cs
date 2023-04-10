@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace ProjectAvalonia.Features.Project.Views;
+
 public partial class ProjectEditingView : UserControl
 {
     public ProjectEditingView()
@@ -9,8 +10,5 @@ public partial class ProjectEditingView : UserControl
         InitializeComponent();
     }
 
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
 }

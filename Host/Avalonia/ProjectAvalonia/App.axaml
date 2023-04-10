@@ -2,11 +2,8 @@
     x:Class="ProjectAvalonia.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-    xmlns:language="using:ProjectAvalonia.Properties"
     xmlns:local="using:ProjectAvalonia"
-    xmlns:models="using:ProjectAvalonia.Common.Models"
-    xmlns:notification="clr-namespace:Avalonia.Notification;assembly=Notification.Avalonia">
+    xmlns:models="using:ProjectAvalonia.Common.Models">
 
     <Application.DataTemplates>
         <local:ViewLocator />

@@ -7,20 +7,22 @@ public class ItemModel
         get;
         set;
     }
+
     public string Name
     {
         get;
         set;
     }
+
     public string ItemPath
     {
         get;
         set;
     }
+
     public string TemplateName
     {
         get;
         set;
     }
 }
-

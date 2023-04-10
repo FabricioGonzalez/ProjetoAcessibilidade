@@ -1,9 +1,13 @@
 using System;
 
 namespace ProjectAvalonia.Common.Exceptions;
+
 public class HwiException : Exception
 {
-    public HwiException(HwiErrorCode errorCode, string message) : base(message)
+    public HwiException(
+        HwiErrorCode errorCode
+        , string message
+    ) : base(message: message)
     {
         ErrorCode = errorCode;
     }

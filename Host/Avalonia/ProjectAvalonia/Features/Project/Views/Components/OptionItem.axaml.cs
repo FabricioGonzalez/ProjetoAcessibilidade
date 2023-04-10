@@ -1,42 +1,44 @@
 using System;
 using System.Collections.Generic;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-
 using DynamicData.Binding;
-
 using ProjectAvalonia.Features.Project.States.FormItemState;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
+
 public partial class OptionItem : UserControl
 {
     public static readonly AttachedProperty<bool> IsCheckedProperty =
-        AvaloniaProperty.RegisterAttached<OptionItem, UserControl, bool>(nameof(IsChecked));
-    public bool? IsChecked
-    {
-        get => GetValue(IsCheckedProperty);
-        set => SetValue(IsCheckedProperty, value);
-    }
+        AvaloniaProperty.RegisterAttached<OptionItem, UserControl, bool>(name: nameof(IsChecked));
+
     public static readonly AttachedProperty<string> ValueProperty =
-        AvaloniaProperty.RegisterAttached<OptionItem, UserControl, string>(nameof(Value));
-    public string? Value
-    {
-        get => GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+        AvaloniaProperty.RegisterAttached<OptionItem, UserControl, string>(name: nameof(Value));
 
     public OptionItem()
     {
-
-        this.WhenPropertyChanged(v => v.IsChecked, notifyOnInitialValue: false)
-        .Subscribe(OptionChecker);
+        this.WhenPropertyChanged(propertyAccessor: v => v.IsChecked, notifyOnInitialValue: false)
+            .Subscribe(onNext: OptionChecker);
 
         InitializeComponent();
     }
 
-    private void OptionChecker(PropertyValue<OptionItem, bool?> prop)
+    public bool? IsChecked
+    {
+        get => GetValue(property: IsCheckedProperty);
+        set => SetValue(property: IsCheckedProperty, value: value);
+    }
+
+    public string? Value
+    {
+        get => GetValue(property: ValueProperty);
+        set => SetValue(property: ValueProperty, value: value);
+    }
+
+    private void OptionChecker(
+        PropertyValue<OptionItem, bool?> prop
+    )
     {
         if (prop.Value.GetValueOrDefault())
         {
@@ -50,6 +52,7 @@ public partial class OptionItem : UserControl
                     }
                 }
             }
+
             if ((prop.Sender?.Parent?.Parent as ItemsControl)?.ItemCount >= 4)
             {
                 var list1 = new List<OptionsItemState>();
@@ -57,29 +60,28 @@ public partial class OptionItem : UserControl
 
                 foreach (OptionsItemState item in (prop.Sender.Parent.Parent as ItemsControl).Items)
                 {
-
-                    if (list1.Count < ((prop.Sender.Parent.Parent as ItemsControl).ItemCount / 2))
+                    if (list1.Count < (prop.Sender.Parent.Parent as ItemsControl).ItemCount / 2)
                     {
-                        list1.Add(item);
+                        list1.Add(item: item);
                     }
                     else
                     {
-                        list2.Add(item);
+                        list2.Add(item: item);
                     }
                 }
-                list1.ForEach(i1 =>
+
+                list1.ForEach(action: i1 =>
                 {
-                    if (list1.Contains(prop.Sender.DataContext as OptionsItemState)
-                    && i1.Value != (prop.Sender.DataContext as OptionsItemState).Value && i1.IsChecked)
+                    if (list1.Contains(item: prop.Sender.DataContext as OptionsItemState)
+                        && i1.Value != (prop.Sender.DataContext as OptionsItemState).Value && i1.IsChecked)
                     {
                         i1.IsChecked = false;
                     }
-
                 });
-                list2.ForEach(i2 =>
+                list2.ForEach(action: i2 =>
                 {
-                    if (list2.Contains(prop.Sender.DataContext as OptionsItemState)
-                    && i2.Value != (prop.Sender.DataContext as OptionsItemState).Value && i2.IsChecked)
+                    if (list2.Contains(item: prop.Sender.DataContext as OptionsItemState)
+                        && i2.Value != (prop.Sender.DataContext as OptionsItemState).Value && i2.IsChecked)
                     {
                         i2.IsChecked = false;
                     }
@@ -90,8 +92,5 @@ public partial class OptionItem : UserControl
         }
     }
 
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
 }

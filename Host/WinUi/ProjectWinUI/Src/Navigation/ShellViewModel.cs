@@ -1,16 +1,23 @@
-﻿using AppViewModels.Common;
-
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Navigation;
-
 using ProjectWinUI.Src.Navigation.Contracts;
 
-using ReactiveUI;
+namespace ProjectWinUI.Navigation;
 
-namespace ProjectWinUI.Src.Navigation;
-public class ShellViewModel : ViewModelBase
+public class ShellViewModel : ObservableRecipient
 {
     private bool _isBackEnabled;
     private object _selected;
+
+    public ShellViewModel(
+        INavigationService navigationService
+        , INavigationViewService navigationViewService
+    )
+    {
+        NavigationService = navigationService;
+        NavigationService.Navigated += OnNavigated;
+        NavigationViewService = navigationViewService;
+    }
 
     public INavigationService NavigationService
     {
@@ -25,23 +32,19 @@ public class ShellViewModel : ViewModelBase
     public bool IsBackEnabled
     {
         get => _isBackEnabled;
-        set => this.RaiseAndSetIfChanged(ref _isBackEnabled, value);
+        private set => SetProperty(field: ref _isBackEnabled, newValue: value);
     }
 
     public object Selected
     {
         get => _selected;
-        set => this.RaiseAndSetIfChanged(ref _selected, value);
+        private set => SetProperty(field: ref _selected, newValue: value);
     }
 
-    public ShellViewModel(INavigationService navigationService, INavigationViewService navigationViewService)
-    {
-        NavigationService = navigationService;
-        NavigationService.Navigated += OnNavigated;
-        NavigationViewService = navigationViewService;
-    }
-
-    private void OnNavigated(object sender, NavigationEventArgs e)
+    private void OnNavigated(
+        object sender
+        , NavigationEventArgs e
+    )
     {
         IsBackEnabled = NavigationService.CanGoBack;
 
@@ -51,7 +54,7 @@ public class ShellViewModel : ViewModelBase
             return;
         }*/
 
-        var selectedItem = NavigationViewService.GetSelectedItem(e.SourcePageType);
+        var selectedItem = NavigationViewService.GetSelectedItem(pageType: e.SourcePageType);
         if (selectedItem != null)
         {
             Selected = selectedItem;

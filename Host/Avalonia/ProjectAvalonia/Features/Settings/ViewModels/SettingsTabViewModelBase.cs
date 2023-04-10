@@ -1,10 +1,8 @@
 using System;
 using System.Reactive.Concurrency;
-
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
@@ -15,20 +13,22 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
 
     protected SettingsTabViewModelBase()
     {
-
-        ConfigOnOpen = new Config(ServicesConfig.Config.FilePath);
+        ConfigOnOpen = new Config(filePath: ServicesConfig.Config.FilePath);
         ConfigOnOpen.LoadFile();
-
     }
-
-    public static event EventHandler<RestartNeededEventArgs>? RestartNeeded;
 
     public static Config? ConfigOnOpen
     {
-        get; set;
+        get;
+        set;
     }
 
-    private static object ConfigLock { get; } = new();
+    private static object ConfigLock
+    {
+        get;
+    } = new();
+
+    public static event EventHandler<RestartNeededEventArgs>? RestartNeeded;
 
     protected void Save()
     {
@@ -37,17 +37,17 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
             return;
         }
 
-        var config = new Config(ConfigOnOpen.FilePath);
+        var config = new Config(filePath: ConfigOnOpen.FilePath);
 
         RxApp.MainThreadScheduler.Schedule(
-            () =>
+            action: () =>
             {
                 try
                 {
                     lock (ConfigLock)
                     {
                         config.LoadFile();
-                        EditConfigOnSave(config);
+                        EditConfigOnSave(config: config);
                         config.ToFile();
 
                         OnConfigSaved();
@@ -55,20 +55,22 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogDebug(ex);
+                    Logger.LogDebug(exception: ex);
                 }
             });
     }
 
-    protected abstract void EditConfigOnSave(Config config);
+    protected abstract void EditConfigOnSave(
+        Config config
+    );
 
     private static void OnConfigSaved()
     {
         var isRestartNeeded = CheckIfRestartIsNeeded();
 
         RestartNeeded?.Invoke(
-            typeof(SettingsTabViewModelBase),
-            new RestartNeededEventArgs
+            sender: typeof(SettingsTabViewModelBase),
+            e: new RestartNeededEventArgs
             {
                 IsRestartNeeded = isRestartNeeded
             });
@@ -81,10 +83,10 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
             return false;
         }
 
-        var currentConfig = new Config(ConfigOnOpen.FilePath);
+        var currentConfig = new Config(filePath: ConfigOnOpen.FilePath);
         currentConfig.LoadFile();
 
-        var isRestartNeeded = !ConfigOnOpen.AreDeepEqual(currentConfig);
+        var isRestartNeeded = !ConfigOnOpen.AreDeepEqual(otherConfig: currentConfig);
 
         return isRestartNeeded;
     }

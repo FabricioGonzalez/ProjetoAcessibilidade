@@ -3,101 +3,126 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Microsoft.Extensions.Hosting;
-
 using ProjectAvalonia.Logging;
 
 namespace ProjectAvalonia.Common.Services;
 
 public class HostedServices : IDisposable
 {
-    private volatile bool _disposedValue = false; // To detect redundant calls
+    private volatile bool _disposedValue; // To detect redundant calls
 
-    private List<HostedService> Services { get; } = new List<HostedService>();
-
-    private object ServicesLock { get; } = new object();
-    private bool IsStartAllAsyncStarted { get; set; } = false;
-
-    public void Register<T>(Func<IHostedService> serviceFactory, string friendlyName) where T : class, IHostedService
+    private List<HostedService> Services
     {
-        Register<T>(serviceFactory(), friendlyName);
+        get;
+    } = new();
+
+    private object ServicesLock
+    {
+        get;
+    } = new();
+
+    private bool IsStartAllAsyncStarted
+    {
+        get;
+        set;
     }
 
-    private void Register<T>(IHostedService service, string friendlyName) where T : class, IHostedService
+    public void Register<T>(
+        Func<IHostedService> serviceFactory
+        , string friendlyName
+    )
+        where T : class, IHostedService => Register<T>(service: serviceFactory(), friendlyName: friendlyName);
+
+    private void Register<T>(
+        IHostedService service
+        , string friendlyName
+    )
+        where T : class, IHostedService
     {
         if (typeof(T) != service.GetType())
         {
-            throw new ArgumentException($"Type mismatch: {nameof(T)} is {typeof(T).Name}, but {nameof(service)} is {service.GetType()}.");
+            throw new ArgumentException(
+                message:
+                $"Type mismatch: {nameof(T)} is {typeof(T).Name}, but {nameof(service)} is {service.GetType()}.");
         }
 
         if (IsStartAllAsyncStarted)
         {
-            throw new InvalidOperationException("Services are already started.");
+            throw new InvalidOperationException(message: "Services are already started.");
         }
 
         lock (ServicesLock)
         {
             if (AnyNoLock<T>())
             {
-                throw new InvalidOperationException($"{typeof(T).Name} is already registered.");
+                throw new InvalidOperationException(message: $"{typeof(T).Name} is already registered.");
             }
-            Services.Add(new HostedService(service, friendlyName));
+
+            Services.Add(item: new HostedService(service: service, friendlyName: friendlyName));
         }
     }
 
-    public async Task StartAllAsync(CancellationToken token = default)
+    public async Task StartAllAsync(
+        CancellationToken token = default
+    )
     {
         if (IsStartAllAsyncStarted)
         {
-            throw new InvalidOperationException("Operation is already started.");
+            throw new InvalidOperationException(message: "Operation is already started.");
         }
+
         IsStartAllAsyncStarted = true;
 
         var exceptions = new List<Exception>();
         var exceptionsLock = new object();
 
-        var tasks = CloneServices().Select(x => x.Service.StartAsync(token).ContinueWith(y =>
-        {
-            if (y.Exception is null)
+        var tasks = CloneServices().Select(selector: x => x.Service.StartAsync(cancellationToken: token).ContinueWith(
+            continuationAction: y =>
             {
-                Logger.LogInfo($"Started {x.FriendlyName}.");
-            }
-            else
-            {
-                lock (exceptionsLock)
+                if (y.Exception is null)
                 {
-                    exceptions.Add(y.Exception);
+                    Logger.LogInfo(message: $"Started {x.FriendlyName}.");
                 }
-                Logger.LogError($"Error starting {x.FriendlyName}.");
-                Logger.LogError(y.Exception);
-            }
-        }));
+                else
+                {
+                    lock (exceptionsLock)
+                    {
+                        exceptions.Add(item: y.Exception);
+                    }
 
-        await Task.WhenAll(tasks).ConfigureAwait(false);
+                    Logger.LogError(message: $"Error starting {x.FriendlyName}.");
+                    Logger.LogError(exception: y.Exception);
+                }
+            }));
+
+        await Task.WhenAll(tasks: tasks).ConfigureAwait(continueOnCapturedContext: false);
 
         if (exceptions.Any())
         {
-            throw new AggregateException(exceptions);
+            throw new AggregateException(innerExceptions: exceptions);
         }
     }
 
-    public async Task StopAllAsync(CancellationToken token = default)
+    public async Task StopAllAsync(
+        CancellationToken token = default
+    )
     {
-        var tasks = CloneServices().Select(x => x.Service.StopAsync(token).ContinueWith(y =>
-        {
-            if (y.Exception is null)
+        var tasks = CloneServices().Select(selector: x => x.Service.StopAsync(cancellationToken: token).ContinueWith(
+            continuationAction: y =>
             {
-                Logger.LogInfo($"Stopped {x.FriendlyName}.");
-            }
-            else
-            {
-                Logger.LogError($"Error stopping {x.FriendlyName}.");
-                Logger.LogError(y.Exception);
-            }
-        }));
+                if (y.Exception is null)
+                {
+                    Logger.LogInfo(message: $"Stopped {x.FriendlyName}.");
+                }
+                else
+                {
+                    Logger.LogError(message: $"Error stopping {x.FriendlyName}.");
+                    Logger.LogError(exception: y.Exception);
+                }
+            }));
 
-        await Task.WhenAll(tasks).ConfigureAwait(false);
+        await Task.WhenAll(tasks: tasks).ConfigureAwait(continueOnCapturedContext: false);
     }
 
     private IEnumerable<HostedService> CloneServices()
@@ -108,23 +133,26 @@ public class HostedServices : IDisposable
         }
     }
 
-    public T? GetOrDefault<T>() where T : class, IHostedService
+    public T? GetOrDefault<T>()
+        where T : class, IHostedService
     {
         lock (ServicesLock)
         {
-            return Services.SingleOrDefault(x => x.Service is T)?.Service as T;
+            return Services.SingleOrDefault(predicate: x => x.Service is T)?.Service as T;
         }
     }
 
-    public T Get<T>() where T : class, IHostedService
+    public T Get<T>()
+        where T : class, IHostedService
     {
         lock (ServicesLock)
         {
-            return (T)Services.Single(x => x.Service is T).Service;
+            return (T)Services.Single(predicate: x => x.Service is T).Service;
         }
     }
 
-    public bool Any<T>() where T : class, IHostedService
+    public bool Any<T>()
+        where T : class, IHostedService
     {
         lock (ServicesLock)
         {
@@ -132,11 +160,14 @@ public class HostedServices : IDisposable
         }
     }
 
-    private bool AnyNoLock<T>() where T : class, IHostedService => Services.Any(x => x.Service is T);
+    private bool AnyNoLock<T>()
+        where T : class, IHostedService => Services.Any(predicate: x => x.Service is T);
 
     #region IDisposable Support
 
-    protected virtual void Dispose(bool disposing)
+    protected virtual void Dispose(
+        bool disposing
+    )
     {
         if (!_disposedValue)
         {
@@ -147,7 +178,7 @@ public class HostedServices : IDisposable
                     if (service.Service is IDisposable disposable)
                     {
                         disposable?.Dispose();
-                        Logger.LogInfo($"Disposed {service.FriendlyName}.");
+                        Logger.LogInfo(message: $"Disposed {service.FriendlyName}.");
                     }
                 }
             }
@@ -157,11 +188,9 @@ public class HostedServices : IDisposable
     }
 
     // This code added to correctly implement the disposable pattern.
-    public void Dispose()
-    {
+    public void Dispose() =>
         // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        Dispose(true);
-    }
+        Dispose(disposing: true);
 
     #endregion IDisposable Support
 }

@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Microsoft.UI.Xaml.Controls;
-
 using ProjectWinUI.Src.Navigation.Contracts;
-
 using ReactiveUI;
 
 namespace ProjectWinUI.Src.Navigation.Services;
+
 public class PageService : IPageService
 {
     private static readonly Dictionary<string, Type> _pages = new();
 
-    public Type GetPageType(string key)
+    public Type GetPageType(
+        string key
+    )
     {
         Type? pageType;
         lock (_pages)
         {
-            if (!_pages.TryGetValue(key, out pageType))
+            if (!_pages.TryGetValue(key: key, value: out pageType))
             {
-                throw new ArgumentException($"Page not found: {key}. Did you forget to call PageService.Configure?");
+                throw new ArgumentException(
+                    message: $"Page not found: {key}. Did you forget to call PageService.Configure?");
             }
         }
 
@@ -34,19 +35,20 @@ public class PageService : IPageService
         lock (_pages)
         {
             var key = typeof(VM).FullName!;
-            if (_pages.ContainsKey(key))
+            if (_pages.ContainsKey(key: key))
             {
-                throw new ArgumentException($"The key {key} is already configured in PageService");
+                throw new ArgumentException(message: $"The key {key} is already configured in PageService");
             }
 
             var type = typeof(V);
-            if (_pages.Any(p => p.Value == type))
+            if (_pages.Any(predicate: p => p.Value == type))
             {
-                throw new ArgumentException($"This type is already configured with key {_pages.First(p => p.Value == type).Key}");
+                throw new ArgumentException(
+                    message:
+                    $"This type is already configured with key {_pages.First(predicate: p => p.Value == type).Key}");
             }
 
-            _pages.Add(key, type);
+            _pages.Add(key: key, value: type);
         }
     }
 }
-

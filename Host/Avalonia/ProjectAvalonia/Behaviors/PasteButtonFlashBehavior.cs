@@ -3,40 +3,39 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-
 using ProjectAvalonia.Common.Controls;
 using ProjectAvalonia.Common.Extensions;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Behaviors;
 
 public class PasteButtonFlashBehavior : AttachedToVisualTreeBehavior<AnimatedButton>
 {
-    private string? _lastFlashedOn;
-
     public static readonly StyledProperty<string> FlashAnimationProperty =
-        AvaloniaProperty.Register<PasteButtonFlashBehavior, string>(nameof(FlashAnimation));
+        AvaloniaProperty.Register<PasteButtonFlashBehavior, string>(name: nameof(FlashAnimation));
 
     public static readonly StyledProperty<string> CurrentAddressProperty =
-        AvaloniaProperty.Register<PasteButtonFlashBehavior, string>(nameof(CurrentAddress));
+        AvaloniaProperty.Register<PasteButtonFlashBehavior, string>(name: nameof(CurrentAddress));
+
+    private string? _lastFlashedOn;
 
     public string FlashAnimation
     {
-        get => GetValue(FlashAnimationProperty);
-        set => SetValue(FlashAnimationProperty, value);
+        get => GetValue(property: FlashAnimationProperty);
+        set => SetValue(property: FlashAnimationProperty, value: value);
     }
 
     public string CurrentAddress
     {
-        get => GetValue(CurrentAddressProperty);
-        set => SetValue(CurrentAddressProperty, value);
+        get => GetValue(property: CurrentAddressProperty);
+        set => SetValue(property: CurrentAddressProperty, value: value);
     }
 
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposables)
+    protected override void OnAttachedToVisualTree(
+        CompositeDisposable disposables
+    )
     {
         /* RxApp.MainThreadScheduler.Schedule(async () => await CheckClipboardForValidAddressAsync());*/
 
@@ -45,36 +44,38 @@ public class PasteButtonFlashBehavior : AttachedToVisualTreeBehavior<AnimatedBut
             var mainWindow = lifetime.MainWindow;
 
             Observable
-                .FromEventPattern(mainWindow, nameof(mainWindow.Activated)).Select(_ => Unit.Default)
-                .Merge(this.WhenAnyValue(x => x.CurrentAddress).Select(_ => Unit.Default))
-                .Throttle(TimeSpan.FromMilliseconds(100))
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .SubscribeAsync(async _ =>
+                .FromEventPattern(target: mainWindow, eventName: nameof(mainWindow.Activated))
+                .Select(selector: _ => Unit.Default)
+                .Merge(second: this.WhenAnyValue(property1: x => x.CurrentAddress).Select(selector: _ => Unit.Default))
+                .Throttle(dueTime: TimeSpan.FromMilliseconds(value: 100))
+                .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+                .SubscribeAsync(onNextAsync: async _ =>
                 {
-                    await Task.Run(() => "");
+                    await Task.Run(function: () => "");
                     /*    await CheckClipboardForValidAddressAsync();*/
                 })
-                .DisposeWith(disposables);
+                .DisposeWith(compositeDisposable: disposables);
 
             Observable
-                .Interval(TimeSpan.FromMilliseconds(500))
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .SubscribeAsync(async _ =>
+                .Interval(period: TimeSpan.FromMilliseconds(value: 500))
+                .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+                .SubscribeAsync(onNextAsync: async _ =>
                 {
                     if (!mainWindow.IsActive)
                     {
                         return;
                     }
-                    await Task.Run(() => "");
+
+                    await Task.Run(function: () => "");
                     /*    await CheckClipboardForValidAddressAsync();*/
                 })
-                .DisposeWith(disposables);
+                .DisposeWith(compositeDisposable: disposables);
         }
 
-        AssociatedObject?.WhenAnyValue(x => x.AnimateIcon)
-            .Where(x => x)
-            .Subscribe(_ => AssociatedObject.Classes.Remove(FlashAnimation))
-            .DisposeWith(disposables);
+        AssociatedObject?.WhenAnyValue(property1: x => x.AnimateIcon)
+            .Where(predicate: x => x)
+            .Subscribe(onNext: _ => AssociatedObject.Classes.Remove(name: FlashAnimation))
+            .DisposeWith(compositeDisposable: disposables);
     }
 
     /* private async Task CheckClipboardForValidAddressAsync(bool forceCheck = false)

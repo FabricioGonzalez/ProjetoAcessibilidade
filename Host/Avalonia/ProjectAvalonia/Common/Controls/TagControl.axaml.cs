@@ -1,6 +1,5 @@
 using System;
 using System.Reactive.Disposables;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -11,43 +10,45 @@ namespace ProjectAvalonia.Common.Controls;
 
 public class TagControl : ContentControl
 {
-    private IDisposable? _subscription;
-    private TagsBox? _parentTagBox;
-
     public static readonly StyledProperty<bool> EnableCounterProperty =
-        AvaloniaProperty.Register<TagControl, bool>(nameof(EnableCounter));
+        AvaloniaProperty.Register<TagControl, bool>(name: nameof(EnableCounter));
 
     public static readonly StyledProperty<bool> EnableDeleteProperty =
-        AvaloniaProperty.Register<TagControl, bool>(nameof(EnableDelete));
+        AvaloniaProperty.Register<TagControl, bool>(name: nameof(EnableDelete));
 
     public static readonly StyledProperty<int> OrdinalIndexProperty =
-        AvaloniaProperty.Register<TagControl, int>(nameof(OrdinalIndex));
+        AvaloniaProperty.Register<TagControl, int>(name: nameof(OrdinalIndex));
+
+    private TagsBox? _parentTagBox;
+    private IDisposable? _subscription;
 
     public bool EnableCounter
     {
-        get => GetValue(EnableCounterProperty);
-        set => SetValue(EnableCounterProperty, value);
+        get => GetValue(property: EnableCounterProperty);
+        set => SetValue(property: EnableCounterProperty, value: value);
     }
 
     public bool EnableDelete
     {
-        get => GetValue(EnableDeleteProperty);
-        set => SetValue(EnableDeleteProperty, value);
+        get => GetValue(property: EnableDeleteProperty);
+        set => SetValue(property: EnableDeleteProperty, value: value);
     }
 
     public int OrdinalIndex
     {
-        get => GetValue(OrdinalIndexProperty);
-        set => SetValue(OrdinalIndexProperty, value);
+        get => GetValue(property: OrdinalIndexProperty);
+        set => SetValue(property: OrdinalIndexProperty, value: value);
     }
 
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    protected override void OnApplyTemplate(
+        TemplateAppliedEventArgs e
+    )
     {
-        base.OnApplyTemplate(e);
+        base.OnApplyTemplate(e: e);
 
         _parentTagBox = this.FindLogicalAncestorOfType<TagsBox>();
 
-        var deleteButton = e.NameScope.Find<Button>("PART_DeleteButton");
+        var deleteButton = e.NameScope.Find<Button>(name: "PART_DeleteButton");
 
         if (deleteButton is null)
         {
@@ -57,11 +58,11 @@ public class TagControl : ContentControl
         deleteButton.Click += OnDeleteTagClicked;
 
         _subscription?.Dispose();
-        _subscription = Disposable.Create(() => deleteButton.Click -= OnDeleteTagClicked);
+        _subscription = Disposable.Create(dispose: () => deleteButton.Click -= OnDeleteTagClicked);
     }
 
-    private void OnDeleteTagClicked(object? sender, RoutedEventArgs e)
-    {
-        _parentTagBox?.RemoveAt(OrdinalIndex - 1);
-    }
+    private void OnDeleteTagClicked(
+        object? sender
+        , RoutedEventArgs e
+    ) => _parentTagBox?.RemoveAt(index: OrdinalIndex - 1);
 }

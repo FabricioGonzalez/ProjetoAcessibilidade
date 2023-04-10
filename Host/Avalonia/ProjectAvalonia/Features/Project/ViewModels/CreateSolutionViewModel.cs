@@ -1,16 +1,18 @@
 ﻿using System.Reactive.Linq;
-
 using ProjectAvalonia.ViewModels.Dialogs.Base;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
+
 public partial class CreateSolutionViewModel : DialogViewModelBase<SolutionStateViewModel>
 {
     /*private readonly ICommandDispatcher commandDispatcher;*/
     [AutoNotify] private SolutionStateViewModel _solutionModel = new();
 
-    public CreateSolutionViewModel(string title, string caption = "")
+    public CreateSolutionViewModel(
+        string title
+        , string caption = ""
+    )
     {
         Title = title;
         Caption = caption;
@@ -21,35 +23,38 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<SolutionState
         EnableBack = false;
 
         var backCommandCanExecute = this
-            .WhenAnyValue(x => x.IsDialogOpen)
-            .ObserveOn(RxApp.MainThreadScheduler);
+            .WhenAnyValue(property1: x => x.IsDialogOpen)
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler);
 
         var nextCommandCanExecute = this
             .WhenAnyValue(
-                x => x.IsDialogOpen,
-                x => x.SolutionModel,
-                delegate
+                property1: x => x.IsDialogOpen,
+                property2: x => x.SolutionModel,
+                selector: delegate
                 {
                     // This will fire validations before return canExecute value.
-                    this.RaisePropertyChanged(nameof(SolutionModel));
+                    this.RaisePropertyChanged(propertyName: nameof(SolutionModel));
 
                     return IsDialogOpen;
                 })
-            .ObserveOn(RxApp.MainThreadScheduler);
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler);
 
         var cancelCommandCanExecute = this
-            .WhenAnyValue(x => x.IsDialogOpen)
-            .ObserveOn(RxApp.MainThreadScheduler);
+            .WhenAnyValue(property1: x => x.IsDialogOpen)
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler);
 
-        BackCommand = ReactiveCommand.Create(() => Close(DialogResultKind.Back), backCommandCanExecute);
-        NextCommand = ReactiveCommand.Create(() => Close(result: SolutionModel), nextCommandCanExecute);
-        CancelCommand = ReactiveCommand.Create(() => Close(DialogResultKind.Cancel), cancelCommandCanExecute);
-
+        BackCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Back)
+            , canExecute: backCommandCanExecute);
+        NextCommand = ReactiveCommand.Create(execute: () => Close(result: SolutionModel)
+            , canExecute: nextCommandCanExecute);
+        CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel)
+            , canExecute: cancelCommandCanExecute);
     }
 
     public override sealed string Title
     {
-        get; protected set;
+        get;
+        protected set;
     }
 
     public string Caption

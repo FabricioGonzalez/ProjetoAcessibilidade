@@ -1,12 +1,10 @@
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Windows.Input;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
@@ -37,7 +35,8 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
         GeneralSettingsTab = new GeneralSettingsTabViewModel();
         AdvancedSettingsTab = new AdvancedSettingsTabViewModel();
 
-        RestartCommand = ReactiveCommand.Create(() => AppLifetimeHelper.Shutdown(withShutdownPrevention: true, restart: true));
+        RestartCommand = ReactiveCommand.Create(execute: () =>
+            AppLifetimeHelper.Shutdown(withShutdownPrevention: true, restart: true));
         NextCommand = CancelCommand;
     }
 
@@ -50,26 +49,29 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
     {
         get;
     }
+
     public AdvancedSettingsTabViewModel AdvancedSettingsTab
     {
         get;
     }
 
-    private void OnRestartNeeded(object? sender, RestartNeededEventArgs e)
-    {
-        IsModified = e.IsRestartNeeded;
-    }
+    private void OnRestartNeeded(
+        object? sender
+        , RestartNeededEventArgs e
+    ) => IsModified = e.IsRestartNeeded;
 
-    protected override void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables)
+    protected override void OnNavigatedTo(
+        bool isInHistory
+        , CompositeDisposable disposables
+    )
     {
-        base.OnNavigatedTo(isInHistory, disposables);
+        base.OnNavigatedTo(isInHistory: isInHistory, disposables: disposables);
 
         IsModified = SettingsTabViewModelBase.CheckIfRestartIsNeeded();
 
         SettingsTabViewModelBase.RestartNeeded += OnRestartNeeded;
 
         disposables.Add(
-            Disposable.Create(() => SettingsTabViewModelBase.RestartNeeded -= OnRestartNeeded));
+            item: Disposable.Create(dispose: () => SettingsTabViewModelBase.RestartNeeded -= OnRestartNeeded));
     }
-
 }

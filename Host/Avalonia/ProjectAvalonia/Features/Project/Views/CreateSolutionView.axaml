@@ -23,7 +23,6 @@
         <StackPanel>
 
             <Grid
-                Grid.Row="0"
                 Margin="8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -42,7 +41,6 @@
 
                 <StackPanel Grid.Column="1" Spacing="8">
                     <DatePicker
-                        Grid.Row="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         DayVisible="True"
@@ -52,7 +50,6 @@
                         YearVisible="True" />
 
                     <ComboBox
-                        Grid.Row="1"
                         HorizontalAlignment="Stretch"
                         Items="{Binding SolutionModel.UfList}"
                         PlaceholderText="UF"
@@ -67,8 +64,6 @@
             </Grid>
 
             <Grid
-                Grid.Row="1"
-                Grid.Column="0"
                 ColumnDefinitions="1*,1*">
                 <StackPanel Grid.Column="0" Margin="0,0,4,0">
 
@@ -101,15 +96,12 @@
                 </StackPanel>
             </Grid>
             <TextBox
-                Grid.Row="1"
                 VerticalAlignment="Center"
                 Text="{Binding SolutionModel.FileName}"
                 UseFloatingWatermark="True"
                 Watermark="Nome da Solução" />
 
             <TextBox
-                Grid.Row="2"
-                Grid.Column="0"
                 VerticalAlignment="Center"
                 Classes="Header"
                 IsEnabled="True"
@@ -129,8 +121,6 @@
             </TextBox>
 
             <TextBox
-                Grid.Row="3"
-                Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Classes="Header"

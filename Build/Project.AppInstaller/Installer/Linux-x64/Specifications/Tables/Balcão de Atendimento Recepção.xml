@@ -75,12 +75,14 @@
         </itemtabela>
         <itemtabela item="2">
             <tipo>text</tipo>
-            <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo SIA, Adesivo S.I.A, display de mesa ou não possui):</topic>
+            <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo SIA, Adesivo S.I.A,
+                display de mesa ou não possui):
+            </topic>
             <value></value>
         </itemtabela>
         <itemtabela item="3">
             <tipo>observation</tipo>
-            <value />
+            <value/>
         </itemtabela>
         <itemtabela item="4">
             <tipo>images</tipo>
@@ -91,19 +93,34 @@
         <leiitem item="1">
             <id>DECRETO FEDERAL 5296/04</id>
             <descricao>
-                <itemdescricao item="1">Art. 21.  Os balcões de atendimento e as bilheterias em edificação de uso público ou de uso coletivo devem dispor de, pelo</itemdescricao>
-                <itemdescricao item="2">menos, uma parte da superfície acessível para atendimento às pessoas portadoras de deficiência ou com mobilidade</itemdescricao>
-                <itemdescricao item="3">reduzida, conforme os padrões das normas técnicas de acessibilidade da ABNT.</itemdescricao>
+                <itemdescricao item="1">Art. 21. Os balcões de atendimento e as bilheterias em edificação de uso público
+                    ou de uso coletivo devem dispor de, pelo
+                </itemdescricao>
+                <itemdescricao item="2">menos, uma parte da superfície acessível para atendimento às pessoas portadoras
+                    de deficiência ou com mobilidade
+                </itemdescricao>
+                <itemdescricao item="3">reduzida, conforme os padrões das normas técnicas de acessibilidade da ABNT.
+                </itemdescricao>
             </descricao>
         </leiitem>
         <leiitem item="2">
             <id>NBR9050/20</id>
             <descricao>
-                <itemdescricao item="1">9.2.1.1 Balcões de atendimento acessíveis devem ser facilmente identificados e localizados  em rotas acessíveis.</itemdescricao>
-                <itemdescricao item="2">9.2.1.2 Balcões de atendimento acessíveis devem garantir um M.R. posicionado para a aproximação frontal. Devem garantir</itemdescricao>
-                <itemdescricao item="3">9.2.1.4 Balcões de atendimento acessíveis devem possuir superfície com largura mínima de 0,90 m e altura entre 0,75 m a 0,85m</itemdescricao>
-                <itemdescricao item="4">do piso acabado, assegurando-se largura livre mínima sob a superfície de 0,80 m. 9.2.1.5 Devem ser asseguradas altura livre</itemdescricao>
-                <itemdescricao item="5">sob o tampo de no mínimo 0,73 m e profundidade livre mínima de 0,30 m, de modo que a P.C.R. tenha a possibilidade de avançar sob o balcão.</itemdescricao>
+                <itemdescricao item="1">9.2.1.1 Balcões de atendimento acessíveis devem ser facilmente identificados e
+                    localizados em rotas acessíveis.
+                </itemdescricao>
+                <itemdescricao item="2">9.2.1.2 Balcões de atendimento acessíveis devem garantir um M.R. posicionado
+                    para a aproximação frontal. Devem garantir
+                </itemdescricao>
+                <itemdescricao item="3">9.2.1.4 Balcões de atendimento acessíveis devem possuir superfície com largura
+                    mínima de 0,90 m e altura entre 0,75 m a 0,85m
+                </itemdescricao>
+                <itemdescricao item="4">do piso acabado, assegurando-se largura livre mínima sob a superfície de 0,80 m.
+                    9.2.1.5 Devem ser asseguradas altura livre
+                </itemdescricao>
+                <itemdescricao item="5">sob o tampo de no mínimo 0,73 m e profundidade livre mínima de 0,30 m, de modo
+                    que a P.C.R. tenha a possibilidade de avançar sob o balcão.
+                </itemdescricao>
             </descricao>
         </leiitem>
     </lei>

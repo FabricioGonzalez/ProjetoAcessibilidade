@@ -1,13 +1,16 @@
 ﻿namespace QuestPDFReport.Models;
+
 public class ReportHeaderField
 {
     public string Label
     {
-        get; set;
+        get;
+        set;
     }
+
     public string Value
     {
-        get; set;
+        get;
+        set;
     }
 }
-

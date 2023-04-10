@@ -3,38 +3,40 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
+
 public partial class TextBoxItem : UserControl
 {
     public static readonly AttachedProperty<string> TopicProperty =
-        AvaloniaProperty.RegisterAttached<TextBoxItem, UserControl, string>(nameof(Topic));
-    public string? Topic
-    {
-        get => GetValue(TopicProperty);
-        set => SetValue(TopicProperty, value);
-    }
+        AvaloniaProperty.RegisterAttached<TextBoxItem, UserControl, string>(name: nameof(Topic));
 
     public static readonly AttachedProperty<string> TextDataProperty =
-        AvaloniaProperty.RegisterAttached<TextBoxItem, UserControl, string>(nameof(TextData));
-    public string? TextData
-    {
-        get => GetValue(TextDataProperty);
-        set => SetValue(TextDataProperty, value);
-    }
+        AvaloniaProperty.RegisterAttached<TextBoxItem, UserControl, string>(name: nameof(TextData));
 
     public static readonly AttachedProperty<string> MeasurementUnitProperty =
-        AvaloniaProperty.RegisterAttached<TextBoxItem, UserControl, string>(nameof(MeasurementUnit));
-    public string? MeasurementUnit
-    {
-        get => GetValue(MeasurementUnitProperty);
-        set => SetValue(MeasurementUnitProperty, value);
-    }
+        AvaloniaProperty.RegisterAttached<TextBoxItem, UserControl, string>(name: nameof(MeasurementUnit));
 
     public TextBoxItem()
     {
         InitializeComponent();
     }
-    private void InitializeComponent()
+
+    public string? Topic
     {
-        AvaloniaXamlLoader.Load(this);
+        get => GetValue(property: TopicProperty);
+        set => SetValue(property: TopicProperty, value: value);
     }
+
+    public string? TextData
+    {
+        get => GetValue(property: TextDataProperty);
+        set => SetValue(property: TextDataProperty, value: value);
+    }
+
+    public string? MeasurementUnit
+    {
+        get => GetValue(property: MeasurementUnitProperty);
+        set => SetValue(property: MeasurementUnitProperty, value: value);
+    }
+
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
 }

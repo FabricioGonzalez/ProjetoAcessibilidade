@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-
 using ProjectWinUI.Src.Activation.Contracts;
 using ProjectWinUI.Src.Activation.Services;
 using ProjectWinUI.Src.App.Contracts;
@@ -14,9 +13,12 @@ using ProjectWinUI.Src.Theming.Contracts;
 using ProjectWinUI.Src.Theming.Services;
 
 namespace ProjectWinUI.DI;
+
 public static class publicServiceRegister
 {
-    public static IServiceCollection RegisterServices(this IServiceCollection service)
+    public static IServiceCollection RegisterServices(
+        this IServiceCollection service
+    )
     {
         service.AddSingleton<IAppNotificationService, AppNotificationService>();
         service.AddSingleton<INavigationService, NavigationService>();

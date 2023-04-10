@@ -1,15 +1,11 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-
 using DynamicData;
 using DynamicData.Aggregation;
 using DynamicData.Binding;
-using DynamicData.PLinq;
-
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.SearchBar;
@@ -20,21 +16,23 @@ public partial class SearchBarViewModel : ReactiveObject
     [AutoNotify] private bool _isSearchListVisible;
     [AutoNotify] private string _searchText = "";
 
-    public SearchBarViewModel(IObservable<IChangeSet<ISearchItem, ComposedKey>> itemsObservable)
+    public SearchBarViewModel(
+        IObservable<IChangeSet<ISearchItem, ComposedKey>> itemsObservable
+    )
     {
         itemsObservable
-            .Group(s => s.Category)
-            .Transform(group => new SearchItemGroup(group.Key, group.Cache.Connect()))
-            .Sort(SortExpressionComparer<SearchItemGroup>.Ascending(x => x.Title))
-            .Bind(out _groups)
+            .Group(groupSelectorKey: s => s.Category)
+            .Transform(transformFactory: group => new SearchItemGroup(title: group.Key, changes: group.Cache.Connect()))
+            .Sort(comparer: SortExpressionComparer<SearchItemGroup>.Ascending(expression: x => x.Title))
+            .Bind(readOnlyObservableCollection: out _groups)
             .DisposeMany()
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
             .Subscribe();
 
         HasResults = itemsObservable
             .Count()
-            .Select(i => i > 0)
-            .Replay(1)
+            .Select(selector: i => i > 0)
+            .Replay(bufferSize: 1)
             .RefCount();
     }
 

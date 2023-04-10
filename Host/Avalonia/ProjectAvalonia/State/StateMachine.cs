@@ -4,61 +4,72 @@ using System.Collections.Generic;
 namespace ProjectAvalonia.State;
 
 /// <summary>
-/// StateMachine - api based on: https://github.com/dotnet-state-machine/stateless
+///     StateMachine - api based on: https://github.com/dotnet-state-machine/stateless
 /// </summary>
-public class StateMachine<TState, TTrigger> where TTrigger : Enum where TState : struct, Enum
+public class StateMachine<TState, TTrigger>
+    where TTrigger : Enum
+    where TState : struct, Enum
 {
-    private StateContext _currentState;
+    public delegate void OnTransitionedDelegate(
+        TState from
+        , TState to
+    );
+
     private readonly Dictionary<TState, StateContext> _states;
+    private StateContext _currentState;
     private OnTransitionedDelegate? _onTransitioned;
 
-    public delegate void OnTransitionedDelegate(TState from, TState to);
-
-    public TState State => _currentState.StateId;
-
-    public bool IsInState(TState state)
-    {
-        return IsAncestorOf(_currentState.StateId, state);
-    }
-
-    public StateMachine(TState initialState)
+    public StateMachine(
+        TState initialState
+    )
     {
         _states = new Dictionary<TState, StateContext>();
 
         RegisterStates();
 
-        _currentState = Configure(initialState);
+        _currentState = Configure(state: initialState);
     }
+
+    public TState State => _currentState.StateId;
+
+    public bool IsInState(
+        TState state
+    ) => IsAncestorOf(state: _currentState.StateId, parent: state);
 
     private void RegisterStates()
     {
         foreach (var state in Enum.GetValues<TState>())
         {
-            _states.Add(state, new StateContext(this, state));
+            _states.Add(key: state, value: new StateContext(owner: this, state: state));
         }
     }
 
-    public StateMachine<TState, TTrigger> OnTransitioned(OnTransitionedDelegate onTransitioned)
+    public StateMachine<TState, TTrigger> OnTransitioned(
+        OnTransitionedDelegate onTransitioned
+    )
     {
         _onTransitioned = onTransitioned;
 
         return this;
     }
 
-    private bool IsAncestorOf(TState state, TState parent)
+    private bool IsAncestorOf(
+        TState state
+        , TState parent
+    )
     {
-        if (_states.TryGetValue(state, out StateMachine<TState, TTrigger>.StateContext? value))
+        if (_states.TryGetValue(key: state, value: out var value))
         {
-            StateContext current = value;
+            var current = value;
 
             while (true)
             {
-                if (current.StateId.Equals(parent))
+                if (current.StateId.Equals(obj: parent))
                 {
                     return true;
                 }
 
-                if (current.Parent is { })
+                if (current.Parent is not null)
                 {
                     current = current.Parent;
                 }
@@ -72,37 +83,36 @@ public class StateMachine<TState, TTrigger> where TTrigger : Enum where TState :
         return false;
     }
 
-    public StateContext Configure(TState state)
-    {
-        return _states[state];
-    }
+    public StateContext Configure(
+        TState state
+    ) => _states[key: state];
 
-    public void Fire(TTrigger trigger)
+    public void Fire(
+        TTrigger trigger
+    )
     {
-        _currentState.Process(trigger);
+        _currentState.Process(trigger: trigger);
 
-        if (_currentState.CanTransit(trigger))
+        if (_currentState.CanTransit(trigger: trigger))
         {
-            var destination = _currentState.GetDestination(trigger);
+            var destination = _currentState.GetDestination(trigger: trigger);
 
-            if (_states.TryGetValue(destination, out StateMachine<TState, TTrigger>.StateContext? value) && value.Parent is { } parent && !IsInState(parent.StateId))
+            if (_states.TryGetValue(key: destination, value: out var value) && value.Parent is { } parent &&
+                !IsInState(state: parent.StateId))
             {
-                Goto(parent.StateId);
+                Goto(state: parent.StateId);
             }
 
-            Goto(destination);
+            Goto(state: destination);
         }
-        else if (_currentState.Parent is { } && _currentState.Parent.CanTransit(trigger))
+        else if (_currentState.Parent is not null && _currentState.Parent.CanTransit(trigger: trigger))
         {
-            Goto(_currentState.Parent.StateId, true, false);
-            Goto(_currentState.GetDestination(trigger));
+            Goto(state: _currentState.Parent.StateId, exit: true, enter: false);
+            Goto(state: _currentState.GetDestination(trigger: trigger));
         }
     }
 
-    public void Start()
-    {
-        Enter();
-    }
+    public void Start() => Enter();
 
     private void Enter()
     {
@@ -110,24 +120,28 @@ public class StateMachine<TState, TTrigger> where TTrigger : Enum where TState :
 
         if (_currentState.InitialTransitionTo is { } state)
         {
-            Goto(state);
+            Goto(state: state);
         }
     }
 
-    private void Goto(TState state, bool exit = true, bool enter = true)
+    private void Goto(
+        TState state
+        , bool exit = true
+        , bool enter = true
+    )
     {
-        if (_states.ContainsKey(state))
+        if (_states.ContainsKey(key: state))
         {
-            if (exit && !IsAncestorOf(state, _currentState.StateId))
+            if (exit && !IsAncestorOf(state: state, parent: _currentState.StateId))
             {
                 _currentState.Exit();
             }
 
             var old = _currentState.StateId;
 
-            _currentState = _states[state];
+            _currentState = _states[key: state];
 
-            _onTransitioned?.Invoke(old, _currentState.StateId);
+            _onTransitioned?.Invoke(@from: old, to: _currentState.StateId);
 
             if (enter)
             {
@@ -138,11 +152,25 @@ public class StateMachine<TState, TTrigger> where TTrigger : Enum where TState :
 
     public class StateContext
     {
-        private readonly Dictionary<TTrigger, TState> _permittedTransitions;
-        private readonly StateMachine<TState, TTrigger> _owner;
         private readonly List<Action> _entryActions;
         private readonly List<Action> _exitActions;
+        private readonly StateMachine<TState, TTrigger> _owner;
+        private readonly Dictionary<TTrigger, TState> _permittedTransitions;
         private readonly Dictionary<TTrigger, List<Action>> _triggerActions;
+
+        public StateContext(
+            StateMachine<TState, TTrigger> owner
+            , TState state
+        )
+        {
+            _owner = owner;
+            StateId = state;
+
+            _entryActions = new List<Action>();
+            _exitActions = new List<Action>();
+            _triggerActions = new Dictionary<TTrigger, List<Action>>();
+            _permittedTransitions = new Dictionary<TTrigger, TState>();
+        }
 
         public TState StateId
         {
@@ -151,80 +179,84 @@ public class StateMachine<TState, TTrigger> where TTrigger : Enum where TState :
 
         public StateContext? Parent
         {
-            get; private set;
+            get;
+            private set;
         }
 
         internal TState? InitialTransitionTo
         {
-            get; private set;
+            get;
+            private set;
         }
 
-        public StateContext(StateMachine<TState, TTrigger> owner, TState state)
-        {
-            _owner = owner;
-            StateId = state;
-
-            _entryActions = new();
-            _exitActions = new();
-            _triggerActions = new();
-            _permittedTransitions = new();
-        }
-
-        public StateContext InitialTransition(TState? state)
+        public StateContext InitialTransition(
+            TState? state
+        )
         {
             InitialTransitionTo = state;
 
             return this;
         }
 
-        public StateContext SubstateOf(TState parent)
+        public StateContext SubstateOf(
+            TState parent
+        )
         {
-            Parent = _owner._states[parent];
+            Parent = _owner._states[key: parent];
 
             return this;
         }
 
-        public StateContext Permit(TTrigger trigger, TState state)
+        public StateContext Permit(
+            TTrigger trigger
+            , TState state
+        )
         {
-            if (StateId.Equals(state))
+            if (StateId.Equals(obj: state))
             {
-                throw new InvalidOperationException("Configuring state re-entry is not allowed.");
+                throw new InvalidOperationException(message: "Configuring state re-entry is not allowed.");
             }
 
-            _permittedTransitions[trigger] = state;
+            _permittedTransitions[key: trigger] = state;
 
             return this;
         }
 
-        public StateContext OnEntry(Action action)
+        public StateContext OnEntry(
+            Action action
+        )
         {
-            _entryActions.Add(action);
+            _entryActions.Add(item: action);
 
             return this;
         }
 
-        public StateContext Custom(Func<StateContext, StateContext> custom)
-        {
-            return custom(this);
-        }
+        public StateContext Custom(
+            Func<StateContext, StateContext> custom
+        ) => custom(arg: this);
 
-        public StateContext OnTrigger(TTrigger trigger, Action action)
+        public StateContext OnTrigger(
+            TTrigger trigger
+            , Action action
+        )
         {
-            if (_triggerActions.TryGetValue(trigger, out var t))
+            if (_triggerActions.TryGetValue(key: trigger, value: out var t))
             {
-                t.Add(action);
+                t.Add(item: action);
             }
             else
             {
-                _triggerActions.Add(trigger, new List<Action> { action });
+                _triggerActions.Add(key: trigger, value: new List<Action> { action });
             }
 
             return this;
         }
 
-        public StateContext OnExit(Action action)
+        public StateContext OnExit(
+            Action action
+        )
         {
-            _exitActions.Add(action);
+            _exitActions.Add(item: action);
 
             return this;
         }
@@ -245,9 +277,11 @@ public class StateMachine<TState, TTrigger> where TTrigger : Enum where TState :
             }
         }
 
-        internal void Process(TTrigger trigger)
+        internal void Process(
+            TTrigger trigger
+        )
         {
-            if (_triggerActions.TryGetValue(trigger, out List<Action>? value) && value is { } actions)
+            if (_triggerActions.TryGetValue(key: trigger, value: out var value) && value is { } actions)
             {
                 foreach (var action in actions)
                 {
@@ -255,20 +289,18 @@ public class StateMachine<TState, TTrigger> where TTrigger : Enum where TState :
                 }
             }
 
-            if (Parent is { })
+            if (Parent is not null)
             {
-                Parent.Process(trigger);
+                Parent.Process(trigger: trigger);
             }
         }
 
-        internal bool CanTransit(TTrigger trigger)
-        {
-            return _permittedTransitions.ContainsKey(trigger);
-        }
+        internal bool CanTransit(
+            TTrigger trigger
+        ) => _permittedTransitions.ContainsKey(key: trigger);
 
-        internal TState GetDestination(TTrigger trigger)
-        {
-            return _permittedTransitions[trigger];
-        }
+        internal TState GetDestination(
+            TTrigger trigger
+        ) => _permittedTransitions[key: trigger];
     }
 }

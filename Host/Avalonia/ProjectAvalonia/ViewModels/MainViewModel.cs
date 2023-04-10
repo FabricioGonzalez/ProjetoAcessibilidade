@@ -1,38 +1,38 @@
 ﻿using System;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-
 using Avalonia.Controls;
-
 using Common;
-
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.Features.SearchBar;
+using ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels;
+
 public partial class MainViewModel : ViewModelBase
 {
+    private readonly CreateSolutionViewModel _createSolution;
+    private readonly PreviewerViewModel _previewPrintPage;
+    private readonly ProjectViewModel _projectPage;
     private readonly SettingsPageViewModel _settingsPage;
     private readonly TemplateEditViewModel _templatePage;
-    private readonly CreateSolutionViewModel _createSolution;
-    private readonly ProjectViewModel _projectPage;
-    private readonly PreviewerViewModel _previewPrintPage;
+    [AutoNotify] private DialogScreenViewModel _compactDialogScreen;
 
     [AutoNotify] private DialogScreenViewModel _dialogScreen;
     [AutoNotify] private DialogScreenViewModel _fullScreen;
-    [AutoNotify] private DialogScreenViewModel _compactDialogScreen;
+
     [AutoNotify] private NavBarViewModel _navBar;
+
     /*[AutoNotify] private StatusIconViewModel _statusIcon;*/
     [AutoNotify] private string _title = Constants.AppName;
     [AutoNotify] private WindowState _windowState;
@@ -43,13 +43,13 @@ public partial class MainViewModel : ViewModelBase
         ApplyUiConfigWindowSate();
 
         _dialogScreen = new DialogScreenViewModel();
-        _fullScreen = new DialogScreenViewModel(NavigationTarget.FullScreen);
-        _compactDialogScreen = new DialogScreenViewModel(NavigationTarget.CompactDialogScreen);
-        MainScreen = new TargettedNavigationStack(NavigationTarget.HomeScreen);
-        NavigationState.Register(MainScreen,
-            DialogScreen,
-            FullScreen,
-            CompactDialogScreen);
+        _fullScreen = new DialogScreenViewModel(navigationTarget: NavigationTarget.FullScreen);
+        _compactDialogScreen = new DialogScreenViewModel(navigationTarget: NavigationTarget.CompactDialogScreen);
+        MainScreen = new TargettedNavigationStack(target: NavigationTarget.HomeScreen);
+        NavigationState.Register(homeScreenNavigation: MainScreen,
+            dialogScreenNavigation: DialogScreen,
+            fullScreenNavigation: FullScreen,
+            compactDialogScreenNavigation: CompactDialogScreen);
 
         UiServices.Initialize();
 
@@ -59,32 +59,41 @@ public partial class MainViewModel : ViewModelBase
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
 
-        NavigationManager.RegisterType(_navBar);
+        NavigationManager.RegisterType(instance: _navBar);
         RegisterViewModels();
 
-        RxApp.MainThreadScheduler.Schedule(async () => await _navBar.InitialiseAsync());
+        RxApp.MainThreadScheduler.Schedule(action: async () => await _navBar.InitialiseAsync());
 
-        this.WhenAnyValue(x => x.WindowState)
-            .Where(state => state != WindowState.Minimized)
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(state => ServicesConfig.UiConfig.WindowState = state.ToString());
+        this.WhenAnyValue(property1: x => x.WindowState)
+            .Where(predicate: state => state != WindowState.Minimized)
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+            .Subscribe(onNext: state => ServicesConfig.UiConfig.WindowState = state.ToString());
 
         IsMainContentEnabled = this.WhenAnyValue(
-                x => x.DialogScreen.IsDialogOpen,
-                x => x.FullScreen.IsDialogOpen,
-                x => x.CompactDialogScreen.IsDialogOpen,
-                (dialogIsOpen, fullScreenIsOpen, compactIsOpen) => !(dialogIsOpen || fullScreenIsOpen || compactIsOpen))
-            .ObserveOn(RxApp.MainThreadScheduler);
+                property1: x => x.DialogScreen.IsDialogOpen,
+                property2: x => x.FullScreen.IsDialogOpen,
+                property3: x => x.CompactDialogScreen.IsDialogOpen,
+                selector: (
+                    dialogIsOpen
+                    , fullScreenIsOpen
+                    , compactIsOpen
+                ) => !(dialogIsOpen || fullScreenIsOpen || compactIsOpen))
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler);
 
         this.WhenAnyValue(
-                x => x.DialogScreen.CurrentPage,
-                x => x.CompactDialogScreen.CurrentPage,
-                x => x.FullScreen.CurrentPage,
-                x => x.MainScreen.CurrentPage,
-                (dialog, compactDialog, fullScreenDialog, mainScreen) => compactDialog ?? dialog ?? fullScreenDialog ?? mainScreen)
+                property1: x => x.DialogScreen.CurrentPage,
+                property2: x => x.CompactDialogScreen.CurrentPage,
+                property3: x => x.FullScreen.CurrentPage,
+                property4: x => x.MainScreen.CurrentPage,
+                selector: (
+                    dialog
+                    , compactDialog
+                    , fullScreenDialog
+                    , mainScreen
+                ) => compactDialog ?? dialog ?? fullScreenDialog ?? mainScreen)
             .WhereNotNull()
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Do(page => page.SetActive())
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+            .Do(onNext: page => page.SetActive())
             .Subscribe();
 
         SearchBar = CreateSearchBar();
@@ -110,7 +119,10 @@ public partial class MainViewModel : ViewModelBase
         get;
     }
 
-    public static MainViewModel Instance { get; } = new();
+    public static MainViewModel Instance
+    {
+        get;
+    } = new();
 
     public bool IsBusy =>
         MainScreen.CurrentPage is { IsBusy: true } ||
@@ -125,23 +137,29 @@ public partial class MainViewModel : ViewModelBase
         FullScreen.Clear();
         CompactDialogScreen.Clear();
     }
-    public void OpenProject(string projectPath)
+
+    public void OpenProject(
+        string projectPath
+    )
     {
         _projectPage.CurrentOpenProject = projectPath;
 
-        Instance.MainScreen.To(_projectPage);
+        Instance.MainScreen.To(viewmodel: _projectPage);
     }
 
-    public void PrintProject(SolutionStateViewModel solutionState)
+    public void PrintProject(
+        SolutionStateViewModel solutionState
+    )
     {
         _projectPage.CurrentOpenProject = solutionState.FilePath;
 
         _previewPrintPage.SolutionState = solutionState;
 
-        Instance.FullScreen.To(_previewPrintPage);
+        Instance.FullScreen.To(viewmodel: _previewPrintPage);
 
-        OpenProject(solutionState.FilePath);
+        OpenProject(projectPath: solutionState.FilePath);
     }
+
     public void Initialize()
     {
         /*   StatusIcon.Initialize();*/
@@ -154,26 +172,26 @@ public partial class MainViewModel : ViewModelBase
 
     private void RegisterViewModels()
     {
-        SettingsPageViewModel.Register(_settingsPage);
+        SettingsPageViewModel.Register(createInstance: _settingsPage);
 
-        TemplateEditViewModel.Register(_templatePage);
+        TemplateEditViewModel.Register(createInstance: _templatePage);
 
-        ProjectViewModel.Register(_projectPage);
-        PreviewerViewModel.Register(_previewPrintPage);
+        ProjectViewModel.Register(createInstance: _projectPage);
+        PreviewerViewModel.Register(createInstance: _previewPrintPage);
 
-        GeneralSettingsTabViewModel.RegisterLazy(() =>
+        GeneralSettingsTabViewModel.RegisterLazy(createInstance: () =>
         {
             _settingsPage.SelectedTab = 0;
             return _settingsPage;
         });
 
-        AdvancedSettingsTabViewModel.RegisterLazy(() =>
+        AdvancedSettingsTabViewModel.RegisterLazy(createInstance: () =>
         {
             _settingsPage.SelectedTab = 2;
             return _settingsPage;
         });
 
-        TemplateEditTabViewModel.RegisterLazy(() =>
+        TemplateEditTabViewModel.RegisterLazy(createInstance: () =>
         {
             _templatePage.SelectedTab = 0;
 
@@ -282,30 +300,27 @@ public partial class MainViewModel : ViewModelBase
            });*/
     }
 
-    public void ApplyUiConfigWindowSate()
-    {
+    public void ApplyUiConfigWindowSate() => WindowState =
+        (WindowState)Enum.Parse(enumType: typeof(WindowState), value: ServicesConfig.UiConfig.WindowState);
 
-        WindowState = (WindowState)Enum.Parse(typeof(WindowState), ServicesConfig.UiConfig.WindowState);
-    }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Same lifecycle as the application. Won't be disposed separately.")]
+    [SuppressMessage(category: "Reliability", checkId: "CA2000:Dispose objects before losing scope"
+        , Justification = "Same lifecycle as the application. Won't be disposed separately.")]
     private SearchBarViewModel CreateSearchBar()
     {
         // This subject is created to solve the circular dependency between the sources and SearchBarViewModel
         var filterChanged = new Subject<string>();
 
         var source = new CompositeSearchSource(
-            new Features.SearchBar.SearchBar.Sources.ActionsSearchSource(filterChanged),
-            new SettingsSearchSource(_settingsPage, filterChanged));
+            new ActionsSearchSource(query: filterChanged),
+            new SettingsSearchSource(settingsPage: _settingsPage, query: filterChanged));
 
-        var searchBar = new SearchBarViewModel(source.Changes);
+        var searchBar = new SearchBarViewModel(itemsObservable: source.Changes);
 
         searchBar
-            .WhenAnyValue(a => a.SearchText)
+            .WhenAnyValue(property1: a => a.SearchText)
             .WhereNotNull()
-            .Subscribe(filterChanged);
+            .Subscribe(observer: filterChanged);
 
         return searchBar;
     }
 }
-

@@ -1,23 +1,20 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace QuestPDF.Previewer
+namespace QuestPDF.Previewer;
+
+internal class PreviewerWindow : Window
 {
-    class PreviewerWindow : Window
+    public PreviewerWindow()
     {
-        public PreviewerWindow()
-        {
-            InitializeComponent();
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            
-        }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+        InitializeComponent();
     }
+
+    protected override void OnClosed(
+        EventArgs e
+    )
+    {
+    }
+
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
 }

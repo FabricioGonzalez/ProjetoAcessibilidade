@@ -4,26 +4,20 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Input;
-
 using Avalonia.Threading;
-
 using Common;
-
 using Core.Entities.Solution;
-
 using Project.Domain.Contracts;
-using Project.Domain.Solution.Commands.SyncSolutionCommands;
+using Project.Domain.Solution.Commands.SolutionItem;
 using Project.Domain.Solution.Queries;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.States.ProjectItems;
 using ProjectAvalonia.Logging;
-
+using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
-
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -35,17 +29,17 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     Category = "Project",
     Keywords = new[]
     {
-            "Project"
+        "Project"
     },
-        NavBarPosition = NavBarPosition.Top,
+    NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_file_regular")]
 public partial class ProjectViewModel : NavBarItemViewModel
 {
-    [AutoNotify] private string _currentOpenProject = "";
+    private readonly ICommandDispatcher? commandDispatcher;
 
     private readonly IQueryDispatcher? queryDispatcher;
-    private readonly ICommandDispatcher? commandDispatcher;
+    [AutoNotify] private string _currentOpenProject = "";
 
     public ProjectViewModel()
     {
@@ -59,70 +53,65 @@ public partial class ProjectViewModel : NavBarItemViewModel
         projectExplorerViewModel = new ProjectExplorerViewModel();
         projectEditingViewModel = new ProjectEditingViewModel();
 
-        this.WhenAnyValue(vm => vm.projectExplorerViewModel.SelectedItem)
+        this.WhenAnyValue(property1: vm => vm.projectExplorerViewModel.SelectedItem)
             .WhereNotNull()
-            .Subscribe(item =>
+            .Subscribe(onNext: item =>
             {
                 projectEditingViewModel.SelectedItem = item;
             });
 
-        this.WhenAnyValue(vm => vm.CurrentOpenProject)
-            .Where(prop => !string.IsNullOrWhiteSpace(prop))
-            .SubscribeAsync(async prop =>
+        this.WhenAnyValue(property1: vm => vm.CurrentOpenProject)
+            .Where(predicate: prop => !string.IsNullOrWhiteSpace(value: prop))
+            .SubscribeAsync(onNextAsync: async prop =>
             {
                 (await queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
-                    query: new(SolutionPath: prop),
-                    cancellation: CancellationToken.None))
+                        query: new ReadSolutionProjectQuery(SolutionPath: prop),
+                        cancellation: CancellationToken.None))
                     .OnSuccess(
-                    (result) =>
+                        onSuccessAction: result =>
+                        {
+                            Dispatcher
+                                .UIThread
+                                .Post(action: () =>
+                                    projectExplorerViewModel.SolutionModel = result?.Data?.ToSolutionState());
+                        })
+                    .OnError(onErrorAction: error =>
                     {
-                        Dispatcher
-                        .UIThread
-                        .Post(() => projectExplorerViewModel.SolutionModel = result.Data.ToSolutionState());
-                    })
-                    .OnError(error =>
-                    {
-
-                    })
-                    .OnLoadingStarted(loading =>
-                    {
-
                     });
             });
 
-        projectExplorerViewModel.CreateItemCommand = ReactiveCommand.Create<ItemState>(execute: (item) =>
+        projectExplorerViewModel.CreateItemCommand = ReactiveCommand.Create<ItemState>(execute: item =>
         {
             projectEditingViewModel.SelectedItem = item;
         });
 
         projectExplorerViewModel.PrintProjectCommand = ReactiveCommand.Create(execute: () =>
         {
-            Navigate(NavigationTarget.FullScreen)
-            .To(printPreviewViewModel,
-            ProjectAvalonia.ViewModels.Navigation.NavigationMode.Normal,
-            projectExplorerViewModel.SolutionModel);
+            Navigate(currentTarget: NavigationTarget.FullScreen)
+                .To(viewmodel: printPreviewViewModel,
+                    mode: NavigationMode.Normal,
+                    Parameter: projectExplorerViewModel.SolutionModel);
         }, canExecute: IsSolutionOpened());
 
         projectExplorerViewModel.OpenSolutionCommand = ReactiveCommand.Create(execute: () =>
         {
-
-
         }, canExecute: IsSolutionOpened());
 
-        projectExplorerViewModel.SaveSolutionCommand = ReactiveCommand.CreateFromTask<SolutionStateViewModel>(execute: async (solution) =>
-        {
-            await commandDispatcher.Dispatch<SyncSolutionCommand, Resource<ProjectSolutionModel>>(
-                command: new(
-                SolutionData: solution.ToSolutionModel(),
-                SolutionPath: solution.FilePath),
-                cancellation: CancellationToken.None);
-        }, canExecute: IsSolutionOpened());
+        projectExplorerViewModel.SaveSolutionCommand = ReactiveCommand.CreateFromTask<SolutionStateViewModel>(
+            execute: async solution =>
+            {
+                await commandDispatcher.Dispatch<SyncSolutionCommand, Resource<ProjectSolutionModel>>(
+                    command: new SyncSolutionCommand(
+                        SolutionData: solution.ToSolutionModel(),
+                        SolutionPath: solution.FilePath),
+                    cancellation: CancellationToken.None);
+            }, canExecute: IsSolutionOpened());
 
         printPreviewViewModel = new PreviewerViewModel();
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: async () =>
         {
-            var path = await FileDialogHelper.ShowOpenFileDialogAsync("Abrir Projeto");
+            var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Abrir Projeto");
 
             if (path is not null)
             {
@@ -132,24 +121,24 @@ public partial class ProjectViewModel : NavBarItemViewModel
 
         ((ReactiveCommand<Unit, Unit>)OpenProjectCommand)
             .ThrownExceptions
-            .Subscribe(exception =>
-        {
-            Logger.LogError("Error!", exception);
-        });
+            .Subscribe(onNext: exception =>
+            {
+                Logger.LogError(message: "Error!", exception: exception);
+            });
 
         CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: async () =>
         {
             var dialogResult = await NavigateDialogAsync(
-            new CreateSolutionViewModel("Criar Solução")
-            , NavigationTarget.CompactDialogScreen);
+                dialog: new CreateSolutionViewModel(title: "Criar Solução")
+                , target: NavigationTarget.CompactDialogScreen);
 
             if (dialogResult.Result is { } dialogData)
             {
                 IsBusy = true;
 
-                NotificationHelpers.Show(title: "Create", "Create Project?", () =>
+                NotificationHelpers.Show(title: "Create", message: "Create Project?", onClick: () =>
                 {
-                    Logger.LogDebug($"create Project {dialogData.FileName}");
+                    Logger.LogDebug(message: $"create Project {dialogData.FileName}");
                 });
 
                 IsBusy = false;
@@ -157,25 +146,11 @@ public partial class ProjectViewModel : NavBarItemViewModel
         });
 
         ((ReactiveCommand<Unit, Unit>)CreateProjectCommand)
-           .ThrownExceptions
-           .Subscribe(exception =>
-           {
-               Logger.LogError("Error!", exception);
-           });
-    }
-
-    protected override void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables, object? Parameter = null)
-    {
-        if (Parameter is string path && !string.IsNullOrWhiteSpace(path))
-        {
-            CurrentOpenProject = path;
-        }
-    }
-
-    private IObservable<bool> IsSolutionOpened()
-    {
-        return this.WhenAnyValue(vm => vm.CurrentOpenProject)
-            .Select(prop => !string.IsNullOrWhiteSpace(prop));
+            .ThrownExceptions
+            .Subscribe(onNext: exception =>
+            {
+                Logger.LogError(message: "Error!", exception: exception);
+            });
     }
 
     public ProjectExplorerViewModel projectExplorerViewModel
@@ -202,4 +177,20 @@ public partial class ProjectViewModel : NavBarItemViewModel
     {
         get;
     }
+
+    protected override void OnNavigatedTo(
+        bool isInHistory
+        , CompositeDisposable disposables
+        , object? Parameter = null
+    )
+    {
+        if (Parameter is string path && !string.IsNullOrWhiteSpace(value: path))
+        {
+            CurrentOpenProject = path;
+        }
+    }
+
+    private IObservable<bool> IsSolutionOpened() =>
+        this.WhenAnyValue(property1: vm => vm.CurrentOpenProject)
+            .Select(selector: prop => !string.IsNullOrWhiteSpace(value: prop));
 }

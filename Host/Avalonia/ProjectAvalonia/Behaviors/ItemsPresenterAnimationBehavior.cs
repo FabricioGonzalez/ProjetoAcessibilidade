@@ -1,7 +1,6 @@
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
@@ -13,24 +12,28 @@ namespace ProjectAvalonia.Behaviors;
 public class ItemsControlAnimationBehavior : AttachedToVisualTreeBehavior<ItemsControl>
 {
     public static readonly StyledProperty<TimeSpan> InitialDelayProperty =
-        AvaloniaProperty.Register<ItemsControlAnimationBehavior, TimeSpan>(nameof(InitialDelay), TimeSpan.FromMilliseconds(500));
+        AvaloniaProperty.Register<ItemsControlAnimationBehavior, TimeSpan>(name: nameof(InitialDelay)
+            , defaultValue: TimeSpan.FromMilliseconds(value: 500));
 
     public static readonly StyledProperty<TimeSpan> ItemDurationProperty =
-        AvaloniaProperty.Register<ItemsControlAnimationBehavior, TimeSpan>(nameof(ItemDuration), TimeSpan.FromMilliseconds(10));
+        AvaloniaProperty.Register<ItemsControlAnimationBehavior, TimeSpan>(name: nameof(ItemDuration)
+            , defaultValue: TimeSpan.FromMilliseconds(value: 10));
 
     public TimeSpan InitialDelay
     {
-        get => GetValue(InitialDelayProperty);
-        set => SetValue(InitialDelayProperty, value);
+        get => GetValue(property: InitialDelayProperty);
+        set => SetValue(property: InitialDelayProperty, value: value);
     }
 
     public TimeSpan ItemDuration
     {
-        get => GetValue(ItemDurationProperty);
-        set => SetValue(ItemDurationProperty, value);
+        get => GetValue(property: ItemDurationProperty);
+        set => SetValue(property: ItemDurationProperty, value: value);
     }
 
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override void OnAttachedToVisualTree(
+        CompositeDisposable disposable
+    )
     {
         if (AssociatedObject is null)
         {
@@ -38,9 +41,10 @@ public class ItemsControlAnimationBehavior : AttachedToVisualTreeBehavior<ItemsC
         }
 
         Observable
-            .FromEventPattern<ItemContainerEventArgs>(AssociatedObject.ItemContainerGenerator, nameof(ItemContainerGenerator.Materialized))
-            .Select(x => x.EventArgs)
-            .Subscribe(e =>
+            .FromEventPattern<ItemContainerEventArgs>(target: AssociatedObject.ItemContainerGenerator
+                , eventName: nameof(ItemContainerGenerator.Materialized))
+            .Select(selector: x => x.EventArgs)
+            .Subscribe(onNext: e =>
             {
                 foreach (var c in e.Containers)
                 {
@@ -50,42 +54,38 @@ public class ItemsControlAnimationBehavior : AttachedToVisualTreeBehavior<ItemsC
                     }
 
                     var duration = ItemDuration * (c.Index + 1);
-                    var totalDuration = InitialDelay + (duration * 2);
+                    var totalDuration = InitialDelay + duration * 2;
 
                     var animation = new Animation
                     {
-                        Duration = totalDuration,
-                        Children =
+                        Duration = totalDuration, Children =
                         {
                             new KeyFrame
                             {
-                                KeyTime = TimeSpan.Zero,
-                                Setters =
+                                KeyTime = TimeSpan.Zero, Setters =
                                 {
-                                    new Setter(Visual.OpacityProperty, 0d),
+                                    new Setter(property: Visual.OpacityProperty, value: 0d)
                                 }
-                            },
-                            new KeyFrame
+                            }
+                            , new KeyFrame
                             {
-                                KeyTime = duration + InitialDelay,
-                                Setters =
+                                KeyTime = duration + InitialDelay, Setters =
                                 {
-                                    new Setter(Visual.OpacityProperty, 0d),
+                                    new Setter(property: Visual.OpacityProperty, value: 0d)
                                 }
-                            },
-                            new KeyFrame
+                            }
+                            , new KeyFrame
                             {
-                                KeyTime = totalDuration,
-                                Setters =
+                                KeyTime = totalDuration, Setters =
                                 {
-                                    new Setter(Visual.OpacityProperty, 1d),
+                                    new Setter(property: Visual.OpacityProperty, value: 1d)
                                 }
                             }
                         }
                     };
-                    animation.RunAsync(v, null);
+                    animation.RunAsync(control: v, clock: null);
                 }
             })
-            .DisposeWith(disposable);
+            .DisposeWith(compositeDisposable: disposable);
     }
 }

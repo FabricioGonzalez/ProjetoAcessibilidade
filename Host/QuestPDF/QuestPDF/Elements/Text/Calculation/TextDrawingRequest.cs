@@ -4,13 +4,40 @@ namespace QuestPDF.Elements.Text.Calculation
 {
     public class TextDrawingRequest
     {
-        public ICanvas Canvas { get; set; }
-        public IPageContext PageContext { get; set; }
-        
-        public int StartIndex { get; set; }
-        public int EndIndex { get; set; }
-        
-        public float TotalAscent { get; set; }
-        public Size TextSize { get; set; }
+        public ICanvas Canvas
+        {
+            get;
+            set;
+        }
+
+        public IPageContext PageContext
+        {
+            get;
+            set;
+        }
+
+        public int StartIndex
+        {
+            get;
+            set;
+        }
+
+        public int EndIndex
+        {
+            get;
+            set;
+        }
+
+        public float TotalAscent
+        {
+            get;
+            set;
+        }
+
+        public Size TextSize
+        {
+            get;
+            set;
+        }
     }
 }

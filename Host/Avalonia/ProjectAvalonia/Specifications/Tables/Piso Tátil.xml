@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <id />
+    <id/>
     <name>Piso Tátil</name>
     <template_name>Piso Tátil</template_name>
     <table>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui piso tátil no atendimento da recepção?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -27,15 +27,15 @@
             </checkboxes>
         </checkbox_items>
         <observation_item>
-            <id />
+            <id/>
             <type>observation</type>
             <value></value>
         </observation_item>
         <image_items>
-            <id />
+            <id/>
             <type>image</type>
-            <images />
+            <images/>
         </image_items>
     </table>
-    <law />
+    <law/>
 </item>

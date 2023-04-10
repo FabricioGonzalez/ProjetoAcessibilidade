@@ -1,47 +1,53 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-
 using DynamicData.Binding;
 
 namespace Project.AppInstaller.ViewModels;
+
 public class MainWindowViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
-
-    public ObservableCollectionExtended<Node> Files { get; } = new();
-
     public MainWindowViewModel()
     {
         var directory = Environment.CurrentDirectory;
 
-        Files = new();
+        Files = new ObservableCollectionExtended<Node>();
 
-        Node rootNode = new Node(directory);
-        rootNode.Subfolders = GetSubfolders(directory);
+        var rootNode = new Node(_strFullPath: directory);
+        rootNode.Subfolders = GetSubfolders(strPath: directory);
 
-        Files.Add(rootNode);
+        Files.Add(item: rootNode);
     }
-    public ObservableCollection<Node> GetSubfolders(string strPath)
+
+    public string Greeting => "Welcome to Avalonia!";
+
+    public ObservableCollectionExtended<Node> Files
     {
-        ObservableCollection<Node> subfolders = new ObservableCollection<Node>();
-        string[] subdirs = Directory.GetFileSystemEntries(strPath);
+        get;
+    } = new();
 
-        foreach (string dir in subdirs)
+    public ObservableCollection<Node> GetSubfolders(
+        string strPath
+    )
+    {
+        var subfolders = new ObservableCollection<Node>();
+        var subdirs = Directory.GetFileSystemEntries(path: strPath);
+
+        foreach (var dir in subdirs)
         {
-            Node thisnode = new Node(dir);
+            var thisnode = new Node(_strFullPath: dir);
 
-            if (File.GetAttributes(dir).HasFlag(FileAttributes.Directory))
+            if (File.GetAttributes(path: dir).HasFlag(flag: FileAttributes.Directory))
             {
-                if (Directory.GetFileSystemEntries(dir).Length > 0)
+                if (Directory.GetFileSystemEntries(path: dir).Length > 0)
                 {
                     thisnode.Subfolders = new ObservableCollection<Node>();
 
-                    thisnode.Subfolders = GetSubfolders(dir);
+                    thisnode.Subfolders = GetSubfolders(strPath: dir);
                 }
             }
 
-            subfolders.Add(thisnode);
+            subfolders.Add(item: thisnode);
         }
 
         return subfolders;
@@ -50,23 +56,27 @@ public class MainWindowViewModel : ViewModelBase
 
 public class Node
 {
+    public Node(
+        string _strFullPath
+    )
+    {
+        strFullPath = _strFullPath;
+        strNodeText = Path.GetFileName(path: _strFullPath);
+    }
+
     public ObservableCollection<Node> Subfolders
     {
-        get; set;
+        get;
+        set;
     }
 
     public string strNodeText
     {
         get;
     }
+
     public string strFullPath
     {
         get;
-    }
-
-    public Node(string _strFullPath)
-    {
-        strFullPath = _strFullPath;
-        strNodeText = Path.GetFileName(_strFullPath);
     }
 }

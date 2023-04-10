@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -9,125 +8,139 @@ using Avalonia.Threading;
 
 namespace QuestPDF.Previewer;
 
-class PreviewerControl : Control
+internal class PreviewerControl : Control
 {
-    private InteractiveCanvas InteractiveCanvas { get; set; } = new();
-
     public static readonly StyledProperty<ObservableCollection<PreviewPage>> PagesProperty =
         AvaloniaProperty.Register<PreviewerControl, ObservableCollection<PreviewPage>>(
-            nameof(Pages),
-            defaultValue: new());
-
-    public ObservableCollection<PreviewPage>? Pages
-    {
-        get => GetValue(PagesProperty);
-        set => SetValue(PagesProperty, value);
-    }
+            name: nameof(Pages),
+            defaultValue: new ObservableCollection<PreviewPage>());
 
     public static readonly StyledProperty<float> CurrentScrollProperty
-        = AvaloniaProperty.Register<PreviewerControl, float>(nameof(CurrentScroll));
-
-    public float CurrentScroll
-    {
-        get => GetValue(CurrentScrollProperty);
-        set => SetValue(CurrentScrollProperty, value);
-    }
+        = AvaloniaProperty.Register<PreviewerControl, float>(name: nameof(CurrentScroll));
 
     public static readonly StyledProperty<float> ScrollViewportSizeProperty
-        = AvaloniaProperty.Register<PreviewerControl, float>(nameof(ScrollViewportSize));
-
-    public float ScrollViewportSize
-    {
-        get => GetValue(ScrollViewportSizeProperty);
-        set => SetValue(ScrollViewportSizeProperty, value);
-    }
+        = AvaloniaProperty.Register<PreviewerControl, float>(name: nameof(ScrollViewportSize));
 
     public PreviewerControl()
     {
-        PagesProperty.Changed.Subscribe(x =>
+        PagesProperty.Changed.Subscribe(onNext: x =>
         {
             InteractiveCanvas.Pages = x.NewValue.Value;
             InvalidateVisual();
         });
 
-        CurrentScrollProperty.Changed.Subscribe(x =>
+        CurrentScrollProperty.Changed.Subscribe(onNext: x =>
         {
             InteractiveCanvas.ScrollPercentY = x.NewValue.Value;
-            Dispatcher.UIThread.Post(() => InvalidateVisual());
+            Dispatcher.UIThread.Post(action: () => InvalidateVisual());
         });
 
         ClipToBounds = true;
     }
-    protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
+
+    private InteractiveCanvas InteractiveCanvas
     {
-        base.OnPointerWheelChanged(e);
+        get;
+    } = new();
+
+    public ObservableCollection<PreviewPage>? Pages
+    {
+        get => GetValue(property: PagesProperty);
+        set => SetValue(property: PagesProperty, value: value);
+    }
+
+    public float CurrentScroll
+    {
+        get => GetValue(property: CurrentScrollProperty);
+        set => SetValue(property: CurrentScrollProperty, value: value);
+    }
+
+    public float ScrollViewportSize
+    {
+        get => GetValue(property: ScrollViewportSizeProperty);
+        set => SetValue(property: ScrollViewportSizeProperty, value: value);
+    }
+
+    private bool IsMousePressed
+    {
+        get;
+        set;
+    }
+
+    private Vector MousePosition
+    {
+        get;
+        set;
+    }
+
+    protected override void OnPointerWheelChanged(
+        PointerWheelEventArgs e
+    )
+    {
+        base.OnPointerWheelChanged(e: e);
 
         if ((e.KeyModifiers & KeyModifiers.Control) != 0)
         {
             var scaleFactor = 1 + e.Delta.Y / 10f;
-            var point = new Point(Bounds.Center.X, Bounds.Top) - e.GetPosition(this);
+            var point = new Point(x: Bounds.Center.X, y: Bounds.Top) - e.GetPosition(relativeTo: this);
 
-            InteractiveCanvas.ZoomToPoint((float)point.X, -(float)point.Y, (float)scaleFactor);
+            InteractiveCanvas.ZoomToPoint(x: (float)point.X, y: -(float)point.Y, factor: (float)scaleFactor);
             InvalidateVisual();
         }
 
         if (e.KeyModifiers == KeyModifiers.None)
         {
             var translation = (float)e.Delta.Y * 25;
-            InteractiveCanvas.TranslateWithCurrentScale(0, -translation);
+            InteractiveCanvas.TranslateWithCurrentScale(x: 0, y: -translation);
             InvalidateVisual();
         }
-
-
     }
 
-    private bool IsMousePressed
+    protected override void OnPointerMoved(
+        PointerEventArgs e
+    )
     {
-        get; set;
-    }
-    private Vector MousePosition
-    {
-        get; set;
-    }
-
-    protected override void OnPointerMoved(PointerEventArgs e)
-    {
-        base.OnPointerMoved(e);
+        base.OnPointerMoved(e: e);
 
         if (IsMousePressed)
         {
-            var currentPosition = e.GetPosition(this);
+            var currentPosition = e.GetPosition(relativeTo: this);
             var translation = currentPosition - MousePosition;
-            InteractiveCanvas.TranslateWithCurrentScale((float)translation.X, -(float)translation.Y);
+            InteractiveCanvas.TranslateWithCurrentScale(x: (float)translation.X, y: -(float)translation.Y);
 
             InvalidateVisual();
         }
 
-        MousePosition = e.GetPosition(this);
-
+        MousePosition = e.GetPosition(relativeTo: this);
     }
 
-    protected override void OnPointerPressed(PointerPressedEventArgs e)
+    protected override void OnPointerPressed(
+        PointerPressedEventArgs e
+    )
     {
-        base.OnPointerPressed(e);
+        base.OnPointerPressed(e: e);
 
         IsMousePressed = true;
     }
 
-    protected override void OnPointerReleased(PointerReleasedEventArgs e)
+    protected override void OnPointerReleased(
+        PointerReleasedEventArgs e
+    )
     {
-        base.OnPointerReleased(e);
+        base.OnPointerReleased(e: e);
         IsMousePressed = false;
     }
 
-    public override void Render(DrawingContext context)
+    public override void Render(
+        DrawingContext context
+    )
     {
         CurrentScroll = InteractiveCanvas.ScrollPercentY;
         ScrollViewportSize = InteractiveCanvas.ScrollViewportSizeY;
 
-        InteractiveCanvas.Bounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
+        InteractiveCanvas.Bounds = new Rect(x: 0, y: 0, width: Bounds.Width, height: Bounds.Height);
 
-        context.Custom(InteractiveCanvas);
-        base.Render(context);
+        context.Custom(custom: InteractiveCanvas);
+        base.Render(context: context);
     }
 }

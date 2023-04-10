@@ -3,12 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-
 using DynamicData;
-
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.SearchBar;
@@ -19,39 +16,48 @@ public class SearchBarDesignViewModel : ReactiveObject
 
     public SearchBarDesignViewModel()
     {
-        static Task PreventExecution() => Task.Run(() => { });
+        static Task PreventExecution()
+        {
+            return Task.Run(action: () =>
+            {
+            });
+        }
 
         var actionable = new IActionableItem[]
         {
-            new ActionableItem("Test 1: Short", "Description short", PreventExecution, "Settings")
+            new ActionableItem(name: "Test 1: Short", description: "Description short", onExecution: PreventExecution
+                , category: "Settings")
             {
                 Icon = "settings_bitcoin_regular"
-            },
-            new ActionableItem("Test 2: Loooooooooooong", "Description long", PreventExecution, "Settings")
+            }
+            , new ActionableItem(name: "Test 2: Loooooooooooong", description: "Description long"
+                , onExecution: PreventExecution, category: "Settings")
             {
                 Icon = "settings_bitcoin_regular"
-            },
-            new ActionableItem(
-                "Test 3: Short again",
-                "Description very very loooooooooooong and difficult to read",
-                PreventExecution,
-                "Settings")
+            }
+            , new ActionableItem(
+                name: "Test 3: Short again",
+                description: "Description very very loooooooooooong and difficult to read",
+                onExecution: PreventExecution,
+                category: "Settings")
             {
                 Icon = "settings_bitcoin_regular"
-            },
-            new ActionableItem("Test 3", "Another", PreventExecution, "Settings")
+            }
+            , new ActionableItem(name: "Test 3", description: "Another", onExecution: PreventExecution
+                , category: "Settings")
             {
                 Icon = "settings_bitcoin_regular"
-            },
-            new ActionableItem(
-                "Test 4: Help topics",
-                "Description very very loooooooooooong and difficult to read",
-                PreventExecution,
-                "Help")
+            }
+            , new ActionableItem(
+                name: "Test 4: Help topics",
+                description: "Description very very loooooooooooong and difficult to read",
+                onExecution: PreventExecution,
+                category: "Help")
             {
                 Icon = "settings_bitcoin_regular"
-            },
-            new ActionableItem("Test 3", "Another", PreventExecution, "Help")
+            }
+            , new ActionableItem(name: "Test 3", description: "Another", onExecution: PreventExecution
+                , category: "Help")
             {
                 Icon = "settings_bitcoin_regular"
             }
@@ -61,15 +67,15 @@ public class SearchBarDesignViewModel : ReactiveObject
     }
 
     public ReadOnlyObservableCollection<SearchItemGroup> Groups => new(
-        new ObservableCollection<SearchItemGroup>(
-            _items
-                .GroupBy(r => r.Category)
+        list: new ObservableCollection<SearchItemGroup>(
+            collection: _items
+                .GroupBy(keySelector: r => r.Category)
                 .Select(
-                    grouping =>
+                    selector: grouping =>
                     {
-                        var sourceCache = new SourceCache<ISearchItem, ComposedKey>(r => r.Key);
-                        sourceCache.PopulateFrom(grouping.ToObservable());
-                        return new SearchItemGroup(grouping.Key, sourceCache.Connect());
+                        var sourceCache = new SourceCache<ISearchItem, ComposedKey>(keySelector: r => r.Key);
+                        sourceCache.PopulateFrom(observable: grouping.ToObservable());
+                        return new SearchItemGroup(title: grouping.Key, changes: sourceCache.Connect());
                     })));
 
     public string SearchText => "";

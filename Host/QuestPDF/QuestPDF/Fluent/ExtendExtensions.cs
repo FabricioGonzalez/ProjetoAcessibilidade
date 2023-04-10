@@ -6,27 +6,27 @@ namespace QuestPDF.Fluent
 {
     public static class ExtendExtensions
     {
-        private static IContainer Extend(this IContainer element, Action<Extend> handler)
+        private static IContainer Extend(
+            this IContainer element
+            , Action<Extend> handler
+        )
         {
             var extend = element as Extend ?? new Extend();
-            handler(extend);
-            
-            return element.Element(extend);
+            handler(obj: extend);
+
+            return element.Element(child: extend);
         }
-        
-        public static IContainer Extend(this IContainer element)
-        {
-            return element.ExtendVertical().ExtendHorizontal();
-        }
-        
-        public static IContainer ExtendVertical(this IContainer element)
-        {
-            return element.Extend(x => x.ExtendVertical = true);
-        }
-        
-        public static IContainer ExtendHorizontal(this IContainer element)
-        {
-            return element.Extend(x => x.ExtendHorizontal = true);
-        }
+
+        public static IContainer Extend(
+            this IContainer element
+        ) => element.ExtendVertical().ExtendHorizontal();
+
+        public static IContainer ExtendVertical(
+            this IContainer element
+        ) => element.Extend(handler: x => x.ExtendVertical = true);
+
+        public static IContainer ExtendHorizontal(
+            this IContainer element
+        ) => element.Extend(handler: x => x.ExtendHorizontal = true);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-
 using Microsoft.UI.Xaml;
 
 namespace ProjectWinUI.Src.Theming.Contracts;
+
 public interface IThemeSelectorService
 {
     ElementTheme Theme
@@ -12,7 +12,9 @@ public interface IThemeSelectorService
 
     Task InitializeAsync();
 
-    Task SetThemeAsync(ElementTheme theme);
+    Task SetThemeAsync(
+        ElementTheme theme
+    );
 
     Task SetRequestedThemeAsync();
 }

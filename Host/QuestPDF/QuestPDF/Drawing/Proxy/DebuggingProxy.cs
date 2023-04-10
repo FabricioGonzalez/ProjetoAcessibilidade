@@ -4,19 +4,27 @@ namespace QuestPDF.Drawing.Proxy
 {
     public class DebuggingProxy : ElementProxy
     {
-        private DebuggingState DebuggingState { get; }
-
-        public DebuggingProxy(DebuggingState debuggingState, Element child)
+        public DebuggingProxy(
+            DebuggingState debuggingState
+            , Element child
+        )
         {
             DebuggingState = debuggingState;
             Child = child;
         }
-        
-        public override SpacePlan Measure(Size availableSpace)
+
+        private DebuggingState DebuggingState
         {
-            DebuggingState.RegisterMeasure(Child, availableSpace);
-            var spacePlan = base.Measure(availableSpace);
-            DebuggingState.RegisterMeasureResult(Child, spacePlan);
+            get;
+        }
+
+        public override SpacePlan Measure(
+            Size availableSpace
+        )
+        {
+            DebuggingState.RegisterMeasure(element: Child, availableSpace: availableSpace);
+            var spacePlan = base.Measure(availableSpace: availableSpace);
+            DebuggingState.RegisterMeasureResult(element: Child, spacePlan: spacePlan);
 
             return spacePlan;
         }

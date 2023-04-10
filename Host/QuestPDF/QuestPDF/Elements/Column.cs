@@ -8,83 +8,128 @@ namespace QuestPDF.Elements
 {
     public class ColumnItem : Container
     {
-        public bool IsRendered { get; set; }
+        public bool IsRendered
+        {
+            get;
+            set;
+        }
     }
-    
+
     public class ColumnItemRenderingCommand
     {
-        public ColumnItem ColumnItem { get; set; }
-        public SpacePlan Measurement { get; set; }
-        public Size Size { get; set; }
-        public Position Offset { get; set; }
+        public ColumnItem ColumnItem
+        {
+            get;
+            set;
+        }
+
+        public SpacePlan Measurement
+        {
+            get;
+            set;
+        }
+
+        public Size Size
+        {
+            get;
+            set;
+        }
+
+        public Position Offset
+        {
+            get;
+            set;
+        }
     }
-    
-    public class Column : Element, ICacheable, IStateResettable
+
+    public class Column
+        : Element
+            , ICacheable
+            , IStateResettable
     {
-        public List<ColumnItem> Items { get; } = new();
-        public float Spacing { get; set; }
+        public List<ColumnItem> Items
+        {
+            get;
+        } = new();
 
-        public void ResetState()
+        public float Spacing
         {
-            Items.ForEach(x => x.IsRendered = false);
-        }
-        
-        public override IEnumerable<Element?> GetChildren()
-        {
-            return Items;
-        }
-        
-        public override void CreateProxy(Func<Element?, Element?> create)
-        {
-            Items.ForEach(x => x.Child = create(x.Child));
+            get;
+            set;
         }
 
-        public override SpacePlan Measure(Size availableSpace)
+        public void ResetState() => Items.ForEach(action: x => x.IsRendered = false);
+
+        public override IEnumerable<Element?> GetChildren() => Items;
+
+        public override void CreateProxy(
+            Func<Element?, Element?> create
+        ) => Items.ForEach(action: x => x.Child = create(arg: x.Child));
+
+        public override SpacePlan Measure(
+            Size availableSpace
+        )
         {
             if (!Items.Any())
-                return SpacePlan.FullRender(Size.Zero);
-            
-            var renderingCommands = PlanLayout(availableSpace);
+            {
+                return SpacePlan.FullRender(size: Size.Zero);
+            }
+
+            var renderingCommands = PlanLayout(availableSpace: availableSpace);
 
             if (!renderingCommands.Any())
+            {
                 return SpacePlan.Wrap();
+            }
 
-            var width = renderingCommands.Max(x => x.Size.Width);
+            var width = renderingCommands.Max(selector: x => x.Size.Width);
             var height = renderingCommands.Last().Offset.Y + renderingCommands.Last().Size.Height;
-            var size = new Size(width, height);
-            
+            var size = new Size(width: width, height: height);
+
             if (width > availableSpace.Width + Size.Epsilon || height > availableSpace.Height + Size.Epsilon)
+            {
                 return SpacePlan.Wrap();
-            
-            var totalRenderedItems = Items.Count(x => x.IsRendered) + renderingCommands.Count(x => x.Measurement.Type == SpacePlanType.FullRender);
+            }
+
+            var totalRenderedItems = Items.Count(predicate: x => x.IsRendered) +
+                                     renderingCommands.Count(predicate: x =>
+                                         x.Measurement.Type == SpacePlanType.FullRender);
             var willBeFullyRendered = totalRenderedItems == Items.Count;
 
             return willBeFullyRendered
-                ? SpacePlan.FullRender(size)
-                : SpacePlan.PartialRender(size);
+                ? SpacePlan.FullRender(size: size)
+                : SpacePlan.PartialRender(size: size);
         }
 
-        public override void Draw(Size availableSpace)
+        public override void Draw(
+            Size availableSpace
+        )
         {
-            var renderingCommands = PlanLayout(availableSpace);
+            var renderingCommands = PlanLayout(availableSpace: availableSpace);
 
             foreach (var command in renderingCommands)
             {
                 if (command.Measurement.Type == SpacePlanType.FullRender)
+                {
                     command.ColumnItem.IsRendered = true;
+                }
 
-                var targetSize = new Size(availableSpace.Width, command.Size.Height);
-                
-                Canvas.Translate(command.Offset);
-                command.ColumnItem.Draw(targetSize);
-                Canvas.Translate(command.Offset.Reverse());
+                var targetSize = new Size(width: availableSpace.Width, height: command.Size.Height);
+
+                Canvas.Translate(vector: command.Offset);
+                command.ColumnItem.Draw(availableSpace: targetSize);
+                Canvas.Translate(vector: command.Offset.Reverse());
             }
-            
-            if (Items.All(x => x.IsRendered))
+
+            if (Items.All(predicate: x => x.IsRendered))
+            {
                 ResetState();
+            }
         }
 
-        private ICollection<ColumnItemRenderingCommand> PlanLayout(Size availableSpace)
+        private ICollection<ColumnItemRenderingCommand> PlanLayout(
+            Size availableSpace
+        )
         {
             var topOffset = 0f;
             var commands = new List<ColumnItemRenderingCommand>();
@@ -92,31 +137,35 @@ namespace QuestPDF.Elements
             foreach (var item in Items)
             {
                 if (item.IsRendered)
-                    continue;
-
-                var itemSpace = new Size(availableSpace.Width, availableSpace.Height - topOffset);
-                var measurement = item.Measure(itemSpace);
-                
-                if (measurement.Type == SpacePlanType.Wrap)
-                    break;
-
-                commands.Add(new ColumnItemRenderingCommand
                 {
-                    ColumnItem = item,
-                    Size = measurement,
-                    Measurement = measurement,
-                    Offset = new Position(0, topOffset)
-                });
-                
-                if (measurement.Type == SpacePlanType.PartialRender)
+                    continue;
+                }
+
+                var itemSpace = new Size(width: availableSpace.Width, height: availableSpace.Height - topOffset);
+                var measurement = item.Measure(availableSpace: itemSpace);
+
+                if (measurement.Type == SpacePlanType.Wrap)
+                {
                     break;
-                
+                }
+
+                commands.Add(item: new ColumnItemRenderingCommand
+                {
+                    ColumnItem = item, Size = measurement, Measurement = measurement
+                    , Offset = new Position(x: 0, y: topOffset)
+                });
+
+                if (measurement.Type == SpacePlanType.PartialRender)
+                {
+                    break;
+                }
+
                 topOffset += measurement.Height + Spacing;
             }
 
-            var targetWidth = commands.Select(x => x.Size.Width).DefaultIfEmpty(0).Max();
-            commands.ForEach(x => x.Size = new Size(targetWidth, x.Size.Height));
-            
+            var targetWidth = commands.Select(selector: x => x.Size.Width).DefaultIfEmpty(defaultValue: 0).Max();
+            commands.ForEach(action: x => x.Size = new Size(width: targetWidth, height: x.Size.Height));
+
             return commands;
         }
     }

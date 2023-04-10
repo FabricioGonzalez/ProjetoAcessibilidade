@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <item>
-    <id />
+    <id/>
     <name>Balcão de Atendimento Recepção</name>
     <template_name>Balcão de Atendimento Recepção</template_name>
     <table>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
-            <topic />
+            <topic/>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui mesa/balcão rebaixado?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui altura livre de 73cm sob o tampo?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui tampo com largura mínima d e 0,90cm?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui largura livre mínima sob a superfície de 0,80cm?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Profundidade livre mínima de 0,30cm?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -92,20 +92,21 @@
             </checkboxes>
         </checkbox_items>
         <text_item>
-            <id />
+            <id/>
             <type>text</type>
             <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo SIA,
-                Adesivo S.I.A, display de mesa ou não possui):</topic>
+                Adesivo S.I.A, display de mesa ou não possui):
+            </topic>
             <value></value>
             <measurement_unit></measurement_unit>
         </text_item>
         <observation_item>
-            <id />
+            <id/>
             <type>observation</type>
-            <observation />
+            <observation/>
         </observation_item>
         <image_items>
-            <id />
+            <id/>
             <type>image</type>
             <images></images>
         </image_items>

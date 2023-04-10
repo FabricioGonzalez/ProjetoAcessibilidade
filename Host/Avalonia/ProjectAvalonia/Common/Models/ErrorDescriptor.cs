@@ -4,7 +4,10 @@ namespace ProjectAvalonia.Common.Models;
 
 public readonly struct ErrorDescriptor : IEquatable<ErrorDescriptor>
 {
-    public ErrorDescriptor(ErrorSeverity severity, string message)
+    public ErrorDescriptor(
+        ErrorSeverity severity
+        , string message
+    )
     {
         Severity = severity;
         Message = message;
@@ -14,6 +17,7 @@ public readonly struct ErrorDescriptor : IEquatable<ErrorDescriptor>
     {
         get;
     }
+
     public string Message
     {
         get;
@@ -21,15 +25,25 @@ public readonly struct ErrorDescriptor : IEquatable<ErrorDescriptor>
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is ErrorDescriptor desc && this == desc;
+    public override bool Equals(
+        object? obj
+    ) => obj is ErrorDescriptor desc && this == desc;
 
-    public bool Equals(ErrorDescriptor other) => this == other;
+    public bool Equals(
+        ErrorDescriptor other
+    ) => this == other;
 
     public override int GetHashCode() => (Severity, Message).GetHashCode();
 
-    public static bool operator ==(ErrorDescriptor? x, ErrorDescriptor? y) => (x?.Severity, x?.Message) == (y?.Severity, y?.Message);
+    public static bool operator ==(
+        ErrorDescriptor? x
+        , ErrorDescriptor? y
+    ) => (x?.Severity, x?.Message) == (y?.Severity, y?.Message);
 
-    public static bool operator !=(ErrorDescriptor? x, ErrorDescriptor? y) => !(x == y);
+    public static bool operator !=(
+        ErrorDescriptor? x
+        , ErrorDescriptor? y
+    ) => !(x == y);
 
     #endregion Equality
 }

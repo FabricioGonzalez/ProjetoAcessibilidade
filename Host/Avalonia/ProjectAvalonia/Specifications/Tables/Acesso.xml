@@ -1,58 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <id />
+    <id/>
     <name>Acesso</name>
     <template_name>Acesso</template_name>
     <table>
         <text_item>
-            <id />
+            <id/>
             <type>text</type>
             <topic>Acesso-Principal:</topic>
             <value></value>
         </text_item>
         <text_item>
-            <id />
+            <id/>
             <type>text</type>
             <topic>Possuí desnível de:</topic>
             <measurement_unit>m</measurement_unit>
             <value></value>
         </text_item>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
             <topic>Acesso à Edificação:</topic>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Há garantia de pelo menos, um dos acessos ao seu interior, com
                         comunicação com todas as suas dependências e serviços, livre de barreiras e
-                        de obstáculos?</topic>
+                        de obstáculos?
+                    </topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
-                        </option>ice </options>
+                        </option>
+                        ice
+                    </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Há a possibilidade de ampliação do número de acessos livres de
                         obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há
                         sinalização informativa, indicativa edirecional da localização das entradas
-                        acessíveis?</topic>
+                        acessíveis?
+                    </topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -61,70 +65,71 @@
             </checkboxes>
         </checkbox_items>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
             <topic>Quanto ao piso de acesso utilizado:</topic>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Antiderrapante?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>É regular, estável e não trepidante?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui sinalização informativa e direcional dos acessos da edificação?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui sinalização direcional dos acessos da edificação até o balcão de
-                        informação?</topic>
+                        informação?
+                    </topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -133,12 +138,12 @@
             </checkboxes>
         </checkbox_items>
         <observation_item>
-            <id />
+            <id/>
             <type>observation</type>
-            <observation />
+            <observation/>
         </observation_item>
         <image_items>
-            <id />
+            <id/>
             <type>image</type>
             <images></images>
         </image_items>

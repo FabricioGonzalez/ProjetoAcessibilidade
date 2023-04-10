@@ -5,30 +5,37 @@ namespace ProjectAvalonia.Common.Helpers;
 
 public static class PrivacyModeHelper
 {
-    private static readonly TimeSpan RevealDelay = TimeSpan.FromSeconds(0.75);
-    private static readonly TimeSpan HideDelay = TimeSpan.FromSeconds(10);
+    private static readonly TimeSpan RevealDelay = TimeSpan.FromSeconds(value: 0.75);
+    private static readonly TimeSpan HideDelay = TimeSpan.FromSeconds(value: 10);
 
     public static IObservable<bool> DelayedRevealAndHide(
-        IObservable<bool> isPointerOver,
-        IObservable<bool> isPrivacyModeEnabled,
-        IObservable<bool>? isVisibilityForced = null)
+        IObservable<bool> isPointerOver
+        , IObservable<bool> isPrivacyModeEnabled
+        , IObservable<bool>? isVisibilityForced = null
+    )
     {
-        isVisibilityForced ??= Observable.Return(false);
+        isVisibilityForced ??= Observable.Return(value: false);
 
         var shouldBeVisible = isPointerOver
-            .Select(Visibility)
+            .Select(selector: Visibility)
             .Switch();
 
         var finalVisibility = isPrivacyModeEnabled
             .CombineLatest(
-                shouldBeVisible,
-                isVisibilityForced,
-                (privacyModeEnabled, visible, forced) => !privacyModeEnabled || visible || forced);
+                source2: shouldBeVisible,
+                source3: isVisibilityForced,
+                resultSelector: (
+                    privacyModeEnabled
+                    , visible
+                    , forced
+                ) => !privacyModeEnabled || visible || forced);
 
         return finalVisibility;
     }
 
-    private static IObservable<bool> Visibility(bool isPointerOver)
+    private static IObservable<bool> Visibility(
+        bool isPointerOver
+    )
     {
         if (isPointerOver)
         {
@@ -38,21 +45,18 @@ public static class PrivacyModeHelper
         return Hide();
     }
 
-    private static IObservable<bool> Hide()
-    {
-        return Observable.Return(false);
-    }
+    private static IObservable<bool> Hide() => Observable.Return(value: false);
 
     private static IObservable<bool> ShowAfterDelayThenHide()
     {
         var hideObs = Observable
-            .Return(false)
-            .Delay(HideDelay);
+            .Return(value: false)
+            .Delay(dueTime: HideDelay);
 
         var showObs = Observable
-            .Return(true)
-            .Delay(RevealDelay);
+            .Return(value: true)
+            .Delay(dueTime: RevealDelay);
 
-        return showObs.Concat(hideObs);
+        return showObs.Concat(second: hideObs);
     }
 }

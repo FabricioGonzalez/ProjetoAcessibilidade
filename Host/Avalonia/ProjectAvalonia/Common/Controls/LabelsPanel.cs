@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 using Avalonia;
 using Avalonia.Controls;
 
@@ -9,69 +8,78 @@ namespace ProjectAvalonia.Common.Controls;
 public class LabelsPanel : VirtualizingStackPanel
 {
     public static readonly StyledProperty<Control?> EllipsisControlProperty =
-        AvaloniaProperty.Register<LabelsPanel, Control?>(nameof(EllipsisControl));
+        AvaloniaProperty.Register<LabelsPanel, Control?>(name: nameof(EllipsisControl));
 
     public static readonly DirectProperty<LabelsPanel, int> VisibleItemsCountProperty =
         AvaloniaProperty.RegisterDirect<LabelsPanel, int>(
-            nameof(VisibleItemsCount),
-            o => o.VisibleItemsCount);
+            name: nameof(VisibleItemsCount),
+            getter: o => o.VisibleItemsCount);
 
     private int _visibleItemsCount;
 
     public Control? EllipsisControl
     {
-        get => GetValue(EllipsisControlProperty);
-        set => SetValue(EllipsisControlProperty, value);
+        get => GetValue(property: EllipsisControlProperty);
+        set => SetValue(property: EllipsisControlProperty, value: value);
     }
 
     public int VisibleItemsCount
     {
         get => _visibleItemsCount;
-        private set => SetAndRaise(VisibleItemsCountProperty, ref _visibleItemsCount, value);
+        private set => SetAndRaise(property: VisibleItemsCountProperty, field: ref _visibleItemsCount, value: value);
     }
 
     public List<string>? FilteredItems
     {
-        get; set;
+        get;
+        set;
     }
 
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    protected override void OnAttachedToVisualTree(
+        VisualTreeAttachmentEventArgs e
+    )
     {
         if (EllipsisControl is { } ellipsisControl)
         {
-            ((ISetLogicalParent)ellipsisControl).SetParent(this);
-            VisualChildren.Add(ellipsisControl);
-            LogicalChildren.Add(ellipsisControl);
+            ((ISetLogicalParent)ellipsisControl).SetParent(parent: this);
+            VisualChildren.Add(item: ellipsisControl);
+            LogicalChildren.Add(item: ellipsisControl);
         }
 
-        base.OnAttachedToVisualTree(e);
+        base.OnAttachedToVisualTree(e: e);
     }
 
-    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    protected override void OnDetachedFromVisualTree(
+        VisualTreeAttachmentEventArgs e
+    )
     {
         if (EllipsisControl is { } ellipsisControl)
         {
-            ((ISetLogicalParent)ellipsisControl).SetParent(null);
-            LogicalChildren.Remove(ellipsisControl);
-            VisualChildren.Remove(ellipsisControl);
+            ((ISetLogicalParent)ellipsisControl).SetParent(parent: null);
+            LogicalChildren.Remove(item: ellipsisControl);
+            VisualChildren.Remove(item: ellipsisControl);
         }
 
-        base.OnDetachedFromVisualTree(e);
+        base.OnDetachedFromVisualTree(e: e);
     }
 
-    protected override Size MeasureOverride(Size availableSize)
+    protected override Size MeasureOverride(
+        Size availableSize
+    )
     {
         var ellipsis = 0.0;
-        if (EllipsisControl is { })
+        if (EllipsisControl is not null)
         {
-            EllipsisControl.Measure(availableSize);
+            EllipsisControl.Measure(availableSize: availableSize);
             ellipsis = EllipsisControl.DesiredSize.Width;
         }
 
-        return base.MeasureOverride(availableSize.WithWidth(availableSize.Width + ellipsis));
+        return base.MeasureOverride(availableSize: availableSize.WithWidth(width: availableSize.Width + ellipsis));
     }
 
-    protected override Size ArrangeOverride(Size finalSize)
+    protected override Size ArrangeOverride(
+        Size finalSize
+    )
     {
         var spacing = Spacing;
         var ellipsisWidth = 0.0;
@@ -82,17 +90,17 @@ public class LabelsPanel : VirtualizingStackPanel
         var totalChildren = Children.Count;
         var count = 0;
 
-        if (EllipsisControl is { })
+        if (EllipsisControl is not null)
         {
             ellipsisWidth = EllipsisControl.DesiredSize.Width;
         }
 
         for (var i = 0; i < totalChildren; i++)
         {
-            var child = Children[i];
+            var child = Children[index: i];
             var childWidth = child.DesiredSize.Width;
 
-            height = Math.Max(height, child.DesiredSize.Height);
+            height = Math.Max(val1: height, val2: child.DesiredSize.Height);
 
             if (width + childWidth > finalWidth)
             {
@@ -103,7 +111,7 @@ public class LabelsPanel : VirtualizingStackPanel
                         var previous = i - 1;
                         if (previous >= 0)
                         {
-                            var previousChild = Children[previous];
+                            var previousChild = Children[index: previous];
                             count--;
                             width -= previousChild.DesiredSize.Width + spacing;
                         }
@@ -119,7 +127,7 @@ public class LabelsPanel : VirtualizingStackPanel
                 }
 
                 showEllipsis = true;
-                if (EllipsisControl is { })
+                if (EllipsisControl is not null)
                 {
                     width += EllipsisControl.DesiredSize.Width;
                 }
@@ -135,34 +143,34 @@ public class LabelsPanel : VirtualizingStackPanel
 
         for (var i = 0; i < totalChildren; i++)
         {
-            var child = Children[i];
+            var child = Children[index: i];
             if (i < count)
             {
-                var rect = new Rect(offset, 0.0, child.DesiredSize.Width, height);
-                child.Arrange(rect);
+                var rect = new Rect(x: offset, y: 0.0, width: child.DesiredSize.Width, height: height);
+                child.Arrange(rect: rect);
                 offset += child.DesiredSize.Width + spacing;
             }
             else
             {
-                child.Arrange(new Rect(-10000, -10000, 0, 0));
+                child.Arrange(rect: new Rect(x: -10000, y: -10000, width: 0, height: 0));
             }
         }
 
-        if (EllipsisControl is { })
+        if (EllipsisControl is not null)
         {
             if (showEllipsis)
             {
-                var rect = new Rect(offset, 0.0, EllipsisControl.DesiredSize.Width, height);
-                EllipsisControl.Arrange(rect);
+                var rect = new Rect(x: offset, y: 0.0, width: EllipsisControl.DesiredSize.Width, height: height);
+                EllipsisControl.Arrange(rect: rect);
             }
             else
             {
-                EllipsisControl.Arrange(new Rect(-10000, -10000, 0, 0));
+                EllipsisControl.Arrange(rect: new Rect(x: -10000, y: -10000, width: 0, height: 0));
             }
         }
 
         VisibleItemsCount = count;
 
-        return new Size(width, height);
+        return new Size(width: width, height: height);
     }
 }

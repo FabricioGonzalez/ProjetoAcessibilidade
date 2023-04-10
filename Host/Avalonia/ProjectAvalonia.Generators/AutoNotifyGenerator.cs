@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
@@ -48,32 +47,40 @@ namespace ProjectAvalonia
     }
 }";
 
-    public void Initialize(GeneratorInitializationContext context)
+    public void Initialize(
+        GeneratorInitializationContext context
+    )
     {
         /*System.Diagnostics.Debugger.Launch();*/
-        context.RegisterForPostInitialization((i) =>
+        context.RegisterForPostInitialization(callback: i =>
         {
-            i.AddSource("AccessModifier.cs", SourceText.From(ModifierText, Encoding.UTF8));
-            i.AddSource("AutoNotifyAttribute.cs", SourceText.From(AttributeText, Encoding.UTF8));
+            i.AddSource(hintName: "AccessModifier.cs"
+                , sourceText: SourceText.From(text: ModifierText, encoding: Encoding.UTF8));
+            i.AddSource(hintName: "AutoNotifyAttribute.cs"
+                , sourceText: SourceText.From(text: AttributeText, encoding: Encoding.UTF8));
         });
 
-        context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
+        context.RegisterForSyntaxNotifications(receiverCreator: () => new SyntaxReceiver());
     }
 
-    public void Execute(GeneratorExecutionContext context)
+    public void Execute(
+        GeneratorExecutionContext context
+    )
     {
         if (context.SyntaxContextReceiver is not SyntaxReceiver receiver)
         {
             return;
         }
 
-        var attributeSymbol = context.Compilation.GetTypeByMetadataName(AutoNotifyAttributeDisplayString);
+        var attributeSymbol =
+            context.Compilation.GetTypeByMetadataName(fullyQualifiedMetadataName: AutoNotifyAttributeDisplayString);
         if (attributeSymbol is null)
         {
             return;
         }
 
-        var notifySymbol = context.Compilation.GetTypeByMetadataName(ReactiveObjectDisplayString);
+        var notifySymbol =
+            context.Compilation.GetTypeByMetadataName(fullyQualifiedMetadataName: ReactiveObjectDisplayString);
         if (notifySymbol is null)
         {
             return;
@@ -81,30 +88,39 @@ namespace ProjectAvalonia
 
         // TODO: https://github.com/dotnet/roslyn/issues/49385
 #pragma warning disable RS1024
-        var groupedFields = receiver.FieldSymbols.GroupBy(f => f.ContainingType);
+        var groupedFields = receiver.FieldSymbols.GroupBy(keySelector: f => f.ContainingType);
 #pragma warning restore RS1024
 
         foreach (var group in groupedFields)
         {
-            var classSource = ProcessClass(group.Key, group.ToList(), attributeSymbol, notifySymbol);
+            var classSource = ProcessClass(classSymbol: group.Key, fields: group.ToList()
+                , attributeSymbol: attributeSymbol, notifySymbol: notifySymbol);
             if (classSource is null)
             {
                 continue;
             }
-            context.AddSource($"{group.Key.Name}_AutoNotify.cs", SourceText.From(classSource, Encoding.UTF8));
+
+            context.AddSource(hintName: $"{group.Key.Name}_AutoNotify.cs"
+                , sourceText: SourceText.From(text: classSource, encoding: Encoding.UTF8));
         }
     }
 
-    private static string? ProcessClass(INamedTypeSymbol classSymbol, List<IFieldSymbol> fields, ISymbol attributeSymbol, INamedTypeSymbol notifySymbol)
+    private static string? ProcessClass(
+        INamedTypeSymbol classSymbol
+        , List<IFieldSymbol> fields
+        , ISymbol attributeSymbol
+        , INamedTypeSymbol notifySymbol
+    )
     {
-        if (!classSymbol.ContainingSymbol.Equals(classSymbol.ContainingNamespace, SymbolEqualityComparer.Default))
+        if (!classSymbol.ContainingSymbol.Equals(other: classSymbol.ContainingNamespace
+                , equalityComparer: SymbolEqualityComparer.Default))
         {
             return null;
         }
 
         var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
 
-        var addNotifyInterface = !classSymbol.Interfaces.Contains(notifySymbol);
+        var addNotifyInterface = !classSymbol.Interfaces.Contains(item: notifySymbol);
         var baseType = classSymbol.BaseType;
         while (true)
         {
@@ -113,7 +129,7 @@ namespace ProjectAvalonia
                 break;
             }
 
-            if (SymbolEqualityComparer.Default.Equals(baseType, notifySymbol))
+            if (SymbolEqualityComparer.Default.Equals(x: baseType, y: notifySymbol))
             {
                 addNotifyInterface = false;
                 break;
@@ -126,50 +142,59 @@ namespace ProjectAvalonia
 
         var format = new SymbolDisplayFormat(
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypes,
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters | SymbolDisplayGenericsOptions.IncludeTypeConstraints | SymbolDisplayGenericsOptions.IncludeVariance);
+            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters |
+                             SymbolDisplayGenericsOptions.IncludeTypeConstraints |
+                             SymbolDisplayGenericsOptions.IncludeVariance);
 
         if (addNotifyInterface)
         {
-            source.Append($@"// <auto-generated />
+            source.Append(value: $@"// <auto-generated />
 #nullable enable
 using ReactiveUI;
 
 namespace {namespaceName}
 {{
-    public partial class {classSymbol.ToDisplayString(format)} : {notifySymbol.ToDisplayString()}
+    public partial class {classSymbol.ToDisplayString(format: format)} : {notifySymbol.ToDisplayString()}
     {{");
         }
         else
         {
-            source.Append($@"// <auto-generated />
+            source.Append(value: $@"// <auto-generated />
 #nullable enable
 using ReactiveUI;
 
 namespace {namespaceName}
 {{
-    public partial class {classSymbol.ToDisplayString(format)}
+    public partial class {classSymbol.ToDisplayString(format: format)}
     {{");
         }
 
-        foreach (IFieldSymbol fieldSymbol in fields)
+        foreach (var fieldSymbol in fields)
         {
-            ProcessField(source, fieldSymbol, attributeSymbol);
+            ProcessField(source: source, fieldSymbol: fieldSymbol, attributeSymbol: attributeSymbol);
         }
 
-        source.Append($@"
-    }}
-}}");
+        source.Append(value: @"
+    }
+}");
 
         return source.ToString();
     }
 
-    private static void ProcessField(StringBuilder source, IFieldSymbol fieldSymbol, ISymbol attributeSymbol)
+    private static void ProcessField(
+        StringBuilder source
+        , IFieldSymbol fieldSymbol
+        , ISymbol attributeSymbol
+    )
     {
         var fieldName = fieldSymbol.Name;
         var fieldType = fieldSymbol.Type;
-        var attributeData = fieldSymbol.GetAttributes().Single(ad => ad?.AttributeClass?.Equals(attributeSymbol, SymbolEqualityComparer.Default) ?? false);
-        var overridenNameOpt = attributeData.NamedArguments.SingleOrDefault(kvp => kvp.Key == "PropertyName").Value;
-        var propertyName = ChooseName(fieldName, overridenNameOpt);
+        var attributeData = fieldSymbol.GetAttributes().Single(predicate: ad =>
+            ad?.AttributeClass?.Equals(other: attributeSymbol, equalityComparer: SymbolEqualityComparer.Default) ??
+            false);
+        var overridenNameOpt = attributeData.NamedArguments.SingleOrDefault(predicate: kvp => kvp.Key == "PropertyName")
+            .Value;
+        var propertyName = ChooseName(fieldName: fieldName, overridenNameOpt: overridenNameOpt);
 
         if (propertyName is null || propertyName.Length == 0 || propertyName == fieldName)
         {
@@ -177,11 +202,12 @@ namespace {namespaceName}
             return;
         }
 
-        var overridenSetterModifierOpt = attributeData.NamedArguments.SingleOrDefault(kvp => kvp.Key == "SetterModifier").Value;
-        var setterModifier = ChooseSetterModifier(overridenSetterModifierOpt);
+        var overridenSetterModifierOpt = attributeData.NamedArguments
+            .SingleOrDefault(predicate: kvp => kvp.Key == "SetterModifier").Value;
+        var setterModifier = ChooseSetterModifier(overridenSetterModifierOpt: overridenSetterModifierOpt);
         if (setterModifier is null)
         {
-            source.Append($@"
+            source.Append(value: $@"
         public {fieldType} {propertyName}
         {{
             get => {fieldName};
@@ -189,7 +215,7 @@ namespace {namespaceName}
         }
         else
         {
-            source.Append($@"
+            source.Append(value: $@"
         public {fieldType} {propertyName}
         {{
             get => {fieldName};
@@ -197,28 +223,35 @@ namespace {namespaceName}
         }}");
         }
 
-        static string? ChooseSetterModifier(TypedConstant overridenSetterModifierOpt)
+        static string? ChooseSetterModifier(
+            TypedConstant overridenSetterModifierOpt
+        )
         {
             if (!overridenSetterModifierOpt.IsNull && overridenSetterModifierOpt.Value is not null)
             {
                 var value = (int)overridenSetterModifierOpt.Value;
                 return value switch
                 {
-                    0 => null,// None
-                    1 => "",// Public
-                    2 => "protected ",// Protected
-                    3 => "private ",// Private
-                    4 => "internal ",// Internal
-                    _ => ""// Default
+                    0 => null, // None
+                    1 => ""
+                    , // Public
+                    2 => "protected "
+                    , // Protected
+                    3 => "private "
+                    , // Private
+                    4 => "internal "
+                    , // Internal
+                    _ => "" // Default
                 };
             }
-            else
-            {
-                return "";
-            }
+
+            return "";
         }
 
-        static string? ChooseName(string fieldName, TypedConstant overridenNameOpt)
+        static string? ChooseName(
+            string fieldName
+            , TypedConstant overridenNameOpt
+        )
         {
             if (!overridenNameOpt.IsNull)
             {
@@ -236,30 +269,36 @@ namespace {namespaceName}
                 return fieldName.ToUpper();
             }
 
-            return fieldName.Substring(0, 1).ToUpper() + fieldName.Substring(1);
+            return fieldName.Substring(startIndex: 0, length: 1).ToUpper() + fieldName.Substring(startIndex: 1);
         }
     }
 
     private class SyntaxReceiver : ISyntaxContextReceiver
     {
-        public List<IFieldSymbol> FieldSymbols { get; } = new();
+        public List<IFieldSymbol> FieldSymbols
+        {
+            get;
+        } = new();
 
-        public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
+        public void OnVisitSyntaxNode(
+            GeneratorSyntaxContext context
+        )
         {
             if (context.Node is FieldDeclarationSyntax fieldDeclarationSyntax
                 && fieldDeclarationSyntax.AttributeLists.Count > 0)
             {
-                foreach (VariableDeclaratorSyntax variable in fieldDeclarationSyntax.Declaration.Variables)
+                foreach (var variable in fieldDeclarationSyntax.Declaration.Variables)
                 {
-                    if (context.SemanticModel.GetDeclaredSymbol(variable) is not IFieldSymbol fieldSymbol)
+                    if (context.SemanticModel.GetDeclaredSymbol(declaration: variable) is not IFieldSymbol fieldSymbol)
                     {
                         continue;
                     }
 
                     var attributes = fieldSymbol.GetAttributes();
-                    if (attributes.Any(ad => ad?.AttributeClass?.ToDisplayString() == AutoNotifyAttributeDisplayString))
+                    if (attributes.Any(predicate: ad =>
+                            ad?.AttributeClass?.ToDisplayString() == AutoNotifyAttributeDisplayString))
                     {
-                        FieldSymbols.Add(fieldSymbol);
+                        FieldSymbols.Add(item: fieldSymbol);
                     }
                 }
             }

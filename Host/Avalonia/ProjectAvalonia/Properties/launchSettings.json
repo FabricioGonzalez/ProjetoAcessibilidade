@@ -9,7 +9,8 @@
       "distributionName": "ubuntu",
       "environmentVariables": {
         "DISPLAY": ":0",
-        "GDK_GL": "gles" // use this line when running under WSL on Windows 11
+        "GDK_GL": "gles"
+        // use this line when running under WSL on Windows 11
       }
     }
   }

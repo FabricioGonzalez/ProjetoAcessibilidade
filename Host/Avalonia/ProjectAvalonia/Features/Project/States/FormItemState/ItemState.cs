@@ -1,8 +1,8 @@
 ﻿using Core.Enuns;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.States.FormItemState;
+
 public abstract partial class FormItemStateBase : ReactiveObject
 {
     [AutoNotify]
@@ -10,7 +10,11 @@ public abstract partial class FormItemStateBase : ReactiveObject
 
     [AutoNotify]
     private AppFormDataType _type;
-    public FormItemStateBase(AppFormDataType type, string id)
+
+    public FormItemStateBase(
+        AppFormDataType type
+        , string id
+    )
     {
         id = id;
         Type = type;

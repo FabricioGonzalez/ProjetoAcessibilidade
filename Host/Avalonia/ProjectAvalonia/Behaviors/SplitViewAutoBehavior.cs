@@ -1,51 +1,51 @@
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
 using Avalonia;
 using Avalonia.Controls;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Behaviors;
 
 public class SplitViewAutoBehavior : DisposingBehavior<SplitView>
 {
-    private bool _sidebarWasForceClosed;
-
     public static readonly StyledProperty<double> CollapseThresholdProperty =
-        AvaloniaProperty.Register<SplitViewAutoBehavior, double>(nameof(CollapseThreshold));
+        AvaloniaProperty.Register<SplitViewAutoBehavior, double>(name: nameof(CollapseThreshold));
 
     public static readonly StyledProperty<Action> ToggleActionProperty =
-        AvaloniaProperty.Register<SplitViewAutoBehavior, Action>(nameof(ToggleAction));
+        AvaloniaProperty.Register<SplitViewAutoBehavior, Action>(name: nameof(ToggleAction));
 
     public static readonly StyledProperty<Action> CollapseOnClickActionProperty =
-        AvaloniaProperty.Register<SplitViewAutoBehavior, Action>(nameof(CollapseOnClickAction));
+        AvaloniaProperty.Register<SplitViewAutoBehavior, Action>(name: nameof(CollapseOnClickAction));
+
+    private bool _sidebarWasForceClosed;
 
     public double CollapseThreshold
     {
-        get => GetValue(CollapseThresholdProperty);
-        set => SetValue(CollapseThresholdProperty, value);
+        get => GetValue(property: CollapseThresholdProperty);
+        set => SetValue(property: CollapseThresholdProperty, value: value);
     }
 
     public Action ToggleAction
     {
-        get => GetValue(ToggleActionProperty);
-        set => SetValue(ToggleActionProperty, value);
+        get => GetValue(property: ToggleActionProperty);
+        set => SetValue(property: ToggleActionProperty, value: value);
     }
 
     public Action CollapseOnClickAction
     {
-        get => GetValue(CollapseOnClickActionProperty);
-        set => SetValue(CollapseOnClickActionProperty, value);
+        get => GetValue(property: CollapseOnClickActionProperty);
+        set => SetValue(property: CollapseOnClickActionProperty, value: value);
     }
 
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override void OnAttached(
+        CompositeDisposable disposables
+    )
     {
-        AssociatedObject!.WhenAnyValue(x => x.Bounds)
+        AssociatedObject!.WhenAnyValue(property1: x => x.Bounds)
             .DistinctUntilChanged()
-            .Subscribe(SplitViewBoundsChanged)
-            .DisposeWith(disposables);
+            .Subscribe(onNext: SplitViewBoundsChanged)
+            .DisposeWith(compositeDisposable: disposables);
 
         ToggleAction = OnToggleAction;
         CollapseOnClickAction = OnCollapseOnClickAction;
@@ -69,7 +69,9 @@ public class SplitViewAutoBehavior : DisposingBehavior<SplitView>
         AssociatedObject!.IsPaneOpen = !AssociatedObject!.IsPaneOpen;
     }
 
-    private void SplitViewBoundsChanged(Rect x)
+    private void SplitViewBoundsChanged(
+        Rect x
+    )
     {
         if (AssociatedObject is null)
         {

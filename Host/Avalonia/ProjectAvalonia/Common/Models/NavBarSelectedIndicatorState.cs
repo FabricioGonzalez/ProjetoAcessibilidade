@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
@@ -14,18 +13,22 @@ namespace ProjectAvalonia.Common.Models;
 
 public class NavBarSelectedIndicatorState : IDisposable
 {
-    private readonly Easing _bckEasing = new SplineEasing(0.2, 1, 0.1, 0.9);
-    private readonly Easing _fwdEasing = new SplineEasing(0.1, 0.9, 0.2);
-    private readonly TimeSpan _totalDuration = TimeSpan.FromSeconds(0.4);
+    private readonly Easing _bckEasing = new SplineEasing(x1: 0.2, y1: 1, x2: 0.1, y2: 0.9);
+    private readonly Easing _fwdEasing = new SplineEasing(x1: 0.1, y1: 0.9, x2: 0.2);
+    private readonly TimeSpan _totalDuration = TimeSpan.FromSeconds(value: 0.4);
+    private Control? _activeIndicator;
 
     private CancellationTokenSource _currentAnimationCts = new();
-    private Control? _activeIndicator;
 
     private bool _isDisposed;
     private bool _previousAnimationOngoing;
 
     // This will be used in the future for horizontal selection indicators.
-    public Orientation NavItemsOrientation { get; set; } = Orientation.Vertical;
+    public Orientation NavItemsOrientation
+    {
+        get;
+        set;
+    } = Orientation.Vertical;
 
     public void Dispose()
     {
@@ -40,7 +43,10 @@ public class NavBarSelectedIndicatorState : IDisposable
         _currentAnimationCts = new CancellationTokenSource();
     }
 
-    private static Matrix GetOffsetFrom(IVisual ancestor, IVisual visual)
+    private static Matrix GetOffsetFrom(
+        IVisual ancestor
+        , IVisual visual
+    )
     {
         var identity = Matrix.Identity;
         while (visual != ancestor)
@@ -50,7 +56,7 @@ public class NavBarSelectedIndicatorState : IDisposable
 
             if (topLeft != new Point())
             {
-                identity *= Matrix.CreateTranslation(topLeft);
+                identity *= Matrix.CreateTranslation(position: topLeft);
             }
 
             if (visual.VisualParent is null)
@@ -64,7 +70,9 @@ public class NavBarSelectedIndicatorState : IDisposable
         return identity;
     }
 
-    public async void AnimateIndicatorAsync(Control next)
+    public async void AnimateIndicatorAsync(
+        Control next
+    )
     {
         if (_isDisposed)
         {
@@ -75,13 +83,13 @@ public class NavBarSelectedIndicatorState : IDisposable
         var nextIndicator = next;
 
         // user clicked twice
-        if (prevIndicator is null || prevIndicator.Equals(nextIndicator))
+        if (prevIndicator is null || prevIndicator.Equals(obj: nextIndicator))
         {
             return;
         }
 
         // Get the common ancestor as a reference point.
-        var commonAncestor = prevIndicator.FindCommonVisualAncestor(nextIndicator);
+        var commonAncestor = prevIndicator.FindCommonVisualAncestor(target: nextIndicator);
 
         // likely being dragged
         if (commonAncestor is null)
@@ -100,66 +108,64 @@ public class NavBarSelectedIndicatorState : IDisposable
         nextIndicator.Opacity = 0;
 
         // Ignore the RenderTransforms so we can get the actual positions
-        var prevMatrix = GetOffsetFrom(commonAncestor, prevIndicator);
-        var nextMatrix = GetOffsetFrom(commonAncestor, nextIndicator);
+        var prevMatrix = GetOffsetFrom(ancestor: commonAncestor, visual: prevIndicator);
+        var nextMatrix = GetOffsetFrom(ancestor: commonAncestor, visual: nextIndicator);
 
-        var prevVector = new Point().Transform(prevMatrix);
-        var nextVector = new Point().Transform(nextMatrix);
+        var prevVector = new Point().Transform(transform: prevMatrix);
+        var nextVector = new Point().Transform(transform: nextMatrix);
 
         var targetVector = nextVector - prevVector;
         var fromTopToBottom = targetVector.Y > 0;
         var curEasing = fromTopToBottom ? _fwdEasing : _bckEasing;
-        var newDim = Math.Abs(NavItemsOrientation == Orientation.Vertical ? targetVector.Y : targetVector.X);
+        var newDim = Math.Abs(value: NavItemsOrientation == Orientation.Vertical ? targetVector.Y : targetVector.X);
         var maxScale = newDim / (NavItemsOrientation == Orientation.Vertical
             ? nextIndicator.Bounds.Height
             : nextIndicator.Bounds.Width) + 1;
 
         Animation translationAnimation = new()
         {
-            Easing = curEasing,
-            Duration = _totalDuration,
-            Children =
+            Easing = curEasing, Duration = _totalDuration, Children =
+            {
+                new KeyFrame
                 {
-                    new KeyFrame
+                    Cue = new Cue(value: 0d), Setters =
                     {
-                        Cue = new Cue(0d),
-                        Setters =
-                        {
-                            new Setter(ScaleTransform.ScaleYProperty, 1d),
-                            new Setter(TranslateTransform.XProperty, 0d),
-                            new Setter(TranslateTransform.YProperty, 0d)
-                        }
-                    },
-                    new KeyFrame
-                    {
-                        Cue = new Cue(0.33333d),
-                        Setters =
-                        {
-                            new Setter(ScaleTransform.ScaleYProperty, maxScale * 0.5d)
-                        }
-                    },
-                    new KeyFrame
-                    {
-                        Cue = new Cue(1d),
-                        Setters =
-                        {
-                            new Setter(ScaleTransform.ScaleYProperty, 1d),
-                            new Setter(TranslateTransform.XProperty, targetVector.X),
-                            new Setter(TranslateTransform.YProperty, targetVector.Y)
-                        }
+                        new Setter(property: ScaleTransform.ScaleYProperty, value: 1d)
+                        , new Setter(property: TranslateTransform.XProperty, value: 0d)
+                        , new Setter(property: TranslateTransform.YProperty, value: 0d)
                     }
                 }
+                , new KeyFrame
+                {
+                    Cue = new Cue(value: 0.33333d), Setters =
+                    {
+                        new Setter(property: ScaleTransform.ScaleYProperty, value: maxScale * 0.5d)
+                    }
+                }
+                , new KeyFrame
+                {
+                    Cue = new Cue(value: 1d), Setters =
+                    {
+                        new Setter(property: ScaleTransform.ScaleYProperty, value: 1d)
+                        , new Setter(property: TranslateTransform.XProperty, value: targetVector.X)
+                        , new Setter(property: TranslateTransform.YProperty, value: targetVector.Y)
+                    }
+                }
+            }
         };
 
         _previousAnimationOngoing = true;
-        await translationAnimation.RunAsync(prevIndicator, null, _currentAnimationCts.Token);
+        await translationAnimation.RunAsync(control: prevIndicator, clock: null
+            , cancellationToken: _currentAnimationCts.Token);
         _previousAnimationOngoing = false;
 
         prevIndicator.Opacity = 0;
-        nextIndicator.Opacity = Equals(_activeIndicator, nextIndicator) ? 1 : 0;
+        nextIndicator.Opacity = Equals(objA: _activeIndicator, objB: nextIndicator) ? 1 : 0;
     }
 
-    public void SetActive(Control initial)
+    public void SetActive(
+        Control initial
+    )
     {
         if (_activeIndicator is not null)
         {

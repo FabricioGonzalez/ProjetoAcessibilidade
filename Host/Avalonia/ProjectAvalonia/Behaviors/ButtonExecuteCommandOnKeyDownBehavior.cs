@@ -9,54 +9,59 @@ namespace ProjectAvalonia.Behaviors;
 
 public class ButtonExecuteCommandOnKeyDownBehavior : AttachedToVisualTreeBehavior<Button>
 {
-	public static readonly StyledProperty<Key?> KeyProperty =
-		AvaloniaProperty.Register<ButtonExecuteCommandOnKeyDownBehavior, Key?>(nameof(Key));
+    public static readonly StyledProperty<Key?> KeyProperty =
+        AvaloniaProperty.Register<ButtonExecuteCommandOnKeyDownBehavior, Key?>(name: nameof(Key));
 
-	public static readonly StyledProperty<bool> IsEnabledProperty =
-		AvaloniaProperty.Register<ButtonExecuteCommandOnKeyDownBehavior, bool>(nameof(IsEnabled));
+    public static readonly StyledProperty<bool> IsEnabledProperty =
+        AvaloniaProperty.Register<ButtonExecuteCommandOnKeyDownBehavior, bool>(name: nameof(IsEnabled));
 
-	public Key? Key
-	{
-		get => GetValue(KeyProperty);
-		set => SetValue(KeyProperty, value);
-	}
+    public Key? Key
+    {
+        get => GetValue(property: KeyProperty);
+        set => SetValue(property: KeyProperty, value: value);
+    }
 
-	public bool IsEnabled
-	{
-		get => GetValue(IsEnabledProperty);
-		set => SetValue(IsEnabledProperty, value);
-	}
+    public bool IsEnabled
+    {
+        get => GetValue(property: IsEnabledProperty);
+        set => SetValue(property: IsEnabledProperty, value: value);
+    }
 
-	protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
-	{
-		var button = AssociatedObject;
-		if (button is null)
-		{
-			return;
-		}
+    protected override void OnAttachedToVisualTree(
+        CompositeDisposable disposable
+    )
+    {
+        var button = AssociatedObject;
+        if (button is null)
+        {
+            return;
+        }
 
-		if (button.GetVisualRoot() is IInputElement inputRoot)
-		{
-			inputRoot.AddDisposableHandler(InputElement.KeyDownEvent, RootDefaultKeyDown)
-					 .DisposeWith(disposable);
-		}
-	}
+        if (button.GetVisualRoot() is IInputElement inputRoot)
+        {
+            inputRoot.AddDisposableHandler(routedEvent: InputElement.KeyDownEvent, handler: RootDefaultKeyDown)
+                .DisposeWith(compositeDisposable: disposable);
+        }
+    }
 
-	private void RootDefaultKeyDown(object? sender, KeyEventArgs e)
-	{
-		var button = AssociatedObject;
-		if (button is null)
-		{
-			return;
-		}
+    private void RootDefaultKeyDown(
+        object? sender
+        , KeyEventArgs e
+    )
+    {
+        var button = AssociatedObject;
+        if (button is null)
+        {
+            return;
+        }
 
-		if (Key is { } && e.Key == Key && button.IsVisible && button.IsEnabled && IsEnabled)
-		{
-			if (!e.Handled && button.Command?.CanExecute(button.CommandParameter) == true)
-			{
-				button.Command.Execute(button.CommandParameter);
-				e.Handled = true;
-			}
-		}
-	}
+        if (Key is not null && e.Key == Key && button.IsVisible && button.IsEnabled && IsEnabled)
+        {
+            if (!e.Handled && button.Command?.CanExecute(parameter: button.CommandParameter) == true)
+            {
+                button.Command.Execute(parameter: button.CommandParameter);
+                e.Handled = true;
+            }
+        }
+    }
 }

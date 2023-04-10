@@ -1,8 +1,8 @@
 ﻿using System.Reactive;
-
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
+
 [NavigationMetaData(
     Title = "Template Validation",
     Caption = "Valides project items templates",
@@ -11,11 +11,10 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Searchable = true,
     Keywords = new[]
     {
-            "Templates", "Editing","Validation"
+        "Templates", "Editing", "Validation"
     },
-        NavBarPosition = NavBarPosition.Top,
+    NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen)]
-
 public partial class ItemValidationViewModel : DialogViewModelBase<Unit>
 {
 }

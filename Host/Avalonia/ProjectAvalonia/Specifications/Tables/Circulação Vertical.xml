@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <item>
-    <id />
+    <id/>
     <name>Circulação-Vertical</name>
     <template_name>Circulação-Vertical</template_name>
     <table>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
             <topic>Detalhes do elevador</topic>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui elevadores?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Situação:</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Em uso</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Desativado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>type de elevador:</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Comum</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Plataforma</value>
                         </option>
@@ -60,388 +60,388 @@
             </checkboxes>
         </checkbox_items>
         <text_item>
-            <id />
+            <id/>
             <type>text</type>
             <topic>Se plataforma, indicar o type:</topic>
-            <measurement_unit />
-            <value />
+            <measurement_unit/>
+            <value/>
         </text_item>
         <text_item>
-            <id />
+            <id/>
             <type>text</type>
             <topic>Atende à quais pavimentos? (Ex. subsolo ao térreo, térreo ao segundo, etc.</topic>
-            <measurement_unit />
-            <value />
+            <measurement_unit/>
+            <value/>
         </text_item>
         <text_item>
-            <id />
+            <id/>
             <type>text</type>
             <topic>Quantidade de paradas:</topic>
             <measurement_unit>cm</measurement_unit>
-            <value />
+            <value/>
         </text_item>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
-            <topic />
+            <topic/>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui identificação externa em braile na botoeira?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui identificação interna em braile nos comandos?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui idenficação externa em braile no batente?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui aviso sonoro?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Sinalização visual(SIA)</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Altura dos comandos conforme Norma</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Espelho</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Corrimão</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Botoeira externa</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Botoeiras de comando internas</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Sinalização tátil de alerta</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Sistema de reabertura da porta em caso de obstrução</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Adequado</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Inadequado</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Painel de comando</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                     <texts>
                         <text_item>
-                            <id />
+                            <id/>
                             <topic>Onde se localiza</topic>
-                            <measurement_unit />
-                            <value />
+                            <measurement_unit/>
+                            <value/>
                         </text_item>
                     </texts>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Desnível</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                     <texts>
                         <text_item>
-                            <id />
+                            <id/>
                             <topic>Desnível:</topic>
                             <measurement_unit>cm</measurement_unit>
-                            <value />
+                            <value/>
                         </text_item>
                     </texts>
                 </checkbox_item>
@@ -450,17 +450,18 @@
         <text_item>
             <type>text</type>
             <topic>type de porta (automática-abertura lateral, automática-abertura central,
-                manual-eixo vertical):</topic>
-            <measurement_unit />
-            <value />
+                manual-eixo vertical):
+            </topic>
+            <measurement_unit/>
+            <value/>
         </text_item>
         <observation_item>
             <type>observation</type>
-            <observation />
+            <observation/>
         </observation_item>
         <image_items>
             <type>image</type>
         </image_items>
     </table>
-    <lei />
+    <lei/>
 </item>

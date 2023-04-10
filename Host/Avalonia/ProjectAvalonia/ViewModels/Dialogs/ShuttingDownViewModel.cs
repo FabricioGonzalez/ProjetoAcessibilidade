@@ -1,11 +1,8 @@
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
 using Common;
-
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Dialogs;
@@ -16,26 +13,30 @@ public partial class ShuttingDownViewModel : RoutableViewModel
     private readonly ApplicationViewModel _applicationViewModel;
     private readonly bool _restart;
 
-    public ShuttingDownViewModel(ApplicationViewModel applicationViewModel, bool restart)
+    public ShuttingDownViewModel(
+        ApplicationViewModel applicationViewModel
+        , bool restart
+    )
     {
         _applicationViewModel = applicationViewModel;
         _restart = restart;
         NextCommand = CancelCommand;
     }
 
-    protected override void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables)
-    {
+    protected override void OnNavigatedTo(
+        bool isInHistory
+        , CompositeDisposable disposables
+    ) =>
         Observable
-            .Interval(TimeSpan.FromSeconds(5))
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ =>
+            .Interval(period: TimeSpan.FromSeconds(value: 5))
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+            .Subscribe(onNext: _ =>
             {
                 if (_applicationViewModel.CanShutdown())
                 {
                     Navigate().Clear();
-                    _applicationViewModel.Shutdown(_restart);
+                    _applicationViewModel.Shutdown(restart: _restart);
                 }
             })
-            .DisposeWith(disposables);
-    }
+            .DisposeWith(compositeDisposable: disposables);
 }

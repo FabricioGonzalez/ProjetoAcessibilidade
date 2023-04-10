@@ -306,9 +306,9 @@ public partial class LineChart
         AvaloniaProperty.Register<LineChart, double>(nameof(CursorStrokeMiterLimit), 10.0);
 
     // Border
-*//*
+*/ /*
     public static readonly StyledProperty<IBrush?> BorderBrushProperty =
-        AvaloniaProperty.Register<LineChart, IBrush?>(nameof(BorderBrush));*//*
+        AvaloniaProperty.Register<LineChart, IBrush?>(nameof(BorderBrush));*/ /*
 
     public static readonly StyledProperty<double> BorderThicknessProperty =
         AvaloniaProperty.Register<LineChart, double>(nameof(BorderThickness), 1.0);
@@ -959,3 +959,4 @@ public partial class LineChart
     }
 }
 */
+

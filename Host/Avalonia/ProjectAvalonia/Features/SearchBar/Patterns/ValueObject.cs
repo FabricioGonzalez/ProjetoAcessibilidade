@@ -10,18 +10,23 @@ namespace ProjectAvalonia.Features.SearchBar.Patterns;
 #nullable disable
 
 [Serializable]
-public abstract class ValueObject : IComparable, IComparable<ValueObject>
+public abstract class ValueObject
+    : IComparable
+        , IComparable<ValueObject>
 {
     private int? _cachedHashCode;
 
-    public virtual int CompareTo(object obj)
+    public virtual int CompareTo(
+        object obj
+    )
     {
-        var thisType = GetUnproxiedType(this);
-        var otherType = GetUnproxiedType(obj);
+        var thisType = GetUnproxiedType(obj: this);
+        var otherType = GetUnproxiedType(obj: obj);
 
         if (thisType != otherType)
         {
-            return string.Compare(thisType.ToString(), otherType.ToString(), StringComparison.Ordinal);
+            return string.Compare(strA: thisType.ToString(), strB: otherType.ToString()
+                , comparisonType: StringComparison.Ordinal);
         }
 
         var other = (ValueObject)obj;
@@ -31,7 +36,7 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
 
         for (var i = 0; i < components.Length; i++)
         {
-            var comparison = CompareComponents(components[i], otherComponents[i]);
+            var comparison = CompareComponents(object1: components[i], object2: otherComponents[i]);
             if (comparison != 0)
             {
                 return comparison;
@@ -41,12 +46,14 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
         return 0;
     }
 
-    public virtual int CompareTo(ValueObject other)
-    {
-        return CompareTo(other as object);
-    }
+    public virtual int CompareTo(
+        ValueObject other
+    ) => CompareTo(obj: other as object);
 
-    public static bool operator ==(ValueObject a, ValueObject b)
+    public static bool operator ==(
+        ValueObject a
+        , ValueObject b
+    )
     {
         if (a is null && b is null)
         {
@@ -58,26 +65,31 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
             return false;
         }
 
-        return a.Equals(b);
+        return a.Equals(obj: b);
     }
 
-    public static bool operator !=(ValueObject a, ValueObject b) => !(a == b);
+    public static bool operator !=(
+        ValueObject a
+        , ValueObject b
+    ) => !(a == b);
 
-    public override bool Equals(object obj)
+    public override bool Equals(
+        object obj
+    )
     {
         if (obj == null)
         {
             return false;
         }
 
-        if (GetUnproxiedType(this) != GetUnproxiedType(obj))
+        if (GetUnproxiedType(obj: this) != GetUnproxiedType(obj: obj))
         {
             return false;
         }
 
         var valueObject = (ValueObject)obj;
 
-        return GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
+        return GetEqualityComponents().SequenceEqual(second: valueObject.GetEqualityComponents());
     }
 
     public override int GetHashCode()
@@ -86,14 +98,17 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
         {
             _cachedHashCode = GetEqualityComponents()
                 .Aggregate(
-                1,
-                (current, obj) =>
-                {
-                    unchecked
+                    seed: 1,
+                    func: (
+                        current
+                        , obj
+                    ) =>
                     {
-                        return current * 23 + (obj?.GetHashCode() ?? 0);
-                    }
-                });
+                        unchecked
+                        {
+                            return current * 23 + (obj?.GetHashCode() ?? 0);
+                        }
+                    });
         }
 
         return _cachedHashCode.Value;
@@ -101,7 +116,9 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
 
     protected abstract IEnumerable<object> GetEqualityComponents();
 
-    internal static Type GetUnproxiedType(object obj)
+    internal static Type GetUnproxiedType(
+        object obj
+    )
     {
         const string EFCoreProxyPrefix = "Castle.Proxies.";
         const string NHibernateProxyPostfix = "Proxy";
@@ -109,7 +126,7 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
         var type = obj.GetType();
         var typeString = type.ToString();
 
-        if (typeString.Contains(EFCoreProxyPrefix) || typeString.EndsWith(NHibernateProxyPostfix))
+        if (typeString.Contains(value: EFCoreProxyPrefix) || typeString.EndsWith(value: NHibernateProxyPostfix))
         {
             return type.BaseType;
         }
@@ -117,7 +134,10 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
         return type;
     }
 
-    private int CompareComponents(object object1, object object2)
+    private int CompareComponents(
+        object object1
+        , object object2
+    )
     {
         if (object1 is null && object2 is null)
         {
@@ -136,9 +156,9 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
 
         if (object1 is IComparable comparable1 && object2 is IComparable comparable2)
         {
-            return comparable1.CompareTo(comparable2);
+            return comparable1.CompareTo(obj: comparable2);
         }
 
-        return object1.Equals(object2) ? 0 : -1;
+        return object1.Equals(obj: object2) ? 0 : -1;
     }
 }

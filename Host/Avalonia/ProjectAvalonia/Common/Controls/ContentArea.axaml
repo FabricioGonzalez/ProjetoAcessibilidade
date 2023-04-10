@@ -48,7 +48,8 @@
                                 DockPanel.Dock="Left"
                                 IsVisible="{TemplateBinding EnableCancel}">
                                 <i:Interaction.Behaviors>
-                                    <behaviors:FocusOnAttachedBehavior IsEnabled="{Binding FocusCancel, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <behaviors:FocusOnAttachedBehavior
+                                        IsEnabled="{Binding FocusCancel, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </i:Interaction.Behaviors>
                             </Button>
 
@@ -71,7 +72,8 @@
                                     IsDefault="{Binding IsActive}"
                                     IsVisible="{TemplateBinding EnableNext}">
                                     <i:Interaction.Behaviors>
-                                        <behaviors:FocusOnAttachedBehavior IsEnabled="{Binding FocusNext, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <behaviors:FocusOnAttachedBehavior
+                                            IsEnabled="{Binding FocusNext, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </i:Interaction.Behaviors>
                                 </Button>
                             </StackPanel>
@@ -93,7 +95,8 @@
                                         Command="{Binding BackCommand}"
                                         IsVisible="{TemplateBinding EnableBack}">
                                         <i:Interaction.Behaviors>
-                                            <behaviors:ButtonExecuteCommandOnKeyDownBehavior Key="Back" IsEnabled="{Binding IsActive}" />
+                                            <behaviors:ButtonExecuteCommandOnKeyDownBehavior Key="Back"
+                                                IsEnabled="{Binding IsActive}" />
                                         </i:Interaction.Behaviors>
                                         <PathIcon Width="16" Data="{StaticResource arrow_left_regular}" />
                                     </Button>
@@ -111,7 +114,8 @@
                             VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                             <ScrollViewer.Styles>
                                 <Style Selector="ScrollViewer /template/ ScrollContentPresenter">
-                                    <Setter Property="ClipToBounds" Value="{Binding $parent[ScrollViewer].ClipToBounds}" />
+                                    <Setter Property="ClipToBounds"
+                                            Value="{Binding $parent[ScrollViewer].ClipToBounds}" />
                                 </Style>
                             </ScrollViewer.Styles>
                             <ContentControl

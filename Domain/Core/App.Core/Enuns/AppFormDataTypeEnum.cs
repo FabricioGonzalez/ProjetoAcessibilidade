@@ -1,9 +1,10 @@
 ﻿namespace Core.Enuns;
+
 public enum AppFormDataType
 {
-    Texto,
-    Checkbox,
-    Image,
-    Observação,
-    Empty
+    Texto
+    , Checkbox
+    , Image
+    , Observação
+    , Empty
 }

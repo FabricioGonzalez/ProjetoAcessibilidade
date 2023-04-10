@@ -1,17 +1,15 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.NavBar;
 
 public enum NavBarItemSelectionMode
 {
-    Selected = 0,
-    Button = 1,
-    Toggle = 2
+    Selected = 0
+    , Button = 1
+    , Toggle = 2
 }
 
 public abstract class NavBarItemViewModel : RoutableViewModel
@@ -19,16 +17,19 @@ public abstract class NavBarItemViewModel : RoutableViewModel
     private readonly NavigationMode _defaultNavigationMode;
     private bool _isSelected;
 
-    protected NavBarItemViewModel(NavigationMode defaultNavigationMode = NavigationMode.Clear)
+    protected NavBarItemViewModel(
+        NavigationMode defaultNavigationMode = NavigationMode.Clear
+    )
     {
         _defaultNavigationMode = defaultNavigationMode;
         SelectionMode = NavBarItemSelectionMode.Selected;
-        OpenCommand = ReactiveCommand.CreateFromTask<bool>(OnOpenCommandExecutedAsync);
+        OpenCommand = ReactiveCommand.CreateFromTask<bool>(execute: OnOpenCommandExecutedAsync);
     }
 
     public NavBarItemSelectionMode SelectionMode
     {
-        get; protected init;
+        get;
+        protected init;
     }
 
     public bool IsSelectable => SelectionMode == NavBarItemSelectionMode.Selected;
@@ -41,7 +42,7 @@ public abstract class NavBarItemViewModel : RoutableViewModel
             switch (SelectionMode)
             {
                 case NavBarItemSelectionMode.Selected:
-                    this.RaiseAndSetIfChanged(ref _isSelected, value);
+                    this.RaiseAndSetIfChanged(backingField: ref _isSelected, newValue: value);
                     break;
 
                 case NavBarItemSelectionMode.Button:
@@ -56,7 +57,9 @@ public abstract class NavBarItemViewModel : RoutableViewModel
         get;
     }
 
-    private async Task OnOpenCommandExecutedAsync(bool enableReSelection = false)
+    private async Task OnOpenCommandExecutedAsync(
+        bool enableReSelection = false
+    )
     {
         if (!enableReSelection && IsSelected)
         {
@@ -64,10 +67,12 @@ public abstract class NavBarItemViewModel : RoutableViewModel
         }
 
         IsSelected = true;
-        await OnOpen(_defaultNavigationMode);
+        await OnOpen(defaultNavigationMode: _defaultNavigationMode);
     }
 
-    protected virtual Task OnOpen(NavigationMode defaultNavigationMode)
+    protected virtual Task OnOpen(
+        NavigationMode defaultNavigationMode
+    )
     {
         if (SelectionMode == NavBarItemSelectionMode.Toggle)
         {
@@ -75,7 +80,7 @@ public abstract class NavBarItemViewModel : RoutableViewModel
         }
         else
         {
-            Navigate().To(this, defaultNavigationMode);
+            Navigate().To(viewmodel: this, mode: defaultNavigationMode);
         }
 
         return Task.CompletedTask;

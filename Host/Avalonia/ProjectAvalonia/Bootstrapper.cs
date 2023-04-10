@@ -1,191 +1,153 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-
 using Avalonia;
-
 using Common;
-
 using Core.Entities.App;
 using Core.Entities.Solution;
+using Core.Entities.Solution.Explorer;
 using Core.Entities.Solution.Project.AppItem;
-
 using Microsoft.Extensions.Configuration;
-
 using Project.Domain.App.Contracts;
 using Project.Domain.App.Models;
-using Project.Domain.App.Queries.GetAllTemplates;
-using Project.Domain.App.Queries.GetUFList;
+using Project.Domain.App.Queries.Templates;
+using Project.Domain.App.Queries.UF;
 using Project.Domain.Contracts;
 using Project.Domain.Implementations;
-using Project.Domain.Project.Commands.ProjectItemCommands.CreateItemCommands;
-using Project.Domain.Project.Commands.ProjectItemCommands.DeleteCommands;
-using Project.Domain.Project.Commands.ProjectItemCommands.RenameCommands;
-using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
+using Project.Domain.Project.Commands.FolderItems;
+using Project.Domain.Project.Commands.ProjectItems;
+using Project.Domain.Project.Commands.SystemItems;
 using Project.Domain.Project.Contracts;
-using Project.Domain.Project.Queries.GetProjectItemContent;
-using Project.Domain.Project.Queries.GetProjectItems;
-using Project.Domain.Solution.Commands.CreateSolutionCommands;
-using Project.Domain.Solution.Commands.SyncSolutionCommands;
+using Project.Domain.Project.Queries.ProjectItems;
+using Project.Domain.Project.Queries.SystemItems;
+using Project.Domain.Solution.Commands.SolutionItem;
 using Project.Domain.Solution.Contracts;
 using Project.Domain.Solution.Queries;
-
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
-
 using ProjectItemReader.InternalAppFiles;
 using ProjectItemReader.XmlFile;
-
 using Splat;
 
-using Constants = Common.Constants;
-using ExplorerItem = Core.Entities.Solution.Explorer.ExplorerItem;
-
 namespace ProjectAvalonia;
+
 public static class Bootstrapper
 {
-    /* public static IMutableDependencyResolver AddViewModel(this IMutableDependencyResolver service)
-     {
-         service.RegisterLazySingleton(() => new MainViewModel());
-
-         service.RegisterLazySingleton(() => new TemplateEditingViewModel());
-
-         service.RegisterLazySingleton(() => new TemplateRulesViewModel());
-
-         service.RegisterLazySingleton(() => new SolutionStateViewModel());
-
-         service.RegisterLazySingleton(() => new SettingsViewModel());
-
-         service.RegisterLazySingleton(() => new ProjectViewModel());
-
-         service.RegisterLazySingleton(() => new ProjectEditingViewModel());
-
-         service.RegisterLazySingleton(() => new PreviewerViewModel());
-
-         service.RegisterLazySingleton(() => new TemplateEditingPageViewModel());
-
-         service.RegisterLazySingleton(() => new ProjectExplorerViewModel());
-
-         service.RegisterLazySingleton(() => new ProjectItemEditingViewModel());
-
-         return service;
-     }*/
-
-    /*    public static IMutableDependencyResolver AddViewComponents(this IMutableDependencyResolver service)
-        {
-            service.Register(() => new ExplorerComponent());
-
-            service.Register(() => new PreviewerPage());
-
-            service.RegisterLazySingleton(() => new MainWindow());
-
-            service.Register(() => new AddItemWindow());
-
-            return service;
-        }*/
-
-    /*public static IMutableDependencyResolver AddViewModelOperations(this IMutableDependencyResolver service)
-    {
-        service.RegisterLazySingleton(() => new ProjectExplorerOperations());
-
-        return service;
-    }*/
-
-    public static AppBuilder AddQueryHandlers(this AppBuilder app)
+    public static AppBuilder AddQueryHandlers(
+        this AppBuilder app
+    )
     {
         var service = Locator.CurrentMutable;
 
         service
-            .Register(() => new GetProjectItemsQueryHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()!
-    ));
+            .Register(factory: () => new GetProjectItemsQueryHandler(
+                repository: Locator.Current.GetService<IExplorerItemRepository>()!
+            ));
         service
-            .Register<IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>>(() => new ReadSolutionProjectQueryHandler(
-     Locator.Current.GetService<ISolutionRepository>()!
-    ));
-
-        service
-            .Register<IQueryHandler<GetAllUFQuery, IList<UFModel>>>(() => new GetAllUFQueryHandler());
+            .Register<IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>>(factory: () =>
+                new ReadSolutionProjectQueryHandler(
+                    solutionRepository: Locator.Current.GetService<ISolutionRepository>()!
+                ));
 
         service
-            .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetProjectItemContentQueryHandler(
-                Locator.Current.GetService<IProjectItemContentRepository>()!));
-        service
-            .Register<IQueryHandler<GetSystemProjectItemContentQuery, Resource<AppItemModel>>>(() => new GetSystemProjectItemContentQueryHandler(
-                Locator.Current.GetService<IProjectItemContentRepository>()!));
+            .Register<IQueryHandler<GetAllUfQuery, IList<UFModel>>>(factory: () => new GetAllUfQueryHandler());
 
         service
-            .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(() => new GetAllTemplatesQueryHandler(
-                Locator.Current.GetService<IAppTemplateRepository>()!));
+            .Register<IQueryHandler<GetProjectItemContentQuery, Resource<AppItemModel>>>(factory: () =>
+                new GetProjectItemContentQueryHandler(
+                    contentRepository: Locator.Current.GetService<IProjectItemContentRepository>()!));
+        service
+            .Register<IQueryHandler<GetSystemProjectItemContentQuery, Resource<AppItemModel>>>(factory: () =>
+                new GetSystemProjectItemContentQueryHandler(
+                    contentRepository: Locator.Current.GetService<IProjectItemContentRepository>()!));
 
         service
-            .Register<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(() => new GetProjectItemsQueryHandler(
-                Locator.Current.GetService<IExplorerItemRepository>()!));
-
-        return app;
-    }
-    public static AppBuilder AddCommandHandlers(this AppBuilder app)
-    {
-        var service = Locator.CurrentMutable;
-
-        service.Register<ICommandHandler<SaveProjectItemContentCommand, Resource<Empty>>>(() => new SaveProjectItemContentCommandHandler(
-          Locator.Current.GetService<IProjectItemContentRepository>()!));
-
-        service.Register<ICommandHandler<SaveSystemProjectItemContentCommand, Resource<Empty>>>(() => new SaveSystemProjectItemContentCommandHandler(
-          Locator.Current.GetService<IProjectItemContentRepository>()!));
-
-        service.Register<ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>>(() => new SyncSolutionCommandHandler(
-          Locator.Current.GetService<ISolutionRepository>()!));
-
-        service.Register<ICommandHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>>(() => new CreateSolutionCommandHandler(
-          Locator.Current.GetService<ISolutionRepository>()!));
+            .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(factory: () =>
+                new GetAllTemplatesQueryHandler(
+                    repository: Locator.Current.GetService<IAppTemplateRepository>()!));
 
         service
-            .Register<ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFileItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()!
-    ));
-
-        service
-            .Register<ICommandHandler<DeleteProjectFileItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFileItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()!
-    ));
-
-        service
-            .Register<ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new DeleteProjectFolderItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()!
-    ));
-
-        service
-            .Register<ICommandHandler<RenameProjectFolderItemCommand, Resource<ExplorerItem>>>(() => new RenameProjectFolderItemCommandHandler(
-     Locator.Current.GetService<IExplorerItemRepository>()!
-    ));
-        service
-            .Register<ICommandHandler<CreateItemCommand, Resource<Empty>>>(() =>
-            new CreateItemCommandHandler(
-     Locator.Current.GetService<IProjectItemContentRepository>()!
-    ));
+            .Register<IQueryHandler<GetProjectItemsQuery, Resource<List<ExplorerItem>>>>(factory: () =>
+                new GetProjectItemsQueryHandler(
+                    repository: Locator.Current.GetService<IExplorerItemRepository>()!));
 
         return app;
     }
 
-    public static AppBuilder AddRepositories(this AppBuilder app)
+    public static AppBuilder AddCommandHandlers(
+        this AppBuilder app
+    )
+    {
+        var service = Locator.CurrentMutable;
+
+        service.Register<ICommandHandler<SaveProjectItemContentCommand, Resource<Empty>>>(factory: () =>
+            new SaveProjectItemContentCommandHandler(
+                content: Locator.Current.GetService<IProjectItemContentRepository>()!));
+
+        service.Register<ICommandHandler<SaveSystemProjectItemContentCommand, Resource<Empty>>>(factory: () =>
+            new SaveSystemProjectItemContentCommandHandler(
+                content: Locator.Current.GetService<IProjectItemContentRepository>()!));
+
+        service.Register<ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>>(factory: () =>
+            new SyncSolutionCommandHandler(
+                solutionRepository: Locator.Current.GetService<ISolutionRepository>()!));
+
+        service.Register<ICommandHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>>(factory: () =>
+            new CreateSolutionCommandHandler(
+                solutionRepository: Locator.Current.GetService<ISolutionRepository>()!));
+
+        service
+            .Register<ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>>(factory: () =>
+                new RenameProjectFileItemCommandHandler(
+                    repository: Locator.Current.GetService<IExplorerItemRepository>()!
+                ));
+
+        service
+            .Register<ICommandHandler<DeleteProjectFileItemCommand, Resource<Empty>>>(factory: () =>
+                new DeleteProjectFileItemCommandHandler(
+                    repository: Locator.Current.GetService<IExplorerItemRepository>()!
+                ));
+
+        service
+            .Register<ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>>(factory: () =>
+                new DeleteProjectFolderItemCommandHandler(
+                    repository: Locator.Current.GetService<IExplorerItemRepository>()!
+                ));
+
+        service
+            .Register<ICommandHandler<RenameProjectFolderItemCommand, Resource<ExplorerItem>>>(factory: () =>
+                new RenameProjectFolderItemCommandHandler(
+                    repository: Locator.Current.GetService<IExplorerItemRepository>()!
+                ));
+        service
+            .Register<ICommandHandler<CreateItemCommand, Resource<Empty>>>(factory: () =>
+                new CreateItemCommandHandler(
+                    content: Locator.Current.GetService<IProjectItemContentRepository>()!
+                ));
+
+        return app;
+    }
+
+    public static AppBuilder AddRepositories(
+        this AppBuilder app
+    )
     {
         var service = Locator.CurrentMutable;
 
         service
-            .Register<IExplorerItemRepository>(() =>
-            new ExplorerItemRepositoryImpl());
+            .Register<IExplorerItemRepository>(factory: () =>
+                new ExplorerItemRepositoryImpl());
 
         service
-            .Register<IProjectItemContentRepository>(() =>
-            new ProjectItemContentRepositoryImpl());
+            .Register<IProjectItemContentRepository>(factory: () =>
+                new ProjectItemContentRepositoryImpl());
 
         service
-            .Register<ISolutionRepository>(() =>
-            new SolutionRepositoryImpl());
+            .Register<ISolutionRepository>(factory: () =>
+                new SolutionRepositoryImpl());
 
         service
-            .Register<IAppTemplateRepository>(() =>
-            new AppTemplateRepositoryImpl());
+            .Register<IAppTemplateRepository>(factory: () =>
+                new AppTemplateRepositoryImpl());
 
         return app;
     }
@@ -204,98 +166,94 @@ public static class Bootstrapper
         }*/
 
     private static IConfiguration BuildConfiguration() =>
-       new ConfigurationBuilder()
-           .AddJsonFile("appsettings.json")
-           .Build();
+        new ConfigurationBuilder()
+            .AddJsonFile(path: "appsettings.json")
+            .Build();
 
 
-    public static AppBuilder AddConfiguration(this AppBuilder app)
+    public static AppBuilder AddConfiguration(
+        this AppBuilder app
+    )
     {
         var configuration = BuildConfiguration();
 
         var service = Locator.CurrentMutable;
 
         var config = new LanguagesConfiguration();
-        configuration.GetSection("Languages").Bind(config);
-        service.RegisterConstant(config);
+        configuration.GetSection(key: "Languages").Bind(instance: config);
+        service.RegisterConstant(value: config);
 
         return app;
     }
 
-    public static AppBuilder AddServices(this AppBuilder app)
+    public static AppBuilder AddServices(
+        this AppBuilder app
+    )
     {
         var service = Locator.CurrentMutable;
-        service.RegisterLazySingleton<ILanguageManager>(() => new LanguageManager(
-           Locator.Current.GetService<LanguagesConfiguration>()
-       ));
+        service.RegisterLazySingleton<ILanguageManager>(valueFactory: () => new LanguageManager(
+            configuration: Locator.Current.GetService<LanguagesConfiguration>()
+        ));
 
         return app;
     }
 
-    public static AppBuilder AddMediator(this AppBuilder app)
+    public static AppBuilder AddMediator(
+        this AppBuilder app
+    )
     {
         var service = Locator.CurrentMutable;
 
-        service.RegisterLazySingleton<ICommandDispatcher>(() => new CommandDispatcher(Locator.Current));
-        service.RegisterLazySingleton<IQueryDispatcher>(() => new QueryDispatcher(Locator.Current));
+        service.RegisterLazySingleton<ICommandDispatcher>(valueFactory: () =>
+            new CommandDispatcher(serviceProvider: Locator.Current));
+        service.RegisterLazySingleton<IQueryDispatcher>(valueFactory: () =>
+            new QueryDispatcher(serviceProvider: Locator.Current));
 
         return app;
     }
 
-    /*    public static IMutableDependencyResolver AddServices(this IMutableDependencyResolver service)
-        {
-            service.RegisterLazySingleton<IFileDialog>(() =>
-            {
-                return new FileDialog(Locator.Current.GetService<MainWindow>());
-            });
-
-            service.RegisterLazySingleton<INotificationMessageManagerService>(() =>
-            {
-                return new NotificationMessageManagerService();
-            });
-            return service;
-        }*/
-
-    public static IMutableDependencyResolver CreateFolderStructure(this IMutableDependencyResolver service)
+    public static IMutableDependencyResolver CreateFolderStructure(
+        this IMutableDependencyResolver service
+    )
     {
-        if (!Directory.Exists(Constants.AppFolder))
+        if (!Directory.Exists(path: Constants.AppFolder))
         {
-            Directory.CreateDirectory(Constants.AppFolder);
+            Directory.CreateDirectory(path: Constants.AppFolder);
         }
 
-        if (!Directory.Exists(Constants.AppCacheFolder))
+        if (!Directory.Exists(path: Constants.AppCacheFolder))
         {
-            Directory.CreateDirectory(Constants.AppCacheFolder);
+            Directory.CreateDirectory(path: Constants.AppCacheFolder);
         }
 
-        if (!Directory.Exists(Constants.AppHistoryFolder))
+        if (!Directory.Exists(path: Constants.AppHistoryFolder))
         {
-            Directory.CreateDirectory(Constants.AppHistoryFolder);
+            Directory.CreateDirectory(path: Constants.AppHistoryFolder);
         }
 
-        if (!Directory.Exists(Constants.AppUnclosedItemsFolder))
+        if (!Directory.Exists(path: Constants.AppUnclosedItemsFolder))
         {
-            Directory.CreateDirectory(Constants.AppUnclosedItemsFolder);
+            Directory.CreateDirectory(path: Constants.AppUnclosedItemsFolder);
         }
 
-        if (!Directory.Exists(Constants.AppSettingsFolder))
+        if (!Directory.Exists(path: Constants.AppSettingsFolder))
         {
-            Directory.CreateDirectory(Constants.AppSettingsFolder);
+            Directory.CreateDirectory(path: Constants.AppSettingsFolder);
         }
 
-        if (!Directory.Exists(Constants.AppUISettings))
+        if (!Directory.Exists(path: Constants.AppUISettings))
         {
-            Directory.CreateDirectory(Constants.AppUISettings);
+            Directory.CreateDirectory(path: Constants.AppUISettings);
         }
 
-        if (!Directory.Exists(Constants.AppTemplatesFolder))
+        if (!Directory.Exists(path: Constants.AppTemplatesFolder))
         {
-            Directory.CreateDirectory(Constants.AppTemplatesFolder);
+            Directory.CreateDirectory(path: Constants.AppTemplatesFolder);
         }
 
-        if (!Directory.Exists(Constants.AppItemsTemplateFolder))
+        if (!Directory.Exists(path: Constants.AppItemsTemplateFolder))
         {
-            Directory.CreateDirectory(Constants.AppItemsTemplateFolder);
+            Directory.CreateDirectory(path: Constants.AppItemsTemplateFolder);
         }
 
         return service;

@@ -6,7 +6,6 @@
     xmlns:ext="using:ProjectAvalonia.Common.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:searchBar="clr-namespace:ProjectAvalonia.Features.SearchBar"
-    xmlns:shell="clr-namespace:ProjectAvalonia.Features.Shell"
     x:Name="UserControl"
     d:DesignWidth="1000"
     mc:Ignorable="d">
@@ -159,5 +158,6 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <ContentControl ContentTemplate="{ext:Platform {StaticResource WindowsLayout}, Linux={StaticResource LinuxLayout}, Osx={StaticResource MacOSLayout}}" />
+    <ContentControl
+        ContentTemplate="{ext:Platform {StaticResource WindowsLayout}, Linux={StaticResource LinuxLayout}, Osx={StaticResource MacOSLayout}}" />
 </UserControl>

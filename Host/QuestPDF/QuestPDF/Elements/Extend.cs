@@ -4,34 +4,54 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class Extend : ContainerElement, ICacheable
+    public class Extend
+        : ContainerElement
+            , ICacheable
     {
-        public bool ExtendVertical { get; set; }
-        public bool ExtendHorizontal { get; set; }
-        
-        public override SpacePlan Measure(Size availableSpace)
+        public bool ExtendVertical
         {
-            var childSize = base.Measure(availableSpace);
+            get;
+            set;
+        }
+
+        public bool ExtendHorizontal
+        {
+            get;
+            set;
+        }
+
+        public override SpacePlan Measure(
+            Size availableSpace
+        )
+        {
+            var childSize = base.Measure(availableSpace: availableSpace);
 
             if (childSize.Type == SpacePlanType.Wrap)
+            {
                 return childSize;
-            
-            var targetSize = GetTargetSize(availableSpace, childSize);
-            
+            }
+
+            var targetSize = GetTargetSize(availableSpace: availableSpace, childSize: childSize);
+
             if (childSize.Type == SpacePlanType.PartialRender)
-                return SpacePlan.PartialRender(targetSize);
-            
+            {
+                return SpacePlan.PartialRender(size: targetSize);
+            }
+
             if (childSize.Type == SpacePlanType.FullRender)
-                return SpacePlan.FullRender(targetSize);
-            
+            {
+                return SpacePlan.FullRender(size: targetSize);
+            }
+
             throw new NotSupportedException();
         }
 
-        private Size GetTargetSize(Size availableSpace, Size childSize)
-        {
-            return new Size(
-                ExtendHorizontal ? availableSpace.Width : childSize.Width, 
-                ExtendVertical ? availableSpace.Height : childSize.Height);
-        }
+        private Size GetTargetSize(
+            Size availableSpace
+            , Size childSize
+        ) =>
+            new(
+                width: ExtendHorizontal ? availableSpace.Width : childSize.Width,
+                height: ExtendVertical ? availableSpace.Height : childSize.Height);
     }
 }

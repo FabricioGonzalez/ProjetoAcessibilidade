@@ -1,67 +1,70 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-
 using QuestPDFReport.Models;
 
 namespace QuestPDFReport.Components;
+
 public class PhotoTemplate : IComponent
 {
-    public ReportPhoto Model
-    {
-        get; set;
-    }
-
-    public PhotoTemplate(ReportPhoto model)
+    public PhotoTemplate(
+        ReportPhoto model
+    )
     {
         Model = model;
     }
 
-    public void Compose(IContainer container)
+    public ReportPhoto Model
     {
+        get;
+        set;
+    }
+
+    public void Compose(
+        IContainer container
+    ) =>
         container
             .ShowEntire()
-            .Column(column =>
+            .Column(handler: column =>
             {
-                column.Spacing(5);
-                column.Item().Element(PhotoWithMaps);
-                column.Item().Element(PhotoDetails);
+                column.Spacing(value: 5);
+                column.Item().Element(handler: PhotoWithMaps);
+                column.Item().Element(handler: PhotoDetails);
             });
-    }
 
-    void PhotoWithMaps(IContainer container)
-    {
+    private void PhotoWithMaps(
+        IContainer container
+    ) =>
         container
-            .Row(row =>
+            .Row(handler: row =>
             {
-                row.RelativeItem(2).AspectRatio(4 / 3f).Component<ImagePlaceholder>();
+                row.RelativeItem(size: 2).AspectRatio(ratio: 4 / 3f).Component<ImagePlaceholder>();
 
-                row.RelativeItem().PaddingLeft(5).Column(column =>
+                row.RelativeItem().PaddingLeft(value: 5).Column(handler: column =>
                 {
-                    column.Spacing(7f);
+                    column.Spacing(value: 7f);
 
-                    column.Item().AspectRatio(4 / 3f).Component<ImagePlaceholder>();
-                    column.Item().AspectRatio(4 / 3f).Component<ImagePlaceholder>();
+                    column.Item().AspectRatio(ratio: 4 / 3f).Component<ImagePlaceholder>();
+                    column.Item().AspectRatio(ratio: 4 / 3f).Component<ImagePlaceholder>();
                 });
             });
-    }
 
-    void PhotoDetails(IContainer container)
-    {
+    private void PhotoDetails(
+        IContainer container
+    ) =>
         container
-            .Border(0.75f)
-            .BorderColor(Colors.Grey.Medium)
-            .Grid(grid =>
-        {
-            grid.Columns(6);
+            .Border(value: 0.75f)
+            .BorderColor(color: Colors.Grey.Medium)
+            .Grid(handler: grid =>
+            {
+                grid.Columns(value: 6);
 
-            grid.Item().LabelCell().Text("Date");
-            grid.Item(2).ValueCell().Text(Model.Date?.ToString("g") ?? string.Empty);
-            grid.Item().LabelCell().Text("Location");
-            grid.Item(2).ValueCell().Text(Model.Location.Format());
+                grid.Item().LabelCell().Text(text: "Date");
+                grid.Item(columns: 2).ValueCell().Text(text: Model.Date?.ToString(format: "g") ?? string.Empty);
+                grid.Item().LabelCell().Text(text: "Location");
+                grid.Item(columns: 2).ValueCell().Text(text: Model.Location.Format());
 
-            grid.Item().LabelCell().Text("Comments");
-            grid.Item(5).ValueCell().Text(Model.Comments);
-        });
-    }
+                grid.Item().LabelCell().Text(text: "Comments");
+                grid.Item(columns: 5).ValueCell().Text(text: Model.Comments);
+            });
 }

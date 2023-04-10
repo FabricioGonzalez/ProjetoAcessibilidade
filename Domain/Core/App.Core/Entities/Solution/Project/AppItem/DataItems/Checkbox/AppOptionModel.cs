@@ -2,7 +2,11 @@
 
 public class AppOptionModel
 {
-    public AppOptionModel(string value, string id, bool isChecked = false)
+    public AppOptionModel(
+        string value
+        , string id
+        , bool isChecked = false
+    )
     {
         Id = id;
         Value = value;
@@ -11,14 +15,19 @@ public class AppOptionModel
 
     public string Id
     {
-        get; set;
+        get;
+        set;
     }
+
     public string Value
     {
-        get; set;
+        get;
+        set;
     }
+
     public bool IsChecked
     {
-        get; set;
+        get;
+        set;
     }
 }

@@ -1,340 +1,387 @@
 ﻿using Common;
-
 using Core.Entities.Solution.Explorer;
-
 using Project.Domain.Project.Contracts;
 
 namespace ProjectItemReader.InternalAppFiles;
 
 public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 {
-    public Resource<ExplorerItem> CreateExplorerItem(ExplorerItem item)
-    {
-        return new Resource<ExplorerItem>.Success(new());
+    public Resource<ExplorerItem> CreateExplorerItem(
+        ExplorerItem item
+    ) => new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
 
-    }
-    public async Task<Resource<ExplorerItem>> CreateExplorerItemAsync(ExplorerItem item)
-    {
-        return new Resource<ExplorerItem>.Success(new());
+    public Resource<ExplorerItem> DeleteExplorerItem(
+        ExplorerItem item
+    ) => new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
 
-    }
+    public Resource<ExplorerItem> RenameFileItem(
+        ExplorerItem item
+    ) =>
+        throw new NotImplementedException();
 
-    public Resource<ExplorerItem> DeleteExplorerItem(ExplorerItem item)
-    {
-        return new Resource<ExplorerItem>.Success(new());
+    public Resource<ExplorerItem> DeleteFolderItem(
+        ExplorerItem item
+    ) =>
+        throw new NotImplementedException();
 
-    }
-    public async Task<Resource<ExplorerItem>> DeleteExplorerItemAsync(ExplorerItem item)
-    {
-        return new Resource<ExplorerItem>.Success(new());
-
-    }
-
-    public Resource<List<ExplorerItem>> GetAllItems(string solutionPath)
+    public Resource<List<ExplorerItem>> GetAllItems(
+        string solutionPath
+    )
     {
         var list = new List<ExplorerItem>();
 
-        var fileAttributes = File.GetAttributes(solutionPath);
+        var fileAttributes = File.GetAttributes(path: solutionPath);
 
         var projectItemsRootPath = "";
 
-        if (fileAttributes.HasFlag(FileAttributes.Archive))
+        if (fileAttributes.HasFlag(flag: FileAttributes.Archive))
         {
-            projectItemsRootPath = Path.Combine(Directory.GetParent(solutionPath).FullName, Constants.AppProjectItemsFolderName);
-        }
-        if (fileAttributes.HasFlag(FileAttributes.Directory))
-        {
-            Path.Combine(solutionPath, Constants.AppProjectItemsFolderName);
+            projectItemsRootPath = Path.Combine(path1: Directory.GetParent(path: solutionPath).FullName
+                , path2: Constants.AppProjectItemsFolderName);
         }
 
-        if (Directory.Exists(projectItemsRootPath))
+        if (fileAttributes.HasFlag(flag: FileAttributes.Directory))
+        {
+            Path.Combine(path1: solutionPath, path2: Constants.AppProjectItemsFolderName);
+        }
+
+        if (Directory.Exists(path: projectItemsRootPath))
         {
             var folderItem = new FolderItem
             {
-                Name = Path.GetFileNameWithoutExtension(projectItemsRootPath),
-                Path = projectItemsRootPath,
-                Children = new List<ExplorerItem>()
+                Name = Path.GetFileNameWithoutExtension(path: projectItemsRootPath), Path = projectItemsRootPath
+                , Children = new List<ExplorerItem>()
             };
 
-            list.Add(folderItem);
+            list.Add(item: folderItem);
 
-            var directory = Directory.GetFileSystemEntries(projectItemsRootPath);
+            var directory = Directory.GetFileSystemEntries(path: projectItemsRootPath);
 
-            GetDataFromPath(directory, folderItem.Children);
+            GetDataFromPath(folder: directory, list: folderItem.Children);
         }
+
         if (list.Count > 0)
         {
-            return new Resource<List<ExplorerItem>>.Success(list);
+            return new Resource<List<ExplorerItem>>.Success(Data: list);
         }
-        return new Resource<List<ExplorerItem>>.Error("Erro ao Ler itens", null);
+
+        return new Resource<List<ExplorerItem>>.Error(Message: "Erro ao Ler itens", Data: null);
     }
-    public async Task<Resource<List<ExplorerItem>>> GetAllItemsAsync(string solutionPath)
+
+    public async Task<Resource<List<ExplorerItem>>> GetAllItemsAsync(
+        string solutionPath
+    )
     {
         var list = new List<ExplorerItem>();
 
-        var fileAttributes = File.GetAttributes(solutionPath);
+        var fileAttributes = File.GetAttributes(path: solutionPath);
 
         var projectItemsRootPath = "";
 
-        if (fileAttributes.HasFlag(FileAttributes.Archive))
+        if (fileAttributes.HasFlag(flag: FileAttributes.Archive))
         {
-            projectItemsRootPath = Path.Combine(Directory.GetParent(solutionPath).FullName, Constants.AppProjectItemsFolderName);
-        }
-        if (fileAttributes.HasFlag(FileAttributes.Directory))
-        {
-            Path.Combine(solutionPath, Constants.AppProjectItemsFolderName);
+            projectItemsRootPath = Path.Combine(path1: Directory.GetParent(path: solutionPath).FullName
+                , path2: Constants.AppProjectItemsFolderName);
         }
 
-        if (Directory.Exists(projectItemsRootPath))
+        if (fileAttributes.HasFlag(flag: FileAttributes.Directory))
         {
-            var folderItem = new FolderItem()
+            Path.Combine(path1: solutionPath, path2: Constants.AppProjectItemsFolderName);
+        }
+
+        if (Directory.Exists(path: projectItemsRootPath))
+        {
+            var folderItem = new FolderItem
             {
-                Name = Path.GetFileNameWithoutExtension(projectItemsRootPath),
-                Path = projectItemsRootPath
+                Name = Path.GetFileNameWithoutExtension(path: projectItemsRootPath), Path = projectItemsRootPath
             };
 
-            list.Add(folderItem);
+            list.Add(item: folderItem);
 
-            var directory = Directory.GetFileSystemEntries(projectItemsRootPath);
+            var directory = Directory.GetFileSystemEntries(path: projectItemsRootPath);
 
-            await GetDataFromPathAsync(directory, folderItem.Children);
+            await GetDataFromPathAsync(folder: directory, list: folderItem.Children);
         }
+
         if (list.Count > 0)
         {
-            return new Resource<List<ExplorerItem>>.Success(list);
+            return new Resource<List<ExplorerItem>>.Success(Data: list);
         }
-        return new Resource<List<ExplorerItem>>.Error("Erro ao Ler itens", null);
+
+        return new Resource<List<ExplorerItem>>.Error(Message: "Erro ao Ler itens", Data: null);
     }
 
-    public Resource<ExplorerItem> UpdateExplorerItem(ExplorerItem item)
+    public Resource<ExplorerItem> UpdateExplorerItem(
+        ExplorerItem item
+    ) => new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+
+    public async Task<Resource<ExplorerItem>> UpdateExplorerItemAsync(
+        ExplorerItem item
+    ) => new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+
+    public async Task<Resource<ExplorerItem>> RenameFileItemAsync(
+        ExplorerItem item
+    )
     {
-        return new Resource<ExplorerItem>.Success(new());
+        var path = Directory.GetParent(path: item.Path).FullName;
+        if (item is not null)
+        {
+            if (File.Exists(path: item.Path))
+            {
+                File.Move(sourceFileName: item.Path
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+            else
+            {
+                File.Copy(sourceFileName: item.ReferencedItem
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+
+            item.Path = item.Path.Replace(oldValue: Path.GetFileName(path: item.Path)
+                , newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+        }
+
+        return new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
     }
-    public async Task<Resource<ExplorerItem>> UpdateExplorerItemAsync(ExplorerItem item)
+
+    public async Task<Resource<ExplorerItem>> RenameFolderItemAsync(
+        ExplorerItem item
+    )
     {
-        return new Resource<ExplorerItem>.Success(new());
+        if (item is not null)
+        {
+            if (Directory.Exists(path: item.Path))
+            {
+                Directory.Move(sourceDirName: item.Path
+                    , destDirName: Path.Combine(path1: Directory.GetParent(path: item.Path).FullName
+                        , path2: item.Name));
+            }
+            else
+            {
+                Directory.CreateDirectory(path: Path.Combine(path1: item.Path, path2: item.Name));
+            }
 
+            item.Path = item.Path.Replace(oldValue: Path.GetFileName(path: item.Path), newValue: item.Name);
+        }
+
+        return new Resource<ExplorerItem>.Success(Data: item);
     }
 
-    private async Task GetDataFromPathAsync(string[] folder, IList<ExplorerItem> list)
+    public async Task<Resource<ExplorerItem>> DeleteFolderItemAsync(
+        ExplorerItem item
+    )
+    {
+        var path = Directory.GetParent(path: item.Path).FullName;
+        if (item is not null)
+        {
+            if (File.Exists(path: item.Path))
+            {
+                File.Move(sourceFileName: item.Path
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+            else
+            {
+                File.Copy(sourceFileName: item.ReferencedItem
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+
+            item.Path = item.Path.Replace(oldValue: Path.GetFileName(path: item.Path)
+                , newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+        }
+
+        return new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+    }
+
+    public async Task<Resource<ExplorerItem>> DeleteFileItemAsync(
+        ExplorerItem item
+    )
+    {
+        var path = Directory.GetParent(path: item.Path).FullName;
+        if (item is not null)
+        {
+            if (File.Exists(path: item.Path))
+            {
+                File.Move(sourceFileName: item.Path
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+            else
+            {
+                File.Copy(sourceFileName: item.ReferencedItem
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+
+            item.Path = item.Path.Replace(oldValue: Path.GetFileName(path: item.Path)
+                , newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+        }
+
+        return new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+    }
+
+    public Resource<ExplorerItem> RenameFolderItem(
+        ExplorerItem item
+    )
+    {
+        var path = Directory.GetParent(path: item.Path).FullName;
+        if (item is not null)
+        {
+            if (File.Exists(path: item.Path))
+            {
+                File.Move(sourceFileName: item.Path
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+            else
+            {
+                File.Copy(sourceFileName: item.ReferencedItem
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+
+            item.Path = item.Path.Replace(oldValue: Path.GetFileName(path: item.Path)
+                , newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+        }
+
+        return new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+    }
+
+    public Resource<ExplorerItem> DeleteFileItem(
+        ExplorerItem item
+    )
+    {
+        var path = Directory.GetParent(path: item.Path).FullName;
+        if (item is not null)
+        {
+            if (File.Exists(path: item.Path))
+            {
+                File.Move(sourceFileName: item.Path
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+            else
+            {
+                File.Copy(sourceFileName: item.ReferencedItem
+                    , destFileName: Path.Combine(path1: path
+                        , path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+            }
+
+            item.Path = item.Path.Replace(oldValue: Path.GetFileName(path: item.Path)
+                , newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+        }
+
+        return new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+    }
+
+    public async Task<Resource<ExplorerItem>> CreateExplorerItemAsync(
+        ExplorerItem item
+    ) => new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+
+    public async Task<Resource<ExplorerItem>> DeleteExplorerItemAsync(
+        ExplorerItem item
+    ) => new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+
+    private async Task GetDataFromPathAsync(
+        string[] folder
+        , IList<ExplorerItem> list
+    )
     {
         foreach (var item in folder)
         {
-            if (File.GetAttributes(item).HasFlag(FileAttributes.Archive))
+            if (File.GetAttributes(path: item).HasFlag(flag: FileAttributes.Archive))
             {
-                var i = new FileItem()
+                var i = new FileItem
                 {
-                    Name = Path.GetFileNameWithoutExtension(item),
-                    Path = item,
+                    Name = Path.GetFileNameWithoutExtension(path: item), Path = item
                 };
-                list.Add(i);
+                list.Add(item: i);
             }
 
-            if (File.GetAttributes(item).HasFlag(FileAttributes.Directory))
+            if (File.GetAttributes(path: item).HasFlag(flag: FileAttributes.Directory))
             {
-                var itens = Directory.GetFiles(item);
+                var itens = Directory.GetFiles(path: item);
 
                 var folderItem = new FolderItem
                 {
-                    Name = Path.GetFileNameWithoutExtension(item),
-                    Path = item,
+                    Name = Path.GetFileNameWithoutExtension(path: item), Path = item
                 };
 
                 foreach (var fileItem in itens)
                 {
-                    if (File.GetAttributes(fileItem).HasFlag(FileAttributes.Directory))
+                    if (File.GetAttributes(path: fileItem).HasFlag(flag: FileAttributes.Directory))
                     {
-                        var entries = Directory.GetFileSystemEntries(fileItem);
+                        var entries = Directory.GetFileSystemEntries(path: fileItem);
 
-                        await GetDataFromPathAsync(entries, folderItem.Children);
+                        await GetDataFromPathAsync(folder: entries, list: folderItem.Children);
                     }
-                    if (File.GetAttributes(fileItem).HasFlag(FileAttributes.Archive))
+
+                    if (File.GetAttributes(path: fileItem).HasFlag(flag: FileAttributes.Archive))
                     {
-                        var i = new FileItem()
+                        var i = new FileItem
                         {
-                            Name = Path.GetFileNameWithoutExtension(fileItem),
-                            Path = fileItem,
+                            Name = Path.GetFileNameWithoutExtension(path: fileItem), Path = fileItem
                         };
-                        folderItem.Children.Add(i);
+                        folderItem.Children.Add(item: i);
                     }
                 }
 
-                list.Add(folderItem);
+                list.Add(item: folderItem);
             }
         }
     }
 
-    private void GetDataFromPath(string[] folder, IList<ExplorerItem> list)
+    private void GetDataFromPath(
+        string[] folder
+        , IList<ExplorerItem> list
+    )
     {
         foreach (var item in folder)
         {
-            var fileAttributes = File.GetAttributes(item);
+            var fileAttributes = File.GetAttributes(path: item);
 
-            if (File.GetAttributes(item).HasFlag(FileAttributes.Archive))
+            if (File.GetAttributes(path: item).HasFlag(flag: FileAttributes.Archive))
             {
-                var i = new FileItem()
+                var i = new FileItem
                 {
-                    Name = Path.GetFileNameWithoutExtension(item),
-                    Path = item,
+                    Name = Path.GetFileNameWithoutExtension(path: item), Path = item
                 };
-                list.Add(i);
+                list.Add(item: i);
             }
 
-            if (fileAttributes.HasFlag(FileAttributes.Directory))
+            if (fileAttributes.HasFlag(flag: FileAttributes.Directory))
             {
-                var itens = Directory.GetFiles(item);
+                var itens = Directory.GetFiles(path: item);
 
                 var folderItem = new FolderItem
                 {
-                    Name = Path.GetDirectoryName(item),
-                    Path = item,
+                    Name = Path.GetDirectoryName(path: item), Path = item
                 };
 
                 foreach (var fileItem in itens)
                 {
-                    if (fileAttributes.HasFlag(FileAttributes.Directory))
+                    if (fileAttributes.HasFlag(flag: FileAttributes.Directory))
                     {
-                        var entries = Directory.GetFileSystemEntries(fileItem);
+                        var entries = Directory.GetFileSystemEntries(path: fileItem);
 
-                        GetDataFromPath(entries, folderItem.Children);
+                        GetDataFromPath(folder: entries, list: folderItem.Children);
                     }
-                    if (File.GetAttributes(item).HasFlag(FileAttributes.Archive))
+
+                    if (File.GetAttributes(path: item).HasFlag(flag: FileAttributes.Archive))
                     {
-                        var i = new FileItem()
+                        var i = new FileItem
                         {
-                            Name = Path.GetFileNameWithoutExtension(item),
-                            Path = item,
+                            Name = Path.GetFileNameWithoutExtension(path: item), Path = item
                         };
-                        folderItem.Children.Add(i);
+                        folderItem.Children.Add(item: i);
                     }
                 }
 
-                list.Add(folderItem);
+                list.Add(item: folderItem);
             }
         }
-    }
-
-    public async Task<Resource<ExplorerItem>> RenameFileItemAsync(ExplorerItem item)
-    {
-        var path = Directory.GetParent(item.Path).FullName;
-        if (item is not null)
-        {
-            if (File.Exists(item.Path))
-            {
-                File.Move(item.Path, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            else
-            {
-                File.Copy(item.ReferencedItem, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            item.Path = item.Path.Replace(Path.GetFileName(item.Path), $"{item.Name}{Constants.AppProjectItemExtension}");
-        }
-        return new Resource<ExplorerItem>.Success(new());
-    }
-    public Resource<ExplorerItem> RenameFileItem(ExplorerItem item)
-    {
-        return new Resource<ExplorerItem>.Success(new());
-    }
-
-    public async Task<Resource<ExplorerItem>> RenameFolderItemAsync(ExplorerItem item)
-    {
-        if (item is not null)
-        {
-            if (Directory.Exists(item.Path))
-            {
-                Directory.Move(item.Path, Path.Combine(Directory.GetParent(item.Path).FullName, item.Name));
-            }
-            else
-            {
-                Directory.CreateDirectory(Path.Combine(item.Path, item.Name));
-            }
-            item.Path = item.Path.Replace(Path.GetFileName(item.Path), item.Name);
-        }
-        return new Resource<ExplorerItem>.Success(item);
-    }
-    public async Task<Resource<ExplorerItem>> DeleteFolderItemAsync(ExplorerItem item)
-    {
-        var path = Directory.GetParent(item.Path).FullName;
-        if (item is not null)
-        {
-            if (File.Exists(item.Path))
-            {
-                File.Move(item.Path, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            else
-            {
-                File.Copy(item.ReferencedItem, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            item.Path = item.Path.Replace(Path.GetFileName(item.Path), $"{item.Name}{Constants.AppProjectItemExtension}");
-        }
-        return new Resource<ExplorerItem>.Success(new());
-    }
-    public async Task<Resource<ExplorerItem>> DeleteFileItemAsync(ExplorerItem item)
-    {
-        var path = Directory.GetParent(item.Path).FullName;
-        if (item is not null)
-        {
-            if (File.Exists(item.Path))
-            {
-                File.Move(item.Path, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            else
-            {
-                File.Copy(item.ReferencedItem, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            item.Path = item.Path.Replace(Path.GetFileName(item.Path), $"{item.Name}{Constants.AppProjectItemExtension}");
-        }
-        return new Resource<ExplorerItem>.Success(new());
-    }
-    public Resource<ExplorerItem> RenameFolderItem(ExplorerItem item)
-    {
-        var path = Directory.GetParent(item.Path).FullName;
-        if (item is not null)
-        {
-            if (File.Exists(item.Path))
-            {
-                File.Move(item.Path, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            else
-            {
-                File.Copy(item.ReferencedItem, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            item.Path = item.Path.Replace(Path.GetFileName(item.Path), $"{item.Name}{Constants.AppProjectItemExtension}");
-        }
-        return new Resource<ExplorerItem>.Success(new());
-    }
-    public Resource<ExplorerItem> DeleteFolderItem(ExplorerItem item)
-    {
-        var path = Directory.GetParent(item.Path).FullName;
-        if (item is not null)
-        {
-            if (File.Exists(item.Path))
-            {
-                File.Move(item.Path, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            else
-            {
-                File.Copy(item.ReferencedItem, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            item.Path = item.Path.Replace(Path.GetFileName(item.Path), $"{item.Name}{Constants.AppProjectItemExtension}");
-        }
-        return new Resource<ExplorerItem>.Success(new());
-    }
-    public Resource<ExplorerItem> DeleteFileItem(ExplorerItem item)
-    {
-        var path = Directory.GetParent(item.Path).FullName;
-        if (item is not null)
-        {
-            if (File.Exists(item.Path))
-            {
-                File.Move(item.Path, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            else
-            {
-                File.Copy(item.ReferencedItem, Path.Combine(path, $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            item.Path = item.Path.Replace(Path.GetFileName(item.Path), $"{item.Name}{Constants.AppProjectItemExtension}");
-        }
-        return new Resource<ExplorerItem>.Success(new());
     }
 }

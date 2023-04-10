@@ -1,92 +1,98 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-
 using QuestPDFReport.Models;
-
 using SkiaSharp;
 
 namespace QuestPDFReport.Components;
+
 public class SectionTemplate : IComponent
 {
-    public IReportSection Model
-    {
-        get; set;
-    }
-
-    public SectionTemplate(IReportSection model)
+    public SectionTemplate(
+        IReportSection model
+    )
     {
         Model = model;
     }
 
-    public void Compose(IContainer container)
+    public IReportSection Model
+    {
+        get;
+        set;
+    }
+
+    public void Compose(
+        IContainer container
+    )
     {
         if (Model is ReportSection reportSection)
         {
             container
                 .EnsureSpace()
-                .Decoration(decoration =>
+                .Decoration(handler: decoration =>
                 {
                     decoration
                         .Before()
-                        .PaddingBottom(5)
-                        .Text(Model.Title)
-                        .Style(Typography.Headline);
+                        .PaddingBottom(value: 5)
+                        .Text(text: Model.Title)
+                        .Style(style: Typography.Headline);
 
                     decoration
-                    .Content()
-                    .Border(0.75f)
-                    .BorderColor(Colors.Grey.Medium)
-                    .Column(column =>
-                    {
-                        foreach (var part in reportSection.Parts)
+                        .Content()
+                        .Border(value: 0.75f)
+                        .BorderColor(color: Colors.Grey.Medium)
+                        .Column(handler: column =>
                         {
-                            column
-                            .Item()
-                            .EnsureSpace(25)
-                            .Column(column =>
+                            foreach (var part in reportSection.Parts)
                             {
                                 column
-                                .Item()
-                                .LabelCell()
-                                .ExtendHorizontal()
-                                .Text(part.Label);
-
-                                if (part is not ReportSectionTitle)
-                                {
-                                    var frame = column
                                     .Item()
-                                    .ValueCell();
-
-                                    if (part is ReportSectionText text)
+                                    .EnsureSpace(minHeight: 25)
+                                    .Column(handler: column =>
                                     {
-                                        frame
-                                    .ShowEntire()
-                                    .Text(text.Text);
-                                    }
+                                        column
+                                            .Item()
+                                            .LabelCell()
+                                            .ExtendHorizontal()
+                                            .Text(text: part.Label);
 
-                                    if (part is ReportSectionCheckbox checkboxes)
-                                    {
-                                        frame
-                                    .Element(x => MapCheckboxes(x, checkboxes));
-                                    }
+                                        if (part is not ReportSectionTitle)
+                                        {
+                                            var frame = column
+                                                .Item()
+                                                .ValueCell();
 
-                                    if (part is ReportSectionPhotoContainer photos)
-                                    {
-                                        frame
-                                        .Element(x => PhotosElement(x, photos));
-                                    }
+                                            if (part is ReportSectionText text)
+                                            {
+                                                frame
+                                                    .ShowEntire()
+                                                    .Text(text: text.Text);
+                                            }
 
-                                    if (part is ReportSectionObservation observation)
-                                    {
-                                        frame
-                                         .Background(Colors.Yellow.Medium)
-                                        .Element(x => ObservationElement(x, observation));
-                                    }
-                                }
-                            });
-                        }
-                    });
+                                            if (part is ReportSectionCheckbox checkboxes)
+                                            {
+                                                frame
+                                                    .Element(handler: x =>
+                                                        MapCheckboxes(container: x, checkboxes: checkboxes));
+                                            }
+
+                                            if (part is ReportSectionPhotoContainer photos)
+                                            {
+                                                frame
+                                                    .Element(handler: x => PhotosElement(container: x, model: photos));
+                                            }
+
+                                            if (part is ReportSectionObservation observation)
+                                            {
+                                                frame
+                                                    .Background(color: Colors.Yellow.Medium)
+                                                    .Element(handler: x =>
+                                                        ObservationElement(x: x, observation: observation));
+                                            }
+                                        }
+                                    });
+                            }
+                        });
                 });
         }
 
@@ -94,224 +100,245 @@ public class SectionTemplate : IComponent
         {
             container
                 .EnsureSpace()
-                .Decoration(decoration =>
+                .Decoration(handler: decoration =>
                 {
                     decoration
                         .Before()
-                        .PaddingBottom(5)
+                        .PaddingBottom(value: 5)
                         .ShowOnce()
-                        .Text(Model.Title)
-                        .Style(Typography.Headline);
+                        .Text(text: Model.Title)
+                        .Style(style: Typography.Headline);
 
                     decoration
-                    .Content()
-                    .Border(0.75f)
-                    .BorderColor(Colors.Grey.Medium)
-                    .Column(column =>
-                    {
-
-                        foreach (var part in reportSectionGroup.Parts)
+                        .Content()
+                        .Border(value: 0.75f)
+                        .BorderColor(color: Colors.Grey.Medium)
+                        .Column(handler: column =>
                         {
-                            column
-                            .Item()
-                            .PaddingLeft(8)
-                            .ShowOnce()
-                            .Text(part.Title)
-                            .Style(Typography.SubLine);
-
-                            column.Item().Column(items =>
-                        {
-                            foreach (var part in part.Parts)
+                            foreach (var part in reportSectionGroup.Parts)
                             {
                                 column
-                                .Item()
-                                .ValueCell()
-                                .EnsureSpace(25)
-                                .Column(column =>
-                                {
-                                    column
                                     .Item()
-                                    .LabelCell()
-                                    .ExtendHorizontal()
-                                    .Text(part.Label);
+                                    .PaddingLeft(value: 8)
+                                    .ShowOnce()
+                                    .Text(text: part.Title)
+                                    .Style(style: Typography.SubLine);
 
-                                    if (part is not ReportSectionTitle)
+                                column.Item().Column(handler: items =>
+                                {
+                                    foreach (var part in part.Parts)
                                     {
-                                        var frame = column
-                                        .Item()
-                                        .ValueCell();
+                                        column
+                                            .Item()
+                                            .ValueCell()
+                                            .EnsureSpace(minHeight: 25)
+                                            .Column(handler: column =>
+                                            {
+                                                column
+                                                    .Item()
+                                                    .LabelCell()
+                                                    .ExtendHorizontal()
+                                                    .Text(text: part.Label);
 
-                                        if (part is ReportSectionText text)
-                                        {
-                                            frame
-                                        .ShowEntire()
-                                        .Text(text.Text);
-                                        }
+                                                if (part is not ReportSectionTitle)
+                                                {
+                                                    var frame = column
+                                                        .Item()
+                                                        .ValueCell();
 
-                                        if (part is ReportSectionCheckbox checkboxes)
-                                        {
-                                            frame
-                                        .Element(x => MapCheckboxes(x, checkboxes));
-                                        }
+                                                    if (part is ReportSectionText text)
+                                                    {
+                                                        frame
+                                                            .ShowEntire()
+                                                            .Text(text: text.Text);
+                                                    }
 
-                                        if (part is ReportSectionPhotoContainer photos)
-                                        {
-                                            frame
-                                            .Element(x => PhotosElement(x, photos));
-                                        }
+                                                    if (part is ReportSectionCheckbox checkboxes)
+                                                    {
+                                                        frame
+                                                            .Element(handler: x =>
+                                                                MapCheckboxes(container: x, checkboxes: checkboxes));
+                                                    }
 
-                                        if (part is ReportSectionObservation observation)
-                                        {
-                                            frame
-                                             .Background(Colors.Yellow.Medium)
-                                            .Element(x => ObservationElement(x, observation));
-                                        }
+                                                    if (part is ReportSectionPhotoContainer photos)
+                                                    {
+                                                        frame
+                                                            .Element(handler: x =>
+                                                                PhotosElement(container: x, model: photos));
+                                                    }
+
+                                                    if (part is ReportSectionObservation observation)
+                                                    {
+                                                        frame
+                                                            .Background(color: Colors.Yellow.Medium)
+                                                            .Element(handler: x =>
+                                                                ObservationElement(x: x, observation: observation));
+                                                    }
+                                                }
+                                            });
                                     }
                                 });
                             }
                         });
-                        }
-                    });
                 });
         }
     }
 
-    private void ObservationElement(IContainer x, ReportSectionObservation observation)
-    {
+    private void ObservationElement(
+        IContainer x
+        , ReportSectionObservation observation
+    ) =>
         x
-            .Text(observation.Observation)
-            .Style(Typography.Normal);
-    }
+            .Text(text: observation.Observation)
+            .Style(style: Typography.Normal);
 
-    private void MapTitle(IContainer container, string title)
-    {
-        container.ShowEntire().Column(column =>
+    private void MapTitle(
+        IContainer container
+        , string title
+    ) =>
+        container.ShowEntire().Column(handler: column =>
         {
-            column.Item().Text(title).Style(Typography.Normal);
+            column.Item().Text(text: title).Style(style: Typography.Normal);
         });
-    }
 
-    private void MapCheckboxes(IContainer container, ReportSectionCheckbox checkboxes)
-    {
-        container.ShowEntire().Column(column =>
+    private void MapCheckboxes(
+        IContainer container
+        , ReportSectionCheckbox checkboxes
+    ) =>
+        container.ShowEntire().Column(handler: column =>
         {
-            column.Spacing(5);
-            column.Item().Row(row =>
+            column.Spacing(value: 5);
+            column.Item().Row(handler: row =>
             {
                 foreach (var item in checkboxes.Checkboxes)
                 {
-                    row.Spacing(5);
+                    row.Spacing(value: 5);
 
-                    row.ConstantItem(16)
-                    .Layers(layers =>
-                    {
-                        layers.Layer().Canvas((canvas, size) =>
+                    row.ConstantItem(size: 16)
+                        .Layers(handler: layers =>
                         {
-                            DrawRoundedRectangle(Colors.White, false);
-                            DrawRoundedRectangle(Colors.Black, true);
-
-                            if (item.IsChecked)
+                            layers.Layer().Canvas(handler: (
+                                canvas
+                                , size
+                            ) =>
                             {
-                                DrawLine(Colors.Black, true, fromX: 6, fromY: 4, toX: 10, toY: 12);
-                                DrawLine(Colors.Black, true, fromX: 9.80f, fromY: 12.0f, toX: 15.5f, toY: -1f);
-                            }
+                                DrawRoundedRectangle(color: Colors.White, isStroke: false);
+                                DrawRoundedRectangle(color: Colors.Black, isStroke: true);
 
-
-                            void DrawLine(string color, bool isStroke, float fromX, float fromY, float toX, float toY)
-                            {
-                                using var paint = new SKPaint
+                                if (item.IsChecked)
                                 {
-                                    Color = SKColor.Parse(color),
-                                    IsStroke = isStroke,
-                                    StrokeWidth = 1,
-                                    IsAntialias = true
-                                };
+                                    DrawLine(color: Colors.Black, isStroke: true, fromX: 6, fromY: 4, toX: 10, toY: 12);
+                                    DrawLine(color: Colors.Black, isStroke: true, fromX: 9.80f, fromY: 12.0f, toX: 15.5f
+                                        , toY: -1f);
+                                }
 
-                                canvas.DrawLine(new SKPoint(fromX, fromY), new SKPoint(toX, toY), paint);
-                            }
 
-                            void DrawRoundedRectangle(string color, bool isStroke)
-                            {
-                                using var paint = new SKPaint
+                                void DrawLine(
+                                    string color
+                                    , bool isStroke
+                                    , float fromX
+                                    , float fromY
+                                    , float toX
+                                    , float toY
+                                )
                                 {
-                                    Color = SKColor.Parse(color),
-                                    IsStroke = isStroke,
-                                    StrokeWidth = 1,
-                                    IsAntialias = true
-                                };
+                                    using var paint = new SKPaint
+                                    {
+                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1
+                                        , IsAntialias = true
+                                    };
 
-                                canvas.DrawRoundRect(4, 2, 12, 12, 2, 4, paint);
-                            }
+                                    canvas.DrawLine(p0: new SKPoint(x: fromX, y: fromY), p1: new SKPoint(x: toX, y: toY)
+                                        , paint: paint);
+                                }
+
+                                void DrawRoundedRectangle(
+                                    string color
+                                    , bool isStroke
+                                )
+                                {
+                                    using var paint = new SKPaint
+                                    {
+                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1
+                                        , IsAntialias = true
+                                    };
+
+                                    canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: paint);
+                                }
+                            });
+
+                            layers
+                                .PrimaryLayer()
+                                /* .Text("Sample text")
+                                                                                                                                                                                                                                                                          .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/
+                                ;
                         });
 
-                        layers
-                            .PrimaryLayer()
-                                                                                                                                                                                                                                                                         /* .Text("Sample text")
-                                                                                                                                                                                                                                                                          .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/;
-                    });
-
-                    row.AutoItem().Text(item.Value);
+                    row.AutoItem().Text(text: item.Value);
                 }
             });
-
         });
-    }
 
-    private void MapElement(IContainer container, ReportSectionMap model)
+    private void MapElement(
+        IContainer container
+        , ReportSectionMap model
+    )
     {
         if (model.Location == null)
         {
-            container.Text("No location provided");
+            container.Text(text: "No location provided");
             return;
         }
 
         container
             .ShowEntire()
-            .Column(column =>
-        {
-            column
-            .Spacing(5);
+            .Column(handler: column =>
+            {
+                column
+                    .Spacing(value: 5);
 
-            column
-            .Item()
-            .MaxWidth(250)
-            .AspectRatio(4 / 3f)
-            .Component<ImagePlaceholder>();
+                column
+                    .Item()
+                    .MaxWidth(value: 250)
+                    .AspectRatio(ratio: 4 / 3f)
+                    .Component<ImagePlaceholder>();
 
-            column
-            .Item()
-            .Text(model.Location.Format());
-        });
+                column
+                    .Item()
+                    .Text(text: model.Location.Format());
+            });
     }
 
-    private void PhotosElement(IContainer container, ReportSectionPhotoContainer model)
+    private void PhotosElement(
+        IContainer container
+        , ReportSectionPhotoContainer model
+    )
     {
         if (model.Photos.Count == 0)
         {
-            container.Text("No photos").Style(Typography.Normal);
+            container.Text(text: "No photos").Style(style: Typography.Normal);
             return;
         }
 
         container
             //.DebugArea("Photos")
-            .Grid(grid =>
-        {
-            grid.Spacing(5);
-            grid.Columns(2);
-
-            model.Photos.ForEach(x =>
+            .Grid(handler: grid =>
             {
-                var image = new ImagePlaceholder()
+                grid.Spacing(value: 5);
+                grid.Columns(value: 2);
+
+                model.Photos.ForEach(action: x =>
                 {
-                    ImagePath = x.Path,
-                    Observation = x.Observation
-                };
-                grid
-                .Item()
-                .AlignCenter()
-                .ScaleToFit()
-                .Component(image);
+                    var image = new ImagePlaceholder
+                    {
+                        ImagePath = x.Path, Observation = x.Observation
+                    };
+                    grid
+                        .Item()
+                        .AlignCenter()
+                        .ScaleToFit()
+                        .Component(component: image);
+                });
             });
-        });
     }
 }

@@ -2,8 +2,9 @@
     x:Class="ProjectAvalonia.Features.Project.Views.ProjectView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
+    xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
     xmlns:local="using:ProjectAvalonia.Features.Project.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:project="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
@@ -70,6 +71,7 @@
 
                                     <ComboBox
                                         HorizontalAlignment="Stretch"
+                                        IsTextSearchEnabled="True"
                                         Items="{Binding projectExplorerViewModel.SolutionModel.UfList, Mode=TwoWay}"
                                         PlaceholderText="UF"
                                         SelectedItem="{Binding projectExplorerViewModel.SolutionModel.ReportData.UF, Mode=TwoWay}">
@@ -84,7 +86,11 @@
                                         HorizontalAlignment="Stretch"
                                         Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.Responsavel}"
                                         UseFloatingWatermark="True"
-                                        Watermark="Responsável pelo Projeto" />
+                                        Watermark="Responsável pelo Projeto">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:PhoneBoxMaskBehavior />
+                                        </i:Interaction.Behaviors>
+                                    </TextBox>
 
                                     <TextBox
                                         HorizontalAlignment="Stretch"
@@ -100,8 +106,7 @@
 
                                     <MaskedTextBox
                                         HorizontalAlignment="Stretch"
-                                        Mask="(00)0000-0000"
-                                        Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.Telefone}"
+                                        Text="{Binding projectExplorerViewModel.SolutionModel.ReportData.Telefone, Mode=TwoWay}"
                                         UseFloatingWatermark="True"
                                         Watermark="Telefone do Responsável" />
 

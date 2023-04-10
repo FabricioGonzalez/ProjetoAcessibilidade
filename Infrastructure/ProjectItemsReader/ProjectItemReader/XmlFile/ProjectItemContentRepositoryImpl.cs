@@ -1,16 +1,16 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
-
 using Core.Entities.Solution.Project.AppItem;
-
 using Project.Domain.Project.Contracts;
-
 using ProjectItemReader.XmlFile.DTO;
 
 namespace ProjectItemReader.XmlFile;
+
 public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 {
-    public async Task<AppItemModel> GetSystemProjectItemContent(string filePathToRead)
+    public async Task<AppItemModel> GetSystemProjectItemContent(
+        string filePathToRead
+    )
     {
         /*  var task = new Task<AppItemModel>(() =>
           {
@@ -186,15 +186,18 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
           return await task;*/
 
-        var serializer = new XmlSerializer(typeof(ItemRoot));
+        var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
-        using XmlReader reader = XmlReader.Create(filePathToRead);
+        using var reader = XmlReader.Create(inputUri: filePathToRead);
 
-        var result = await Task.Run<ItemRoot>(() => (ItemRoot)serializer.Deserialize(reader));
+        var result = await Task.Run<ItemRoot>(function: () => (ItemRoot)serializer.Deserialize(xmlReader: reader));
 
         return result.ToAppItemModel();
     }
-    public async Task<AppItemModel> GetProjectItemContent(string filePathToRead)
+
+    public async Task<AppItemModel> GetProjectItemContent(
+        string filePathToRead
+    )
     {
         /*   var task = new Task<AppItemModel>(() =>
            {
@@ -383,15 +386,19 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
            return await task;*/
 
-        var serializer = new XmlSerializer(typeof(ItemRoot));
+        var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
-        using XmlReader reader = XmlReader.Create(filePathToRead);
+        using var reader = XmlReader.Create(inputUri: filePathToRead);
 
-        var result = await Task.Run<ItemRoot>(() => (ItemRoot)serializer.Deserialize(reader));
+        var result = await Task.Run<ItemRoot>(function: () => (ItemRoot)serializer.Deserialize(xmlReader: reader));
 
         return result.ToAppItemModel();
     }
-    public async Task SaveProjectItemContent(AppItemModel dataToWrite, string filePathToWrite)
+
+    public async Task SaveProjectItemContent(
+        AppItemModel dataToWrite
+        , string filePathToWrite
+    )
     {
         /*  await Task.Run(() =>
           {
@@ -623,44 +630,47 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
               tabelaName = null;
           });*/
 
-        var serializer = new XmlSerializer(typeof(ItemRoot));
+        var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
-        using var writer = new StreamWriter(File.Create(filePathToWrite));
+        using var writer = new StreamWriter(stream: File.Create(path: filePathToWrite));
 
-        serializer.Serialize(writer, dataToWrite.ToItemRoot());
-
-        return;
-    }
-    public async Task SaveSystemProjectItemContent(AppItemModel dataToWrite, string filePathToWrite)
-    {
-        var serializer = new XmlSerializer(typeof(ItemRoot));
-
-        using var writer = new StreamWriter(File.Create(filePathToWrite));
-
-        serializer.Serialize(writer, dataToWrite.ToItemRoot());
-
-        return;
+        serializer.Serialize(textWriter: writer, o: dataToWrite.ToItemRoot());
     }
 
-    public async Task<AppItemModel> GetSystemProjectItemContentSerealizer(string filePathToRead)
+    public async Task SaveSystemProjectItemContent(
+        AppItemModel dataToWrite
+        , string filePathToWrite
+    )
     {
-        var serializer = new XmlSerializer(typeof(ItemRoot));
+        var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
-        using XmlReader reader = XmlReader.Create(filePathToRead);
+        using var writer = new StreamWriter(stream: File.Create(path: filePathToWrite));
 
-        var result = await Task.Run<ItemRoot>(() => (ItemRoot)serializer.Deserialize(reader));
+        serializer.Serialize(textWriter: writer, o: dataToWrite.ToItemRoot());
+    }
+
+    public async Task<AppItemModel> GetSystemProjectItemContentSerealizer(
+        string filePathToRead
+    )
+    {
+        var serializer = new XmlSerializer(type: typeof(ItemRoot));
+
+        using var reader = XmlReader.Create(inputUri: filePathToRead);
+
+        var result = await Task.Run<ItemRoot>(function: () => (ItemRoot)serializer.Deserialize(xmlReader: reader));
 
         return result.ToAppItemModel();
-
     }
-    public async Task SaveSystemProjectItemContentSerealizer(AppItemModel dataToWrite, string filePathToWrite)
+
+    public async Task SaveSystemProjectItemContentSerealizer(
+        AppItemModel dataToWrite
+        , string filePathToWrite
+    )
     {
-        var serializer = new XmlSerializer(typeof(ItemRoot));
+        var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
-        using var writer = new StreamWriter(File.Create(filePathToWrite));
+        using var writer = new StreamWriter(stream: File.Create(path: filePathToWrite));
 
-        serializer.Serialize(writer, dataToWrite.ToItemRoot());
-
-        return;
+        serializer.Serialize(textWriter: writer, o: dataToWrite.ToItemRoot());
     }
 }

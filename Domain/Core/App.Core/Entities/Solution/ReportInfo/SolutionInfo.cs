@@ -1,49 +1,60 @@
 ﻿using Core.Entities.App;
 
 namespace Core.Entities.Solution.ReportInfo;
+
 public class SolutionInfo
 {
     public string Email
     {
-        get; set;
+        get;
+        set;
     } = "";
 
     public string Endereco
     {
-        get; set;
+        get;
+        set;
     } = "";
 
     public string NomeEmpresa
     {
-        get; set;
+        get;
+        set;
     } = "";
+
     public string Responsavel
     {
-        get; set;
+        get;
+        set;
     } = "";
+
     public string Telefone
     {
-        get; set;
+        get;
+        set;
     } = "";
 
     public UFModel UF
     {
-        get; set;
+        get;
+        set;
     }
 
     public DateTimeOffset Data
     {
-        get; set;
+        get;
+        set;
     } = DateTime.Now;
 
     public string LogoPath
     {
-        get; set;
+        get;
+        set;
     } = "";
 
     public string SolutionName
     {
-        get; set;
+        get;
+        set;
     } = "";
-
 }

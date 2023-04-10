@@ -1,12 +1,10 @@
-﻿
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace ProjectWinUI.Src.Navigation.Contracts;
+
 public interface INavigationService
 {
-    event NavigatedEventHandler Navigated;
-
     bool CanGoBack
     {
         get;
@@ -14,10 +12,17 @@ public interface INavigationService
 
     Frame? Frame
     {
-        get; set;
+        get;
+        set;
     }
 
-    bool NavigateTo(string pageKey, object? parameter = null, bool clearNavigation = false);
+    event NavigatedEventHandler Navigated;
+
+    bool NavigateTo(
+        string pageKey
+        , object? parameter = null
+        , bool clearNavigation = false
+    );
 
     bool GoBack();
 }

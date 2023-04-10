@@ -1,37 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 using Common;
-
 using Core.Entities.Solution.Explorer;
 using Core.Entities.Solution.Project.AppItem;
 using Core.Entities.Solution.Project.AppItem.DataItems;
 using Core.Entities.Solution.Project.AppItem.DataItems.Images;
 using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-
+using Core.Enuns;
 using DynamicData;
 using DynamicData.Binding;
-
 using Project.Domain.App.Models;
-using Project.Domain.App.Queries.GetAllTemplates;
+using Project.Domain.App.Queries.Templates;
 using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
-
+using Project.Domain.Project.Commands.SystemItems;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Logging;
-
 using ReactiveUI;
-
 using Splat;
-
 using FileItem = ProjectAvalonia.Common.Models.FileItems.FileItem;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
@@ -44,50 +39,18 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Searchable = true,
     Keywords = new[]
     {
-            "Templates", "Editing"
+        "Templates", "Editing"
     },
-        NavBarPosition = NavBarPosition.Top,
+    NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_regular")]
 public partial class TemplateEditViewModel : NavBarItemViewModel
 {
-    [AutoNotify] private int _selectedTab;
-    [AutoNotify] private ReadOnlyObservableCollection<FileItem> _items;
-    public ObservableCollectionExtended<FileItem> Source
-    {
-        get;
-    } = new();
-
-    private readonly IQueryDispatcher queryDispatcher;
     private readonly ICommandDispatcher commandDispatcher;
 
-    public async Task LoadItems()
-    {
-        var result = await queryDispatcher
-            .Dispatch<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>(
-            query: new(),
-            cancellation: CancellationToken.None);
-
-        result.OnError((res) =>
-        {
-
-        })
-        .OnLoadingStarted((res) =>
-        {
-        })
-        .OnSuccess((res) =>
-        {
-            if (res.Data is not null)
-            {
-                Source.Load(
-                    res.Data.Select(item => new FileItem()
-                    {
-                        Name = item.Name,
-                        FilePath = item.Path
-                    }));
-            }
-        });
-    }
+    private readonly IQueryDispatcher queryDispatcher;
+    [AutoNotify] private ReadOnlyObservableCollection<FileItem> _items;
+    [AutoNotify] private int _selectedTab;
 
     public TemplateEditViewModel()
     {
@@ -95,9 +58,9 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
         commandDispatcher = Locator.Current.GetService<ICommandDispatcher>();
 
         Source.ToObservableChangeSet()
-             .ObserveOn(RxApp.MainThreadScheduler)
-             .Bind(out _items)
-             .Subscribe();
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+            .Bind(readOnlyObservableCollection: out _items)
+            .Subscribe();
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
@@ -105,73 +68,80 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
 
         TemplateEditTab = new TemplateEditTabViewModel();
 
-        AddNewItemCommand = ReactiveCommand.Create(() =>
+        AddNewItemCommand = ReactiveCommand.Create(execute: () =>
         {
-            Source.Add(new FileItem() { InEditMode = true });
+            Source.Add(item: new FileItem { InEditMode = true });
         });
 
-        ExcludeItemCommand = ReactiveCommand.CreateFromTask<FileItem>(async (item) =>
+        ExcludeItemCommand = ReactiveCommand.CreateFromTask<FileItem>(execute: async item =>
         {
             var dialog = new DeleteDialogViewModel(
-                message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
+                message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
+                , caption: "");
 
-            if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
+            if ((await NavigateDialogAsync(dialog: dialog, target: NavigationTarget.CompactDialogScreen)).Result)
             {
                 /*Logger.LogInfo(groupModels.Name);*/
             }
         });
 
-        RenameItemCommand = ReactiveCommand.Create<FileItem>((item) =>
+        RenameItemCommand = ReactiveCommand.Create<FileItem>(execute: item =>
         {
             item.InEditMode = true;
         });
 
-        CommitItemCommand = ReactiveCommand.Create<FileItem>((item) =>
+        CommitItemCommand = ReactiveCommand.Create<FileItem>(execute: item =>
         {
-            var result = Items.Single(file => file.Name == item.Name);
+            var result = Items.Single(predicate: file => file.Name == item.Name);
 
             if (result is not null)
             {
-                result.FilePath = System.IO.Path
-                .Combine(Constants.AppItemsTemplateFolder, $"{result.Name}{Constants.AppProjectTemplateExtension}");
+                result.FilePath = Path
+                    .Combine(path1: Constants.AppItemsTemplateFolder
+                        , path2: $"{result.Name}{Constants.AppProjectTemplateExtension}");
 
-                var appItem = new AppItemModel()
+                var appItem = new AppItemModel
                 {
-                    ItemName = result.Name,
-                    TemplateName = result.Name,
-                    Id = Guid.NewGuid().ToString(),
-                    LawList = new List<AppLawModel>(),
-                    FormData = new List<IAppFormDataItemContract>()
+                    ItemName = result.Name, TemplateName = result.Name, Id = Guid.NewGuid().ToString()
+                    , LawList = new List<AppLawModel>(), FormData = new List<IAppFormDataItemContract>
                     {
                         new AppFormDataItemObservationModel(
-                        type: Core.Enuns.AppFormDataType.Observação,
-                    topic: "Observações",
-                    observation: "",
-                    id:""),
-
-                    new AppFormDataItemImageModel(
-                        topic:"Imagens",
-                        id: "",
-                        type: Core.Enuns.AppFormDataType.Image){
-                    ImagesItems = new List<ImagesItem>()
-                    } }
+                            type: AppFormDataType.Observação,
+                            topic: "Observações",
+                            observation: "",
+                            id: "")
+                        , new AppFormDataItemImageModel(
+                            topic: "Imagens",
+                            id: "",
+                            type: AppFormDataType.Image)
+                        {
+                            ImagesItems = new List<ImagesItem>()
+                        }
+                    }
                 };
 
-                if (!IoHelpers.CheckIfFileExists(result.FilePath))
+                if (!IoHelpers.CheckIfFileExists(filePath: result.FilePath))
+                {
                     commandDispatcher.Dispatch<SaveSystemProjectItemContentCommand, Resource<Empty>>(
-                        new(appItem, result.FilePath),
-                        CancellationToken.None);
+                        command: new SaveSystemProjectItemContentCommand(AppItem: appItem, ItemPath: result.FilePath),
+                        cancellation: CancellationToken.None);
+                }
 
-                Logger.LogDebug(result.Name);
+                Logger.LogDebug(message: result.Name);
             }
         });
 
-        (CommitItemCommand as ReactiveCommand<FileItem, System.Reactive.Unit>).ThrownExceptions.Subscribe(exception =>
+        (CommitItemCommand as ReactiveCommand<FileItem, Unit>).ThrownExceptions.Subscribe(onNext: exception =>
         {
-            Source.Remove(Source.Last());
+            Source.Remove(item: Source.Last());
         });
-
     }
+
+    public ObservableCollectionExtended<FileItem> Source
+    {
+        get;
+    } = new();
+
     public TemplateEditTabViewModel TemplateEditTab
     {
         get;
@@ -181,16 +151,42 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
     {
         get;
     }
+
     public ICommand ExcludeItemCommand
     {
         get;
     }
+
     public ICommand RenameItemCommand
     {
         get;
     }
+
     public ICommand CommitItemCommand
     {
         get;
+    }
+
+    public async Task LoadItems()
+    {
+        var result = await queryDispatcher
+            .Dispatch<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>(
+                query: new GetAllTemplatesQuery(),
+                cancellation: CancellationToken.None);
+
+        result.OnError(onErrorAction: res =>
+            {
+            })
+            .OnSuccess(onSuccessAction: res =>
+            {
+                if (res.Data is not null)
+                {
+                    Source.Load(
+                        items: res.Data.Select(selector: item => new FileItem
+                        {
+                            Name = item.Name, FilePath = item.Path
+                        }));
+                }
+            });
     }
 }

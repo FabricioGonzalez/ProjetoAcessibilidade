@@ -6,29 +6,43 @@ namespace QuestPDF.Fluent
 {
     public class Document : IDocument
     {
-        private Action<IDocumentContainer> ContentSource { get; }
-        private DocumentMetadata Metadata { get; set; } = DocumentMetadata.Default;
-
-        private Document(Action<IDocumentContainer> contentSource)
+        private Document(
+            Action<IDocumentContainer> contentSource
+        )
         {
             ContentSource = contentSource;
         }
-        
-        public static Document Create(Action<IDocumentContainer> handler)
+
+        private Action<IDocumentContainer> ContentSource
         {
-            return new Document(handler);
+            get;
         }
 
-        public Document WithMetadata(DocumentMetadata metadata)
+        private DocumentMetadata Metadata
+        {
+            get;
+            set;
+        } = DocumentMetadata.Default;
+
+        public static Document Create(
+            Action<IDocumentContainer> handler
+        ) => new(contentSource: handler);
+
+        public Document WithMetadata(
+            DocumentMetadata metadata
+        )
         {
             Metadata = metadata ?? Metadata;
             return this;
         }
-        
+
         #region IDocument
 
         public DocumentMetadata GetMetadata() => Metadata;
-        public void Compose(IDocumentContainer container) => ContentSource(container);
+
+        public void Compose(
+            IDocumentContainer container
+        ) => ContentSource(obj: container);
 
         #endregion
     }

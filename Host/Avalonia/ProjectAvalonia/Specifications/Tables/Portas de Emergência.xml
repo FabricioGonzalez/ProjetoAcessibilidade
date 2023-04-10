@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <id />
+    <id/>
     <name>Portas De Emergência</name>
     <template_name>Portas De Emergência</template_name>
     <table>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
             <topic></topic>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui porta de emergência?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>A porta de emergência possui barras antipânico?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -44,15 +44,15 @@
             </checkboxes>
         </checkbox_items>
         <observation_item>
-            <id />
+            <id/>
             <type>observation</type>
-            <observation />
+            <observation/>
         </observation_item>
         <image_items>
-            <id />
+            <id/>
             <type>image</type>
-            <images />
+            <images/>
         </image_items>
     </table>
-    <law />
+    <law/>
 </item>

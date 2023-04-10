@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -14,34 +13,82 @@ namespace ProjectAvalonia.Common.Controls;
 
 public class EditableTextBlock : TemplatedControl
 {
-    private string _text;
-    private string _editText;
-    private TextBox _textBox;
+    public static readonly DirectProperty<EditableTextBlock, string> TextProperty =
+        TextBlock.TextProperty.AddOwner<EditableTextBlock>(
+            getter: o => o.Text,
+            setter: (
+                o
+                , v
+            ) => o.Text = v,
+            defaultBindingMode: BindingMode.TwoWay,
+            enableDataValidation: true);
+
+    public static readonly DirectProperty<EditableTextBlock, ICommand> CommandProperty =
+        AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand?>(
+            name: nameof(Command),
+            getter: component => component.Command,
+            setter: (
+                component
+                , value
+            ) => component.Command = value);
+
+    public static readonly DirectProperty<EditableTextBlock, object?> CommandParameterProperty =
+        AvaloniaProperty.RegisterDirect<EditableTextBlock, object?>(
+            name: nameof(CommandParameter),
+            getter: component => component.CommandParameter,
+            setter: (
+                component
+                , value
+            ) => component.CommandParameter = value);
+
+    public static readonly DirectProperty<EditableTextBlock, string> EditTextProperty =
+        AvaloniaProperty.RegisterDirect<EditableTextBlock, string>(name: nameof(EditText),
+            getter: o => o.EditText,
+            setter: (
+                o
+                , v
+            ) => o.EditText = v);
+
+    public static readonly StyledProperty<bool> InEditModeProperty =
+        AvaloniaProperty.Register<EditableTextBlock, bool>(
+            name: nameof(InEditMode),
+            defaultBindingMode: BindingMode.TwoWay);
+
     private readonly DispatcherTimer _editClickTimer;
+    private string _editText;
+    private string _text;
+    private TextBox _textBox;
+
+    private ICommand? command;
+
+    private object? commandParameter;
 
     public EditableTextBlock()
     {
         _editClickTimer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMilliseconds(500),
+            Interval = TimeSpan.FromMilliseconds(value: 500)
         };
 
-        _editClickTimer.Tick += (sender, e) =>
-         {
-             _editClickTimer.Stop();
+        _editClickTimer.Tick += (
+            sender
+            , e
+        ) =>
+        {
+            _editClickTimer.Stop();
 
-             if (IsFocused && !InEditMode)
-             {
-                 EnterEditMode();
-             }
-         };
+            if (IsFocused && !InEditMode)
+            {
+                EnterEditMode();
+            }
+        };
 
-        this.GetObservable(TextProperty).Subscribe(t =>
+        this.GetObservable(property: TextProperty).Subscribe(onNext: t =>
         {
             EditText = t;
         });
 
-        this.GetObservable(InEditModeProperty).Subscribe(mode =>
+        this.GetObservable(property: InEditModeProperty).Subscribe(onNext: mode =>
         {
             if (mode && _textBox != null)
             {
@@ -49,13 +96,16 @@ public class EditableTextBlock : TemplatedControl
             }
         });
 
-        AddHandler(PointerPressedEvent, (sender, e) =>
+        AddHandler(routedEvent: PointerPressedEvent, handler: (
+            sender
+            , e
+        ) =>
         {
             _editClickTimer.Stop();
 
             if (!InEditMode)
             {
-                var properties = e.GetCurrentPoint(this).Properties;
+                var properties = e.GetCurrentPoint(relativeTo: this).Properties;
                 if (e.ClickCount == 1 && properties.IsLeftButtonPressed && IsFocused)
                 {
                     _editClickTimer.Start();
@@ -63,80 +113,54 @@ public class EditableTextBlock : TemplatedControl
             }
             else
             {
-                var hit = this.InputHitTest(e.GetPosition(this));
+                var hit = this.InputHitTest(p: e.GetPosition(relativeTo: this));
 
                 if (hit == null)
                 {
                     ExitEditMode();
                 }
             }
-        }, RoutingStrategies.Tunnel);
+        }, routes: RoutingStrategies.Tunnel);
     }
 
-    public static readonly DirectProperty<EditableTextBlock, string> TextProperty = TextBlock.TextProperty.AddOwner<EditableTextBlock>(
-            o => o.Text,
-            (o, v) => o.Text = v,
-            defaultBindingMode: BindingMode.TwoWay,
-            enableDataValidation: true);
-
-    public static readonly DirectProperty<EditableTextBlock, ICommand> CommandProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand?>(
-        nameof(Command),
-        component => component.Command,
-        (component, value) => component.Command = value);
-
-    public static readonly DirectProperty<EditableTextBlock, object?> CommandParameterProperty = AvaloniaProperty.RegisterDirect<EditableTextBlock, object?>(
-        nameof(CommandParameter),
-        component => component.CommandParameter,
-        (component, value) => component.CommandParameter = value);
-
-    private ICommand? command;
     public ICommand? Command
     {
         get => command;
-        set => SetAndRaise(CommandProperty, ref command, value);
+        set => SetAndRaise(property: CommandProperty, field: ref command, value: value);
     }
 
-    private object? commandParameter;
     public object? CommandParameter
     {
         get => commandParameter;
-        set => SetAndRaise(CommandParameterProperty, ref commandParameter, value);
+        set => SetAndRaise(property: CommandParameterProperty, field: ref commandParameter, value: value);
     }
 
     [Content]
     public string Text
     {
         get => _text;
-        set => SetAndRaise(TextProperty, ref _text, value);
+        set => SetAndRaise(property: TextProperty, field: ref _text, value: value);
     }
 
     public string EditText
     {
         get => _editText;
-        set => SetAndRaise(EditTextProperty, ref _editText, value);
+        set => SetAndRaise(property: EditTextProperty, field: ref _editText, value: value);
     }
-
-    public static readonly DirectProperty<EditableTextBlock, string> EditTextProperty =
-            AvaloniaProperty.RegisterDirect<EditableTextBlock, string>(nameof(EditText),
-                o => o.EditText,
-                (o, v) => o.EditText = v);
-
-    public static readonly StyledProperty<bool> InEditModeProperty =
-        AvaloniaProperty.Register<EditableTextBlock, bool>(
-            nameof(InEditMode),
-            defaultBindingMode: BindingMode.TwoWay);
 
     public bool InEditMode
     {
-        get => GetValue(InEditModeProperty);
-        set => SetValue(InEditModeProperty, value);
+        get => GetValue(property: InEditModeProperty);
+        set => SetValue(property: InEditModeProperty, value: value);
     }
 
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    protected override void OnApplyTemplate(
+        TemplateAppliedEventArgs e
+    )
     {
-        base.OnApplyTemplate(e);
+        base.OnApplyTemplate(e: e);
 
-        _textBox = e.NameScope.Find<TextBox>("PART_TextBox");
+        _textBox = e.NameScope.Find<TextBox>(name: "PART_TextBox");
 
         if (InEditMode)
         {
@@ -144,7 +168,9 @@ public class EditableTextBlock : TemplatedControl
         }
     }
 
-    protected override void OnKeyUp(KeyEventArgs e)
+    protected override void OnKeyUp(
+        KeyEventArgs e
+    )
     {
         switch (e.Key)
         {
@@ -154,12 +180,12 @@ public class EditableTextBlock : TemplatedControl
                 break;
 
             case Key.Escape:
-                ExitEditMode(true);
+                ExitEditMode(restore: true);
                 e.Handled = true;
                 break;
         }
 
-        base.OnKeyUp(e);
+        base.OnKeyUp(e: e);
     }
 
     private void EnterEditMode()
@@ -173,13 +199,15 @@ public class EditableTextBlock : TemplatedControl
         _textBox.SelectionStart = 0;
         _textBox.SelectionEnd = Text.Length;
 
-        Dispatcher.UIThread.InvokeAsync(() =>
+        Dispatcher.UIThread.InvokeAsync(action: () =>
         {
             _textBox.Focus();
         });
     }
 
-    private void ExitEditMode(bool restore = false)
+    private void ExitEditMode(
+        bool restore = false
+    )
     {
         if (restore)
         {
@@ -192,10 +220,12 @@ public class EditableTextBlock : TemplatedControl
             {
                 if (CommandParameter is not null)
                 {
-                    Command.Execute(CommandParameter);
+                    Command.Execute(parameter: CommandParameter);
                 }
                 else
-                    Command.Execute(null);
+                {
+                    Command.Execute(parameter: null);
+                }
             }
         }
 
@@ -205,13 +235,15 @@ public class EditableTextBlock : TemplatedControl
         /*(VisualRoot as IPointer).Capture(null);*/
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged<T>(
+        AvaloniaPropertyChangedEventArgs<T> change
+    )
     {
-        base.OnPropertyChanged(change);
+        base.OnPropertyChanged(change: change);
 
         if (change.Property == InEditModeProperty)
         {
-            PseudoClasses.Set(":editing", change.NewValue.GetValueOrDefault<bool>());
+            PseudoClasses.Set(name: ":editing", value: change.NewValue.GetValueOrDefault<bool>());
         }
     }
 }

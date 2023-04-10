@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <id />
+    <id/>
     <name>Acesso à Equipamentos</name>
     <template_name>Acesso à Equipamentos</template_name>
     <table>
         <checkbox_items>
-            <id />
-            <topic />
+            <id/>
+            <topic/>
             <type>checkbox</type>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui obstáculo de acesso aos comandos?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -29,12 +29,12 @@
                     <topic>Possuí altura máxima de 1,20m?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -43,12 +43,12 @@
             </checkboxes>
         </checkbox_items>
         <observation_item>
-            <id />
+            <id/>
             <type>observation</type>
-            <observation />
+            <observation/>
         </observation_item>
         <itemtabela>
-            <id />
+            <id/>
             <type>image</type>
             <images></images>
         </itemtabela>

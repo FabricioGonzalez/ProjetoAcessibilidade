@@ -4,24 +4,17 @@ using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-
 using Avalonia.Threading;
-
 using Common;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
-
 using QuestPDFReport;
 using QuestPDFReport.ReportSettings;
-
 using ReactiveUI;
-
 using Unit = System.Reactive.Unit;
 
 namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -38,159 +31,166 @@ namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
     NavigationTarget = NavigationTarget.FullScreen)]
 public partial class PreviewerViewModel : RoutableViewModel
 {
-    public DocumentRenderer DocumentRenderer { get; } = new();
+    [AutoNotify] private float _currentScroll;
+
+    [AutoNotify] private IDocument? _document;
+
+    [AutoNotify] private float _scrollViewportSize;
 
     [AutoNotify] private string _solutionPath;
     [AutoNotify] private SolutionStateViewModel _solutionState;
 
-    [AutoNotify] private IDocument? _document;
-
-    [AutoNotify] private float _currentScroll;
-
-    [AutoNotify] private float _scrollViewportSize;
-
     private bool _verticalScrollbarVisible;
+
+    public PreviewerViewModel()
+    {
+        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+
+        this.WhenAnyValue(property1: vm => vm.SolutionPath)
+            .Where(predicate: prop => !string.IsNullOrWhiteSpace(value: prop))
+            .SubscribeAsync(onNextAsync: async prop =>
+            {
+                var report = new StandardReport(model: await DataSource.GetReport(
+                    path: prop,
+                    extension: Constants.AppProjectItemExtension));
+
+                Document = report;
+            });
+
+        this.WhenAnyValue(property1: vm => vm.SolutionState)
+            .WhereNotNull()
+            .SubscribeAsync(onNextAsync: async prop =>
+            {
+                var report = new StandardReport(model: await DataSource.GetReport(
+                    solutionModel: prop.ToSolutionModel(),
+                    extension: Constants.AppProjectItemExtension));
+
+                Document = report;
+            });
+
+        this.WhenAnyValue(property1: vm => vm.Document)
+            .Subscribe(onNext: prop =>
+            {
+                UpdateDocument(document: prop);
+            });
+
+        this.WhenAnyValue(property1: vm => vm.ScrollViewportSize)
+            .Subscribe(onNext: prop =>
+            {
+                VerticalScrollbarVisible = prop < 1;
+            });
+
+        ShowPdfCommand = ReactiveCommand.Create(execute: ShowPdf);
+        ShowDocumentationCommand = ReactiveCommand.Create(execute: () =>
+            OpenLink(path: "https://www.questpdf.com/documentation/api-reference.html"));
+        PrintCommand = ReactiveCommand.Create(execute: () => OpenLink(path: "https://github.com/sponsors/QuestPDF"));
+    }
+
+    public DocumentRenderer DocumentRenderer
+    {
+        get;
+    } = new();
+
     public bool VerticalScrollbarVisible
     {
         get => _verticalScrollbarVisible;
-        private set => Dispatcher.UIThread.Post(() => this.RaiseAndSetIfChanged(ref _verticalScrollbarVisible, value));
-    }
-
-    public PreviewerViewModel SetSolutionPath(string solutionPath)
-    {
-        SolutionPath = solutionPath;
-
-        return this;
+        private set => Dispatcher.UIThread.Post(action: () =>
+            this.RaiseAndSetIfChanged(backingField: ref _verticalScrollbarVisible, newValue: value));
     }
 
     public ReactiveCommand<Unit, Unit> ShowPdfCommand
     {
         get;
     }
+
     public ReactiveCommand<Unit, Unit> ShowDocumentationCommand
     {
         get;
     }
+
     public ReactiveCommand<Unit, Unit> SponsorProjectCommand
     {
         get;
     }
+
     public ReactiveCommand<Unit, Unit> PrintCommand
     {
         get;
     }
 
-    public PreviewerViewModel()
+    public PreviewerViewModel SetSolutionPath(
+        string solutionPath
+    )
     {
-        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SolutionPath = solutionPath;
 
-        this.WhenAnyValue(vm => vm.SolutionPath)
-            .Where(prop => !string.IsNullOrWhiteSpace(prop))
-            .SubscribeAsync(async prop =>
-            {
-                var report = new StandardReport(await DataSource.GetReport(
-                path: prop,
-                extension: Constants.AppProjectItemExtension));
-
-                Document = report;
-            });
-
-        this.WhenAnyValue(vm => vm.SolutionState)
-           .WhereNotNull()
-           .SubscribeAsync(async prop =>
-           {
-               var report = new StandardReport(await DataSource.GetReport(
-               solutionModel: prop.ToSolutionModel(),
-               extension: Constants.AppProjectItemExtension));
-
-               Document = report;
-           });
-
-        this.WhenAnyValue(vm => vm.Document)
-            .Subscribe(prop =>
-            {
-                UpdateDocument(prop);
-            });
-
-        this.WhenAnyValue(vm => vm.ScrollViewportSize)
-            .Subscribe(prop =>
-            {
-                VerticalScrollbarVisible = prop < 1;
-            });
-
-        ShowPdfCommand = ReactiveCommand.Create(ShowPdf);
-        ShowDocumentationCommand = ReactiveCommand.Create(() => OpenLink("https://www.questpdf.com/documentation/api-reference.html"));
-        PrintCommand = ReactiveCommand.Create(() => OpenLink("https://github.com/sponsors/QuestPDF"));
-
+        return this;
     }
 
-    protected override void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables, object? Parameter = null)
+    protected override void OnNavigatedTo(
+        bool isInHistory
+        , CompositeDisposable disposables
+        , object? Parameter = null
+    )
     {
-        if (Parameter is string path && !string.IsNullOrWhiteSpace(path))
+        if (Parameter is string path && !string.IsNullOrWhiteSpace(value: path))
         {
             SolutionPath = path;
         }
+
         if (Parameter is SolutionStateViewModel solution)
         {
             SolutionState = solution;
         }
     }
 
-    protected override void OnNavigatedFrom(bool isInHistory)
+    protected override void OnNavigatedFrom(
+        bool isInHistory
+    )
     {
         UnregisterHotReloadHandler();
         Document = null;
     }
 
-    public void UnregisterHotReloadHandler()
-    {
-        HotReloadManager.UpdateApplicationRequested -= InvalidateDocument;
-    }
+    public void UnregisterHotReloadHandler() => HotReloadManager.UpdateApplicationRequested -= InvalidateDocument;
 
-    private void InvalidateDocument(object? sender, EventArgs e)
-    {
-        UpdateDocument(Document);
-    }
+    private void InvalidateDocument(
+        object? sender
+        , EventArgs e
+    ) => UpdateDocument(document: Document);
 
-    private Task UpdateDocument(IDocument? document)
-    {
-        return Task.Run(() => DocumentRenderer.UpdateDocument(document));
-    }
+    private Task UpdateDocument(
+        IDocument? document
+    ) => Task.Run(action: () => DocumentRenderer.UpdateDocument(document: document));
 
     private void ShowPdf()
     {
-        var filePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.pdf");
+        var filePath = Path.Combine(path1: Path.GetTempPath(), path2: $"{Guid.NewGuid():N}.pdf");
 
         try
         {
-            Document?.GeneratePdf(filePath);
+            Document?.GeneratePdf(filePath: filePath);
         }
         catch (Exception exception)
         {
-            new ExceptionDocument(exception).GeneratePdf(filePath);
+            new ExceptionDocument(exception: exception).GeneratePdf(filePath: filePath);
         }
 
-        OpenLink(filePath);
+        OpenLink(path: filePath);
     }
-    private void OpenLink(string path)
+
+    private void OpenLink(
+        string path
+    )
     {
-        try
+        var openBrowserProcess = new Process
         {
-            var openBrowserProcess = new Process
+            StartInfo = new ProcessStartInfo
             {
-                StartInfo = new ProcessStartInfo()
-                {
-                    UseShellExecute = true,
-                    FileName = path
-                }
-            };
+                UseShellExecute = true, FileName = path
+            }
+        };
 
-            openBrowserProcess.Start();
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-
+        openBrowserProcess.Start();
     }
 }

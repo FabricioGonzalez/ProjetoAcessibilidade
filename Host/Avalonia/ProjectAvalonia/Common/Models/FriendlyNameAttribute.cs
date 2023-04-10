@@ -2,10 +2,12 @@ using System;
 
 namespace ProjectAvalonia.Common.Models;
 
-[AttributeUsage(AttributeTargets.Field)]
+[AttributeUsage(validOn: AttributeTargets.Field)]
 public class FriendlyNameAttribute : Attribute
 {
-    public FriendlyNameAttribute(string friendlyName)
+    public FriendlyNameAttribute(
+        string friendlyName
+    )
     {
         FriendlyName = friendlyName;
     }

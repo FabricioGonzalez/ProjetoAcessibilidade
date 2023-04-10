@@ -1,28 +1,27 @@
 using System.Collections.ObjectModel;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-
 using ProjectAvalonia.Features.Project.States.FormItemState;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
+
 public partial class OptionsItem : UserControl
 {
     public static readonly AttachedProperty<ObservableCollection<OptionsItemState>> OptionsProperty =
-        AvaloniaProperty.RegisterAttached<OptionsItem, UserControl, ObservableCollection<OptionsItemState>>(nameof(Options));
-    public ObservableCollection<OptionsItemState>? Options
-    {
-        get => GetValue(OptionsProperty);
-        set => SetValue(OptionsProperty, value);
-    }
+        AvaloniaProperty.RegisterAttached<OptionsItem, UserControl, ObservableCollection<OptionsItemState>>(
+            name: nameof(Options));
+
     public OptionsItem()
     {
         InitializeComponent();
     }
 
-    private void InitializeComponent()
+    public ObservableCollection<OptionsItemState>? Options
     {
-        AvaloniaXamlLoader.Load(this);
+        get => GetValue(property: OptionsProperty);
+        set => SetValue(property: OptionsProperty, value: value);
     }
+
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
 }

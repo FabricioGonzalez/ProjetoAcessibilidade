@@ -1,18 +1,22 @@
 ﻿namespace QuestPDFReport.Models;
+
 public class ReportPhoto
 {
     public Location Location
     {
-        get; set;
+        get;
+        set;
     }
 
     public DateTime? Date
     {
-        get; set;
+        get;
+        set;
     }
+
     public string Comments
     {
-        get; set;
+        get;
+        set;
     }
 }
-

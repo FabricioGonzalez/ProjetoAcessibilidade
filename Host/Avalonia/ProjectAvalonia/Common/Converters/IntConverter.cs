@@ -5,5 +5,5 @@ namespace ProjectAvalonia.Common.Converters;
 public static class IntConverter
 {
     public static readonly IValueConverter ToOrdinalString =
-        new FuncValueConverter<int, string>(x => $"{x}.");
+        new FuncValueConverter<int, string>(convert: x => $"{x}.");
 }

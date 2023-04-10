@@ -1,15 +1,15 @@
 ﻿using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.States.FormItemState;
+
 public partial class OptionsItemState : ReactiveObject
 {
     [AutoNotify]
     private string _id;
 
     [AutoNotify]
-    private string _value;
+    private bool _isChecked;
 
     [AutoNotify]
-    private bool _isChecked = false;
-
+    private string _value;
 }

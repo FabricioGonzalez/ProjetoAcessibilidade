@@ -1,20 +1,24 @@
 ﻿namespace Core.Entities.App;
+
 public class MessageModel
 {
     public MessageType Type
     {
-        get; set;
-    }
-    public string Message
-    {
-        get; set;
+        get;
+        set;
     }
 
+    public string Message
+    {
+        get;
+        set;
+    }
 }
+
 public enum MessageType
 {
-    Debug,
-    Info,
-    Error,
-    Warning
+    Debug
+    , Info
+    , Error
+    , Warning
 }

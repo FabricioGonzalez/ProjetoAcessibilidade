@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Dialogs.Base;
@@ -13,13 +11,15 @@ public partial class DialogScreenViewModel : TargettedNavigationStack
 {
     [AutoNotify] private bool _isDialogOpen;
 
-    public DialogScreenViewModel(NavigationTarget navigationTarget = NavigationTarget.DialogScreen) : base(navigationTarget)
+    public DialogScreenViewModel(
+        NavigationTarget navigationTarget = NavigationTarget.DialogScreen
+    ) : base(target: navigationTarget)
     {
-        this.WhenAnyValue(x => x.IsDialogOpen)
-            .Skip(1) // Skip the initial value change (which is false).
+        this.WhenAnyValue(property1: x => x.IsDialogOpen)
+            .Skip(count: 1) // Skip the initial value change (which is false).
             .DistinctUntilChanged()
             .Subscribe(
-                x =>
+                onNext: x =>
                 {
                     if (!x)
                     {
@@ -28,14 +28,21 @@ public partial class DialogScreenViewModel : TargettedNavigationStack
                 });
     }
 
-    protected override void OnNavigated(RoutableViewModel? oldPage, bool oldInStack, RoutableViewModel? newPage, bool newInStack)
+    protected override void OnNavigated(
+        RoutableViewModel? oldPage
+        , bool oldInStack
+        , RoutableViewModel? newPage
+        , bool newInStack
+    )
     {
-        base.OnNavigated(oldPage, oldInStack, newPage, newInStack);
+        base.OnNavigated(oldPage: oldPage, oldInStack: oldInStack, newPage: newPage, newInStack: newInStack);
 
         IsDialogOpen = CurrentPage is not null;
     }
 
-    private static void CloseDialogs(IEnumerable<RoutableViewModel> navigationStack)
+    private static void CloseDialogs(
+        IEnumerable<RoutableViewModel> navigationStack
+    )
     {
         // Close all dialogs so the awaited tasks can complete.
         // - DialogViewModelBase.ShowDialogAsync()
@@ -55,6 +62,6 @@ public partial class DialogScreenViewModel : TargettedNavigationStack
         var navStack = Stack.ToList();
         Clear();
 
-        CloseDialogs(navStack);
+        CloseDialogs(navigationStack: navStack);
     }
 }

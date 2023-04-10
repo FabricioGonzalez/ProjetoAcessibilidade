@@ -5,8 +5,7 @@ namespace ProjectAvalonia.Behaviors;
 
 internal class TextBoxSelectAllTextBehavior : AttachedToVisualTreeBehavior<TextBox>
 {
-	protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
-	{
-		AssociatedObject?.SelectAll();
-	}
+    protected override void OnAttachedToVisualTree(
+        CompositeDisposable disposable
+    ) => AssociatedObject?.SelectAll();
 }

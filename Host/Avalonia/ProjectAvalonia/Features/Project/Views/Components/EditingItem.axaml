@@ -52,7 +52,8 @@
                             </Border>
                         </DataTemplate>
 
-                        <DataTemplate x:DataType="appModels:CheckboxContainerItemState" DataType="appModels:CheckboxContainerItemState">
+                        <DataTemplate x:DataType="appModels:CheckboxContainerItemState"
+                                      DataType="appModels:CheckboxContainerItemState">
                             <Border
                                 Margin="0,4"
                                 Padding="4"
@@ -94,7 +95,8 @@
                             </Border>
                         </DataTemplate>
 
-                        <DataTemplate x:DataType="appModels:ImageContainerItemState" DataType="appModels:ImageContainerItemState">
+                        <DataTemplate x:DataType="appModels:ImageContainerItemState"
+                                      DataType="appModels:ImageContainerItemState">
                             <Border
                                 Margin="0,4"
                                 Padding="4"
@@ -123,7 +125,8 @@
                                             </Grid>
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
-                                    <ItemsControl HorizontalAlignment="Stretch" Items="{Binding ImagesItems, Mode=OneWay}">
+                                    <ItemsControl HorizontalAlignment="Stretch"
+                                                  Items="{Binding ImagesItems, Mode=OneWay}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <UniformGrid MaxHeight="600" Columns="2" />
@@ -155,7 +158,8 @@
                             </Border>
                         </DataTemplate>
 
-                        <DataTemplate x:DataType="appModels:ObservationItemState" DataType="appModels:ObservationItemState">
+                        <DataTemplate x:DataType="appModels:ObservationItemState"
+                                      DataType="appModels:ObservationItemState">
                             <Border
                                 Margin="0,4"
                                 Padding="4"

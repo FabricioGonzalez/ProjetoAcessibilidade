@@ -41,7 +41,7 @@
         </itemtabela>
         <itemtabela item="3">
             <tipo>images</tipo>
-            <images />
+            <images/>
         </itemtabela>
     </tabela>
     <lei></lei>

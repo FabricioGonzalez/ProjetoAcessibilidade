@@ -48,12 +48,14 @@
     <Style Selector="controls|PrivacyContentControl.monoSpaced">
         <Setter Property="FontFamily" Value="{StaticResource MonospacedFont}" />
     </Style>
-    <Style Selector="controls|PrivacyContentControl.monoSpacedPrivacyReplacement /template/ controls|PrivacyTextPresenter#PART_PrivacyText">
+    <Style
+        Selector="controls|PrivacyContentControl.monoSpacedPrivacyReplacement /template/ controls|PrivacyTextPresenter#PART_PrivacyText">
         <Setter Property="FontFamily" Value="{StaticResource MonospacedFont}" />
     </Style>
 
     <!--  Icon privacy mode  -->
-    <Style Selector="controls|PrivacyContentControl[PrivacyReplacementMode=Icon] /template/ controls|PrivacyTextPresenter#PART_PrivacyText">
+    <Style
+        Selector="controls|PrivacyContentControl[PrivacyReplacementMode=Icon] /template/ controls|PrivacyTextPresenter#PART_PrivacyText">
         <Setter Property="IsVisible" Value="False" />
     </Style>
     <Style Selector="controls|PrivacyContentControl[PrivacyReplacementMode=Icon] /template/ Viewbox#PART_Icon">
@@ -61,7 +63,8 @@
     </Style>
 
     <!--  Text privacy mode  -->
-    <Style Selector="controls|PrivacyContentControl[PrivacyReplacementMode=Text] /template/ controls|PrivacyTextPresenter#PART_PrivacyText">
+    <Style
+        Selector="controls|PrivacyContentControl[PrivacyReplacementMode=Text] /template/ controls|PrivacyTextPresenter#PART_PrivacyText">
         <Setter Property="IsVisible" Value="True" />
     </Style>
     <Style Selector="controls|PrivacyContentControl[PrivacyReplacementMode=Text] /template/ Viewbox#PART_Icon">
@@ -70,13 +73,17 @@
 
     <!--  UseOpacity = true  -->
     <Style Selector="controls|PrivacyContentControl[UseOpacity=True] /template/ ContentPresenter#PART_Content">
-        <Setter Property="Opacity" Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static conv:BoolOpacityConverters.BoolToOpacity}}" />
-        <Setter Property="IsEnabled" Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource TemplatedParent}}" />
-        <Setter Property="IsHitTestVisible" Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="Opacity"
+                Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static conv:BoolOpacityConverters.BoolToOpacity}}" />
+        <Setter Property="IsEnabled"
+                Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="IsHitTestVisible"
+                Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource TemplatedParent}}" />
     </Style>
 
     <!--  UseOpacity = false  -->
     <Style Selector="controls|PrivacyContentControl[UseOpacity=False] /template/ ContentPresenter#PART_Content">
-        <Setter Property="IsVisible" Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+        <Setter Property="IsVisible"
+                Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
     </Style>
 </Styles>

@@ -4,7 +4,9 @@ namespace ProjectAvalonia.Common.Json.Converters.Timing;
 
 public class DefaultValueTimeSpanAttribute : DefaultValueAttribute
 {
-    public DefaultValueTimeSpanAttribute(string json) : base(TimeSpanJsonConverter.Parse(json))
+    public DefaultValueTimeSpanAttribute(
+        string json
+    ) : base(value: TimeSpanJsonConverter.Parse(stringValue: json))
     {
     }
 }

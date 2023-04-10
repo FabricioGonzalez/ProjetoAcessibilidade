@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <id />
+    <id/>
     <name>Mesas</name>
     <template_name>Mesas</template_name>
     <table>
         <checkbox_items>
-            <id />
+            <id/>
             <type>checkbox</type>
             <checkboxes>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui mesa com altura do tampo entre 75cm a 85cm?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui altura livre de 73cm sob a mesa?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Possui tampo com largura mínima de 0,90m?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
                     </options>
                 </checkbox_item>
                 <checkbox_item>
-                    <id />
+                    <id/>
                     <topic>Profundidade livre mínima de 0,50m?</topic>
                     <options>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Sim</value>
                         </option>
                         <option>
-                            <id />
+                            <id/>
                             <is_checked>false</is_checked>
                             <value>Não</value>
                         </option>
@@ -75,19 +75,20 @@
             </checkboxes>
         </checkbox_items>
         <text_item>
-            <id />
+            <id/>
             <type>text</type>
             <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo S.I.A,
-                Adesivo S.I.A, display de mesa ou não possui);</topic>
+                Adesivo S.I.A, display de mesa ou não possui);
+            </topic>
             <value></value>
         </text_item>
         <observation_item>
             <type>observation</type>
-            <observation />
+            <observation/>
         </observation_item>
         <image_items>
             <type>image</type>
-            <images />
+            <images/>
         </image_items>
     </table>
     <law>

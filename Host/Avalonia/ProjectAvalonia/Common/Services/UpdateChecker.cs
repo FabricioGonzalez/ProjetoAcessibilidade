@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
-
 using ProjectAvalonia.Common.Bases;
 using ProjectAvalonia.Common.Models;
 
@@ -10,23 +9,32 @@ namespace ProjectAvalonia.Common.Services;
 
 public class UpdateChecker : PeriodicRunner
 {
-    public UpdateChecker(TimeSpan period) : base(period)
+    public UpdateChecker(
+        TimeSpan period
+    ) : base(period: period)
     {
         UpdateStatus = new UpdateStatus(clientUpToDate: true, clientVersion: new Version());
         /* Synchronizer.PropertyChanged += Synchronizer_PropertyChanged; */
     }
 
-    public event EventHandler<UpdateStatus>? UpdateStatusChanged;
-
     public UpdateStatus UpdateStatus
     {
-        get; private set;
+        get;
+        private set;
     }
+
     public AppClient AppClient
     {
-        get; set;
+        get;
+        set;
     }
-    private void Synchronizer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+
+    public event EventHandler<UpdateStatus>? UpdateStatusChanged;
+
+    private void Synchronizer_PropertyChanged(
+        object? sender
+        , PropertyChangedEventArgs e
+    )
     {
         /* if (e.PropertyName == nameof(WasabiSynchronizer.BackendStatus) &&
             Synchronizer.BackendStatus == BackendStatus.Connected)
@@ -35,19 +43,21 @@ public class UpdateChecker : PeriodicRunner
             TriggerRound();
         } */
     }
-    protected async override Task ActionAsync(CancellationToken cancel)
+
+    protected async override Task ActionAsync(
+        CancellationToken cancel
+    )
     {
-        var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel).ConfigureAwait(continueOnCapturedContext: false);
+        var newUpdateStatus = await AppClient.CheckUpdatesAsync(cancel: cancel)
+            .ConfigureAwait(continueOnCapturedContext: false);
         if (newUpdateStatus != UpdateStatus)
         {
             UpdateStatus = newUpdateStatus;
-            UpdateStatusChanged?.Invoke(this, e: newUpdateStatus);
+            UpdateStatusChanged?.Invoke(sender: this, e: newUpdateStatus);
         }
     }
 
-    public override void Dispose()
-    {
+    public override void Dispose() =>
         /*  Synchronizer.PropertyChanged -= Synchronizer_PropertyChanged; */
         base.Dispose();
-    }
 }

@@ -1,11 +1,11 @@
 using System.Reactive.Disposables;
-
 using Avalonia;
 using Avalonia.Xaml.Interactivity;
 
 namespace ProjectAvalonia.Behaviors;
 
-public abstract class DisposingBehavior<T> : Behavior<T> where T : class, IAvaloniaObject
+public abstract class DisposingBehavior<T> : Behavior<T>
+    where T : class, IAvaloniaObject
 {
     private CompositeDisposable? _disposables;
 
@@ -17,10 +17,12 @@ public abstract class DisposingBehavior<T> : Behavior<T> where T : class, IAvalo
 
         _disposables = new CompositeDisposable();
 
-        OnAttached(_disposables);
+        OnAttached(disposables: _disposables);
     }
 
-    protected abstract void OnAttached(CompositeDisposable disposables);
+    protected abstract void OnAttached(
+        CompositeDisposable disposables
+    );
 
     protected override void OnDetaching()
     {

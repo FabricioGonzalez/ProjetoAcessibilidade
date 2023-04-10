@@ -2,12 +2,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
 using DynamicData;
-
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.SearchBar;
@@ -17,15 +14,18 @@ public class SearchItemGroup : IDisposable
     private readonly CompositeDisposable _disposables = new();
     private readonly ReadOnlyObservableCollection<ISearchItem> _items;
 
-    public SearchItemGroup(string title, IObservable<IChangeSet<ISearchItem, ComposedKey>> changes)
+    public SearchItemGroup(
+        string title
+        , IObservable<IChangeSet<ISearchItem, ComposedKey>> changes
+    )
     {
         Title = title;
         changes
-            .Bind(out _items)
+            .Bind(readOnlyObservableCollection: out _items)
             .DisposeMany()
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
             .Subscribe()
-            .DisposeWith(_disposables);
+            .DisposeWith(compositeDisposable: _disposables);
     }
 
     public string Title
@@ -35,8 +35,5 @@ public class SearchItemGroup : IDisposable
 
     public ReadOnlyObservableCollection<ISearchItem> Items => _items;
 
-    public void Dispose()
-    {
-        _disposables.Dispose();
-    }
+    public void Dispose() => _disposables.Dispose();
 }

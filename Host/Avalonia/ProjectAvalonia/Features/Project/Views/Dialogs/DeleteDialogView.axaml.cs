@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace ProjectAvalonia.Features.Project.Views.Dialogs;
+
 public partial class DeleteDialogView : UserControl
 {
     public DeleteDialogView()
@@ -9,5 +10,5 @@ public partial class DeleteDialogView : UserControl
         InitializeComponent();
     }
 
-    private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
 }

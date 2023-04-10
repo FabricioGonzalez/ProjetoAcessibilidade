@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using Microsoft.UI.Xaml.Data;
 
 namespace ProjectWinUI.Src.Converters;
+
 public class EnumerableToString : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, string language)
+    public object Convert(
+        object value
+        , Type targetType
+        , object parameter
+        , string language
+    )
     {
-        string data = "";
+        var data = "";
 
         if (value is not null)
         {
@@ -17,18 +22,25 @@ public class EnumerableToString : IValueConverter
 
             foreach (var item in (IEnumerable<string>)value)
             {
-                sb.AppendLine(item);
+                sb.AppendLine(value: item);
             }
 
             data = sb.ToString();
 
             return data;
         }
+
         return null;
     }
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
+
+    public object ConvertBack(
+        object value
+        , Type targetType
+        , object parameter
+        , string language
+    )
     {
-        string data = "";
+        var data = "";
 
         if (value is not null)
         {
@@ -36,13 +48,14 @@ public class EnumerableToString : IValueConverter
 
             foreach (var item in (IEnumerable<string>)value)
             {
-                sb.AppendLine(item);
+                sb.AppendLine(value: item);
             }
 
             data = sb.ToString();
 
             return data;
         }
+
         return null;
     }
 }
