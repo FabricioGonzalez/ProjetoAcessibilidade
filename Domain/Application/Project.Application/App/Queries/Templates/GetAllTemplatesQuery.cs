@@ -1,13 +1,14 @@
 ﻿using Common;
 using Core.Entities.Solution.Explorer;
+using Core.Entities.Solution.ItemsGroup;
 using Project.Domain.App.Contracts;
 using Project.Domain.Contracts;
 
 namespace Project.Domain.App.Queries.Templates;
 
-public sealed record GetAllTemplatesQuery : IRequest<Resource<List<ExplorerItem>>>;
+public sealed record GetAllTemplatesQuery : IRequest<Resource<List<ItemModel>>>;
 
-public sealed class GetAllTemplatesQueryHandler : IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>
+public sealed class GetAllTemplatesQueryHandler : IQueryHandler<GetAllTemplatesQuery, Resource<List<ItemModel>>>
 {
     private readonly IAppTemplateRepository repository;
 
@@ -18,7 +19,7 @@ public sealed class GetAllTemplatesQueryHandler : IQueryHandler<GetAllTemplatesQ
         this.repository = repository;
     }
 
-    public async Task<Resource<List<ExplorerItem>>> Handle(
+    public async Task<Resource<List<ItemModel>>> Handle(
         GetAllTemplatesQuery query
         , CancellationToken cancellation
     )
@@ -26,11 +27,11 @@ public sealed class GetAllTemplatesQueryHandler : IQueryHandler<GetAllTemplatesQ
         var result = await repository.ReadAllTemplateItems();
         return result switch
         {
-            Resource<List<ExplorerItem>>.Success item
-                => new Resource<List<ExplorerItem>>.Success(Data: item.Data)
-            , Resource<List<ExplorerItem>>.Error item
-                => new Resource<List<ExplorerItem>>.Error(Message: item.Message, Data: item.Data)
-            , _ => new Resource<List<ExplorerItem>>.Error(Message: "No Case matched", Data: null)
+            Resource<List<ItemModel>>.Success item
+                => new Resource<List<ItemModel>>.Success(Data: item.Data)
+            , Resource<List<ItemModel>>.Error item
+                => new Resource<List<ItemModel>>.Error(Message: item.Message, Data: item.Data)
+            , _ => new Resource<List<ItemModel>>.Error(Message: "No Case matched", Data: null)
         };
     }
 }

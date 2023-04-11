@@ -1124,7 +1124,6 @@
           "Avalonia": "[0.10.18, )",
           "Avalonia.Controls.TreeDataGrid": "[0.10.18, )",
           "Avalonia.Desktop": "[0.10.18, )",
-          "Avalonia.Diagnostics": "[0.10.18, )",
           "Avalonia.ReactiveUI": "[0.10.18, )",
           "Avalonia.Skia": "[0.10.18, )",
           "Avalonia.Xaml.Interactions": "[0.10.18, )",

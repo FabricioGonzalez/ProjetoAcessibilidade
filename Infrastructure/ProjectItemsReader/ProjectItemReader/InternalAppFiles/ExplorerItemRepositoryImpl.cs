@@ -1,5 +1,6 @@
 ﻿using Common;
 using Core.Entities.Solution.Explorer;
+using Project.Domain.App.Models;
 using Project.Domain.Project.Contracts;
 
 namespace ProjectItemReader.InternalAppFiles;
@@ -49,8 +50,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         {
             var folderItem = new FolderItem
             {
-                Name = Path.GetFileNameWithoutExtension(path: projectItemsRootPath), Path = projectItemsRootPath
-                , Children = new List<ExplorerItem>()
+                Name = Path.GetFileNameWithoutExtension(path: projectItemsRootPath), Path = projectItemsRootPath,
+                Children = new List<ExplorerItem>()
             };
 
             list.Add(item: folderItem);
@@ -145,6 +146,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 
         return new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
     }
+
 
     public async Task<Resource<ExplorerItem>> RenameFolderItemAsync(
         ExplorerItem item
@@ -275,6 +277,32 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         }
 
         return new Resource<ExplorerItem>.Success(Data: new ExplorerItem());
+    }
+
+    public Resource<Empty> RenameFolderItem(
+        string itemName,
+        string itemPath
+    )
+    {
+        if (!string.IsNullOrWhiteSpace(value: itemName) && !string.IsNullOrWhiteSpace(value: itemPath))
+        {
+            if (Directory.Exists(path: itemPath))
+            {
+                if (Path.Combine(path1: Directory.GetParent(path: itemPath).FullName
+                        , path2: itemName) != itemPath)
+                {
+                    Directory.Move(sourceDirName: itemPath
+                        , destDirName: Path.Combine(path1: Directory.GetParent(path: itemPath).FullName
+                            , path2: itemName));
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(path: itemPath);
+            }
+        }
+
+        return new Resource<Empty>.Success(Data: new Empty());
     }
 
     public async Task<Resource<ExplorerItem>> CreateExplorerItemAsync(

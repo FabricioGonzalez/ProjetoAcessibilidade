@@ -21,6 +21,8 @@ using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Features.Project.States.ProjectItems;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Logging;
+using ProjectAvalonia.Stores;
+using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
 using Splat;
@@ -115,10 +117,12 @@ public partial class SolutionStateViewModel : RoutableViewModel
 
             var dialogResult = await NavigateDialogAsync(dialog: addItemViewModel,
                 target: NavigationTarget.DialogScreen);
+            if (dialogResult.Kind is DialogResultKind.Normal && dialogResult.Result is not null)
+            {
+                var group = ItemGroups.FirstOrDefault(predicate: item => item.Name == groupModels.Name);
 
-            var group = ItemGroups.FirstOrDefault(predicate: item => item.Name == groupModels.Name);
-
-            AddItemToGroup(group: group, itemToAdd: dialogResult.Result);
+                await AddItemToGroup(group: group, itemToAdd: dialogResult.Result);
+            }
         });
 
         CreateFolderCommand = ReactiveCommand.Create(execute: () =>
@@ -133,6 +137,9 @@ public partial class SolutionStateViewModel : RoutableViewModel
         {
             if (itemsGroup is not null)
             {
+                itemsGroup.ItemPath = Path.Combine(path1: Directory.GetParent(path: FilePath).FullName,
+                    path2: Constants.AppProjectItemsFolderName, path3: itemsGroup.Name);
+
                 await commandDispatcher.Dispatch<CreateSolutionItemFolderCommand, Empty>(
                     command: new CreateSolutionItemFolderCommand(
                         ItemName: itemsGroup.Name,
@@ -201,7 +208,7 @@ public partial class SolutionStateViewModel : RoutableViewModel
         get;
     }
 
-    private void AddItemToGroup(
+    private async Task AddItemToGroup(
         ItemGroupState group
         , ItemState itemToAdd
     )
@@ -215,7 +222,7 @@ public partial class SolutionStateViewModel : RoutableViewModel
                 Path.Combine(path1: group.ItemPath, path2: $"{item}{Constants.AppProjectItemExtension}");
 
             group.Items.Add(item: itemToAdd);
-            CreateFileOnLocal(
+            await CreateFileOnLocal(
                 itemPath: itemToAdd.ItemPath,
                 itemName: itemToAdd.TemplateName);
         }
@@ -249,16 +256,16 @@ public static class Extension
                         .Items
                         .Select(selector: child => new ItemModel
                         {
-                            Id = child.Id, Name = child.Name, ItemPath = child.ItemPath
-                            , TemplateName = child.TemplateName
+                            Id = child.Id, Name = child.Name, ItemPath = child.ItemPath,
+                            TemplateName = child.TemplateName
                         }).ToList()
                 })
-                .ToList()
-            , SolutionReportInfo = model.ReportData.ToReportData(), ParentFolderName = model.ParentFolderName
-            , ParentFolderPath = model.ParentFolderPath
+                .ToList(),
+            SolutionReportInfo = model.ReportData.ToReportData(), ParentFolderName = model.ParentFolderName,
+            ParentFolderPath = model.ParentFolderPath
         };
 
-    public static SolutionStateViewModel ToSolutionState(
+    public static SolutionStateViewModel ToSolutionStateViewModel(
         this ProjectSolutionModel model
     ) =>
         new()
@@ -273,11 +280,54 @@ public static class Extension
                                 .Items
                                 .Select(selector: child => new ItemState
                                 {
-                                    Id = child.Id, Name = child.Name, ItemPath = child.ItemPath
-                                    , TemplateName = child.TemplateName
+                                    Id = child.Id, Name = child.Name, ItemPath = child.ItemPath,
+                                    TemplateName = child.TemplateName
                                 }))
-                    }))
-            , ReportData = model.SolutionReportInfo.ToReportState(), ParentFolderName = model.ParentFolderName
-            , ParentFolderPath = model.ParentFolderPath
+                    })),
+            ReportData = model.SolutionReportInfo.ToReportState(), ParentFolderName = model.ParentFolderName,
+            ParentFolderPath = model.ParentFolderPath
         };
+
+    public static ProjectSolutionModel ToSolutionModel(
+        this SolutionState model
+    ) =>
+        new()
+        {
+            FileName = model.FileName, FilePath = model.FilePath, ItemGroups = model
+                .ItemGroups
+                .Select(selector: item => new ItemGroupModel
+                {
+                    Name = item.Name, ItemPath = item.ItemPath, Items = item
+                        .Items
+                        .Select(selector: child => new ItemModel
+                        {
+                            Id = child.Id, Name = child.Name, ItemPath = child.ItemPath,
+                            TemplateName = child.TemplateName
+                        }).ToList()
+                })
+                .ToList(),
+            SolutionReportInfo = model.ReportData.ToReportData(),
+            ParentFolderName = Directory.GetParent(path: model.FilePath).Name,
+            ParentFolderPath = Directory.GetParent(path: model.FilePath).FullName
+        };
+
+    public static SolutionState ToSolutionState(
+        this ProjectSolutionModel model
+    ) =>
+        SolutionState.Create(filePath: model.FilePath, itemsGroups: new ObservableCollectionExtended<ItemGroupState>(
+                collection: model
+                    .ItemGroups
+                    .Select(selector: item => new ItemGroupState
+                    {
+                        Name = item.Name, ItemPath = item.ItemPath, Items = new ObservableCollection<ItemState>(
+                            collection: item
+                                .Items
+                                .Select(selector: child => new ItemState
+                                {
+                                    Id = child.Id, Name = child.Name, ItemPath = child.ItemPath,
+                                    TemplateName = child.TemplateName
+                                }))
+                    })),
+            reportData: model.SolutionReportInfo.ToReportState()
+        );
 }

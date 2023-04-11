@@ -9,6 +9,7 @@
     xmlns:vm="using:ProjectAvalonia.Features.Project.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:CompileBindings="True"
     x:DataType="vm:AddItemViewModel"
     mc:Ignorable="d">
     <c:ContentArea

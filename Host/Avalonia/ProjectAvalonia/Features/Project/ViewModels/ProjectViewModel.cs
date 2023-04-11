@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -6,16 +7,15 @@ using System.Threading;
 using System.Windows.Input;
 using Avalonia.Threading;
 using Common;
+using Core.Entities.App;
 using Core.Entities.Solution;
 using Project.Domain.Contracts;
 using Project.Domain.Solution.Commands.SolutionItem;
-using Project.Domain.Solution.Queries;
-using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
 using ProjectAvalonia.Logging;
+using ProjectAvalonia.Stores;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
 using Splat;
@@ -36,15 +36,19 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     IconName = "edit_file_regular")]
 public partial class ProjectViewModel : NavBarItemViewModel
 {
+    private readonly AddressesStore _addressesStore;
+    private readonly SolutionStore _solutionStore;
+
     private readonly ICommandDispatcher? commandDispatcher;
 
     private readonly IQueryDispatcher? queryDispatcher;
-    [AutoNotify] private string _currentOpenProject = "";
 
     public ProjectViewModel()
     {
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
         commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
+        _solutionStore ??= Locator.Current.GetService<SolutionStore>();
+        _addressesStore ??= Locator.Current.GetService<AddressesStore>();
 
         SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
@@ -53,51 +57,26 @@ public partial class ProjectViewModel : NavBarItemViewModel
         projectExplorerViewModel = new ProjectExplorerViewModel();
         projectEditingViewModel = new ProjectEditingViewModel();
 
+
+        /*
         this.WhenAnyValue(property1: vm => vm.projectExplorerViewModel.SelectedItem)
             .WhereNotNull()
             .Subscribe(onNext: item =>
             {
                 projectEditingViewModel.SelectedItem = item;
             });
+            */
 
-        this.WhenAnyValue(property1: vm => vm.CurrentOpenProject)
-            .Where(predicate: prop => !string.IsNullOrWhiteSpace(value: prop))
-            .SubscribeAsync(onNextAsync: async prop =>
-            {
-                (await queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
-                        query: new ReadSolutionProjectQuery(SolutionPath: prop),
-                        cancellation: CancellationToken.None))
-                    .OnSuccess(
-                        onSuccessAction: result =>
-                        {
-                            Dispatcher
-                                .UIThread
-                                .Post(action: () =>
-                                    projectExplorerViewModel.SolutionModel = result?.Data?.ToSolutionState());
-                        })
-                    .OnError(onErrorAction: error =>
-                    {
-                    });
-            });
 
-        projectExplorerViewModel.CreateItemCommand = ReactiveCommand.Create<ItemState>(execute: item =>
-        {
-            projectEditingViewModel.SelectedItem = item;
-        });
-
-        projectExplorerViewModel.PrintProjectCommand = ReactiveCommand.Create(execute: () =>
+        PrintProjectCommand = ReactiveCommand.Create(execute: () =>
         {
             Navigate(currentTarget: NavigationTarget.FullScreen)
                 .To(viewmodel: printPreviewViewModel,
                     mode: NavigationMode.Normal,
-                    Parameter: projectExplorerViewModel.SolutionModel);
+                    Parameter: _solutionStore.CurrentOpenSolution);
         }, canExecute: IsSolutionOpened());
 
-        projectExplorerViewModel.OpenSolutionCommand = ReactiveCommand.Create(execute: () =>
-        {
-        }, canExecute: IsSolutionOpened());
-
-        projectExplorerViewModel.SaveSolutionCommand = ReactiveCommand.CreateFromTask<SolutionStateViewModel>(
+        SaveSolutionCommand = ReactiveCommand.CreateFromTask<SolutionStateViewModel>(
             execute: async solution =>
             {
                 await commandDispatcher.Dispatch<SyncSolutionCommand, Resource<ProjectSolutionModel>>(
@@ -115,7 +94,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
 
             if (path is not null)
             {
-                CurrentOpenProject = path;
+                await _solutionStore.LoadSolution(solutionPath: path);
             }
         });
 
@@ -151,7 +130,15 @@ public partial class ProjectViewModel : NavBarItemViewModel
             {
                 Logger.LogError(message: "Error!", exception: exception);
             });
+        Dispatcher.UIThread.Post(action: async () =>
+        {
+            await _addressesStore.LoadAllUf(token: GetCancellationToken());
+        });
     }
+
+    public ReadOnlyObservableCollection<UFModel> UfList => _addressesStore?.UfList;
+
+    public SolutionState SolutionState => _solutionStore.CurrentOpenSolution;
 
     public ProjectExplorerViewModel projectExplorerViewModel
     {
@@ -178,6 +165,16 @@ public partial class ProjectViewModel : NavBarItemViewModel
         get;
     }
 
+    public ICommand PrintProjectCommand
+    {
+        get;
+    }
+
+    public ICommand SaveSolutionCommand
+    {
+        get;
+    }
+
     protected override void OnNavigatedTo(
         bool isInHistory
         , CompositeDisposable disposables
@@ -186,11 +183,14 @@ public partial class ProjectViewModel : NavBarItemViewModel
     {
         if (Parameter is string path && !string.IsNullOrWhiteSpace(value: path))
         {
-            CurrentOpenProject = path;
+            Dispatcher.UIThread.Post(action: async () =>
+            {
+                await _solutionStore.LoadSolution(solutionPath: path);
+            });
         }
     }
 
     private IObservable<bool> IsSolutionOpened() =>
-        this.WhenAnyValue(property1: vm => vm.CurrentOpenProject)
+        this.WhenAnyValue(property1: vm => vm._solutionStore.CurrentOpenSolution.FilePath)
             .Select(selector: prop => !string.IsNullOrWhiteSpace(value: prop));
 }

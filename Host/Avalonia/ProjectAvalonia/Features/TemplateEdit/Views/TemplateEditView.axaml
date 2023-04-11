@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:v="using:ProjectAvalonia.Features.TemplateEdit.Views"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
-    x:Name="templateEditView"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="viewModels:TemplateEditViewModel"
@@ -43,7 +42,7 @@
                     VerticalAlignment="Stretch"
                     Background="Transparent"
                     Items="{Binding Items}"
-                    SelectedItem="{Binding TemplateEditTab.SelectedItem, Mode=TwoWay}">
+                    SelectedItem="{Binding TemplateEditTab.SelectedItem}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <controls:EditableTextBlock
@@ -51,7 +50,7 @@
                                 Command="{Binding $parent[UserControl].DataContext.CommitItemCommand}"
                                 CommandParameter="{Binding}"
                                 InEditMode="{Binding InEditMode, Mode=TwoWay}"
-                                Text="{Binding Name}">
+                                Text="{Binding TemplateName}">
                                 <controls:EditableTextBlock.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyout.Items>
@@ -72,10 +71,10 @@
                 </ListBox>
             </Grid>
         </SplitView.Pane>
-        <TabControl SelectedIndex="{Binding SelectedTab, Mode=TwoWay}">
+        <TabControl SelectedIndex="{CompiledBinding SelectedTab, Mode=TwoWay}">
             <TabItem Header="Template">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <v:TemplateEditTabView DataContext="{Binding TemplateEditTab, Mode=TwoWay}" />
+                    <v:TemplateEditTabView DataContext="{CompiledBinding TemplateEditTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
         </TabControl>

@@ -1,21 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive;
-using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Common;
-using Core.Entities.Solution.Project.AppItem;
-using Project.Domain.App.Models;
+using System.Windows.Input;
 using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.ProjectItems;
-using Project.Domain.Project.Queries.ProjectItems;
-using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Features.Project.States.FormItemState;
 using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Stores;
 using ProjectAvalonia.ViewModels;
 using ReactiveUI;
 using Splat;
@@ -24,35 +14,20 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public partial class ProjectEditingViewModel : ViewModelBase
 {
+    private readonly EditingItemsStore _editingItemsStore;
     private readonly ICommandDispatcher? commandDispatcher;
 
     private readonly IQueryDispatcher? queryDispatcher;
-    [AutoNotify] private AppModelState _item;
-    [AutoNotify] private ObservableCollection<AppModelState> _items = new();
+
     [AutoNotify] private int _selectedIndex;
-    [AutoNotify] private ItemState _selectedItem;
 
     public ProjectEditingViewModel()
     {
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
         commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
+        _editingItemsStore ??= Locator.Current.GetService<EditingItemsStore>();
 
-        var canSave = this
-            .WhenAnyValue(property1: vm => vm.Item)
-            .Select(selector: prop => prop is not null);
-
-        this.WhenAnyValue(property1: vm => vm.SelectedItem)
-            .WhereNotNull()
-            .SubscribeAsync(onNextAsync: async prop =>
-            {
-                Item = await SetEditingItem(path: prop.ItemPath);
-
-                var itemIndex = Items.IndexOf(item: Item);
-
-                SelectedIndex = itemIndex != -1 ? itemIndex : 0;
-            });
-
-        SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState>(
+        /*SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState>(
             execute: async appModel =>
             {
                 if (appModel is not null)
@@ -80,21 +55,24 @@ public partial class ProjectEditingViewModel : ViewModelBase
                 }
             },
             canExecute: canSave);
-
-        CloseItemCommand = ReactiveCommand.Create<AppModelState>(execute: item =>
+*/
+        CloseItemCommand = ReactiveCommand.Create<ItemState>(execute: item =>
         {
-            Logger.LogDebug(message: item.ItemName);
-            Items.Remove(item: item);
+            _editingItemsStore.RemoveEditingItem(item: item);
         });
     }
+
+    public ItemState SelectedItem => _editingItemsStore.CurrentSelectedItem;
+    public AppModelState EditingItem => _editingItemsStore.Item;
+
+    public ReadOnlyObservableCollection<ItemState> Items => _editingItemsStore.SelectedItems;
 
     public ReactiveCommand<AppModelState, Unit> SaveItemCommand
     {
         get;
-        private set;
     }
 
-    public ReactiveCommand<AppModelState, Unit> CloseItemCommand
+    public ICommand CloseItemCommand
     {
         get;
     }
@@ -102,10 +80,9 @@ public partial class ProjectEditingViewModel : ViewModelBase
     public ReactiveCommand<ImageContainerItemState, Unit> AddPhotoCommand
     {
         get;
-        private set;
     }
 
-    public async Task<AppModelState> SetEditingItem(
+    /*public async Task<AppModelState> SetEditingItem(
         string path
     )
     {
@@ -134,5 +111,5 @@ public partial class ProjectEditingViewModel : ViewModelBase
         }
 
         return null;
-    }
+    }*/
 }

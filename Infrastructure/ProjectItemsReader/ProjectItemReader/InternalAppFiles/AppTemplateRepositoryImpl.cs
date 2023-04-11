@@ -1,20 +1,21 @@
 ﻿using Common;
 using Core.Entities.Solution.Explorer;
+using Core.Entities.Solution.ItemsGroup;
 using Project.Domain.App.Contracts;
 
 namespace ProjectItemReader.InternalAppFiles;
 
 public class AppTemplateRepositoryImpl : IAppTemplateRepository
 {
-    public async Task<Resource<List<ExplorerItem>>> ReadAllTemplateItems()
+    public async Task<Resource<List<ItemModel>>> ReadAllTemplateItems()
     {
         try
         {
-            var task = new Task<Resource<List<ExplorerItem>>>(function: () =>
+            var task = new Task<Resource<List<ItemModel>>>(function: () =>
             {
                 var files = Directory.GetFiles(path: Constants.AppItemsTemplateFolder);
 
-                var filesList = new List<ExplorerItem>();
+                var filesList = new List<ItemModel>();
 
                 foreach (var item in files)
                 {
@@ -23,16 +24,17 @@ public class AppTemplateRepositoryImpl : IAppTemplateRepository
                     if (Path.GetExtension(path: splitedItem.Last())
                         == Constants.AppProjectTemplateExtension)
                     {
-                        filesList.Add(item: new ExplorerItem
+                        filesList.Add(item: new ItemModel
                         {
-                            Name = Path.GetFileNameWithoutExtension(path: splitedItem.Last()), Path = item
+                            Name = Path.GetFileNameWithoutExtension(path: splitedItem.Last()),
+                            ItemPath = item
                         });
                     }
                 }
 
                 return filesList.Count > 0
-                    ? new Resource<List<ExplorerItem>>.Success(Data: filesList)
-                    : new Resource<List<ExplorerItem>>.Error(Message: ErrorConstants.AppNoFileFound, Data: null);
+                    ? new Resource<List<ItemModel>>.Success(Data: filesList)
+                    : new Resource<List<ItemModel>>.Error(Message: ErrorConstants.AppNoFileFound, Data: null);
             });
             task.Start();
 
@@ -40,7 +42,7 @@ public class AppTemplateRepositoryImpl : IAppTemplateRepository
         }
         catch (Exception ex)
         {
-            return new Resource<List<ExplorerItem>>.Error(Message: ex.Message, Data: null);
+            return new Resource<List<ItemModel>>.Error(Message: ex.Message, Data: null);
         }
     }
 }

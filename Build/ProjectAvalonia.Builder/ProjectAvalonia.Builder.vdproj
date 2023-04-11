@@ -15,31 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_01309C2637A8417AA566E7F0872224EC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1167610705C34FA2B4121B6DCFCE291A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_195F15214261413AA5ADB7D0E8F12730"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1DDAAD89D29F4B8DAFA7FF87B22549C8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1FB4E2EB40454137A8A8124800018490"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -57,7 +33,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_33D3EB0530284824839A29E2D96EA050"
+        "MsmKey" = "8:_2CF6A6EEFD1546D18A5B6EDC0C57B189"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_35B33E1F039441FC8B3192DFDE5A733B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3B2813BC7C864A1FBE5B0AFDD2B57194"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -75,7 +63,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_44EE4BBCEEDC4213BA3DA2E8AB4A64C7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_452C786F5D9B494687309579E8EAB3C0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4F90427115854246BEB682FA8CB76746"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -93,7 +93,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6BDB359C40984CB8BE87D2BE78E6DB9D"
+        "MsmKey" = "8:_601F276C5F13402694FD5416B634FC5D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -111,31 +111,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_79F20571AB434CC4B4F5E742B25DEEA3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7A5A2F12A07943C99BED6AE6FA2A6CD1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7C85820F5A874FBC8DBFF349249476C3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7C8BE43ACEB84CDBBDAC3FECC521F23F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8259A7CB78AD472DB451FAB869B4DEA6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_82A0A7863BCA43F29A9E3820BC138590"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8ADEFFFDF85A4FBD9CEB1217EA7A3D0B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -153,19 +147,31 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8F3767F92FB8480CB408C5C3C8EA5499"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B2AEA4505F664538B3B3CA56649C2E0D"
+        "MsmKey" = "8:_8EE0D46C1FA040EC91D9F8FA1D4D8A61"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_B66F42DFD3754580B53A4846527BF0ED"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B8432AB3233540A8B2595DCD7FCE7BDE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BC71BDBEF6754C5D9C1BF9159FA22571"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BC8D744D599049A2B157AF3C317A0BE4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -183,25 +189,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C4F902160C6B4DADA321701B51E0DC35"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_CA69ED37819C490C8F5E618E912047AE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D4DFF98A19CF48B7B1E6225D9BC802BF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D5F23896169A4536B1AE236F89F5ABBA"
+        "MsmKey" = "8:_F679380531BE4D618D26C5D69D9F7FA3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -317,92 +311,12 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_01309C2637A8417AA566E7F0872224EC"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Balcão de Atendimento Recepção.xml"
-            "TargetName" = "8:Balcão de Atendimento Recepção.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1167610705C34FA2B4121B6DCFCE291A"
             {
             "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia.Desktop\\Assets\\logo.ico"
             "TargetName" = "8:logo.ico"
             "Tag" = "8:"
             "Folder" = "8:_010AF24278494D01AF7160838EC26B5E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_195F15214261413AA5ADB7D0E8F12730"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Mapa Tátil.xml"
-            "TargetName" = "8:Mapa Tátil.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1DDAAD89D29F4B8DAFA7FF87B22549C8"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Portas de Emergência.xml"
-            "TargetName" = "8:Portas de Emergência.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1FB4E2EB40454137A8A8124800018490"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Piso Tátil.xml"
-            "TargetName" = "8:Piso Tátil.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -437,10 +351,50 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_33D3EB0530284824839A29E2D96EA050"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2CF6A6EEFD1546D18A5B6EDC0C57B189"
             {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Table.xsd"
-            "TargetName" = "8:Table.xsd"
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Acesso.xml"
+            "TargetName" = "8:Acesso.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_35B33E1F039441FC8B3192DFDE5A733B"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Circulação Horizontal.xml"
+            "TargetName" = "8:Circulação Horizontal.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3B2813BC7C864A1FBE5B0AFDD2B57194"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Circulação Vertical.xml"
+            "TargetName" = "8:Circulação Vertical.xml"
             "Tag" = "8:"
             "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
             "Condition" = "8:"
@@ -497,12 +451,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_44EE4BBCEEDC4213BA3DA2E8AB4A64C7"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Mesas.xml"
+            "TargetName" = "8:Mesas.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_452C786F5D9B494687309579E8EAB3C0"
             {
             "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\ValidationRules\\Mesas.vldr"
             "TargetName" = "8:Mesas.vldr"
             "Tag" = "8:"
             "Folder" = "8:_41A4FF255AE8487E94F7140F81AADDDF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4F90427115854246BEB682FA8CB76746"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Mapa Tátil.xml"
+            "TargetName" = "8:Mapa Tátil.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -557,10 +551,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6BDB359C40984CB8BE87D2BE78E6DB9D"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_601F276C5F13402694FD5416B634FC5D"
             {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Mesas.xml"
-            "TargetName" = "8:Mesas.xml"
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Balcão de Atendimento Recepção.xml"
+            "TargetName" = "8:Balcão de Atendimento Recepção.xml"
             "Tag" = "8:"
             "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
             "Condition" = "8:"
@@ -617,6 +611,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_79F20571AB434CC4B4F5E742B25DEEA3"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Entradas Portas Externo.xml"
+            "TargetName" = "8:Entradas Portas Externo.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7A5A2F12A07943C99BED6AE6FA2A6CD1"
             {
             "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\ValidationRules\\Acesso.vldr"
@@ -637,72 +651,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7C85820F5A874FBC8DBFF349249476C3"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Entradas Portas Externo.xml"
-            "TargetName" = "8:Entradas Portas Externo.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7C8BE43ACEB84CDBBDAC3FECC521F23F"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Sanitários Comuns.xml"
-            "TargetName" = "8:Sanitários Comuns.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8259A7CB78AD472DB451FAB869B4DEA6"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Acesso a Equipamentos.xml"
-            "TargetName" = "8:Acesso a Equipamentos.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_82A0A7863BCA43F29A9E3820BC138590"
             {
             "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\ValidationRules\\Acesso a Equipamentos.vldr"
             "TargetName" = "8:Acesso a Equipamentos.vldr"
             "Tag" = "8:"
             "Folder" = "8:_41A4FF255AE8487E94F7140F81AADDDF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8ADEFFFDF85A4FBD9CEB1217EA7A3D0B"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Acesso a Equipamentos.xml"
+            "TargetName" = "8:Acesso a Equipamentos.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -757,30 +731,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8F3767F92FB8480CB408C5C3C8EA5499"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8EE0D46C1FA040EC91D9F8FA1D4D8A61"
             {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Sánitario Acessível.xml"
-            "TargetName" = "8:Sánitario Acessível.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B2AEA4505F664538B3B3CA56649C2E0D"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Circulação Horizontal.xml"
-            "TargetName" = "8:Circulação Horizontal.xml"
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Piso Tátil.xml"
+            "TargetName" = "8:Piso Tátil.xml"
             "Tag" = "8:"
             "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
             "Condition" = "8:"
@@ -803,6 +757,66 @@
             "TargetName" = "8:Piso Tátil.vldr"
             "Tag" = "8:"
             "Folder" = "8:_41A4FF255AE8487E94F7140F81AADDDF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B8432AB3233540A8B2595DCD7FCE7BDE"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Portas de Emergência.xml"
+            "TargetName" = "8:Portas de Emergência.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BC71BDBEF6754C5D9C1BF9159FA22571"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Entradas Portas Interno.xml"
+            "TargetName" = "8:Entradas Portas Interno.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BC8D744D599049A2B157AF3C317A0BE4"
+            {
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Sánitario Acessível.xml"
+            "TargetName" = "8:Sánitario Acessível.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -857,26 +871,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C4F902160C6B4DADA321701B51E0DC35"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Acesso.xml"
-            "TargetName" = "8:Acesso.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CA69ED37819C490C8F5E618E912047AE"
             {
             "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\ValidationRules\\Sánitario Acessível.vldr"
@@ -897,30 +891,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D4DFF98A19CF48B7B1E6225D9BC802BF"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F679380531BE4D618D26C5D69D9F7FA3"
             {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Entradas Portas Interno.xml"
-            "TargetName" = "8:Entradas Portas Interno.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D5F23896169A4536B1AE236F89F5ABBA"
-            {
-            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Circulação Vertical.xml"
-            "TargetName" = "8:Circulação Vertical.xml"
+            "SourcePath" = "8:..\\..\\Host\\Avalonia\\ProjectAvalonia\\Specifications\\Tables\\Sanitários Comuns.xml"
+            "TargetName" = "8:Sanitários Comuns.xml"
             "Tag" = "8:"
             "Folder" = "8:_859087E4BA044125B494D88671B1DB86"
             "Condition" = "8:"
@@ -1133,15 +1107,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Gestor de Projetos ARPA"
-        "ProductCode" = "8:{A5183C5F-8A63-4238-AE59-79D457FF7F1D}"
-        "PackageCode" = "8:{2EE1B41E-B68C-4F28-9911-469966E5D11A}"
+        "ProductCode" = "8:{DB58A4F4-4717-437B-BCA9-6369065B5E95}"
+        "PackageCode" = "8:{2FE9F1E4-E631-498D-900C-05B2694C3605}"
         "UpgradeCode" = "8:{2FE20B19-09B5-466F-8D6F-3524BC50A954}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.1"
+        "ProductVersion" = "8:1.0.2"
         "Manufacturer" = "8:Gestor de Projetos ARPA"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1271,7 +1245,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_EA8398721B7F4EDFAA86CCF4BB6CFCB3"
             {
             "Name" = "8:Uninstall"
-            "Arguments" = "8:/x {A5183C5F-8A63-4238-AE59-79D457FF7F1D} /qr"
+            "Arguments" = "8:/x {DB58A4F4-4717-437B-BCA9-6369065B5E95} /qr"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

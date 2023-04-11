@@ -116,11 +116,12 @@ public class Program
                             , startInBg: runGuiInBackground))
                 .UseReactiveUI()
                 .AddConfiguration()
+                .AddMediator()
                 .AddServices()
                 .AddQueryHandlers()
                 .AddCommandHandlers()
                 .AddRepositories()
-                .AddMediator()
+                .AddStateStores()
                 .SetupAppBuilder()
                 .AfterSetup(callback: _ =>
                 {

@@ -1,161 +1,162 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<item>
-    <id/>
-    <name>Sanitários Comuns</name>
-    <template_name>Sanitários Comuns</template_name>
-    <table>
-        <checkbox_items>
-            <id/>
-            <type>checkbox</type>
-            <topic></topic>
-            <checkboxes>
-                <checkbox_item>
-                    <id/>
-                    <topic>Porta de acesso possui maçaneta tipo alavanca?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Porta de acesso possui vão mínimo de 80cm?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Possui 2 barras (vertical 70cm) ao menos em um mictório?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Box possui área livre de no mínimo 60cm de diâmetro</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Porta do box possui vão mínimo de 60cm? (edificação existente)</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-            </checkboxes>
-        </checkbox_items>
-        <observation_item>
-            <id/>
-            <type>observation</type>
-            <observation></observation>
-        </observation_item>
-        <image_items>
-            <id/>
-            <type>image</type>
-            <images/>
-        </image_items>
-    </table>
-    <law>
-        <law_item>
-            <id>DECRETO FEDERAL 5296/04</id>
-            <content>
+<?xml version="1.0" encoding="utf-8"?>
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <id>66fcfa7d-123a-4937-a938-abbefa9095e1</id>
+  <name>Sanitários Comuns</name>
+  <table>
+    <checkbox_items>
+      <id>6a102453-3a19-4235-9081-fe32b32562dd</id>
+      <topic />
+      <type>checkbox</type>
+      <checkboxes>
+        <checkbox_item>
+          <id>9c8790f4-4c27-46b7-93af-a1effbad7719</id>
+          <topic>Porta de acesso possui maçaneta tipo alavanca?</topic>
+          <options>
+            <option>
+              <id>cceeecb6-8cec-4276-9127-a51f048e1c9b</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>af7be156-8678-44ab-a839-4b38d956cc3d</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>3489e534-c532-4af0-a23a-2df9baf2cb6b</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>a9cf3b09-50b9-44ff-905e-b01d31bc4272</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>84f2b464-78ca-4c57-a688-bebfbe626009</id>
+          <topic>Porta de acesso possui vão mínimo de 80cm?</topic>
+          <options>
+            <option>
+              <id>2ebf7242-a15b-42a8-ab44-5ba05354f4b1</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>ebb2e740-b700-45ff-beb8-46251963f47f</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>ed56d717-4975-40b2-80ee-977343723812</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>b75d76b4-3854-4fe4-a80a-e6b6f25a3ade</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>e67be572-5d25-4d07-b4d7-8a10fd754ad7</id>
+          <topic>Possui 2 barras (vertical 70cm) ao menos em um mictório?</topic>
+          <options>
+            <option>
+              <id>fb23700c-183b-4a76-92ac-923d274d6426</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>ec0855ec-57c3-4661-8ecb-45a4a6fff647</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>4e79ec3a-b802-4814-986b-5d0f9e87975e</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>a2b0a5b3-ed50-472a-8fa8-1534e71b4895</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>8a8c394d-adf5-4ea0-9c27-428f091d5ae1</id>
+          <topic>Box possui área livre de no mínimo 60cm de diâmetro</topic>
+          <options>
+            <option>
+              <id>1cc4e47e-c55f-45d6-a214-981b24f79276</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>f4b02e2f-360f-4851-91dd-dfcaf435e402</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>852fed6a-783e-48d4-938b-e975b298cbae</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>eddf6785-f787-4d23-96cf-52a3c5656f9b</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>571f8203-dd3a-479f-8056-ff29f4390501</id>
+          <topic>Porta do box possui vão mínimo de 60cm? (edificação existente)</topic>
+          <options>
+            <option>
+              <id>fcc8e849-97b3-4dd5-a575-d1575ad4102d</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>13b9eea8-8c0e-48a5-a720-5696fe2ff198</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>13be589e-933a-461c-9ba8-dd96df071b53</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>5ab5afc3-a6e4-4e1f-977f-01b6f2b783f0</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+      </checkboxes>
+    </checkbox_items>
+    <observation_item>
+      <id>70d900a4-15fb-485d-a42d-a438b5d71f10</id>
+      <topic xsi:nil="true" />
+      <type>observation</type>
+      <observation />
+    </observation_item>
+    <image_items>
+      <id>62ea7990-1d0c-4bff-ad14-4be47c32c5dd</id>
+      <topic xsi:nil="true" />
+      <type>image</type>
+      <images />
+    </image_items>
+  </table>
+  <law>
+    <law_item>
+      <id>DECRETO FEDERAL 5296/04</id>
+      <content>
                 Art.22. A construção, ampliação ou reforma de edificações de
                 uso público ou de uso coletivo devem dispor de sanitários acessíveis destinadosao
                 uso por pessoa portadora de deficiência ou com mobilidade
@@ -168,11 +169,10 @@
                 dos demais sanitários, se houver, e obedecer as normas técnicas
                 de acessibilidade da ABNT
             </content>
-        </law_item>
-
-        <law_item>
-            <id>NBR9050/20</id>
-            <content>
+    </law_item>
+    <law_item>
+      <id>NBR9050/20</id>
+      <content>
                 4.6.6.1 As maçanetas devem preferencialmente ser do tipo
                 alavanca, possuir pelo menos 100 mm de comprimento e acabamento sem arestas e
                 recurvado na extremidade, apresentando uma distância mínima
@@ -207,6 +207,6 @@
                 definido na Tabela 9 e em 7.4.3.1 a 7.4.3.3.: EDIFÍCIO DE USO COLETIVO
                 EXISTENTE: Uma instalação sanitária, onde houver sanitários.
             </content>
-        </law_item>
-    </law>
+    </law_item>
+  </law>
 </item>

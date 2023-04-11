@@ -21,7 +21,8 @@
             HorizontalAlignment="Stretch"
             Orientation="Horizontal"
             Spacing="4">
-            <Button Command="{Binding SaveItemCommand, Mode=OneWay}" CommandParameter="{Binding Item, Mode=OneWay}">
+            <Button Command="{Binding SaveItemCommand, Mode=OneWay}"
+                    CommandParameter="{Binding EditingItem, Mode=OneWay}">
                 <PathIcon Data="{StaticResource save_regular}" />
             </Button>
         </StackPanel>
@@ -35,7 +36,7 @@
                     Padding="16"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    Items="{Binding Item.FormData, Mode=OneWay}">
+                    Items="{Binding EditingItem.FormData, Mode=OneWay}">
                     <ItemsControl.DataTemplates>
                         <DataTemplate x:DataType="appModels:TextItemState" DataType="appModels:TextItemState">
                             <Border
@@ -186,7 +187,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     CornerRadius="8">
-                    <ItemsControl Items="{Binding Item.LawItems, Mode=OneWay}">
+                    <ItemsControl Items="{Binding EditingItem.LawItems, Mode=OneWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,4">

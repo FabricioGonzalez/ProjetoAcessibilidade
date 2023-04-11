@@ -1,5 +1,4 @@
-﻿using Core.Entities.Solution.Explorer;
-using Project.Domain.App.Models;
+﻿using Project.Domain.App.Models;
 using Project.Domain.Contracts;
 using Project.Domain.Project.Contracts;
 
@@ -26,10 +25,7 @@ public sealed class CreateSolutionItemFolderCommandHandler : ICommandHandler<Cre
         , CancellationToken cancellation
     )
     {
-        await _repository.RenameFolderItemAsync(item: new ExplorerItem
-        {
-            Name = command.ItemName, Path = command.ItemPath
-        });
+        _repository.RenameFolderItem(itemName: command.ItemName, itemPath: command.ItemPath);
 
         return new Empty();
     }

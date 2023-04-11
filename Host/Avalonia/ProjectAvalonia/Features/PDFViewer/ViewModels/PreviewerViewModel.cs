@@ -8,6 +8,7 @@ using Avalonia.Threading;
 using Common;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.ViewModels;
+using ProjectAvalonia.Stores;
 using ProjectAvalonia.ViewModels.Navigation;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
@@ -38,7 +39,7 @@ public partial class PreviewerViewModel : RoutableViewModel
     [AutoNotify] private float _scrollViewportSize;
 
     [AutoNotify] private string _solutionPath;
-    [AutoNotify] private SolutionStateViewModel _solutionState;
+    [AutoNotify] private SolutionState _solutionState;
 
     private bool _verticalScrollbarVisible;
 
@@ -138,7 +139,7 @@ public partial class PreviewerViewModel : RoutableViewModel
             SolutionPath = path;
         }
 
-        if (Parameter is SolutionStateViewModel solution)
+        if (Parameter is SolutionState solution)
         {
             SolutionState = solution;
         }

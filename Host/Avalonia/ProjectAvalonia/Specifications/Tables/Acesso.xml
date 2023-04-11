@@ -1,160 +1,158 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<item>
-    <id/>
-    <name>Acesso</name>
-    <template_name>Acesso</template_name>
-    <table>
-        <text_item>
-            <id/>
-            <type>text</type>
-            <topic>Acesso-Principal:</topic>
-            <value></value>
-        </text_item>
-        <text_item>
-            <id/>
-            <type>text</type>
-            <topic>Possuí desnível de:</topic>
-            <measurement_unit>m</measurement_unit>
-            <value></value>
-        </text_item>
-        <checkbox_items>
-            <id/>
-            <type>checkbox</type>
-            <topic>Acesso à Edificação:</topic>
-            <checkboxes>
-                <checkbox_item>
-                    <id/>
-                    <topic>Há garantia de pelo menos, um dos acessos ao seu interior, com
+<?xml version="1.0" encoding="utf-8"?>
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <id>63aa53f4-8afc-4cef-97a5-a81258a88d29</id>
+  <name>Acesso</name>
+  <table>
+    <text_item>
+      <id>f7d5b660-06e4-4de5-9cca-c5b8e94d404c</id>
+      <topic>Acesso-Principal:</topic>
+      <type>text</type>
+      <value />
+      <measurement_unit />
+    </text_item>
+    <text_item>
+      <id>2c5a9051-3dde-46c1-b486-7fad4185e037</id>
+      <topic>Possuí desnível de:</topic>
+      <type>text</type>
+      <value />
+      <measurement_unit>m</measurement_unit>
+    </text_item>
+    <checkbox_items>
+      <id>be5998e7-b43b-4556-8394-0d53a1b7a4ff</id>
+      <topic>Acesso à Edificação:</topic>
+      <type>checkbox</type>
+      <checkboxes>
+        <checkbox_item>
+          <id>96ad1a03-3402-4714-9a0f-5c2bdc5cc4a5</id>
+          <topic>Há garantia de pelo menos, um dos acessos ao seu interior, com
                         comunicação com todas as suas dependências e serviços, livre de barreiras e
-                        de obstáculos?
-                    </topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        ice
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Há a possibilidade de ampliação do número de acessos livres de
+                        de obstáculos?</topic>
+          <options>
+            <option>
+              <id>165edd03-85e9-4a4c-ba60-aad1f23ed37f</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>e326dd6d-a3be-4f45-bdc7-cde44cbd953d</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>9fa8ce35-446d-43b4-97d1-900989e49570</id>
+          <topic>Há a possibilidade de ampliação do número de acessos livres de
                         obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há
                         sinalização informativa, indicativa edirecional da localização das entradas
-                        acessíveis?
-                    </topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-            </checkboxes>
-        </checkbox_items>
-        <checkbox_items>
-            <id/>
-            <type>checkbox</type>
-            <topic>Quanto ao piso de acesso utilizado:</topic>
-            <checkboxes>
-                <checkbox_item>
-                    <id/>
-                    <topic>Antiderrapante?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>É regular, estável e não trepidante?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Possui sinalização informativa e direcional dos acessos da edificação?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Possui sinalização direcional dos acessos da edificação até o balcão de
-                        informação?
-                    </topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-            </checkboxes>
-        </checkbox_items>
-        <observation_item>
-            <id/>
-            <type>observation</type>
-            <observation/>
-        </observation_item>
-        <image_items>
-            <id/>
-            <type>image</type>
-            <images></images>
-        </image_items>
-    </table>
-    <law>
-        <law_item>
-            <id>NBR9050/20</id>
-            <content>
+                        acessíveis?</topic>
+          <options>
+            <option>
+              <id>2229a76d-4bfe-4125-814b-487ae9c54c4a</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>72bfe91c-ec38-4a1f-a891-091a0f527856</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+      </checkboxes>
+    </checkbox_items>
+    <checkbox_items>
+      <id>6b4163f3-a77f-4da7-8b7f-4f4cff5c9ef2</id>
+      <topic>Quanto ao piso de acesso utilizado:</topic>
+      <type>checkbox</type>
+      <checkboxes>
+        <checkbox_item>
+          <id>c14d62b7-5a23-4afb-8c01-f966e2b8b54c</id>
+          <topic>Antiderrapante?</topic>
+          <options>
+            <option>
+              <id>de1561b8-5fb5-420b-b4f2-d5c5fb781614</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>7e96f171-a245-4196-a32b-2d09a03fd0fc</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>acc46254-b163-477d-a51b-6d5a0b538a04</id>
+          <topic>É regular, estável e não trepidante?</topic>
+          <options>
+            <option>
+              <id>d2e99575-1533-4992-b7b6-b3000fee8166</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>7bc2801b-6ec2-4621-a524-c9803f5f0965</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>a9fc6640-20b9-42e5-a42f-5abc2a51619d</id>
+          <topic>Possui sinalização informativa e direcional dos acessos da edificação?</topic>
+          <options>
+            <option>
+              <id>db614076-da25-491c-930f-37f16dfd2e11</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>f12e9bb5-390d-42e1-9796-d2724545d4c9</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>cba2e595-16f1-41ba-9e3f-486022cf3322</id>
+          <topic>Possui sinalização direcional dos acessos da edificação até o balcão de
+                        informação?</topic>
+          <options>
+            <option>
+              <id>ee130844-551c-40df-8ab2-cd91e0cffdb9</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>0ba26062-44dd-46a1-9d8b-e47b61c4f621</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+      </checkboxes>
+    </checkbox_items>
+    <observation_item>
+      <id>5e12dca7-1884-4bce-a258-6758e1844153</id>
+      <topic xsi:nil="true" />
+      <type>observation</type>
+      <observation />
+    </observation_item>
+    <image_items>
+      <id>1ad197ed-d034-42a4-8bd7-8598fb399e9b</id>
+      <topic xsi:nil="true" />
+      <type>image</type>
+      <images />
+    </image_items>
+  </table>
+  <law>
+    <law_item>
+      <id>NBR9050/20</id>
+      <content>
                 A Figura 26 mostra as alturas recomendadas para o
                 posicionamento de diferentes types de comandos e controles.
             </content>
-        </law_item>
-    </law>
+    </law_item>
+  </law>
 </item>

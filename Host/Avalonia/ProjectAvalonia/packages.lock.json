@@ -48,18 +48,6 @@
           "Avalonia.X11": "0.10.18"
         }
       },
-      "Avalonia.Diagnostics": {
-        "type": "Direct",
-        "requested": "[0.10.18, )",
-        "resolved": "0.10.18",
-        "contentHash": "3PjA6r0mmRUeS+R34VtYAyzmlPeqflsQ9B8E2TrZKGke0Wo6t3JsvPWA8ynA/ii0icPnnn7nmQaEZQs07ZthxQ==",
-        "dependencies": {
-          "Avalonia": "0.10.18",
-          "Avalonia.Controls.DataGrid": "0.10.18",
-          "Microsoft.CodeAnalysis.CSharp.Scripting": "3.4.0",
-          "System.Reactive": "5.0.0"
-        }
-      },
       "Avalonia.ReactiveUI": {
         "type": "Direct",
         "requested": "[0.10.18, )",
@@ -265,6 +253,17 @@
           "Avalonia": "0.10.18",
           "Avalonia.Remote.Protocol": "0.10.18",
           "JetBrains.Annotations": "10.3.0",
+          "System.Reactive": "5.0.0"
+        }
+      },
+      "Avalonia.Diagnostics": {
+        "type": "Transitive",
+        "resolved": "0.10.18",
+        "contentHash": "3PjA6r0mmRUeS+R34VtYAyzmlPeqflsQ9B8E2TrZKGke0Wo6t3JsvPWA8ynA/ii0icPnnn7nmQaEZQs07ZthxQ==",
+        "dependencies": {
+          "Avalonia": "0.10.18",
+          "Avalonia.Controls.DataGrid": "0.10.18",
+          "Microsoft.CodeAnalysis.CSharp.Scripting": "3.4.0",
           "System.Reactive": "5.0.0"
         }
       },

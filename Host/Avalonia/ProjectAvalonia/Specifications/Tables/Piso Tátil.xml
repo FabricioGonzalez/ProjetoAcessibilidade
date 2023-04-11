@@ -1,41 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<item>
-    <id/>
-    <name>Piso Tátil</name>
-    <template_name>Piso Tátil</template_name>
-    <table>
-        <checkbox_items>
-            <id/>
-            <type>checkbox</type>
-            <checkboxes>
-                <checkbox_item>
-                    <id/>
-                    <topic>Possui piso tátil no atendimento da recepção?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-            </checkboxes>
-        </checkbox_items>
-        <observation_item>
-            <id/>
-            <type>observation</type>
-            <value></value>
-        </observation_item>
-        <image_items>
-            <id/>
-            <type>image</type>
-            <images/>
-        </image_items>
-    </table>
-    <law/>
+<?xml version="1.0" encoding="utf-8"?>
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <id>8ae1d5bd-c375-430b-bca0-124414c2e794</id>
+  <name>Piso Tátil</name>
+  <table>
+    <checkbox_items>
+      <id>d6e55a4e-8b0c-451d-9c33-8b9122a3ca5c</id>
+      <topic xsi:nil="true" />
+      <type>checkbox</type>
+      <checkboxes>
+        <checkbox_item>
+          <id>0eebae93-4c6f-4371-9ba6-8c092c68f5f3</id>
+          <topic>Possui piso tátil no atendimento da recepção?</topic>
+          <options>
+            <option>
+              <id>6af620e6-f93e-4088-aac1-573acf5110ad</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>f51e5072-43c8-456a-9368-fe647f4b5a61</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+      </checkboxes>
+    </checkbox_items>
+    <observation_item>
+      <id>1aea07c2-ffbe-4028-90dd-9b8d7bcaca0a</id>
+      <topic xsi:nil="true" />
+      <type>observation</type>
+    </observation_item>
+    <image_items>
+      <id>9b2cd940-aeb2-4257-bea7-96fa795a7413</id>
+      <topic xsi:nil="true" />
+      <type>image</type>
+      <images />
+    </image_items>
+  </table>
+  <law />
 </item>

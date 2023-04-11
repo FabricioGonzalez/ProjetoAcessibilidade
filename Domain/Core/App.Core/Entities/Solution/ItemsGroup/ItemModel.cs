@@ -2,7 +2,7 @@
 
 public class ItemModel
 {
-    public string Id
+    public string? Id
     {
         get;
         set;

@@ -13,6 +13,7 @@ using ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
+using ProjectAvalonia.Stores;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
@@ -140,22 +141,14 @@ public partial class MainViewModel : ViewModelBase
 
     public void OpenProject(
         string projectPath
-    )
-    {
-        _projectPage.CurrentOpenProject = projectPath;
-
-        Instance.MainScreen.To(viewmodel: _projectPage);
-    }
+    ) =>
+        Instance.MainScreen.To(viewmodel: _projectPage, Parameter: projectPath);
 
     public void PrintProject(
-        SolutionStateViewModel solutionState
+        SolutionState solutionState
     )
     {
-        _projectPage.CurrentOpenProject = solutionState.FilePath;
-
-        _previewPrintPage.SolutionState = solutionState;
-
-        Instance.FullScreen.To(viewmodel: _previewPrintPage);
+        Instance.FullScreen.To(viewmodel: _previewPrintPage, Parameter: solutionState);
 
         OpenProject(projectPath: solutionState.FilePath);
     }
@@ -277,7 +270,7 @@ public partial class MainViewModel : ViewModelBase
 
               return NoWalletInfo();
           });
-  
+
           SendViewModel.RegisterLazy(() =>
            {
                if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel))

@@ -15,13 +15,5 @@ public partial class TemplateEditView : UserControl
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(obj: this);
-
-        Dispatcher.UIThread.InvokeAsync(function: async () =>
-        {
-            if (DataContext is TemplateEditViewModel vm)
-            {
-                await vm.LoadItems();
-            }
-        });
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Common;
 using Core.Entities.Solution.Explorer;
+using Project.Domain.App.Models;
 
 namespace Project.Domain.Project.Contracts;
 
@@ -23,6 +24,11 @@ public interface IExplorerItemRepository
 
     Task<Resource<ExplorerItem>> DeleteFileItemAsync(
         ExplorerItem item
+    );
+
+    Resource<Empty> RenameFolderItem(
+        string itemName,
+        string itemPath
     );
 
     Task<Resource<ExplorerItem>> UpdateExplorerItemAsync(

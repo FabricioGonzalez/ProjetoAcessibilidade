@@ -1,100 +1,104 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<item>
-    <id/>
-    <name>Mesas</name>
-    <template_name>Mesas</template_name>
-    <table>
-        <checkbox_items>
-            <id/>
-            <type>checkbox</type>
-            <checkboxes>
-                <checkbox_item>
-                    <id/>
-                    <topic>Possui mesa com altura do tampo entre 75cm a 85cm?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Possui altura livre de 73cm sob a mesa?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Possui tampo com largura mínima de 0,90m?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id/>
-                    <topic>Profundidade livre mínima de 0,50m?</topic>
-                    <options>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id/>
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-            </checkboxes>
-        </checkbox_items>
-        <text_item>
-            <id/>
-            <type>text</type>
-            <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo S.I.A,
-                Adesivo S.I.A, display de mesa ou não possui);
-            </topic>
-            <value></value>
-        </text_item>
-        <observation_item>
-            <type>observation</type>
-            <observation/>
-        </observation_item>
-        <image_items>
-            <type>image</type>
-            <images/>
-        </image_items>
-    </table>
-    <law>
-        <law_item item="1">
-            <id>NBR9050/20</id>
-            <content>
+<?xml version="1.0" encoding="utf-8"?>
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <id>63f31ec1-6f34-42b9-b071-a7f95a55c8f0</id>
+  <name>Mesas</name>
+  <table>
+    <checkbox_items>
+      <id>449f643b-7814-455c-95ab-51117d8d1e81</id>
+      <topic xsi:nil="true" />
+      <type>checkbox</type>
+      <checkboxes>
+        <checkbox_item>
+          <id>dab82e53-fb09-48a4-a44f-beda802c681c</id>
+          <topic>Possui mesa com altura do tampo entre 75cm a 85cm?</topic>
+          <options>
+            <option>
+              <id>6efcd92f-7fd7-4986-b1dc-b10aaba1c6d2</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>0f4b7e35-450d-469d-a133-4cdcc002875d</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>a6fed36e-aefd-428a-84b6-46d55f02cefe</id>
+          <topic>Possui altura livre de 73cm sob a mesa?</topic>
+          <options>
+            <option>
+              <id>28a9c887-459a-4100-a035-755ee0fad38d</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>19995871-0e8b-4149-85f3-07bd55158ce3</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>e14aee63-b812-453a-b231-1ac88170f8ea</id>
+          <topic>Possui tampo com largura mínima de 0,90m?</topic>
+          <options>
+            <option>
+              <id>88e05d3e-804a-4379-8b18-83622d26a3c4</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>77944b40-b3c9-493c-bcb7-653be78e3226</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>89e6da5f-710e-4a80-b14a-142a7f964422</id>
+          <topic>Profundidade livre mínima de 0,50m?</topic>
+          <options>
+            <option>
+              <id>993c5cfe-5f9e-4ca0-ab98-7aca1abf8b67</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>6f729370-64b2-4f9d-8e49-de454f7c5ec6</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+      </checkboxes>
+    </checkbox_items>
+    <text_item>
+      <id>cfa8a470-cbd1-4459-8beb-bf79ae71511a</id>
+      <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo S.I.A,
+                Adesivo S.I.A, display de mesa ou não possui);</topic>
+      <type>text</type>
+      <value />
+      <measurement_unit xsi:nil="true" />
+    </text_item>
+    <observation_item>
+      <id>869bb7d7-e9bc-48f3-b685-aaa64e56225b</id>
+      <topic xsi:nil="true" />
+      <type>observation</type>
+      <observation />
+    </observation_item>
+    <image_items>
+      <id>af5cf4aa-b0b7-440e-a1cc-4e78db554074</id>
+      <topic xsi:nil="true" />
+      <type>image</type>
+      <images />
+    </image_items>
+  </table>
+  <law>
+    <law_item>
+      <id>NBR9050/20</id>
+      <content>
                 9.3.1.3 As mesas ou superfícies de trabalho acessíveis devem
                 possuir tampo com largura mínima de 0,90 m e altura entre 0,75 m e 0,85 m do
                 piso acabado, assegurando-se largura livre mínima sob a
@@ -110,6 +114,6 @@
                 necessidades específicas do usuário, objetivando a melhoria
                 das condições de conforto e autonomia.
             </content>
-        </law_item>
-    </law>
+    </law_item>
+  </law>
 </item>

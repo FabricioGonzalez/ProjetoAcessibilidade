@@ -5,6 +5,7 @@ using Common;
 using Core.Entities.App;
 using Core.Entities.Solution;
 using Core.Entities.Solution.Explorer;
+using Core.Entities.Solution.ItemsGroup;
 using Core.Entities.Solution.Project.AppItem;
 using Microsoft.Extensions.Configuration;
 using Project.Domain.App.Contracts;
@@ -24,6 +25,7 @@ using Project.Domain.Solution.Contracts;
 using Project.Domain.Solution.Queries;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
+using ProjectAvalonia.Stores;
 using ProjectItemReader.InternalAppFiles;
 using ProjectItemReader.XmlFile;
 using Splat;
@@ -61,7 +63,7 @@ public static class Bootstrapper
                     contentRepository: Locator.Current.GetService<IProjectItemContentRepository>()!));
 
         service
-            .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ExplorerItem>>>>(factory: () =>
+            .Register<IQueryHandler<GetAllTemplatesQuery, Resource<List<ItemModel>>>>(factory: () =>
                 new GetAllTemplatesQueryHandler(
                     repository: Locator.Current.GetService<IAppTemplateRepository>()!));
 
@@ -78,50 +80,56 @@ public static class Bootstrapper
     )
     {
         var service = Locator.CurrentMutable;
+        var resolver = Locator.Current;
 
         service.Register<ICommandHandler<SaveProjectItemContentCommand, Resource<Empty>>>(factory: () =>
             new SaveProjectItemContentCommandHandler(
-                content: Locator.Current.GetService<IProjectItemContentRepository>()!));
+                content: resolver.GetService<IProjectItemContentRepository>()!));
 
         service.Register<ICommandHandler<SaveSystemProjectItemContentCommand, Resource<Empty>>>(factory: () =>
             new SaveSystemProjectItemContentCommandHandler(
-                content: Locator.Current.GetService<IProjectItemContentRepository>()!));
+                content: resolver.GetService<IProjectItemContentRepository>()!));
 
         service.Register<ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>>(factory: () =>
             new SyncSolutionCommandHandler(
-                solutionRepository: Locator.Current.GetService<ISolutionRepository>()!));
+                solutionRepository: resolver.GetService<ISolutionRepository>()!));
 
         service.Register<ICommandHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>>(factory: () =>
             new CreateSolutionCommandHandler(
-                solutionRepository: Locator.Current.GetService<ISolutionRepository>()!));
+                solutionRepository: resolver.GetService<ISolutionRepository>()!));
 
         service
             .Register<ICommandHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>>(factory: () =>
                 new RenameProjectFileItemCommandHandler(
-                    repository: Locator.Current.GetService<IExplorerItemRepository>()!
+                    repository: resolver.GetService<IExplorerItemRepository>()!
                 ));
 
         service
             .Register<ICommandHandler<DeleteProjectFileItemCommand, Resource<Empty>>>(factory: () =>
                 new DeleteProjectFileItemCommandHandler(
-                    repository: Locator.Current.GetService<IExplorerItemRepository>()!
+                    repository: resolver.GetService<IExplorerItemRepository>()!
                 ));
 
         service
             .Register<ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>>(factory: () =>
                 new DeleteProjectFolderItemCommandHandler(
-                    repository: Locator.Current.GetService<IExplorerItemRepository>()!
+                    repository: resolver.GetService<IExplorerItemRepository>()!
                 ));
 
         service
             .Register<ICommandHandler<RenameProjectFolderItemCommand, Resource<ExplorerItem>>>(factory: () =>
                 new RenameProjectFolderItemCommandHandler(
-                    repository: Locator.Current.GetService<IExplorerItemRepository>()!
+                    repository: resolver.GetService<IExplorerItemRepository>()!
                 ));
         service
             .Register<ICommandHandler<CreateItemCommand, Resource<Empty>>>(factory: () =>
                 new CreateItemCommandHandler(
-                    content: Locator.Current.GetService<IProjectItemContentRepository>()!
+                    content: resolver.GetService<IProjectItemContentRepository>()!
+                ));
+        service
+            .Register<ICommandHandler<CreateSolutionItemFolderCommand, Empty>>(factory: () =>
+                new CreateSolutionItemFolderCommandHandler(
+                    repository: resolver.GetService<IExplorerItemRepository>()!
                 ));
 
         return app;
@@ -148,6 +156,28 @@ public static class Bootstrapper
         service
             .Register<IAppTemplateRepository>(factory: () =>
                 new AppTemplateRepositoryImpl());
+
+        return app;
+    }
+
+    public static AppBuilder AddStateStores(
+        this AppBuilder app
+    )
+    {
+        var service = Locator.CurrentMutable;
+        var resolver = Locator.Current;
+
+        service.RegisterConstant(
+            value: new TemplateItemsStore(queryDispatcher: resolver.GetService<IQueryDispatcher>()));
+
+        service.RegisterConstant(
+            value: new SolutionStore(queryDispatcher: resolver.GetService<IQueryDispatcher>()));
+
+        service.RegisterConstant(
+            value: new AddressesStore(queryDispatcher: resolver.GetService<IQueryDispatcher>()));
+
+        service.RegisterConstant(
+            value: new EditingItemsStore(queryDispatcher: resolver.GetService<IQueryDispatcher>()));
 
         return app;
     }
