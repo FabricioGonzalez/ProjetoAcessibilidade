@@ -13,13 +13,14 @@
     d:DesignWidth="800"
     x:DataType="viewModels:ProjectExplorerViewModel"
     mc:Ignorable="d">
-    <Grid Name="ExplorerRoot" RowDefinitions="42,42,42,1*" Background="{DynamicResource AcrylicTrimBackground}">
+    <Grid RowDefinitions="42,42,42,1*" Background="{DynamicResource AcrylicTrimBackground}">
         <TextBlock
             Grid.Row="0"
             Margin="4,0"
             Text="Explorador de Solução" />
         <StackPanel Grid.Row="1">
-            <Button VerticalAlignment="Center" Height="32" Width="32" ToolTip.Tip="Criar pasta">
+            <Button VerticalAlignment="Center" Height="32" Width="32" ToolTip.Tip="Criar pasta"
+                    Command="{Binding $parent[UserControl].DataContext.CreateFolderCommand}">
                 <PathIcon Data="{StaticResource add_regular}" />
             </Button>
         </StackPanel>
@@ -37,7 +38,6 @@
             Margin="4,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-
             Items="{Binding Items,Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Padding="0">
             <TreeView.ItemTemplate>

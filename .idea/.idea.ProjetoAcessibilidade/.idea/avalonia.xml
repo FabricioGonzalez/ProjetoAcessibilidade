@@ -9,6 +9,8 @@
         <entry key="Host/Avalonia/ProjectAvalonia/Features/PDFViewer/Views/PreviewerView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/AddItemView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingItem.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/CreateSolutionView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Dialogs/DeleteDialogView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/ProjectEditingView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/ProjectExplorerView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/ProjectView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />

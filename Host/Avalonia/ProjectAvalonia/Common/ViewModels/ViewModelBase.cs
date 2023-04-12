@@ -15,6 +15,8 @@ public class ViewModelBase
     private readonly CancellationTokenSource _cancellationToken;
     private readonly Validations _validations;
 
+    protected ObservableAsPropertyHelper<bool> _isBusy = ObservableAsPropertyHelper<bool>.Default();
+
     public ViewModelBase()
     {
         _cancellationToken = new CancellationTokenSource();
@@ -22,6 +24,8 @@ public class ViewModelBase
         _validations.ErrorsChanged += OnValidations_ErrorsChanged;
         PropertyChanged += ViewModelBase_PropertyChanged;
     }
+
+    public bool IsBusy => _isBusy.Value;
 
     protected IValidations Validations => _validations;
 

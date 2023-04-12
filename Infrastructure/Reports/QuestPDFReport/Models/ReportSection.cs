@@ -8,6 +8,12 @@ public class ReportSection : IReportSection
         set;
     } = new();
 
+    public string Id
+    {
+        get;
+        set;
+    } = Guid.NewGuid().ToString();
+
     public string Title
     {
         get;
@@ -23,6 +29,12 @@ public class ReportSectionGroup : IReportSection
         set;
     } = new();
 
+    public string Id
+    {
+        get;
+        set;
+    } = Guid.NewGuid().ToString();
+
     public string Title
     {
         get;
@@ -32,6 +44,12 @@ public class ReportSectionGroup : IReportSection
 
 public interface IReportSection
 {
+    public string Id
+    {
+        get;
+        set;
+    }
+
     public string Title
     {
         get;

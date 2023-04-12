@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Avalonia.Threading;
 using Common;
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Mappers;
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.Stores;
 using ProjectAvalonia.ViewModels.Navigation;

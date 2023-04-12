@@ -48,6 +48,18 @@
           "Avalonia.X11": "0.10.18"
         }
       },
+      "Avalonia.Diagnostics": {
+        "type": "Direct",
+        "requested": "[0.10.18, )",
+        "resolved": "0.10.18",
+        "contentHash": "3PjA6r0mmRUeS+R34VtYAyzmlPeqflsQ9B8E2TrZKGke0Wo6t3JsvPWA8ynA/ii0icPnnn7nmQaEZQs07ZthxQ==",
+        "dependencies": {
+          "Avalonia": "0.10.18",
+          "Avalonia.Controls.DataGrid": "0.10.18",
+          "Microsoft.CodeAnalysis.CSharp.Scripting": "3.4.0",
+          "System.Reactive": "5.0.0"
+        }
+      },
       "Avalonia.ReactiveUI": {
         "type": "Direct",
         "requested": "[0.10.18, )",
@@ -256,17 +268,6 @@
           "System.Reactive": "5.0.0"
         }
       },
-      "Avalonia.Diagnostics": {
-        "type": "Transitive",
-        "resolved": "0.10.18",
-        "contentHash": "3PjA6r0mmRUeS+R34VtYAyzmlPeqflsQ9B8E2TrZKGke0Wo6t3JsvPWA8ynA/ii0icPnnn7nmQaEZQs07ZthxQ==",
-        "dependencies": {
-          "Avalonia": "0.10.18",
-          "Avalonia.Controls.DataGrid": "0.10.18",
-          "Microsoft.CodeAnalysis.CSharp.Scripting": "3.4.0",
-          "System.Reactive": "5.0.0"
-        }
-      },
       "Avalonia.FreeDesktop": {
         "type": "Transitive",
         "resolved": "0.10.18",
@@ -391,8 +392,8 @@
       },
       "MediatR": {
         "type": "Transitive",
-        "resolved": "11.1.0",
-        "contentHash": "YIbtrLOyeCuIv8vIuHL/mMdls5xmgS36pIOJDxKZuu55nxA2MI2Z+E/Uk0z+F/LE11AGmpjplOM0NZ91m5LQBA==",
+        "resolved": "11.0.0",
+        "contentHash": "8klzVGZQiA2oxZRzQFBZbdPD/IQUm9RYtfiyTDKhxDQ99Gi93+GXt1ZJjH2D7Lh7ZFHCv5XdkwbmfHEQBCatPg==",
         "dependencies": {
           "MediatR.Contracts": "1.0.1"
         }
@@ -1121,17 +1122,13 @@
         "type": "Project"
       },
       "core": {
-        "type": "Project",
-        "dependencies": {
-          "MediatR": "[11.1.0, )"
-        }
+        "type": "Project"
       },
       "project.domain": {
         "type": "Project",
         "dependencies": {
           "Common": "[1.0.0, )",
           "Core": "[1.0.0, )",
-          "MediatR": "[11.1.0, )",
           "Splat": "[14.6.1, )"
         }
       },

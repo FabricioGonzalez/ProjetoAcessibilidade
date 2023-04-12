@@ -24,16 +24,16 @@ public static class DataSource
                 new()
                 {
                     Label = "Scope", Value = "public activities"
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Author", Value = "Marcin Ziąbek"
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Date", Value = DateTime.Now.ToString(format: "g")
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Status", Value = "Completed, found 2 issues"
                 }
@@ -128,26 +128,45 @@ public static class DataSource
             {
                 new()
                 {
-                    Label = "Scope", Value = "public activities"
-                }
-                , new()
+                    Label = "Local", Value = solutionModel.SolutionReportInfo.Endereco
+                },
+                new()
                 {
-                    Label = "Author", Value = "Marcin Ziąbek"
-                }
-                , new()
+                    Label = "UF", Value = "SP"
+                },
+                new()
                 {
-                    Label = "Date", Value = DateTime.Now.ToString(format: "g")
-                }
-                , new()
+                    Label = "Data", Value = solutionModel.SolutionReportInfo.Data.ToString(format: "dd.MM.yyyy")
+                },
+                new()
                 {
-                    Label = "Status", Value = "Completed, found 2 issues"
+                    Label = "Empresa", Value = solutionModel.SolutionReportInfo.NomeEmpresa
+                },
+                new()
+                {
+                    Label = "Responsável pelo levantamento", Value = solutionModel.SolutionReportInfo.Responsavel
+                },
+                new()
+                {
+                    Label = "E-mail", Value = solutionModel.SolutionReportInfo.Email
+                },
+                new()
+                {
+                    Label = "Telefone", Value = solutionModel.SolutionReportInfo.Telefone
+                },
+                new()
+                {
+                    Label = "Gerenciadora", Value = "solutionModel.StandartInfo.Gerenciadora;"
                 }
             };
         }
 
         var report = new NestedReportModel
         {
-            Title = "Sample Report Document", HeaderFields = HeaderFields()
+            Title = "RELATÓRIO DE ACESSIBILIDADE",
+            HeaderFields = HeaderFields(),
+            StandardLaw =
+                "Legislação Vigente: NBR 9.050/15, NBR 16.537/16, Decreto Nº 5296 de 02.12.2004 e Lei Federal 13.146/16"
         };
 
         /* var res = Path.Combine(Directory.GetParent(solutionModel.FilePath).FullName, Constants.AppProjectItemsFolderName);*/
@@ -166,6 +185,7 @@ public static class DataSource
 
                 var section = new ReportSection();
                 section.Title = itemModel.Name;
+                section.Id = Guid.NewGuid().ToString();
 
                 foreach (var formData in data.FormData)
                 {
@@ -249,9 +269,9 @@ public static class DataSource
     {
         return new ReportModel
         {
-            Title = "Sample Report Document", HeaderFields = HeaderFields()
-            , LogoData = Helpers.GetImage(name: "Logo.png")
-            , Sections = Enumerable.Range(start: 0, count: 40).Select(selector: x => GenerateSection()).ToList()
+            Title = "Sample Report Document", HeaderFields = HeaderFields(),
+            LogoData = Helpers.GetImage(name: "Logo.png"),
+            Sections = Enumerable.Range(start: 0, count: 40).Select(selector: x => GenerateSection()).ToList()
             /* Photos = Enumerable.Range(0, 25).Select(x => GetReportPhotos()).ToList()*/
         };
 
@@ -262,16 +282,16 @@ public static class DataSource
                 new()
                 {
                     Label = "Scope", Value = "public activities"
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Author", Value = "Marcin Ziąbek"
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Date", Value = DateTime.Now.ToString(format: "g")
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Status", Value = "Completed, found 2 issues"
                 }
@@ -286,8 +306,8 @@ public static class DataSource
 
             return new ReportSection
             {
-                Title = Placeholders.Label()
-                , Parts = Enumerable.Range(start: 0, count: sectionLength).Select(selector: x => GetRandomElement())
+                Title = Placeholders.Label(), Parts = Enumerable.Range(start: 0, count: sectionLength)
+                    .Select(selector: x => GetRandomElement())
                     .ToList()
             };
         }
@@ -331,8 +351,8 @@ public static class DataSource
             {
                 Checkboxes = new List<CheckboxModel>
                 {
-                    new(isChecked: false, value: Placeholders.Label())
-                    , new(isChecked: true, value: Placeholders.Label())
+                    new(isChecked: false, value: Placeholders.Label()),
+                    new(isChecked: true, value: Placeholders.Label())
                 }
             };
         }
@@ -362,9 +382,9 @@ public static class DataSource
         {
             return new ReportPhoto
             {
-                Comments = Placeholders.Sentence()
-                , Date = DateTime.Now - TimeSpan.FromDays(value: Helpers.Random.NextDouble() * 100)
-                , Location = Helpers.RandomLocation()
+                Comments = Placeholders.Sentence(),
+                Date = DateTime.Now - TimeSpan.FromDays(value: Helpers.Random.NextDouble() * 100),
+                Location = Helpers.RandomLocation()
             };
         }
     }

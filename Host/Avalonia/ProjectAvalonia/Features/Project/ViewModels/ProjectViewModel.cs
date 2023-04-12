@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Threading;
 using Common;
@@ -12,10 +13,12 @@ using Core.Entities.Solution;
 using Project.Domain.Contracts;
 using Project.Domain.Solution.Commands.SolutionItem;
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.Common.Mappers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.Stores;
+using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
 using Splat;
@@ -23,13 +26,13 @@ using Splat;
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 [NavigationMetaData(
-    Title = "Project",
-    Caption = "Create and edit projects",
+    Title = "Projeto",
+    Caption = "Criar e editar projetos",
     Order = 0,
-    Category = "Project",
+    Category = "Projetos",
     Keywords = new[]
     {
-        "Project"
+        "Projeto"
     },
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
@@ -57,17 +60,6 @@ public partial class ProjectViewModel : NavBarItemViewModel
         projectExplorerViewModel = new ProjectExplorerViewModel();
         projectEditingViewModel = new ProjectEditingViewModel();
 
-
-        /*
-        this.WhenAnyValue(property1: vm => vm.projectExplorerViewModel.SelectedItem)
-            .WhereNotNull()
-            .Subscribe(onNext: item =>
-            {
-                projectEditingViewModel.SelectedItem = item;
-            });
-            */
-
-
         PrintProjectCommand = ReactiveCommand.Create(execute: () =>
         {
             Navigate(currentTarget: NavigationTarget.FullScreen)
@@ -76,7 +68,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
                     Parameter: _solutionStore.CurrentOpenSolution);
         }, canExecute: IsSolutionOpened());
 
-        SaveSolutionCommand = ReactiveCommand.CreateFromTask<SolutionStateViewModel>(
+        SaveSolutionCommand = ReactiveCommand.CreateFromTask<SolutionState>(
             execute: async solution =>
             {
                 await commandDispatcher.Dispatch<SyncSolutionCommand, Resource<ProjectSolutionModel>>(
@@ -111,18 +103,18 @@ public partial class ProjectViewModel : NavBarItemViewModel
                 dialog: new CreateSolutionViewModel(title: "Criar Solução")
                 , target: NavigationTarget.CompactDialogScreen);
 
-            if (dialogResult.Result is { } dialogData)
+            if (dialogResult is { Result: { } dialogData, Kind: DialogResultKind.Normal })
             {
-                IsBusy = true;
-
                 NotificationHelpers.Show(title: "Create", message: "Create Project?", onClick: () =>
                 {
                     Logger.LogDebug(message: $"create Project {dialogData.FileName}");
                 });
-
-                IsBusy = false;
             }
         });
+        (CreateProjectCommand as ReactiveCommand<Unit, Unit>)
+            .IsExecuting
+            .ToProperty(source: this,
+                property: nameof(IsBusy), result: out _isBusy);
 
         ((ReactiveCommand<Unit, Unit>)CreateProjectCommand)
             .ThrownExceptions
@@ -130,9 +122,9 @@ public partial class ProjectViewModel : NavBarItemViewModel
             {
                 Logger.LogError(message: "Error!", exception: exception);
             });
-        Dispatcher.UIThread.Post(action: async () =>
+        Dispatcher.UIThread.Post(action: () =>
         {
-            await _addressesStore.LoadAllUf(token: GetCancellationToken());
+            Task.WhenAll(_addressesStore.LoadAllUf(token: GetCancellationToken()));
         });
     }
 

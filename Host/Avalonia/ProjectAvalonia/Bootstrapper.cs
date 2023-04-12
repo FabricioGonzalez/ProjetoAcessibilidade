@@ -179,6 +179,10 @@ public static class Bootstrapper
         service.RegisterConstant(
             value: new EditingItemsStore(queryDispatcher: resolver.GetService<IQueryDispatcher>()));
 
+        service.RegisterConstant(
+            value: new ExplorerItemsStore(solutionStore: resolver.GetService<SolutionStore>(),
+                commandDispatcher: resolver.GetService<ICommandDispatcher>()));
+
         return app;
     }
 

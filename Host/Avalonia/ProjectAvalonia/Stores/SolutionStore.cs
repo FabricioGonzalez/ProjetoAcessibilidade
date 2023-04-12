@@ -12,9 +12,9 @@ using Core.Entities.Solution;
 using DynamicData;
 using Project.Domain.Contracts;
 using Project.Domain.Solution.Queries;
+using ProjectAvalonia.Common.Mappers;
 using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Features.Project.ViewModels;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Stores;
@@ -29,6 +29,10 @@ public partial class SolutionStore
     {
         _queryDispatcher = queryDispatcher;
     }
+
+    public void CreateSolutionState(string solutionPath) => CurrentOpenSolution =
+        SolutionState.Create(filePath: solutionPath, itemsGroups: new List<ItemGroupState>(),
+            reportData: new SolutionReportState());
 
     public async Task LoadSolution(string solutionPath) =>
         (await _queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
@@ -57,6 +61,7 @@ public partial class SolutionState
 
     [AutoNotify] private ReadOnlyObservableCollection<ItemGroupState> _itemGroups;
     private SourceList<ItemGroupState> _itemsCollection;
+    [AutoNotify] private string _logoPath = "";
 
     [AutoNotify] private SolutionReportState _reportData;
 
@@ -71,6 +76,34 @@ public partial class SolutionState
 
     public static SolutionState Create(string filePath, IList<ItemGroupState> itemsGroups,
         SolutionReportState reportData) => new(filePath: filePath, itemsGroups: itemsGroups, reportData: reportData);
+
+    public void DeleteFolderItem(ItemGroupState item) =>
+        _itemsCollection.Remove(item: item);
+
+    public void DeleteItem(ItemState item)
+    {
+        foreach (var group in _itemsCollection.Items)
+        {
+            if (group.Items.FirstOrDefault(predicate: x => x.ItemPath == item.ItemPath) is { } itemToRemove)
+            {
+                group.Items.Remove(item: itemToRemove);
+            }
+        }
+    }
+
+    public void AddNewFolderItem(ItemGroupState item) =>
+        _itemsCollection.Add(item: item);
+
+    public void AddNewItem(ItemGroupState itemsContainer, ItemState item)
+    {
+        if (_itemsCollection.Items.FirstOrDefault(predicate: x => x.Name == itemsContainer.Name) is { } group)
+        {
+            if (group.Items.All(predicate: i => i.Name != item.Name))
+            {
+                group.Items.Add(item: item);
+            }
+        }
+    }
 
     private void LoadAllItems(IList<ItemGroupState> items)
     {
