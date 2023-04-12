@@ -1,11 +1,9 @@
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Behaviors;
@@ -13,15 +11,17 @@ namespace ProjectAvalonia.Behaviors;
 public class BindableFlyoutOpenBehavior : DisposingBehavior<Control>
 {
     public static readonly StyledProperty<bool> IsOpenProperty =
-        AvaloniaProperty.Register<BindableFlyoutOpenBehavior, bool>(nameof(IsOpen));
+        AvaloniaProperty.Register<BindableFlyoutOpenBehavior, bool>(name: nameof(IsOpen));
 
     public bool IsOpen
     {
-        get => GetValue(IsOpenProperty);
-        set => SetValue(IsOpenProperty, value);
+        get => GetValue(property: IsOpenProperty);
+        set => SetValue(property: IsOpenProperty, value: value);
     }
 
-    protected override void OnAttached(CompositeDisposable disposable)
+    protected override void OnAttached(
+        CompositeDisposable disposable
+    )
     {
         if (AssociatedObject is null)
         {
@@ -29,22 +29,22 @@ public class BindableFlyoutOpenBehavior : DisposingBehavior<Control>
         }
 
         Observable
-            .FromEventPattern(AssociatedObject, nameof(AssociatedObject.PointerEnter))
-            .Subscribe(_ => IsOpen = true)
-            .DisposeWith(disposable);
+            .FromEventPattern(target: AssociatedObject, eventName: nameof(AssociatedObject.PointerEnter))
+            .Subscribe(onNext: _ => IsOpen = true)
+            .DisposeWith(compositeDisposable: disposable);
 
-        this.WhenAnyValue(x => x.IsOpen)
-            .Subscribe(isOpen =>
+        this.WhenAnyValue(property1: x => x.IsOpen)
+            .Subscribe(onNext: isOpen =>
             {
                 if (isOpen)
                 {
-                    FlyoutBase.ShowAttachedFlyout(AssociatedObject);
+                    FlyoutBase.ShowAttachedFlyout(flyoutOwner: AssociatedObject);
                 }
                 else
                 {
-                    FlyoutBase.GetAttachedFlyout(AssociatedObject)?.Hide();
+                    FlyoutBase.GetAttachedFlyout(element: AssociatedObject)?.Hide();
                 }
             })
-            .DisposeWith(disposable);
+            .DisposeWith(compositeDisposable: disposable);
     }
 }

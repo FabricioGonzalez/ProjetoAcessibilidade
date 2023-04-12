@@ -1,146 +1,144 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<item>
-    <id />
-    <name>Circulação Horizontal</name>
-    <template_name>Circulação Horizontal</template_name>
-    <table>
-        <text_item>
-            <id />
-            <type>text</type>
-            <topic>Largura do Corredor:</topic>
-            <measurement_unit>m</measurement_unit>
-            <value />
-        </text_item>
-
-        <checkbox_items>
-            <id />
-            <type>checkbox</type>
-            <topic>Corredores</topic>
-            <checkboxes>
-                <checkbox_item>
-                    <id />
-                    <topic>A largura dos corredores é de no mínimo 1.20m?</topic>
-                    <options>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id />
-                    <topic>É antiderrapante, regular, estável e não trepidante?</topic>
-                    <options>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id />
-                    <topic>Possui forrações, tapetes e carpetes embutido no piso e nívelados,
+<?xml version="1.0" encoding="utf-8"?>
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <id>6fb00627-905d-43cc-b58b-8e69f567fe74</id>
+  <name>Circulação Horizontal</name>
+  <table>
+    <text_item>
+      <id>798ee82e-b61c-479b-8645-b78397bed090</id>
+      <topic>Largura do Corredor:</topic>
+      <type>text</type>
+      <value />
+      <measurement_unit>m</measurement_unit>
+    </text_item>
+    <checkbox_items>
+      <id>2c580889-a2cb-4fbf-b57e-04a9f1bd1b0c</id>
+      <topic>Corredores</topic>
+      <type>checkbox</type>
+      <checkboxes>
+        <checkbox_item>
+          <id>9636533b-5040-4f11-9f8e-f44ed207a509</id>
+          <topic>A largura dos corredores é de no mínimo 1.20m?</topic>
+          <options>
+            <option>
+              <id>bf84adcc-c4ce-4279-a76b-faad7ea8117c</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>1557daea-6d92-4455-a350-dfe177ac3d39</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>3d7bc4d1-f715-4f01-82d8-5b389b66a7e2</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>4c08b630-bdd1-4dc8-9b80-09de47184ca2</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>2303c509-e90a-40a5-a610-7dab0cfbe7f0</id>
+          <topic>É antiderrapante, regular, estável e não trepidante?</topic>
+          <options>
+            <option>
+              <id>8386b49e-473c-41fb-8366-36aa78ef13a7</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>c2fa896f-0555-43c5-9700-067e711b8381</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>bcff9f3e-f71f-4218-af3e-0946cbde24dd</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>0270a752-174b-49b4-bab4-2919cee308b6</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>2dc33a4e-2a8e-4805-a4e2-0dabac42cc70</id>
+          <topic>Possui forrações, tapetes e carpetes embutido no piso e nívelados,
                         firmemente fixados ao piso e com felpas de, no máximo, 6mm?</topic>
-                    <options>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id />
-                    <topic>Largura para transposição de obstáculo, mínimo 80cm?</topic>
-                    <options>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Adequado</value>
-                        </option>
-
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Inadequado</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-            </checkboxes>
-        </checkbox_items>
-        <observation_item>
-            <id />
-            <type>observation</type>
-            <observation />
-        </observation_item>
-        <image_items>
-            <type>image</type>
-            <images></images>
-        </image_items>
-    </table>
-    <law>
-        <law_item>
-            <id>NBR9050/15</id>
-            <content>
+          <options>
+            <option>
+              <id>4047c4d3-f4aa-4c0d-8141-e3b7d2eb973b</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>95377b7d-977b-48d9-aab5-c5651c5b4299</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>cb0856f9-4f6e-4a03-9740-f0c282e43f0a</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>1477818c-cbea-400e-975c-0e6fc462d830</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>2078a0e9-0ab8-4409-a747-d76a6289e869</id>
+          <topic>Largura para transposição de obstáculo, mínimo 80cm?</topic>
+          <options>
+            <option>
+              <id>7b988a4c-0d91-4836-88ad-552937590eb3</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>01010420-4d0a-4306-beff-4f7787e65061</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>89b6b10e-4093-4417-b9cb-5d0332a63b1a</id>
+              <value>Adequado</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>fda0a22a-cf39-49a8-8af9-b60664395ce8</id>
+              <value>Inadequado</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+      </checkboxes>
+    </checkbox_items>
+    <observation_item>
+      <id>ef45f54f-de0c-47a7-986f-8d8d22632bc2</id>
+      <topic xsi:nil="true" />
+      <type>observation</type>
+      <observation />
+    </observation_item>
+    <image_items>
+      <id>86c4f6dc-f19f-47a1-bf60-9e2825522608</id>
+      <topic xsi:nil="true" />
+      <type>image</type>
+      <images />
+    </image_items>
+  </table>
+  <law>
+    <law_item>
+      <id>NBR9050/15</id>
+      <content>
                 6.11.1 Corredores
                 Os corredores devem ser dimensionados de acordo com o fluxo
                 de pessoas, assegurando uma faixa livre de barreiras ou
@@ -169,6 +167,6 @@
                 corredor deve ser de 0,80m, conforme 4.3.2. Acima de 0,40m
                 de extensão, a largura mínima deve ser de 0,90m.
             </content>
-        </law_item>
-    </law>
+    </law_item>
+  </law>
 </item>

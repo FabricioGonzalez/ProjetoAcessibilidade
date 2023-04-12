@@ -1,7 +1,11 @@
 ﻿namespace QuestPDFReport.Models;
+
 public class CheckboxModel
 {
-    public CheckboxModel(bool isChecked, string value)
+    public CheckboxModel(
+        bool isChecked
+        , string value
+    )
     {
         IsChecked = isChecked;
         Value = value;
@@ -9,10 +13,13 @@ public class CheckboxModel
 
     public bool IsChecked
     {
-        get; set;
+        get;
+        set;
     }
+
     public string Value
     {
-        get; set;
+        get;
+        set;
     }
 }

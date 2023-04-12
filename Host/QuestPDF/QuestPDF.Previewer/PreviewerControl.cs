@@ -4,115 +4,138 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 
-namespace QuestPDF.Previewer
+namespace QuestPDF.Previewer;
+
+internal class PreviewerControl : Control
 {
-    class PreviewerControl : Control
+    public static readonly StyledProperty<ObservableCollection<PreviewPage>> PagesProperty =
+        AvaloniaProperty.Register<PreviewerControl, ObservableCollection<PreviewPage>>(name: nameof(Pages));
+
+    public static readonly StyledProperty<float> CurrentScrollProperty =
+        AvaloniaProperty.Register<PreviewerControl, float>(name: nameof(CurrentScroll));
+
+    public static readonly StyledProperty<float> ScrollViewportSizeProperty =
+        AvaloniaProperty.Register<PreviewerControl, float>(name: nameof(ScrollViewportSize));
+
+    public PreviewerControl()
     {
-        private InteractiveCanvas InteractiveCanvas { get; set; } = new ();
-        
-        public static readonly StyledProperty<ObservableCollection<PreviewPage>> PagesProperty =
-            AvaloniaProperty.Register<PreviewerControl, ObservableCollection<PreviewPage>>(nameof(Pages));
-        
-        public ObservableCollection<PreviewPage>? Pages
+        PagesProperty.Changed.Subscribe(onNext: x =>
         {
-            get => GetValue(PagesProperty);
-            set => SetValue(PagesProperty, value);
+            InteractiveCanvas.Pages = x.NewValue.Value;
+            InvalidateVisual();
+        });
+
+        CurrentScrollProperty.Changed.Subscribe(onNext: x =>
+        {
+            InteractiveCanvas.ScrollPercentY = x.NewValue.Value;
+            InvalidateVisual();
+        });
+
+        ClipToBounds = true;
+    }
+
+    private InteractiveCanvas InteractiveCanvas
+    {
+        get;
+    } = new();
+
+    public ObservableCollection<PreviewPage>? Pages
+    {
+        get => GetValue(property: PagesProperty);
+        set => SetValue(property: PagesProperty, value: value);
+    }
+
+    public float CurrentScroll
+    {
+        get => GetValue(property: CurrentScrollProperty);
+        set => SetValue(property: CurrentScrollProperty, value: value);
+    }
+
+    public float ScrollViewportSize
+    {
+        get => GetValue(property: ScrollViewportSizeProperty);
+        set => SetValue(property: ScrollViewportSizeProperty, value: value);
+    }
+
+    private bool IsMousePressed
+    {
+        get;
+        set;
+    }
+
+    private Vector MousePosition
+    {
+        get;
+        set;
+    }
+
+    protected override void OnPointerWheelChanged(
+        PointerWheelEventArgs e
+    )
+    {
+        base.OnPointerWheelChanged(e: e);
+
+        if ((e.KeyModifiers & KeyModifiers.Control) != 0)
+        {
+            var scaleFactor = 1 + e.Delta.Y / 10f;
+            var point = new Point(x: Bounds.Center.X, y: Bounds.Top) - e.GetPosition(relativeTo: this);
+
+            InteractiveCanvas.ZoomToPoint(x: (float)point.X, y: -(float)point.Y, factor: (float)scaleFactor);
         }
 
-        public static readonly StyledProperty<float> CurrentScrollProperty = AvaloniaProperty.Register<PreviewerControl, float>(nameof(CurrentScroll));
-        
-        public float CurrentScroll
+        if (e.KeyModifiers == KeyModifiers.None)
         {
-            get => GetValue(CurrentScrollProperty);
-            set => SetValue(CurrentScrollProperty, value);
+            var translation = (float)e.Delta.Y * 25;
+            InteractiveCanvas.TranslateWithCurrentScale(x: 0, y: -translation);
         }
-        
-        public static readonly StyledProperty<float> ScrollViewportSizeProperty = AvaloniaProperty.Register<PreviewerControl, float>(nameof(ScrollViewportSize));
-        
-        public float ScrollViewportSize
-        {
-            get => GetValue(ScrollViewportSizeProperty);
-            set => SetValue(ScrollViewportSizeProperty, value);
-        }
-        
-        public PreviewerControl()
-        {
-            PagesProperty.Changed.Subscribe(x =>
-            {
-                InteractiveCanvas.Pages = x.NewValue.Value;
-                InvalidateVisual();
-            });
 
-            CurrentScrollProperty.Changed.Subscribe(x =>
-            {
-                InteractiveCanvas.ScrollPercentY = x.NewValue.Value;
-                InvalidateVisual();
-            });
+        InvalidateVisual();
+    }
 
-            ClipToBounds = true;
-        }
-        
-        protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
+    protected override void OnPointerMoved(
+        PointerEventArgs e
+    )
+    {
+        base.OnPointerMoved(e: e);
+
+        if (IsMousePressed)
         {
-            base.OnPointerWheelChanged(e);
+            var currentPosition = e.GetPosition(relativeTo: this);
+            var translation = currentPosition - MousePosition;
+            InteractiveCanvas.TranslateWithCurrentScale(x: (float)translation.X, y: -(float)translation.Y);
 
-            if ((e.KeyModifiers & KeyModifiers.Control) != 0)
-            {
-                var scaleFactor = 1 + e.Delta.Y / 10f;
-                var point = new Point(Bounds.Center.X, Bounds.Top) - e.GetPosition(this);
-                
-                InteractiveCanvas.ZoomToPoint((float)point.X, -(float)point.Y, (float)scaleFactor);
-            }
-                
-            if (e.KeyModifiers == KeyModifiers.None)
-            {
-                var translation = (float)e.Delta.Y * 25;
-                InteractiveCanvas.TranslateWithCurrentScale(0, -translation);
-            }
-                
             InvalidateVisual();
         }
 
-        private bool IsMousePressed { get; set; }
-        private Vector MousePosition { get; set; }
-        
-        protected override void OnPointerMoved(PointerEventArgs e)
-        {
-            base.OnPointerMoved(e);
+        MousePosition = e.GetPosition(relativeTo: this);
+    }
 
-            if (IsMousePressed)
-            {
-                var currentPosition = e.GetPosition(this);
-                var translation = currentPosition - MousePosition;
-                InteractiveCanvas.TranslateWithCurrentScale((float)translation.X, -(float)translation.Y);
-                
-                InvalidateVisual();
-            }
+    protected override void OnPointerPressed(
+        PointerPressedEventArgs e
+    )
+    {
+        base.OnPointerPressed(e: e);
+        IsMousePressed = true;
+    }
 
-            MousePosition = e.GetPosition(this);
-        }
-        
-        protected override void OnPointerPressed(PointerPressedEventArgs e)
-        {
-            base.OnPointerPressed(e);
-            IsMousePressed = true;
-        }
+    protected override void OnPointerReleased(
+        PointerReleasedEventArgs e
+    )
+    {
+        base.OnPointerReleased(e: e);
+        IsMousePressed = false;
+    }
 
-        protected override void OnPointerReleased(PointerReleasedEventArgs e)
-        {
-            base.OnPointerReleased(e);
-            IsMousePressed = false;
-        }
+    public override void Render(
+        DrawingContext context
+    )
+    {
+        CurrentScroll = InteractiveCanvas.ScrollPercentY;
+        ScrollViewportSize = InteractiveCanvas.ScrollViewportSizeY;
 
-        public override void Render(DrawingContext context)
-        {
-            CurrentScroll = InteractiveCanvas.ScrollPercentY;
-            ScrollViewportSize = InteractiveCanvas.ScrollViewportSizeY;
-    
-            InteractiveCanvas.Bounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
+        InteractiveCanvas.Bounds = new Rect(x: 0, y: 0, width: Bounds.Width, height: Bounds.Height);
 
-            context.Custom(InteractiveCanvas);
-            base.Render(context);
-        }
+        context.Custom(custom: InteractiveCanvas);
+        base.Render(context: context);
     }
 }

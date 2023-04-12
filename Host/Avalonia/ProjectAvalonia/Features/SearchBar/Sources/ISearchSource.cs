@@ -1,7 +1,5 @@
 using System;
-
 using DynamicData;
-
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
 

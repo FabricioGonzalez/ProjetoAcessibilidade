@@ -5,11 +5,12 @@ namespace ProjectAvalonia.Common.Controls;
 
 public class CopyableItem : ContentControl
 {
-	public static readonly StyledProperty<string?> ContentToCopyProperty = AvaloniaProperty.Register<CopyableItem, string?>(nameof(ContentToCopy));
+    public static readonly StyledProperty<string?> ContentToCopyProperty =
+        AvaloniaProperty.Register<CopyableItem, string?>(name: nameof(ContentToCopy));
 
-	public string? ContentToCopy
-	{
-		get => GetValue(ContentToCopyProperty);
-		set => SetValue(ContentToCopyProperty, value);
-	}
+    public string? ContentToCopy
+    {
+        get => GetValue(property: ContentToCopyProperty);
+        set => SetValue(property: ContentToCopyProperty, value: value);
+    }
 }

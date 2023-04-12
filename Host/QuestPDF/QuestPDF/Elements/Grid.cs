@@ -7,70 +7,120 @@ namespace QuestPDF.Elements
 {
     public class GridElement
     {
-        public int Columns { get; set; } = 1;
-        public Element? Child { get; set; }
+        public int Columns
+        {
+            get;
+            set;
+        } = 1;
+
+        public Element? Child
+        {
+            get;
+            set;
+        }
     }
-    
+
     public class Grid : IComponent
     {
         public const int DefaultColumnsCount = 12;
-        
-        public List<GridElement> Children { get; } = new List<GridElement>();
-        public Queue<GridElement> ChildrenQueue { get; set; } = new Queue<GridElement>();
-        public int ColumnsCount { get; set; } = DefaultColumnsCount;
 
-        public HorizontalAlignment Alignment { get; set; } = HorizontalAlignment.Left;
-        public float VerticalSpacing { get; set; } = 0;
-        public float HorizontalSpacing { get; set; } = 0;
-        
-        public void Compose(IContainer container)
+        public List<GridElement> Children
         {
-            ChildrenQueue = new Queue<GridElement>(Children);
-            
-            container.Column(column =>
+            get;
+        } = new();
+
+        public Queue<GridElement> ChildrenQueue
+        {
+            get;
+            set;
+        } = new();
+
+        public int ColumnsCount
+        {
+            get;
+            set;
+        } = DefaultColumnsCount;
+
+        public HorizontalAlignment Alignment
+        {
+            get;
+            set;
+        } = HorizontalAlignment.Left;
+
+        public float VerticalSpacing
+        {
+            get;
+            set;
+        } = 0;
+
+        public float HorizontalSpacing
+        {
+            get;
+            set;
+        } = 0;
+
+        public void Compose(
+            IContainer container
+        )
+        {
+            ChildrenQueue = new Queue<GridElement>(collection: Children);
+
+            container.Column(handler: column =>
             {
-                column.Spacing(VerticalSpacing);
-                
+                column.Spacing(value: VerticalSpacing);
+
                 while (ChildrenQueue.Any())
-                    column.Item().Row(BuildRow);
+                {
+                    column.Item().Row(handler: BuildRow);
+                }
             });
         }
-        
-        IEnumerable<GridElement> GetRowElements()
+
+        private IEnumerable<GridElement> GetRowElements()
         {
             var rowLength = 0;
-                
+
             while (ChildrenQueue.Any())
             {
                 var element = ChildrenQueue.Peek();
-                            
+
                 if (rowLength + element.Columns > ColumnsCount)
+                {
                     break;
+                }
 
                 rowLength += element.Columns;
                 yield return ChildrenQueue.Dequeue();
             }
         }
-            
-        void BuildRow(RowDescriptor row)
+
+        private void BuildRow(
+            RowDescriptor row
+        )
         {
-            row.Spacing(HorizontalSpacing);
-                
+            row.Spacing(value: HorizontalSpacing);
+
             var elements = GetRowElements().ToList();
-            var columnsWidth = elements.Sum(x => x.Columns);
+            var columnsWidth = elements.Sum(selector: x => x.Columns);
             var emptySpace = ColumnsCount - columnsWidth;
             var hasEmptySpace = emptySpace >= Size.Epsilon;
 
             if (Alignment == HorizontalAlignment.Center)
+            {
                 emptySpace /= 2;
-            
+            }
+
             if (hasEmptySpace && Alignment != HorizontalAlignment.Left)
-                row.RelativeItem(emptySpace);
-                
-            elements.ForEach(x => row.RelativeItem(x.Columns).Element(x.Child));
+            {
+                row.RelativeItem(size: emptySpace);
+            }
+
+            elements.ForEach(action: x => row.RelativeItem(size: x.Columns).Element(child: x.Child));
 
             if (hasEmptySpace && Alignment != HorizontalAlignment.Right)
-                row.RelativeItem(emptySpace);
+            {
+                row.RelativeItem(size: emptySpace);
+            }
         }
     }
 }

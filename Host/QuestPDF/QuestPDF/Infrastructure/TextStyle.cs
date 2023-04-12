@@ -1,53 +1,109 @@
-﻿using System;
-using QuestPDF.Helpers;
+﻿using QuestPDF.Helpers;
 
 namespace QuestPDF.Infrastructure
 {
     public class TextStyle
     {
-        public bool HasGlobalStyleApplied { get; private set; }
-        
-        public string? Color { get; set; }
-        public string? BackgroundColor { get; set; }
-        public string? FontFamily { get; set; }
-        public float? Size { get; set; }
-        public float? LineHeight { get; set; }
-        public FontWeight? FontWeight { get; set; }
-        public bool? IsItalic { get; set; }
-        public bool? HasStrikethrough { get; set; }
-        public bool? HasUnderline { get; set; }
-
-        public object PaintKey { get; private set; }
-        public object FontMetricsKey { get; private set; }
-        
-        public static TextStyle LibraryDefault => new TextStyle
+        public bool HasGlobalStyleApplied
         {
-            Color = Colors.Black,
-            BackgroundColor = Colors.Transparent,
-            FontFamily = Fonts.Calibri,
-            Size = 12,
-            LineHeight = 1.2f,
-            FontWeight = Infrastructure.FontWeight.Normal,
-            IsItalic = false,
-            HasStrikethrough = false,
-            HasUnderline = false
+            get;
+            private set;
+        }
+
+        public string? Color
+        {
+            get;
+            set;
+        }
+
+        public string? BackgroundColor
+        {
+            get;
+            set;
+        }
+
+        public string? FontFamily
+        {
+            get;
+            set;
+        }
+
+        public float? Size
+        {
+            get;
+            set;
+        }
+
+        public float? LineHeight
+        {
+            get;
+            set;
+        }
+
+        public FontWeight? FontWeight
+        {
+            get;
+            set;
+        }
+
+        public bool? IsItalic
+        {
+            get;
+            set;
+        }
+
+        public bool? HasStrikethrough
+        {
+            get;
+            set;
+        }
+
+        public bool? HasUnderline
+        {
+            get;
+            set;
+        }
+
+        public object PaintKey
+        {
+            get;
+            private set;
+        }
+
+        public object FontMetricsKey
+        {
+            get;
+            private set;
+        }
+
+        public static TextStyle LibraryDefault => new()
+        {
+            Color = Colors.Black, BackgroundColor = Colors.Transparent, FontFamily = Fonts.Calibri, Size = 12
+            , LineHeight = 1.2f, FontWeight = Infrastructure.FontWeight.Normal, IsItalic = false
+            , HasStrikethrough = false, HasUnderline = false
         };
 
-        public static TextStyle Default => new TextStyle();
-        
-        public void ApplyGlobalStyle(TextStyle globalStyle)
+        public static TextStyle Default => new();
+
+        public void ApplyGlobalStyle(
+            TextStyle globalStyle
+        )
         {
             if (HasGlobalStyleApplied)
+            {
                 return;
-            
+            }
+
             HasGlobalStyleApplied = true;
 
-            ApplyParentStyle(globalStyle);
+            ApplyParentStyle(parentStyle: globalStyle);
             PaintKey ??= (FontFamily, Size, FontWeight, IsItalic, Color);
             FontMetricsKey ??= (FontFamily, Size, FontWeight, IsItalic);
         }
-        
-        public void ApplyParentStyle(TextStyle parentStyle)
+
+        public void ApplyParentStyle(
+            TextStyle parentStyle
+        )
         {
             Color ??= parentStyle.Color;
             BackgroundColor ??= parentStyle.BackgroundColor;
@@ -60,7 +116,9 @@ namespace QuestPDF.Infrastructure
             HasUnderline ??= parentStyle.HasUnderline;
         }
 
-        public void OverrideStyle(TextStyle parentStyle)
+        public void OverrideStyle(
+            TextStyle parentStyle
+        )
         {
             Color = parentStyle.Color ?? Color;
             BackgroundColor = parentStyle.BackgroundColor ?? BackgroundColor;
@@ -72,7 +130,7 @@ namespace QuestPDF.Infrastructure
             HasStrikethrough = parentStyle.HasStrikethrough ?? HasStrikethrough;
             HasUnderline = parentStyle.HasUnderline ?? HasUnderline;
         }
-        
+
         public TextStyle Clone()
         {
             var clone = (TextStyle)MemberwiseClone();

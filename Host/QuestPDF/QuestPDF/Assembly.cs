@@ -5,3 +5,4 @@
 [assembly: publicsVisibleTo("QuestPDF.UnitTests")]
 [assembly: publicsVisibleTo("QuestPDF.Examples")]
 [assembly: publicsVisibleTo("QuestPDF.ReportSample")]*/
+

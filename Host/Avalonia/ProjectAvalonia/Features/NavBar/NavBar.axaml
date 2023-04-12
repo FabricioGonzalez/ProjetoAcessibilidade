@@ -79,7 +79,8 @@
         </Style>
 
         <Style x:CompileBindings="False" Selector="c|NavBarItem:selected PathIcon">
-            <Setter Property="Data" Value="{Binding IconNameFocused, Converter={x:Static conv:NavBarIconConverter.Instance}}" />
+            <Setter Property="Data"
+                    Value="{Binding IconNameFocused, Converter={x:Static conv:NavBarIconConverter.Instance}}" />
         </Style>
 
         <Style Selector="c|NavBarItem Ellipse">

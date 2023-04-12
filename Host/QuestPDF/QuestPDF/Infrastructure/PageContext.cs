@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace QuestPDF.Infrastructure
@@ -7,39 +6,50 @@ namespace QuestPDF.Infrastructure
     public class PageContext : IPageContext
     {
         public const string DocumentLocation = "document";
-        
-        private List<DocumentLocation> Locations { get; } = new();
-        public int CurrentPage { get; private set; }
 
-        public void SetPageNumber(int number)
+        private List<DocumentLocation> Locations
         {
-            CurrentPage = number;
-            SetSectionPage(DocumentLocation);
+            get;
+        } = new();
+
+        public int CurrentPage
+        {
+            get;
+            private set;
         }
-        
-        public void SetSectionPage(string name)
+
+        public void SetSectionPage(
+            string name
+        )
         {
-            var location = GetLocation(name);
+            var location = GetLocation(name: name);
 
             if (location == null)
             {
                 location = new DocumentLocation
                 {
-                    Name = name,
-                    PageStart = CurrentPage,
-                    PageEnd = CurrentPage
+                    Name = name, PageStart = CurrentPage, PageEnd = CurrentPage
                 };
-                
-                Locations.Add(location);
+
+                Locations.Add(item: location);
             }
 
             if (location.PageEnd < CurrentPage)
+            {
                 location.PageEnd = CurrentPage;
+            }
         }
 
-        public DocumentLocation? GetLocation(string name)
+        public DocumentLocation? GetLocation(
+            string name
+        ) => Locations.FirstOrDefault(predicate: x => x.Name == name);
+
+        public void SetPageNumber(
+            int number
+        )
         {
-            return Locations.FirstOrDefault(x => x.Name == name);
+            CurrentPage = number;
+            SetSectionPage(name: DocumentLocation);
         }
     }
 }

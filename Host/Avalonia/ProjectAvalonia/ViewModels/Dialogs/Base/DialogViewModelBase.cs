@@ -3,7 +3,7 @@ using ProjectAvalonia.Features.NavBar;
 namespace ProjectAvalonia.ViewModels.Dialogs.Base;
 
 /// <summary>
-/// CommonBase class.
+///     CommonBase class.
 /// </summary>
 public abstract partial class DialogViewModelBase : NavBarItemViewModel
 {

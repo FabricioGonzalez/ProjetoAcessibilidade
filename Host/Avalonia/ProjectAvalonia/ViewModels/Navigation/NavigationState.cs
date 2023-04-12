@@ -3,10 +3,11 @@ namespace ProjectAvalonia.ViewModels.Navigation;
 public class NavigationState
 {
     private NavigationState(
-        INavigationStack<RoutableViewModel> homeScreenNavigation,
-        INavigationStack<RoutableViewModel> dialogScreenNavigation,
-        INavigationStack<RoutableViewModel> fullScreenNavigation,
-        INavigationStack<RoutableViewModel> compactDialogScreenNavigation)
+        INavigationStack<RoutableViewModel> homeScreenNavigation
+        , INavigationStack<RoutableViewModel> dialogScreenNavigation
+        , INavigationStack<RoutableViewModel> fullScreenNavigation
+        , INavigationStack<RoutableViewModel> compactDialogScreenNavigation
+    )
     {
         HomeScreenNavigation = homeScreenNavigation;
         DialogScreenNavigation = dialogScreenNavigation;
@@ -14,7 +15,11 @@ public class NavigationState
         CompactDialogScreenNavigation = compactDialogScreenNavigation;
     }
 
-    public static NavigationState Instance { get; private set; } = null!;
+    public static NavigationState Instance
+    {
+        get;
+        private set;
+    } = null!;
 
     public INavigationStack<RoutableViewModel> HomeScreenNavigation
     {
@@ -37,15 +42,14 @@ public class NavigationState
     }
 
     public static void Register(
-        INavigationStack<RoutableViewModel> homeScreenNavigation,
-        INavigationStack<RoutableViewModel> dialogScreenNavigation,
-        INavigationStack<RoutableViewModel> fullScreenNavigation,
-        INavigationStack<RoutableViewModel> compactDialogScreenNavigation)
-    {
+        INavigationStack<RoutableViewModel> homeScreenNavigation
+        , INavigationStack<RoutableViewModel> dialogScreenNavigation
+        , INavigationStack<RoutableViewModel> fullScreenNavigation
+        , INavigationStack<RoutableViewModel> compactDialogScreenNavigation
+    ) =>
         Instance = new NavigationState(
-            homeScreenNavigation,
-            dialogScreenNavigation,
-            fullScreenNavigation,
-            compactDialogScreenNavigation);
-    }
+            homeScreenNavigation: homeScreenNavigation,
+            dialogScreenNavigation: dialogScreenNavigation,
+            fullScreenNavigation: fullScreenNavigation,
+            compactDialogScreenNavigation: compactDialogScreenNavigation);
 }

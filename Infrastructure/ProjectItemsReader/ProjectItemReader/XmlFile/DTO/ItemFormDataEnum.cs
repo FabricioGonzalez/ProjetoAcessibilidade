@@ -5,16 +5,16 @@ namespace ProjectItemReader.XmlFile.DTO;
 public enum ItemFormDataEnum
 {
     [XmlEnum(Name = "text")]
-    Text,
+    Text
 
-    [XmlEnum(Name = "checkbox")]
-    Checkbox,
+    , [XmlEnum(Name = "checkbox")]
+    Checkbox
 
-    [XmlEnum(Name = "image")]
-    Image,
+    , [XmlEnum(Name = "image")]
+    Image
 
-    [XmlEnum(Name = "observation")]
-    Observation,
+    , [XmlEnum(Name = "observation")]
+    Observation
 
-    Empty
+    , Empty
 }

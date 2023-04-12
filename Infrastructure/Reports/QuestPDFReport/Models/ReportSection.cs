@@ -1,33 +1,40 @@
 ﻿namespace QuestPDFReport.Models;
+
 public class ReportSection : IReportSection
 {
-    public string Title
-    {
-        get; set;
-    }
     public List<ReportSectionElement> Parts
     {
-        get; set;
+        get;
+        set;
     } = new();
+
+    public string Title
+    {
+        get;
+        set;
+    }
 }
 
 public class ReportSectionGroup : IReportSection
 {
-    public string Title
-    {
-        get; set;
-    }
     public List<ReportSection> Parts
     {
-        get; set;
+        get;
+        set;
     } = new();
+
+    public string Title
+    {
+        get;
+        set;
+    }
 }
 
 public interface IReportSection
 {
     public string Title
     {
-        get; set;
+        get;
+        set;
     }
 }
-

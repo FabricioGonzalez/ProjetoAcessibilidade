@@ -1,87 +1,99 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
+using Windows.UI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-
-using Windows.UI;
+using WinRT.Interop;
 
 namespace ProjectWinUI.Src.Helpers;
+
 public class TitleBarHelper
 {
     private const int WAINACTIVE = 0x00;
     private const int WAACTIVE = 0x01;
     private const int WMACTIVATE = 0x0006;
 
-    [DllImport("user32.dll")]
+    [DllImport(dllName: "user32.dll")]
     private static extern IntPtr GetActiveWindow();
 
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, IntPtr lParam);
+    [DllImport(dllName: "user32.dll", CharSet = CharSet.Auto)]
+    private static extern IntPtr SendMessage(
+        IntPtr hWnd
+        , int msg
+        , int wParam
+        , IntPtr lParam
+    );
 
-    public static void UpdateTitleBar(ElementTheme theme)
+    public static void UpdateTitleBar(
+        ElementTheme theme
+    )
     {
         if (WinApp.MainWindow.ExtendsContentIntoTitleBar)
         {
             if (theme != ElementTheme.Default)
             {
-                Application.Current.Resources["WindowCaptionForeground"] = theme switch
+                Application.Current.Resources[key: "WindowCaptionForeground"] = theme switch
                 {
-                    ElementTheme.Dark => new SolidColorBrush(Colors.White),
-                    ElementTheme.Light => new SolidColorBrush(Colors.Black),
-                    _ => new SolidColorBrush(Colors.Transparent)
+                    ElementTheme.Dark => new SolidColorBrush(color: Colors.White)
+                    , ElementTheme.Light => new SolidColorBrush(color: Colors.Black)
+                    , _ => new SolidColorBrush(color: Colors.Transparent)
                 };
 
-                Application.Current.Resources["WindowCaptionForegroundDisabled"] = theme switch
+                Application.Current.Resources[key: "WindowCaptionForegroundDisabled"] = theme switch
                 {
-                    ElementTheme.Dark => new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF)),
-                    ElementTheme.Light => new SolidColorBrush(Color.FromArgb(0x66, 0x00, 0x00, 0x00)),
-                    _ => new SolidColorBrush(Colors.Transparent)
+                    ElementTheme.Dark => new SolidColorBrush(color: Color.FromArgb(a: 0x66, r: 0xFF, g: 0xFF, b: 0xFF))
+                    , ElementTheme.Light => new SolidColorBrush(color: Color.FromArgb(a: 0x66, r: 0x00, g: 0x00
+                        , b: 0x00))
+                    , _ => new SolidColorBrush(color: Colors.Transparent)
                 };
 
-                Application.Current.Resources["WindowCaptionButtonBackgroundPointerOver"] = theme switch
+                Application.Current.Resources[key: "WindowCaptionButtonBackgroundPointerOver"] = theme switch
                 {
-                    ElementTheme.Dark => new SolidColorBrush(Color.FromArgb(0x33, 0xFF, 0xFF, 0xFF)),
-                    ElementTheme.Light => new SolidColorBrush(Color.FromArgb(0x33, 0x00, 0x00, 0x00)),
-                    _ => new SolidColorBrush(Colors.Transparent)
+                    ElementTheme.Dark => new SolidColorBrush(color: Color.FromArgb(a: 0x33, r: 0xFF, g: 0xFF, b: 0xFF))
+                    , ElementTheme.Light => new SolidColorBrush(color: Color.FromArgb(a: 0x33, r: 0x00, g: 0x00
+                        , b: 0x00))
+                    , _ => new SolidColorBrush(color: Colors.Transparent)
                 };
 
-                Application.Current.Resources["WindowCaptionButtonBackgroundPressed"] = theme switch
+                Application.Current.Resources[key: "WindowCaptionButtonBackgroundPressed"] = theme switch
                 {
-                    ElementTheme.Dark => new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF)),
-                    ElementTheme.Light => new SolidColorBrush(Color.FromArgb(0x66, 0x00, 0x00, 0x00)),
-                    _ => new SolidColorBrush(Colors.Transparent)
+                    ElementTheme.Dark => new SolidColorBrush(color: Color.FromArgb(a: 0x66, r: 0xFF, g: 0xFF, b: 0xFF))
+                    , ElementTheme.Light => new SolidColorBrush(color: Color.FromArgb(a: 0x66, r: 0x00, g: 0x00
+                        , b: 0x00))
+                    , _ => new SolidColorBrush(color: Colors.Transparent)
                 };
 
-                Application.Current.Resources["WindowCaptionButtonStrokePointerOver"] = theme switch
+                Application.Current.Resources[key: "WindowCaptionButtonStrokePointerOver"] = theme switch
                 {
-                    ElementTheme.Dark => new SolidColorBrush(Colors.White),
-                    ElementTheme.Light => new SolidColorBrush(Colors.Black),
-                    _ => new SolidColorBrush(Colors.Transparent)
+                    ElementTheme.Dark => new SolidColorBrush(color: Colors.White)
+                    , ElementTheme.Light => new SolidColorBrush(color: Colors.Black)
+                    , _ => new SolidColorBrush(color: Colors.Transparent)
                 };
 
-                Application.Current.Resources["WindowCaptionButtonStrokePressed"] = theme switch
+                Application.Current.Resources[key: "WindowCaptionButtonStrokePressed"] = theme switch
                 {
-                    ElementTheme.Dark => new SolidColorBrush(Colors.White),
-                    ElementTheme.Light => new SolidColorBrush(Colors.Black),
-                    _ => new SolidColorBrush(Colors.Transparent)
+                    ElementTheme.Dark => new SolidColorBrush(color: Colors.White)
+                    , ElementTheme.Light => new SolidColorBrush(color: Colors.Black)
+                    , _ => new SolidColorBrush(color: Colors.Transparent)
                 };
             }
 
-            Application.Current.Resources["WindowCaptionBackground"] = new SolidColorBrush(Colors.Transparent);
-            Application.Current.Resources["WindowCaptionBackgroundDisabled"] = new SolidColorBrush(Colors.Transparent);
+            Application.Current.Resources[key: "WindowCaptionBackground"] =
+                new SolidColorBrush(color: Colors.Transparent);
+            Application.Current.Resources[key: "WindowCaptionBackgroundDisabled"] =
+                new SolidColorBrush(color: Colors.Transparent);
 
-            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(WinApp.MainWindow);
+            var hwnd = WindowNative.GetWindowHandle(target: WinApp.MainWindow);
             if (hwnd == GetActiveWindow())
             {
-                SendMessage(hwnd, WMACTIVATE, WAINACTIVE, IntPtr.Zero);
-                SendMessage(hwnd, WMACTIVATE, WAACTIVE, IntPtr.Zero);
+                SendMessage(hWnd: hwnd, msg: WMACTIVATE, wParam: WAINACTIVE, lParam: IntPtr.Zero);
+                SendMessage(hWnd: hwnd, msg: WMACTIVATE, wParam: WAACTIVE, lParam: IntPtr.Zero);
             }
             else
             {
-                SendMessage(hwnd, WMACTIVATE, WAACTIVE, IntPtr.Zero);
-                SendMessage(hwnd, WMACTIVATE, WAINACTIVE, IntPtr.Zero);
+                SendMessage(hWnd: hwnd, msg: WMACTIVATE, wParam: WAACTIVE, lParam: IntPtr.Zero);
+                SendMessage(hWnd: hwnd, msg: WMACTIVATE, wParam: WAINACTIVE, lParam: IntPtr.Zero);
             }
         }
     }

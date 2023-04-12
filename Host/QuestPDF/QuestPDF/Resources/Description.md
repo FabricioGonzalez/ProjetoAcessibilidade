@@ -7,13 +7,19 @@
 
 QuestPDF is an open-source .NET library for PDF documents generation.
 
-It offers a layouting engine designed with a full paging support in mind. The document consists of many simple elements (e.g. border, background, image, text, padding, table, grid etc.) that are composed together to create more complex structures. This way, as a developer, you can understand the behavior of every element and use them with full confidence. Additionally, the document and all its elements support paging functionality. For example, an element can be moved to the next page (if there is not enough space) or even be split between pages like table's rows.
+It offers a layouting engine designed with a full paging support in mind. The document consists of many simple
+elements (e.g. border, background, image, text, padding, table, grid etc.) that are composed together to create more
+complex structures. This way, as a developer, you can understand the behavior of every element and use them with full
+confidence. Additionally, the document and all its elements support paging functionality. For example, an element can be
+moved to the next page (if there is not enough space) or even be split between pages like table's rows.
 
-Unlike other libraries, it does not rely on the HTML-to-PDF conversion which in many cases is not reliable. Instead, it implements its own layouting engine that is optimized to cover all paging-related requirements.
+Unlike other libraries, it does not rely on the HTML-to-PDF conversion which in many cases is not reliable. Instead, it
+implements its own layouting engine that is optimized to cover all paging-related requirements.
 
 ## Installation
 
-The library is available as a nuget package. You can install it as any other nuget package from your IDE, try to search by `QuestPDF`. You can find package details [on this webpage](https://www.nuget.org/packages/QuestPDF/).
+The library is available as a nuget package. You can install it as any other nuget package from your IDE, try to search
+by `QuestPDF`. You can find package details [on this webpage](https://www.nuget.org/packages/QuestPDF/).
 
 ```xml
 // Package Manager
@@ -31,17 +37,16 @@ dotnet add package QuestPDF
 [![Getting started tutorial]( https://img.shields.io/badge/%F0%9F%9A%80%20read-getting%20started-blue)](https://www.questpdf.com/documentation/getting-started.html)
 A short and easy to follow tutorial showing how to design an invoice document under 200 lines of code.
 
-
 [![API reference](https://img.shields.io/badge/%F0%9F%93%96%20read-API%20reference-blue)](https://www.questpdf.com/documentation/api-reference.html)
 A detailed description of behavior of all available components and how to use them with C# Fluent API.
-
 
 [![Patterns and Practices](https://img.shields.io/badge/%F0%9F%94%8D%20read-patterns%20and%20practices-blue)](https://www.questpdf.com/documentation/patterns-and-practices.html#document-metadata)
 Everything that may help you designing great reports and create reusable code that is easy to maintain.
 
 ## Simplicity is the key
 
-How easy it is to start and prototype with QuestPDF? Really easy thanks to its minimal API! Please analyse the code below:
+How easy it is to start and prototype with QuestPDF? Really easy thanks to its minimal API! Please analyse the code
+below:
 
 ```#
 using QuestPDF.Fluent;
@@ -90,6 +95,9 @@ And compare it to the produced PDF file:
 
 ## Are you ready for more?
 
-The Fluent API of QuestPDF scales really well. It is easy to create and maintain even most complex documents. Read [the Getting started tutorial](https://www.questpdf.com/documentation/getting-started.html) to learn QuestPDF basics and implement an invoice under 200 lines of code. You can also investigate and play with the code from [the example repository](https://github.com/QuestPDF/example-invoice).
+The Fluent API of QuestPDF scales really well. It is easy to create and maintain even most complex documents.
+Read [the Getting started tutorial](https://www.questpdf.com/documentation/getting-started.html) to learn QuestPDF
+basics and implement an invoice under 200 lines of code. You can also investigate and play with the code
+from [the example repository](https://github.com/QuestPDF/example-invoice).
 
 ![invoice](https://raw.githubusercontent.com/QuestPDF/QuestPDF-Documentation/main/images/invoice-small.png)

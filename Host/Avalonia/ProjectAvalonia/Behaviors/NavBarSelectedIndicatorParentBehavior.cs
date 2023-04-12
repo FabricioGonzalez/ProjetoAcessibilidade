@@ -1,8 +1,6 @@
 using System.Reactive.Disposables;
-
 using Avalonia;
 using Avalonia.Controls;
-
 using ProjectAvalonia.Common.Models;
 
 namespace ProjectAvalonia.Behaviors;
@@ -12,19 +10,20 @@ public class NavBarSelectedIndicatorParentBehavior : AttachedToVisualTreeBehavio
     public static readonly AttachedProperty<NavBarSelectedIndicatorState> ParentStateProperty =
         AvaloniaProperty
             .RegisterAttached<NavBarSelectedIndicatorParentBehavior, Control, NavBarSelectedIndicatorState>(
-                "ParentState", inherits: true);
+                name: "ParentState", inherits: true);
 
-    public static NavBarSelectedIndicatorState? GetParentState(Control element)
-    {
-        return element.GetValue(ParentStateProperty);
-    }
+    public static NavBarSelectedIndicatorState? GetParentState(
+        Control element
+    ) => element.GetValue(property: ParentStateProperty);
 
-    public static void SetParentState(Control element, NavBarSelectedIndicatorState value)
-    {
-        element.SetValue(ParentStateProperty, value);
-    }
+    public static void SetParentState(
+        Control element
+        , NavBarSelectedIndicatorState value
+    ) => element.SetValue(property: ParentStateProperty, value: value);
 
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override void OnAttachedToVisualTree(
+        CompositeDisposable disposable
+    )
     {
         if (AssociatedObject is null)
         {
@@ -32,7 +31,7 @@ public class NavBarSelectedIndicatorParentBehavior : AttachedToVisualTreeBehavio
         }
 
         var sharedState = new NavBarSelectedIndicatorState();
-        SetParentState(AssociatedObject, sharedState);
-        disposable.Add(sharedState);
+        SetParentState(element: AssociatedObject, value: sharedState);
+        disposable.Add(item: sharedState);
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-
 using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
@@ -15,11 +14,16 @@ public class NavBarIconConverter : IValueConverter
     {
     }
 
-    object IValueConverter.Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    object IValueConverter.Convert(
+        object? value
+        , Type targetType
+        , object? parameter
+        , CultureInfo culture
+    )
     {
-        if (Application.Current is { } && value is string iconName)
+        if (Application.Current is not null && value is string iconName)
         {
-            if (Application.Current.Styles.TryGetResource(iconName, out object? resource))
+            if (Application.Current.Styles.TryGetResource(key: iconName, value: out var resource))
             {
                 return resource is not StreamGeometry ? AvaloniaProperty.UnsetValue : resource;
             }
@@ -28,8 +32,10 @@ public class NavBarIconConverter : IValueConverter
         return AvaloniaProperty.UnsetValue;
     }
 
-    object IValueConverter.ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
+    object IValueConverter.ConvertBack(
+        object? value
+        , Type targetType
+        , object? parameter
+        , CultureInfo culture
+    ) => throw new NotImplementedException();
 }

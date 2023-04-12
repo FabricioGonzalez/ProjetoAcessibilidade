@@ -5,9 +5,15 @@ using QuestPDF.Elements;
 
 namespace QuestPDF.Infrastructure
 {
-    public abstract class ContainerElement : Element, IContainer
+    public abstract class ContainerElement
+        : Element
+            , IContainer
     {
-        public Element? Child { get; set; } = Empty.Instance;
+        public Element? Child
+        {
+            get;
+            set;
+        } = Empty.Instance;
 
         IElement? IContainer.Child
         {
@@ -20,19 +26,16 @@ namespace QuestPDF.Infrastructure
             yield return Child;
         }
 
-        public override void CreateProxy(Func<Element?, Element?> create)
-        {
-            Child = create(Child);
-        }
+        public override void CreateProxy(
+            Func<Element?, Element?> create
+        ) => Child = create(arg: Child);
 
-        public override SpacePlan Measure(Size availableSpace)
-        {
-            return Child?.Measure(availableSpace) ?? SpacePlan.FullRender(0, 0);
-        }
-        
-        public override void Draw(Size availableSpace)
-        {
-            Child?.Draw(availableSpace);
-        }
+        public override SpacePlan Measure(
+            Size availableSpace
+        ) => Child?.Measure(availableSpace: availableSpace) ?? SpacePlan.FullRender(width: 0, height: 0);
+
+        public override void Draw(
+            Size availableSpace
+        ) => Child?.Draw(availableSpace: availableSpace);
     }
 }

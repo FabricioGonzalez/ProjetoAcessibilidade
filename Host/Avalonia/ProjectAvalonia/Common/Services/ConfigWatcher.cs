@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using ProjectAvalonia.Common.Bases;
 using ProjectAvalonia.Common.Helpers;
 
@@ -9,10 +8,14 @@ namespace ProjectAvalonia.Common.Services;
 
 public class ConfigWatcher : PeriodicRunner
 {
-    public ConfigWatcher(TimeSpan period, IConfig config, Action executeWhenChanged) : base(period)
+    public ConfigWatcher(
+        TimeSpan period
+        , IConfig config
+        , Action executeWhenChanged
+    ) : base(period: period)
     {
-        Config = Guard.NotNull(nameof(config), config);
-        ExecuteWhenChanged = Guard.NotNull(nameof(executeWhenChanged), executeWhenChanged);
+        Config = Guard.NotNull(parameterName: nameof(config), value: config);
+        ExecuteWhenChanged = Guard.NotNull(parameterName: nameof(executeWhenChanged), value: executeWhenChanged);
         config.AssertFilePathSet();
     }
 
@@ -20,12 +23,15 @@ public class ConfigWatcher : PeriodicRunner
     {
         get;
     }
+
     public Action ExecuteWhenChanged
     {
         get;
     }
 
-    protected override Task ActionAsync(CancellationToken cancel)
+    protected override Task ActionAsync(
+        CancellationToken cancel
+    )
     {
         if (Config.CheckFileChange())
         {
@@ -34,6 +40,7 @@ public class ConfigWatcher : PeriodicRunner
 
             ExecuteWhenChanged();
         }
+
         return Task.CompletedTask;
     }
 }

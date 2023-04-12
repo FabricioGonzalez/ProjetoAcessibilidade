@@ -1,164 +1,175 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-
 using QuestPDFReport.Models;
-
 using SkiaSharp;
 
 namespace QuestPDFReport.Components;
+
 public class TableOfContentsTemplate : IComponent
 {
+    public TableOfContentsTemplate(
+        List<IReportSection>? sections = null
+    )
+    {
+        Sections = sections;
+    }
+
     private List<IReportSection>? Sections
     {
         get;
     }
 
-    public TableOfContentsTemplate(List<IReportSection>? sections = null)
-    {
-        Sections = sections;
-    }
-
-    public void Compose(IContainer container)
+    public void Compose(
+        IContainer container
+    )
     {
         try
         {
             container
-           .Decoration(decoration =>
-           {
-               decoration
-                   .Before()
-                   .PaddingBottom(5)
-                   .Text("Table of contents")
-                   .Style(Typography.Headline);
+                .Decoration(handler: decoration =>
+                {
+                    decoration
+                        .Before()
+                        .PaddingBottom(value: 5)
+                        .Text(text: "Table of contents")
+                        .Style(style: Typography.Headline);
 
-               decoration.Content().Column(column =>
-               {
-                   column.Spacing(5);
+                    decoration.Content().Column(handler: column =>
+                    {
+                        column.Spacing(value: 5);
 
-                   for (var i = 0; i < Sections.Count; i++)
-                   {
+                        for (var i = 0; i < Sections.Count; i++)
+                        {
+                            if (Sections[index: i] is ReportSection reportSection)
+                            {
+                                column.Item().Element(handler: c =>
+                                    DrawLink(container: c, number: i + 1, locationName: reportSection.Title));
+                            }
 
-                       if (Sections[i] is ReportSection reportSection)
-                       {
-                           column.Item().Element(c => DrawLink(c, i + 1, reportSection.Title));
-                       }
-                       if (Sections[i] is ReportSectionGroup reportSectionGroup)
-                       {
-                           column.Item().Column(colItem =>
-                           {
-                               colItem.Item()
-                               .Element(c => DrawLink(c, i + 1, locationName: reportSectionGroup.Title));
+                            if (Sections[index: i] is ReportSectionGroup reportSectionGroup)
+                            {
+                                column.Item().Column(handler: colItem =>
+                                {
+                                    colItem.Item()
+                                        .Element(handler: c => DrawLink(container: c, number: i + 1
+                                            , locationName: reportSectionGroup.Title));
 
-                               for (var part = 0; part < reportSectionGroup.Parts.Count; part++)
-                               {
-                                   colItem.Item()
-                                   .Element(
-                                       c => DrawDeepLink(c, i + 1, part + 1, locationName: reportSectionGroup.Parts[part].Title));
-                               }
-
-                           });
-
-                       }
-                   }
-               });
-           });
+                                    for (var part = 0; part < reportSectionGroup.Parts.Count; part++)
+                                    {
+                                        colItem.Item()
+                                            .Element(
+                                                handler: c => DrawDeepLink(container: c, parent: i + 1, number: part + 1
+                                                    , locationName: reportSectionGroup.Parts[index: part].Title));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
         }
         catch (ArgumentNullException)
         {
-            return;
         }
-        catch (Exception)
-        {
-            throw;
-        }
-
     }
 
-    private void DrawLink(IContainer container, int number, string locationName)
-    {
+    private void DrawLink(
+        IContainer container
+        , int number
+        , string locationName
+    ) =>
         container
-            .SectionLink(locationName)
-            .Row(row =>
+            .SectionLink(sectionName: locationName)
+            .Row(handler: row =>
             {
-                row.ConstantItem(20).Text($"{number}.");
-                row.AutoItem().Text(locationName);
+                row.ConstantItem(size: 20).Text(text: $"{number}.");
+                row.AutoItem().Text(text: locationName);
 
                 row.RelativeItem()
-                .PaddingHorizontal(2)
-                .AlignBottom()
-                .TranslateY(-3)
-                .Height(1)
-                .Canvas((canvas, space) =>
-                {
-                    // best to statically cache
-                    using var paint = new SKPaint
+                    .PaddingHorizontal(value: 2)
+                    .AlignBottom()
+                    .TranslateY(value: -3)
+                    .Height(value: 1)
+                    .Canvas(handler: (
+                        canvas
+                        , space
+                    ) =>
                     {
-                        StrokeWidth = space.Height,
-                        PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
-                    };
+                        // best to statically cache
+                        using var paint = new SKPaint
+                        {
+                            StrokeWidth = space.Height
+                            , PathEffect = SKPathEffect.CreateDash(intervals: new float[] { 1, 3 }, phase: 0)
+                        };
 
-                    canvas.DrawLine(0, 0, space.Width, 0, paint);
-                });
-
-                row.AutoItem().Text(text =>
-                {
-                    text.BeginPageNumberOfSection(locationName);
-                    text.Span(" - ");
-                    text.EndPageNumberOfSection(locationName);
-
-                    var lengthStyle = TextStyle.Default.FontColor(Colors.Grey.Medium);
-
-                    text.TotalPagesWithinSection(locationName).Style(lengthStyle).Format(x =>
-                    {
-                        var formatted = x == 1 ? "1 page long" : $"{x} pages long";
-                        return $" ({formatted})";
+                        canvas.DrawLine(x0: 0, y0: 0, x1: space.Width, y1: 0, paint: paint);
                     });
+
+                row.AutoItem().Text(content: text =>
+                {
+                    text.BeginPageNumberOfSection(locationName: locationName);
+                    text.Span(text: " - ");
+                    text.EndPageNumberOfSection(locationName: locationName);
+
+                    var lengthStyle = TextStyle.Default.FontColor(value: Colors.Grey.Medium);
+
+                    text.TotalPagesWithinSection(locationName: locationName).Style(style: lengthStyle).Format(
+                        formatter: x =>
+                        {
+                            var formatted = x == 1 ? "1 page long" : $"{x} pages long";
+                            return $" ({formatted})";
+                        });
                 });
             });
-    }
-    private void DrawDeepLink(IContainer container, int parent, int number, string locationName)
-    {
+
+    private void DrawDeepLink(
+        IContainer container
+        , int parent
+        , int number
+        , string locationName
+    ) =>
         container
-            .PaddingLeft(8)
-            .SectionLink(locationName)
-            .Row(row =>
+            .PaddingLeft(value: 8)
+            .SectionLink(sectionName: locationName)
+            .Row(handler: row =>
             {
-                row.ConstantItem(20).Text($"{parent}.{number}.");
-                row.AutoItem().Text(locationName);
+                row.ConstantItem(size: 20).Text(text: $"{parent}.{number}.");
+                row.AutoItem().Text(text: locationName);
 
                 row.RelativeItem()
-                .PaddingHorizontal(4)
-                .AlignBottom()
-                .TranslateY(-3)
-                .Height(1)
-                .Canvas((canvas, space) =>
-                {
-                    // best to statically cache
-                    using var paint = new SKPaint
+                    .PaddingHorizontal(value: 4)
+                    .AlignBottom()
+                    .TranslateY(value: -3)
+                    .Height(value: 1)
+                    .Canvas(handler: (
+                        canvas
+                        , space
+                    ) =>
                     {
-                        StrokeWidth = space.Height,
-                        PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
-                    };
+                        // best to statically cache
+                        using var paint = new SKPaint
+                        {
+                            StrokeWidth = space.Height
+                            , PathEffect = SKPathEffect.CreateDash(intervals: new float[] { 1, 3 }, phase: 0)
+                        };
 
-                    canvas.DrawLine(0, 0, space.Width, 0, paint);
-                });
+                        canvas.DrawLine(x0: 0, y0: 0, x1: space.Width, y1: 0, paint: paint);
+                    });
 
-                row.AutoItem().Text(text =>
+                row.AutoItem().Text(content: text =>
                 {
-                    text.BeginPageNumberOfSection(locationName);
-                    text.Span(" - ");
-                    text.EndPageNumberOfSection(locationName);
+                    text.BeginPageNumberOfSection(locationName: locationName);
+                    text.Span(text: " - ");
+                    text.EndPageNumberOfSection(locationName: locationName);
 
-                    var lengthStyle = TextStyle.Default.FontColor(Colors.Grey.Medium);
+                    var lengthStyle = TextStyle.Default.FontColor(value: Colors.Grey.Medium);
 
-                    text.TotalPagesWithinSection(locationName).Style(lengthStyle).Format(x =>
-                                        {
-                                            var formatted = x == 1 ? "1 page long" : $"{x} pages long";
-                                            return $" ({formatted})";
-                                        });
+                    text.TotalPagesWithinSection(locationName: locationName).Style(style: lengthStyle).Format(
+                        formatter: x =>
+                        {
+                            var formatted = x == 1 ? "1 page long" : $"{x} pages long";
+                            return $" ({formatted})";
+                        });
                 });
             });
-    }
 }
-

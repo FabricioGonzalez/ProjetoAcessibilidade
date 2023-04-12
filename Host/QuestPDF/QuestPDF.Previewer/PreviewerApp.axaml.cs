@@ -2,26 +2,22 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace QuestPDF.Previewer
+namespace QuestPDF.Previewer;
+
+internal class PreviewerApp : Application
 {
-    internal class PreviewerApp : Application
+    public override void Initialize() => AvaloniaXamlLoader.Load(obj: this);
+
+    public override void OnFrameworkInitializationCompleted()
     {
-        public override void Initialize()
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            AvaloniaXamlLoader.Load(this);
+            desktop.MainWindow = new PreviewerWindow
+            {
+                DataContext = new PreviewerWindowViewModel()
+            };
         }
 
-        public override void OnFrameworkInitializationCompleted()
-        {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                desktop.MainWindow = new PreviewerWindow()
-                {
-                    DataContext = new PreviewerWindowViewModel()
-                };
-            }
-            
-            base.OnFrameworkInitializationCompleted();
-        }
+        base.OnFrameworkInitializationCompleted();
     }
 }

@@ -1,105 +1,105 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-      <TargetFramework>net7.0</TargetFramework>
-      <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-      <AnalysisLevel>latest</AnalysisLevel>
-      <Nullable>enable</Nullable>
-      <LangVersion>latest</LangVersion>
-      <NoWarn>1701;1702;1705;1591;1573;CA1031</NoWarn>
-      <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-      <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\$(TargetFramework)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
-      <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-      <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-      <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia</PathMap>
-      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <TargetFramework>net7.0</TargetFramework>
+        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <NoWarn>1701;1702;1705;1591;1573;CA1031</NoWarn>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\$(TargetFramework)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+        <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia</PathMap>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-      <AvaloniaVersion>0.10.18</AvaloniaVersion>
+        <AvaloniaVersion>0.10.18</AvaloniaVersion>
         <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
         <SignAssembly>False</SignAssembly>
     </PropertyGroup>
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**" />
-        <AvaloniaXaml Remove="Features\ItemValidation\**" />
-        <AvaloniaXaml Remove="Features\TemplateEditing\**" />
-        <AvaloniaXaml Remove="Features\TemplateRules\**" />
-        <AvaloniaXaml Remove="Languages\**" />
-        <AvaloniaXaml Remove="Models\**" />
-        <Compile Remove="Features\ItemValidation\**" />
-        <Compile Remove="Features\TemplateEditing\**" />
-        <Compile Remove="Features\TemplateRules\**" />
-        <Compile Remove="Languages\**" />
-        <Compile Remove="Models\**" />
-        <EmbeddedResource Remove="Features\ItemValidation\**" />
-        <EmbeddedResource Remove="Features\TemplateEditing\**" />
-        <EmbeddedResource Remove="Features\TemplateRules\**" />
-        <EmbeddedResource Remove="Languages\**" />
-        <EmbeddedResource Remove="Models\**" />
-        <None Remove="Features\ItemValidation\**" />
-        <None Remove="Features\TemplateEditing\**" />
-        <None Remove="Features\TemplateRules\**" />
-        <None Remove="Languages\**" />
-        <None Remove="Models\**" />
-        <Content Remove="C:\Users\Ti\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
-        <None Remove=".gitignore" />
-        <None Remove="Views\EditableTextBlock.xaml" />
+        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaXaml Remove="Features\ItemValidation\**"/>
+        <AvaloniaXaml Remove="Features\TemplateEditing\**"/>
+        <AvaloniaXaml Remove="Features\TemplateRules\**"/>
+        <AvaloniaXaml Remove="Languages\**"/>
+        <AvaloniaXaml Remove="Models\**"/>
+        <Compile Remove="Features\ItemValidation\**"/>
+        <Compile Remove="Features\TemplateEditing\**"/>
+        <Compile Remove="Features\TemplateRules\**"/>
+        <Compile Remove="Languages\**"/>
+        <Compile Remove="Models\**"/>
+        <EmbeddedResource Remove="Features\ItemValidation\**"/>
+        <EmbeddedResource Remove="Features\TemplateEditing\**"/>
+        <EmbeddedResource Remove="Features\TemplateRules\**"/>
+        <EmbeddedResource Remove="Languages\**"/>
+        <EmbeddedResource Remove="Models\**"/>
+        <None Remove="Features\ItemValidation\**"/>
+        <None Remove="Features\TemplateEditing\**"/>
+        <None Remove="Features\TemplateRules\**"/>
+        <None Remove="Languages\**"/>
+        <None Remove="Models\**"/>
+        <Content Remove="C:\Users\Ti\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico"/>
+        <None Remove=".gitignore"/>
+        <None Remove="Views\EditableTextBlock.xaml"/>
     </ItemGroup>
     <ItemGroup>
-        <AvaloniaResource Include="Common\Controls\EditableTextBlock.xaml" />
+        <AvaloniaResource Include="Common\Controls\EditableTextBlock.xaml"/>
     </ItemGroup>
     <ItemGroup>
-        <Content Include="Assets\avalonia-logo.ico" />
-        <Content Include="Assets\Fonts\Objectivity-Light.otf" />
-        <Content Include="Assets\Fonts\Objectivity-Regular.otf" />
-        <Content Include="Assets\Fonts\RobotoMono-Regular.ttf" />
-        <Content Include="Assets\Loading\loading.png" />
+        <Content Include="Assets\avalonia-logo.ico"/>
+        <Content Include="Assets\Fonts\Objectivity-Light.otf"/>
+        <Content Include="Assets\Fonts\Objectivity-Regular.otf"/>
+        <Content Include="Assets\Fonts\RobotoMono-Regular.ttf"/>
+        <Content Include="Assets\Loading\loading.png"/>
     </ItemGroup>
-  
+
     <ItemGroup>
         <!--This helps with theme dll-s trimming.
 	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
 	https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
-        <TrimmableAssembly Include="Avalonia.Themes.Fluent" />
-        <TrimmableAssembly Include="Avalonia.Themes.Default" />
+        <TrimmableAssembly Include="Avalonia.Themes.Fluent"/>
+        <TrimmableAssembly Include="Avalonia.Themes.Default"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="AsyncImageLoader.Avalonia" Version="2.4.0" />
-        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-      <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="AsyncImageLoader.Avalonia" Version="2.4.0"/>
+        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="0.10.18"/>
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)"/>
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Xaml.Interactions" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Dock.Avalonia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
-        <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Win32.SystemEvents" Version="4.5.0" />
-        <PackageReference Include="Neumorphism.Avalonia" Version="0.4.0" />
-        <PackageReference Include="Notification.Avalonia" Version="1.1.0" />
-        <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
-        <PackageReference Include="SukiUI" Version="3.0.0" />
-        <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Dock.Avalonia" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10"/>
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0"/>
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Win32.SystemEvents" Version="4.5.0"/>
+        <PackageReference Include="Neumorphism.Avalonia" Version="0.4.0"/>
+        <PackageReference Include="Notification.Avalonia" Version="1.1.0"/>
+        <PackageReference Include="ReactiveUI" Version="18.4.26"/>
+        <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1"/>
+        <PackageReference Include="SukiUI" Version="3.0.0"/>
+        <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Domain.csproj" />
-        <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj" />
-        <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
-        <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
-        <ProjectReference Include="..\..\..\Presentation\ViewModels\Project.ViewModels\AppViewModels.csproj" />
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-        <ProjectReference Include="..\..\QuestPDF\QuestPDF\QuestPDF.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Domain.csproj"/>
+        <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj"/>
+        <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj"/>
+        <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\QuestPDF\QuestPDF\QuestPDF.csproj"/>
     </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ProjectAvalonia.Generators\ProjectAvalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ProjectAvalonia.Generators\ProjectAvalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
     <ItemGroup>
         <None Update="appsettings.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Specifications\Itens.xml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -109,148 +109,98 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens.xsd</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Acesso a Equipamentos.xml">
+        <None Update="Specifications\ValidationRules\Acesso a Equipamentos.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso a Equipamentos.xml</LinuxPath>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Specifications\Tables\Acesso.xml">
+        <None Update="Specifications\ValidationRules\Acesso.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso.xml</LinuxPath>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Specifications\Tables\Balcão de Atendimento Recepção.xml">
+        <None Update="Specifications\ValidationRules\Balcão de Atendimento Recepção.vldr">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Balcão de Atendimento Recepção.xml</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Circulação Horizontal.xml">
+        <None Update="Specifications\ValidationRules\Circulação Horizontal.vldr">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Horizontal.xml</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Circulação Vertical.xml">
+        <None Update="Specifications\ValidationRules\Circulação Vertical.vldr">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Vertical.xml</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Entradas Portas Externo.xml">
+        <None Update="Specifications\ValidationRules\Entradas Portas Externo.vldr">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Externo.xml</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Entradas Portas Interno.xml">
+        <None Update="Specifications\ValidationRules\Entradas Portas Interno.vldr">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Interno.xml</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Mapa Tátil.xml">
+        <None Update="Specifications\ValidationRules\Mapa Tátil.vldr">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mapa Tátil.xml</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Mesas.xml">
+        <None Update="Specifications\ValidationRules\Mesas.vldr">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mesas.xml</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Piso Tátil.xml">
+        <None Update="Specifications\ValidationRules\Piso Tátil.vldr">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Piso Tátil.xml</LinuxPath>
         </None>
-        <None Update="Specifications\Tables\Portas de Emergência.xml">
-            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Portas de Emergência.xml</LinuxPath>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Specifications\Tables\Sanitários Comuns.xml">
-            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sanitários Comuns.xml</LinuxPath>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Specifications\Tables\Sánitario Acessível.xml">
-            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sánitario Acessível.xml</LinuxPath>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Specifications\Tables\Table.xsd">
-            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Table.xsd</LinuxPath>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Specifications\ValidationRules\Acesso a Equipamentos.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso a Equipamentos.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Acesso.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Balcão de Atendimento Recepção.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Balcão de Atendimento Recepção.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Circulação Horizontal.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Horizontal.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Circulação Vertical.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Vertical.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Entradas Portas Externo.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Externo.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Entradas Portas Interno.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Interno.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Mapa Tátil.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mapa Tátil.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Mesas.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mesas.xml</LinuxPath>
-        </None>
-        <None Update="Specifications\ValidationRules\Piso Tátil.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Piso Tátil.xml</LinuxPath>
-        </None>
         <None Update="Specifications\ValidationRules\Portas de Emergência.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Portas de Emergência.xml</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Portas de Emergência.xml</LinuxPath>
         </None>
         <None Update="Specifications\ValidationRules\Sanitários Comuns.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sanitários Comuns.xml</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sanitários Comuns.xml</LinuxPath>
         </None>
         <None Update="Specifications\ValidationRules\Sánitario Acessível.vldr">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sánitario Acessível.xml</LinuxPath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sánitario Acessível.xml</LinuxPath>
         </None>
     </ItemGroup>
     <ItemGroup>
-      <UpToDateCheckInput Remove="Features\Project\Views\ProjectView.axaml" />
+        <UpToDateCheckInput Remove="Features\Project\Views\ProjectView.axaml"/>
     </ItemGroup>
     <ItemGroup>
-      <Compile Update="Features\PDFViewer\Views\PreviewerView.axaml.cs">
-        <DependentUpon>PreviewerView.axaml</DependentUpon>
-      </Compile>
-      <Compile Update="Features\Project\Views\Dialogs\DeleteDialogView.axaml.cs">
-        <DependentUpon>DeleteDialogView.axaml</DependentUpon>
-      </Compile>
-      <Compile Update="Features\TemplateEdit\Views\ItemValidationView.axaml.cs">
-        <DependentUpon>ItemValidationView.axaml</DependentUpon>
-      </Compile>
-      <Compile Update="Properties\Resources.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Resources.resx</DependentUpon>
-      </Compile>
+        <Compile Update="Features\PDFViewer\Views\PreviewerView.axaml.cs">
+            <DependentUpon>PreviewerView.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Project\Views\Dialogs\DeleteDialogView.axaml.cs">
+            <DependentUpon>DeleteDialogView.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Features\TemplateEdit\Views\ItemValidationView.axaml.cs">
+            <DependentUpon>ItemValidationView.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
-      <EmbeddedResource Update="Properties\Resources.pt.resx">
-        <LastGenOutput>Resources.pt.Designer.cs</LastGenOutput>
-        <Generator>PublicResXFileCodeGenerator</Generator>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Properties\Resources.resx">
-        <Generator>PublicResXFileCodeGenerator</Generator>
-        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.pt.resx">
+            <LastGenOutput>Resources.pt.Designer.cs</LastGenOutput>
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-      <EditorConfigFiles Remove="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
+        <EditorConfigFiles Remove="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig"/>
     </ItemGroup>
     <ItemGroup>
-      <None Include="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
+        <None Include="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Features\NavBar\Stores\"/>
+        <Folder Include="Features\PDFViewer\Stores\"/>
+        <Folder Include="Features\SearchBar\Stores\"/>
+        <Folder Include="Features\Settings\Stores\"/>
     </ItemGroup>
 </Project>

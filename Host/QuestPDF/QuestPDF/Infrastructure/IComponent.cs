@@ -2,18 +2,20 @@ using QuestPDF.Elements;
 
 namespace QuestPDF.Infrastructure
 {
-    interface ISlot
+    internal interface ISlot
     {
-        
     }
 
-    class Slot : Container, ISlot
+    internal class Slot
+        : Container
+            , ISlot
     {
-        
     }
-    
+
     public interface IComponent
     {
-        void Compose(IContainer container);
+        void Compose(
+            IContainer container
+        );
     }
 }

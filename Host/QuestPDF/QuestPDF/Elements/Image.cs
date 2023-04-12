@@ -4,26 +4,35 @@ using SkiaSharp;
 
 namespace QuestPDF.Elements
 {
-    public class Image : Element, ICacheable
+    public class Image
+        : Element
+            , ICacheable
     {
-        public SKImage? publicImage { get; set; }
+        public SKImage? publicImage
+        {
+            get;
+            set;
+        }
 
         ~Image()
         {
             publicImage?.Dispose();
         }
-        
-        public override SpacePlan Measure(Size availableSpace)
-        {
-            return SpacePlan.FullRender(availableSpace);
-        }
 
-        public override void Draw(Size availableSpace)
+        public override SpacePlan Measure(
+            Size availableSpace
+        ) => SpacePlan.FullRender(size: availableSpace);
+
+        public override void Draw(
+            Size availableSpace
+        )
         {
             if (publicImage == null)
+            {
                 return;
+            }
 
-            Canvas.DrawImage(publicImage, Position.Zero, availableSpace);
+            Canvas.DrawImage(image: publicImage, position: Position.Zero, size: availableSpace);
         }
     }
 }

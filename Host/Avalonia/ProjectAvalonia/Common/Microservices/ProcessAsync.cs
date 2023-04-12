@@ -3,27 +3,31 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-
 using ProjectAvalonia.Logging;
 
 namespace ProjectAvalonia.Common.Microservices;
 
 /// <summary>
-/// Async wrapper class for <see cref="System.Diagnostics.Process"/> class that implements <see cref="WaitForExitAsync(CancellationToken)"/>
-/// to asynchronously wait for a process to exit.
+///     Async wrapper class for <see cref="System.Diagnostics.Process" /> class that implements
+///     <see cref="WaitForExitAsync(CancellationToken)" />
+///     to asynchronously wait for a process to exit.
 /// </summary>
 public class ProcessAsync : IDisposable
 {
     /// <summary>
-    /// To detect redundant calls.
+    ///     To detect redundant calls.
     /// </summary>
-    private bool _disposed = false;
+    private bool _disposed;
 
-    public ProcessAsync(ProcessStartInfo startInfo) : this(new Process() { StartInfo = startInfo })
+    public ProcessAsync(
+        ProcessStartInfo startInfo
+    ) : this(process: new Process { StartInfo = startInfo })
     {
     }
 
-    internal ProcessAsync(Process process)
+    internal ProcessAsync(
+        Process process
+    )
     {
         Process = process;
     }
@@ -33,28 +37,37 @@ public class ProcessAsync : IDisposable
         get;
     }
 
-    /// <inheritdoc cref="Process.StartInfo"/>
+    /// <inheritdoc cref="Process.StartInfo" />
     public ProcessStartInfo StartInfo => Process.StartInfo;
 
-    /// <inheritdoc cref="Process.ExitCode"/>
+    /// <inheritdoc cref="Process.ExitCode" />
     public int ExitCode => Process.ExitCode;
 
-    /// <inheritdoc cref="Process.HasExited"/>
+    /// <inheritdoc cref="Process.HasExited" />
     public virtual bool HasExited => Process.HasExited;
 
-    /// <inheritdoc cref="Process.Id"/>
+    /// <inheritdoc cref="Process.Id" />
     public int Id => Process.Id;
 
-    /// <inheritdoc cref="Process.Handle"/>
+    /// <inheritdoc cref="Process.Handle" />
     public virtual IntPtr Handle => Process.Handle;
 
-    /// <inheritdoc cref="Process.StandardInput"/>
+    /// <inheritdoc cref="Process.StandardInput" />
     public StreamWriter StandardInput => Process.StandardInput;
 
-    /// <inheritdoc cref="Process.StandardOutput"/>
+    /// <inheritdoc cref="Process.StandardOutput" />
     public StreamReader StandardOutput => Process.StandardOutput;
 
-    /// <inheritdoc cref="Process.Start()"/>
+    public virtual void Dispose()
+    {
+        // Dispose of unmanaged resources.
+        Dispose(disposing: true);
+
+        // Suppress finalization.
+        GC.SuppressFinalize(obj: this);
+    }
+
+    /// <inheritdoc cref="Process.Start()" />
     public void Start()
     {
         try
@@ -63,53 +76,61 @@ public class ProcessAsync : IDisposable
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogError(exception: ex);
 
-            Logger.LogInfo($"{nameof(Process.StartInfo.FileName)}: {Process.StartInfo.FileName}.");
-            Logger.LogInfo($"{nameof(Process.StartInfo.Arguments)}: {Process.StartInfo.Arguments}.");
-            Logger.LogInfo($"{nameof(Process.StartInfo.RedirectStandardOutput)}: {Process.StartInfo.RedirectStandardOutput}.");
-            Logger.LogInfo($"{nameof(Process.StartInfo.UseShellExecute)}: {Process.StartInfo.UseShellExecute}.");
-            Logger.LogInfo($"{nameof(Process.StartInfo.CreateNoWindow)}: {Process.StartInfo.CreateNoWindow}.");
-            Logger.LogInfo($"{nameof(Process.StartInfo.WindowStyle)}: {Process.StartInfo.WindowStyle}.");
+            Logger.LogInfo(message: $"{nameof(Process.StartInfo.FileName)}: {Process.StartInfo.FileName}.");
+            Logger.LogInfo(message: $"{nameof(Process.StartInfo.Arguments)}: {Process.StartInfo.Arguments}.");
+            Logger.LogInfo(
+                message:
+                $"{nameof(Process.StartInfo.RedirectStandardOutput)}: {Process.StartInfo.RedirectStandardOutput}.");
+            Logger.LogInfo(
+                message: $"{nameof(Process.StartInfo.UseShellExecute)}: {Process.StartInfo.UseShellExecute}.");
+            Logger.LogInfo(message: $"{nameof(Process.StartInfo.CreateNoWindow)}: {Process.StartInfo.CreateNoWindow}.");
+            Logger.LogInfo(message: $"{nameof(Process.StartInfo.WindowStyle)}: {Process.StartInfo.WindowStyle}.");
             throw;
         }
     }
 
-    /// <inheritdoc cref="Process.Kill(bool)"/>
-    public virtual void Kill(bool entireProcessTree = false)
-    {
-        Process.Kill(entireProcessTree);
-    }
+    /// <inheritdoc cref="Process.Kill(bool)" />
+    public virtual void Kill(
+        bool entireProcessTree = false
+    ) => Process.Kill(entireProcessTree: entireProcessTree);
 
     /// <summary>
-    /// Waits until the process either finishes on its own or when user cancels the action.
+    ///     Waits until the process either finishes on its own or when user cancels the action.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns><see cref="Task"/>.</returns>
-    public virtual async Task WaitForExitAsync(CancellationToken cancellationToken)
+    /// <returns><see cref="Task" />.</returns>
+    public async virtual Task WaitForExitAsync(
+        CancellationToken cancellationToken
+    )
     {
         if (Process.HasExited)
         {
-            Logger.LogTrace("Process has already exited.");
+            Logger.LogTrace(message: "Process has already exited.");
             return;
         }
 
         try
         {
-            Logger.LogTrace($"Wait for the process to exit: '{Process.Id}'");
-            await Process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+            Logger.LogTrace(message: $"Wait for the process to exit: '{Process.Id}'");
+            await Process.WaitForExitAsync(cancellationToken: cancellationToken)
+                .ConfigureAwait(continueOnCapturedContext: false);
 
-            Logger.LogTrace("Process has exited.");
+            Logger.LogTrace(message: "Process has exited.");
         }
         catch (OperationCanceledException ex)
         {
-            Logger.LogTrace("User canceled waiting for process exit.");
-            throw new TaskCanceledException("Waiting for process exiting was canceled.", ex, cancellationToken);
+            Logger.LogTrace(message: "User canceled waiting for process exit.");
+            throw new TaskCanceledException(message: "Waiting for process exiting was canceled.", innerException: ex
+                , token: cancellationToken);
         }
     }
 
     // Protected implementation of Dispose pattern.
-    protected virtual void Dispose(bool disposing)
+    protected virtual void Dispose(
+        bool disposing
+    )
     {
         if (_disposed)
         {
@@ -123,14 +144,5 @@ public class ProcessAsync : IDisposable
         }
 
         _disposed = true;
-    }
-
-    public virtual void Dispose()
-    {
-        // Dispose of unmanaged resources.
-        Dispose(true);
-
-        // Suppress finalization.
-        GC.SuppressFinalize(this);
     }
 }

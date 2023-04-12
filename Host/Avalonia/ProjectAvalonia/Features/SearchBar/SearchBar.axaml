@@ -104,7 +104,8 @@
             <Setter Property="Cursor" Value="Hand" />
         </Style>
 
-        <Style Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark, TextBox:pointerover /template/ TextBlock#PART_FloatingWatermark">
+        <Style
+            Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark, TextBox:pointerover /template/ TextBlock#PART_FloatingWatermark">
             <Setter Property="Foreground">
                 <SolidColorBrush Opacity="0.7" Color="{DynamicResource AcrylicTrimForeground}" />
             </Setter>
@@ -117,7 +118,8 @@
             <Setter Property="Cursor" Value="Arrow" />
         </Style>
 
-        <Style Selector="TextBox:focus-within /template/ TextBlock#PART_Watermark,        TextBox:focus-within /template/ TextBlock#PART_FloatingWatermark">
+        <Style
+            Selector="TextBox:focus-within /template/ TextBlock#PART_Watermark,        TextBox:focus-within /template/ TextBlock#PART_FloatingWatermark">
             <Setter Property="Foreground">
                 <SolidColorBrush Opacity="0.5" Color="{DynamicResource AcrylicTrimForeground}" />
             </Setter>

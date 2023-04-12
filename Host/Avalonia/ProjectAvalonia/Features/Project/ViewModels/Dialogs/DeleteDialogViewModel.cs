@@ -1,21 +1,25 @@
 ﻿using ProjectAvalonia.ViewModels.Dialogs.Base;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-public partial class DeleteDialogViewModel : DialogViewModelBase<bool>
+
+public class DeleteDialogViewModel : DialogViewModelBase<bool>
 {
     private string _title;
 
-    public DeleteDialogViewModel(string message, string title, string caption)
+    public DeleteDialogViewModel(
+        string message
+        , string title
+        , string caption
+    )
     {
         Message = message;
         _title = title;
         Caption = caption;
 
-        NextCommand = ReactiveCommand.Create(() => Close(DialogResultKind.Normal, result: true));
+        NextCommand = ReactiveCommand.Create(execute: () => Close(result: true));
 
-        CancelCommand = ReactiveCommand.Create(() => Close(DialogResultKind.Cancel, result: false));
+        CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel, result: false));
 
         SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
     }
@@ -33,6 +37,6 @@ public partial class DeleteDialogViewModel : DialogViewModelBase<bool>
     public override string Title
     {
         get => _title;
-        protected set => this.RaiseAndSetIfChanged(ref _title, value);
+        protected set => this.RaiseAndSetIfChanged(backingField: ref _title, newValue: value);
     }
 }

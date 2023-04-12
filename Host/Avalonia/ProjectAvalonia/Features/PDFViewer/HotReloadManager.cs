@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Reflection.Metadata;
+using QuestPDF.Previewer;
 
-[assembly: System.Reflection.Metadata.MetadataUpdateHandler(typeof(QuestPDF.Previewer.HotReloadManager))]
+[assembly: MetadataUpdateHandler(handlerType: typeof(HotReloadManager))]
 
-namespace QuestPDF.Previewer
+namespace QuestPDF.Previewer;
+
+/// <summary>
+///     Helper for subscribing to hot reload notifications.
+/// </summary>
+public static class HotReloadManager
 {
-    /// <summary>
-    /// Helper for subscribing to hot reload notifications.
-    /// </summary>
-    public static class HotReloadManager
-    {
-        public static event EventHandler? UpdateApplicationRequested;
+    public static event EventHandler? UpdateApplicationRequested;
 
-        public static void UpdateApplication(Type[]? _)
-        {
-            UpdateApplicationRequested?.Invoke(null, EventArgs.Empty);
-        }
-    }
+    public static void UpdateApplication(
+        Type[]? _
+    ) => UpdateApplicationRequested?.Invoke(sender: null, e: EventArgs.Empty);
 }

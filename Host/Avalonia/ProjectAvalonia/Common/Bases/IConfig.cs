@@ -9,7 +9,9 @@ public interface IConfig
     }
 
     /// <summary>Set the path of the config file.</summary>
-    void SetFilePath(string path);
+    void SetFilePath(
+        string path
+    );
 
     /// <summary>Throw exception if the path of the config file is not set.</summary>
     void AssertFilePathSet();
@@ -23,8 +25,13 @@ public interface IConfig
     /// <summary>Load config if the file path of the config file is set, otherwise throw exception.</summary>
     void LoadFile();
 
-    bool AreDeepEqual(object otherConfig);
+    bool AreDeepEqual(
+        object otherConfig
+    );
 
-    /// <summary>Check if the config file differs from the config if the file path of the config file is set, otherwise throw exception.</summary>
+    /// <summary>
+    ///     Check if the config file differs from the config if the file path of the config file is set, otherwise throw
+    ///     exception.
+    /// </summary>
     bool CheckFileChange();
 }

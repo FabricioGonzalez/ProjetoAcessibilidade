@@ -123,7 +123,8 @@
                         </ScrollContentPresenter.Styles>
 
                         <ScrollContentPresenter.GestureRecognizers>
-                            <ScrollGestureRecognizer CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}" CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}" />
+                            <ScrollGestureRecognizer CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
+                                                     CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}" />
                         </ScrollContentPresenter.GestureRecognizers>
                     </ScrollContentPresenter>
 
@@ -181,8 +182,11 @@
                             VerticalAlignment="Top"
                             Command="{Binding LineUp, RelativeSource={RelativeSource TemplatedParent}}">
                             <RepeatButton.IsVisible>
-                                <MultiBinding Converter="{x:Static converters:MenuScrollingVisibilityConverter.Instance}" ConverterParameter="0">
-                                    <Binding Path="VerticalScrollBarVisibility" RelativeSource="{RelativeSource TemplatedParent}" />
+                                <MultiBinding
+                                    Converter="{x:Static converters:MenuScrollingVisibilityConverter.Instance}"
+                                    ConverterParameter="0">
+                                    <Binding Path="VerticalScrollBarVisibility"
+                                             RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="Offset.Y" RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="Extent.Height" RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="Viewport.Height" RelativeSource="{RelativeSource TemplatedParent}" />
@@ -198,8 +202,11 @@
                             VerticalAlignment="Bottom"
                             Command="{Binding LineDown, RelativeSource={RelativeSource TemplatedParent}}">
                             <RepeatButton.IsVisible>
-                                <MultiBinding Converter="{x:Static converters:MenuScrollingVisibilityConverter.Instance}" ConverterParameter="100">
-                                    <Binding Path="VerticalScrollBarVisibility" RelativeSource="{RelativeSource TemplatedParent}" />
+                                <MultiBinding
+                                    Converter="{x:Static converters:MenuScrollingVisibilityConverter.Instance}"
+                                    ConverterParameter="100">
+                                    <Binding Path="VerticalScrollBarVisibility"
+                                             RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="Offset.Y" RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="Extent.Height" RelativeSource="{RelativeSource TemplatedParent}" />
                                     <Binding Path="Viewport.Height" RelativeSource="{RelativeSource TemplatedParent}" />

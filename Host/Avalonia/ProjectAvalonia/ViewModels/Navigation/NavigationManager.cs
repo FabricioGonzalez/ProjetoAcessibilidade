@@ -11,19 +11,23 @@ public static class NavigationManager
 
     private static readonly Dictionary<Type, ViewModelBase> TypeRegistry = new();
 
-    public static IEnumerable<NavigationMetaData> MetaData => NavigationEntries.Keys.Select(x => x);
+    public static IEnumerable<NavigationMetaData> MetaData => NavigationEntries.Keys.Select(selector: x => x);
 
-    public static void RegisterType<T>(T instance) where T : ViewModelBase
+    public static void RegisterType<T>(
+        T instance
+    )
+        where T : ViewModelBase
     {
-        if (!TypeRegistry.ContainsKey(typeof(T)))
+        if (!TypeRegistry.ContainsKey(key: typeof(T)))
         {
-            TypeRegistry.Add(typeof(T), instance);
+            TypeRegistry.Add(key: typeof(T), value: instance);
         }
     }
 
-    public static T? Get<T>() where T : ViewModelBase
+    public static T? Get<T>()
+        where T : ViewModelBase
     {
-        if (TypeRegistry.TryGetValue(typeof(T), out ViewModelBase? value) && value is T vmb)
+        if (TypeRegistry.TryGetValue(key: typeof(T), value: out var value) && value is T vmb)
         {
             return vmb;
         }
@@ -31,63 +35,76 @@ public static class NavigationManager
         return null;
     }
 
-    public static async Task<RoutableViewModel?> MaterialiseViewModelAsync(NavigationMetaData metaData)
+    public static async Task<RoutableViewModel?> MaterialiseViewModelAsync(
+        NavigationMetaData metaData
+    )
     {
-        if (NavigationEntries.ContainsKey(metaData))
+        if (NavigationEntries.ContainsKey(key: metaData))
         {
-            if (NavigationEntries[metaData] is InstanceGenerator instanceGenerator)
+            if (NavigationEntries[key: metaData] is InstanceGenerator instanceGenerator)
             {
                 return instanceGenerator.Generate;
             }
-            else if (NavigationEntries[metaData] is SynchronousInstanceGenerator synchronousInstanceGenerator)
+
+            if (NavigationEntries[key: metaData] is SynchronousInstanceGenerator synchronousInstanceGenerator)
             {
                 return synchronousInstanceGenerator.Generate();
             }
-            else if (NavigationEntries[metaData] is AsyncInstanceGenerator asyncInstanceGenerator)
+
+            if (NavigationEntries[key: metaData] is AsyncInstanceGenerator asyncInstanceGenerator)
             {
                 return await asyncInstanceGenerator.Generate();
             }
         }
 
-        throw new Exception("ViewModel metadata not registered.");
+        throw new Exception(message: "ViewModel metadata not registered.");
     }
 
-    public static void RegisterAsyncLazy(NavigationMetaData metaData, Func<Task<RoutableViewModel?>> generator)
+    public static void RegisterAsyncLazy(
+        NavigationMetaData metaData
+        , Func<Task<RoutableViewModel?>> generator
+    )
     {
         if (metaData.Searchable && (metaData.Category is null || metaData.Title is null))
         {
-            throw new Exception("Searchable entries must have both a Category and a Title");
+            throw new Exception(message: "Searchable entries must have both a Category and a Title");
         }
 
-        if (!NavigationEntries.ContainsKey(metaData))
+        if (!NavigationEntries.ContainsKey(key: metaData))
         {
-            NavigationEntries.Add(metaData, new AsyncInstanceGenerator(generator));
-        }
-    }
-
-    public static void RegisterLazy(NavigationMetaData metaData, Func<RoutableViewModel?> generator)
-    {
-        if (metaData.Searchable && (metaData.Category is null || metaData.Title is null))
-        {
-            throw new Exception("Searchable entries must have both a Category and a Title");
-        }
-
-        if (!NavigationEntries.ContainsKey(metaData))
-        {
-            NavigationEntries.Add(metaData, new SynchronousInstanceGenerator(generator));
+            NavigationEntries.Add(key: metaData, value: new AsyncInstanceGenerator(generate: generator));
         }
     }
 
-    public static void Register(NavigationMetaData metaData, RoutableViewModel instance)
+    public static void RegisterLazy(
+        NavigationMetaData metaData
+        , Func<RoutableViewModel?> generator
+    )
     {
         if (metaData.Searchable && (metaData.Category is null || metaData.Title is null))
         {
-            throw new Exception("Searchable entries must have both a Category and a Title");
+            throw new Exception(message: "Searchable entries must have both a Category and a Title");
         }
 
-        if (!NavigationEntries.ContainsKey(metaData))
+        if (!NavigationEntries.ContainsKey(key: metaData))
         {
-            NavigationEntries.Add(metaData, new InstanceGenerator(instance));
+            NavigationEntries.Add(key: metaData, value: new SynchronousInstanceGenerator(generate: generator));
+        }
+    }
+
+    public static void Register(
+        NavigationMetaData metaData
+        , RoutableViewModel instance
+    )
+    {
+        if (metaData.Searchable && (metaData.Category is null || metaData.Title is null))
+        {
+            throw new Exception(message: "Searchable entries must have both a Category and a Title");
+        }
+
+        if (!NavigationEntries.ContainsKey(key: metaData))
+        {
+            NavigationEntries.Add(key: metaData, value: new InstanceGenerator(generate: instance));
         }
     }
 
@@ -97,7 +114,9 @@ public static class NavigationManager
 
     private class AsyncInstanceGenerator : InstanceGeneratorBase
     {
-        public AsyncInstanceGenerator(Func<Task<RoutableViewModel?>> generate)
+        public AsyncInstanceGenerator(
+            Func<Task<RoutableViewModel?>> generate
+        )
         {
             Generate = generate;
         }
@@ -110,7 +129,9 @@ public static class NavigationManager
 
     private class SynchronousInstanceGenerator : InstanceGeneratorBase
     {
-        public SynchronousInstanceGenerator(Func<RoutableViewModel?> generate)
+        public SynchronousInstanceGenerator(
+            Func<RoutableViewModel?> generate
+        )
         {
             Generate = generate;
         }
@@ -123,7 +144,9 @@ public static class NavigationManager
 
     private class InstanceGenerator : InstanceGeneratorBase
     {
-        public InstanceGenerator(RoutableViewModel generate)
+        public InstanceGenerator(
+            RoutableViewModel generate
+        )
         {
             Generate = generate;
         }

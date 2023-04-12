@@ -2,8 +2,8 @@
 {
     public enum AspectRatioOption
     {
-        FitWidth,
-        FitHeight,
-        FitArea
+        FitWidth
+        , FitHeight
+        , FitArea
     }
 }

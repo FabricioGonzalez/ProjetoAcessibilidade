@@ -9,24 +9,27 @@ namespace QuestPDF.Drawing
 {
     public class DocumentContainer : IDocumentContainer
     {
-        public List<IComponent> Pages { get; set; } = new List<IComponent>();
-        
+        public List<IComponent> Pages
+        {
+            get;
+            set;
+        } = new();
+
         public Container Compose()
         {
             var container = new Container();
-            
+
             container
-                .Column(column =>
+                .Column(handler: column =>
                 {
                     Pages
-                        .SelectMany(x => new List<Action>()
+                        .SelectMany(selector: x => new List<Action>
                         {
-                            () => column.Item().PageBreak(),
-                            () => column.Item().Component(x)
+                            () => column.Item().PageBreak(), () => column.Item().Component(component: x)
                         })
-                        .Skip(1)
+                        .Skip(count: 1)
                         .ToList()
-                        .ForEach(x => x());
+                        .ForEach(action: x => x());
                 });
 
             return container;

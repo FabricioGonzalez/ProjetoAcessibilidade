@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.UI.Xaml;
-
 using ProjectWinUI.Src.Helpers;
 using ProjectWinUI.Src.Settings.Contracts;
 using ProjectWinUI.Src.Theming.Contracts;
 
 namespace ProjectWinUI.Src.Theming.Services;
+
 public class ThemeSelectorService : IThemeSelectorService
 {
     private const string SettingsKey = "AppBackgroundRequestedTheme";
 
-    public ElementTheme Theme { get; set; } = ElementTheme.Default;
-
     private readonly ILocalSettingsService _localSettingsService;
 
-    public ThemeSelectorService(ILocalSettingsService localSettingsService)
+    public ThemeSelectorService(
+        ILocalSettingsService localSettingsService
+    )
     {
         _localSettingsService = localSettingsService;
     }
+
+    public ElementTheme Theme
+    {
+        get;
+        set;
+    } = ElementTheme.Default;
 
     public async Task InitializeAsync()
     {
@@ -27,12 +32,14 @@ public class ThemeSelectorService : IThemeSelectorService
         await Task.CompletedTask;
     }
 
-    public async Task SetThemeAsync(ElementTheme theme)
+    public async Task SetThemeAsync(
+        ElementTheme theme
+    )
     {
         Theme = theme;
 
         await SetRequestedThemeAsync();
-        await SaveThemeInSettingsAsync(Theme);
+        await SaveThemeInSettingsAsync(theme: Theme);
     }
 
     public async Task SetRequestedThemeAsync()
@@ -41,7 +48,7 @@ public class ThemeSelectorService : IThemeSelectorService
         {
             rootElement.RequestedTheme = Theme;
 
-            TitleBarHelper.UpdateTitleBar(Theme);
+            TitleBarHelper.UpdateTitleBar(theme: Theme);
         }
 
         await Task.CompletedTask;
@@ -49,9 +56,9 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task<ElementTheme> LoadThemeFromSettingsAsync()
     {
-        var themeName = await _localSettingsService.ReadSettingAsync<string>(SettingsKey);
+        var themeName = await _localSettingsService.ReadSettingAsync<string>(key: SettingsKey);
 
-        if (Enum.TryParse(themeName, out ElementTheme cacheTheme))
+        if (Enum.TryParse(value: themeName, result: out ElementTheme cacheTheme))
         {
             return cacheTheme;
         }
@@ -59,8 +66,7 @@ public class ThemeSelectorService : IThemeSelectorService
         return ElementTheme.Default;
     }
 
-    private async Task SaveThemeInSettingsAsync(ElementTheme theme)
-    {
-        await _localSettingsService.SaveSettingAsync(SettingsKey, theme.ToString());
-    }
+    private async Task SaveThemeInSettingsAsync(
+        ElementTheme theme
+    ) => await _localSettingsService.SaveSettingAsync(key: SettingsKey, value: theme.ToString());
 }

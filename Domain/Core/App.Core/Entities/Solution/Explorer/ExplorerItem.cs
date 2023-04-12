@@ -1,19 +1,22 @@
-﻿using Core.Common;
+﻿namespace Core.Entities.Solution.Explorer;
 
-namespace Core.Entities.Solution.Explorer;
 public class ExplorerItem : BaseAuditableEntity
 {
     public string Name
     {
-        get; set;
+        get;
+        set;
     }
+
     public string Path
     {
-        get; set;
+        get;
+        set;
     }
 
     public string ReferencedItem
     {
-        get; set;
+        get;
+        set;
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-
 using Microsoft.Win32;
 
 namespace ProjectAvalonia.Common.Helpers;
@@ -10,30 +9,33 @@ public static class WindowsStartupHelper
 {
     private const string KeyPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 
-    public static void AddOrRemoveRegistryKey(bool runOnSystemStartup)
+    public static void AddOrRemoveRegistryKey(
+        bool runOnSystemStartup
+    )
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (!RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
         {
-            throw new InvalidOperationException("Registry modification can only be done on Windows.");
+            throw new InvalidOperationException(message: "Registry modification can only be done on Windows.");
         }
 
-        string pathToExeFile = EnvironmentHelpers.GetExecutablePath();
+        var pathToExeFile = EnvironmentHelpers.GetExecutablePath();
 
-        string pathToExecWithArgs = $"{pathToExeFile} {StartupHelper.SilentArgument}";
+        var pathToExecWithArgs = $"{pathToExeFile} {StartupHelper.SilentArgument}";
 
-        if (!File.Exists(pathToExeFile))
+        if (!File.Exists(path: pathToExeFile))
         {
-            throw new InvalidOperationException($"Path: {pathToExeFile} does not exist.");
+            throw new InvalidOperationException(message: $"Path: {pathToExeFile} does not exist.");
         }
 
-        using RegistryKey key = Registry.CurrentUser.OpenSubKey(KeyPath, writable: true) ?? throw new InvalidOperationException("Registry operation failed.");
+        using var key = Registry.CurrentUser.OpenSubKey(name: KeyPath, writable: true) ??
+                        throw new InvalidOperationException(message: "Registry operation failed.");
         if (runOnSystemStartup)
         {
-            key.SetValue(nameof(ProjectAvalonia), pathToExecWithArgs);
+            key.SetValue(name: nameof(ProjectAvalonia), value: pathToExecWithArgs);
         }
         else
         {
-            key.DeleteValue(nameof(ProjectAvalonia), false);
+            key.DeleteValue(name: nameof(ProjectAvalonia), throwOnMissingValue: false);
         }
     }
 }

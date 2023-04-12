@@ -6,72 +6,103 @@
     xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:ProjectAvalonia.Features.Project.ViewModels"
+    xmlns:projectItems="clr-namespace:ProjectAvalonia.Features.Project.States.ProjectItems"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="viewModels:ProjectExplorerViewModel"
     mc:Ignorable="d">
-    <Grid Name="ExplorerRoot" RowDefinitions="35,35,1*">
-        <TextBlock Text="Explorador de Solução" />
-        <TextBox />
-        <TreeView
-            x:Name="explorerTreeView"
+    <Grid Name="ExplorerRoot" RowDefinitions="42,42,42,1*" Background="{DynamicResource AcrylicTrimBackground}">
+        <TextBlock
+            Grid.Row="0"
+            Margin="4,0"
+            Text="Explorador de Solução" />
+        <StackPanel Grid.Row="1">
+            <Button VerticalAlignment="Center" Height="32" Width="32" ToolTip.Tip="Criar pasta">
+                <PathIcon Data="{StaticResource add_regular}" />
+            </Button>
+        </StackPanel>
+        <TextBox
             Grid.Row="2"
+            Margin="4,0"
+            Watermark="Pesquisar itens"
+            UseFloatingWatermark="True">
+            <TextBox.InnerRightContent>
+                <PathIcon Data="{StaticResource search_regular}" />
+            </TextBox.InnerRightContent>
+        </TextBox>
+        <TreeView
+            Grid.Row="3"
+            Margin="4,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            CornerRadius="8"
-            Items="{Binding SolutionModel.ItemGroups}"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+
+            Items="{Binding Items,Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Padding="0">
             <TreeView.ItemTemplate>
-                <DataTemplate>
-                    <TreeViewItem Items="{Binding Items}">
+                <DataTemplate x:DataType="projectItems:ItemGroupState">
+                    <TreeViewItem HorizontalAlignment="Stretch" Items="{Binding Items}">
                         <TreeViewItem.Header>
-                            <controls:EditableTextBlock InEditMode="{Binding InEditMode}" Text="{Binding Name}" />
+                            <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+                                <PathIcon DockPanel.Dock="Left" Margin="0,0,8,0" Data="{StaticResource folder_regular}" />
+                                <controls:EditableTextBlock
+                                    Command="{Binding $parent[UserControl].DataContext.CommitFolderCommand}"
+                                    CommandParameter="{Binding}" InEditMode="{Binding InEditMode}"
+                                    Text="{Binding Name}" />
+                            </DockPanel>
                         </TreeViewItem.Header>
                         <TreeViewItem.ContextMenu>
                             <ContextMenu>
                                 <MenuItem
-                                    Command="{Binding $parent[UserControl].DataContext.SolutionModel.AddProjectItemCommand}"
+                                    Command="{Binding $parent[UserControl].DataContext.AddProjectItemCommand}"
                                     CommandParameter="{Binding}"
                                     Header="Adicionar Item" />
                                 <MenuItem
-                                    Command="{Binding $parent[UserControl].DataContext.SolutionModel.ExcludeFolderCommand}"
+                                    Command="{Binding $parent[UserControl].DataContext.ExcludeFolderCommand}"
                                     CommandParameter="{Binding}"
                                     Header="Excluir Pasta" />
                             </ContextMenu>
                         </TreeViewItem.ContextMenu>
                         <TreeViewItem.ItemTemplate>
                             <DataTemplate>
-                                <Panel>
+                                <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
                                     <i:Interaction.Behaviors>
-                                        <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding $parent[UserControl].DataContext.CreateItemCommand}" CommandParameter="{Binding}" />
+                                        <behaviors:ExecuteCommandOnDoubleTappedBehavior
+                                            Command="{Binding $parent[UserControl].DataContext.CreateItemCommand}"
+                                            CommandParameter="{Binding}" />
                                     </i:Interaction.Behaviors>
-                                    <controls:EditableTextBlock InEditMode="{Binding InEditMode}" Text="{Binding Name}" />
-                                    <Panel.ContextMenu>
+                                    <PathIcon HorizontalAlignment="Left" Margin="0,0,8,0"
+                                              Data="{StaticResource document_regular}" />
+                                    <controls:EditableTextBlock InEditMode="{Binding InEditMode}"
+                                                                Command="{Binding $parent[UserControl].DataContext.CommitFileCommand}"
+                                                                CommandParameter="{Binding}"
+                                                                Text="{Binding Name}" />
+                                    <DockPanel.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem
-                                                Command="{Binding $parent[UserControl].DataContext.SolutionModel.ExcludeFileCommand}"
+                                                Command="{Binding $parent[UserControl].DataContext.ExcludeFileCommand}"
                                                 CommandParameter="{Binding}"
                                                 Header="Excluir" />
                                             <MenuItem
-                                                Command="{Binding $parent[UserControl].DataContext.SolutionModel.RenameFileCommand}"
+                                                Command="{Binding $parent[UserControl].DataContext.RenameFileCommand}"
                                                 CommandParameter="{Binding}"
                                                 Header="Renomear" />
                                         </ContextMenu>
-                                    </Panel.ContextMenu>
-                                </Panel>
+                                    </DockPanel.ContextMenu>
+                                </DockPanel>
                             </DataTemplate>
                         </TreeViewItem.ItemTemplate>
                     </TreeViewItem>
                 </DataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.ContextMenu>
-                <MenuItem
-                    Command="{Binding $parent[UserControl].DataContext.SolutionModel.AddProjectItemCommand}"
-                    CommandParameter="{Binding}"
-                    Header="Adicionar Item" />
+                <ContextMenu>
+                    <MenuItem
+                        Command="{Binding $parent[UserControl].DataContext.CreateFolderCommand}"
+                        CommandParameter="{Binding parent[UserControl].DataContext.Items}"
+                        Header="Adicionar Item" />
+                </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>
     </Grid>

@@ -1,45 +1,42 @@
 ﻿using System;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 using Avalonia.Controls;
-
 using Common;
-
 using Core.Entities.Solution;
-
 using Project.Domain.Contracts;
 using Project.Domain.Solution.Queries;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
-
 using ReactiveUI;
-
 using Splat;
 
 namespace ProjectAvalonia.ViewModels;
-public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
+
+public partial class ApplicationViewModel
+    : ViewModelBase
+        , ICanShutdownProvider
 {
     private readonly IMainWindowService _mainWindowService;
     private readonly IQueryDispatcher _queryDispatcher;
 
     [AutoNotify] private bool _isMainWindowShown = true;
-    [AutoNotify] private bool _isShuttingDown = false;
+    [AutoNotify] private bool _isShuttingDown;
 
-    public ApplicationViewModel(IMainWindowService mainWindowService)
+    public ApplicationViewModel(
+        IMainWindowService mainWindowService
+    )
     {
         _queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
         _mainWindowService = mainWindowService;
 
-        QuitCommand = ReactiveCommand.Create(() => Shutdown(false));
+        QuitCommand = ReactiveCommand.Create(execute: () => Shutdown(restart: false));
 
-        ShowHideCommand = ReactiveCommand.Create(() =>
+        ShowHideCommand = ReactiveCommand.Create(execute: () =>
         {
             if (IsMainWindowShown)
             {
@@ -51,22 +48,24 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
             }
         });
 
-        ShowCommand = ReactiveCommand.Create(() => _mainWindowService.Show());
+        ShowCommand = ReactiveCommand.Create(execute: () => _mainWindowService.Show());
 
-        AboutCommand = ReactiveCommand.Create(AboutExecute, AboutCanExecute());
+        AboutCommand = ReactiveCommand.Create(execute: AboutExecute, canExecute: AboutCanExecute());
 
-        using var bitmap = AssetHelpers.GetBitmapAsset("avares://ProjectAvalonia/Assets/logo.ico");
-        TrayIcon = new WindowIcon(bitmap);
+        using var bitmap = AssetHelpers.GetBitmapAsset(path: "avares://ProjectAvalonia/Assets/logo.ico");
+        TrayIcon = new WindowIcon(bitmap: bitmap);
     }
 
     public WindowIcon TrayIcon
     {
         get;
     }
+
     public ICommand AboutCommand
     {
         get;
     }
+
     public ICommand ShowCommand
     {
         get;
@@ -82,68 +81,57 @@ public partial class ApplicationViewModel : ViewModelBase, ICanShutdownProvider
         get;
     }
 
+    public bool CanShutdown() => IsShuttingDown;
+
     private void AboutExecute()
     {
         /*MainViewModel.Instance.DialogScreen.To(
             new AboutViewModel(navigateBack: MainViewModel.Instance.DialogScreen.CurrentPage is not null));*/
     }
 
-    private IObservable<bool> AboutCanExecute()
-    {
-        return MainViewModel.Instance.DialogScreen
-            .WhenAnyValue(x => x.CurrentPage)
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Select(x => x is null);
-    }
+    private IObservable<bool> AboutCanExecute() =>
+        MainViewModel.Instance.DialogScreen
+            .WhenAnyValue(property1: x => x.CurrentPage)
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+            .Select(selector: x => x is null);
 
-    public void Shutdown(bool restart) => _mainWindowService.Shutdown(restart);
+    public void Shutdown(
+        bool restart
+    ) => _mainWindowService.Shutdown(restart: restart);
 
-    public void OnShutdownPrevented(bool restartRequest)
+    public void OnShutdownPrevented(
+        bool restartRequest
+    )
     {
         MainViewModel.Instance.ApplyUiConfigWindowSate(); // Will pop the window if it was minimized.
-        MainViewModel.Instance.CompactDialogScreen.To(new ShuttingDownViewModel(this, restartRequest));
+        MainViewModel.Instance.CompactDialogScreen.To(
+            viewmodel: new ShuttingDownViewModel(applicationViewModel: this, restart: restartRequest));
         IsShuttingDown = true;
     }
 
-    public bool CanShutdown()
-    {
-        return IsShuttingDown;
-    }
-
-    internal async Task GoToOpenPrint(string v)
-    {
-
+    internal async Task GoToOpenPrint(
+        string v
+    ) =>
         (await _queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
-    query: new(SolutionPath: v),
-    cancellation: CancellationToken.None))
-    .OnSuccess(
-    async (result) =>
-    {
-        MainViewModel.Instance.PrintProject(result.Data.ToSolutionState());
+            query: new ReadSolutionProjectQuery(SolutionPath: v),
+            cancellation: CancellationToken.None))
+        .OnSuccess(
+            onSuccessAction: async result =>
+            {
+                MainViewModel.Instance.PrintProject(solutionState: result.Data.ToSolutionState());
 
-        /*  MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
+                /*  MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
                     , Parameter: result.Data.ToSolutionState());
 
           MainViewModel.Instance.MainScreen.To(
                       await NavigationManager.MaterialiseViewModelAsync(ProjectViewModel.MetaData)
                      , Parameter: v);*/
-    })
-    .OnError(error =>
-    {
+            })
+        .OnError(onErrorAction: error =>
+        {
+        });
 
-    })
-    .OnLoadingStarted(loading =>
-    {
-
-    });
-
-
-    }
-
-    internal void GoToOpenProject(string v)
-    {
-        MainViewModel.Instance.OpenProject(v);
-
-
-    }
+    internal void GoToOpenProject(
+        string v
+    ) => MainViewModel.Instance.OpenProject(projectPath: v);
 }

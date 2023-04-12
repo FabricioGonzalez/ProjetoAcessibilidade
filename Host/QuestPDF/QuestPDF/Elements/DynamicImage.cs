@@ -7,27 +7,34 @@ namespace QuestPDF.Elements
 {
     public class DynamicImage : Element
     {
-        public Func<Size, byte[]>? Source { get; set; }
-        
-        public override SpacePlan Measure(Size availableSpace)
+        public Func<Size, byte[]>? Source
         {
-            return SpacePlan.FullRender(availableSpace.Width, availableSpace.Height);
+            get;
+            set;
         }
 
-        public override void Draw(Size availableSpace)
+        public override SpacePlan Measure(
+            Size availableSpace
+        ) => SpacePlan.FullRender(width: availableSpace.Width, height: availableSpace.Height);
+
+        public override void Draw(
+            Size availableSpace
+        )
         {
-            var imageData = Source?.Invoke(availableSpace);
-            
+            var imageData = Source?.Invoke(arg: availableSpace);
+
             if (imageData == null)
+            {
                 return;
+            }
 
             var imageElement = new Image
             {
-                publicImage = SKImage.FromEncodedData(imageData)
+                publicImage = SKImage.FromEncodedData(data: imageData)
             };
-            
-            imageElement.Initialize(PageContext, Canvas);
-            imageElement.Draw(availableSpace);
+
+            imageElement.Initialize(pageContext: PageContext, canvas: Canvas);
+            imageElement.Draw(availableSpace: availableSpace);
         }
     }
 }

@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 namespace ProjectAvalonia.Common.Http;
 
 /// <summary>
-/// Interface defining HTTP client capable of sending either absolute or relative HTTP requests.
+///     Interface defining HTTP client capable of sending either absolute or relative HTTP requests.
 /// </summary>
-/// <remarks>Relative HTTP requests are allowed only when <see cref="BaseUriGetter"/> returns non-<see langword="null"/> value.</remarks>
+/// <remarks>
+///     Relative HTTP requests are allowed only when <see cref="BaseUriGetter" /> returns non-<see langword="null" />
+///     value.
+/// </remarks>
 public interface IHttpClient
 {
     Func<Uri>? BaseUriGetter
@@ -19,35 +22,44 @@ public interface IHttpClient
     /// <summary>Sends an HTTP(s) request.</summary>
     /// <param name="request">HTTP request message to send.</param>
     /// <param name="cancellationToken">Cancellation token to cancel the asynchronous operation.</param>
-    /// <exception cref="HttpRequestException"/>
+    /// <exception cref="HttpRequestException" />
     /// <exception cref="OperationCanceledException">When operation is canceled.</exception>
-    Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken = default);
+    Task<HttpResponseMessage> SendAsync(
+        HttpRequestMessage request
+        , CancellationToken cancellationToken = default
+    );
 
-    /// <exception cref="HttpRequestException"/>
-    /// <exception cref="InvalidOperationException"/>
+    /// <exception cref="HttpRequestException" />
+    /// <exception cref="InvalidOperationException" />
     /// <exception cref="OperationCanceledException">When operation is canceled.</exception>
-    async Task<HttpResponseMessage> SendAsync(HttpMethod method, string relativeUri, HttpContent? content = null, CancellationToken cancellationToken = default)
+    async Task<HttpResponseMessage> SendAsync(
+        HttpMethod method
+        , string relativeUri
+        , HttpContent? content = null
+        , CancellationToken cancellationToken = default
+    )
     {
         if (BaseUriGetter is null)
         {
-            throw new InvalidOperationException($"{nameof(BaseUriGetter)} is not set.");
+            throw new InvalidOperationException(message: $"{nameof(BaseUriGetter)} is not set.");
         }
 
-        Uri? baseUri = BaseUriGetter.Invoke();
+        var baseUri = BaseUriGetter.Invoke();
 
         if (baseUri is null)
         {
-            throw new InvalidOperationException("Base URI is not set.");
+            throw new InvalidOperationException(message: "Base URI is not set.");
         }
 
-        Uri requestUri = new(baseUri, relativeUri);
-        using HttpRequestMessage httpRequestMessage = new(method, requestUri);
+        Uri requestUri = new(baseUri: baseUri, relativeUri: relativeUri);
+        using HttpRequestMessage httpRequestMessage = new(method: method, requestUri: requestUri);
 
-        if (content is { })
+        if (content is not null)
         {
             httpRequestMessage.Content = content;
         }
 
-        return await SendAsync(httpRequestMessage, cancellationToken).ConfigureAwait(false);
+        return await SendAsync(request: httpRequestMessage, cancellationToken: cancellationToken)
+            .ConfigureAwait(continueOnCapturedContext: false);
     }
 }

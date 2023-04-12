@@ -13,7 +13,7 @@ public partial class MainWindow : Window
 
     private void InitializeComponent()
     {
-        AvaloniaXamlLoader.Load(this);
+        AvaloniaXamlLoader.Load(obj: this);
 #if DEBUG
         this.AttachDevTools();
 #endif

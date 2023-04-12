@@ -7,7 +7,8 @@ namespace ProjectAvalonia.Features.SearchBar.Settings;
 public static class PropertyHelper<T>
 {
     public static PropertyInfo GetProperty<TValue>(
-        Expression<Func<T, TValue>> selector)
+        Expression<Func<T, TValue>> selector
+    )
     {
         Expression body = selector;
         if (body is LambdaExpression expression)
@@ -17,8 +18,8 @@ public static class PropertyHelper<T>
 
         return body.NodeType switch
         {
-            ExpressionType.MemberAccess => (PropertyInfo)((MemberExpression)body).Member,
-            _ => throw new InvalidOperationException()
+            ExpressionType.MemberAccess => (PropertyInfo)((MemberExpression)body).Member
+            , _ => throw new InvalidOperationException()
         };
     }
 }

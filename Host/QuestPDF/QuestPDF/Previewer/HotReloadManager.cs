@@ -1,5 +1,4 @@
 ﻿#if NET6_0_OR_GREATER
-
 using System;
 
 [assembly: System.Reflection.Metadata.MetadataUpdateHandler(typeof(QuestPDF.Previewer.HotReloadManager))]

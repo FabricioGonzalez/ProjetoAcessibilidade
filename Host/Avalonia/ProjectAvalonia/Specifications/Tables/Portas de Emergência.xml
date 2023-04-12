@@ -1,58 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<item>
-    <id />
-    <name>Portas De Emergência</name>
-    <template_name>Portas De Emergência</template_name>
-    <table>
-        <checkbox_items>
-            <id />
-            <type>checkbox</type>
-            <topic></topic>
-            <checkboxes>
-                <checkbox_item>
-                    <id />
-                    <topic>Possui porta de emergência?</topic>
-                    <options>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-                <checkbox_item>
-                    <id />
-                    <topic>A porta de emergência possui barras antipânico?</topic>
-                    <options>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Sim</value>
-                        </option>
-                        <option>
-                            <id />
-                            <is_checked>false</is_checked>
-                            <value>Não</value>
-                        </option>
-                    </options>
-                </checkbox_item>
-            </checkboxes>
-        </checkbox_items>
-        <observation_item>
-            <id />
-            <type>observation</type>
-            <observation />
-        </observation_item>
-        <image_items>
-            <id />
-            <type>image</type>
-            <images />
-        </image_items>
-    </table>
-    <law />
+<?xml version="1.0" encoding="utf-8"?>
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <id>cebb3db5-a751-43b6-a2d3-bedca118ab3c</id>
+  <name>Portas De Emergência</name>
+  <table>
+    <checkbox_items>
+      <id>74a20834-e0b7-47c8-95ad-e84ba8e345a3</id>
+      <topic />
+      <type>checkbox</type>
+      <checkboxes>
+        <checkbox_item>
+          <id>c6fb6b20-9c43-499a-8a0b-e9070e290a13</id>
+          <topic>Possui porta de emergência?</topic>
+          <options>
+            <option>
+              <id>005f1eeb-ca91-4cb1-9b51-f6678cf3accd</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>4f9314da-ed4b-4a44-bf95-091bf09d639a</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+        <checkbox_item>
+          <id>6159e65b-ac44-4052-b8d8-d27cb4ab60d3</id>
+          <topic>A porta de emergência possui barras antipânico?</topic>
+          <options>
+            <option>
+              <id>e57c6530-ad3e-48a8-8144-3ae137359a29</id>
+              <value>Sim</value>
+              <is_checked>false</is_checked>
+            </option>
+            <option>
+              <id>e0fa08b9-b92d-4808-95d8-98ccdf4215c4</id>
+              <value>Não</value>
+              <is_checked>false</is_checked>
+            </option>
+          </options>
+        </checkbox_item>
+      </checkboxes>
+    </checkbox_items>
+    <observation_item>
+      <id>c9de15fb-42a8-4978-8b81-9aab3961a1da</id>
+      <topic xsi:nil="true" />
+      <type>observation</type>
+      <observation />
+    </observation_item>
+    <image_items>
+      <id>dc5b2ac5-9f06-4680-838c-b17c12b9ec67</id>
+      <topic xsi:nil="true" />
+      <type>image</type>
+      <images />
+    </image_items>
+  </table>
+  <law />
 </item>

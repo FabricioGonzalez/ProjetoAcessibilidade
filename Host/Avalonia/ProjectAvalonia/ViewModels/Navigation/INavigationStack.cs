@@ -1,9 +1,10 @@
 namespace ProjectAvalonia.ViewModels.Navigation;
 
-public interface INavigationStack<T> where T : INavigatable
+public interface INavigationStack<T>
+    where T : INavigatable
 {
     /// <summary>
-    /// The Current Page.
+    ///     The Current Page.
     /// </summary>
     T? CurrentPage
     {
@@ -11,19 +12,27 @@ public interface INavigationStack<T> where T : INavigatable
     }
 
     /// <summary>
-    /// True if you can navigate back, else false.
+    ///     True if you can navigate back, else false.
     /// </summary>
     bool CanNavigateBack
     {
         get;
     }
-    void To(T viewmodel, NavigationMode mode = NavigationMode.Normal, object? Parameter = null);
+
+    void To(
+        T viewmodel
+        , NavigationMode mode = NavigationMode.Normal
+        , object? Parameter = null
+    );
 
     void Back();
 
-    void BackTo(T viewmodel);
+    void BackTo(
+        T viewmodel
+    );
 
-    void BackTo<TViewModel>() where TViewModel : T;
+    void BackTo<TViewModel>()
+        where TViewModel : T;
 
     void Clear();
 }

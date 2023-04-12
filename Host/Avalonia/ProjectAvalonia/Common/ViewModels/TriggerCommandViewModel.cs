@@ -1,5 +1,4 @@
 using System.Windows.Input;
-
 using ProjectAvalonia.ViewModels.Navigation;
 
 namespace ProjectAvalonia.ViewModels;

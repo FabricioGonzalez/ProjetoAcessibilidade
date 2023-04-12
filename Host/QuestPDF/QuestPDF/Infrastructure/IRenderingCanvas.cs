@@ -4,8 +4,11 @@
     {
         void BeginDocument();
         void EndDocument();
-        
-        void BeginPage(Size size);
+
+        void BeginPage(
+            Size size
+        );
+
         void EndPage();
     }
 }

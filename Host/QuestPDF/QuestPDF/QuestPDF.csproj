@@ -25,18 +25,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="SkiaSharp" Version="2.88.3" />
+        <PackageReference Include="SkiaSharp" Version="2.88.3"/>
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Resources\ImagePlaceholder.png" />
-      <EmbeddedResource Include="Resources\Logo.png" />
-      <None Remove="ImagePlaceholder.png" />
-      <None Include="Resources\Logo.png">
-        <Pack>true</Pack>
-        <Visible>false</Visible>
-        <PackagePath>\</PackagePath>
-      </None>
+        <EmbeddedResource Include="Resources\ImagePlaceholder.png"/>
+        <EmbeddedResource Include="Resources\Logo.png"/>
+        <None Remove="ImagePlaceholder.png"/>
+        <None Include="Resources\Logo.png">
+            <Pack>true</Pack>
+            <Visible>false</Visible>
+            <PackagePath>\</PackagePath>
+        </None>
     </ItemGroup>
 
 </Project>

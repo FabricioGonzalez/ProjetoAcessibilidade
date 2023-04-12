@@ -1,4 +1,5 @@
 ﻿namespace Core.Entities.Solution.ItemsGroup;
+
 public class ItemGroupModel
 {
     public string Name
@@ -6,11 +7,13 @@ public class ItemGroupModel
         get;
         set;
     }
+
     public string ItemPath
     {
         get;
         set;
     }
+
     public List<ItemModel> Items
     {
         get;

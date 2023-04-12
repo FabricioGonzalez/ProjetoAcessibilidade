@@ -2,7 +2,6 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.TemplateEditTabView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:formItemState="clr-namespace:ProjectAvalonia.Features.Project.States.FormItemState;assembly=ProjectAvalonia"
     xmlns:i="using:Avalonia.Xaml.Interactivity"
@@ -55,7 +54,8 @@
                     </Grid>
                     <ItemsControl Items="{Binding EditingItem.FormData, Mode=TwoWay}">
                         <ItemsControl.DataTemplates>
-                            <DataTemplate x:DataType="formItemState:CheckboxContainerItemState" DataType="formItemState:CheckboxContainerItemState">
+                            <DataTemplate x:DataType="formItemState:CheckboxContainerItemState"
+                                          DataType="formItemState:CheckboxContainerItemState">
                                 <Expander
                                     Margin="4"
                                     HorizontalAlignment="Stretch"
@@ -78,7 +78,9 @@
                                                     SelectedItem="{Binding $parent[Expander].DataContext.Type, Mode=TwoWay}">
                                                     <i:Interaction.Behaviors>
                                                         <ia:EventTriggerBehavior EventName="SelectionChanged">
-                                                            <ia:InvokeCommandAction Command="{Binding $parent[UserControl].DataContext.ChangeItemTypeCommand}" CommandParameter="{Binding $parent[Expander].DataContext}" />
+                                                            <ia:InvokeCommandAction
+                                                                Command="{Binding $parent[UserControl].DataContext.ChangeItemTypeCommand}"
+                                                                CommandParameter="{Binding $parent[Expander].DataContext}" />
                                                         </ia:EventTriggerBehavior>
                                                     </i:Interaction.Behaviors>
                                                     <ComboBox.ItemTemplate>
@@ -190,7 +192,8 @@
                                                                                     HorizontalAlignment="Right"
                                                                                     Classes="function"
                                                                                     ToolTip.Tip="Remove Option">
-                                                                                    <PathIcon Data="{StaticResource dismiss_light}" />
+                                                                                    <PathIcon
+                                                                                        Data="{StaticResource dismiss_light}" />
                                                                                 </Button>
                                                                             </Grid>
                                                                         </Border>
@@ -206,8 +209,10 @@
                                 </Expander>
                             </DataTemplate>
 
-                            <DataTemplate x:DataType="formItemState:TextItemState" DataType="formItemState:TextItemState">
-                                <Grid Background="{DynamicResource AcrylicTrimBackground}" ColumnDefinitions="1*,1*,1*,38">
+                            <DataTemplate x:DataType="formItemState:TextItemState"
+                                          DataType="formItemState:TextItemState">
+                                <Grid Background="{DynamicResource AcrylicTrimBackground}"
+                                      ColumnDefinitions="1*,1*,1*,38">
                                     <TextBox
                                         Grid.Column="0"
                                         Margin="4,0"
@@ -232,7 +237,9 @@
                                         SelectedItem="{Binding Type, Mode=TwoWay}">
                                         <i:Interaction.Behaviors>
                                             <ia:EventTriggerBehavior EventName="SelectionChanged">
-                                                <ia:InvokeCommandAction Command="{Binding $parent[UserControl].DataContext.ChangeItemTypeCommand}" CommandParameter="{Binding $parent[Expander].DataContext}" />
+                                                <ia:InvokeCommandAction
+                                                    Command="{Binding $parent[UserControl].DataContext.ChangeItemTypeCommand}"
+                                                    CommandParameter="{Binding $parent[Expander].DataContext}" />
                                             </ia:EventTriggerBehavior>
                                         </i:Interaction.Behaviors>
                                         <ComboBox.ItemTemplate>

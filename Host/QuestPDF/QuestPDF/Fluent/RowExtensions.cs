@@ -6,60 +6,61 @@ namespace QuestPDF.Fluent
 {
     public class RowDescriptor
     {
-        public Row Row { get; } = new();
-
-        public void Spacing(float value)
+        public Row Row
         {
-            Row.Spacing = value;
-        }
+            get;
+        } = new();
 
-        private IContainer Item(RowItemType type, float size = 0)
+        public void Spacing(
+            float value
+        ) => Row.Spacing = value;
+
+        private IContainer Item(
+            RowItemType type
+            , float size = 0
+        )
         {
             var element = new RowItem
             {
-                Type = type,
-                Size = size
+                Type = type, Size = size
             };
-            
-            Row.Items.Add(element);
+
+            Row.Items.Add(item: element);
             return element;
         }
-        
-        [Obsolete("This element has been renamed since version 2022.2. Please use the RelativeItem method.")]
-        public IContainer RelativeColumn(float size = 1)
-        {
-            return Item(RowItemType.Relative, size);
-        }
-        
-        [Obsolete("This element has been renamed since version 2022.2. Please use the ConstantItem method.")]
-        public IContainer ConstantColumn(float size)
-        {
-            return Item(RowItemType.Constant, size);
-        }
 
-        public IContainer RelativeItem(float size = 1)
-        {
-            return Item(RowItemType.Relative, size);
-        }
-        
-        public IContainer ConstantItem(float size, Unit unit = Unit.Point)
-        {
-            return Item(RowItemType.Constant, size.ToPoints(unit));
-        }
+        [Obsolete(message: "This element has been renamed since version 2022.2. Please use the RelativeItem method.")]
+        public IContainer RelativeColumn(
+            float size = 1
+        ) => Item(type: RowItemType.Relative, size: size);
 
-        public IContainer AutoItem()
-        {
-            return Item(RowItemType.Auto);
-        }
+        [Obsolete(message: "This element has been renamed since version 2022.2. Please use the ConstantItem method.")]
+        public IContainer ConstantColumn(
+            float size
+        ) => Item(type: RowItemType.Constant, size: size);
+
+        public IContainer RelativeItem(
+            float size = 1
+        ) => Item(type: RowItemType.Relative, size: size);
+
+        public IContainer ConstantItem(
+            float size
+            , Unit unit = Unit.Point
+        ) => Item(type: RowItemType.Constant, size: size.ToPoints(unit: unit));
+
+        public IContainer AutoItem() => Item(type: RowItemType.Auto);
     }
-    
+
     public static class RowExtensions
     {
-        public static void Row(this IContainer element, Action<RowDescriptor> handler)
+        public static void Row(
+            this IContainer element
+            , Action<RowDescriptor> handler
+        )
         {
             var descriptor = new RowDescriptor();
-            handler(descriptor);
-            element.Element(descriptor.Row);
+            handler(obj: descriptor);
+            element.Element(child: descriptor.Row);
         }
     }
 }

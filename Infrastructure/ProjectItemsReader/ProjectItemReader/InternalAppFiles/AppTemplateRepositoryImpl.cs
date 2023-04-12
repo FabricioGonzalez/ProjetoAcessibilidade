@@ -1,40 +1,40 @@
 ﻿using Common;
-
 using Core.Entities.Solution.Explorer;
-
+using Core.Entities.Solution.ItemsGroup;
 using Project.Domain.App.Contracts;
 
 namespace ProjectItemReader.InternalAppFiles;
 
 public class AppTemplateRepositoryImpl : IAppTemplateRepository
 {
-    public async Task<Resource<List<ExplorerItem>>> ReadAllTemplateItems()
+    public async Task<Resource<List<ItemModel>>> ReadAllTemplateItems()
     {
         try
         {
-            var task = new Task<Resource<List<ExplorerItem>>>(() =>
+            var task = new Task<Resource<List<ItemModel>>>(function: () =>
             {
-                var files = Directory.GetFiles(Constants.AppItemsTemplateFolder);
+                var files = Directory.GetFiles(path: Constants.AppItemsTemplateFolder);
 
-                var filesList = new List<ExplorerItem>();
+                var filesList = new List<ItemModel>();
 
                 foreach (var item in files)
                 {
-                    var splitedItem = item.Split(Path.DirectorySeparatorChar);
+                    var splitedItem = item.Split(separator: Path.DirectorySeparatorChar);
 
-                    if (Path.GetExtension(splitedItem.Last())
-                    == Constants.AppProjectTemplateExtension)
+                    if (Path.GetExtension(path: splitedItem.Last())
+                        == Constants.AppProjectTemplateExtension)
                     {
-                        filesList.Add(new()
+                        filesList.Add(item: new ItemModel
                         {
-                            Name = Path.GetFileNameWithoutExtension(splitedItem.Last()),
-                            Path = item
+                            Name = Path.GetFileNameWithoutExtension(path: splitedItem.Last()),
+                            ItemPath = item
                         });
                     }
                 }
+
                 return filesList.Count > 0
-                    ? new Resource<List<ExplorerItem>>.Success(filesList)
-                    : new Resource<List<ExplorerItem>>.Error(ErrorConstants.AppNoFileFound, null);
+                    ? new Resource<List<ItemModel>>.Success(Data: filesList)
+                    : new Resource<List<ItemModel>>.Error(Message: ErrorConstants.AppNoFileFound, Data: null);
             });
             task.Start();
 
@@ -42,8 +42,7 @@ public class AppTemplateRepositoryImpl : IAppTemplateRepository
         }
         catch (Exception ex)
         {
-            return new Resource<List<ExplorerItem>>.Error(ex.Message, null);
+            return new Resource<List<ItemModel>>.Error(Message: ex.Message, Data: null);
         }
-
     }
 }

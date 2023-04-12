@@ -46,22 +46,6 @@
 
     <UserControl.Resources>
 
-        <SolidColorBrush x:Key="ToggleSwitchContentForeground" Color="{DynamicResource AcrylicTrimForeground}" />
-
-        <SolidColorBrush x:Key="ToggleSwitchStrokeOff" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchStrokeOn" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchKnobFillOff" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchKnobFillOn" Color="{DynamicResource AcrylicTrimForeground}" />
-
-        <SolidColorBrush x:Key="ToggleSwitchStrokeOffPointerOver" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchStrokeOnPointerOver" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchKnobFillOffPointerOver" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchKnobFillOnPointerOver" Color="{DynamicResource AcrylicTrimForeground}" />
-
-        <SolidColorBrush x:Key="ToggleSwitchStrokeOffPressed" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchStrokeOnPressed" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchKnobFillOffPressed" Color="{DynamicResource AcrylicTrimForeground}" />
-        <SolidColorBrush x:Key="ToggleSwitchKnobFillOnPressed" Color="{DynamicResource AcrylicTrimForeground}" />
     </UserControl.Resources>
 
     <UserControl.DataTemplates>
@@ -143,7 +127,8 @@
 
                 <i:Interaction.Behaviors>
                     <EventTriggerBehavior EventName="Click">
-                        <CallMethodAction MethodName="Focus" TargetObject="{x:Static helpers:ApplicationHelper.MainWindow}" />
+                        <CallMethodAction MethodName="Focus"
+                                          TargetObject="{x:Static helpers:ApplicationHelper.MainWindow}" />
                     </EventTriggerBehavior>
                 </i:Interaction.Behaviors>
 

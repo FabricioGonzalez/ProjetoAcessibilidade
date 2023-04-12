@@ -8,14 +8,8 @@ using SkiaSharp;
 
 namespace QuestPDF.Previewer;
 
-class CommunicationService
+internal class CommunicationService
 {
-    public static CommunicationService Instance { get; } = new ();
-    
-    public event Action<ICollection<PreviewPage>>? OnDocumentRefreshed;
-
-    private WebApplication? Application { get; set; }
-
     private readonly JsonSerializerOptions JsonSerializerOptions = new()
     {
         PropertyNameCaseInsensitive = true
@@ -23,21 +17,35 @@ class CommunicationService
 
     private CommunicationService()
     {
-        
     }
-    
-    public Task Start(int port)
+
+    public static CommunicationService Instance
+    {
+        get;
+    } = new();
+
+    private WebApplication? Application
+    {
+        get;
+        set;
+    }
+
+    public event Action<ICollection<PreviewPage>>? OnDocumentRefreshed;
+
+    public Task Start(
+        int port
+    )
     {
         var builder = WebApplication.CreateBuilder();
-        builder.Services.AddLogging(x => x.ClearProviders());
-        builder.WebHost.UseKestrel(options => options.Limits.MaxRequestBodySize = null);
+        builder.Services.AddLogging(configure: x => x.ClearProviders());
+        builder.WebHost.UseKestrel(options: options => options.Limits.MaxRequestBodySize = null);
         Application = builder.Build();
 
-        Application.MapGet("ping", HandlePing);
-        Application.MapGet("version", HandleVersion);
-        Application.MapPost("update/preview", HandleUpdatePreview);
-            
-        return Application.RunAsync($"http://localhost:{port}/");
+        Application.MapGet(pattern: "ping", handler: HandlePing);
+        Application.MapGet(pattern: "version", handler: HandleVersion);
+        Application.MapPost(pattern: "update/preview", handler: HandleUpdatePreview);
+
+        return Application.RunAsync(url: $"http://localhost:{port}/");
     }
 
     public async Task Stop()
@@ -46,34 +54,33 @@ class CommunicationService
         await Application.DisposeAsync();
     }
 
-    private async Task<IResult> HandlePing()
-    {
-        return OnDocumentRefreshed == null 
-            ? Results.StatusCode(StatusCodes.Status503ServiceUnavailable) 
+    private async Task<IResult> HandlePing() =>
+        OnDocumentRefreshed == null
+            ? Results.StatusCode(statusCode: StatusCodes.Status503ServiceUnavailable)
             : Results.Ok();
-    }
-    
-    private async Task<IResult> HandleVersion()
+
+    private async Task<IResult> HandleVersion() => Results.Json(data: GetType().Assembly.GetName().Version);
+
+    private async Task<IResult> HandleUpdatePreview(
+        HttpRequest request
+    )
     {
-        return Results.Json(GetType().Assembly.GetName().Version);
-    }
-    
-    private async Task<IResult> HandleUpdatePreview(HttpRequest request)
-    {
-        var command = JsonSerializer.Deserialize<DocumentSnapshot>(request.Form["command"], JsonSerializerOptions);
+        var command =
+            JsonSerializer.Deserialize<DocumentSnapshot>(json: request.Form[key: "command"]
+                , options: JsonSerializerOptions);
 
         var pages = command
             .Pages
-            .Select(page =>
+            .Select(selector: page =>
             {
-                using var stream = request.Form.Files[page.Id].OpenReadStream();
-                var picture = SKPicture.Deserialize(stream);
-                        
-                return new PreviewPage(picture, page.Width, page.Height);
+                using var stream = request.Form.Files[name: page.Id].OpenReadStream();
+                var picture = SKPicture.Deserialize(stream: stream);
+
+                return new PreviewPage(Picture: picture, Width: page.Width, Height: page.Height);
             })
             .ToList();
 
-        Task.Run(() => OnDocumentRefreshed(pages));
+        Task.Run(action: () => OnDocumentRefreshed(obj: pages));
         return Results.Ok();
     }
 }

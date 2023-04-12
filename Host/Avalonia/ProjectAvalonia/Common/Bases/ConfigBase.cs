@@ -1,62 +1,73 @@
 using System;
 using System.IO;
 using System.Text;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Json;
 using ProjectAvalonia.Logging;
 
 namespace ProjectAvalonia.Common.Bases;
 
-public abstract class ConfigBase : NotifyPropertyChangedBase, IConfig
+public abstract class ConfigBase
+    : NotifyPropertyChangedBase
+        , IConfig
 {
     protected ConfigBase()
     {
     }
 
-    protected ConfigBase(string filePath)
+    protected ConfigBase(
+        string filePath
+    )
     {
-        SetFilePath(filePath);
+        SetFilePath(path: filePath);
     }
 
     /// <remarks>
-    /// Guards both storing to <see cref="FilePath"/> and retrieving contents of <see cref="FilePath"/>.
-    /// <para>Otherwise, we risk concurrent read and write operations on <see cref="FilePath"/>.</para>
+    ///     Guards both storing to <see cref="FilePath" /> and retrieving contents of <see cref="FilePath" />.
+    ///     <para>Otherwise, we risk concurrent read and write operations on <see cref="FilePath" />.</para>
     /// </remarks>
-    protected object FileLock { get; } = new();
+    protected object FileLock
+    {
+        get;
+    } = new();
 
-    /// <inheritdoc/>
-    public string FilePath { get; private set; } = "";
+    /// <inheritdoc />
+    public string FilePath
+    {
+        get;
+        private set;
+    } = "";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void AssertFilePathSet()
     {
-        if (string.IsNullOrWhiteSpace(FilePath))
+        if (string.IsNullOrWhiteSpace(value: FilePath))
         {
-            throw new NotSupportedException($"{nameof(FilePath)} is not set. Use {nameof(SetFilePath)} to set it.");
+            throw new NotSupportedException(
+                message: $"{nameof(FilePath)} is not set. Use {nameof(SetFilePath)} to set it.");
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool CheckFileChange()
     {
         AssertFilePathSet();
 
-        if (!File.Exists(FilePath))
+        if (!File.Exists(path: FilePath))
         {
-            throw new FileNotFoundException($"{GetType().Name} file did not exist at path: `{FilePath}`.");
+            throw new FileNotFoundException(message: $"{GetType().Name} file did not exist at path: `{FilePath}`.");
         }
 
         lock (FileLock)
         {
-            string jsonString = ReadFileNoLock();
-            object newConfigObject = Activator.CreateInstance(GetType())!;
-            JsonConvert.PopulateObject(jsonString, newConfigObject, JsonSerializationOptions.Default.Settings);
+            var jsonString = ReadFileNoLock();
+            var newConfigObject = Activator.CreateInstance(type: GetType())!;
+            JsonConvert.PopulateObject(value: jsonString, target: newConfigObject
+                , settings: JsonSerializationOptions.Default.Settings);
 
-            return !AreDeepEqual(newConfigObject);
+            return !AreDeepEqual(otherConfig: newConfigObject);
         }
     }
 
@@ -67,11 +78,11 @@ public abstract class ConfigBase : NotifyPropertyChangedBase, IConfig
 
         lock (FileLock)
         {
-            JsonConvert.PopulateObject("{}", this);
+            JsonConvert.PopulateObject(value: "{}", target: this);
 
-            if (!File.Exists(FilePath))
+            if (!File.Exists(path: FilePath))
             {
-                Logger.LogInfo($"{GetType().Name} file did not exist. Created at path: `{FilePath}`.");
+                Logger.LogInfo(message: $"{GetType().Name} file did not exist. Created at path: `{FilePath}`.");
             }
             else
             {
@@ -81,8 +92,10 @@ public abstract class ConfigBase : NotifyPropertyChangedBase, IConfig
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogInfo($"{GetType().Name} file has been deleted because it was corrupted. Recreated default version at path: `{FilePath}`.");
-                    Logger.LogWarning(ex);
+                    Logger.LogInfo(
+                        message:
+                        $"{GetType().Name} file has been deleted because it was corrupted. Recreated default version at path: `{FilePath}`.");
+                    Logger.LogWarning(exception: ex);
                 }
             }
 
@@ -100,18 +113,19 @@ public abstract class ConfigBase : NotifyPropertyChangedBase, IConfig
     }
 
     /// <inheritdoc />
-    public void SetFilePath(string path)
-    {
-        FilePath = Guard.NotNullOrEmptyOrWhitespace(nameof(path), path, trim: true);
-    }
+    public void SetFilePath(
+        string path
+    ) => FilePath = Guard.NotNullOrEmptyOrWhitespace(parameterName: nameof(path), value: path, trim: true);
 
     /// <inheritdoc />
-    public bool AreDeepEqual(object otherConfig)
+    public bool AreDeepEqual(
+        object otherConfig
+    )
     {
-        var serializer = JsonSerializer.Create(JsonSerializationOptions.Default.Settings);
-        var currentConfig = JObject.FromObject(this, serializer);
-        var otherConfigJson = JObject.FromObject(otherConfig, serializer);
-        return JToken.DeepEquals(otherConfigJson, currentConfig);
+        var serializer = JsonSerializer.Create(settings: JsonSerializationOptions.Default.Settings);
+        var currentConfig = JObject.FromObject(o: this, jsonSerializer: serializer);
+        var otherConfigJson = JObject.FromObject(o: otherConfig, jsonSerializer: serializer);
+        return JToken.DeepEquals(t1: otherConfigJson, t2: currentConfig);
     }
 
     /// <inheritdoc />
@@ -123,15 +137,18 @@ public abstract class ConfigBase : NotifyPropertyChangedBase, IConfig
         }
     }
 
-    protected virtual bool TryEnsureBackwardsCompatibility(string jsonString) => true;
+    protected virtual bool TryEnsureBackwardsCompatibility(
+        string jsonString
+    ) => true;
 
     protected void LoadFileNoLock()
     {
-        string jsonString = ReadFileNoLock();
+        var jsonString = ReadFileNoLock();
 
-        JsonConvert.PopulateObject(jsonString, this, JsonSerializationOptions.Default.Settings);
+        JsonConvert.PopulateObject(value: jsonString, target: this
+            , settings: JsonSerializationOptions.Default.Settings);
 
-        if (TryEnsureBackwardsCompatibility(jsonString))
+        if (TryEnsureBackwardsCompatibility(jsonString: jsonString))
         {
             ToFileNoLock();
         }
@@ -141,17 +158,14 @@ public abstract class ConfigBase : NotifyPropertyChangedBase, IConfig
     {
         AssertFilePathSet();
 
-        string jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, JsonSerializationOptions.Default.Settings);
-        WriteFileNoLock(jsonString);
+        var jsonString = JsonConvert.SerializeObject(value: this, formatting: Formatting.Indented
+            , settings: JsonSerializationOptions.Default.Settings);
+        WriteFileNoLock(contents: jsonString);
     }
 
-    protected void WriteFileNoLock(string contents)
-    {
-        File.WriteAllText(FilePath, contents, Encoding.UTF8);
-    }
+    protected void WriteFileNoLock(
+        string contents
+    ) => File.WriteAllText(path: FilePath, contents: contents, encoding: Encoding.UTF8);
 
-    protected string ReadFileNoLock()
-    {
-        return File.ReadAllText(FilePath, Encoding.UTF8);
-    }
+    protected string ReadFileNoLock() => File.ReadAllText(path: FilePath, encoding: Encoding.UTF8);
 }

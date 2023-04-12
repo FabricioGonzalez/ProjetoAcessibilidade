@@ -51,24 +51,24 @@
         <itemtabela item="2">
             <tipo>text</tipo>
             <topic>Se plataforma, indicar o tipo:</topic>
-            <unidade />
-            <value />
+            <unidade/>
+            <value/>
         </itemtabela>
         <itemtabela item="3">
             <tipo>text</tipo>
             <topic>Atende à quais pavimentos? (Ex. subsolo ao térreo, térreo ao segundo, etc.</topic>
-            <unidade />
-            <value />
+            <unidade/>
+            <value/>
         </itemtabela>
         <itemtabela item="4">
             <tipo>text</tipo>
             <topic>Quantidade de paradas:</topic>
             <unidade>cm</unidade>
-            <value />
+            <value/>
         </itemtabela>
         <itemtabela item="5">
             <tipo>checkbox</tipo>
-            <topic />
+            <topic/>
             <checkboxes>
                 <checkboxitem item="1">
                     <topic>Possui identificação externa em braile na botoeira?</topic>
@@ -336,8 +336,8 @@
                     </opcoes>
                     <texto>
                         <topic>Onde se localiza</topic>
-                        <unidade />
-                        <value />
+                        <unidade/>
+                        <value/>
                     </texto>
                 </checkboxitem>
                 <checkboxitem item="14">
@@ -355,24 +355,25 @@
                     <texto>
                         <topic>Desnível:</topic>
                         <unidade>cm</unidade>
-                        <value />
+                        <value/>
                     </texto>
                 </checkboxitem>
             </checkboxes>
         </itemtabela>
         <itemtabela item="6">
             <tipo>text</tipo>
-            <topic>Tipo de porta (automática-abertura lateral, automática-abertura central, manual-eixo vertical):</topic>
-            <unidade />
-            <value />
+            <topic>Tipo de porta (automática-abertura lateral, automática-abertura central, manual-eixo vertical):
+            </topic>
+            <unidade/>
+            <value/>
         </itemtabela>
         <itemtabela item="7">
             <tipo>observation</tipo>
-            <value />
+            <value/>
         </itemtabela>
         <itemtabela item="8">
             <tipo>images</tipo>
         </itemtabela>
     </tabela>
-    <lei />
+    <lei/>
 </item>

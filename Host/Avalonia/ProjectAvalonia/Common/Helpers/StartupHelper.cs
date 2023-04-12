@@ -7,19 +7,23 @@ public static class StartupHelper
 {
     public static readonly string SilentArgument = "startsilent";
 
-    public static async Task ModifyStartupSettingAsync(bool runOnSystemStartup)
+    public static async Task ModifyStartupSettingAsync(
+        bool runOnSystemStartup
+    )
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
         {
-            WindowsStartupHelper.AddOrRemoveRegistryKey(runOnSystemStartup);
+            WindowsStartupHelper.AddOrRemoveRegistryKey(runOnSystemStartup: runOnSystemStartup);
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        else if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Linux))
         {
-            await LinuxStartupHelper.AddOrRemoveDesktopFileAsync(runOnSystemStartup).ConfigureAwait(false);
+            await LinuxStartupHelper.AddOrRemoveDesktopFileAsync(runOnSystemStartup: runOnSystemStartup)
+                .ConfigureAwait(continueOnCapturedContext: false);
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        else if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.OSX))
         {
-            await MacOsStartupHelper.AddOrRemoveLoginItemAsync(runOnSystemStartup).ConfigureAwait(false);
+            await MacOsStartupHelper.AddOrRemoveLoginItemAsync(runOnSystemStartup: runOnSystemStartup)
+                .ConfigureAwait(continueOnCapturedContext: false);
         }
     }
 }

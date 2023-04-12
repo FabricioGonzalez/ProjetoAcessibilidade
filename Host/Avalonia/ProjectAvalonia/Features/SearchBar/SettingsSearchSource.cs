@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
-
 using DynamicData;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
@@ -19,11 +16,14 @@ public class SettingsSearchSource : ISearchSource
 {
     private readonly SettingsPageViewModel _settingsPage;
 
-    public SettingsSearchSource(SettingsPageViewModel settingsPage, IObservable<string> query)
+    public SettingsSearchSource(
+        SettingsPageViewModel settingsPage
+        , IObservable<string> query
+    )
     {
         _settingsPage = settingsPage;
 
-        var filter = query.Select(SearchSource.DefaultFilter);
+        var filter = query.Select(selector: SearchSource.DefaultFilter);
 
         Changes = GetSettingsItems()
             .ToObservable()
@@ -36,55 +36,53 @@ public class SettingsSearchSource : ISearchSource
         get;
     }
 
-    private IEnumerable<ISearchItem> GetSettingsItems()
-    {
-        return new ISearchItem[]
+    private IEnumerable<ISearchItem> GetSettingsItems() =>
+        new ISearchItem[]
         {
-            new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>(target: _settingsPage.GeneralSettingsTab,
-            selector: b => b.DarkModeEnabled), name: "DarkModeLabel".GetLocalized(),
-            category: "AppearanceLabel".GetLocalized(),
-            keywords: new List<string> { "ThemeKeyWords".GetLocalized().Split(",")},
-            icon: "nav_settings_regular") { IsDefault = false },
-            new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
-            (target: _settingsPage.GeneralSettingsTab,
-            selector: b => b.AutoCopy),
-                                        name: "Auto copy addresses",
-                                        category: "Settings",
-                                        keywords: new List<string>(),
-                                        icon: "nav_settings_regular") { IsDefault = false },
-            new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
-            (target: _settingsPage.GeneralSettingsTab,
-                selector: b => b.AutoPaste),
-                name: "Auto paste addresses",
+            new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>(
+                    target: _settingsPage.GeneralSettingsTab,
+                    selector: b => b.DarkModeEnabled), name: "DarkModeLabel".GetLocalized(),
+                category: "AppearanceLabel".GetLocalized(),
+                keywords: new List<string> { "ThemeKeyWords".GetLocalized().Split(separator: ",") },
+                icon: "nav_settings_regular") { IsDefault = false }
+            , new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
+                (target: _settingsPage.GeneralSettingsTab,
+                    selector: b => b.AutoCopy),
+                name: "Auto copy addresses",
                 category: "Settings",
                 keywords: new List<string>(),
-                icon: "nav_settings_regular")
-            { IsDefault = false },
-            new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
-            (target: _settingsPage.GeneralSettingsTab,
-            selector: b => b.HideOnClose),
-            name: "Run in background when closed",
-            category: "Settings",
-            keywords: new List<string>()
-            { "hide", "tray" },
-            icon: "nav_settings_regular")
-            { IsDefault = false },
-            new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
-            (target: _settingsPage.GeneralSettingsTab,
-            selector: b => b.RunOnSystemStartup),
-            name: "Run Wasabi when computer starts",
-            category: "Settings",
-            keywords: new List<string>() { "startup", "boot" },
-            icon: "nav_settings_regular")
-            { IsDefault = false },
-            new NonActionableSearchItem(content: new Setting<AdvancedSettingsTabViewModel, bool>
-            (target: _settingsPage.AdvancedSettingsTab,
-            selector: b => b.EnableGpu),
-            name: "Enable GPU",
-            category: "Settings",
-            keywords: new List<string>(),
-            icon: "nav_settings_regular")
-            { IsDefault = false },
+                icon: "nav_settings_regular") { IsDefault = false }
+            , new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
+                    (target: _settingsPage.GeneralSettingsTab,
+                        selector: b => b.AutoPaste),
+                    name: "Auto paste addresses",
+                    category: "Settings",
+                    keywords: new List<string>(),
+                    icon: "nav_settings_regular")
+                { IsDefault = false }
+            , new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
+                    (target: _settingsPage.GeneralSettingsTab,
+                        selector: b => b.HideOnClose),
+                    name: "Run in background when closed",
+                    category: "Settings",
+                    keywords: new List<string> { "hide", "tray" },
+                    icon: "nav_settings_regular")
+                { IsDefault = false }
+            , new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
+                    (target: _settingsPage.GeneralSettingsTab,
+                        selector: b => b.RunOnSystemStartup),
+                    name: "Run Wasabi when computer starts",
+                    category: "Settings",
+                    keywords: new List<string> { "startup", "boot" },
+                    icon: "nav_settings_regular")
+                { IsDefault = false }
+            , new NonActionableSearchItem(content: new Setting<AdvancedSettingsTabViewModel, bool>
+                    (target: _settingsPage.AdvancedSettingsTab,
+                        selector: b => b.EnableGpu),
+                    name: "Enable GPU",
+                    category: "Settings",
+                    keywords: new List<string>(),
+                    icon: "nav_settings_regular")
+                { IsDefault = false }
         };
-    }
 }

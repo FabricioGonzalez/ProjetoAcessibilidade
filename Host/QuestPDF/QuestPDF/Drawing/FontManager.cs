@@ -9,96 +9,119 @@ namespace QuestPDF.Drawing
 {
     public static class FontManager
     {
-        private static ConcurrentDictionary<string, FontStyleSet> StyleSets = new();
-        private static ConcurrentDictionary<object, SKFontMetrics> FontMetrics = new();
-        private static ConcurrentDictionary<object, SKPaint> Paints = new();
-        private static ConcurrentDictionary<string, SKPaint> ColorPaint = new();
+        private static readonly ConcurrentDictionary<string, FontStyleSet> StyleSets = new();
+        private static readonly ConcurrentDictionary<object, SKFontMetrics> FontMetrics = new();
+        private static readonly ConcurrentDictionary<object, SKPaint> Paints = new();
+        private static readonly ConcurrentDictionary<string, SKPaint> ColorPaint = new();
 
-        private static void RegisterFontType(SKData fontData, string? customName = null)
+        private static void RegisterFontType(
+            SKData fontData
+            , string? customName = null
+        )
         {
-            foreach (var index in Enumerable.Range(0, 256))
+            foreach (var index in Enumerable.Range(start: 0, count: 256))
             {
-                var typeface = SKTypeface.FromData(fontData, index);
-                
+                var typeface = SKTypeface.FromData(data: fontData, index: index);
+
                 if (typeface == null)
+                {
                     break;
-                
+                }
+
                 var typefaceName = customName ?? typeface.FamilyName;
 
-                var fontStyleSet = StyleSets.GetOrAdd(typefaceName, _ => new FontStyleSet());
-                fontStyleSet.Add(typeface);
+                var fontStyleSet = StyleSets.GetOrAdd(key: typefaceName, valueFactory: _ => new FontStyleSet());
+                fontStyleSet.Add(typeface: typeface);
             }
         }
 
-        [Obsolete("Since version 2022.3, the FontManager class offers better font type matching support. Please use the RegisterFont(Stream stream) method.")]
-        public static void RegisterFontType(string fontName, Stream stream)
+        [Obsolete(
+            message:
+            "Since version 2022.3, the FontManager class offers better font type matching support. Please use the RegisterFont(Stream stream) method.")]
+        public static void RegisterFontType(
+            string fontName
+            , Stream stream
+        )
         {
-            using var fontData = SKData.Create(stream);
-            RegisterFontType(fontData);
-            RegisterFontType(fontData, customName: fontName);
+            using var fontData = SKData.Create(stream: stream);
+            RegisterFontType(fontData: fontData);
+            RegisterFontType(fontData: fontData, customName: fontName);
         }
 
-        public static void RegisterFont(Stream stream)
+        public static void RegisterFont(
+            Stream stream
+        )
         {
-            using var fontData = SKData.Create(stream);
-            RegisterFontType(fontData);
+            using var fontData = SKData.Create(stream: stream);
+            RegisterFontType(fontData: fontData);
         }
 
-        public static SKPaint ColorToPaint(this string color)
+        public static SKPaint ColorToPaint(
+            this string color
+        )
         {
-            return ColorPaint.GetOrAdd(color, Convert);
+            return ColorPaint.GetOrAdd(key: color, valueFactory: Convert);
 
-            static SKPaint Convert(string color)
+            static SKPaint Convert(
+                string color
+            )
             {
                 return new SKPaint
                 {
-                    Color = SKColor.Parse(color),
-                    IsAntialias = true
+                    Color = SKColor.Parse(hexString: color), IsAntialias = true
                 };
             }
         }
 
-        public static SKPaint ToPaint(this TextStyle style)
+        public static SKPaint ToPaint(
+            this TextStyle style
+        )
         {
-            return Paints.GetOrAdd(style.PaintKey, key => Convert(style));
+            return Paints.GetOrAdd(key: style.PaintKey, valueFactory: key => Convert(style: style));
 
-            static SKPaint Convert(TextStyle style)
+            static SKPaint Convert(
+                TextStyle style
+            )
             {
                 return new SKPaint
                 {
-                    Color = SKColor.Parse(style.Color),
-                    Typeface = GetTypeface(style),
-                    TextSize = style.Size ?? 12,
-                    IsAntialias = true,
+                    Color = SKColor.Parse(hexString: style.Color), Typeface = GetTypeface(style: style)
+                    , TextSize = style.Size ?? 12, IsAntialias = true
                 };
             }
 
-            static SKTypeface GetTypeface(TextStyle style)
+            static SKTypeface GetTypeface(
+                TextStyle style
+            )
             {
                 var weight = (SKFontStyleWeight)(style.FontWeight ?? FontWeight.Normal);
-                var slant = (style.IsItalic ?? false) ? SKFontStyleSlant.Italic : SKFontStyleSlant.Upright;
+                var slant = style.IsItalic ?? false ? SKFontStyleSlant.Italic : SKFontStyleSlant.Upright;
 
-                var fontStyle = new SKFontStyle(weight, SKFontStyleWidth.Normal, slant);
+                var fontStyle = new SKFontStyle(weight: weight, width: SKFontStyleWidth.Normal, slant: slant);
 
-                if (StyleSets.TryGetValue(style.FontFamily, out var fontStyleSet))
-                    return fontStyleSet.Match(fontStyle);
+                if (StyleSets.TryGetValue(key: style.FontFamily, value: out var fontStyleSet))
+                {
+                    return fontStyleSet.Match(target: fontStyle);
+                }
 
-                var fontFromDefaultSource = SKFontManager.Default.MatchFamily(style.FontFamily, fontStyle);
-                
+                var fontFromDefaultSource =
+                    SKFontManager.Default.MatchFamily(familyName: style.FontFamily, style: fontStyle);
+
                 if (fontFromDefaultSource != null)
+                {
                     return fontFromDefaultSource;
-                
+                }
+
                 throw new ArgumentException(
-                    $"The typeface '{style.FontFamily}' could not be found. " +
-                    $"Please consider the following options: " +
-                    $"1) install the font on your operating system or execution environment. " +
-                    $"2) load a font file specifically for QuestPDF usage via the QuestPDF.Drawing.FontManager.RegisterFontType(Stream fileContentStream) static method.");
+                    message: $"The typeface '{style.FontFamily}' could not be found. " +
+                             "Please consider the following options: " +
+                             "1) install the font on your operating system or execution environment. " +
+                             "2) load a font file specifically for QuestPDF usage via the QuestPDF.Drawing.FontManager.RegisterFontType(Stream fileContentStream) static method.");
             }
         }
 
-        public static SKFontMetrics ToFontMetrics(this TextStyle style)
-        {
-            return FontMetrics.GetOrAdd(style.FontMetricsKey, key => style.ToPaint().FontMetrics);
-        }
+        public static SKFontMetrics ToFontMetrics(
+            this TextStyle style
+        ) => FontMetrics.GetOrAdd(key: style.FontMetricsKey, valueFactory: key => style.ToPaint().FontMetrics);
     }
 }

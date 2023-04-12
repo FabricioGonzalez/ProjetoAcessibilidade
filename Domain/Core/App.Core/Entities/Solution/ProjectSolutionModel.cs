@@ -2,20 +2,19 @@
 using Core.Entities.Solution.ReportInfo;
 
 namespace Core.Entities.Solution;
+
 public class ProjectSolutionModel
 {
-    private SolutionInfo solutionReportInfo;
     public SolutionInfo SolutionReportInfo
     {
-        get => solutionReportInfo;
-        set => solutionReportInfo = value;
+        get;
+        set;
     }
 
-    private List<ItemGroupModel> itemGroups;
     public List<ItemGroupModel> ItemGroups
     {
-        get => itemGroups;
-        set => itemGroups = value;
+        get;
+        set;
     }
 
     public string FileName
@@ -23,6 +22,7 @@ public class ProjectSolutionModel
         get;
         set;
     }
+
     public string FilePath
     {
         get;
@@ -34,6 +34,7 @@ public class ProjectSolutionModel
         get;
         set;
     }
+
     public string ParentFolderPath
     {
         get;

@@ -4,7 +4,9 @@ namespace ProjectAvalonia.Common.Bases;
 
 public class ExceptionInfo
 {
-    public ExceptionInfo(Exception exception)
+    public ExceptionInfo(
+        Exception exception
+    )
     {
         Exception = exception;
         ExceptionCount = 1;
@@ -15,13 +17,17 @@ public class ExceptionInfo
     {
         get;
     }
+
     public long ExceptionCount
     {
-        get; set;
+        get;
+        set;
     }
+
     public DateTimeOffset FirstAppeared
     {
         get;
     }
+
     public bool IsFirst => ExceptionCount == 1;
 }

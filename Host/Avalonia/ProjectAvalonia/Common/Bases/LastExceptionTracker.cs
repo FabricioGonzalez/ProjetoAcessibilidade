@@ -3,20 +3,24 @@ using System;
 namespace ProjectAvalonia.Common.Bases;
 
 /// <summary>
-/// Tracker that stores the latest received exception, and increases a counter as long as the same exception type is received.
+///     Tracker that stores the latest received exception, and increases a counter as long as the same exception type is
+///     received.
 /// </summary>
 public class LastExceptionTracker
 {
     public ExceptionInfo? LastException
     {
-        get; set;
+        get;
+        set;
     }
 
     /// <summary>
-    /// Process encountered exception and return the latest exception info.
+    ///     Process encountered exception and return the latest exception info.
     /// </summary>
     /// <returns>The latest exception.</returns>
-    public ExceptionInfo Process(Exception currentException)
+    public ExceptionInfo Process(
+        Exception currentException
+    )
     {
         // Only log one type of exception once.
         if (LastException is { Exception: { } exception }
@@ -28,17 +32,14 @@ public class LastExceptionTracker
         }
         else
         {
-            LastException = new ExceptionInfo(currentException);
+            LastException = new ExceptionInfo(exception: currentException);
         }
 
         return LastException!;
     }
 
     /// <summary>
-    /// Forget the latest exception.
+    ///     Forget the latest exception.
     /// </summary>
-    public void Reset()
-    {
-        LastException = null;
-    }
+    public void Reset() => LastException = null;
 }

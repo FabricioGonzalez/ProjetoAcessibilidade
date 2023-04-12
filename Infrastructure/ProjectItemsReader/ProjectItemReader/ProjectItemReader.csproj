@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="publicAppFiles\**" />
-    <EmbeddedResource Remove="publicAppFiles\**" />
-    <None Remove="publicAppFiles\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj" />
-    <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="publicAppFiles\**"/>
+        <EmbeddedResource Remove="publicAppFiles\**"/>
+        <None Remove="publicAppFiles\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Domain.csproj"/>
+        <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+    </ItemGroup>
 
 </Project>

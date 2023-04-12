@@ -9,7 +9,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:ProjectWinUI.Src.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:ProjectWinUI.Src.Navigation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="OnLoaded"
     mc:Ignorable="d">
@@ -66,7 +65,9 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xea37;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>-->
-                <NavigationViewItem helpers:NavigationHelper.NavigateTo="Project.Core.ViewModels.Project.ProjectViewModel" Content="Project">
+                <NavigationViewItem
+                    helpers:NavigationHelper.NavigateTo="Project.Core.ViewModels.Project.ProjectViewModel"
+                    Content="Project">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xea37;" />
                     </NavigationViewItem.Icon>
@@ -80,7 +81,8 @@
                 </DataTemplate>
             </NavigationView.HeaderTemplate>
             <i:Interaction.Behaviors>
-                <behaviors:NavigationViewHeaderBehavior DefaultHeader="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
+                <behaviors:NavigationViewHeaderBehavior
+                    DefaultHeader="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
                     <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                         <DataTemplate>
                             <Grid>

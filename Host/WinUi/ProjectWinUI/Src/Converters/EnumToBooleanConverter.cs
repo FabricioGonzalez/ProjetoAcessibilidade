@@ -1,35 +1,45 @@
 ﻿using System;
-
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
 namespace ProjectWinUI.Src.Converters;
+
 public class EnumToBooleanConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, string language)
+    public object Convert(
+        object value
+        , Type targetType
+        , object parameter
+        , string language
+    )
     {
         if (parameter is string enumString)
         {
-            if (!Enum.IsDefined(typeof(ElementTheme), value))
+            if (!Enum.IsDefined(enumType: typeof(ElementTheme), value: value))
             {
-                throw new ArgumentException("ExceptionEnumToBooleanConverterValueMustBeAnEnum");
+                throw new ArgumentException(message: "ExceptionEnumToBooleanConverterValueMustBeAnEnum");
             }
 
-            var enumValue = Enum.Parse(typeof(ElementTheme), enumString);
+            var enumValue = Enum.Parse(enumType: typeof(ElementTheme), value: enumString);
 
-            return enumValue.Equals(value);
+            return enumValue.Equals(obj: value);
         }
 
-        throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
+        throw new ArgumentException(message: "ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    public object ConvertBack(
+        object value
+        , Type targetType
+        , object parameter
+        , string language
+    )
     {
         if (parameter is string enumString)
         {
-            return Enum.Parse(typeof(ElementTheme), enumString);
+            return Enum.Parse(enumType: typeof(ElementTheme), value: enumString);
         }
 
-        throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
+        throw new ArgumentException(message: "ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
     }
 }

@@ -3,30 +3,43 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class SkipOnce : ContainerElement, IStateResettable
+    public class SkipOnce
+        : ContainerElement
+            , IStateResettable
     {
-        private bool FirstPageWasSkipped { get; set; }
-
-        public void ResetState()
+        private bool FirstPageWasSkipped
         {
-            FirstPageWasSkipped = false;
+            get;
+            set;
         }
 
-        public override SpacePlan Measure(Size availableSpace)
+        public void ResetState() => FirstPageWasSkipped = false;
+
+        public override SpacePlan Measure(
+            Size availableSpace
+        )
         {
             if (Child == null || !FirstPageWasSkipped)
-                return SpacePlan.FullRender(Size.Zero);
+            {
+                return SpacePlan.FullRender(size: Size.Zero);
+            }
 
-            return Child.Measure(availableSpace);
+            return Child.Measure(availableSpace: availableSpace);
         }
 
-        public override void Draw(Size availableSpace)
+        public override void Draw(
+            Size availableSpace
+        )
         {
             if (Child == null)
+            {
                 return;
+            }
 
             if (FirstPageWasSkipped)
-                Child.Draw(availableSpace);
+            {
+                Child.Draw(availableSpace: availableSpace);
+            }
 
             FirstPageWasSkipped = true;
         }

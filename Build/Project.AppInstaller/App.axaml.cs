@@ -1,16 +1,14 @@
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-
 using Project.AppInstaller.ViewModels;
 using Project.AppInstaller.Views;
 
 namespace Project.AppInstaller;
-public partial class App : Avalonia.Application
+
+public class App : Application
 {
-    public override void Initialize()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    public override void Initialize() => AvaloniaXamlLoader.Load(obj: this);
 
     public override void OnFrameworkInitializationCompleted()
     {
@@ -18,7 +16,7 @@ public partial class App : Avalonia.Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = new MainWindowViewModel()
             };
         }
 

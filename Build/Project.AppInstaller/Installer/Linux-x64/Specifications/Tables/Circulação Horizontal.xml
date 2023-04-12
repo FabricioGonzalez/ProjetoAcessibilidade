@@ -7,7 +7,7 @@
             <tipo>text</tipo>
             <topic>Largura do Corredor:</topic>
             <unidade>m</unidade>
-            <value />
+            <value/>
         </itemtabela>
 
         <itemtabela item="2">
@@ -57,7 +57,9 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topic>Possui forrações, tapetes e carpetes embutido no piso e nívelados, firmemente fixados ao piso e com felpas de, no máximo, 6mm?</topic>
+                    <topic>Possui forrações, tapetes e carpetes embutido no piso e nívelados, firmemente fixados ao piso
+                        e com felpas de, no máximo, 6mm?
+                    </topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -105,7 +107,7 @@
         </itemtabela>
         <itemtabela item="3">
             <tipo>observation</tipo>
-            <value />
+            <value/>
         </itemtabela>
         <itemtabela item="4">
             <tipo>images</tipo>
@@ -117,19 +119,37 @@
             <id>NBR9050/15</id>
             <descricao>
                 <itemdescricao item="1">6.11.1 Corredores</itemdescricao>
-                <itemdescricao item="2">Os corredores devem ser dimensionados de acordo com o fluxo de pessoas, assegurando uma faixa livre de barreiras ou</itemdescricao>
-                <itemdescricao item="3">obstáculos, conforme 6.12.6. As larguras mínimas para corredores em edificações e equipamentos urbanos são:</itemdescricao>
+                <itemdescricao item="2">Os corredores devem ser dimensionados de acordo com o fluxo de pessoas,
+                    assegurando uma faixa livre de barreiras ou
+                </itemdescricao>
+                <itemdescricao item="3">obstáculos, conforme 6.12.6. As larguras mínimas para corredores em edificações
+                    e equipamentos urbanos são:
+                </itemdescricao>
                 <itemdescricao item="4">a) 0,90m para corredores de uso comum com extensão de 4,00m;</itemdescricao>
-                <itemdescricao item="5">b) 1,20m para corredores de uso comum com  extensão até 10,0m; e 1,50m para corredores</itemdescricao>
+                <itemdescricao item="5">b) 1,20m para corredores de uso comum com extensão até 10,0m; e 1,50m para
+                    corredores
+                </itemdescricao>
                 <itemdescricao item="6">com extensão superior a 10,0m;</itemdescricao>
                 <itemdescricao item="7">c) 1,50m para corredores de uso público;</itemdescricao>
-                <itemdescricao item="8">d) maior que 1,50m para grandes fluxos de pessoas, conforme aplicação da equação apresentada</itemdescricao>
+                <itemdescricao item="8">d) maior que 1,50m para grandes fluxos de pessoas, conforme aplicação da equação
+                    apresentada
+                </itemdescricao>
                 <itemdescricao item="9">em 6.12.6.</itemdescricao>
-                <itemdescricao item="10">6.11.1.1 Em edificações e equipamentos urbanos existentes, onde a adequação dos corredores seja impraticável, devem ser</itemdescricao>
-                <itemdescricao item="11">implantados bolsões de retorno com dimensões que permitam a manobra completa de uma cadeira de rodas (180°), sendo no</itemdescricao>
-                <itemdescricao item="12">mínimo um bolsão a cada 1,50m para grande fluxos de pessoas, conforme aplicação da equação aprensetada em 6.12.6.</itemdescricao>
-                <itemdescricao item="13">6.11.1.2 Para transposição de obstáculos, objetos e elementos com no máximo de 0,40m de extensão, a largura mínima do</itemdescricao>
-                <itemdescricao item="14">corredor deve ser de 0,80m, conforme 4.3.2. Acima de 0,40m de extensão, a largura mínima deve ser de 0,90m.</itemdescricao>
+                <itemdescricao item="10">6.11.1.1 Em edificações e equipamentos urbanos existentes, onde a adequação dos
+                    corredores seja impraticável, devem ser
+                </itemdescricao>
+                <itemdescricao item="11">implantados bolsões de retorno com dimensões que permitam a manobra completa de
+                    uma cadeira de rodas (180°), sendo no
+                </itemdescricao>
+                <itemdescricao item="12">mínimo um bolsão a cada 1,50m para grande fluxos de pessoas, conforme aplicação
+                    da equação aprensetada em 6.12.6.
+                </itemdescricao>
+                <itemdescricao item="13">6.11.1.2 Para transposição de obstáculos, objetos e elementos com no máximo de
+                    0,40m de extensão, a largura mínima do
+                </itemdescricao>
+                <itemdescricao item="14">corredor deve ser de 0,80m, conforme 4.3.2. Acima de 0,40m de extensão, a
+                    largura mínima deve ser de 0,90m.
+                </itemdescricao>
             </descricao>
         </leiitem>
     </lei>

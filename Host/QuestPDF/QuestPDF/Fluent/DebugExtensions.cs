@@ -6,45 +6,58 @@ namespace QuestPDF.Fluent
 {
     public static class DebugExtensions
     {
-        public static IContainer DebugArea(this IContainer parent, string text, string color)
+        public static IContainer DebugArea(
+            this IContainer parent
+            , string text
+            , string color
+        )
         {
             var container = new Container();
 
             parent.Component(new DebugArea
             {
-                Child = container,
-                Text = text,
-                Color = color
+                Child = container, Text = text, Color = color
             });
 
             return container;
         }
-        
-        public static IContainer DebugArea(this IContainer parent, string text)
+
+        public static IContainer DebugArea(
+            this IContainer parent
+            , string text
+        )
         {
             return parent.DebugArea(text, Colors.Red.Medium);
         }
 
-        public static IContainer DebugArea(this IContainer parent)
+        public static IContainer DebugArea(
+            this IContainer parent
+        )
         {
             return parent.DebugArea(string.Empty, Colors.Red.Medium);
         }
-        
+
         /// <summary>
-        /// Creates a virtual element that is visible on the elements trace when the layout overflow exception is thrown.
-        /// This can be used to easily identify elements inside the elements trace tree and faster find issue root cause.
+        ///     Creates a virtual element that is visible on the elements trace when the layout overflow exception is thrown.
+        ///     This can be used to easily identify elements inside the elements trace tree and faster find issue root cause.
         /// </summary>
-        public static IContainer DebugPointer(this IContainer parent, string elementTraceText)
+        public static IContainer DebugPointer(
+            this IContainer parent
+            , string elementTraceText
+        )
         {
             return parent.DebugPointer(elementTraceText, true);
         }
-        
-        public static IContainer DebugPointer(this IContainer parent, string elementTraceText, bool highlight)
+
+        public static IContainer DebugPointer(
+            this IContainer parent
+            , string elementTraceText
+            , bool highlight
+        )
         {
             return parent.Element(new DebugPointer
             {
-                Target = elementTraceText,
-                Highlight = highlight
+                Target = elementTraceText, Highlight = highlight
             });
         }
     }

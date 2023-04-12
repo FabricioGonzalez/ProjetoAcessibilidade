@@ -1,23 +1,28 @@
 ﻿namespace Core.Common;
+
 public abstract class BaseAuditableEntity : BaseEntity
 {
     public DateTime Created
     {
-        get; set;
+        get;
+        set;
     }
 
     public string? CreatedBy
     {
-        get; set;
+        get;
+        set;
     }
 
     public DateTime? LastModified
     {
-        get; set;
+        get;
+        set;
     }
 
     public string? LastModifiedBy
     {
-        get; set;
+        get;
+        set;
     }
 }

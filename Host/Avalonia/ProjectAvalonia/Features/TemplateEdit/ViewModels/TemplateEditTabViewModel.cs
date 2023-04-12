@@ -1,31 +1,22 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
-using Avalonia;
 using Avalonia.Threading;
-
 using Common;
-
 using Core.Entities.Solution.Project.AppItem;
 using Core.Enuns;
-
 using Project.Domain.App.Models;
 using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.ProjectItemCommands.SaveCommands;
-using Project.Domain.Project.Queries.GetProjectItemContent;
-
-using ProjectAvalonia.Common.Models.FileItems;
+using Project.Domain.Project.Commands.SystemItems;
+using Project.Domain.Project.Queries.SystemItems;
 using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Features.Project.States.FormItemState;
 using ProjectAvalonia.Features.Project.States.LawItemState;
+using ProjectAvalonia.Features.Project.States.ProjectItems;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Logging;
-
 using ReactiveUI;
-
 using Splat;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
@@ -38,76 +29,40 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Category = "Templates",
     Keywords = new[]
     {
-            "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
-            "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
+        "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
-
 public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
 {
-    private FileItem _selectedItem;
-    public FileItem SelectedItem
-    {
-        get => _selectedItem;
-        set
-        {
-            if (value is { })
-            {
-                if ((InEditingItem is not null) && (value?.Name != InEditingItem.Name))
-                {
-                    Dispatcher.UIThread.InvokeAsync(async () =>
-                    {
-                        var dialog = new DeleteDialogViewModel(
-                                            message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item", caption: "");
-                        if ((await NavigateDialogAsync(dialog, target: NavigationTarget.CompactDialogScreen)).Result == true)
-                        {
-                            _selectedItem = value;
-                            InEditingItem = _selectedItem;
-                            this.RaisePropertyChanged(nameof(SelectedItem));
-                            this.RaisePropertyChanged(nameof(InEditingItem));
-                        }
-                        else
-                        {
-                            _selectedItem = InEditingItem;
-                            this.RaisePropertyChanged(nameof(SelectedItem));
-                        }
-                    });
-                }
-                if (InEditingItem is null)
-                {
-                    _selectedItem = value;
-                    InEditingItem = _selectedItem;
-                    this.RaisePropertyChanged(nameof(SelectedItem));
-                    this.RaisePropertyChanged(nameof(InEditingItem));
-                }
-            }
-        }
-    }
+    private readonly ICommandDispatcher commandDispatcher;
 
-    [AutoNotify] private FileItem _inEditingItem;
+    private readonly IQueryDispatcher queryDispatcher;
 
     [AutoNotify] private AppModelState _editingItem;
 
-    public ObservableCollection<AppFormDataType> Types => new()
-    {AppFormDataType.Texto,
-        AppFormDataType.Checkbox
-    };
+    [AutoNotify] private ItemState? _inEditingItem;
 
-    private readonly IQueryDispatcher queryDispatcher;
-    private readonly ICommandDispatcher commandDispatcher;
+    private ItemState _selectedItem;
 
     public TemplateEditTabViewModel()
     {
         queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
         commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
 
-        LoadItemCommand = ReactiveCommand.CreateFromTask(async (FileItem item) =>
+        LoadItemCommand = ReactiveCommand.CreateFromTask(async (
+            ItemState? item
+        ) =>
         {
             if (item is not null)
-                await LoadItemData(item.FilePath);
+            {
+                await LoadItemData(item.ItemPath);
+            }
         });
 
-        SaveItemCommand = ReactiveCommand.CreateFromTask(async (AppModelState item) =>
+        SaveItemCommand = ReactiveCommand.CreateFromTask(async (
+            AppModelState? item
+        ) =>
         {
             if (item is not null)
             {
@@ -122,23 +77,24 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
 
         AddLawCommand = ReactiveCommand.Create(() =>
         {
-            EditingItem.AddLawItems(new());
+            EditingItem.AddLawItems(new LawStateItem());
             Logger.LogDebug("Add Law Item");
         });
 
-        RemoveFormItemCommand = ReactiveCommand.Create<ReactiveObject>((item) =>
+        RemoveFormItemCommand = ReactiveCommand.Create<FormItemStateBase?>(item =>
         {
             if (item is CheckboxContainerItemState checkbox)
             {
                 Logger.LogDebug($"Remove Item {checkbox.Topic}");
             }
+
             if (item is TextItemState textItem)
             {
                 Logger.LogDebug($"Remove Item {textItem.Topic}");
             }
         });
 
-        RemoveLawItemCommand = ReactiveCommand.Create<LawStateItem>((lawItem) =>
+        RemoveLawItemCommand = ReactiveCommand.Create<LawStateItem?>(lawItem =>
         {
             if (lawItem is not null)
             {
@@ -148,7 +104,7 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
             }
         });
 
-        ChangeItemTypeCommand = ReactiveCommand.Create<FormItemStateBase>((item) =>
+        ChangeItemTypeCommand = ReactiveCommand.Create<FormItemStateBase?>(item =>
         {
             if (item is not null && EditingItem.FormData.IndexOf(item) != -1)
             {
@@ -158,42 +114,49 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
         });
 
         this
-           .WhenAnyValue(vm => vm.InEditingItem)
-           .InvokeCommand(LoadItemCommand);
+            .WhenAnyValue(vm => vm.InEditingItem)
+            .InvokeCommand(LoadItemCommand);
     }
 
-    private async Task LoadItemData(string path)
+    public ItemState? SelectedItem
     {
-        (await queryDispatcher
-            .Dispatch<GetSystemProjectItemContentQuery, Resource<AppItemModel>>(
-            query: new(path),
-            cancellation: CancellationToken.None))
-        .OnLoadingStarted(isLoading =>
+        get => _selectedItem;
+        set
         {
+            if (InEditingItem is not null && value?.TemplateName != InEditingItem.TemplateName)
+            {
+                Dispatcher.UIThread.InvokeAsync(async () =>
+                {
+                    var dialog = new DeleteDialogViewModel(
+                        "O item seguinte será excluido ao confirmar. Deseja continuar?"
+                        , "Deletar Item", "");
+                    if ((await NavigateDialogAsync(dialog, NavigationTarget.CompactDialogScreen))
+                        .Result)
+                    {
+                        InEditingItem = value;
+                        this.RaiseAndSetIfChanged(ref _selectedItem, value);
+                    }
+                });
+            }
 
-        })
-        .OnSuccess(success =>
-        {
-            EditingItem = success?.Data.ToAppState();
-        })
-        .OnError(error =>
-        {
-        });
+            if (InEditingItem is null)
+            {
+                InEditingItem = value;
+                this.RaiseAndSetIfChanged(ref _selectedItem, value);
+            }
+        }
     }
-    private async Task SaveItemData(AppModelState item)
+
+    public ObservableCollection<AppFormDataType> Types => new()
     {
-        /*InEditingItem*/
-        await commandDispatcher
-        .Dispatch<SaveSystemProjectItemContentCommand, Resource<Empty>>(new(
-            AppItem: item.ToAppModel(),
-            ItemPath: InEditingItem.FilePath),
-            CancellationToken.None);
-    }
+        AppFormDataType.Texto, AppFormDataType.Checkbox
+    };
 
     private ICommand SaveItemCommand
     {
         get;
     }
+
     private ICommand LoadItemCommand
     {
         get;
@@ -203,20 +166,50 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
     {
         get;
     }
+
     public ICommand AddFormItemCommand
     {
         get;
     }
+
     public ICommand RemoveFormItemCommand
     {
         get;
     }
+
     public ICommand AddLawCommand
     {
         get;
     }
+
     public ICommand RemoveLawItemCommand
     {
         get;
     }
+
+    private async Task LoadItemData(
+        string path
+    ) =>
+        (await queryDispatcher
+            .Dispatch<GetSystemProjectItemContentQuery, Resource<AppItemModel>>(
+                new GetSystemProjectItemContentQuery(path),
+                CancellationToken.None))
+        .OnSuccess(success =>
+        {
+            EditingItem = success?.Data.ToAppState();
+        })
+        .OnError(error =>
+        {
+        });
+
+    private async Task SaveItemData(
+        AppModelState item
+    ) =>
+        /*InEditingItem*/
+        await commandDispatcher
+            .Dispatch<SaveSystemProjectItemContentCommand, Resource<Empty>>(
+                new SaveSystemProjectItemContentCommand(
+                    item.ToAppModel(),
+                    InEditingItem.ItemPath),
+                CancellationToken.None);
 }

@@ -4,11 +4,8 @@ using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Common;
-
 using Microsoft.Win32;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Logging;
 
@@ -19,11 +16,14 @@ public class TerminateService
     private const long TerminateStatusNotStarted = 0;
     private const long TerminateStatusInProgress = 1;
     private const long TerminateStatusFinished = 2;
-    private readonly Func<Task> _terminateApplicationAsync;
     private readonly Action _terminateApplication;
+    private readonly Func<Task> _terminateApplicationAsync;
     private long _terminateStatus;
 
-    public TerminateService(Func<Task> terminateApplicationAsync, Action terminateApplication)
+    public TerminateService(
+        Func<Task> terminateApplicationAsync
+        , Action terminateApplication
+    )
     {
         _terminateApplicationAsync = terminateApplicationAsync;
         _terminateApplication = terminateApplication;
@@ -32,10 +32,10 @@ public class TerminateService
         AssemblyLoadContext.Default.Unloading += Default_Unloading;
         AppDomain.CurrentDomain.DomainUnload += CurrentDomain_DomainUnload;
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !Debugger.IsAttached)
+        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows) && !Debugger.IsAttached)
         {
             // If the debugger is attached and you subscribe to SystemEvents, then on quit Wasabi gracefully stops but never returns from console.
-            Logger.LogInfo($"{nameof(TerminateService)} subscribed to SystemEvents");
+            Logger.LogInfo(message: $"{nameof(TerminateService)} subscribed to SystemEvents");
             SystemEvents.SessionEnding += Windows_SystemEvents_SessionEnding;
             IsSystemEventsSubscribed = true;
         }
@@ -46,24 +46,32 @@ public class TerminateService
         get;
     }
 
-    private void CurrentDomain_DomainUnload(object? sender, EventArgs e)
+    private void CurrentDomain_DomainUnload(
+        object? sender
+        , EventArgs e
+    )
     {
-        Logger.LogInfo($"Process domain unloading requested by the OS.");
+        Logger.LogInfo(message: "Process domain unloading requested by the OS.");
         Terminate();
     }
 
-    private void Default_Unloading(AssemblyLoadContext obj)
+    private void Default_Unloading(
+        AssemblyLoadContext obj
+    )
     {
-        Logger.LogInfo($"Process context unloading requested by the OS.");
+        Logger.LogInfo(message: "Process context unloading requested by the OS.");
         Terminate();
     }
 
-    private void Windows_SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
+    private void Windows_SystemEvents_SessionEnding(
+        object sender
+        , SessionEndingEventArgs e
+    )
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
         {
             // This event will only be triggered if you run Wasabi from the published package. Use the packager with the --onlybinaries option.
-            Logger.LogInfo($"Process termination was requested by the OS, reason '{e.Reason}'.");
+            Logger.LogInfo(message: $"Process termination was requested by the OS, reason '{e.Reason}'.");
             e.Cancel = true;
         }
 
@@ -72,17 +80,23 @@ public class TerminateService
         Terminate();
     }
 
-    private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
+    private void CurrentDomain_ProcessExit(
+        object? sender
+        , EventArgs e
+    )
     {
-        Logger.LogDebug("ProcessExit was called.");
+        Logger.LogDebug(message: "ProcessExit was called.");
 
         // This must be a blocking call because after this the OS will terminate Wasabi process if exists.
         Terminate();
     }
 
-    private void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
+    private void Console_CancelKeyPress(
+        object? sender
+        , ConsoleCancelEventArgs e
+    )
     {
-        Logger.LogWarning($"Process termination was requested using '{e.SpecialKey}' keyboard shortcut.");
+        Logger.LogWarning(message: $"Process termination was requested using '{e.SpecialKey}' keyboard shortcut.");
 
         // This must be a blocking call because after this the OS will terminate Wasabi process if it exists.
         // In some cases CurrentDomain_ProcessExit is called after this by the OS.
@@ -90,39 +104,41 @@ public class TerminateService
     }
 
     /// <summary>
-    /// Terminates the application.
+    ///     Terminates the application.
     /// </summary>
     /// <remark>This is a blocking method.</remark>
     public void Terminate()
     {
-        var prevValue = Interlocked.CompareExchange(ref _terminateStatus, TerminateStatusInProgress, TerminateStatusNotStarted);
-        Logger.LogTrace($"Terminate was called from ThreadId: {Environment.CurrentManagedThreadId}");
+        var prevValue = Interlocked.CompareExchange(location1: ref _terminateStatus, value: TerminateStatusInProgress
+            , comparand: TerminateStatusNotStarted);
+        Logger.LogTrace(message: $"Terminate was called from ThreadId: {Environment.CurrentManagedThreadId}");
         if (prevValue != TerminateStatusNotStarted)
         {
             // Secondary callers will be blocked until the end of the termination.
-            while (Interlocked.Read(ref _terminateStatus) != TerminateStatusFinished)
+            while (Interlocked.Read(location: ref _terminateStatus) != TerminateStatusFinished)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(millisecondsTimeout: 50);
             }
+
             return;
         }
 
         // First caller starts the terminate procedure.
-        Logger.LogDebug("Start shutting down the application.");
+        Logger.LogDebug(message: "Start shutting down the application.");
 
         _terminateApplication();
 
         // Async termination has to be started on another thread otherwise there is a possibility of deadlock.
         // We still need to block the caller so Wait applied.
-        Task.Run(async () =>
+        Task.Run(function: async () =>
         {
             try
             {
-                await _terminateApplicationAsync().ConfigureAwait(false);
+                await _terminateApplicationAsync().ConfigureAwait(continueOnCapturedContext: false);
             }
             catch (Exception ex)
             {
-                Logger.LogWarning(ex.ToTypeMessageString());
+                Logger.LogWarning(message: ex.ToTypeMessageString());
             }
         }).Wait();
 
@@ -131,14 +147,14 @@ public class TerminateService
         AssemblyLoadContext.Default.Unloading -= Default_Unloading;
         AppDomain.CurrentDomain.DomainUnload -= CurrentDomain_DomainUnload;
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && IsSystemEventsSubscribed)
+        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows) && IsSystemEventsSubscribed)
         {
             SystemEvents.SessionEnding -= Windows_SystemEvents_SessionEnding;
         }
 
         // Indicate that the termination procedure finished. So other callers can return.
-        Interlocked.Exchange(ref _terminateStatus, TerminateStatusFinished);
+        Interlocked.Exchange(location1: ref _terminateStatus, value: TerminateStatusFinished);
 
-        Logger.LogSoftwareStopped(Constants.AppName);
+        Logger.LogSoftwareStopped(appName: Constants.AppName);
     }
 }

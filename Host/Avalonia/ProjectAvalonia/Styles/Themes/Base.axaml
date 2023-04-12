@@ -7,8 +7,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <SolidColorBrush x:Key="RegionBrush" Color="{DynamicResource RegionColor}" />
-                    <SolidColorBrush x:Key="SystemControlTransientBackgroundBrush" Color="{DynamicResource SystemChromeMediumLowColor}" />
-                    <SolidColorBrush x:Key="SystemControlBackgroundChromeMediumLowBrush" Color="{DynamicResource SystemBaseLowColor}" />
+                    <SolidColorBrush x:Key="SystemControlTransientBackgroundBrush"
+                                     Color="{DynamicResource SystemChromeMediumLowColor}" />
+                    <SolidColorBrush x:Key="SystemControlBackgroundChromeMediumLowBrush"
+                                     Color="{DynamicResource SystemBaseLowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -56,7 +58,8 @@
         <SolidColorBrush x:Key="ActionButtonBackgroundColor" Color="{DynamicResource ActionColor}" />
         <SolidColorBrush x:Key="ActionButtonPressedBackgroundColor" Color="{DynamicResource ActionColorDark1}" />
         <SolidColorBrush x:Key="ActionButtonPointerOverBackgroundColor" Color="{DynamicResource ActionColorLight1}" />
-        <SolidColorBrush x:Key="ActionButtonDisabledBackgroundColor" Color="{DynamicResource SystemChromeDisabledLowColor}" />
+        <SolidColorBrush x:Key="ActionButtonDisabledBackgroundColor"
+                         Color="{DynamicResource SystemChromeDisabledLowColor}" />
 
         <SolidColorBrush x:Key="NavBarAccentColor" Color="{StaticResource SystemAccentColor}" />
         <SolidColorBrush
@@ -110,7 +113,8 @@
         <StaticResource x:Key="NotificationCardInformationBackgroundBrush" ResourceKey="SystemAccentColor" />
         <StaticResource x:Key="TextControlForeground" ResourceKey="SystemBaseHighColor" />
         <StaticResource x:Key="TextForegroundColor" ResourceKey="SystemBaseHighColor" />
-        <StaticResource x:Key="DataGridRowSelectedUnfocusedBackgroundColor" ResourceKey="DataGridRowSelectedBackgroundColor" />
+        <StaticResource x:Key="DataGridRowSelectedUnfocusedBackgroundColor"
+                        ResourceKey="DataGridRowSelectedBackgroundColor" />
         <StaticResource x:Key="NotificationCardBackgroundBrush" ResourceKey="TileRegionColor" />
 
         <StaticResource x:Key="TileRegionColor" ResourceKey="SystemBaseLowColor" />

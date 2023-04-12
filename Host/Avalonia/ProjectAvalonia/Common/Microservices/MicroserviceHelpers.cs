@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-
 using ProjectAvalonia.Common.Helpers;
 
 namespace ProjectAvalonia.Common.Microservices;
@@ -10,58 +9,65 @@ public static class MicroserviceHelpers
 {
     public static OSPlatform GetCurrentPlatform()
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
         {
             return OSPlatform.Windows;
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+
+        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Linux))
         {
             return OSPlatform.Linux;
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+
+        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.OSX))
         {
             return OSPlatform.OSX;
         }
-        else
-        {
-            throw new NotSupportedException("Platform is not supported.");
-        }
+
+        throw new NotSupportedException(message: "Platform is not supported.");
     }
 
-    public static string GetBinaryFolder(OSPlatform? platform = null)
+    public static string GetBinaryFolder(
+        OSPlatform? platform = null
+    )
     {
         platform ??= GetCurrentPlatform();
 
-        string fullBaseDirectory = EnvironmentHelpers.GetFullBaseDirectory();
-        string commonPartialPath = Path.Combine(fullBaseDirectory, "Microservices", "Binaries");
+        var fullBaseDirectory = EnvironmentHelpers.GetFullBaseDirectory();
+        var commonPartialPath = Path.Combine(path1: fullBaseDirectory, path2: "Microservices", path3: "Binaries");
 
         string path;
         if (platform == OSPlatform.Windows)
         {
-            path = Path.Combine(commonPartialPath, "win64");
+            path = Path.Combine(path1: commonPartialPath, path2: "win64");
         }
         else if (platform == OSPlatform.Linux)
         {
-            path = Path.Combine(commonPartialPath, "lin64");
+            path = Path.Combine(path1: commonPartialPath, path2: "lin64");
         }
         else if (platform == OSPlatform.OSX)
         {
-            path = Path.Combine(commonPartialPath, "osx64");
+            path = Path.Combine(path1: commonPartialPath, path2: "osx64");
         }
         else
         {
-            throw new NotSupportedException("Operating system is not supported.");
+            throw new NotSupportedException(message: "Operating system is not supported.");
         }
 
         return path;
     }
 
-    public static string GetBinaryPath(string binaryNameWithoutExtension, OSPlatform? platform = null)
+    public static string GetBinaryPath(
+        string binaryNameWithoutExtension
+        , OSPlatform? platform = null
+    )
     {
         platform ??= GetCurrentPlatform();
-        string binaryFolder = GetBinaryFolder(platform);
-        string fileName = platform.Value == OSPlatform.Windows ? $"{binaryNameWithoutExtension}.exe" : $"{binaryNameWithoutExtension}";
+        var binaryFolder = GetBinaryFolder(platform: platform);
+        var fileName = platform.Value == OSPlatform.Windows
+            ? $"{binaryNameWithoutExtension}.exe"
+            : $"{binaryNameWithoutExtension}";
 
-        return Path.Combine(binaryFolder, fileName);
+        return Path.Combine(path1: binaryFolder, path2: fileName);
     }
 }

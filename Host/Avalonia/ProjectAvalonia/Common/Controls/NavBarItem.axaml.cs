@@ -6,93 +6,98 @@ using Avalonia.Layout;
 namespace ProjectAvalonia.Common.Controls;
 
 /// <summary>
-/// Container for NavBarItems.
+///     Container for NavBarItems.
 /// </summary>
 [PseudoClasses(":horizontal", ":vertical", ":selectable", ":selected")]
 public class NavBarItem : Button
 {
-	public static readonly StyledProperty<IconElement> IconProperty =
-		AvaloniaProperty.Register<NavBarItem, IconElement>(nameof(Icon));
+    public static readonly StyledProperty<IconElement> IconProperty =
+        AvaloniaProperty.Register<NavBarItem, IconElement>(name: nameof(Icon));
 
-	public static readonly StyledProperty<Orientation> IndicatorOrientationProperty =
-		AvaloniaProperty.Register<NavBarItem, Orientation>(nameof(IndicatorOrientation), Orientation.Vertical);
+    public static readonly StyledProperty<Orientation> IndicatorOrientationProperty =
+        AvaloniaProperty.Register<NavBarItem, Orientation>(name: nameof(IndicatorOrientation)
+            , defaultValue: Orientation.Vertical);
 
-	public static readonly StyledProperty<bool> IsSelectableProperty =
-		AvaloniaProperty.Register<NavBarItem, bool>(nameof(IsSelectable));
+    public static readonly StyledProperty<bool> IsSelectableProperty =
+        AvaloniaProperty.Register<NavBarItem, bool>(name: nameof(IsSelectable));
 
-	public static readonly StyledProperty<bool> IsSelectedProperty =
-		AvaloniaProperty.Register<NavBarItem, bool>(nameof(IsSelected));
+    public static readonly StyledProperty<bool> IsSelectedProperty =
+        AvaloniaProperty.Register<NavBarItem, bool>(name: nameof(IsSelected));
 
-	public NavBarItem()
-	{
-		UpdateIndicatorOrientationPseudoClasses(IndicatorOrientation);
-		UpdatePseudoClass(":selectable", IsSelectable);
-	}
+    public NavBarItem()
+    {
+        UpdateIndicatorOrientationPseudoClasses(orientation: IndicatorOrientation);
+        UpdatePseudoClass(pseudoClass: ":selectable", value: IsSelectable);
+    }
 
-	/// <summary>
-	/// The icon to be shown beside the header text of the item.
-	/// </summary>
-	public IconElement Icon
-	{
-		get => GetValue(IconProperty);
-		set => SetValue(IconProperty, value);
-	}
+    /// <summary>
+    ///     The icon to be shown beside the header text of the item.
+    /// </summary>
+    public IconElement Icon
+    {
+        get => GetValue(property: IconProperty);
+        set => SetValue(property: IconProperty, value: value);
+    }
 
-	/// <summary>
-	/// Gets or sets the indicator orientation.
-	/// </summary>
-	public Orientation IndicatorOrientation
-	{
-		get => GetValue(IndicatorOrientationProperty);
-		set => SetValue(IndicatorOrientationProperty, value);
-	}
+    /// <summary>
+    ///     Gets or sets the indicator orientation.
+    /// </summary>
+    public Orientation IndicatorOrientation
+    {
+        get => GetValue(property: IndicatorOrientationProperty);
+        set => SetValue(property: IndicatorOrientationProperty, value: value);
+    }
 
-	/// <summary>
-	/// Gets or sets flag indicating whether item supports selected state.
-	/// </summary>
-	public bool IsSelectable
-	{
-		get => GetValue(IsSelectableProperty);
-		set => SetValue(IsSelectableProperty, value);
-	}
+    /// <summary>
+    ///     Gets or sets flag indicating whether item supports selected state.
+    /// </summary>
+    public bool IsSelectable
+    {
+        get => GetValue(property: IsSelectableProperty);
+        set => SetValue(property: IsSelectableProperty, value: value);
+    }
 
-	/// <summary>
-	/// Gets or sets if the item is selected or not.
-	/// </summary>
-	public bool IsSelected
-	{
-		get => GetValue(IsSelectedProperty);
-		set => SetValue(IsSelectedProperty, value);
-	}
+    /// <summary>
+    ///     Gets or sets if the item is selected or not.
+    /// </summary>
+    public bool IsSelected
+    {
+        get => GetValue(property: IsSelectedProperty);
+        set => SetValue(property: IsSelectedProperty, value: value);
+    }
 
-	protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
-	{
-		base.OnPropertyChanged(change);
+    protected override void OnPropertyChanged<T>(
+        AvaloniaPropertyChangedEventArgs<T> change
+    )
+    {
+        base.OnPropertyChanged(change: change);
 
-		if (change.Property == IndicatorOrientationProperty)
-		{
-			UpdateIndicatorOrientationPseudoClasses(change.NewValue.GetValueOrDefault<Orientation>());
-		}
+        if (change.Property == IndicatorOrientationProperty)
+        {
+            UpdateIndicatorOrientationPseudoClasses(orientation: change.NewValue.GetValueOrDefault<Orientation>());
+        }
 
-		if (change.Property == IsSelectableProperty)
-		{
-			UpdatePseudoClass(":selectable", change.NewValue.GetValueOrDefault<bool>());
-		}
+        if (change.Property == IsSelectableProperty)
+        {
+            UpdatePseudoClass(pseudoClass: ":selectable", value: change.NewValue.GetValueOrDefault<bool>());
+        }
 
-		if (change.Property == IsSelectedProperty)
-		{
-			UpdatePseudoClass(":selected", change.NewValue.GetValueOrDefault<bool>());
-		}
-	}
+        if (change.Property == IsSelectedProperty)
+        {
+            UpdatePseudoClass(pseudoClass: ":selected", value: change.NewValue.GetValueOrDefault<bool>());
+        }
+    }
 
-	private void UpdateIndicatorOrientationPseudoClasses(Orientation orientation)
-	{
-		PseudoClasses.Set(":horizontal", orientation == Orientation.Horizontal);
-		PseudoClasses.Set(":vertical", orientation == Orientation.Vertical);
-	}
+    private void UpdateIndicatorOrientationPseudoClasses(
+        Orientation orientation
+    )
+    {
+        PseudoClasses.Set(name: ":horizontal", value: orientation == Orientation.Horizontal);
+        PseudoClasses.Set(name: ":vertical", value: orientation == Orientation.Vertical);
+    }
 
-	private void UpdatePseudoClass(string pseudoClass, bool value)
-	{
-		PseudoClasses.Set(pseudoClass, value);
-	}
+    private void UpdatePseudoClass(
+        string pseudoClass
+        , bool value
+    ) => PseudoClasses.Set(name: pseudoClass, value: value);
 }

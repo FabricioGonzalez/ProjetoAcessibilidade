@@ -4,26 +4,33 @@ namespace ProjectItemReader.XmlFile.DTO.FormItem;
 
 public class ImageItem : ItemFormData
 {
-
-    public ImageItem() : base()
+    public ImageItem()
     {
-
     }
-    public ImageItem(string id, string imagePath, string imageObservation)
+
+    public ImageItem(
+        string id
+        , string imagePath
+        , string imageObservation
+    )
         : base(id: id)
     {
         Id = id;
         ImagePath = imagePath;
         ImageObservation = imageObservation;
     }
+
     [XmlElement(elementName: "image_path")]
     public string ImagePath
     {
-        get; set;
+        get;
+        set;
     }
+
     [XmlElement(elementName: "image_observation")]
     public string ImageObservation
     {
-        get; set;
+        get;
+        set;
     }
 }

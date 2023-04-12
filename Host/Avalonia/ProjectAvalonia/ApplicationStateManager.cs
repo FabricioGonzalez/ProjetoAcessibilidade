@@ -4,63 +4,45 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.State;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.Views;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia;
 
 public class ApplicationStateManager : IMainWindowService
 {
-    private enum Trigger
-    {
-        Invalid = 0,
-        Hide,
-        Show,
-        Loaded,
-        ShutdownPrevented,
-        ShutdownRequested,
-        MainWindowClosed,
-    }
-
-    private enum State
-    {
-        Invalid = 0,
-        InitialState,
-        Closed,
-        Open,
-    }
+    private readonly IClassicDesktopStyleApplicationLifetime _lifetime;
 
     private readonly StateMachine<State, Trigger> _stateMachine;
-    private readonly IClassicDesktopStyleApplicationLifetime _lifetime;
     private CompositeDisposable? _compositeDisposable;
     private bool _hideRequest;
     private bool _isShuttingDown;
     private bool _restartRequest;
 
-    internal ApplicationStateManager(IClassicDesktopStyleApplicationLifetime lifetime, bool startInBg)
+    internal ApplicationStateManager(
+        IClassicDesktopStyleApplicationLifetime lifetime
+        , bool startInBg
+    )
     {
         _lifetime = lifetime;
-        _stateMachine = new StateMachine<State, Trigger>(State.InitialState);
-        ApplicationViewModel = new ApplicationViewModel(this);
+        _stateMachine = new StateMachine<State, Trigger>(initialState: State.InitialState);
+        ApplicationViewModel = new ApplicationViewModel(mainWindowService: this);
 
         /* Observable
              .FromEventPattern(ServicesConfig.SingleInstanceChecker, nameof(SingleInstanceChecker.OtherInstanceStarted))
              .ObserveOn(RxApp.MainThreadScheduler)
              .Subscribe(_ => _stateMachine.Fire(Trigger.Show));*/
 
-        _stateMachine.Configure(State.InitialState)
-            .InitialTransition(State.Open)
-            .OnTrigger(Trigger.ShutdownRequested, () =>
+        _stateMachine.Configure(state: State.InitialState)
+            .InitialTransition(state: State.Open)
+            .OnTrigger(trigger: Trigger.ShutdownRequested, action: () =>
             {
                 if (_restartRequest)
                 {
@@ -69,15 +51,15 @@ public class ApplicationStateManager : IMainWindowService
 
                 lifetime.Shutdown();
             })
-            .OnTrigger(Trigger.ShutdownPrevented, () =>
+            .OnTrigger(trigger: Trigger.ShutdownPrevented, action: () =>
             {
-                ApplicationViewModel.OnShutdownPrevented(_restartRequest);
+                ApplicationViewModel.OnShutdownPrevented(restartRequest: _restartRequest);
                 _restartRequest = false; // reset the value.
             });
 
-        _stateMachine.Configure(State.Closed)
-            .SubstateOf(State.InitialState)
-            .OnEntry(() =>
+        _stateMachine.Configure(state: State.Closed)
+            .SubstateOf(parent: State.InitialState)
+            .OnEntry(action: () =>
             {
                 ServicesConfig.UpdateManager.DoUpdateOnClose = true;
 
@@ -85,16 +67,16 @@ public class ApplicationStateManager : IMainWindowService
                 _lifetime.MainWindow = null;
                 ApplicationViewModel.IsMainWindowShown = false;
             })
-            .Permit(Trigger.Show, State.Open)
-            .Permit(Trigger.ShutdownPrevented, State.Open)
-            .Permit(Trigger.Loaded, State.Open);
+            .Permit(trigger: Trigger.Show, state: State.Open)
+            .Permit(trigger: Trigger.ShutdownPrevented, state: State.Open)
+            .Permit(trigger: Trigger.Loaded, state: State.Open);
 
-        _stateMachine.Configure(State.Open)
-            .SubstateOf(State.InitialState)
-            .OnEntry(CreateAndShowMainWindow)
-            .Permit(Trigger.Hide, State.Closed)
-            .Permit(Trigger.MainWindowClosed, State.Closed)
-            .OnTrigger(Trigger.Show, MainViewModel.Instance.ApplyUiConfigWindowSate);
+        _stateMachine.Configure(state: State.Open)
+            .SubstateOf(parent: State.InitialState)
+            .OnEntry(action: CreateAndShowMainWindow)
+            .Permit(trigger: Trigger.Hide, state: State.Closed)
+            .Permit(trigger: Trigger.MainWindowClosed, state: State.Closed)
+            .OnTrigger(trigger: Trigger.Show, action: MainViewModel.Instance.ApplyUiConfigWindowSate);
 
         _lifetime.ShutdownRequested += LifetimeOnShutdownRequested;
 
@@ -102,7 +84,7 @@ public class ApplicationStateManager : IMainWindowService
 
         if (!startInBg)
         {
-            _stateMachine.Fire(Trigger.Loaded);
+            _stateMachine.Fire(trigger: Trigger.Loaded);
         }
     }
 
@@ -111,32 +93,56 @@ public class ApplicationStateManager : IMainWindowService
         get;
     }
 
-    private void LifetimeOnShutdownRequested(object? sender, ShutdownRequestedEventArgs e)
+    void IMainWindowService.Show() => _stateMachine.Fire(trigger: Trigger.Show);
+
+    void IMainWindowService.Hide()
+    {
+        _hideRequest = true;
+        _stateMachine.Fire(trigger: Trigger.Hide);
+    }
+
+    void IMainWindowService.Shutdown(
+        bool restart
+    )
+    {
+        _restartRequest = restart;
+        _stateMachine.Fire(trigger: ApplicationViewModel.CanShutdown()
+            ? Trigger.ShutdownRequested
+            : Trigger.ShutdownPrevented);
+    }
+
+    private void LifetimeOnShutdownRequested(
+        object? sender
+        , ShutdownRequestedEventArgs e
+    )
     {
         // Shutdown prevention will only work if you directly run the executable.
         e.Cancel = !ApplicationViewModel.CanShutdown();
 
-        Logger.LogDebug($"Cancellation of the shutdown set to: {e.Cancel}.");
+        Logger.LogDebug(message: $"Cancellation of the shutdown set to: {e.Cancel}.");
 
-        _stateMachine.Fire(e.Cancel ? Trigger.ShutdownPrevented : Trigger.ShutdownRequested);
+        _stateMachine.Fire(trigger: e.Cancel ? Trigger.ShutdownPrevented : Trigger.ShutdownRequested);
     }
 
-    private async Task CheckAction(string args)
+    private async Task CheckAction(
+        string args
+    )
     {
-        if (args.Contains("open="))
+        if (args.Contains(value: "open="))
         {
-            ApplicationViewModel.GoToOpenProject(args.Split("=")[1]);
+            ApplicationViewModel.GoToOpenProject(v: args.Split(separator: "=")[1]);
         }
-        if (args.Contains("print="))
+
+        if (args.Contains(value: "print="))
         {
-            await ApplicationViewModel.GoToOpenPrint(args.Split("=")[1]);
+            await ApplicationViewModel.GoToOpenPrint(v: args.Split(separator: "=")[1]);
         }
     }
 
 
     private void CreateAndShowMainWindow()
     {
-        if (_lifetime.MainWindow is { })
+        if (_lifetime.MainWindow is not null)
         {
             return;
         }
@@ -147,12 +153,12 @@ public class ApplicationStateManager : IMainWindowService
         };
 
         _compositeDisposable?.Dispose();
-        _compositeDisposable = new();
+        _compositeDisposable = new CompositeDisposable();
 
-        Observable.FromEventPattern<CancelEventArgs>(result, nameof(result.Closing))
-            .Select(args => (args.EventArgs, !ApplicationViewModel.CanShutdown()))
-            .TakeWhile(_ => !_isShuttingDown) // Prevents stack overflow.
-            .Subscribe(tup =>
+        Observable.FromEventPattern<CancelEventArgs>(target: result, eventName: nameof(result.Closing))
+            .Select(selector: args => (args.EventArgs, !ApplicationViewModel.CanShutdown()))
+            .TakeWhile(predicate: _ => !_isShuttingDown) // Prevents stack overflow.
+            .Subscribe(onNext: tup =>
             {
                 // _hideRequest flag is used to distinguish what is the user's intent.
                 // It is only true when the request comes from the Tray.
@@ -166,48 +172,50 @@ public class ApplicationStateManager : IMainWindowService
 
                 _isShuttingDown = !preventShutdown;
                 e.Cancel = preventShutdown;
-                _stateMachine.Fire(preventShutdown ? Trigger.ShutdownPrevented : Trigger.ShutdownRequested);
+                _stateMachine.Fire(trigger: preventShutdown ? Trigger.ShutdownPrevented : Trigger.ShutdownRequested);
             })
-            .DisposeWith(_compositeDisposable);
+            .DisposeWith(compositeDisposable: _compositeDisposable);
 
-        Observable.FromEventPattern(result, nameof(result.Closed))
-            .Take(1)
-            .Subscribe(_ =>
+        Observable.FromEventPattern(target: result, eventName: nameof(result.Closed))
+            .Take(count: 1)
+            .Subscribe(onNext: _ =>
             {
                 _compositeDisposable?.Dispose();
                 _compositeDisposable = null;
-                _stateMachine.Fire(Trigger.MainWindowClosed);
+                _stateMachine.Fire(trigger: Trigger.MainWindowClosed);
             })
-            .DisposeWith(_compositeDisposable);
+            .DisposeWith(compositeDisposable: _compositeDisposable);
 
         _lifetime.MainWindow = result;
 
         if (result.WindowState != WindowState.Maximized)
         {
-            SetWindowSize(result);
+            SetWindowSize(window: result);
         }
 
         if (_lifetime.Args.Any())
         {
             foreach (var item in _lifetime.Args)
             {
-                Task.Run(async () => await CheckAction(item));
+                Task.Run(function: async () => await CheckAction(args: item));
             }
         }
 
 
-        ObserveWindowSize(result, _compositeDisposable);
+        ObserveWindowSize(window: result, disposables: _compositeDisposable);
 
         result.Show();
 
         ApplicationViewModel.IsMainWindowShown = true;
     }
 
-    private void SetWindowSize(Window window)
+    private void SetWindowSize(
+        Window window
+    )
     {
         var configWidth = ServicesConfig.UiConfig.WindowWidth;
         var configHeight = ServicesConfig.UiConfig.WindowHeight;
-        var currentScreen = window.Screens.ScreenFromPoint(window.Position);
+        var currentScreen = window.Screens.ScreenFromPoint(point: window.Position);
 
         if (configWidth is null || configHeight is null || currentScreen is null)
         {
@@ -224,34 +232,37 @@ public class ApplicationStateManager : IMainWindowService
         }
     }
 
-    private void ObserveWindowSize(Window window, CompositeDisposable disposables)
-    {
+    private void ObserveWindowSize(
+        Window window
+        , CompositeDisposable disposables
+    ) =>
         window
-            .WhenAnyValue(x => x.Bounds)
-            .Skip(1)
-            .Where(b => !b.IsEmpty && window.WindowState == WindowState.Normal)
-            .Subscribe(b =>
+            .WhenAnyValue(property1: x => x.Bounds)
+            .Skip(count: 1)
+            .Where(predicate: b => !b.IsEmpty && window.WindowState == WindowState.Normal)
+            .Subscribe(onNext: b =>
             {
                 ServicesConfig.UiConfig.WindowWidth = b.Width;
                 ServicesConfig.UiConfig.WindowHeight = b.Height;
             })
-            .DisposeWith(disposables);
+            .DisposeWith(compositeDisposable: disposables);
+
+    private enum Trigger
+    {
+        Invalid = 0
+        , Hide
+        , Show
+        , Loaded
+        , ShutdownPrevented
+        , ShutdownRequested
+        , MainWindowClosed
     }
 
-    void IMainWindowService.Show()
+    private enum State
     {
-        _stateMachine.Fire(Trigger.Show);
-    }
-
-    void IMainWindowService.Hide()
-    {
-        _hideRequest = true;
-        _stateMachine.Fire(Trigger.Hide);
-    }
-
-    void IMainWindowService.Shutdown(bool restart)
-    {
-        _restartRequest = restart;
-        _stateMachine.Fire(ApplicationViewModel.CanShutdown() ? Trigger.ShutdownRequested : Trigger.ShutdownPrevented);
+        Invalid = 0
+        , InitialState
+        , Closed
+        , Open
     }
 }

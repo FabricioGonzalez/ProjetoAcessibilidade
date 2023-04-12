@@ -3,26 +3,32 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class PageBreak : Element, IStateResettable
+    public class PageBreak
+        : Element
+            , IStateResettable
     {
-        private bool IsRendered { get; set; }
-        
-        public void ResetState()
+        private bool IsRendered
         {
-            IsRendered = false;
+            get;
+            set;
         }
 
-        public override SpacePlan Measure(Size availableSpace)
+        public void ResetState() => IsRendered = false;
+
+        public override SpacePlan Measure(
+            Size availableSpace
+        )
         {
             if (IsRendered)
-                return SpacePlan.FullRender(0, 0);
+            {
+                return SpacePlan.FullRender(width: 0, height: 0);
+            }
 
-            return SpacePlan.PartialRender(Size.Zero);
+            return SpacePlan.PartialRender(size: Size.Zero);
         }
 
-        public override void Draw(Size availableSpace)
-        {
-            IsRendered = true;
-        }
+        public override void Draw(
+            Size availableSpace
+        ) => IsRendered = true;
     }
 }

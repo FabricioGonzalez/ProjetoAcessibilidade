@@ -4,13 +4,10 @@ using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
-
 using Common;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.SearchBar.Settings;
 using ProjectAvalonia.Features.Settings.ViewModels;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.SearchBar.Settings;
@@ -20,7 +17,10 @@ public partial class Setting<TTarget, TProperty> : ReactiveObject
     private const int SkippedItems = 1;
     [AutoNotify] private TProperty? _value;
 
-    public Setting([DisallowNull] TTarget target, Expression<Func<TTarget, TProperty>> selector)
+    public Setting(
+        [DisallowNull] TTarget target
+        , Expression<Func<TTarget, TProperty>> selector
+    )
     {
         if (target == null)
         {
@@ -32,26 +32,27 @@ public partial class Setting<TTarget, TProperty> : ReactiveObject
             throw new ArgumentNullException(paramName: nameof(selector));
         }
 
-        if (PropertyHelper<TTarget>.GetProperty(selector) is not { } pr)
+        if (PropertyHelper<TTarget>.GetProperty(selector: selector) is not { } pr)
         {
-            throw new InvalidOperationException($"The expression {selector} is not a valid property selector");
+            throw new InvalidOperationException(message: $"The expression {selector} is not a valid property selector");
         }
 
-        Value = (TProperty?)pr.GetValue(target);
+        Value = (TProperty?)pr.GetValue(obj: target);
 
-        SetValueCommand = ReactiveCommand.Create(() => pr.SetValue(obj: target, value: Value));
+        SetValueCommand = ReactiveCommand.Create(execute: () => pr.SetValue(obj: target, value: Value));
 
-        ShowNotificationCommand = ReactiveCommand.Create(() => NotificationHelpers.Show(
-            viewModel: new RestartViewModel(message: $"To apply the new setting, {Constants.AppName} needs to be restarted")));
+        ShowNotificationCommand = ReactiveCommand.Create(execute: () => NotificationHelpers.Show(
+            viewModel: new RestartViewModel(
+                message: $"To apply the new setting, {Constants.AppName} needs to be restarted")));
 
         this.WhenAnyValue(property1: x => x.Value)
             .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-            .Skip(count: Setting<TTarget, TProperty>.SkippedItems)
+            .Skip(count: SkippedItems)
             .Select(selector: _ => Unit.Default)
-            .InvokeCommand(SetValueCommand);
+            .InvokeCommand(command: SetValueCommand);
 
         this.WhenAnyValue(property1: x => x.Value)
-            .Skip(count: Setting<TTarget, TProperty>.SkippedItems)
+            .Skip(count: SkippedItems)
             .Throttle(dueTime: TimeSpan.FromMilliseconds(value: SettingsTabViewModelBase.ThrottleTime + 50))
             .ObserveOn(scheduler: RxApp.MainThreadScheduler)
             .Where(predicate: _ => SettingsTabViewModelBase.CheckIfRestartIsNeeded())

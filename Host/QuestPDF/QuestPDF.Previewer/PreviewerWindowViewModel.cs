@@ -1,89 +1,110 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using ReactiveUI;
-using Unit = System.Reactive.Unit;
+using System.Reactive;
 using Avalonia.Threading;
+using ReactiveUI;
 
-namespace QuestPDF.Previewer
+namespace QuestPDF.Previewer;
+
+internal class PreviewerWindowViewModel : ReactiveObject
 {
-    internal class PreviewerWindowViewModel : ReactiveObject
+    private float _currentScroll;
+    private ObservableCollection<PreviewPage> _pages = new();
+
+    private float _scrollViewportSize;
+
+    private bool _verticalScrollbarVisible;
+
+    public PreviewerWindowViewModel()
     {
-        private ObservableCollection<PreviewPage> _pages = new();
-        public ObservableCollection<PreviewPage> Pages
-        {
-            get => _pages;
-            set => this.RaiseAndSetIfChanged(ref _pages, value);
-        }
-        
-        private float _currentScroll;
-        public float CurrentScroll
-        {
-            get => _currentScroll;
-            set => this.RaiseAndSetIfChanged(ref _currentScroll, value);
-        }
+        CommunicationService.Instance.OnDocumentRefreshed += HandleUpdatePreview;
 
-        private float _scrollViewportSize;
-        public float ScrollViewportSize
+        ShowPdfCommand = ReactiveCommand.Create(execute: ShowPdf);
+        ShowDocumentationCommand = ReactiveCommand.Create(execute: () =>
+            OpenLink(path: "https://www.questpdf.com/api-reference/index.html"));
+        SponsorProjectCommand =
+            ReactiveCommand.Create(execute: () => OpenLink(path: "https://github.com/sponsors/QuestPDF"));
+    }
+
+    public ObservableCollection<PreviewPage> Pages
+    {
+        get => _pages;
+        set => this.RaiseAndSetIfChanged(backingField: ref _pages, newValue: value);
+    }
+
+    public float CurrentScroll
+    {
+        get => _currentScroll;
+        set => this.RaiseAndSetIfChanged(backingField: ref _currentScroll, newValue: value);
+    }
+
+    public float ScrollViewportSize
+    {
+        get => _scrollViewportSize;
+        set
         {
-            get => _scrollViewportSize;
-            set
+            this.RaiseAndSetIfChanged(backingField: ref _scrollViewportSize, newValue: value);
+            VerticalScrollbarVisible = value < 1;
+        }
+    }
+
+    public bool VerticalScrollbarVisible
+    {
+        get => _verticalScrollbarVisible;
+        private set => Dispatcher.UIThread.Post(action: () =>
+            this.RaiseAndSetIfChanged(backingField: ref _verticalScrollbarVisible, newValue: value));
+    }
+
+    public ReactiveCommand<Unit, Unit> ShowPdfCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> ShowDocumentationCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> SponsorProjectCommand
+    {
+        get;
+    }
+
+    private void ShowPdf()
+    {
+        var filePath = Path.Combine(path1: Path.GetTempPath(), path2: $"{Guid.NewGuid():N}.pdf");
+        Helpers.GeneratePdfFromDocumentSnapshots(filePath: filePath, pages: Pages);
+
+        OpenLink(path: filePath);
+    }
+
+    private void OpenLink(
+        string path
+    )
+    {
+        using var openBrowserProcess = new Process
+        {
+            StartInfo = new ProcessStartInfo
             {
-                this.RaiseAndSetIfChanged(ref _scrollViewportSize, value);
-                VerticalScrollbarVisible = value < 1;
+                UseShellExecute = true, FileName = path
             }
-        }
+        };
 
-        private bool _verticalScrollbarVisible;
-        public bool VerticalScrollbarVisible
+        openBrowserProcess.Start();
+    }
+
+    private void HandleUpdatePreview(
+        ICollection<PreviewPage> pages
+    )
+    {
+        var oldPages = Pages;
+
+        Pages.Clear();
+        Pages = new ObservableCollection<PreviewPage>(collection: pages);
+
+        foreach (var page in oldPages)
         {
-            get => _verticalScrollbarVisible;
-            private set => Dispatcher.UIThread.Post(() => this.RaiseAndSetIfChanged(ref _verticalScrollbarVisible, value));
-        }
-
-        public ReactiveCommand<Unit, Unit> ShowPdfCommand { get; }
-        public ReactiveCommand<Unit, Unit> ShowDocumentationCommand { get; }
-        public ReactiveCommand<Unit, Unit> SponsorProjectCommand { get; }
-
-        public PreviewerWindowViewModel()
-        {
-            CommunicationService.Instance.OnDocumentRefreshed += HandleUpdatePreview;
-            
-            ShowPdfCommand = ReactiveCommand.Create(ShowPdf);
-            ShowDocumentationCommand = ReactiveCommand.Create(() => OpenLink("https://www.questpdf.com/api-reference/index.html"));
-            SponsorProjectCommand = ReactiveCommand.Create(() => OpenLink("https://github.com/sponsors/QuestPDF"));
-        }
-
-        private void ShowPdf()
-        {
-            var filePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.pdf");
-            Helpers.GeneratePdfFromDocumentSnapshots(filePath, Pages);
-
-            OpenLink(filePath);
-        }
-        
-        private void OpenLink(string path)
-        {
-            using var openBrowserProcess = new Process
-            {
-                StartInfo = new()
-                {
-                    UseShellExecute = true,
-                    FileName = path
-                }
-            };
-
-            openBrowserProcess.Start();
-        }
-        
-        private void HandleUpdatePreview(ICollection<PreviewPage> pages)
-        {
-            var oldPages = Pages;
-            
-            Pages.Clear();
-            Pages = new ObservableCollection<PreviewPage>(pages);
-            
-            foreach (var page in oldPages)
-                page.Picture.Dispose();
+            page.Picture.Dispose();
         }
     }
 }
