@@ -17,42 +17,40 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>
     private readonly TemplateItemsStore? _itemsStore;
     private readonly IQueryDispatcher? _queryDispatcher;
 
-    [AutoNotify]
-    private ItemState? _item;
+    [AutoNotify] private ItemState? _item;
 
-    [AutoNotify]
-    private string _itemName = "";
+    [AutoNotify] private string _itemName = "";
     /*{
         get;
     }*/
 
     public AddItemViewModel()
     {
-        SetupCancel(true, true, true);
+        SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
         _queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
         _itemsStore ??= Locator.Current.GetService<TemplateItemsStore>();
 
-        this.WhenAnyValue(vm => vm.Item)
+        this.WhenAnyValue(property1: vm => vm.Item)
             .WhereNotNull()
-            .Subscribe(item =>
+            .Subscribe(onNext: item =>
             {
-                if (string.IsNullOrWhiteSpace(ItemName))
+                if (string.IsNullOrWhiteSpace(value: ItemName))
                 {
-                    ItemName = Item.TemplateName;
+                    ItemName = item.TemplateName;
                 }
             });
 
         NextCommand = ReactiveCommand.Create(
-            OnNext,
-            this.WhenAnyValue(x => x.Item)
-                .Select(prop => prop is not null)
-                .ObserveOn(RxApp.MainThreadScheduler));
+            execute: OnNext,
+            canExecute: this.WhenAnyValue(property1: x => x.Item)
+                .Select(selector: prop => prop is not null)
+                .ObserveOn(scheduler: RxApp.MainThreadScheduler));
 
 
-        Dispatcher.UIThread.Post(async () =>
+        Dispatcher.UIThread.Post(action: async () =>
         {
-            await _itemsStore?.LoadSystemItems(GetCancellationToken());
+            await _itemsStore?.LoadSystemItems(token: GetCancellationToken());
         });
     }
 
@@ -62,6 +60,6 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>
     private void OnNext()
     {
         Item.Name = ItemName;
-        Close(DialogResultKind.Normal, Item);
+        Close(kind: DialogResultKind.Normal, result: Item);
     }
 }

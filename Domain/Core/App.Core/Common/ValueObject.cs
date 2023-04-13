@@ -3,8 +3,8 @@
 public abstract class ValueObject
 {
     protected static bool EqualOperator(
-        ValueObject left
-        , ValueObject right
+        ValueObject? left
+        , ValueObject? right
     )
     {
         if (left is null ^ right is null)
@@ -20,7 +20,7 @@ public abstract class ValueObject
         , ValueObject right
     ) => !EqualOperator(left: left, right: right);
 
-    protected abstract IEnumerable<object> GetEqualityComponents();
+    protected abstract IEnumerable<object>? GetEqualityComponents();
 
     public override bool Equals(
         object? obj
@@ -32,14 +32,14 @@ public abstract class ValueObject
         }
 
         var other = (ValueObject)obj;
-        return GetEqualityComponents().SequenceEqual(second: other.GetEqualityComponents());
+        return GetEqualityComponents()?.SequenceEqual(second: other?.GetEqualityComponents()) ?? false;
     }
 
     public override int GetHashCode() =>
         GetEqualityComponents()
-            .Select(selector: x => x != null ? x.GetHashCode() : 0)
-            .Aggregate(func: (
+            ?.Select(selector: x => x is not null ? x.GetHashCode() : 0)
+            ?.Aggregate(func: (
                 x
                 , y
-            ) => x ^ y);
+            ) => x ^ y) ?? 0;
 }

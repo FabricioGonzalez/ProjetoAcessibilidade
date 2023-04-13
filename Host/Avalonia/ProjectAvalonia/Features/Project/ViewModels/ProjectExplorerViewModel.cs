@@ -123,6 +123,7 @@ public partial class ProjectExplorerViewModel : ViewModelBase
                     , cancellation: GetCancellationToken());
             }
         });
+
         CreateFolderCommand = ReactiveCommand.Create(execute: () =>
         {
             if (_solutionStore?.CurrentOpenSolution is not null)
@@ -148,15 +149,13 @@ public partial class ProjectExplorerViewModel : ViewModelBase
                     ItemName: itemsGroup.Name,
                     ItemPath: itemsGroup.ItemPath)
                 , cancellation: GetCancellationToken());
-
-            Logger.LogDebug(message: itemsGroup.Name);
         });
 
-        CreateItemCommand = ReactiveCommand.Create<ItemState?>(execute: item =>
+        CreateItemCommand = ReactiveCommand.CreateFromTask<ItemState?>(execute: async item =>
         {
             if (item is not null)
             {
-                _editingItemsStore.EditItem(item: item);
+                _editingItemsStore.Item = await _editingItemsStore.EditItem(item: item);
             }
         });
     }

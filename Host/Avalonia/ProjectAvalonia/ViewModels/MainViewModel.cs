@@ -8,6 +8,7 @@ using Common;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels;
+using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.SearchBar;
 using ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
 using ProjectAvalonia.Features.SearchBar.Sources;
@@ -23,6 +24,7 @@ namespace ProjectAvalonia.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     private readonly CreateSolutionViewModel _createSolution;
+    private readonly EditingItemViewModel _editingItemPage;
     private readonly PreviewerViewModel _previewPrintPage;
     private readonly ProjectViewModel _projectPage;
     private readonly SettingsPageViewModel _settingsPage;
@@ -56,6 +58,7 @@ public partial class MainViewModel : ViewModelBase
 
         _settingsPage = new SettingsPageViewModel();
         _templatePage = new TemplateEditViewModel();
+        _editingItemPage = new EditingItemViewModel();
         _projectPage = new ProjectViewModel();
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();

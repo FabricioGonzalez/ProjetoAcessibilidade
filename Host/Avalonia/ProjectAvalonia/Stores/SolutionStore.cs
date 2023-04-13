@@ -10,11 +10,13 @@ using Avalonia.Threading;
 using Common;
 using Core.Entities.Solution;
 using DynamicData;
+using DynamicData.Binding;
 using Project.Domain.Contracts;
 using Project.Domain.Solution.Queries;
 using ProjectAvalonia.Common.Mappers;
 using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Features.Project.States.ProjectItems;
+using ProjectAvalonia.Logging;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Stores;
@@ -45,7 +47,7 @@ public partial class SolutionStore
                     .UIThread
                     .Post(action: () =>
                     {
-                        CurrentOpenSolution = result?.Data?.ToSolutionState();
+                        CurrentOpenSolution = result?.Data.ToSolutionState();
                     });
             })
         .OnError(onErrorAction: error =>
@@ -71,6 +73,37 @@ public partial class SolutionState
         FileName = Path.GetFileNameWithoutExtension(path: filePath);
 
         LoadAllItems(items: itemsGroups);
+
+        _itemsCollection
+            .Connect()
+            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+            .Bind(readOnlyObservableCollection: out _itemGroups)
+            .Subscribe();
+
+        _itemsCollection
+            .Connect()
+            .ActOnEveryObject(onAdd: item =>
+                {
+                    Logger.LogDebug(message: $"item {item.Name} was added");
+                },
+                onRemove: item =>
+                {
+                    Logger.LogDebug(message: $"item {item.Name} was removed");
+                });
+
+        _itemsCollection
+            .Items
+            .SelectMany(selector: x => x.Items)
+            .AsObservableChangeSet()
+            .ActOnEveryObject(onAdd: item =>
+                {
+                    Logger.LogDebug(message: $"project item {item.Name} was added");
+                },
+                onRemove: item =>
+                {
+                    Logger.LogDebug(message: $"project item {item.Name} was removed");
+                });
+
         ReportData = reportData;
     }
 
@@ -91,8 +124,7 @@ public partial class SolutionState
         }
     }
 
-    public void AddNewFolderItem(ItemGroupState item) =>
-        _itemsCollection.Add(item: item);
+    public void AddNewFolderItem(ItemGroupState item) => _itemsCollection.Add(item: item);
 
     public void AddNewItem(ItemGroupState itemsContainer, ItemState item)
     {
@@ -105,22 +137,9 @@ public partial class SolutionState
         }
     }
 
-    private void LoadAllItems(IList<ItemGroupState> items)
-    {
-        _itemsCollection = new SourceList<ItemGroupState>();
-
-        _itemsCollection
-            .Connect()
-            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-            .Bind(readOnlyObservableCollection: out _itemGroups)
-            .Subscribe();
-
-        foreach (var item in items)
-        {
-            if (_itemsCollection.Items.All(predicate: i => i.ItemPath != item.ItemPath))
-            {
-                _itemsCollection.Add(item: item);
-            }
-        }
-    }
+    private void LoadAllItems(IList<ItemGroupState> items) =>
+        _itemsCollection =
+            new SourceList<ItemGroupState>(source:
+                new ObservableCollectionExtended<ItemGroupState>(collection: items)
+                    .ToObservableChangeSet());
 }

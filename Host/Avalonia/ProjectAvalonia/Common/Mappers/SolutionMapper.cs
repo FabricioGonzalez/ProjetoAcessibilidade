@@ -36,7 +36,7 @@ public static class SolutionMapper
         };
 
     public static SolutionState ToSolutionState(
-        this ProjectSolutionModel model
+        this ProjectSolutionModel? model
     ) =>
         SolutionState.Create(filePath: model.FilePath, itemsGroups: new ObservableCollectionExtended<ItemGroupState>(
                 collection: model

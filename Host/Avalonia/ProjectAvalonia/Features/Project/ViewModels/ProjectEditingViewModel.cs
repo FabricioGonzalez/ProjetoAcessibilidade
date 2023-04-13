@@ -1,7 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Threading;
 using System.Windows.Input;
+using Common;
+using Project.Domain.App.Models;
 using Project.Domain.Contracts;
+using Project.Domain.Project.Commands.ProjectItems;
 using ProjectAvalonia.Features.Project.States;
 using ProjectAvalonia.Features.Project.States.FormItemState;
 using ProjectAvalonia.Features.Project.States.ProjectItems;
@@ -20,6 +25,7 @@ public partial class ProjectEditingViewModel : ViewModelBase
     private readonly IQueryDispatcher? queryDispatcher;
 
     [AutoNotify] private int _selectedIndex;
+    [AutoNotify] private ItemState _selectedItem;
 
     public ProjectEditingViewModel()
     {
@@ -27,7 +33,14 @@ public partial class ProjectEditingViewModel : ViewModelBase
         commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
         _editingItemsStore ??= Locator.Current.GetService<EditingItemsStore>();
 
-        /*SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState>(
+        this.WhenAnyValue(property1: vm => vm.SelectedItem)
+            .WhereNotNull()
+            .Subscribe(onNext: prop =>
+            {
+                _editingItemsStore.CurrentSelectedItem = prop;
+            });
+
+        SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState?>(
             execute: async appModel =>
             {
                 if (appModel is not null)
@@ -37,13 +50,12 @@ public partial class ProjectEditingViewModel : ViewModelBase
                     await commandDispatcher
                         .Dispatch<SaveProjectItemContentCommand, Resource<Empty>>(
                             command: new SaveProjectItemContentCommand(
-                                AppItem: itemModel, ItemPath: SelectedItem.ItemPath),
+                                AppItem: itemModel, ItemPath: _editingItemsStore.CurrentSelectedItem.ItemPath),
                             cancellation: CancellationToken.None);
                 }
-            },
-            canExecute: canSave);
+            });
 
-        AddPhotoCommand = ReactiveCommand.Create<ImageContainerItemState>(
+        /*AddPhotoCommand = ReactiveCommand.Create<ImageContainerItemState>(
             execute: async imageContainer =>
             {
                 var file = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Obter Image"
@@ -54,16 +66,14 @@ public partial class ProjectEditingViewModel : ViewModelBase
                     imageContainer.ImagesItems.Add(item: new ImageItemState { ImagePath = file });
                 }
             },
-            canExecute: canSave);
-*/
+            canExecute: canSave);*/
         CloseItemCommand = ReactiveCommand.Create<ItemState>(execute: item =>
         {
             _editingItemsStore.RemoveEditingItem(item: item);
         });
     }
 
-    public ItemState SelectedItem => _editingItemsStore.CurrentSelectedItem;
-    public AppModelState EditingItem => _editingItemsStore.Item;
+    public AppModelState EditingItem => _editingItemsStore?.Item;
 
     public ReadOnlyObservableCollection<ItemState> Items => _editingItemsStore.SelectedItems;
 
@@ -81,35 +91,4 @@ public partial class ProjectEditingViewModel : ViewModelBase
     {
         get;
     }
-
-    /*public async Task<AppModelState> SetEditingItem(
-        string path
-    )
-    {
-        var result = await queryDispatcher
-            .Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
-                query: new GetProjectItemContentQuery(ItemPath: path),
-                cancellation: CancellationToken.None);
-
-        if (result is Resource<AppItemModel>.Error err)
-        {
-            return null;
-        }
-
-        if (result is Resource<AppItemModel>.Success success)
-        {
-            var res = success.Data.ToAppState();
-
-            var repitedItems = Items.Any(predicate: i => i.Id == res.Id);
-
-            if (!repitedItems)
-            {
-                Items.Add(item: res);
-            }
-
-            return Items.FirstOrDefault(predicate: i => i.Id == res.Id);
-        }
-
-        return null;
-    }*/
 }
