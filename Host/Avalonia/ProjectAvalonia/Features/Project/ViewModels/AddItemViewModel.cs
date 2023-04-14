@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Reactive.Linq;
-using Avalonia.Threading;
-using Project.Domain.Contracts;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Stores;
+﻿using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
-using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 [NavigationMetaData(Title = "Adicionar item")]
 public partial class AddItemViewModel : DialogViewModelBase<ItemState>
 {
-    private readonly TemplateItemsStore? _itemsStore;
+    /*private readonly TemplateItemsStore? _itemsStore;
     private readonly IQueryDispatcher? _queryDispatcher;
 
     [AutoNotify] private ItemState? _item;
@@ -22,7 +14,7 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>
     [AutoNotify] private string _itemName = "";
     /*{
         get;
-    }*/
+    }#1#
 
     public AddItemViewModel()
     {
@@ -61,5 +53,5 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>
     {
         Item.Name = ItemName;
         Close(kind: DialogResultKind.Normal, result: Item);
-    }
+    }*/
 }

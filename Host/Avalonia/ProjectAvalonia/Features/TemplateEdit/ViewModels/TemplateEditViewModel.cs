@@ -1,48 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Reactive;
-using System.Threading;
-using System.Windows.Input;
-using Avalonia.Threading;
-using Common;
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using Core.Enuns;
-using Project.Domain.App.Models;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.SystemItems;
-using ProjectAvalonia.Common.Helpers;
-using ProjectAvalonia.Features.NavBar;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Logging;
-using ProjectAvalonia.Stores;
-using ReactiveUI;
-using Splat;
+﻿using ProjectAvalonia.Features.NavBar;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
 [NavigationMetaData(
-    Title = "Template Edit",
-    Caption = "Edit project items templates",
+    Title = "Modelos",
+    Caption = "Editar os modelos de relatórios do projeto",
     Order = 0,
     Category = "Templates",
     Searchable = true,
     Keywords = new[]
     {
-        "Templates", "Editing"
+        "Templates", "Edição", "Modelos"
     },
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_regular")]
 public partial class TemplateEditViewModel : NavBarItemViewModel
 {
-    private readonly TemplateItemsStore _itemsStore;
+    public TemplateEditViewModel()
+    {
+        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+
+        SelectionMode = NavBarItemSelectionMode.Button;
+    }
+
+    /*private readonly TemplateItemsStore _itemsStore;
     private readonly ICommandDispatcher commandDispatcher;
 
 
@@ -73,7 +55,7 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
 
             if ((await NavigateDialogAsync(dialog, NavigationTarget.CompactDialogScreen)).Result)
             {
-                /*Logger.LogInfo(groupModels.Name);*/
+                /*Logger.LogInfo(groupModels.Name);#1#
             }
         });
 
@@ -157,5 +139,5 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
     public ICommand CommitItemCommand
     {
         get;
-    }
+    }*/
 }

@@ -3,6 +3,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ReactiveUI;

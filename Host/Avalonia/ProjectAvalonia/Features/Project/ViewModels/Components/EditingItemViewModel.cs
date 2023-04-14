@@ -1,21 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Windows.Input;
-using Common;
-using Project.Domain.App.Models;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.ProjectItems;
-using ProjectAvalonia.Features.Project.States;
-using ProjectAvalonia.Stores;
-using ProjectAvalonia.ViewModels;
-using ReactiveUI;
-using Splat;
+﻿using ProjectAvalonia.Common.ViewModels;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
 
 public class EditingItemViewModel : ViewModelBase
 {
-    private readonly ICommandDispatcher _commandDispatcher;
+    /*private readonly ICommandDispatcher _commandDispatcher;
     private readonly EditingItemsStore _editingItemsStore;
 
     public EditingItemViewModel()
@@ -53,5 +42,5 @@ public class EditingItemViewModel : ViewModelBase
         get;
     }
 
-    public AppModelState EditingItem => _editingItemsStore?.Item;
+    public AppModelState EditingItem => _editingItemsStore?.Item;*/
 }

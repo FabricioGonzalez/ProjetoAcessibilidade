@@ -1,6 +1,6 @@
 using System.Windows.Input;
 using ProjectAvalonia.Common.Helpers;
-using ProjectAvalonia.ViewModels;
+using ProjectAvalonia.Common.ViewModels;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.SearchBar.Settings;

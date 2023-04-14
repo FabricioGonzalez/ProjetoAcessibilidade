@@ -25,7 +25,6 @@ using Project.Domain.Solution.Contracts;
 using Project.Domain.Solution.Queries;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
-using ProjectAvalonia.Stores;
 using ProjectItemReader.InternalAppFiles;
 using ProjectItemReader.XmlFile;
 using Splat;
@@ -167,7 +166,7 @@ public static class Bootstrapper
         var service = Locator.CurrentMutable;
         var resolver = Locator.Current;
 
-        service.RegisterConstant(
+        /*service.RegisterConstant(
             value: new TemplateItemsStore(queryDispatcher: resolver.GetService<IQueryDispatcher>()));
 
         service.RegisterConstant(
@@ -181,7 +180,7 @@ public static class Bootstrapper
 
         service.RegisterConstant(
             value: new ExplorerItemsStore(solutionStore: resolver.GetService<SolutionStore>(),
-                commandDispatcher: resolver.GetService<ICommandDispatcher>()));
+                commandDispatcher: resolver.GetService<ICommandDispatcher>()));*/
 
         return app;
     }

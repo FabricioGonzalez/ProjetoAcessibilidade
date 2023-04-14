@@ -1,29 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Avalonia.Threading;
-using Common;
-using Core.Entities.Solution;
-using DynamicData;
-using DynamicData.Binding;
-using Project.Domain.Contracts;
-using Project.Domain.Solution.Queries;
-using ProjectAvalonia.Common.Mappers;
-using ProjectAvalonia.Features.Project.States;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Logging;
-using ReactiveUI;
+﻿namespace ProjectAvalonia.Stores;
 
-namespace ProjectAvalonia.Stores;
-
-public partial class SolutionStore
+public class SolutionStore
 {
-    private readonly IQueryDispatcher _queryDispatcher;
+    /*private readonly IQueryDispatcher _queryDispatcher;
     [AutoNotify] private SolutionState? _currentOpenSolution;
     [AutoNotify] private SourceList<SolutionState>? _recentOpenedSolutions;
 
@@ -52,9 +31,10 @@ public partial class SolutionStore
             })
         .OnError(onErrorAction: error =>
         {
-        });
+        });*/
 }
 
+/*
 public partial class SolutionState
 {
     [AutoNotify] private string _fileName = "";
@@ -142,4 +122,4 @@ public partial class SolutionState
             new SourceList<ItemGroupState>(source:
                 new ObservableCollectionExtended<ItemGroupState>(collection: items)
                     .ToObservableChangeSet());
-}
+}*/

@@ -18,7 +18,7 @@
         EnableNext="True"
         FocusNext="True"
         NextContent="Continue">
-        <c:ContentArea.FooterContent>
+        <!--<c:ContentArea.FooterContent>
             <TextBox
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -35,6 +35,6 @@
                     <TextBlock Text="{Binding TemplateName}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
     </c:ContentArea>
 </UserControl>

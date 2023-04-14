@@ -1,7 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using ProjectAvalonia.ViewModels;
+using ProjectAvalonia.Common.ViewModels;
 
 namespace ProjectAvalonia;
 

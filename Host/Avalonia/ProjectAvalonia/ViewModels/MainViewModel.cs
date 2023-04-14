@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Avalonia.Controls;
 using Common;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels;
@@ -14,7 +15,6 @@ using ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
-using ProjectAvalonia.Stores;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
@@ -148,12 +148,12 @@ public partial class MainViewModel : ViewModelBase
         Instance.MainScreen.To(viewmodel: _projectPage, Parameter: projectPath);
 
     public void PrintProject(
-        SolutionState solutionState
+        /*SolutionState solutionState*/
     )
     {
-        Instance.FullScreen.To(viewmodel: _previewPrintPage, Parameter: solutionState);
+        /*Instance.FullScreen.To(viewmodel: _previewPrintPage, Parameter: solutionState);
 
-        OpenProject(projectPath: solutionState.FilePath);
+        OpenProject(projectPath: solutionState.FilePath);*/
     }
 
     public void Initialize()
@@ -189,7 +189,7 @@ public partial class MainViewModel : ViewModelBase
 
         TemplateEditTabViewModel.RegisterLazy(createInstance: () =>
         {
-            _templatePage.SelectedTab = 0;
+            /*_templatePage.SelectedTab = 0;*/
 
             return _templatePage;
         });

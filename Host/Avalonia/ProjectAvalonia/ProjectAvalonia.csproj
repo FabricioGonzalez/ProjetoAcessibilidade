@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
 
-  <PropertyGroup>
-      
+    <PropertyGroup>
+
         <TargetFramework>net7.0</TargetFramework>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <AnalysisLevel>latest</AnalysisLevel>
@@ -51,6 +51,10 @@
         <Content Remove="C:\Users\Ti\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
+        <Compile Update="Common\Controls\IconButton.axaml.cs">
+          <DependentUpon>IconButton.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <AvaloniaResource Include="Common\Controls\EditableTextBlock.xaml" />
@@ -100,6 +104,7 @@
         <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
+        <ProjectReference Include="..\..\..\Presentation\ProjectAvalonia.Presentation\ProjectAvalonia.Presentation.csproj" />
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
         <ProjectReference Include="..\..\QuestPDF\QuestPDF\QuestPDF.csproj" />
     </ItemGroup>
@@ -210,5 +215,6 @@
         <Folder Include="Features\NavBar\Stores\" />
         <Folder Include="Features\SearchBar\Stores\" />
         <Folder Include="Features\Settings\Stores\" />
+        <Folder Include="Features\TemplateEdit\Components\" />
     </ItemGroup>
 </Project>

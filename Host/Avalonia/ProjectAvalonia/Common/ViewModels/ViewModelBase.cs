@@ -5,7 +5,7 @@ using System.Threading;
 using ProjectAvalonia.Common.Validation;
 using ReactiveUI;
 
-namespace ProjectAvalonia.ViewModels;
+namespace ProjectAvalonia.Common.ViewModels;
 
 public class ViewModelBase
     : ReactiveObject

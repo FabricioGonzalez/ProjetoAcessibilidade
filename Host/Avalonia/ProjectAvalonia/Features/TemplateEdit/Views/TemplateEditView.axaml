@@ -5,39 +5,88 @@
     xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:v="using:ProjectAvalonia.Features.TemplateEdit.Views"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="viewModels:TemplateEditViewModel"
     mc:Ignorable="d">
-
-    <SplitView
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        DisplayMode="Inline"
-        IsPaneOpen="True"
-        PaneBackground="Transparent">
-        <SplitView.Pane>
-            <Grid
-                Margin="4"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                RowDefinitions="30, 1*">
-                <StackPanel
-                    Grid.Row="0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Spacing="16">
+    <controls:ContentArea ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <controls:ContentArea.Title>
+            <DockPanel Height="32">
+                <StackPanel HorizontalAlignment="Left" Margin="0 -5 0 0" DockPanel.Dock="Left"
+                            Orientation="Horizontal" Spacing="10">
                     <Button
-                        Command="{Binding AddNewItemCommand}"
-                        Content="Add"
-                        ToolTip.Placement="Pointer"
-                        ToolTip.Tip="Adicionar Item" />
+                        Width="42"
+                        Height="28"
+                        Margin="4,2"
+                        Classes="function"
+                        ToolTip.Tip="Abrir">
+                        <Button.Content>
+                            <PathIcon Data="{StaticResource document_regular}" />
+                        </Button.Content>
+                    </Button>
+                    <Button
+                        Width="42"
+                        Height="28"
+                        Margin="4,2"
+                        Classes="function"
+                        ToolTip.Tip="Novo">
+                        <Button.Content>
+                            <PathIcon Data="{StaticResource add_regular}" />
+                        </Button.Content>
+                    </Button>
+
+                    <Button
+                        x:Name="AppPrintButton"
+                        Width="42"
+                        Height="28"
+                        BorderThickness="0"
+                        Margin="4,2"
+                        Classes="function"
+                        ToolTip.Tip="Imprimir">
+                        <PathIcon Data="{StaticResource printer_regular}" />
+                    </Button>
                 </StackPanel>
+                <Button Width="42"
+                        Height="28"
+                        Margin="4,2" Classes="action" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                    <Button.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuItem Header="Coinjoin Settings">
+                                <MenuItem.Icon>
+                                    <PathIcon Data="{StaticResource wallet_action_coinjoin}" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Wallet Settings">
+                                <MenuItem.Icon>
+                                    <PathIcon Data="{StaticResource settings_wallet_regular}" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Wallet Stats">
+                                <MenuItem.Icon>
+                                    <PathIcon Data="{StaticResource stats_wallet_regular}" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Wallet Info">
+                                <MenuItem.Icon>
+                                    <PathIcon Data="{StaticResource info_regular}" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                    <PathIcon Data="{StaticResource more_regular}"
+                              Foreground="{DynamicResource TextForegroundColor}" />
+                </Button>
+            </DockPanel>
+        </controls:ContentArea.Title>
+        <SplitView
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            DisplayMode="Inline"
+            IsPaneOpen="True"
+            PaneBackground="Transparent">
+            <SplitView.Pane>
                 <ListBox
-                    x:Name="TemplateList"
-                    Grid.Row="1"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Background="Transparent"
@@ -69,14 +118,14 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </Grid>
-        </SplitView.Pane>
-        <TabControl SelectedIndex="{CompiledBinding SelectedTab, Mode=TwoWay}">
+            </SplitView.Pane>
+            <!--<TabControl SelectedIndex="{CompiledBinding SelectedTab, Mode=TwoWay}">
             <TabItem Header="Template">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <v:TemplateEditTabView DataContext="{CompiledBinding TemplateEditTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
-        </TabControl>
-    </SplitView>
+        </TabControl>-->
+        </SplitView>
+    </controls:ContentArea>
 </UserControl>

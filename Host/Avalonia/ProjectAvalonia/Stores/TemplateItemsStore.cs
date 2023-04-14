@@ -1,24 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Common;
-using Core.Entities.Solution.ItemsGroup;
-using DynamicData;
-using DynamicData.Binding;
-using Project.Domain.App.Queries.Templates;
-using Project.Domain.Contracts;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ReactiveUI;
-
-namespace ProjectAvalonia.Stores;
+﻿namespace ProjectAvalonia.Stores;
 
 public partial class TemplateItemsStore
 {
-    private readonly IQueryDispatcher? _queryDispatcher;
+    /*private readonly IQueryDispatcher? _queryDispatcher;
 
     private readonly SourceList<ItemState> _systemItems;
 
@@ -59,7 +43,7 @@ public partial class TemplateItemsStore
                              TemplateName = item.Name
                          }) ?? Enumerable.Empty<ItemState>())
             {
-                if (_systemItems.Items.All(i => /*i.Id != item.Id ||*/ i.TemplateName != item.TemplateName))
+                if (_systemItems.Items.All(i => /*i.Id != item.Id ||#1# i.TemplateName != item.TemplateName))
                 {
                     _systemItems.Add(item);
                 }
@@ -77,5 +61,5 @@ public partial class TemplateItemsStore
     public void AddItem(
         ItemState item
     ) =>
-        _systemItems.Add(item);
+        _systemItems.Add(item);*/
 }

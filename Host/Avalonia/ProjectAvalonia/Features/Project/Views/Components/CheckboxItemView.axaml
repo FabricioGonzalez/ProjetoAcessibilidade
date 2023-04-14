@@ -1,0 +1,31 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.CheckboxItemView"
+             x:DataType="interfaces:ICheckboxItemViewModel"
+             x:CompileBindings="True" HorizontalAlignment="Stretch">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeCheckboxItemViewModel />
+    </Design.DataContext>
+    <StackPanel Margin="0,4">
+        <TextBlock
+            FontWeight="Bold"
+            Text="{Binding Topic}"
+            TextWrapping="Wrap" />
+        <components:OptionsItem
+            DataContext="{Binding Options}" />
+        <ItemsControl Items="{Binding TextItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <components:TextBoxItem
+                        DataContext="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

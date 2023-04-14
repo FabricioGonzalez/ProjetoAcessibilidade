@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Linq;
 using System.Reactive;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Avalonia.Threading;
 using Common;
-using Core.Entities.App;
 using Core.Entities.Solution;
 using Project.Domain.Contracts;
-using Project.Domain.Solution.Commands.SolutionItem;
+using Project.Domain.Solution.Queries;
 using ProjectAvalonia.Common.Helpers;
-using ProjectAvalonia.Common.Mappers;
 using ProjectAvalonia.Features.NavBar;
-using ProjectAvalonia.Features.PDFViewer.ViewModels;
-using ProjectAvalonia.Logging;
-using ProjectAvalonia.Stores;
-using ProjectAvalonia.ViewModels.Dialogs.Base;
-using ProjectAvalonia.ViewModels.Navigation;
+using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
 using Splat;
 
@@ -37,18 +28,19 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_file_regular")]
-public partial class ProjectViewModel : NavBarItemViewModel
+public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 {
-    private readonly AddressesStore _addressesStore;
+    private readonly IQueryDispatcher? _queryDispatcher;
+    /*private readonly AddressesStore _addressesStore;
     private readonly SolutionStore _solutionStore;
 
     private readonly ICommandDispatcher? commandDispatcher;
 
-    private readonly IQueryDispatcher? queryDispatcher;
+
 
     public ProjectViewModel()
     {
-        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+
         commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
         _solutionStore ??= Locator.Current.GetService<SolutionStore>();
         _addressesStore ??= Locator.Current.GetService<AddressesStore>();
@@ -90,7 +82,7 @@ public partial class ProjectViewModel : NavBarItemViewModel
             }
         });
 
-        ((ReactiveCommand<Unit, Unit>)OpenProjectCommand)
+        OpenProjectCommand
             .ThrownExceptions
             .Subscribe(onNext: exception =>
             {
@@ -111,12 +103,12 @@ public partial class ProjectViewModel : NavBarItemViewModel
                 });
             }
         });
-        (CreateProjectCommand as ReactiveCommand<Unit, Unit>)
+        CreateProjectCommand
             .IsExecuting
             .ToProperty(source: this,
                 property: nameof(IsBusy), result: out _isBusy);
 
-        ((ReactiveCommand<Unit, Unit>)CreateProjectCommand)
+        CreateProjectCommand
             .ThrownExceptions
             .Subscribe(onNext: exception =>
             {
@@ -147,22 +139,22 @@ public partial class ProjectViewModel : NavBarItemViewModel
         get;
     }
 
-    public ICommand OpenProjectCommand
+    public ReactiveCommand<Unit, Unit> OpenProjectCommand
     {
         get;
     }
 
-    public ICommand CreateProjectCommand
+    public ReactiveCommand<Unit, Unit> CreateProjectCommand
     {
         get;
     }
 
-    public ICommand PrintProjectCommand
+    public ReactiveCommand<Unit, Unit> PrintProjectCommand
     {
         get;
     }
 
-    public ICommand SaveSolutionCommand
+    public ReactiveCommand<SolutionState, Unit> SaveSolutionCommand
     {
         get;
     }
@@ -184,5 +176,87 @@ public partial class ProjectViewModel : NavBarItemViewModel
 
     private IObservable<bool> IsSolutionOpened() =>
         this.WhenAnyValue(property1: vm => vm._solutionStore.CurrentOpenSolution.FilePath)
-            .Select(selector: prop => !string.IsNullOrWhiteSpace(value: prop));
+            .Select(selector: prop => !string.IsNullOrWhiteSpace(value: prop));*/
+
+    public ProjectViewModel()
+    {
+        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+
+        SelectionMode = NavBarItemSelectionMode.Button;
+        _queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+
+
+        OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
+    }
+
+    public IProjectExplorerViewModel ProjectExplorerViewModel
+    {
+        get;
+        private set;
+    }
+
+    public IProjectEditingViewModel ProjectEditingViewModel
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> OpenProjectCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> CreateProjectCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> PrintProjectCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<SolutionState, Unit> SaveSolutionCommand
+    {
+        get;
+    }
+
+    private async Task OpenSolution()
+    {
+        var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Abrir Projeto");
+
+        if (path is not null)
+        {
+            (await _queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
+                    query: new ReadSolutionProjectQuery(SolutionPath: path),
+                    cancellation: CancellationToken.None))
+                .OnSuccess(
+                    onSuccessAction: result =>
+                    {
+                        Dispatcher
+                            .UIThread
+                            .Post(action: () =>
+                            {
+                                ProjectExplorerViewModel = new ProjectExplorerViewModel(items:
+                                    result
+                                        .Data
+                                        .ItemGroups
+                                        .Select(selector: model =>
+                                            {
+                                                var vm = new ItemGroupViewModel(name: model.Name,
+                                                    itemPath: model.ItemPath);
+                                                vm.TransformFrom(items: model.Items);
+
+                                                return vm;
+                                            }
+                                        ).ToList<IItemGroupViewModel>(),
+                                    state: new SolutionState()
+                                );
+                                this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
+                            });
+                    })
+                .OnError(onErrorAction: error =>
+                {
+                });
+        }
+    }
 }

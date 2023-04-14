@@ -1137,6 +1137,7 @@
           "Neumorphism.Avalonia": "[0.4.0, )",
           "Notification.Avalonia": "[1.1.0, )",
           "Project.Domain": "[1.0.0, )",
+          "ProjectAvalonia.Presentation": "[1.0.0, )",
           "ProjectItemReader": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",
           "QuestPDFReport": "[1.0.0, )",
@@ -1144,6 +1145,13 @@
           "Splat.Microsoft.Extensions.DependencyInjection": "[14.6.1, )",
           "SukiUI": "[3.0.0, )",
           "XamlNameReferenceGenerator": "[1.5.1, )"
+        }
+      },
+      "projectavalonia.presentation": {
+        "type": "Project",
+        "dependencies": {
+          "Core": "[1.0.0, )",
+          "ReactiveUI": "[18.4.26, )"
         }
       },
       "projectitemreader": {

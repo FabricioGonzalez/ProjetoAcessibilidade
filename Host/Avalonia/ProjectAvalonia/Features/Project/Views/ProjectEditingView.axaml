@@ -4,14 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:ProjectAvalonia.Features.Project.ViewModels"
-    xmlns:formItemState="clr-namespace:ProjectAvalonia.Features.Project.States.FormItemState"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
-    xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="viewModels:ProjectEditingViewModel"
+    x:CompileBindings="True"
+    x:DataType="interfaces:IProjectEditingViewModel"
     mc:Ignorable="d">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeProjectEditingViewModel />
+    </Design.DataContext>
     <TabControl
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
@@ -20,233 +23,19 @@
         AutoScrollToSelectedItem="True"
         Background="Transparent"
         Classes="horizontalScroller"
-        Items="{Binding Items, Mode=OneWay}"
+        Items="{Binding EditingItems, Mode=OneWay}"
         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
         TabStripPlacement="Top"
         Template="{DynamicResource TabControlControlTemplate1}">
         <TabControl.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <TextBlock
-                        Background="Transparent"
-                        FontSize="12"
-                        Text="{Binding Name, Mode=OneWay}" />
-                    <Button
-                        Width="20"
-                        Height="20"
-                        Padding="0"
-                        Classes="action"
-                        Command="{Binding $parent[UserControl].DataContext.CloseItemCommand}"
-                        CommandParameter="{Binding $self.DataContext}">
-                        <PathIcon
-                            Width="8"
-                            Height="8"
-                            Data="{StaticResource dismiss_light}" />
-                    </Button>
-                </StackPanel>
+                <components:EditingTabHeader DataContext="{Binding }" />
             </DataTemplate>
         </TabControl.ItemTemplate>
-
         <TabControl.ContentTemplate>
-            <DataTemplate>
-                <Grid
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    RowDefinitions="40,1*">
-                    <StackPanel
-                        Grid.Row="0"
-                        HorizontalAlignment="Stretch"
-                        Orientation="Horizontal"
-                        Spacing="4">
-                        <Button Command="{Binding $parent[UserControl].DataContext.SaveItemCommand, Mode=OneWay}"
-                                CommandParameter="{Binding $parent[UserControl].DataContext.EditingItem, Mode=TwoWay}">
-                            <PathIcon Data="{StaticResource save_regular}" />
-                        </Button>
-                    </StackPanel>
-                    <ScrollViewer
-                        Name="EditingScrollViewer"
-                        Grid.Row="1"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch">
-                        <DockPanel HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Stretch">
-
-                            <Border
-                                Margin="16,8"
-                                Padding="8"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                CornerRadius="8">
-                                <ItemsControl
-                                    Items="{Binding $parent[UserControl].DataContext.EditingItem.LawItems, Mode=TwoWay}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="0,4">
-                                                <TextBlock FontWeight="Bold" Text="{Binding LawId}" />
-                                                <TextBlock Text="{Binding LawContent}" TextWrapping="Wrap" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </Border>
-
-                            <ItemsControl
-                                Padding="16"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                Items="{Binding $parent[UserControl].DataContext.EditingItem.FormData, Mode=TwoWay}">
-                                <ItemsControl.DataTemplates>
-                                    <DataTemplate x:DataType="formItemState:TextItemState"
-                                                  DataType="formItemState:TextItemState">
-                                        <Border
-                                            Margin="0,4"
-                                            Padding="4"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            CornerRadius="8">
-                                            <components:TextBoxItem
-                                                Margin="0,8"
-                                                MeasurementUnit="{Binding MeasurementUnit}"
-                                                TextData="{Binding TextData}"
-                                                Topic="{Binding Topic}" />
-                                        </Border>
-                                    </DataTemplate>
-
-                                    <DataTemplate x:DataType="formItemState:CheckboxContainerItemState"
-                                                  DataType="formItemState:CheckboxContainerItemState">
-                                        <Border
-                                            Margin="0,4"
-                                            Padding="4"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            CornerRadius="8">
-                                            <StackPanel
-                                                Margin="0,8"
-                                                Orientation="Vertical"
-                                                Spacing="8">
-                                                <TextBlock
-                                                    FontWeight="Bold"
-                                                    Text="{Binding Topic}"
-                                                    TextWrapping="Wrap" />
-                                                <ItemsControl Items="{Binding Children}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate x:DataType="formItemState:CheckboxItemState">
-                                                            <StackPanel Margin="0,4">
-                                                                <TextBlock
-                                                                    FontWeight="Bold"
-                                                                    Text="{Binding Topic}"
-                                                                    TextWrapping="Wrap" />
-                                                                <components:OptionsItem
-                                                                    Options="{Binding Options}" />
-                                                                <ItemsControl Items="{Binding TextItems}">
-                                                                    <ItemsControl.ItemTemplate>
-                                                                        <DataTemplate
-                                                                            x:DataType="formItemState:TextItemState">
-                                                                            <components:TextBoxItem
-                                                                                MeasurementUnit="{Binding MeasurementUnit}"
-                                                                                TextData="{Binding TextData}"
-                                                                                Topic="{Binding Topic}" />
-                                                                        </DataTemplate>
-                                                                    </ItemsControl.ItemTemplate>
-                                                                </ItemsControl>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-
-                                    <DataTemplate x:DataType="formItemState:ImageContainerItemState"
-                                                  DataType="formItemState:ImageContainerItemState">
-                                        <Border
-                                            Margin="0,4"
-                                            Padding="4"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            CornerRadius="8">
-                                            <Expander
-                                                Margin="0,8"
-                                                HorizontalAlignment="Stretch"
-                                                HorizontalContentAlignment="Stretch">
-                                                <Expander.HeaderTemplate>
-                                                    <DataTemplate>
-                                                        <Grid HorizontalAlignment="Stretch" ColumnDefinitions="1* 1*">
-                                                            <TextBlock
-                                                                Grid.Column="0"
-                                                                FontWeight="Bold"
-                                                                Text="{Binding $parent[Border].DataContext.Topic}"
-                                                                TextWrapping="Wrap" />
-                                                            <!--<Button
-                                                                Grid.Column="1"
-                                                                HorizontalAlignment="Right"
-                                                                Command="{Binding $parent[UserControl].DataContext.AddPhotoCommand}"
-                                                                CommandParameter="{Binding $parent[Border].DataContext}">
-                                                                <PathIcon Data="{StaticResource addphoto_regular}" />
-                                                            </Button>-->
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </Expander.HeaderTemplate>
-                                                <ItemsControl HorizontalAlignment="Stretch"
-                                                              Items="{Binding ImagesItems, Mode=OneWay}">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <UniformGrid MaxHeight="600" Columns="2" />
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate x:DataType="formItemState:ImageItemState">
-                                                            <DockPanel
-                                                                MaxHeight="600"
-                                                                Margin="4,4"
-                                                                HorizontalAlignment="Stretch"
-                                                                LastChildFill="True">
-                                                                <TextBox
-                                                                    Margin="0,4,0,0"
-                                                                    AcceptsReturn="True"
-                                                                    AcceptsTab="True"
-                                                                    DockPanel.Dock="Bottom"
-                                                                    Text="{Binding ImageObservation}" />
-                                                                <Image
-                                                                    Width="{Binding $parent.Width}"
-                                                                    asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=OneWay}"
-                                                                    Clip=""
-                                                                    ClipToBounds="True" />
-                                                            </DockPanel>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </Expander>
-                                        </Border>
-                                    </DataTemplate>
-
-                                    <DataTemplate x:DataType="formItemState:ObservationItemState"
-                                                  DataType="formItemState:ObservationItemState">
-                                        <Border
-                                            Margin="0,4"
-                                            Padding="4"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            CornerRadius="8">
-                                            <TextBox
-                                                MinHeight="200"
-                                                Margin="0,8"
-                                                AcceptsReturn="True"
-                                                AcceptsTab="True"
-                                                Text="{Binding Observation}"
-                                                UseFloatingWatermark="True"
-                                                Watermark="Observações" />
-                                        </Border>
-                                    </DataTemplate>
-
-                                </ItemsControl.DataTemplates>
-                            </ItemsControl>
-
-                        </DockPanel>
-                    </ScrollViewer>
-                </Grid>
+            <DataTemplate x:DataType="interfaces:IEditingItemViewModel">
+                <components:EditingItemView DataContext="{Binding Body }" />
             </DataTemplate>
         </TabControl.ContentTemplate>
-
     </TabControl>
 </UserControl>

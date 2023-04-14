@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿/*using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using Core.Entities.Solution;
@@ -54,4 +54,5 @@ public static class SolutionMapper
                     })),
             reportData: model.SolutionReportInfo.ToReportState()
         );
-}
+}*/
+

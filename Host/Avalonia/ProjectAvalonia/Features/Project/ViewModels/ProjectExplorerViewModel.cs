@@ -1,30 +1,15 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Reactive.Linq;
-using System.Windows.Input;
-using Common;
-using Core.Entities.Solution.Explorer;
-using DynamicData.Binding;
-using Project.Domain.App.Models;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.ProjectItems;
-using Project.Domain.Solution.Commands.SolutionItem;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Logging;
-using ProjectAvalonia.Stores;
-using ProjectAvalonia.ViewModels;
-using ProjectAvalonia.ViewModels.Dialogs.Base;
-using ProjectAvalonia.ViewModels.Navigation;
+﻿using System.Collections.Generic;
+using System.Reactive;
+using ProjectAvalonia.Common.ViewModels;
+using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public partial class ProjectExplorerViewModel : ViewModelBase
+public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 {
-    private readonly ICommandDispatcher _commandDispatcher;
+    /*private readonly ICommandDispatcher _commandDispatcher;
     private readonly EditingItemsStore _editingItemsStore;
     private readonly ExplorerItemsStore _explorerItemsStore;
     private readonly SolutionStore _solutionStore;
@@ -42,11 +27,11 @@ public partial class ProjectExplorerViewModel : ViewModelBase
         _commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
 
 
-        this.WhenValueChanged(propertyAccessor: vm =>
+        Observable.Where(this.WhenValueChanged(propertyAccessor: vm =>
                 vm
                     .CurrentOpenSolution
                     .ReportData
-                    .Telefone).Where(predicate: value => !string.IsNullOrWhiteSpace(value: value))
+                    .Telefone), predicate: value => !string.IsNullOrWhiteSpace(value: value))
             .Subscribe(onNext: value =>
             {
                 var val = value
@@ -204,6 +189,28 @@ public partial class ProjectExplorerViewModel : ViewModelBase
     }
 
     public ICommand OpenSolutionCommand
+    {
+        get;
+        set;
+    }*/
+    public ProjectExplorerViewModel(List<IItemGroupViewModel> items, SolutionState state)
+    {
+        Items = items;
+        SolutionState = state;
+    }
+
+
+    public ReactiveCommand<Unit, Unit> CreateFolderCommand
+    {
+        get;
+    }
+
+    public SolutionState SolutionState
+    {
+        get;
+    }
+
+    public List<IItemGroupViewModel> Items
     {
         get;
         set;

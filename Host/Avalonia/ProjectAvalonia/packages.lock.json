@@ -1132,6 +1132,13 @@
           "Splat": "[14.6.1, )"
         }
       },
+      "projectavalonia.presentation": {
+        "type": "Project",
+        "dependencies": {
+          "Core": "[1.0.0, )",
+          "ReactiveUI": "[18.4.26, )"
+        }
+      },
       "projectitemreader": {
         "type": "Project",
         "dependencies": {

@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using ProjectAvalonia.ViewModels;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
 
 namespace ProjectAvalonia.Features.NavBar;

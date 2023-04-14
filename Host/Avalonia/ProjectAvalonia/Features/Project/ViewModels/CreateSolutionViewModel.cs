@@ -1,19 +1,11 @@
-﻿using System.IO;
-using System.Reactive.Linq;
-using System.Windows.Input;
-using Avalonia.Threading;
-using Project.Domain.Contracts;
-using ProjectAvalonia.Common.Helpers;
-using ProjectAvalonia.Stores;
+﻿using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
-using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
 {
-    private readonly ICommandDispatcher _commandDispatcher;
+    /*private readonly ICommandDispatcher _commandDispatcher;
     private readonly SolutionStore _solutionStore;
 
     public ICommand ChooseLogoPath;
@@ -80,12 +72,12 @@ public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
             /*Dispatcher.UIThread.Post(action: () =>
             {
                 _solutionStore.CurrentOpenSolution.LogoPath = path;
-            });*/
+            });#1#
         });
     }
 
     public SolutionState SolutionModel => _solutionStore.CurrentOpenSolution;
-
+*/
     public override sealed string Title
     {
         get;

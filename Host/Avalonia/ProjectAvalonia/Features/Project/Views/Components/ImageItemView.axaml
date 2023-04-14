@@ -1,0 +1,32 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="interfaces:IImageItemViewModel"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.ImageItemView"
+             x:CompileBindings="True">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeImageViewModel />
+    </Design.DataContext>
+    <DockPanel
+        MaxHeight="600"
+        Margin="4,4"
+        HorizontalAlignment="Stretch"
+        LastChildFill="True">
+        <TextBox
+            Margin="0,4,0,0"
+            AcceptsReturn="True"
+            AcceptsTab="True"
+            DockPanel.Dock="Bottom"
+            Text="{Binding ImageObservation}" />
+        <Image
+            Width="{Binding $parent.Width}"
+            asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=OneWay}"
+            Clip=""
+            ClipToBounds="True" />
+    </DockPanel>
+</UserControl>

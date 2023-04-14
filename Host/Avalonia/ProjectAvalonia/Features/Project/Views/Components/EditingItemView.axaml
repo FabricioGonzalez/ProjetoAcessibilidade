@@ -4,10 +4,28 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:ProjectAvalonia.Features.Project.ViewModels.Components"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="viewModels:EditingItemViewModel"
+    x:CompileBindings="True"
+    x:DataType="interfaces:IEditingBodyViewModel"
     mc:Ignorable="d">
+    <Design.DataContext>
+        <designTimeViewModels:DesingTimeEditingBodyViewModel />
+    </Design.DataContext>
 
+    <ScrollViewer VerticalScrollBarVisibility="Visible"
+                  Name="EditingScrollViewer"
+                  HorizontalAlignment="Stretch">
+        <DockPanel HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch" LastChildFill="True">
+            <components:EditingLawView HorizontalAlignment="Stretch" DataContext="{Binding}"
+                                       DockPanel.Dock="Bottom" />
+
+            <components:EditingFormView HorizontalAlignment="Stretch" DataContext="{Binding}" />
+
+        </DockPanel>
+    </ScrollViewer>
 </UserControl>

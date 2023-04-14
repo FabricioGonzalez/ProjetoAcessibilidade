@@ -1,0 +1,57 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="interfaces:IImageFormItemViewModel"
+             x:CompileBindings="True"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.ImageContainerView">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeImageContainerFormItemViewModel />
+    </Design.DataContext>
+    <Border
+        Margin="0,4"
+        Padding="4"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        CornerRadius="8">
+        <Expander
+            Margin="0,8"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch">
+            <Expander.Header>
+                <Grid HorizontalAlignment="Stretch" ColumnDefinitions="1* 1*">
+                    <TextBlock
+                        Grid.Column="0"
+                        FontWeight="Bold"
+                        Text="{Binding Topic}"
+                        TextWrapping="Wrap" />
+
+                    <Button
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Command="{Binding AddPhotoCommand}"
+                        CommandParameter="{Binding }">
+                        <PathIcon Data="{StaticResource addphoto_regular}" />
+                    </Button>
+                </Grid>
+            </Expander.Header>
+            <ItemsControl HorizontalAlignment="Stretch"
+                          Items="{Binding ImageItems, Mode=OneWay}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid MaxHeight="600" Columns="2" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="interfaces:IImageItemViewModel">
+                        <components:ImageItemView DataContext="{Binding}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Expander>
+    </Border>
+</UserControl>

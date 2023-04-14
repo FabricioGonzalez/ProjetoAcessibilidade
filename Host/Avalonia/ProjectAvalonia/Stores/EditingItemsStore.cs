@@ -1,24 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Avalonia.Threading;
-using Common;
-using Core.Entities.Solution.Project.AppItem;
-using DynamicData;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Queries.ProjectItems;
-using ProjectAvalonia.Features.Project.States;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ReactiveUI;
-
-namespace ProjectAvalonia.Stores;
+﻿namespace ProjectAvalonia.Stores;
 
 public partial class EditingItemsStore
 {
-    private readonly IQueryDispatcher _queryDispatcher;
+    /*private readonly IQueryDispatcher _queryDispatcher;
 
     private readonly SourceList<ItemState> _selectedItemCollection;
     [AutoNotify] private ItemState _currentSelectedItem;
@@ -62,5 +46,5 @@ public partial class EditingItemsStore
                 return error.Data as AppItemModel;
             })
             .value.ToAppState()
-        );
+        );*/
 }

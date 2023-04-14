@@ -5,15 +5,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:ProjectAvalonia.Features.Project.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:project="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+    xmlns:designVm="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
-    xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
-    x:DataType="project:ProjectViewModel"
+    x:DataType="interfaces:IProjectViewModel"
     mc:Ignorable="d">
-    <controls:ContentArea>
+    <Design.DataContext>
+        <designVm:DesignTimeProjectViewModel />
+    </Design.DataContext>
+
+    <controls:ContentArea ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <controls:ContentArea.Title>
             <DockPanel Height="32">
                 <StackPanel HorizontalAlignment="Left" Margin="0 -5 0 0" DockPanel.Dock="Left"
@@ -40,7 +44,7 @@
                             <PathIcon Data="{StaticResource add_regular}" />
                         </Button.Content>
                     </Button>
-                    <Button
+                    <!--<Button
                         x:Name="SaveSolutionButton"
                         Width="42"
                         Height="28"
@@ -50,12 +54,13 @@
                         CommandParameter="{Binding SolutionState}"
                         ToolTip.Tip="Sincronizar Solução">
                         <PathIcon Data="{StaticResource save_regular}" />
-                    </Button>
+                    </Button>-->
 
                     <Button
                         x:Name="AppPrintButton"
                         Width="42"
                         Height="28"
+                        BorderThickness="0"
                         Margin="4,2"
                         Classes="function"
                         Command="{Binding PrintProjectCommand}"
@@ -88,12 +93,12 @@
                                     <PathIcon Data="{StaticResource info_regular}" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem
-                                IsSelected="{Binding projectExplorerViewModel.IsDocumentSolutionEnabled, Mode=TwoWay}">
+                            <!--<MenuItem
+                                IsSelected="{Binding ProjectExplorerViewModel.IsDocumentSolutionEnabled, Mode=TwoWay}">
                                 <MenuItem.Icon>
                                     <PathIcon Data="{StaticResource document_regular}" />
                                 </MenuItem.Icon>
-                                <Button
+                                ~1~<Button
                                     Width="42"
                                     Height="28"
                                     Margin="4,2"
@@ -187,8 +192,8 @@
                                             </ScrollViewer>
                                         </Flyout>
                                     </Button.Flyout>
-                                </Button>
-                            </MenuItem>
+                                </Button>@1@
+                            </MenuItem>-->
                         </MenuFlyout>
                     </Button.Flyout>
                     <PathIcon Data="{StaticResource more_regular}"
@@ -200,9 +205,9 @@
             <local:ProjectExplorerView
                 Width="350"
                 VerticalAlignment="Stretch"
-                DataContext="{Binding projectExplorerViewModel}"
+                DataContext="{Binding ProjectExplorerViewModel}"
                 DockPanel.Dock="Right" />
-            <local:ProjectEditingView DataContext="{Binding projectEditingViewModel}" />
+            <local:ProjectEditingView DataContext="{Binding ProjectEditingViewModel}" />
         </DockPanel>
     </controls:ContentArea>
 </UserControl>

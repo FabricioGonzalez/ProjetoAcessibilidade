@@ -4,25 +4,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    d:DesignHeight="450" HorizontalAlignment="Stretch"
     d:DesignWidth="800"
-    mc:Ignorable="d">
-    <StackPanel Orientation="Vertical" Spacing="8">
-        <TextBlock
-            FontWeight="Bold"
-            Text="{Binding Topic}"
-            TextWrapping="Wrap" />
-        <StackPanel Orientation="Horizontal" Spacing="5">
-            <TextBox
-                Width="280"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch"
-                Text="{Binding TextData}" />
+    mc:Ignorable="d"
+    x:DataType="interfaces:ITextFormItemViewModel"
+    x:CompileBindings="True">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeTextFormItem />
+    </Design.DataContext>
+    <Border
+        Margin="0,4"
+        Padding="4"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        CornerRadius="8">
+        <StackPanel Orientation="Vertical" Spacing="8">
             <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
                 FontWeight="Bold"
-                Text="{Binding MeasurementUnit}" />
+                Text="{Binding Topic}"
+                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal" Spacing="5">
+                <TextBox
+                    Width="280"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Text="{Binding TextData}" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Text="{Binding MeasurementUnit}" />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </Border>
 </UserControl>

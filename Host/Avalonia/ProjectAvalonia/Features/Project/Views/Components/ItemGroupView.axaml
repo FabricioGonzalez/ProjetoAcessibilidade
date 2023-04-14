@@ -1,0 +1,68 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="interfaces:IItemGroupViewModel"
+             x:CompileBindings="True"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.ItemGroupView">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeItemGroupViewModel />
+    </Design.DataContext>
+    <TreeViewItem HorizontalAlignment="Stretch" Items="{Binding Items}">
+        <TreeViewItem.Header>
+            <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+                <PathIcon DockPanel.Dock="Left" Margin="0,0,8,0" Data="{StaticResource folder_regular}" />
+                <controls:EditableTextBlock
+                    Command="{Binding CommitFolderCommand}"
+                    CommandParameter="{Binding}"
+                    Text="{Binding Name}" />
+            </DockPanel>
+        </TreeViewItem.Header>
+        <TreeViewItem.ContextMenu>
+            <ContextMenu>
+                <MenuItem
+                    Command="{Binding AddProjectItemCommand}"
+                    CommandParameter="{Binding}"
+                    Header="Adicionar Item" />
+                <MenuItem
+                    Command="{Binding ExcludeFolderCommand}"
+                    CommandParameter="{Binding}"
+                    Header="Excluir Pasta" />
+            </ContextMenu>
+        </TreeViewItem.ContextMenu>
+        <TreeViewItem.ItemTemplate>
+            <DataTemplate>
+                <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+                    <Interaction.Behaviors>
+                        <behaviors:ExecuteCommandOnDoubleTappedBehavior
+                            Command="{Binding CreateItemCommand}"
+                            CommandParameter="{Binding}" />
+                    </Interaction.Behaviors>
+                    <PathIcon HorizontalAlignment="Left" Margin="0,0,8,0"
+                              Data="{StaticResource document_regular}" />
+                    <controls:EditableTextBlock
+                        Command="{Binding  CommitFileCommand}"
+                        CommandParameter="{Binding Parent}"
+                        Text="{Binding Name}" />
+                    <DockPanel.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem
+                                Command="{Binding ExcludeFileCommand}"
+                                CommandParameter="{Binding}"
+                                Header="Excluir" />
+                            <MenuItem
+                                Command="{Binding RenameFileCommand}"
+                                CommandParameter="{Binding}"
+                                Header="Renomear" />
+                        </ContextMenu>
+                    </DockPanel.ContextMenu>
+                </DockPanel>
+            </DataTemplate>
+        </TreeViewItem.ItemTemplate>
+    </TreeViewItem>
+</UserControl>

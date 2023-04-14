@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using DynamicData.Binding;
-using ProjectAvalonia.Features.Project.States.FormItemState;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
 
@@ -18,8 +14,8 @@ public partial class OptionItem : UserControl
 
     public OptionItem()
     {
-        this.WhenPropertyChanged(propertyAccessor: v => v.IsChecked, notifyOnInitialValue: false)
-            .Subscribe(onNext: OptionChecker);
+        /*this.WhenPropertyChanged(propertyAccessor: v => v.IsChecked, notifyOnInitialValue: false)
+            .Subscribe(onNext: OptionChecker);*/
 
         InitializeComponent();
     }
@@ -36,7 +32,7 @@ public partial class OptionItem : UserControl
         set => SetValue(property: ValueProperty, value: value);
     }
 
-    private void OptionChecker(
+    /*private void OptionChecker(
         PropertyValue<OptionItem, bool?> prop
     )
     {
@@ -91,6 +87,7 @@ public partial class OptionItem : UserControl
             }
         }
     }
+    */
 
     private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
 }

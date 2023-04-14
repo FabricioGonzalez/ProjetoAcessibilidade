@@ -1,25 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Reactive;
-using System.Threading;
-using System.Windows.Input;
-using Common;
-using Project.Domain.App.Models;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.ProjectItems;
-using ProjectAvalonia.Features.Project.States;
-using ProjectAvalonia.Features.Project.States.FormItemState;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Stores;
-using ProjectAvalonia.ViewModels;
-using ReactiveUI;
-using Splat;
+﻿using ProjectAvalonia.Common.ViewModels;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public partial class ProjectEditingViewModel : ViewModelBase
+public class ProjectEditingViewModel : ViewModelBase
 {
-    private readonly EditingItemsStore _editingItemsStore;
+    /*private readonly EditingItemsStore _editingItemsStore;
     private readonly ICommandDispatcher? commandDispatcher;
 
     private readonly IQueryDispatcher? queryDispatcher;
@@ -66,7 +51,7 @@ public partial class ProjectEditingViewModel : ViewModelBase
                     imageContainer.ImagesItems.Add(item: new ImageItemState { ImagePath = file });
                 }
             },
-            canExecute: canSave);*/
+            canExecute: canSave);#1#
         CloseItemCommand = ReactiveCommand.Create<ItemState>(execute: item =>
         {
             _editingItemsStore.RemoveEditingItem(item: item);
@@ -90,5 +75,5 @@ public partial class ProjectEditingViewModel : ViewModelBase
     public ReactiveCommand<ImageContainerItemState, Unit> AddPhotoCommand
     {
         get;
-    }
+    }*/
 }
