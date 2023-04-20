@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using Core.Entities.Solution.ItemsGroup;
 using ProjectAvalonia.Presentation.Interfaces;
@@ -11,11 +11,16 @@ public class DesignTimeItemGroupViewModel : ReactiveObject, IItemGroupViewModel
 {
     public DesignTimeItemGroupViewModel()
     {
-        Items = new List<IItemViewModel>
+        Items = new ObservableCollection<IItemViewModel>
         {
             new DesignTimeItemViewModel(parent: this),
             new DesignTimeItemViewModel(parent: this)
         };
+    }
+
+    public ObservableCollection<IItemViewModel> Items
+    {
+        get;
     }
 
     public string Name
@@ -28,25 +33,31 @@ public class DesignTimeItemGroupViewModel : ReactiveObject, IItemGroupViewModel
         get;
     } = @"D:\PC-TI\Projetos\Desktop\ProjetoAcessibilidade\item.prja";
 
-    public IEnumerable<IItemViewModel> Items
+    public ReactiveCommand<Unit, Unit> CommitFolderCommand
     {
         get;
     }
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> CommitFolderCommand
+    public ReactiveCommand<Unit, Unit> RenameFolderCommand
     {
         get;
     }
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> AddProjectItemCommand
+    public ReactiveCommand<Unit, Unit> AddProjectItemCommand
     {
         get;
     }
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> ExcludeFolderCommand
+    public ReactiveCommand<Unit, Unit> ExcludeFolderCommand
     {
         get;
     }
 
-    public void TransformFrom(List<ItemModel> items) => throw new NotImplementedException();
+    public void TransformFrom(List<ItemModel> items)
+    {
+    }
+
+    public void RemoveItem(IItemViewModel item)
+    {
+    }
 }

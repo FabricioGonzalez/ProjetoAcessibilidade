@@ -12,6 +12,11 @@ public class DesignTimeProjectViewModel : ReactiveObject, IProjectViewModel
         get;
     }
 
+    public bool IsSolutionOpen
+    {
+        get;
+    } = true;
+
     public IProjectExplorerViewModel ProjectExplorerViewModel
     {
         get;

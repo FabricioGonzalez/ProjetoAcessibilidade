@@ -201,13 +201,18 @@
                 </Button>
             </DockPanel>
         </controls:ContentArea.Title>
-        <DockPanel>
-            <local:ProjectExplorerView
-                Width="350"
-                VerticalAlignment="Stretch"
-                DataContext="{Binding ProjectExplorerViewModel}"
-                DockPanel.Dock="Right" />
-            <local:ProjectEditingView DataContext="{Binding ProjectEditingViewModel}" />
-        </DockPanel>
+        <Grid>
+            <DockPanel IsVisible="{Binding  IsSolutionOpen}">
+                <local:ProjectExplorerView
+                    Width="350"
+                    VerticalAlignment="Stretch"
+                    DataContext="{Binding ProjectExplorerViewModel}"
+                    DockPanel.Dock="Right" />
+                <local:ProjectEditingView DataContext="{Binding ProjectEditingViewModel}" />
+            </DockPanel>
+            <DockPanel IsVisible="{Binding !IsSolutionOpen }">
+                <TextBlock>No Solution Open</TextBlock>
+            </DockPanel>
+        </Grid>
     </controls:ContentArea>
 </UserControl>

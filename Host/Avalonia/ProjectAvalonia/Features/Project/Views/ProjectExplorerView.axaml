@@ -45,67 +45,11 @@
                 <DataTemplate>
                     <components:ItemGroupView DataContext="{Binding}" />
                 </DataTemplate>
-
-                <!--<DataTemplate x:DataType="projectItems:ItemGroupState">
-                    <TreeViewItem HorizontalAlignment="Stretch" Items="{Binding Items}">
-                        <TreeViewItem.Header>
-                            <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
-                                <PathIcon DockPanel.Dock="Left" Margin="0,0,8,0" Data="{StaticResource folder_regular}" />
-                                <controls:EditableTextBlock
-                                    Command="{Binding $parent[UserControl].DataContext.CommitFolderCommand}"
-                                    CommandParameter="{Binding}" InEditMode="{Binding InEditMode}"
-                                    Text="{Binding Name}" />
-                            </DockPanel>
-                        </TreeViewItem.Header>
-                        <TreeViewItem.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem
-                                    Command="{Binding $parent[UserControl].DataContext.AddProjectItemCommand}"
-                                    CommandParameter="{Binding}"
-                                    Header="Adicionar Item" />
-                                <MenuItem
-                                    Command="{Binding $parent[UserControl].DataContext.ExcludeFolderCommand}"
-                                    CommandParameter="{Binding}"
-                                    Header="Excluir Pasta" />
-                            </ContextMenu>
-                        </TreeViewItem.ContextMenu>
-                        <TreeViewItem.ItemTemplate>
-                            <DataTemplate>
-                                <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
-                                    <i:Interaction.Behaviors>
-                                        <behaviors:ExecuteCommandOnDoubleTappedBehavior
-                                            Command="{Binding $parent[UserControl].DataContext.CreateItemCommand}"
-                                            CommandParameter="{Binding}" />
-                                    </i:Interaction.Behaviors>
-                                    <PathIcon HorizontalAlignment="Left" Margin="0,0,8,0"
-                                              Data="{StaticResource document_regular}" />
-                                    <controls:EditableTextBlock InEditMode="{Binding InEditMode}"
-                                                                Command="{Binding $parent[UserControl].DataContext.CommitFileCommand}"
-                                                                CommandParameter="{Binding}"
-                                                                Text="{Binding Name}" />
-                                    <DockPanel.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem
-                                                Command="{Binding $parent[UserControl].DataContext.ExcludeFileCommand}"
-                                                CommandParameter="{Binding}"
-                                                Header="Excluir" />
-                                            <MenuItem
-                                                Command="{Binding $parent[UserControl].DataContext.RenameFileCommand}"
-                                                CommandParameter="{Binding}"
-                                                Header="Renomear" />
-                                        </ContextMenu>
-                                    </DockPanel.ContextMenu>
-                                </DockPanel>
-                            </DataTemplate>
-                        </TreeViewItem.ItemTemplate>
-                    </TreeViewItem>
-                </DataTemplate>-->
             </TreeView.ItemTemplate>
             <TreeView.ContextMenu>
                 <ContextMenu>
                     <MenuItem
                         Command="{Binding CreateFolderCommand}"
-                        CommandParameter="{Binding Items}"
                         Header="Adicionar Item" />
                 </ContextMenu>
             </TreeView.ContextMenu>

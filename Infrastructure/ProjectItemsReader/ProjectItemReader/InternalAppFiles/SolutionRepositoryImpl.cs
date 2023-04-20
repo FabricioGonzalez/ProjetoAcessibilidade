@@ -27,11 +27,11 @@ public class SolutionRepositoryImpl : ISolutionRepository
 
             var solution = new ProjectSolutionModel
             {
-                FileName = Path.GetFileNameWithoutExtension(path: solutionPath), FilePath = solutionPath
-                , ParentFolderName = Path.GetFileName(path: Directory.GetParent(path: solutionPath).FullName)
-                , ParentFolderPath = Directory.GetParent(path: solutionPath).FullName
-                , SolutionReportInfo = ReadSolutionInfo(document: xml)
-                , ItemGroups = ReadProjectItems(document: xml, solutionPath: solutionPath)
+                FileName = Path.GetFileNameWithoutExtension(path: solutionPath), FilePath = solutionPath,
+                ParentFolderName = Path.GetFileName(path: Directory.GetParent(path: solutionPath).FullName),
+                ParentFolderPath = Directory.GetParent(path: solutionPath).FullName,
+                SolutionReportInfo = ReadSolutionInfo(document: xml),
+                ItemGroups = ReadProjectItems(document: xml, solutionPath: solutionPath)
             };
 
             return solution;
@@ -176,8 +176,8 @@ public class SolutionRepositoryImpl : ISolutionRepository
     {
         var items = new ItemGroupModel();
 
-        items.Name = listItems.Attributes
-            .Cast<XmlAttribute>()
+        items.Name = listItems?.Attributes
+            ?.Cast<XmlAttribute>()
             .First(predicate: x =>
                 x.Name.Equals(value: Constants.items_groupsItemGroupAttributeName))
             .Value;
@@ -186,9 +186,9 @@ public class SolutionRepositoryImpl : ISolutionRepository
             path1: string.Join(separator: Path.DirectorySeparatorChar
                 , value: solutionPath.Split(separator: Path.DirectorySeparatorChar)[..^1]),
             path2: Constants.AppProjectItemsFolderName,
-            path3: items.Name);
+            path3: items?.Name);
 
-        foreach (XmlNode item in listItems.ChildNodes)
+        foreach (XmlNode item in listItems?.ChildNodes)
         {
             var result = ReadItem(listItems: item.ChildNodes.Cast<XmlNode>());
 
@@ -223,7 +223,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
 
         var items = new List<ItemGroupModel>();
 
-        foreach (XmlNode result in elements[i: 0].ChildNodes)
+        foreach (XmlNode result in elements[i: 0]?.ChildNodes)
         {
             var itemResult = ReadItemGroups(listItems: result, solutionPath: solutionPath);
 

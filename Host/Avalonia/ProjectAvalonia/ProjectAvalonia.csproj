@@ -209,12 +209,8 @@
         <EditorConfigFiles Remove="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
-    </ItemGroup>
-    <ItemGroup>
         <Folder Include="Features\NavBar\Stores\" />
         <Folder Include="Features\SearchBar\Stores\" />
         <Folder Include="Features\Settings\Stores\" />
-        <Folder Include="Features\TemplateEdit\Components\" />
     </ItemGroup>
 </Project>

@@ -1,0 +1,33 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="interfaces:IEditableItemViewModel"
+             x:CompileBindings="True"
+             x:Class="ProjectAvalonia.Features.TemplateEdit.Views.Components.EditableItem">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeEditableItemViewModel />
+    </Design.DataContext>
+    <controls:EditableTextBlock
+        HorizontalAlignment="Stretch"
+        Command="{Binding CommitItemCommand}"
+        InEditMode="{Binding InEditMode, Mode=TwoWay}"
+        Text="{Binding TemplateName}">
+        <controls:EditableTextBlock.ContextFlyout>
+            <MenuFlyout>
+                <MenuFlyout.Items>
+                    <MenuItem
+                        Command="{Binding RenameItemCommand}"
+                        Header="Renomear" />
+                    <MenuItem
+                        Command="{Binding ExcludeItemCommand}"
+                        Header="Excluir" />
+                </MenuFlyout.Items>
+            </MenuFlyout>
+        </controls:EditableTextBlock.ContextFlyout>
+    </controls:EditableTextBlock>
+</UserControl>

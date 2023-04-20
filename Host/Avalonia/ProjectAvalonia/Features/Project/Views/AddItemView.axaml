@@ -12,13 +12,18 @@
     x:CompileBindings="True"
     x:DataType="vm:AddItemViewModel"
     mc:Ignorable="d">
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Initialized">
+            <InvokeCommandAction Command="{Binding LoadAllItems}" />
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
     <c:ContentArea
         Title="{Binding Title}"
         Caption="Selecione um item para adicionar ao projeto"
         EnableNext="True"
         FocusNext="True"
         NextContent="Continue">
-        <!--<c:ContentArea.FooterContent>
+        <c:ContentArea.FooterContent>
             <TextBox
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -28,13 +33,13 @@
         <ListBox
             CornerRadius="8"
             Items="{Binding Items, Mode=OneWay}"
-            SelectedItem="{Binding Item, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             SelectionMode="Single">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding TemplateName}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>-->
+        </ListBox>
     </c:ContentArea>
 </UserControl>

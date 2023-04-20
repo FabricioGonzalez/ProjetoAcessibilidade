@@ -1,14 +1,83 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
+using DynamicData;
+using DynamicData.Binding;
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
+using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
+using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.ViewModels.Dialogs.Base;
+using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 {
+    public ProjectExplorerViewModel(List<IItemGroupViewModel> items, SolutionState state)
+    {
+        Items = new ObservableCollection<IItemGroupViewModel>(list: items);
+        SolutionState = state;
+
+        Items
+            .ToObservableChangeSet()
+            .AutoRefreshOnObservable(reevaluator: document => document.ExcludeFolderCommand.IsExecuting)
+            .Select(selector: x => WhenAnyDocumentClosed())
+            .Switch()
+            .SubscribeAsync(onNextAsync: async x =>
+            {
+                var dialog = new DeleteDialogViewModel(
+                    message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
+                    , caption: "");
+
+                if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result)
+                {
+                    Logger.LogDebug(message: x?.Name);
+
+                    Items.Remove(item: x);
+                }
+            });
+
+        CreateFolderCommand = ReactiveCommand.CreateFromTask(execute: async () =>
+        {
+            var dialog = new CreateFolderViewModel(
+                message: "Defina o nome da pasta", title: "Criar Pasta"
+                , caption: "");
+
+            var result = await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
+                target: NavigationTarget.CompactDialogScreen);
+
+            if (result.Kind == DialogResultKind.Normal)
+            {
+                Items.Add(item: new ItemGroupViewModel(name: result.Result, itemPath: ""));
+            }
+        });
+    }
+
+    public ObservableCollection<IItemGroupViewModel> Items
+    {
+        get;
+        set;
+    }
+
+
+    public ReactiveCommand<Unit, Unit> CreateFolderCommand
+    {
+        get;
+    }
+
+    public SolutionState SolutionState
+    {
+        get;
+    }
+
     /*private readonly ICommandDispatcher _commandDispatcher;
     private readonly EditingItemsStore _editingItemsStore;
     private readonly ExplorerItemsStore _explorerItemsStore;
@@ -192,27 +261,23 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
     {
         get;
         set;
-    }*/
-    public ProjectExplorerViewModel(List<IItemGroupViewModel> items, SolutionState state)
-    {
-        Items = items;
-        SolutionState = state;
     }
 
+      var dialog = new DeleteDialogViewModel(
+            message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
+            , caption: "");
 
-    public ReactiveCommand<Unit, Unit> CreateFolderCommand
-    {
-        get;
-    }
-
-    public SolutionState SolutionState
-    {
-        get;
-    }
-
-    public List<IItemGroupViewModel> Items
-    {
-        get;
-        set;
-    }
+        if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
+                target: NavigationTarget.CompactDialogScreen)).Result)
+        {
+            _solutionStore.CurrentOpenSolution.DeleteFolderItem(item: groupModels);
+}
+    */
+    private IObservable<IItemGroupViewModel?> WhenAnyDocumentClosed() =>
+        // Select the documents into a list of Observables
+        // who return the Document to close when signaled,
+        // then flatten them all together.
+        Items
+            .Select(selector: x => x.ExcludeFolderCommand.Select(selector: _ => x))
+            .Merge();
 }

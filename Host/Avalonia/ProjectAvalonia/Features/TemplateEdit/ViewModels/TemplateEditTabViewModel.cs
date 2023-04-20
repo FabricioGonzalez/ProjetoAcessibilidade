@@ -1,4 +1,6 @@
-﻿namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
+﻿using ProjectAvalonia.Presentation.Interfaces;
+
+namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
 [NavigationMetaData(
     Title = "Template Editing",
@@ -12,7 +14,7 @@
         "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
-public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
+public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, ITemplateEditTabViewModel
 {
     /*private readonly ICommandDispatcher commandDispatcher;
 

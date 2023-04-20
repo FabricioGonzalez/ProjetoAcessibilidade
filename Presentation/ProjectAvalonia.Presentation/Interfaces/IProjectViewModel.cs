@@ -7,6 +7,11 @@ namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface IProjectViewModel : INotifyPropertyChanged
 {
+    public bool IsSolutionOpen
+    {
+        get;
+    }
+
     public IProjectExplorerViewModel ProjectExplorerViewModel
     {
         get;

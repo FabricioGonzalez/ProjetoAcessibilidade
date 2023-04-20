@@ -12,11 +12,6 @@ public class DesignTimeItemViewModel : ReactiveObject, IItemViewModel
         Parent = parent;
     }
 
-    public ReactiveCommand<IItemViewModel, Unit> CommitFileCommand
-    {
-        get;
-    }
-
     public IItemGroupViewModel Parent
     {
         get;
@@ -42,14 +37,20 @@ public class DesignTimeItemViewModel : ReactiveObject, IItemViewModel
         get;
     } = "Teste";
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> CreateItemCommand
+    public ReactiveCommand<IItemViewModel, Unit> CommitFileCommand
     {
         get;
     }
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> ExcludeFileCommand
+    public ReactiveCommand<IItemViewModel, Unit> SelectItemToEditCommand
     {
         get;
+    }
+
+    public ReactiveCommand<Unit, Unit> ExcludeFileCommand
+    {
+        get;
+        set;
     }
 
     public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand

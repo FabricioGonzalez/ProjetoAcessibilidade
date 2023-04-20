@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Reactive;
 using Core.Entities.Solution.ItemsGroup;
 using ReactiveUI;
@@ -17,25 +18,32 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
         get;
     }
 
-    IEnumerable<IItemViewModel> Items
+    ObservableCollection<IItemViewModel> Items
     {
         get;
     }
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> CommitFolderCommand
+    public ReactiveCommand<Unit, Unit> CommitFolderCommand
     {
         get;
     }
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> AddProjectItemCommand
+    public ReactiveCommand<Unit, Unit> RenameFolderCommand
     {
         get;
     }
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> ExcludeFolderCommand
+    public ReactiveCommand<Unit, Unit> AddProjectItemCommand
     {
         get;
     }
+
+    public ReactiveCommand<Unit, Unit> ExcludeFolderCommand
+    {
+        get;
+    }
+
+    /*public void RemoveItem(IItemViewModel item);*/
 
     public void TransformFrom(List<ItemModel> items);
 }

@@ -2,11 +2,27 @@
 
 public class ItemState
 {
-    public string Id = "";
+    public string Id
+    {
+        get;
+        set;
+    } = "";
 
-    public string ItemPath = "";
+    public string ItemPath
+    {
+        get;
+        set;
+    } = "";
 
-    public string Name = "";
+    public string Name
+    {
+        get;
+        set;
+    } = "";
 
-    public string TemplateName = "";
+    public string TemplateName
+    {
+        get;
+        set;
+    } = "";
 }

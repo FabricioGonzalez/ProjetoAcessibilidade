@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
@@ -8,6 +8,11 @@ namespace ProjectAvalonia.DesignTimeViewModels;
 
 public class DesignTimeProjectExplorerViewModel : ReactiveObject, IProjectExplorerViewModel
 {
+    public ReactiveCommand<IItemGroupViewModel, Unit> AddItemToProject
+    {
+        get;
+    }
+
     public ReactiveCommand<Unit, Unit> CreateFolderCommand
     {
         get;
@@ -18,7 +23,7 @@ public class DesignTimeProjectExplorerViewModel : ReactiveObject, IProjectExplor
         get;
     }
 
-    public List<IItemGroupViewModel> Items
+    public ObservableCollection<IItemGroupViewModel> Items
     {
         get;
         set;

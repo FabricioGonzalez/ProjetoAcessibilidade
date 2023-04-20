@@ -1,9 +1,10 @@
-﻿using System.Reactive;
+﻿using System.ComponentModel;
+using System.Reactive;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface IItemViewModel
+public interface IItemViewModel : INotifyPropertyChanged
 {
     public string Id
     {
@@ -36,14 +37,15 @@ public interface IItemViewModel
     }
 
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> CreateItemCommand
+    public ReactiveCommand<IItemViewModel, Unit> SelectItemToEditCommand
     {
         get;
     }
 
-    public ReactiveCommand<IItemGroupViewModel, Unit> ExcludeFileCommand
+    public ReactiveCommand<Unit, Unit> ExcludeFileCommand
     {
         get;
+        set;
     }
 
     public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand

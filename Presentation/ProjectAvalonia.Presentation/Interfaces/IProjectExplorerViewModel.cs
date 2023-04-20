@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Reactive;
 using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
@@ -12,12 +13,13 @@ public interface IProjectExplorerViewModel : INotifyPropertyChanged
         get;
     }
 
+
     public SolutionState SolutionState
     {
         get;
     }
 
-    public List<IItemGroupViewModel> Items
+    public ObservableCollection<IItemGroupViewModel> Items
     {
         get;
         set;

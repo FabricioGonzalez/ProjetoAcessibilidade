@@ -19,7 +19,6 @@
                 <PathIcon DockPanel.Dock="Left" Margin="0,0,8,0" Data="{StaticResource folder_regular}" />
                 <controls:EditableTextBlock
                     Command="{Binding CommitFolderCommand}"
-                    CommandParameter="{Binding}"
                     Text="{Binding Name}" />
             </DockPanel>
         </TreeViewItem.Header>
@@ -27,11 +26,12 @@
             <ContextMenu>
                 <MenuItem
                     Command="{Binding AddProjectItemCommand}"
-                    CommandParameter="{Binding}"
                     Header="Adicionar Item" />
                 <MenuItem
+                    Command="{Binding RenameFolderCommand}"
+                    Header="Renomer Item" />
+                <MenuItem
                     Command="{Binding ExcludeFolderCommand}"
-                    CommandParameter="{Binding}"
                     Header="Excluir Pasta" />
             </ContextMenu>
         </TreeViewItem.ContextMenu>
@@ -40,7 +40,7 @@
                 <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
                     <Interaction.Behaviors>
                         <behaviors:ExecuteCommandOnDoubleTappedBehavior
-                            Command="{Binding CreateItemCommand}"
+                            Command="{Binding SelectItemToEditCommand}"
                             CommandParameter="{Binding}" />
                     </Interaction.Behaviors>
                     <PathIcon HorizontalAlignment="Left" Margin="0,0,8,0"
@@ -53,7 +53,7 @@
                         <ContextMenu>
                             <MenuItem
                                 Command="{Binding ExcludeFileCommand}"
-                                CommandParameter="{Binding}"
+
                                 Header="Excluir" />
                             <MenuItem
                                 Command="{Binding RenameFileCommand}"

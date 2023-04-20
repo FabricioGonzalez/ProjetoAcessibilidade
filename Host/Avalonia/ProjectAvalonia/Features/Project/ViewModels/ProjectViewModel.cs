@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
@@ -30,6 +31,8 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     IconName = "edit_file_regular")]
 public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 {
+    private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
+
     private readonly IQueryDispatcher? _queryDispatcher;
     /*private readonly AddressesStore _addressesStore;
     private readonly SolutionStore _solutionStore;
@@ -187,7 +190,13 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
+
+        this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
+            .Select(selector: x => x?.Items.Count > 0)
+            .ToProperty(source: this, property: x => x.IsSolutionOpen, result: out _isSolutionOpen);
     }
+
+    public bool IsSolutionOpen => _isSolutionOpen.Value;
 
     public IProjectExplorerViewModel ProjectExplorerViewModel
     {

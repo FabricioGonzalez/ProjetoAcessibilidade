@@ -32,9 +32,15 @@ public static class AppBuilderExtension
         return appBuilder
             .With(options: new SkiaOptions { MaxGpuResourceSizeBytes = 2560 * 1600 * 4 * 12 })
             .With(options: new Win32PlatformOptions
-                { AllowEglInitialization = enableGpu, UseDeferredRendering = true, UseWindowsUIComposition = true })
-            .With(options: new X11PlatformOptions { UseGpu = enableGpu, WmClass = "ProjectAvalonia" })
-            .With(options: new AvaloniaNativePlatformOptions { UseDeferredRendering = true, UseGpu = enableGpu })
+            {
+                AllowEglInitialization = enableGpu, OverlayPopups = true, UseDeferredRendering = true,
+                UseWindowsUIComposition = true,
+                CompositionBackdropCornerRadius = null
+            })
+            .With(options: new X11PlatformOptions
+                { UseGpu = enableGpu, OverlayPopups = true, WmClass = "ProjectAvalonia" })
+            .With(options: new AvaloniaNativePlatformOptions
+                { OverlayPopups = true, UseDeferredRendering = true, UseGpu = enableGpu })
             .With(options: new MacOSPlatformOptions { ShowInDock = true });
     }
 }

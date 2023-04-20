@@ -6,10 +6,22 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
+    xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:CompileBindings="True"
     x:DataType="viewModels:TemplateEditViewModel"
     mc:Ignorable="d">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeTemplateEditViewModel />
+    </Design.DataContext>
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Initialized">
+            <InvokeCommandAction Command="{Binding LoadAllItems}" />
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+
     <controls:ContentArea ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <controls:ContentArea.Title>
             <DockPanel Height="32">
@@ -91,30 +103,10 @@
                     VerticalAlignment="Stretch"
                     Background="Transparent"
                     Items="{Binding Items}"
-                    SelectedItem="{Binding TemplateEditTab.SelectedItem}">
+                    SelectedItem="{Binding SelectedItem}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <controls:EditableTextBlock
-                                HorizontalAlignment="Stretch"
-                                Command="{Binding $parent[UserControl].DataContext.CommitItemCommand}"
-                                CommandParameter="{Binding}"
-                                InEditMode="{Binding InEditMode, Mode=TwoWay}"
-                                Text="{Binding TemplateName}">
-                                <controls:EditableTextBlock.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyout.Items>
-                                            <MenuItem
-                                                Command="{Binding $parent[UserControl].DataContext.RenameItemCommand}"
-                                                CommandParameter="{Binding}"
-                                                Header="Renomear" />
-                                            <MenuItem
-                                                Command="{Binding $parent[UserControl].DataContext.ExcludeItemCommand}"
-                                                CommandParameter="{Binding}"
-                                                Header="Excluir" />
-                                        </MenuFlyout.Items>
-                                    </MenuFlyout>
-                                </controls:EditableTextBlock.ContextFlyout>
-                            </controls:EditableTextBlock>
+                            <components:EditableItem DataContext="{Binding}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

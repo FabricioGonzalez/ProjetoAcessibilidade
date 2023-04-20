@@ -4,12 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:ProjectAvalonia.Features.TemplateEdit.ViewModels"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="viewModels:TemplateEditTabViewModel"
+    x:DataType="interfaces:ITemplateEditTabViewModel"
+    x:CompileBindings="True"
     Background="{DynamicResource SystemBaseLowColor}"
     mc:Ignorable="d">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeTemplateEditTabViewModel />
+    </Design.DataContext>
     <!--<UserControl.KeyBindings>
         <KeyBinding
             Command="{Binding SaveItemCommand}"

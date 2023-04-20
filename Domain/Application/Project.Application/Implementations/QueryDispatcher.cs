@@ -20,9 +20,6 @@ public class QueryDispatcher : IQueryDispatcher
         , CancellationToken cancellation
     )
     {
-        var resu = ReflectionUtils.TypesImplementingInterface(
-                desiredType: typeof(IQueryHandler<IRequest<TQueryResult>, TQueryResult>))
-            .FirstOrDefault(predicate: t => t == typeof(IQueryHandler<TQuery, TQueryResult>));
         var handler = _serviceProvider.GetService<IQueryHandler<TQuery, TQueryResult>>();
         return handler.Handle(query: query, cancellation: cancellation);
     }
