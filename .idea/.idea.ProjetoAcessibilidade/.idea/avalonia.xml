@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="Host/Avalonia/ProjectAvalonia/App.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Common/Controls/ContentArea.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Common/Controls/TileButton.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/PDFViewer/Views/PreviewerView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/AddItemView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingItem.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/ProjectEditingView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/ProjectExplorerView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/ProjectView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Settings/Views/GeneralSettingsTabView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Shell/MainScreen.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Shell/Shell.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/TemplateEdit/Views/TemplateEditTabView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/TemplateEdit/Views/TemplateEditView.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Icons/Icons.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Styles/TreeDataGrid.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
