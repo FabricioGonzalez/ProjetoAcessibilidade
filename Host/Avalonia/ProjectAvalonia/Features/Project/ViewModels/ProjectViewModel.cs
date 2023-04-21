@@ -190,6 +190,7 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
+        CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: CreateSolution);
 
         this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
             .Select(selector: x => x?.Items.Count > 0)
@@ -267,5 +268,10 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
                 {
                 });
         }
+    }
+
+    private async Task CreateSolution()
+    {
+
     }
 }
