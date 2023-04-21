@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Project.Domain.Contracts;
 
 namespace Core.Common;
 

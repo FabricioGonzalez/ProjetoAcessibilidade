@@ -3,6 +3,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ReactiveUI;
@@ -19,7 +20,6 @@ public abstract partial class RoutableViewModel
     [AutoNotify] private bool _enableCancelOnEscape;
     [AutoNotify] private bool _enableCancelOnPressed;
     [AutoNotify] private bool _isActive;
-    [AutoNotify] private bool _isBusy;
 
     protected RoutableViewModel()
     {
@@ -165,11 +165,11 @@ public abstract partial class RoutableViewModel
     ) =>
         currentTarget switch
         {
-            NavigationTarget.HomeScreen => NavigationState.Instance.HomeScreenNavigation
-            , NavigationTarget.DialogScreen => NavigationState.Instance.DialogScreenNavigation
-            , NavigationTarget.FullScreen => NavigationState.Instance.FullScreenNavigation
-            , NavigationTarget.CompactDialogScreen => NavigationState.Instance.CompactDialogScreenNavigation
-            , _ => throw new NotSupportedException()
+            NavigationTarget.HomeScreen => NavigationState.Instance.HomeScreenNavigation,
+            NavigationTarget.DialogScreen => NavigationState.Instance.DialogScreenNavigation,
+            NavigationTarget.FullScreen => NavigationState.Instance.FullScreenNavigation,
+            NavigationTarget.CompactDialogScreen => NavigationState.Instance.CompactDialogScreenNavigation,
+            _ => throw new NotSupportedException()
         };
 
     public void SetActive()
@@ -212,7 +212,7 @@ public abstract partial class RoutableViewModel
             (command as IReactiveCommand)?.IsExecuting
                 .ObserveOn(scheduler: RxApp.MainThreadScheduler)
                 .Skip(count: 1)
-                .Subscribe(onNext: x => _isBusy = x);
+                .ToProperty(source: this, property: x => x.IsBusy, result: out _isBusy);
         }
     }
 

@@ -1,13 +1,15 @@
-﻿using System.Reactive.Linq;
+﻿using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
-using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public partial class CreateSolutionViewModel : DialogViewModelBase<SolutionStateViewModel>
+public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
 {
-    /*private readonly ICommandDispatcher commandDispatcher;*/
-    [AutoNotify] private SolutionStateViewModel _solutionModel = new();
+    /*private readonly ICommandDispatcher _commandDispatcher;
+    private readonly SolutionStore _solutionStore;
+
+    public ICommand ChooseLogoPath;
+    public ICommand ChooseSolutionPath;
 
     public CreateSolutionViewModel(
         string title
@@ -17,7 +19,8 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<SolutionState
         Title = title;
         Caption = caption;
 
-        /*commandDispatcher = Locator.Current.GetService<ICommandDispatcher>();*/
+        _commandDispatcher = Locator.Current.GetService<ICommandDispatcher>();
+        _solutionStore = Locator.Current.GetService<SolutionStore>();
 
         SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
         EnableBack = false;
@@ -49,8 +52,32 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<SolutionState
             , canExecute: nextCommandCanExecute);
         CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel)
             , canExecute: cancelCommandCanExecute);
+
+        ChooseSolutionPath = ReactiveCommand.CreateFromTask(execute: async () =>
+        {
+            var path = await FileDialogHelper.ShowOpenFolderDialogAsync(title: "Local da Solução");
+
+            Dispatcher.UIThread.Post(action: () =>
+            {
+                _solutionStore.CurrentOpenSolution.FilePath = path;
+                _solutionStore.CurrentOpenSolution.FileName = Path.GetFileNameWithoutExtension(path: path);
+            });
+        });
+
+        ChooseLogoPath = ReactiveCommand.CreateFromTask(execute: async () =>
+        {
+            var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Logo da Empresa"
+                , filterExtTypes: new[] { "png" });
+
+            /*Dispatcher.UIThread.Post(action: () =>
+            {
+                _solutionStore.CurrentOpenSolution.LogoPath = path;
+            });#1#
+        });
     }
 
+    public SolutionState SolutionModel => _solutionStore.CurrentOpenSolution;
+*/
     public override sealed string Title
     {
         get;

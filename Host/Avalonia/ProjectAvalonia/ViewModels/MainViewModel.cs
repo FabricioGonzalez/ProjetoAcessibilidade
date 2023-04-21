@@ -5,15 +5,16 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Avalonia.Controls;
 using Common;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels;
+using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.SearchBar;
 using ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
-using ProjectAvalonia.Stores;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
@@ -23,6 +24,7 @@ namespace ProjectAvalonia.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     private readonly CreateSolutionViewModel _createSolution;
+    private readonly EditingItemViewModel _editingItemPage;
     private readonly PreviewerViewModel _previewPrintPage;
     private readonly ProjectViewModel _projectPage;
     private readonly SettingsPageViewModel _settingsPage;
@@ -56,6 +58,7 @@ public partial class MainViewModel : ViewModelBase
 
         _settingsPage = new SettingsPageViewModel();
         _templatePage = new TemplateEditViewModel();
+        _editingItemPage = new EditingItemViewModel();
         _projectPage = new ProjectViewModel();
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
@@ -145,12 +148,12 @@ public partial class MainViewModel : ViewModelBase
         Instance.MainScreen.To(viewmodel: _projectPage, Parameter: projectPath);
 
     public void PrintProject(
-        SolutionState solutionState
+        /*SolutionState solutionState*/
     )
     {
-        Instance.FullScreen.To(viewmodel: _previewPrintPage, Parameter: solutionState);
+        /*Instance.FullScreen.To(viewmodel: _previewPrintPage, Parameter: solutionState);
 
-        OpenProject(projectPath: solutionState.FilePath);
+        OpenProject(projectPath: solutionState.FilePath);*/
     }
 
     public void Initialize()
@@ -186,111 +189,10 @@ public partial class MainViewModel : ViewModelBase
 
         TemplateEditTabViewModel.RegisterLazy(createInstance: () =>
         {
-            _templatePage.SelectedTab = 0;
+            /*_templatePage.SelectedTab = 0;*/
 
             return _templatePage;
         });
-        /*
-                AboutViewModel.RegisterLazy(() => new AboutViewModel());
-                BroadcasterViewModel.RegisterLazy(() => new BroadcasterViewModel());
-                LegalDocumentsViewModel.RegisterLazy(() => new LegalDocumentsViewModel());
-                UserSupportViewModel.RegisterLazy(() => new UserSupportViewModel());
-                BugReportLinkViewModel.RegisterLazy(() => new BugReportLinkViewModel());
-                DocsLinkViewModel.RegisterLazy(() => new DocsLinkViewModel());
-                OpenDataFolderViewModel.RegisterLazy(() => new OpenDataFolderViewModel());
-                OpenWalletsFolderViewModel.RegisterLazy(() => new OpenWalletsFolderViewModel());
-                OpenLogsViewModel.RegisterLazy(() => new OpenLogsViewModel());
-                OpenTorLogsViewModel.RegisterLazy(() => new OpenTorLogsViewModel());
-                OpenConfigFileViewModel.RegisterLazy(() => new OpenConfigFileViewModel());
-
-                WalletCoinsViewModel.RegisterLazy(() =>
-                {
-                    if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel))
-                    {
-                        return new WalletCoinsViewModel(walletViewModel);
-                    }
-
-                    return null;
-                });
-
-         CoinJoinSettingsViewModel.RegisterLazy(() =>
-          {
-              if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel) && !walletViewModel.IsWatchOnly)
-              {
-                  return walletViewModel.CoinJoinSettings;
-              }
-
-              return null;
-          });
-
-          WalletSettingsViewModel.RegisterLazy(() =>
-          {
-              if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel))
-              {
-                  return walletViewModel.Settings;
-              }
-
-              return null;
-          });
-
-          WalletStatsViewModel.RegisterLazy(() =>
-          {
-              if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel))
-              {
-                  return new WalletStatsViewModel(walletViewModel);
-              }
-
-              return null;
-          });
-
-          WalletInfoViewModel.RegisterAsyncLazy(() =>
-          {
-              if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel))
-              {
-                  async Task<RoutableViewModel?> AuthorizeWalletInfo()
-                  {
-                      if (!string.IsNullOrEmpty(walletViewModel.Wallet.Kitchen.SaltSoup()))
-                      {
-                          var pwAuthDialog = new PasswordAuthDialogViewModel(walletViewModel.Wallet);
-                          var dialogResult = await RoutableViewModel.NavigateDialogAsync(pwAuthDialog, NavigationTarget.CompactDialogScreen);
-
-                          if (!dialogResult.Result)
-                          {
-                              return null;
-                          }
-                      }
-
-                      return new WalletInfoViewModel(walletViewModel);
-                  }
-
-                  return AuthorizeWalletInfo();
-              }
-
-              Task<RoutableViewModel?> NoWalletInfo() => Task.FromResult<RoutableViewModel?>(null);
-
-              return NoWalletInfo();
-          });
-
-          SendViewModel.RegisterLazy(() =>
-           {
-               if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel))
-               {
-                   // TODO: Check if we can send?
-                   return new SendViewModel(walletViewModel);
-               }
-
-               return null;
-           });
-
-           ReceiveViewModel.RegisterLazy(() =>
-           {
-               if (UiServices.WalletManager.TryGetSelectedAndLoggedInWalletViewModel(out var walletViewModel))
-               {
-                   return new ReceiveViewModel(walletViewModel.Wallet);
-               }
-
-               return null;
-           });*/
     }
 
     public void ApplyUiConfigWindowSate() => WindowState =

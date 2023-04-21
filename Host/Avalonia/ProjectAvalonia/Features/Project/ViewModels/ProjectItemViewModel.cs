@@ -1,5 +1,5 @@
 ﻿using System.Reactive;
-using ProjectAvalonia.ViewModels;
+using ProjectAvalonia.Common.ViewModels;
 using ReactiveUI;
 using Splat;
 

@@ -1,0 +1,33 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dialogs="clr-namespace:ProjectAvalonia.Features.Project.ViewModels.Dialogs"
+             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" x:CompileBindings="True"
+             x:DataType="dialogs:CreateFolderViewModel"
+             x:Class="ProjectAvalonia.Features.Project.Views.Dialogs.CreateFolderView">
+    <controls:ContentArea
+        Title="{Binding Title}"
+        CancelContent="Cancel"
+        Caption="{Binding Caption}"
+        EnableCancel="True"
+        EnableNext="True"
+        NextContent="OK"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <DockPanel VerticalAlignment="Bottom">
+            <TextBox
+                Watermark="Folder Name"
+                UseFloatingWatermark="True"
+                MaxWidth="500"
+                Margin="20,0"
+                DockPanel.Dock="Bottom"
+                Text="{Binding FolderName,Mode=TwoWay}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+            <!--<Viewbox MaxHeight="150" Margin="40">
+                <PathIcon Data="{StaticResource warning_regular}" />
+            </Viewbox>-->
+        </DockPanel>
+    </controls:ContentArea>
+</UserControl>

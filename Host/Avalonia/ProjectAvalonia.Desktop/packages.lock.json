@@ -36,6 +36,12 @@
           "Splat": "14.6.8"
         }
       },
+      "System.Reactive": {
+        "type": "Direct",
+        "requested": "[5.0.0, )",
+        "resolved": "5.0.0",
+        "contentHash": "erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ=="
+      },
       "AsyncImageLoader.Avalonia": {
         "type": "Transitive",
         "resolved": "2.4.0",
@@ -273,8 +279,8 @@
       },
       "MediatR": {
         "type": "Transitive",
-        "resolved": "11.1.0",
-        "contentHash": "YIbtrLOyeCuIv8vIuHL/mMdls5xmgS36pIOJDxKZuu55nxA2MI2Z+E/Uk0z+F/LE11AGmpjplOM0NZ91m5LQBA==",
+        "resolved": "11.0.0",
+        "contentHash": "8klzVGZQiA2oxZRzQFBZbdPD/IQUm9RYtfiyTDKhxDQ99Gi93+GXt1ZJjH2D7Lh7ZFHCv5XdkwbmfHEQBCatPg==",
         "dependencies": {
           "MediatR.Contracts": "1.0.1"
         }
@@ -401,8 +407,8 @@
       },
       "Microsoft.Extensions.Configuration.Binder": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "tgU4u7bZsoS9MKVRiotVMAwHtbREHr5/5zSEV+JPhg46+ox47Au84E3D2IacAaB0bk5ePNaNieTlPrfjbbRJkg==",
+        "resolved": "7.0.4",
+        "contentHash": "8+XPvJnHZsYgHOQlcMuQe7QNF5KdVKHH1F/wW3nd8/u81Gk/XFAYMDP0Lpz18h7/AM95M662vvqMorcYxCBB4w==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0"
         }
@@ -882,11 +888,6 @@
           "System.Threading": "4.3.0"
         }
       },
-      "System.Reactive": {
-        "type": "Transitive",
-        "resolved": "5.0.0",
-        "contentHash": "erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ=="
-      },
       "System.Reflection": {
         "type": "Transitive",
         "resolved": "4.3.0",
@@ -1099,21 +1100,30 @@
         "resolved": "1.5.1",
         "contentHash": "93lBHaDNxEmERbqVEnSEHxPLe77J1i0LoxeqtVaRSC0PnQMd/c1BaltoL6crXBmWftxbvGiag5BSlVKIArW3pg=="
       },
+      "appdi": {
+        "type": "Project",
+        "dependencies": {
+          "Avalonia": "[0.10.18, )",
+          "Microsoft.Extensions.Configuration": "[7.0.0, )",
+          "Microsoft.Extensions.Configuration.Abstractions": "[7.0.0, )",
+          "Microsoft.Extensions.Configuration.Binder": "[7.0.4, )",
+          "Microsoft.Extensions.Configuration.Json": "[7.0.0, )",
+          "Project.Domain": "[1.0.0, )",
+          "ProjectAvalonia": "[1.0.0, )",
+          "Splat": "[14.6.8, )"
+        }
+      },
       "common": {
         "type": "Project"
       },
       "core": {
-        "type": "Project",
-        "dependencies": {
-          "MediatR": "[11.1.0, )"
-        }
+        "type": "Project"
       },
       "project.domain": {
         "type": "Project",
         "dependencies": {
           "Common": "[1.0.0, )",
           "Core": "[1.0.0, )",
-          "MediatR": "[11.1.0, )",
           "Splat": "[14.6.1, )"
         }
       },
@@ -1141,6 +1151,7 @@
           "Neumorphism.Avalonia": "[0.4.0, )",
           "Notification.Avalonia": "[1.1.0, )",
           "Project.Domain": "[1.0.0, )",
+          "ProjectAvalonia.Presentation": "[1.0.0, )",
           "ProjectItemReader": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",
           "QuestPDFReport": "[1.0.0, )",
@@ -1148,6 +1159,13 @@
           "Splat.Microsoft.Extensions.DependencyInjection": "[14.6.1, )",
           "SukiUI": "[3.0.0, )",
           "XamlNameReferenceGenerator": "[1.5.1, )"
+        }
+      },
+      "projectavalonia.presentation": {
+        "type": "Project",
+        "dependencies": {
+          "Core": "[1.0.0, )",
+          "ReactiveUI": "[18.4.26, )"
         }
       },
       "projectitemreader": {

@@ -1,48 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading;
-using System.Windows.Input;
-using Avalonia.Threading;
+using System.Threading.Tasks;
 using Common;
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using Core.Enuns;
-using Project.Domain.App.Models;
+using Core.Entities.Solution.ItemsGroup;
+using Project.Domain.App.Queries.Templates;
 using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.SystemItems;
-using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Logging;
-using ProjectAvalonia.Stores;
+using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
+using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
 using Splat;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
 [NavigationMetaData(
-    Title = "Template Edit",
-    Caption = "Edit project items templates",
+    Title = "Modelos",
+    Caption = "Editar os modelos de relatórios do projeto",
     Order = 0,
     Category = "Templates",
     Searchable = true,
     Keywords = new[]
     {
-        "Templates", "Editing"
+        "Templates", "Edição", "Modelos"
     },
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_regular")]
-public partial class TemplateEditViewModel : NavBarItemViewModel
+public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditViewModel
 {
-    private readonly TemplateItemsStore _itemsStore;
+    private readonly IQueryDispatcher _queryDispatcher;
+
+
+    public TemplateEditViewModel()
+    {
+        _queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+
+        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+
+        SelectionMode = NavBarItemSelectionMode.Button;
+
+        AddNewItemCommand = ReactiveCommand.Create(execute: () =>
+        {
+        });
+        LoadAllItems = ReactiveCommand.CreateFromTask(execute: loadItems, outputScheduler: RxApp.MainThreadScheduler);
+
+        ExcludeItemCommand = ReactiveCommand.Create(execute: () =>
+        {
+        });
+        RenameItemCommand = ReactiveCommand.Create(execute: () =>
+        {
+        });
+        CommitItemCommand = ReactiveCommand.Create(execute: () =>
+        {
+        });
+    }
+
+    /*private readonly TemplateItemsStore _itemsStore;
     private readonly ICommandDispatcher commandDispatcher;
 
 
@@ -73,7 +90,7 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
 
             if ((await NavigateDialogAsync(dialog, NavigationTarget.CompactDialogScreen)).Result)
             {
-                /*Logger.LogInfo(groupModels.Name);*/
+                /*Logger.LogInfo(groupModels.Name);#1#
             }
         });
 
@@ -157,5 +174,69 @@ public partial class TemplateEditViewModel : NavBarItemViewModel
     public ICommand CommitItemCommand
     {
         get;
+    }*/
+    public ObservableCollection<IEditableItemViewModel> Items
+    {
+        get;
+        set;
     }
+
+    public IEditableItemViewModel SelectedItem
+    {
+        get;
+        set;
+    }
+
+    public ITemplateEditTabViewModel TemplateEditTab
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> AddNewItemCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> LoadAllItems
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> ExcludeItemCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> RenameItemCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> CommitItemCommand
+    {
+        get;
+    }
+
+    private async Task loadItems() =>
+        (await _queryDispatcher?
+            .Dispatch<GetAllTemplatesQuery, Resource<List<ItemModel>>>(
+                query: new GetAllTemplatesQuery(),
+                cancellation: CancellationToken.None))
+        ?.OnSuccess(onSuccessAction: success =>
+        {
+            Items = new ObservableCollection<IEditableItemViewModel>(collection: success
+                ?.Data
+                ?.Select(selector: item => new EditableItemViewModel
+                {
+                    Id = item.Id ?? Guid.NewGuid().ToString(),
+                    ItemPath = item.ItemPath,
+                    Name = "",
+                    TemplateName = item.Name
+                }) ?? Enumerable.Empty<EditableItemViewModel>());
+
+            this.RaisePropertyChanged(propertyName: nameof(Items));
+        })
+        ?.OnError(onErrorAction: error =>
+        {
+        });
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ProjectAvalonia.Common.ViewModels;
 
 namespace ProjectAvalonia.ViewModels.Navigation;
 

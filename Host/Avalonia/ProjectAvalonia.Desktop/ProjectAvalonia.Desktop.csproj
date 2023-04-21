@@ -2,10 +2,12 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <OutputType>Exe</OutputType>
+        <DebugType>portable</DebugType>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputType>WinExe</OutputType>
+        <DebugType>embedded</DebugType>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -47,24 +49,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Assets\avalonia-logo.ico"/>
-        <None Remove="Assets\logo.ico"/>
+        <None Remove="Assets\avalonia-logo.ico" />
+        <None Remove="Assets\logo.ico" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)"/>
-        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)"/>
-        <PackageReference Include="ReactiveUI" Version="18.4.26"/>
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="ReactiveUI" Version="18.4.26" />
+        <PackageReference Include="System.Reactive" Version="5.0.0" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj"/>
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\..\DI\AppDI\AppDI.csproj" />
+        <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj" />
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true"/>
+        <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
     </ItemGroup>
 </Project>

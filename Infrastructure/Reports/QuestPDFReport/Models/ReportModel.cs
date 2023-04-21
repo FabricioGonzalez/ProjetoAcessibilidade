@@ -20,6 +20,12 @@ public class ReportModel : IReport
         set;
     }
 
+    public string StandardLaw
+    {
+        get;
+        set;
+    }
+
     public byte[] LogoData
     {
         get;
@@ -53,6 +59,12 @@ public class NestedReportModel : IReport
         set;
     }
 
+    public string StandardLaw
+    {
+        get;
+        set;
+    }
+
     public byte[] LogoData
     {
         get;
@@ -69,6 +81,12 @@ public class NestedReportModel : IReport
 public interface IReport
 {
     public string Title
+    {
+        get;
+        set;
+    }
+
+    public string StandardLaw
     {
         get;
         set;

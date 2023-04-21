@@ -3,7 +3,7 @@
         xmlns:c="using:ProjectAvalonia.Common.Controls">
 
     <Design.PreviewWith>
-        <c:TileButton>
+        <c:TileButton Icon="{StaticResource action_center_regular}">
             <c:TileButton.Text>Teste</c:TileButton.Text>
         </c:TileButton>
     </Design.PreviewWith>

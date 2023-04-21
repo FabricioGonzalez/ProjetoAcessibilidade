@@ -1,5 +1,5 @@
 ﻿namespace Project.Domain.Contracts;
 
-public interface IRequest<T>
+public interface IRequest<out T>
 {
 }

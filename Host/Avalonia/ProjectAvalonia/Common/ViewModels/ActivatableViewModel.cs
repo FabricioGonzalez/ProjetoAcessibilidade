@@ -1,4 +1,5 @@
 using System.Reactive.Disposables;
+using ProjectAvalonia.Common.ViewModels;
 
 namespace ProjectAvalonia.ViewModels;
 

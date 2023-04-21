@@ -1,23 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Avalonia.Threading;
-using Common;
-using Core.Entities.Solution.Project.AppItem;
-using Core.Enuns;
-using Project.Domain.App.Models;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Commands.SystemItems;
-using Project.Domain.Project.Queries.SystemItems;
-using ProjectAvalonia.Features.Project.States;
-using ProjectAvalonia.Features.Project.States.FormItemState;
-using ProjectAvalonia.Features.Project.States.LawItemState;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Logging;
-using ReactiveUI;
-using Splat;
+﻿using ProjectAvalonia.Presentation.Interfaces;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -33,9 +14,9 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
         "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
-public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
+public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, ITemplateEditTabViewModel
 {
-    private readonly ICommandDispatcher commandDispatcher;
+    /*private readonly ICommandDispatcher commandDispatcher;
 
     private readonly IQueryDispatcher queryDispatcher;
 
@@ -205,11 +186,11 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
     private async Task SaveItemData(
         AppModelState item
     ) =>
-        /*InEditingItem*/
+        /*InEditingItem#1#
         await commandDispatcher
             .Dispatch<SaveSystemProjectItemContentCommand, Resource<Empty>>(
                 new SaveSystemProjectItemContentCommand(
                     item.ToAppModel(),
                     InEditingItem.ItemPath),
-                CancellationToken.None);
+                CancellationToken.None);*/
 }

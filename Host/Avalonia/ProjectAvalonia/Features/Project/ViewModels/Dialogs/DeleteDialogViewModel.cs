@@ -1,9 +1,10 @@
-﻿using ProjectAvalonia.ViewModels.Dialogs.Base;
+﻿using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 
-public class DeleteDialogViewModel : DialogViewModelBase<bool>
+public class DeleteDialogViewModel : DialogViewModelBase<bool>, IDeleteDialogViewModel
 {
     private string _title;
 

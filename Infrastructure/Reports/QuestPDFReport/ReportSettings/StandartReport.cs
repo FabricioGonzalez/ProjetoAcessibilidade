@@ -69,32 +69,32 @@ public class StandardReport : IDocument
     ) =>
         container.Column(handler: column =>
         {
-            column.Item().Row(handler: row =>
-            {
-                row.Spacing(value: 50);
-
-                row.RelativeItem().PaddingTop(value: -10).Text(text: Model.Title).Style(style: Typography.Title);
-                row.ConstantItem(size: 90).Hyperlink(url: "https://www.questpdf.com").MaxHeight(value: 30)
-                    .Component<ImagePlaceholder>();
-            });
+            column.Item().PaddingTop(value: -10).Text(text: Model.Title).Style(style: Typography.Title);
 
             column.Item().ShowOnce().PaddingVertical(value: 15).Border(value: 1f)
                 .BorderColor(color: Colors.Grey.Lighten1).ExtendHorizontal();
 
-            column.Item().ShowOnce().Grid(handler: grid =>
+            column.Item().ShowOnce().Border(value: 0.5f).Grid(handler: grid =>
             {
-                grid.Columns(value: 2);
+                grid.Columns(value: 4);
                 grid.Spacing(value: 5);
 
                 foreach (var field in Model.HeaderFields)
                 {
-                    grid.Item().Text(content: text =>
+                    grid.Item().Column(handler: column =>
                     {
-                        text.Span(text: $"{field.Label}: ").SemiBold();
-                        text.Span(text: field.Value);
+                        column.Item().Text(text: field.Label);
+
+                        column.Item().Text(text: field.Value);
                     });
                 }
             });
+
+            column.Item().PaddingVertical(value: 5).LineHorizontal(size: 1).LineColor(value: Colors.Grey.Medium);
+
+            column.Item().Container().Background(color: Colors.LightBlue.Lighten2).Text(text: Model.StandardLaw)
+                .Style(style: Typography.Headline)
+                .FontColor(value: Colors.Black);
         });
 
     private void ComposeContent(
@@ -146,6 +146,7 @@ public class StandardReport : IDocument
             });
         }
 
+        /*
         if (Model is ReportModel reportModel)
         {
             container.PaddingVertical(value: 20).Column(handler: column =>
@@ -168,7 +169,7 @@ public class StandardReport : IDocument
                 {
                     column
                         .Item()
-                        .Section(sectionName: section.Title)
+                        .Section(sectionName: section.Id)
                         .Component(component: new SectionTemplate(model: section));
                 }
 
@@ -190,6 +191,6 @@ public class StandardReport : IDocument
                     }
                 }
             });
-        }
+        }*/
     }
 }

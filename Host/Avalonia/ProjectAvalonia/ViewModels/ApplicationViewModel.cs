@@ -10,7 +10,7 @@ using Project.Domain.Contracts;
 using Project.Domain.Solution.Queries;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
-using ProjectAvalonia.Features.Project.ViewModels;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
 using ReactiveUI;
 using Splat;
@@ -118,7 +118,7 @@ public partial class ApplicationViewModel
         .OnSuccess(
             onSuccessAction: async result =>
             {
-                MainViewModel.Instance.PrintProject(solutionState: result.Data.ToSolutionState());
+                /*MainViewModel.Instance.PrintProject(solutionState: result?.Data?.ToSolutionState());*/
 
                 /*  MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
                     , Parameter: result.Data.ToSolutionState());

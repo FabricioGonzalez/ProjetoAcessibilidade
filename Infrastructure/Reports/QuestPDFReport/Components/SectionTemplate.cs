@@ -39,6 +39,7 @@ public class SectionTemplate : IComponent
 
                     decoration
                         .Content()
+                        .Section(sectionName: reportSection.Title)
                         .Border(value: 0.75f)
                         .BorderColor(color: Colors.Grey.Medium)
                         .Column(handler: column =>
@@ -104,6 +105,7 @@ public class SectionTemplate : IComponent
                 {
                     decoration
                         .Before()
+                        .Section(sectionName: reportSectionGroup.Id)
                         .PaddingBottom(value: 5)
                         .ShowOnce()
                         .Text(text: Model.Title)
@@ -119,6 +121,7 @@ public class SectionTemplate : IComponent
                             {
                                 column
                                     .Item()
+                                    .Section(sectionName: part.Id)
                                     .PaddingLeft(value: 8)
                                     .ShowOnce()
                                     .Text(text: part.Title)
@@ -244,8 +247,8 @@ public class SectionTemplate : IComponent
                                 {
                                     using var paint = new SKPaint
                                     {
-                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1
-                                        , IsAntialias = true
+                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1,
+                                        IsAntialias = true
                                     };
 
                                     canvas.DrawLine(p0: new SKPoint(x: fromX, y: fromY), p1: new SKPoint(x: toX, y: toY)
@@ -259,8 +262,8 @@ public class SectionTemplate : IComponent
                                 {
                                     using var paint = new SKPaint
                                     {
-                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1
-                                        , IsAntialias = true
+                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1,
+                                        IsAntialias = true
                                     };
 
                                     canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: paint);

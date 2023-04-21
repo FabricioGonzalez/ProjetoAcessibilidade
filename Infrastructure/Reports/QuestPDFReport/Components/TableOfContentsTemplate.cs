@@ -1,5 +1,4 @@
 ﻿using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using QuestPDFReport.Models;
 using SkiaSharp;
@@ -32,7 +31,7 @@ public class TableOfContentsTemplate : IComponent
                     decoration
                         .Before()
                         .PaddingBottom(value: 5)
-                        .Text(text: "Table of contents")
+                        .Text(text: "Sumário")
                         .Style(style: Typography.Headline);
 
                     decoration.Content().Column(handler: column =>
@@ -44,7 +43,8 @@ public class TableOfContentsTemplate : IComponent
                             if (Sections[index: i] is ReportSection reportSection)
                             {
                                 column.Item().Element(handler: c =>
-                                    DrawLink(container: c, number: i + 1, locationName: reportSection.Title));
+                                    DrawLink(container: c, number: i + 1, locationName: reportSection.Title,
+                                        id: reportSection.Id));
                             }
 
                             if (Sections[index: i] is ReportSectionGroup reportSectionGroup)
@@ -53,14 +53,16 @@ public class TableOfContentsTemplate : IComponent
                                 {
                                     colItem.Item()
                                         .Element(handler: c => DrawLink(container: c, number: i + 1
-                                            , locationName: reportSectionGroup.Title));
+                                            , locationName: reportSectionGroup.Title,
+                                            id: reportSectionGroup.Id));
 
                                     for (var part = 0; part < reportSectionGroup.Parts.Count; part++)
                                     {
                                         colItem.Item()
                                             .Element(
                                                 handler: c => DrawDeepLink(container: c, parent: i + 1, number: part + 1
-                                                    , locationName: reportSectionGroup.Parts[index: part].Title));
+                                                    , locationName: reportSectionGroup.Parts[index: part].Title,
+                                                    id: reportSectionGroup.Parts[index: part].Id));
                                     }
                                 });
                             }
@@ -76,10 +78,11 @@ public class TableOfContentsTemplate : IComponent
     private void DrawLink(
         IContainer container
         , int number
-        , string locationName
+        , string locationName,
+        string id
     ) =>
         container
-            .SectionLink(sectionName: locationName)
+            .SectionLink(sectionName: id)
             .Row(handler: row =>
             {
                 row.ConstantItem(size: 20).Text(text: $"{number}.");
@@ -98,27 +101,18 @@ public class TableOfContentsTemplate : IComponent
                         // best to statically cache
                         using var paint = new SKPaint
                         {
-                            StrokeWidth = space.Height
-                            , PathEffect = SKPathEffect.CreateDash(intervals: new float[] { 1, 3 }, phase: 0)
+                            StrokeWidth = space.Height,
+                            PathEffect = SKPathEffect.CreateDash(intervals: new float[] { 1, 3 }, phase: 0)
                         };
 
                         canvas.DrawLine(x0: 0, y0: 0, x1: space.Width, y1: 0, paint: paint);
                     });
 
-                row.AutoItem().Text(content: text =>
+                row.ConstantItem(size: 40).Text(content: text =>
                 {
-                    text.BeginPageNumberOfSection(locationName: locationName);
+                    text.BeginPageNumberOfSection(locationName: id);
                     text.Span(text: " - ");
-                    text.EndPageNumberOfSection(locationName: locationName);
-
-                    var lengthStyle = TextStyle.Default.FontColor(value: Colors.Grey.Medium);
-
-                    text.TotalPagesWithinSection(locationName: locationName).Style(style: lengthStyle).Format(
-                        formatter: x =>
-                        {
-                            var formatted = x == 1 ? "1 page long" : $"{x} pages long";
-                            return $" ({formatted})";
-                        });
+                    text.EndPageNumberOfSection(locationName: id);
                 });
             });
 
@@ -126,11 +120,12 @@ public class TableOfContentsTemplate : IComponent
         IContainer container
         , int parent
         , int number
-        , string locationName
+        , string locationName,
+        string id
     ) =>
         container
             .PaddingLeft(value: 8)
-            .SectionLink(sectionName: locationName)
+            .SectionLink(sectionName: id)
             .Row(handler: row =>
             {
                 row.ConstantItem(size: 20).Text(text: $"{parent}.{number}.");
@@ -149,27 +144,18 @@ public class TableOfContentsTemplate : IComponent
                         // best to statically cache
                         using var paint = new SKPaint
                         {
-                            StrokeWidth = space.Height
-                            , PathEffect = SKPathEffect.CreateDash(intervals: new float[] { 1, 3 }, phase: 0)
+                            StrokeWidth = space.Height,
+                            PathEffect = SKPathEffect.CreateDash(intervals: new float[] { 1, 3 }, phase: 0)
                         };
 
                         canvas.DrawLine(x0: 0, y0: 0, x1: space.Width, y1: 0, paint: paint);
                     });
 
-                row.AutoItem().Text(content: text =>
+                row.ConstantItem(size: 40).Text(content: text =>
                 {
-                    text.BeginPageNumberOfSection(locationName: locationName);
+                    text.BeginPageNumberOfSection(locationName: id);
                     text.Span(text: " - ");
-                    text.EndPageNumberOfSection(locationName: locationName);
-
-                    var lengthStyle = TextStyle.Default.FontColor(value: Colors.Grey.Medium);
-
-                    text.TotalPagesWithinSection(locationName: locationName).Style(style: lengthStyle).Format(
-                        formatter: x =>
-                        {
-                            var formatted = x == 1 ? "1 page long" : $"{x} pages long";
-                            return $" ({formatted})";
-                        });
+                    text.EndPageNumberOfSection(locationName: id);
                 });
             });
 }

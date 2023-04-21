@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
+using AppDI;
 using Avalonia;
 using Avalonia.OpenGL;
 using Avalonia.ReactiveUI;
@@ -57,7 +58,7 @@ public class Program
             return 1;
         }
 
-        (var uiConfig, var config) = LoadOrCreateConfigs(dataDir: dataDir);
+        var (uiConfig, config) = LoadOrCreateConfigs(dataDir: dataDir);
 
         // Start single instance checker that is active over the lifetime of the application.
         /*        using SingleInstanceChecker singleInstanceChecker = new(config.Network);
@@ -115,13 +116,7 @@ public class Program
                                 await Global.InitializeNoWalletAsync(terminateService: terminateService)
                             , startInBg: runGuiInBackground))
                 .UseReactiveUI()
-                .AddConfiguration()
-                .AddMediator()
-                .AddServices()
-                .AddQueryHandlers()
-                .AddCommandHandlers()
-                .AddRepositories()
-                .AddStateStores()
+                .StartContainer()
                 .SetupAppBuilder()
                 .AfterSetup(callback: _ =>
                 {

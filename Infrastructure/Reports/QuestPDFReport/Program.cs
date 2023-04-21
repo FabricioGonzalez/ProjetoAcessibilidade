@@ -15,6 +15,9 @@ var solutionReader = new SolutionRepositoryImpl();
 var model = await DataSource.GetReport(solutionModel: await solutionReader.ReadSolution(solutionPath: path),
     extension: Constants.AppProjectTemplateExtension);
 
-var Report = new StandardReport(model: model);
+if (model is not null)
+{
+    var Report = new StandardReport(model: model);
 
-Report.ShowInPreviewer();
+    await Report.ShowInPreviewerAsync();
+}

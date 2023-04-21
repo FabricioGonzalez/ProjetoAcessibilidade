@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 using Common;
 using ProjectAvalonia.ViewModels;
 using ReactiveUI;
@@ -35,6 +36,7 @@ public class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        RxApp.MainThreadScheduler = AvaloniaScheduler.Instance;
         if (!Design.IsDesignMode)
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
