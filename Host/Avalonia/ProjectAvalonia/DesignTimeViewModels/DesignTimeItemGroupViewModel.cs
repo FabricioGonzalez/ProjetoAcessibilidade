@@ -53,6 +53,7 @@ public class DesignTimeItemGroupViewModel : ReactiveObject, IItemGroupViewModel
         get;
     }
 
+
     public void TransformFrom(List<ItemModel> items)
     {
     }

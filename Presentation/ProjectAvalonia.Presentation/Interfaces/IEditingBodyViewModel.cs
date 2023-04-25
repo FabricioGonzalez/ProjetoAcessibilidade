@@ -1,13 +1,15 @@
-﻿namespace ProjectAvalonia.Presentation.Interfaces;
+﻿using System.Collections.ObjectModel;
+
+namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface IEditingBodyViewModel
 {
-    public List<ILawListViewModel> LawList
+    public ObservableCollection<ILawListViewModel> LawList
     {
         get;
     }
 
-    public List<IFormViewModel> Form
+    public ObservableCollection<IFormViewModel> Form
     {
         get;
     }

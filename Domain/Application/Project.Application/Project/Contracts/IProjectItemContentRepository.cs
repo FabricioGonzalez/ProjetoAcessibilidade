@@ -4,15 +4,15 @@ namespace Project.Domain.Project.Contracts;
 
 public interface IProjectItemContentRepository
 {
-    public Task<AppItemModel> GetProjectItemContent(
+    public Task<AppItemModel?> GetProjectItemContent(
         string filePathToWrite
     );
 
-    public Task<AppItemModel> GetSystemProjectItemContent(
+    public Task<AppItemModel?> GetSystemProjectItemContent(
         string filePathToWrite
     );
 
-    public Task<AppItemModel> GetSystemProjectItemContentSerealizer(
+    public Task<AppItemModel?> GetSystemProjectItemContentSerealizer(
         string filePathToWrite
     );
 

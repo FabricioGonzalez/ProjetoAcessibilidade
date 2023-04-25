@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
              xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
-             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="interfaces:IImageItemViewModel"
              x:Class="ProjectAvalonia.Features.Project.Views.Components.ImageItemView"
              x:CompileBindings="True">
     <Design.DataContext>
-        <designTimeViewModels:DesignTimeImageViewModel />
+        <viewModels:ImageViewModel />
     </Design.DataContext>
     <DockPanel
         MaxHeight="600"

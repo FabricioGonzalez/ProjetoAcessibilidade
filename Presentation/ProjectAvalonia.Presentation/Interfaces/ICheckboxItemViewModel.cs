@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
@@ -14,7 +15,7 @@ public interface ICheckboxItemViewModel : INotifyPropertyChanged
         get;
     }
 
-    public List<ITextFormItemViewModel> TextItems
+    public ObservableCollection<ITextFormItemViewModel> TextItems
     {
         get;
     }

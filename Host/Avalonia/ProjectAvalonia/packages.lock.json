@@ -223,6 +223,15 @@
           "Splat": "14.6.8"
         }
       },
+      "ReactiveUI.Validation": {
+        "type": "Direct",
+        "requested": "[3.1.7, )",
+        "resolved": "3.1.7",
+        "contentHash": "53LiqOIMzpoT5drTasXpU6BQWnXuR7rl/V9mWLnU3pKHY3oaZ5sqV3qWpQLlXzFPV2BYXxKVATz4/O0Mhjaf2g==",
+        "dependencies": {
+          "ReactiveUI": "18.4.20"
+        }
+      },
       "Splat.Microsoft.Extensions.DependencyInjection": {
         "type": "Direct",
         "requested": "[14.6.1, )",

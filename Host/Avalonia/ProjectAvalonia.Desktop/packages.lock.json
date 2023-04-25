@@ -685,6 +685,14 @@
           "Avalonia": "0.10.15"
         }
       },
+      "ReactiveUI.Validation": {
+        "type": "Transitive",
+        "resolved": "3.1.7",
+        "contentHash": "53LiqOIMzpoT5drTasXpU6BQWnXuR7rl/V9mWLnU3pKHY3oaZ5sqV3qWpQLlXzFPV2BYXxKVATz4/O0Mhjaf2g==",
+        "dependencies": {
+          "ReactiveUI": "18.4.20"
+        }
+      },
       "SkiaSharp": {
         "type": "Transitive",
         "resolved": "2.88.3",
@@ -1156,6 +1164,7 @@
           "QuestPDF": "[2022.3.1, )",
           "QuestPDFReport": "[1.0.0, )",
           "ReactiveUI": "[18.4.26, )",
+          "ReactiveUI.Validation": "[3.1.7, )",
           "Splat.Microsoft.Extensions.DependencyInjection": "[14.6.1, )",
           "SukiUI": "[3.0.0, )",
           "XamlNameReferenceGenerator": "[1.5.1, )"

@@ -28,29 +28,8 @@
                         ClipToBounds="True"
                         CornerRadius="10 0 0 0"
                         IsHitTestVisible="False" />
-                    <Panel Height="100" VerticalAlignment="Bottom">
-                        <!--<spectrum:SpectrumControl
-                            Classes.fireEffect="{Binding CurrentWallet^.CoinJoinStateViewModel.IsInCriticalPhase, FallbackValue=False}"
-                            IsActive="{Binding IsCoinJoinActive}"
-                            IsDockEffectVisible="{Binding CurrentWallet^.IsMusicBoxVisible^, FallbackValue=False}"
-                            Opacity="0.6">
-                            <spectrum:SpectrumControl.Styles>
-                                <Style Selector="spectrum|SpectrumControl.fireEffect">
-                                    <Setter Property="Foreground" Value="{StaticResource OrangeCoinColor}" />
-                                </Style>
-                                <Style Selector="spectrum|SpectrumControl">
-                                    <Setter Property="Foreground" Value="{DynamicResource SystemAccentColor}" />
-                                </Style>
-                            </spectrum:SpectrumControl.Styles>
-                            <spectrum:SpectrumControl.Transitions>
-                                <Transitions>
-                                    <BrushTransition
-                                        Easing="{StaticResource FluentEasing}"
-                                        Property="Foreground"
-                                        Duration="0:0:2" />
-                                </Transitions>
-                            </spectrum:SpectrumControl.Transitions>
-                        </spectrum:SpectrumControl>-->
+                    <Panel Height="30" VerticalAlignment="Bottom">
+                        <TextBlock Text="{Binding ErrorMessage,Mode=TwoWay}" />
                     </Panel>
                     <DockPanel>
                         <DockPanel.Styles>
@@ -62,11 +41,6 @@
                                 <Setter Property="Margin" Value="31 26 31 0" />
                             </Style>
                         </DockPanel.Styles>
-                        <!--<wallets:MusicControlsView
-                            Height="66"
-                            HorizontalAlignment="Center"
-                            DataContext="{Binding CurrentWallet^}"
-                            DockPanel.Dock="Bottom" />-->
                         <ContentControl ClipToBounds="False" Content="{Binding MainScreen.CurrentPage}" />
                     </DockPanel>
                     <Border
@@ -75,12 +49,6 @@
                         ClipToBounds="True"
                         CornerRadius="10 0 0 0"
                         IsHitTestVisible="False" />
-                    <!--<statusIcon:StatusIcon
-                        Margin="10"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        DataContext="{Binding StatusIcon}"
-                        Foreground="{DynamicResource AcrylicTrimForeground}" />-->
                 </Panel>
             </Border>
         </DockPanel>

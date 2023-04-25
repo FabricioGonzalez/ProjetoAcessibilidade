@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Avalonia.Controls;
 using Common;
+using ProjectAvalonia.Common.Models;
+using ProjectAvalonia.Common.Validation;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -23,6 +26,7 @@ namespace ProjectAvalonia.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
+    public static readonly Interaction<Exception, Unit> ValidatedErrors = new();
     private readonly CreateSolutionViewModel _createSolution;
     private readonly EditingItemViewModel _editingItemPage;
     private readonly PreviewerViewModel _previewPrintPage;
@@ -40,10 +44,21 @@ public partial class MainViewModel : ViewModelBase
     [AutoNotify] private string _title = Constants.AppName;
     [AutoNotify] private WindowState _windowState;
 
-
     public MainViewModel()
     {
         ApplyUiConfigWindowSate();
+
+        ValidatedErrors.RegisterHandler(handler: interaction =>
+        {
+            ErrorMessage = interaction.Input.Message;
+
+            interaction.SetOutput(output: Unit.Default);
+        });
+
+        this.ValidateProperty(property: vm => vm.ErrorMessage, validateMethod: errors =>
+        {
+            errors.Add(severity: ErrorSeverity.Warning, error: ErrorMessage ?? "Nothing");
+        });
 
         _dialogScreen = new DialogScreenViewModel();
         _fullScreen = new DialogScreenViewModel(navigationTarget: NavigationTarget.FullScreen);
@@ -58,7 +73,6 @@ public partial class MainViewModel : ViewModelBase
 
         _settingsPage = new SettingsPageViewModel();
         _templatePage = new TemplateEditViewModel();
-        _editingItemPage = new EditingItemViewModel();
         _projectPage = new ProjectViewModel();
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
@@ -100,6 +114,11 @@ public partial class MainViewModel : ViewModelBase
             .Do(onNext: page => page.SetActive())
             .Subscribe();
 
+        IsBusy = MainScreen.CurrentPage is { IsBusy: true } ||
+                 DialogScreen.CurrentPage is { IsBusy: true } ||
+                 FullScreen.CurrentPage is { IsBusy: true } ||
+                 CompactDialogScreen.CurrentPage is { IsBusy: true };
+
         SearchBar = CreateSearchBar();
     }
 
@@ -128,11 +147,10 @@ public partial class MainViewModel : ViewModelBase
         get;
     } = new();
 
-    public bool IsBusy =>
-        MainScreen.CurrentPage is { IsBusy: true } ||
-        DialogScreen.CurrentPage is { IsBusy: true } ||
-        FullScreen.CurrentPage is { IsBusy: true } ||
-        CompactDialogScreen.CurrentPage is { IsBusy: true };
+    public bool IsBusy
+    {
+        get;
+    }
 
     public void ClearStacks()
     {

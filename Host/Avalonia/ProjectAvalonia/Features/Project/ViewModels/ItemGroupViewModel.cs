@@ -56,6 +56,21 @@ public class ItemGroupViewModel : ReactiveObject, IItemGroupViewModel
                     Items.Remove(item: x);
                 }
             });
+
+        Items
+            .ToObservableChangeSet()
+            .AutoRefreshOnObservable(reevaluator: document => document.SelectItemToEditCommand.IsExecuting)
+            .Select(selector: x => WhenAnyItemIsSelected())
+            .Switch()
+            .SubscribeAsync(onNextAsync: async x =>
+            {
+                var result = ProjectEditingViewModel.SetEditingItem.Handle(input: x).Subscribe();
+            });
+    }
+
+    public ReactiveCommand<Unit, Unit> SelectItemToEdit
+    {
+        get;
     }
 
     public ObservableCollection<IItemViewModel> Items
@@ -108,9 +123,16 @@ public class ItemGroupViewModel : ReactiveObject, IItemGroupViewModel
         }
     }
 
+    private IObservable<IItemViewModel?> WhenAnyItemIsSelected() =>
+        // Select the documents into a list of Observables
+        // who return the Document to close when signaled,
+        // then flatten them all together.
+        Items
+            .Select(selector: x => x.SelectItemToEditCommand.Select(selector: _ => x))
+            .Merge();
+
     private async Task renameItem()
     {
-
     }
 
     private IObservable<IItemViewModel?> WhenAnyDocumentClosed() =>

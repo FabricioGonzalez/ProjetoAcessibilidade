@@ -8,7 +8,7 @@ namespace ProjectItemReader.XmlFile;
 
 public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 {
-    public async Task<AppItemModel> GetSystemProjectItemContent(
+    public async Task<AppItemModel?> GetSystemProjectItemContent(
         string filePathToRead
     )
     {
@@ -186,6 +186,12 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
           return await task;*/
 
+
+        if (!Path.Exists(path: filePathToRead))
+        {
+            return null;
+        }
+
         var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
         using var reader = XmlReader.Create(inputUri: filePathToRead);
@@ -195,7 +201,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
         return result.ToAppItemModel();
     }
 
-    public async Task<AppItemModel> GetProjectItemContent(
+    public async Task<AppItemModel?> GetProjectItemContent(
         string filePathToRead
     )
     {
@@ -385,6 +391,11 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
            task.Start();
 
            return await task;*/
+
+        if (!Path.Exists(path: filePathToRead))
+        {
+            return null;
+        }
 
         var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
@@ -649,10 +660,15 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
         serializer.Serialize(textWriter: writer, o: dataToWrite.ToItemRoot());
     }
 
-    public async Task<AppItemModel> GetSystemProjectItemContentSerealizer(
+    public async Task<AppItemModel?> GetSystemProjectItemContentSerealizer(
         string filePathToRead
     )
     {
+        if (!Path.Exists(path: filePathToRead))
+        {
+            return null;
+        }
+
         var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
         using var reader = XmlReader.Create(inputUri: filePathToRead);

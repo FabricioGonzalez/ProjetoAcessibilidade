@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
@@ -18,7 +18,7 @@ public class DesignTimeImageContainerFormItemViewModel : ReactiveObject, IImageF
         get;
     } = "Imagens";
 
-    public List<IImageItemViewModel> ImageItems
+    public ObservableCollection<IImageItemViewModel> ImageItems
     {
         get;
     } = new()

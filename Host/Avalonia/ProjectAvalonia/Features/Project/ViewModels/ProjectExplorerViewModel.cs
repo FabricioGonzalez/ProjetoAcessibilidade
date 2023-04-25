@@ -28,7 +28,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         Items
             .ToObservableChangeSet()
             .AutoRefreshOnObservable(reevaluator: document => document.ExcludeFolderCommand.IsExecuting)
-            .Select(selector: x => WhenAnyDocumentClosed())
+            .Select(selector: x => WhenAnyFolderIsDeleted())
             .Switch()
             .SubscribeAsync(onNextAsync: async x =>
             {
@@ -44,6 +44,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                     Items.Remove(item: x);
                 }
             });
+
 
         CreateFolderCommand = ReactiveCommand.CreateFromTask(execute: async () =>
         {
@@ -77,6 +78,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
     {
         get;
     }
+
 
     /*private readonly ICommandDispatcher _commandDispatcher;
     private readonly EditingItemsStore _editingItemsStore;
@@ -273,7 +275,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
             _solutionStore.CurrentOpenSolution.DeleteFolderItem(item: groupModels);
 }
     */
-    private IObservable<IItemGroupViewModel?> WhenAnyDocumentClosed() =>
+    private IObservable<IItemGroupViewModel?> WhenAnyFolderIsDeleted() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,
         // then flatten them all together.

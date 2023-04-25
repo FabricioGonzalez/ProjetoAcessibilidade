@@ -1,8 +1,10 @@
-﻿namespace ProjectAvalonia.Presentation.Interfaces;
+﻿using System.Collections.ObjectModel;
+
+namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface IOptionsContainerViewModel
 {
-    public List<IOptionViewModel> Options
+    public ObservableCollection<IOptionViewModel> Options
     {
         get;
     }

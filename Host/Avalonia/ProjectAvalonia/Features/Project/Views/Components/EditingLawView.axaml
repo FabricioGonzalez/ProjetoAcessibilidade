@@ -3,10 +3,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectAvalonia.Features.Project.Views.Components.EditingLawView"
              x:DataType="interfaces:IEditingBodyViewModel"
              x:CompileBindings="True">
+    <Design.DataContext>
+        <designTimeViewModels:DesingTimeEditingBodyViewModel />
+    </Design.DataContext>
     <Border
         Margin="16,8"
         Padding="8"
@@ -17,10 +22,7 @@
             Items="{Binding LawList, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="0,4">
-                        <TextBlock FontWeight="Bold" Text="{Binding LawId}" />
-                        <TextBlock Text="{Binding LawContent}" TextWrapping="Wrap" />
-                    </StackPanel>
+                    <components:LawItem DataContext="{Binding}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

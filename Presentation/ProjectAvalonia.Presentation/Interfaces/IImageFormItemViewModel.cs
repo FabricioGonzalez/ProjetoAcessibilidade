@@ -1,4 +1,5 @@
-﻿using System.Reactive;
+﻿using System.Collections.ObjectModel;
+using System.Reactive;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -10,7 +11,7 @@ public interface IImageFormItemViewModel : IFormViewModel
         get;
     }
 
-    public List<IImageItemViewModel> ImageItems
+    public ObservableCollection<IImageItemViewModel> ImageItems
     {
         get;
     }

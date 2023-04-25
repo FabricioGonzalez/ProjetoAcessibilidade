@@ -14,6 +14,7 @@ public class ViewModelBase
 {
     private readonly CancellationTokenSource _cancellationToken;
     private readonly Validations _validations;
+    protected string _errorMessage;
 
     protected ObservableAsPropertyHelper<bool> _isBusy = ObservableAsPropertyHelper<bool>.Default();
 
@@ -26,6 +27,12 @@ public class ViewModelBase
     }
 
     public bool IsBusy => _isBusy.Value;
+
+    public string? ErrorMessage
+    {
+        get => _errorMessage;
+        set => this.RaiseAndSetIfChanged(backingField: ref _errorMessage, newValue: value);
+    }
 
     protected IValidations Validations => _validations;
 

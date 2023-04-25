@@ -5,7 +5,7 @@ using Project.Domain.Project.Contracts;
 
 namespace Project.Domain.Project.Queries.ProjectItems;
 
-public sealed record class GetProjectItemContentQuery(
+public sealed record GetProjectItemContentQuery(
     string ItemPath
 ) : IRequest<Resource<AppItemModel>>;
 

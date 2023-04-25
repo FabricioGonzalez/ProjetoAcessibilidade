@@ -11,6 +11,11 @@ public class DesignTimeEditingItemViewModel : ReactiveObject, IEditingItemViewMo
         get;
     } = "Teste";
 
+    public string Id
+    {
+        get;
+    }
+
     public bool IsSaved
     {
         get;

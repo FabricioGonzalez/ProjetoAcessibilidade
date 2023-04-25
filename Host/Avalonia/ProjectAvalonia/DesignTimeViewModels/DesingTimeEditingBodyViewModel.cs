@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
 
@@ -6,7 +6,7 @@ namespace ProjectAvalonia.DesignTimeViewModels;
 
 public class DesingTimeEditingBodyViewModel : ReactiveObject, IEditingBodyViewModel
 {
-    public List<ILawListViewModel> LawList
+    public ObservableCollection<ILawListViewModel> LawList
     {
         get;
     } = new()
@@ -15,7 +15,7 @@ public class DesingTimeEditingBodyViewModel : ReactiveObject, IEditingBodyViewMo
         new DesignTimeLawListViewModel()
     };
 
-    public List<IFormViewModel> Form
+    public ObservableCollection<IFormViewModel> Form
     {
         get;
     } = new()

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using DynamicData;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;

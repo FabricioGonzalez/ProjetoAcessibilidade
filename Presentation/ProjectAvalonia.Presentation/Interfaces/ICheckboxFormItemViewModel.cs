@@ -1,4 +1,6 @@
-﻿namespace ProjectAvalonia.Presentation.Interfaces;
+﻿using System.Collections.ObjectModel;
+
+namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface ICheckboxFormItemViewModel : IFormViewModel
 {
@@ -7,7 +9,7 @@ public interface ICheckboxFormItemViewModel : IFormViewModel
         get;
     }
 
-    public List<ICheckboxItemViewModel> CheckboxItems
+    public ObservableCollection<ICheckboxItemViewModel> CheckboxItems
     {
         get;
     }

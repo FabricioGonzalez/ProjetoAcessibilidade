@@ -10,6 +10,11 @@ public interface IEditingItemViewModel
         get;
     }
 
+    public string Id
+    {
+        get;
+    }
+
     public bool IsSaved
     {
         get;

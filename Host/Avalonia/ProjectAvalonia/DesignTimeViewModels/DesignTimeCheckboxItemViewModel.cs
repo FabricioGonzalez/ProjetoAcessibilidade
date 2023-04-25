@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
 
@@ -9,14 +9,14 @@ public class DesignTimeCheckboxItemViewModel : ReactiveObject, ICheckboxItemView
     public string Topic
     {
         get;
-    }
+    } = "Teste Checkbox";
 
     public IOptionsContainerViewModel Options
     {
         get;
     } = new DesignTimeOptionContainerViewModel();
 
-    public List<ITextFormItemViewModel> TextItems
+    public ObservableCollection<ITextFormItemViewModel> TextItems
     {
         get;
     } = new()

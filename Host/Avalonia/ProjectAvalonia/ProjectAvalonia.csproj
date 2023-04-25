@@ -57,7 +57,7 @@
         </Compile>
     </ItemGroup>
     <ItemGroup>
-        <AvaloniaResource Include="Common\Controls\EditableTextBlock.xaml" />
+        <AvaloniaXaml Include="Common\Controls\EditableTextBlock.axaml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Assets\avalonia-logo.ico" />
@@ -95,6 +95,7 @@
         <PackageReference Include="Neumorphism.Avalonia" Version="0.4.0" />
         <PackageReference Include="Notification.Avalonia" Version="1.1.0" />
         <PackageReference Include="ReactiveUI" Version="18.4.26" />
+        <PackageReference Include="ReactiveUI.Validation" Version="3.1.7" />
         <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
         <PackageReference Include="SukiUI" Version="3.0.0" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
@@ -210,7 +211,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Features\NavBar\Stores\" />
-        <Folder Include="Features\SearchBar\Stores\" />
         <Folder Include="Features\Settings\Stores\" />
     </ItemGroup>
 </Project>

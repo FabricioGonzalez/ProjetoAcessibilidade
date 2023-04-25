@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
@@ -9,7 +10,7 @@ public interface IProjectEditingViewModel : INotifyPropertyChanged
         get;
     }
 
-    public List<IEditingItemViewModel> EditingItems
+    public ObservableCollection<IEditingItemViewModel> EditingItems
     {
         get;
     }

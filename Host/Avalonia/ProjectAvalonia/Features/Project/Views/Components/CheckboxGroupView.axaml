@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
              xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
-             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectAvalonia.Features.Project.Views.Components.CheckboxGroupView"
              x:DataType="interfaces:ICheckboxFormItemViewModel"
              x:CompileBindings="True" HorizontalAlignment="Stretch">
     <Design.DataContext>
-        <designTimeViewModels:DesignTimeCheckboxFormItem />
+        <viewModels:CheckboxFormItem />
     </Design.DataContext>
     <Border
         Margin="0,4"

@@ -27,15 +27,17 @@
                 TextWrapping="Wrap" />
             <StackPanel Orientation="Horizontal" Spacing="5">
                 <TextBox
-                    Width="280"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Text="{Binding TextData}" />
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold"
-                    Text="{Binding MeasurementUnit}" />
+                    TextWrapping="Wrap"
+                    Text="{Binding TextData}">
+
+                    <TextBox.InnerRightContent>
+                        <TextBlock Margin="4,0"
+                                   FontWeight="Bold" VerticalAlignment="Stretch"
+                                   Text="{Binding MeasurementUnit}" />
+                    </TextBox.InnerRightContent>
+                </TextBox>
             </StackPanel>
         </StackPanel>
     </Border>

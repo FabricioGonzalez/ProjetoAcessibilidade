@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
 
@@ -11,7 +11,7 @@ public class DesignTimeProjectEditingViewModel : ReactiveObject, IProjectEditing
         get;
     } = new DesignTimeEditingItemViewModel();
 
-    public List<IEditingItemViewModel> EditingItems
+    public ObservableCollection<IEditingItemViewModel> EditingItems
     {
         get;
     } = new()

@@ -191,6 +191,8 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
 
+        ProjectEditingViewModel = new ProjectEditingViewModel();
+
         this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
             .Select(selector: x => x?.Items.Count > 0)
             .ToProperty(source: this, property: x => x.IsSolutionOpen, result: out _isSolutionOpen);

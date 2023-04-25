@@ -43,6 +43,7 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
         get;
     }
 
+
     /*public void RemoveItem(IItemViewModel item);*/
 
     public void TransformFrom(List<ItemModel> items);

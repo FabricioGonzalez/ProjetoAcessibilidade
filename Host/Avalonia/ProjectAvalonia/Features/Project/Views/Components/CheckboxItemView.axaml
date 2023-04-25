@@ -4,22 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
              xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
-             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectAvalonia.Features.Project.Views.Components.CheckboxItemView"
              x:DataType="interfaces:ICheckboxItemViewModel"
              x:CompileBindings="True" HorizontalAlignment="Stretch">
     <Design.DataContext>
-        <designTimeViewModels:DesignTimeCheckboxItemViewModel />
+        <viewModels:CheckboxItemViewModel />
     </Design.DataContext>
-    <StackPanel Margin="0,4">
-        <TextBlock
-            FontWeight="Bold"
-            Text="{Binding Topic}"
-            TextWrapping="Wrap" />
-        <components:OptionsItem
-            DataContext="{Binding Options}" />
-        <ItemsControl Items="{Binding TextItems}">
+    <Grid RowDefinitions="0.5*,2*,1*" HorizontalAlignment="Stretch">
+        <TextBlock HorizontalAlignment="Stretch"
+                   FontWeight="Bold"
+                   Text="{Binding Topic}"
+                   TextWrapping="Wrap" />
+        <components:OptionsContainerItem Grid.Row="1"
+                                         DataContext="{Binding Options}" />
+        <ItemsControl Grid.Row="2" Items="{Binding TextItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <components:TextBoxItem
@@ -27,5 +27,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </StackPanel>
+    </Grid>
 </UserControl>

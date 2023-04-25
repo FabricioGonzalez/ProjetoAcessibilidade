@@ -21,7 +21,7 @@
     </Application.Resources>
 
     <Application.Styles>
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/EditableTextBlock.xaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/EditableTextBlock.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Styles/Themes/BaseDark.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Icons/Icons.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Styles/Styles.axaml" />
