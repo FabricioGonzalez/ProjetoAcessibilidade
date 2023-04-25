@@ -190,6 +190,7 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
+        CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: CreateSolution);
 
         ProjectEditingViewModel = new ProjectEditingViewModel();
 
@@ -269,5 +270,10 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
                 {
                 });
         }
+    }
+
+    private async Task CreateSolution()
+    {
+
     }
 }
