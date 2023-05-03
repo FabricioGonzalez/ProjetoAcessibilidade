@@ -1,6 +1,6 @@
-﻿using Core.Entities.App;
+﻿using ProjetoAcessibilidade.Core.Entities.App;
 
-namespace Core.Entities.Solution.ReportInfo;
+namespace ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 
 public class SolutionInfo
 {

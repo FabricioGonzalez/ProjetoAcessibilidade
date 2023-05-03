@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
-using ProjectAvalonia.Presentation.States;
+using ProjetoAcessibilidade.Core.Entities.Solution;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -14,7 +14,7 @@ public interface IProjectExplorerViewModel : INotifyPropertyChanged
     }
 
 
-    public SolutionState SolutionState
+    public ProjectSolutionModel SolutionState
     {
         get;
     }

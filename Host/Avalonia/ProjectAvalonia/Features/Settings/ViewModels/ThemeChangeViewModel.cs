@@ -19,6 +19,12 @@ public partial class ThemeChangeViewModel : RoutableViewModel
         _newTheme = newTheme;
     }
 
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
+
     protected override void OnNavigatedTo(
         bool isInHistory
         , CompositeDisposable disposables

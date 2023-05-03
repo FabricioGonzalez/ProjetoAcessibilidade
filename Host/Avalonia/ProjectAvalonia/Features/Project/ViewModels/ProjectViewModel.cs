@@ -1,26 +1,29 @@
 ﻿using System.Linq;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Threading;
 using Common;
-using Core.Entities.Solution;
-using Project.Domain.Contracts;
-using Project.Domain.Solution.Queries;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
+using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.ViewModels.Navigation;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Solution.Queries;
 using ReactiveUI;
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 [NavigationMetaData(
-    Title = "Projeto",
+    Title = "Projetos",
     Caption = "Criar e editar projetos",
     Order = 0,
+    LocalizedTitle = "ProjectViewNavLabel",
     Category = "Projetos",
     Keywords = new[]
     {
@@ -33,7 +36,7 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
-    private readonly IQueryDispatcher? _queryDispatcher;
+    private readonly IMediator? _queryDispatcher;
     /*private readonly AddressesStore _addressesStore;
     private readonly SolutionStore _solutionStore;
 
@@ -186,17 +189,33 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
         SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
-        _queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
-
-
-        OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
-        CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: CreateSolution);
-
-        ProjectEditingViewModel = new ProjectEditingViewModel();
+        _queryDispatcher ??= Locator.Current.GetService<IMediator>();
 
         this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
             .Select(selector: x => x?.Items.Count > 0)
             .ToProperty(source: this, property: x => x.IsSolutionOpen, result: out _isSolutionOpen);
+
+        var isSolutionOpen = this.WhenAnyValue(property1: vm => vm.IsSolutionOpen);
+
+        OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
+        CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: CreateSolution);
+        PrintProjectCommand = ReactiveCommand.CreateFromTask(execute: PrintSolution, canExecute: isSolutionOpen);
+
+        ProjectEditingViewModel = new ProjectEditingViewModel();
+        ProjectPrintPreviewViewModel = new PreviewerViewModel();
+
+        EnableAutoBusyOn(OpenProjectCommand, CreateProjectCommand);
+    }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
+
+    public PreviewerViewModel ProjectPrintPreviewViewModel
+    {
+        get;
     }
 
     public bool IsSolutionOpen => _isSolutionOpen.Value;
@@ -232,48 +251,75 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
         get;
     }
 
-    private async Task OpenSolution()
+    private async Task<Unit> PrintSolution(CancellationToken arg)
+    {
+        Navigate(currentTarget: NavigationTarget.FullScreen)
+            .To(viewmodel: ProjectPrintPreviewViewModel,
+                mode: NavigationMode.Normal,
+                Parameter: ProjectExplorerViewModel.SolutionState);
+
+        return Unit.Default;
+    }
+
+    private async Task<Unit> OpenSolution()
     {
         var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Abrir Projeto");
 
         if (path is not null)
         {
-            (await _queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
-                    query: new ReadSolutionProjectQuery(SolutionPath: path),
-                    cancellation: CancellationToken.None))
-                .OnSuccess(
-                    onSuccessAction: result =>
-                    {
-                        Dispatcher
-                            .UIThread
-                            .Post(action: () =>
-                            {
-                                ProjectExplorerViewModel = new ProjectExplorerViewModel(items:
-                                    result
-                                        .Data
-                                        .ItemGroups
-                                        .Select(selector: model =>
-                                            {
-                                                var vm = new ItemGroupViewModel(name: model.Name,
-                                                    itemPath: model.ItemPath);
-                                                vm.TransformFrom(items: model.Items);
-
-                                                return vm;
-                                            }
-                                        ).ToList<IItemGroupViewModel>(),
-                                    state: new SolutionState()
-                                );
-                                this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
-                            });
-                    })
-                .OnError(onErrorAction: error =>
-                {
-                });
+            await ReadSolutionAndOpen(path: path);
         }
+
+        return Unit.Default;
     }
 
-    private async Task CreateSolution()
-    {
+    private async Task ReadSolutionAndOpen(string path) =>
+        (await _queryDispatcher.Dispatch(
+            query: new ReadSolutionProjectQuery(SolutionPath: path),
+            cancellation: CancellationToken.None))
+        .OnSuccess(
+            onSuccessAction: result =>
+            {
+                Dispatcher
+                    .UIThread
+                    .Post(action: () =>
+                    {
+                        ProjectExplorerViewModel = new ProjectExplorerViewModel(items:
+                            result
+                                .Data
+                                .ItemGroups
+                                .Select(selector: model =>
+                                    {
+                                        var vm = new ItemGroupViewModel(name: model.Name,
+                                            itemPath: model.ItemPath);
+                                        vm.TransformFrom(items: model.Items);
 
+                                        return vm;
+                                    }
+                                ).ToList<IItemGroupViewModel>(),
+                            state: result.Data
+                        );
+                        this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
+                    });
+            })
+        .OnError(onErrorAction: error =>
+        {
+        });
+
+    private async Task<Unit> CreateSolution() => Unit.Default;
+
+    protected override void OnNavigatedTo(
+        bool isInHistory
+        , CompositeDisposable disposables
+        , object? Parameter = null
+    )
+    {
+        if (Parameter is string path && !string.IsNullOrWhiteSpace(value: path))
+        {
+            Dispatcher.UIThread.Post(action: () =>
+            {
+                Task.WhenAll(ReadSolutionAndOpen(path: path));
+            });
+        }
     }
 }

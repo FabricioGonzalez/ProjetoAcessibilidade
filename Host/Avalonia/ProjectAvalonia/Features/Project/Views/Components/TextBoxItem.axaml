@@ -6,39 +6,34 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
-    d:DesignHeight="450" HorizontalAlignment="Stretch"
+    d:DesignHeight="150" HorizontalAlignment="Stretch"
     d:DesignWidth="800"
-    mc:Ignorable="d"
+    mc:Ignorable="d" Padding="4"
     x:DataType="interfaces:ITextFormItemViewModel"
     x:CompileBindings="True">
     <Design.DataContext>
         <designTimeViewModels:DesignTimeTextFormItem />
     </Design.DataContext>
-    <Border
-        Margin="0,4"
-        Padding="4"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        CornerRadius="8">
-        <StackPanel Orientation="Vertical" Spacing="8">
-            <TextBlock
-                FontWeight="Bold"
-                Text="{Binding Topic}"
-                TextWrapping="Wrap" />
-            <StackPanel Orientation="Horizontal" Spacing="5">
-                <TextBox
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    TextWrapping="Wrap"
-                    Text="{Binding TextData}">
+    <DockPanel LastChildFill="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <TextBlock Margin="16,8"
+                   FontWeight="Bold"
+                   DockPanel.Dock="Top"
+                   VerticalAlignment="Top"
+                   Text="{Binding Topic}"
+                   TextWrapping="Wrap" />
+        <TextBox
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            DockPanel.Dock="Bottom"
+            VerticalContentAlignment="Bottom"
+            TextWrapping="Wrap"
+            Text="{Binding TextData}">
+            <TextBox.InnerRightContent>
+                <TextBlock Margin="4,0"
+                           FontWeight="Bold" VerticalAlignment="Center"
+                           Text="{Binding MeasurementUnit}" />
+            </TextBox.InnerRightContent>
+        </TextBox>
+    </DockPanel>
 
-                    <TextBox.InnerRightContent>
-                        <TextBlock Margin="4,0"
-                                   FontWeight="Bold" VerticalAlignment="Stretch"
-                                   Text="{Binding MeasurementUnit}" />
-                    </TextBox.InnerRightContent>
-                </TextBox>
-            </StackPanel>
-        </StackPanel>
-    </Border>
 </UserControl>

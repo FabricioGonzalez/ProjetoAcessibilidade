@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.Solution.Explorer;
+﻿namespace ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 
 public class FolderItem : ExplorerItem
 {

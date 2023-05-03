@@ -13,6 +13,7 @@ namespace ProjectAvalonia.Features.Settings.ViewModels;
     Title = "Settings",
     Caption = "Manage appearance, privacy and other settings",
     Order = 1,
+    LocalizedTitle = "SettingsViewNavLabel",
     Category = "General",
     Keywords = new[] { "Settings", "General", "User", "Interface", "Advanced" },
     IconName = "nav_settings_24_regular",
@@ -54,6 +55,12 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
     {
         get;
     }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 
     private void OnRestartNeeded(
         object? sender

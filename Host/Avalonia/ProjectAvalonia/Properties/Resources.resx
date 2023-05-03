@@ -216,4 +216,35 @@
     <data name="ThemeChangingLabel" xml:space="preserve">
     <value>Theme is changing... Please Wait...</value>
   </data>
+    <data name="DarkModeLabel" xml:space="preserve">
+        <value>Dark Mode</value>
+    </data>
+    <data name="AppearanceLabel" xml:space="preserve">
+        <value>Appearence</value>
+    </data>
+    <data name="ThemeKeyWords" xml:space="preserve">
+        <value>Dark, Light, Theme</value>
+    </data>
+    <data name="ProjectViewNavLabel" xml:space="preserve">
+        <value>Project</value>
+    </data>
+    <data name="TemplateEditViewNavLabel" xml:space="preserve">
+        <value>Template Edit</value>
+    </data>
+    <data name="SettingsViewNavLabel" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="GeneralSettingsViewNavLabel" xml:space="preserve">
+        <value>General Settings</value>
+    </data>
+    <data name="AdvancedSettingsViewNavLabel" xml:space="preserve">
+        <value>Advanced Settings</value>
+    </data>
+    <data name="SearchBoxLabel" xml:space="preserve">
+        <value>Search settings / advanced features
+</value>
+    </data>
+    <data name="ShutdownDialogTitleLabel" xml:space="preserve">
+        <value>App is shutting down</value>
+    </data>
 </root>

@@ -55,6 +55,9 @@
           <DependentUpon>IconButton.axaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <EmbeddedResource Update="Properties\Resources.en.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
         <AvaloniaXaml Include="Common\Controls\EditableTextBlock.axaml" />
@@ -101,8 +104,8 @@
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Domain.csproj" />
-        <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\ProjetoAcessibilidade.Domain.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ProjectAvalonia.Presentation\ProjectAvalonia.Presentation.csproj" />
@@ -208,9 +211,5 @@
     </ItemGroup>
     <ItemGroup>
         <EditorConfigFiles Remove="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Features\NavBar\Stores\" />
-        <Folder Include="Features\Settings\Stores\" />
     </ItemGroup>
 </Project>

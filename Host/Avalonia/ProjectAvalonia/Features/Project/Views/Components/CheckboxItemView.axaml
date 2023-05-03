@@ -4,22 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
              xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
-             xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectAvalonia.Features.Project.Views.Components.CheckboxItemView"
              x:DataType="interfaces:ICheckboxItemViewModel"
              x:CompileBindings="True" HorizontalAlignment="Stretch">
     <Design.DataContext>
-        <viewModels:CheckboxItemViewModel />
+        <designTimeViewModels:DesignTimeCheckboxItemViewModel />
     </Design.DataContext>
-    <Grid RowDefinitions="0.5*,2*,1*" HorizontalAlignment="Stretch">
-        <TextBlock HorizontalAlignment="Stretch"
+
+    <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TextBlock Margin="8,2" DockPanel.Dock="Top" HorizontalAlignment="Stretch"
                    FontWeight="Bold"
                    Text="{Binding Topic}"
                    TextWrapping="Wrap" />
-        <components:OptionsContainerItem Grid.Row="1"
-                                         DataContext="{Binding Options}" />
-        <ItemsControl Grid.Row="2" Items="{Binding TextItems}">
+        <ItemsControl DockPanel.Dock="Bottom" Items="{Binding TextItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <components:TextBoxItem
@@ -27,5 +26,10 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </Grid>
+
+        <components:OptionsContainerItem Margin="8,2"
+                                         DataContext="{Binding Options}" />
+
+    </DockPanel>
+
 </UserControl>

@@ -44,6 +44,8 @@ namespace ProjectAvalonia
 
 		public string Title { get; init; }
 
+        public string LocalizedTitle { get; init; }
+
 		public string Caption { get; init; }
 
 		public string IconName { get; init; }
@@ -67,6 +69,7 @@ namespace ProjectAvalonia
 		public NavigationMetaDataAttribute()
 		{
 		}
+        public string LocalizedTitle { get; set; }
 
 		public bool Searchable { get; set; }
 

@@ -1,25 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Entities.App;
 using DynamicData;
-using Project.Domain.App.Queries.UF;
-using Project.Domain.Contracts;
+using ProjetoAcessibilidade.Core.Entities.App;
+using ProjetoAcessibilidade.Domain.App.Queries.UF;
+using ProjetoAcessibilidade.Domain.Contracts;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Stores;
 
 public partial class AddressesStore
 {
-    private readonly IQueryDispatcher _queryDispatcher;
+    private readonly IMediator _queryDispatcher;
     private readonly SourceList<UFModel> _ufList;
 
     [AutoNotify] public ReadOnlyObservableCollection<UFModel> UfList;
 
-    public AddressesStore(IQueryDispatcher queryDispatcher)
+    public AddressesStore(IMediator queryDispatcher)
     {
         _queryDispatcher = queryDispatcher;
         _ufList = new SourceList<UFModel>();
@@ -32,7 +31,7 @@ public partial class AddressesStore
     public async Task LoadAllUf(CancellationToken token)
     {
         foreach (var item in (await _queryDispatcher
-                     .Dispatch<GetAllUfQuery, IList<UFModel>>(query: new GetAllUfQuery()
+                     .Dispatch(query: new GetAllUfQuery()
                          , cancellation: token)
                  ).OrderBy(keySelector: x => x.Name))
         {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using Project.Domain.App.Contracts;
-using Project.Domain.App.Models;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Models;
+using ProjetoAcessibilidade.Domain.App.Contracts;
+using ProjetoAcessibilidade.Domain.App.Models;
 
 namespace ProjectAvalonia.Common.Services;
 
@@ -43,6 +43,7 @@ public class LanguageManager : ILanguageManager
             throw new ArgumentException(message: $"{nameof(languageCode)} can't be empty.");
         }
 
+        Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(name: languageCode);
         Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(name: languageCode);
     }
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
-using Core.Entities.Solution.ItemsGroup;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;

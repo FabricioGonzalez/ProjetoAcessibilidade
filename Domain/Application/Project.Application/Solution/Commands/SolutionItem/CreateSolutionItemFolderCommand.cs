@@ -1,15 +1,16 @@
-﻿using Project.Domain.App.Models;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Contracts;
+﻿using ProjetoAcessibilidade.Domain.App.Models;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Contracts;
+using Splat;
 
-namespace Project.Domain.Solution.Commands.SolutionItem;
+namespace ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 
 public sealed record CreateSolutionItemFolderCommand(
     string ItemName
     , string ItemPath
 ) : IRequest<Empty>;
 
-public sealed class CreateSolutionItemFolderCommandHandler : ICommandHandler<CreateSolutionItemFolderCommand, Empty>
+public sealed class CreateSolutionItemFolderCommandHandler : IHandler<CreateSolutionItemFolderCommand, Empty>
 {
     private readonly IExplorerItemRepository _repository;
 
@@ -20,12 +21,13 @@ public sealed class CreateSolutionItemFolderCommandHandler : ICommandHandler<Cre
         _repository = repository;
     }
 
-    public async Task<Empty> Handle(
+    public async Task<Empty> HandleAsync(
         CreateSolutionItemFolderCommand command
         , CancellationToken cancellation
     )
     {
-        _repository.RenameFolderItem(itemName: command.ItemName, itemPath: command.ItemPath);
+        var service = Locator.Current.GetService<IExplorerItemRepository>();
+        service.RenameFolderItem(itemName: command.ItemName, itemPath: command.ItemPath);
 
         return new Empty();
     }

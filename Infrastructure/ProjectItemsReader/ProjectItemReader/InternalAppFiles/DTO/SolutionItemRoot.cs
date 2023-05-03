@@ -1,5 +1,5 @@
 ﻿using System.Xml.Serialization;
-using Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution;
 
 namespace ProjectItemReader.InternalAppFiles.DTO;
 
@@ -32,8 +32,8 @@ public static class Extensions
             Report = new ReportItem
             {
                 /*Data = model.SolutionReportInfo*/
-            }
-            , ProjectItems = model.ItemGroups.Select(selector: item => new ProjectItems
+            },
+            ProjectItems = model.ItemGroups.Select(selector: item => new ProjectItems
             {
                 ItemName = item.Name, ItemGroup = item.Items.Select(selector: i => new ItemGroup
                 {

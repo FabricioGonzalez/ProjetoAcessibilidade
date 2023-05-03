@@ -1,4 +1,4 @@
-﻿namespace Core.Common;
+﻿namespace ProjetoAcessibilidade.Core.Common;
 
 public abstract class BaseAuditableEntity : BaseEntity
 {

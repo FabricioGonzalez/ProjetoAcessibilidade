@@ -1,5 +1,5 @@
-﻿namespace Project.Domain.Contracts;
+﻿namespace ProjetoAcessibilidade.Domain.Contracts;
 
-public interface INotification<out TResponse>
+public interface INotification
 {
 }

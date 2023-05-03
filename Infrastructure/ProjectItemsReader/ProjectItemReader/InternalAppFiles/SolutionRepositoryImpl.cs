@@ -2,12 +2,12 @@
 using System.Xml;
 using System.Xml.Serialization;
 using Common;
-using Core.Entities.App;
-using Core.Entities.Solution;
-using Core.Entities.Solution.ItemsGroup;
-using Core.Entities.Solution.ReportInfo;
-using Project.Domain.Solution.Contracts;
 using ProjectItemReader.InternalAppFiles.DTO;
+using ProjetoAcessibilidade.Core.Entities.App;
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
+using ProjetoAcessibilidade.Domain.Solution.Contracts;
 
 namespace ProjectItemReader.InternalAppFiles;
 

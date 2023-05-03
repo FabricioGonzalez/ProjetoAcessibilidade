@@ -1,8 +1,8 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
-using Core.Entities.Solution.Project.AppItem;
-using Project.Domain.Project.Contracts;
 using ProjectItemReader.XmlFile.DTO;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+using ProjetoAcessibilidade.Domain.Project.Contracts;
 
 namespace ProjectItemReader.XmlFile;
 

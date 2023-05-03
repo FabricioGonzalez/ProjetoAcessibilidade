@@ -2,11 +2,11 @@
 
 public class SolutionStore
 {
-    /*private readonly IQueryDispatcher _queryDispatcher;
+    /*private readonly IMediator _queryDispatcher;
     [AutoNotify] private SolutionState? _currentOpenSolution;
     [AutoNotify] private SourceList<SolutionState>? _recentOpenedSolutions;
 
-    public SolutionStore(IQueryDispatcher queryDispatcher)
+    public SolutionStore(IMediator queryDispatcher)
     {
         _queryDispatcher = queryDispatcher;
     }

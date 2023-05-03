@@ -1,9 +1,10 @@
 ﻿using Common;
-using Core.Entities.Solution;
-using Project.Domain.Contracts;
-using Project.Domain.Solution.Contracts;
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Solution.Contracts;
+using Splat;
 
-namespace Project.Domain.Solution.Commands.SolutionItem;
+namespace ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 
 public sealed record CreateSolutionCommand(
         string SolutionPath
@@ -12,19 +13,9 @@ public sealed record CreateSolutionCommand(
     : IRequest<Resource<ProjectSolutionModel>>;
 
 public sealed class CreateSolutionCommandHandler
-    : ICommandHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>
+    : IHandler<CreateSolutionCommand, Resource<ProjectSolutionModel>>
 {
-    public ISolutionRepository repository;
-
-    public CreateSolutionCommandHandler(
-        ISolutionRepository solutionRepository
-    )
-    {
-        repository = solutionRepository;
-    }
-
-
-    public async Task<Resource<ProjectSolutionModel>> Handle(
+    public async Task<Resource<ProjectSolutionModel>> HandleAsync(
         CreateSolutionCommand query
         , CancellationToken cancellation
     )
@@ -35,7 +26,8 @@ public sealed class CreateSolutionCommandHandler
                 , Data: default);
         }
 
-        await repository.SaveSolution(solutionPath: query.SolutionPath, dataToWrite: query.SolutionData);
+        await Locator.Current.GetService<ISolutionRepository>()
+            .SaveSolution(solutionPath: query.SolutionPath, dataToWrite: query.SolutionData);
 
         /*if (result is null)
         {

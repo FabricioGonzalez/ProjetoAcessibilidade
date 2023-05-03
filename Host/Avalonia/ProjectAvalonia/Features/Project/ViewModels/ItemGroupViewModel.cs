@@ -7,7 +7,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Common;
-using Core.Entities.Solution.ItemsGroup;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
@@ -16,6 +15,7 @@ using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;

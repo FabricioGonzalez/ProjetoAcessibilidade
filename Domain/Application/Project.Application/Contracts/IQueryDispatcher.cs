@@ -1,10 +1,9 @@
-﻿namespace Project.Domain.Contracts;
+﻿namespace ProjetoAcessibilidade.Domain.Contracts;
 
 public interface IQueryDispatcher
 {
-    Task<TQueryResult> Dispatch<TQuery, TQueryResult>(
-        TQuery query
+    Task<TQueryResult> Dispatch<TQueryResult>(
+        IRequest<TQueryResult> query
         , CancellationToken cancellation
-    )
-        where TQuery : IRequest<TQueryResult>;
+    );
 }

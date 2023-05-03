@@ -1,32 +1,25 @@
 ﻿using Common;
-using Core.Entities.Solution.Explorer;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Contracts;
+using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Contracts;
+using Splat;
 
-namespace Project.Domain.Project.Commands.FolderItems;
+namespace ProjetoAcessibilidade.Domain.Project.Commands.FolderItems;
 
 public sealed record DeleteProjectFolderItemCommand(
     FolderItem Item
 ) : IRequest<Resource<ExplorerItem>>;
 
 public sealed class DeleteProjectFolderItemCommandHandler
-    : ICommandHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>
+    : IHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>
 {
-    private readonly IExplorerItemRepository repository;
-
-    public DeleteProjectFolderItemCommandHandler(
-        IExplorerItemRepository repository
-    )
-    {
-        this.repository = repository;
-    }
-
-    public async Task<Resource<ExplorerItem>> Handle(
+    public async Task<Resource<ExplorerItem>> HandleAsync(
         DeleteProjectFolderItemCommand request
         , CancellationToken cancellationToken
     )
     {
-        var result = await repository.DeleteFolderItemAsync(item: request.Item);
+        var result = await Locator.Current.GetService<IExplorerItemRepository>()
+            .DeleteFolderItemAsync(item: request.Item);
 
         return result;
     }

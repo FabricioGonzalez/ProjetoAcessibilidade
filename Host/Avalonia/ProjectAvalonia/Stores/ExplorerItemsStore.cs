@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Windows.Input;
-using Project.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Contracts;
 
 namespace ProjectAvalonia.Stores;
 

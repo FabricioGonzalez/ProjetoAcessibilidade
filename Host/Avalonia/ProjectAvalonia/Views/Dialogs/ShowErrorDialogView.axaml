@@ -12,7 +12,7 @@
     x:DataType="dialog:ShowErrorDialogViewModel"
     mc:Ignorable="d">
     <c:ContentArea
-        Title="{Binding Title}"
+        Title="{Binding LocalizedTitle, FallbackValue={Binding Title}}"
         Caption="{Binding Caption}"
         EnableNext="True"
         NextContent="OK"

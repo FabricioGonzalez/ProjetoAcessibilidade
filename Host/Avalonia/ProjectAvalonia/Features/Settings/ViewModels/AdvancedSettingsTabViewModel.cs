@@ -8,6 +8,7 @@ namespace ProjectAvalonia.Features.Settings.ViewModels;
     Title = "Opções Avançadas",
     Caption = "Gerenciamento de Opções Avançadas",
     Order = 2,
+    LocalizedTitle = "AdvancedSettingsViewNavLabel",
     Category = "Opções",
     Keywords = new[]
     {
@@ -20,6 +21,7 @@ public partial class AdvancedSettingsTabViewModel : SettingsTabViewModelBase
 
     public AdvancedSettingsTabViewModel()
     {
+        SetTitle(localizedString: "AdvancedSettingsViewNavLabel");
         _enableGpu = ServicesConfig.Config.EnableGpu;
 
         this.WhenAnyValue(property1: x => x.EnableGpu)
@@ -28,6 +30,12 @@ public partial class AdvancedSettingsTabViewModel : SettingsTabViewModelBase
             .Skip(count: 1)
             .Subscribe(onNext: _ => Save());
     }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 
     protected override void EditConfigOnSave(
         Config config

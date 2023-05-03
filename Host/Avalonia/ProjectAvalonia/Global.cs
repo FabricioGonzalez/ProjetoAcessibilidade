@@ -8,6 +8,7 @@ using ProjectAvalonia.Common.Http;
 using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
 using ProjectAvalonia.Logging;
+using ProjetoAcessibilidade.Domain.App.Contracts;
 
 namespace ProjectAvalonia;
 
@@ -26,11 +27,14 @@ public class Global
         string dataDir
         , Config config
         , UiConfig uiConfig
+        , ILanguageManager languageManager
     )
     {
         DataDir = dataDir;
         Config = config;
         UiConfig = uiConfig;
+
+        LanguageManager = languageManager;
 
         HostedServices = new HostedServices();
 
@@ -93,6 +97,12 @@ public class Global
     {
         get;
     } = new();
+
+    public ILanguageManager LanguageManager
+    {
+        get;
+        set;
+    }
 
     public async Task InitializeNoWalletAsync(
         TerminateService terminateService

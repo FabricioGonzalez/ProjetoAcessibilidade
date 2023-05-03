@@ -1,15 +1,15 @@
 ﻿using Common;
-using Project.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Contracts;
 
-namespace Project.Domain.Solution.Commands.SolutionItem;
+namespace ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 
 public sealed record PrintSolutionCommand(
     string SolutionPath
 ) : IRequest<Resource<object>>;
 
-public sealed class PrintSolutionCommandHandler : ICommandHandler<PrintSolutionCommand, Resource<object>>
+public sealed class PrintSolutionCommandHandler : IHandler<PrintSolutionCommand, Resource<object>>
 {
-    public Task<Resource<object>> Handle(
+    public Task<Resource<object>> HandleAsync(
         PrintSolutionCommand command
         , CancellationToken cancellation
     ) => null;

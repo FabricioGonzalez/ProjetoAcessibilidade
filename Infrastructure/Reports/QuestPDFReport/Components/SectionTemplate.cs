@@ -39,7 +39,7 @@ public class SectionTemplate : IComponent
 
                     decoration
                         .Content()
-                        .Section(sectionName: reportSection.Title)
+                        .Section(sectionName: reportSection.Id)
                         .Border(value: 0.75f)
                         .BorderColor(color: Colors.Grey.Medium)
                         .Column(handler: column =>
@@ -101,86 +101,93 @@ public class SectionTemplate : IComponent
         {
             container
                 .EnsureSpace()
+                .Section(sectionName: reportSectionGroup.Id)
                 .Decoration(handler: decoration =>
                 {
                     decoration
                         .Before()
-                        .Section(sectionName: reportSectionGroup.Id)
                         .PaddingBottom(value: 5)
                         .ShowOnce()
-                        .Text(text: Model.Title)
+                        .Text(text: reportSectionGroup.Title)
                         .Style(style: Typography.Headline);
 
                     decoration
                         .Content()
                         .Border(value: 0.75f)
                         .BorderColor(color: Colors.Grey.Medium)
-                        .Column(handler: column =>
+                        .Decoration(handler: contentDecoration =>
                         {
                             foreach (var part in reportSectionGroup.Parts)
                             {
-                                column
-                                    .Item()
+                                contentDecoration
+                                    .Content()
                                     .Section(sectionName: part.Id)
-                                    .PaddingLeft(value: 8)
-                                    .ShowOnce()
-                                    .Text(text: part.Title)
-                                    .Style(style: Typography.SubLine);
-
-                                column.Item().Column(handler: items =>
-                                {
-                                    foreach (var part in part.Parts)
-                                    {
-                                        column
-                                            .Item()
-                                            .ValueCell()
-                                            .EnsureSpace(minHeight: 25)
-                                            .Column(handler: column =>
+                                    .Column(
+                                        handler: column =>
+                                        {
+                                            column
+                                                .Item()
+                                                .PaddingLeft(value: 8)
+                                                .ShowOnce()
+                                                .Text(text: part.Title)
+                                                .Style(style: Typography.SubLine);
+                                            column.Item().Column(handler: items =>
                                             {
-                                                column
-                                                    .Item()
-                                                    .LabelCell()
-                                                    .ExtendHorizontal()
-                                                    .Text(text: part.Label);
-
-                                                if (part is not ReportSectionTitle)
+                                                foreach (var sectionPart in part.Parts)
                                                 {
-                                                    var frame = column
+                                                    items
                                                         .Item()
-                                                        .ValueCell();
+                                                        .ValueCell()
+                                                        .EnsureSpace(minHeight: 25)
+                                                        .Column(handler: partColumn =>
+                                                        {
+                                                            partColumn
+                                                                .Item()
+                                                                .LabelCell()
+                                                                .ExtendHorizontal()
+                                                                .Text(text: sectionPart.Label);
 
-                                                    if (part is ReportSectionText text)
-                                                    {
-                                                        frame
-                                                            .ShowEntire()
-                                                            .Text(text: text.Text);
-                                                    }
+                                                            if (sectionPart is not ReportSectionTitle)
+                                                            {
+                                                                var frame = partColumn
+                                                                    .Item()
+                                                                    .ValueCell();
 
-                                                    if (part is ReportSectionCheckbox checkboxes)
-                                                    {
-                                                        frame
-                                                            .Element(handler: x =>
-                                                                MapCheckboxes(container: x, checkboxes: checkboxes));
-                                                    }
+                                                                if (sectionPart is ReportSectionText text)
+                                                                {
+                                                                    frame
+                                                                        .ShowEntire()
+                                                                        .Text(text: text.Text);
+                                                                }
 
-                                                    if (part is ReportSectionPhotoContainer photos)
-                                                    {
-                                                        frame
-                                                            .Element(handler: x =>
-                                                                PhotosElement(container: x, model: photos));
-                                                    }
+                                                                if (sectionPart is ReportSectionCheckbox checkboxes)
+                                                                {
+                                                                    frame
+                                                                        .Element(handler: x =>
+                                                                            MapCheckboxes(container: x,
+                                                                                checkboxes: checkboxes));
+                                                                }
 
-                                                    if (part is ReportSectionObservation observation)
-                                                    {
-                                                        frame
-                                                            .Background(color: Colors.Yellow.Medium)
-                                                            .Element(handler: x =>
-                                                                ObservationElement(x: x, observation: observation));
-                                                    }
+                                                                if (sectionPart is ReportSectionPhotoContainer photos)
+                                                                {
+                                                                    frame
+                                                                        .Element(handler: x =>
+                                                                            PhotosElement(container: x, model: photos));
+                                                                }
+
+                                                                if (sectionPart is ReportSectionObservation observation)
+                                                                {
+                                                                    frame
+                                                                        .Background(color: Colors.Yellow.Medium)
+                                                                        .Element(handler: x =>
+                                                                            ObservationElement(x: x,
+                                                                                observation: observation));
+                                                                }
+                                                            }
+                                                        });
                                                 }
                                             });
-                                    }
-                                });
+                                        });
                             }
                         });
                 });

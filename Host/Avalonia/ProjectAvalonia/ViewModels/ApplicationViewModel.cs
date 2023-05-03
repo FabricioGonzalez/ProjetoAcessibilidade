@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Common;
-using Core.Entities.Solution;
-using Project.Domain.Contracts;
-using Project.Domain.Solution.Queries;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Solution.Queries;
 using ReactiveUI;
 using Splat;
 
@@ -22,7 +21,7 @@ public partial class ApplicationViewModel
         , ICanShutdownProvider
 {
     private readonly IMainWindowService _mainWindowService;
-    private readonly IQueryDispatcher _queryDispatcher;
+    private readonly IMediator _queryDispatcher;
 
     [AutoNotify] private bool _isMainWindowShown = true;
     [AutoNotify] private bool _isShuttingDown;
@@ -31,7 +30,7 @@ public partial class ApplicationViewModel
         IMainWindowService mainWindowService
     )
     {
-        _queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+        _queryDispatcher = Locator.Current.GetService<IMediator>();
         _mainWindowService = mainWindowService;
 
         QuitCommand = ReactiveCommand.Create(execute: () => Shutdown(restart: false));
@@ -112,7 +111,7 @@ public partial class ApplicationViewModel
     internal async Task GoToOpenPrint(
         string v
     ) =>
-        (await _queryDispatcher.Dispatch<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>(
+        (await _queryDispatcher.Dispatch(
             query: new ReadSolutionProjectQuery(SolutionPath: v),
             cancellation: CancellationToken.None))
         .OnSuccess(

@@ -6,16 +6,8 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using Common;
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems;
-using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using DynamicData;
 using DynamicData.Binding;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Queries.ProjectItems;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
@@ -24,6 +16,14 @@ using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
 using ReactiveUI;
 using Splat;
 
@@ -34,14 +34,14 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
     /*private readonly EditingItemsStore _editingItemsStore;
     private readonly ICommandDispatcher? commandDispatcher;
 
-    private readonly IQueryDispatcher? queryDispatcher;
+    private readonly IMediator? queryDispatcher;
 
     [AutoNotify] private int _selectedIndex;
     [AutoNotify] private ItemState _selectedItem;
 
     public ProjectEditingViewModel()
     {
-        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+        queryDispatcher ??= Locator.Current.GetService<IMediator>();
         commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
         _editingItemsStore ??= Locator.Current.GetService<EditingItemsStore>();
 
@@ -106,11 +106,11 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
 
 
     public static readonly Interaction<IItemViewModel, Unit> SetEditingItem = new();
-    private readonly IQueryDispatcher? _queryDispatcher;
+    private readonly IMediator? _queryDispatcher;
 
     public ProjectEditingViewModel()
     {
-        _queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+        _queryDispatcher = Locator.Current.GetService<IMediator>();
 
 
         EditingItems = new ObservableCollection<IEditingItemViewModel>();
@@ -191,7 +191,7 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
         {
             if (EditingItems.All(predicate: x => x.Id != item.Id))
             {
-                var result = await _queryDispatcher?.Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
+                var result = await _queryDispatcher?.Dispatch(
                     query: new GetProjectItemContentQuery(ItemPath: item.ItemPath),
                     cancellation: CancellationToken.None);
 

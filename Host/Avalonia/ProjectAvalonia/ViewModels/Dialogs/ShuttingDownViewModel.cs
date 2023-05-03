@@ -7,7 +7,7 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Dialogs;
 
-[NavigationMetaData(Title = Constants.ShuttingDownLabel)]
+[NavigationMetaData(Title = Constants.ShuttingDownLabel, LocalizedTitle = "ShutdownDialogTitleLabel")]
 public partial class ShuttingDownViewModel : RoutableViewModel
 {
     private readonly ApplicationViewModel _applicationViewModel;
@@ -18,10 +18,18 @@ public partial class ShuttingDownViewModel : RoutableViewModel
         , bool restart
     )
     {
+        SetTitle(localizedString: "ShutdownDialogTitleLabel");
+
         _applicationViewModel = applicationViewModel;
         _restart = restart;
         NextCommand = CancelCommand;
     }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 
     protected override void OnNavigatedTo(
         bool isInHistory

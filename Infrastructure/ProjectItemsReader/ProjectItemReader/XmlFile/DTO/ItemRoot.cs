@@ -1,12 +1,12 @@
 ﻿using System.Xml.Serialization;
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems;
-using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using Core.Entities.Solution.Project.AppItem.DataItems.Text;
-using Core.Enuns;
 using ProjectItemReader.XmlFile.DTO.FormItem;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+using ProjetoAcessibilidade.Core.Enuns;
 
 namespace ProjectItemReader.XmlFile.DTO;
 
@@ -119,8 +119,8 @@ public static class Extensions
                         topic: "",
                         type: ItemFormDataEnum.Empty,
                         id: "");
-                }).ToList()
-            , ItemName = model.ItemName, TemplateName = model.TemplateName, LawList = model.LawList.Select(
+                }).ToList(),
+            ItemName = model.ItemName, TemplateName = model.TemplateName, LawList = model.LawList.Select(
                     selector: item =>
                         new ItemLaw(
                             lawId: item.LawId,
@@ -186,8 +186,8 @@ public static class Extensions
                     }
 
                     return new AppFormDataEmptyModel();
-                }).ToList()
-            , ItemName = model.ItemName, TemplateName = model.TemplateName, LawList = model.LawList.Select(
+                }).ToList(),
+            ItemName = model.ItemName, TemplateName = model.TemplateName, LawList = model.LawList.Select(
                     selector: item =>
                         new AppLawModel(
                             lawId: item.LawId,

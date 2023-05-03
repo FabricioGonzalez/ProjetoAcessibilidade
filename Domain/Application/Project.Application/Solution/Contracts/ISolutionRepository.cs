@@ -1,6 +1,6 @@
-﻿using Core.Entities.Solution;
+﻿using ProjetoAcessibilidade.Core.Entities.Solution;
 
-namespace Project.Domain.Solution.Contracts;
+namespace ProjetoAcessibilidade.Domain.Solution.Contracts;
 
 public interface ISolutionRepository
 {

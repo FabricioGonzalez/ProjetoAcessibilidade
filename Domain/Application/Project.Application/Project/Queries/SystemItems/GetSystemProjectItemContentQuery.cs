@@ -1,32 +1,25 @@
 ﻿using Common;
-using Core.Entities.Solution.Project.AppItem;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Contracts;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Contracts;
+using Splat;
 
-namespace Project.Domain.Project.Queries.SystemItems;
+namespace ProjetoAcessibilidade.Domain.Project.Queries.SystemItems;
 
 public sealed record GetSystemProjectItemContentQuery(
     string ItemPath
 ) : IRequest<Resource<AppItemModel>>;
 
 public sealed class GetSystemProjectItemContentQueryHandler
-    : IQueryHandler<GetSystemProjectItemContentQuery, Resource<AppItemModel>>
+    : IHandler<GetSystemProjectItemContentQuery, Resource<AppItemModel>>
 {
-    private readonly IProjectItemContentRepository contentRepository;
-
-    public GetSystemProjectItemContentQueryHandler(
-        IProjectItemContentRepository contentRepository
-    )
-    {
-        this.contentRepository = contentRepository;
-    }
-
-    public async Task<Resource<AppItemModel>> Handle(
+    public async Task<Resource<AppItemModel>> HandleAsync(
         GetSystemProjectItemContentQuery query
         , CancellationToken cancellation
     )
     {
-        var result = await contentRepository.GetSystemProjectItemContentSerealizer(filePathToWrite: query.ItemPath);
+        var result = await Locator.Current.GetService<IProjectItemContentRepository>()
+            .GetSystemProjectItemContentSerealizer(filePathToWrite: query.ItemPath);
 
         if (result is not null)
         {

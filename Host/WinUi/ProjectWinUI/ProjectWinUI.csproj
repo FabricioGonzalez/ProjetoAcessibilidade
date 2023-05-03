@@ -12,48 +12,48 @@
         <EnableMsixTooling>true</EnableMsixTooling>
     </PropertyGroup>
     <ItemGroup>
-        <EmbeddedResource Remove="Strings\en-us\Resources.resx"/>
+        <EmbeddedResource Remove="Strings\en-us\Resources.resx" />
     </ItemGroup>
     <ItemGroup>
-        <None Remove="Src\Navigation\ShellPage.xaml"/>
-        <None Remove="Src\Project\ProjectPage.xaml"/>
-        <None Remove="Theme\DarkTheme.xaml"/>
-        <None Remove="Theme\DefaultTheme.xaml"/>
-        <None Remove="Theme\LightTheme.xaml"/>
-        <None Remove="WinApp.xaml"/>
+        <None Remove="Src\Navigation\ShellPage.xaml" />
+        <None Remove="Src\Project\ProjectPage.xaml" />
+        <None Remove="Theme\DarkTheme.xaml" />
+        <None Remove="Theme\DefaultTheme.xaml" />
+        <None Remove="Theme\LightTheme.xaml" />
+        <None Remove="WinApp.xaml" />
     </ItemGroup>
     <ItemGroup>
-        <Page Remove="Theme\FontSizes.xaml"/>
-        <Page Remove="Theme\Style.xaml"/>
-        <Page Remove="Theme\TextBlock.xaml"/>
-        <Page Remove="Theme\Thickness.xaml"/>
-        <Page Remove="WinApp.xaml"/>
+        <Page Remove="Theme\FontSizes.xaml" />
+        <Page Remove="Theme\Style.xaml" />
+        <Page Remove="Theme\TextBlock.xaml" />
+        <Page Remove="Theme\Thickness.xaml" />
+        <Page Remove="WinApp.xaml" />
     </ItemGroup>
     <ItemGroup>
-        <ApplicationDefinition Include="WinApp.xaml"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="Assets\SplashScreen.scale-200.png"/>
-        <Content Include="Assets\LockScreenLogo.scale-200.png"/>
-        <Content Include="Assets\Square150x150Logo.scale-200.png"/>
-        <Content Include="Assets\Square44x44Logo.scale-200.png"/>
-        <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png"/>
-        <Content Include="Assets\StoreLogo.png"/>
-        <Content Include="Assets\Wide310x150Logo.scale-200.png"/>
+        <ApplicationDefinition Include="WinApp.xaml" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0"/>
-        <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1"/>
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25267-preview"/>
-        <PackageReference Include="ReactiveUI" Version="18.4.26"/>
-        <PackageReference Include="ReactiveUI.WinUI" Version="18.4.1"/>
-        <PackageReference Include="WinUIEx" Version="2.1.0"/>
-        <Manifest Include="$(ApplicationManifest)"/>
+        <Content Include="Assets\SplashScreen.scale-200.png" />
+        <Content Include="Assets\LockScreenLogo.scale-200.png" />
+        <Content Include="Assets\Square150x150Logo.scale-200.png" />
+        <Content Include="Assets\Square44x44Logo.scale-200.png" />
+        <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+        <Content Include="Assets\StoreLogo.png" />
+        <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+        <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25267-preview" />
+        <PackageReference Include="ReactiveUI" Version="18.4.26" />
+        <PackageReference Include="ReactiveUI.WinUI" Version="18.4.1" />
+        <PackageReference Include="WinUIEx" Version="2.1.0" />
+        <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
 
     <!-- 
@@ -62,7 +62,7 @@
       package has not yet been restored.
     -->
     <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-        <ProjectCapability Include="Msix"/>
+        <ProjectCapability Include="Msix" />
     </ItemGroup>
     <ItemGroup>
         <PRIResource Include="Strings\en-us\Resources.resx">

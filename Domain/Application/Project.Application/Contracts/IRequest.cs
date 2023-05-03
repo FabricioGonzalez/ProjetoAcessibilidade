@@ -1,5 +1,5 @@
-﻿namespace Project.Domain.Contracts;
+﻿namespace ProjetoAcessibilidade.Domain.Contracts;
 
-public interface IRequest<out T>
+public interface IRequest<TResponse>
 {
 }

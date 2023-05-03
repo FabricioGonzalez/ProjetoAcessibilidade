@@ -3,6 +3,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
@@ -28,6 +29,12 @@ public abstract partial class RoutableViewModel
     }
 
     public abstract string Title
+    {
+        get;
+        protected set;
+    }
+
+    public abstract string? LocalizedTitle
     {
         get;
         protected set;
@@ -90,6 +97,14 @@ public abstract partial class RoutableViewModel
         bool isInHistory
     ) => DoNavigateFrom(isInHistory: isInHistory);
 
+    public void SetTitle(string localizedString)
+    {
+        if (!string.IsNullOrWhiteSpace(value: localizedString))
+        {
+            Title = localizedString.GetLocalized();
+            LocalizedTitle = localizedString.GetLocalized();
+        }
+    }
 
     private void DoNavigateTo(
         bool isInHistory

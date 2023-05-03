@@ -1,15 +1,15 @@
 ﻿namespace ProjectAvalonia.Stores;
 
-public partial class TemplateItemsStore
+public class TemplateItemsStore
 {
-    /*private readonly IQueryDispatcher? _queryDispatcher;
+    /*private readonly IMediator? _queryDispatcher;
 
     private readonly SourceList<ItemState> _systemItems;
 
     [AutoNotify] private ReadOnlyObservableCollection<ItemState> _itemsCollection;
 
     public TemplateItemsStore(
-        IQueryDispatcher queryDispatcher
+        IMediator queryDispatcher
     )
     {
         _queryDispatcher ??= queryDispatcher;

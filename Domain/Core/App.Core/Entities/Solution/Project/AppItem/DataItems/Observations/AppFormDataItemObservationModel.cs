@@ -1,6 +1,6 @@
-﻿using Core.Enuns;
+﻿using ProjetoAcessibilidade.Core.Enuns;
 
-namespace Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 
 public class AppFormDataItemObservationModel : IAppFormDataItemContract
 {

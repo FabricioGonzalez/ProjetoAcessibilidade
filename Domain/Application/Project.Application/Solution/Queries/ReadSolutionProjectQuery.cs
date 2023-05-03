@@ -1,28 +1,29 @@
 ﻿using Common;
-using Core.Entities.Solution;
-using Project.Domain.Contracts;
-using Project.Domain.Solution.Contracts;
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Solution.Contracts;
+using Splat;
 
-namespace Project.Domain.Solution.Queries;
+namespace ProjetoAcessibilidade.Domain.Solution.Queries;
 
 public sealed record ReadSolutionProjectQuery(
     string SolutionPath
 ) : IRequest<Resource<ProjectSolutionModel>>;
 
 public sealed class ReadSolutionProjectQueryHandler
-    : IQueryHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>
+    : IHandler<ReadSolutionProjectQuery, Resource<ProjectSolutionModel>>
 {
-    public ISolutionRepository repository;
+    /*public ISolutionRepository repository;
 
     public ReadSolutionProjectQueryHandler(
         ISolutionRepository solutionRepository
     )
     {
         repository = solutionRepository;
-    }
+    }*/
 
 
-    public async Task<Resource<ProjectSolutionModel>> Handle(
+    public async Task<Resource<ProjectSolutionModel>> HandleAsync(
         ReadSolutionProjectQuery query
         , CancellationToken cancellation
     )
@@ -33,7 +34,8 @@ public sealed class ReadSolutionProjectQueryHandler
                 , Data: default);
         }
 
-        var result = await repository.ReadSolution(solutionPath: query.SolutionPath);
+        var result = await Locator.Current.GetService<ISolutionRepository>()
+            ?.ReadSolution(solutionPath: query.SolutionPath);
 
         if (result is null)
         {

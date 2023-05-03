@@ -1,4 +1,4 @@
-﻿namespace Project.Domain.App.Contracts;
+﻿namespace ProjetoAcessibilidade.Domain.App.Contracts;
 
 public interface INotificationMessageManagerService
 {

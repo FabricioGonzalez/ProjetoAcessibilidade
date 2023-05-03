@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.Solution.Project.AppItem;
+﻿namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 
 public class AppLawModel
 {

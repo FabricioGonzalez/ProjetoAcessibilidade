@@ -1,8 +1,8 @@
 ﻿using Common;
-using Core.Entities.Solution.Explorer;
-using Project.Domain.App.Models;
+using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
+using ProjetoAcessibilidade.Domain.App.Models;
 
-namespace Project.Domain.Project.Contracts;
+namespace ProjetoAcessibilidade.Domain.Project.Contracts;
 
 public interface IExplorerItemRepository
 {

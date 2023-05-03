@@ -11,16 +11,16 @@ using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+using ProjetoAcessibilidade.Core.Entities.Solution;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 {
-    public ProjectExplorerViewModel(List<IItemGroupViewModel> items, SolutionState state)
+    public ProjectExplorerViewModel(List<IItemGroupViewModel> items, ProjectSolutionModel state)
     {
         Items = new ObservableCollection<IItemGroupViewModel>(list: items);
         SolutionState = state;
@@ -74,7 +74,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         get;
     }
 
-    public SolutionState SolutionState
+    public ProjectSolutionModel SolutionState
     {
         get;
     }

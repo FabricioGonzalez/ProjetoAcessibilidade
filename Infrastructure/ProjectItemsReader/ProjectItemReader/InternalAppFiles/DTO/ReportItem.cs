@@ -1,5 +1,5 @@
 ﻿using System.Xml.Serialization;
-using Core.Entities.App;
+using ProjetoAcessibilidade.Core.Entities.App;
 
 namespace ProjectItemReader.InternalAppFiles.DTO;
 

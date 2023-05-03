@@ -43,6 +43,8 @@ public class NavBarViewModel : ViewModelBase
         {
             var viewModel = await NavigationManager.MaterialiseViewModelAsync(metaData: item);
 
+            viewModel?.SetTitle(localizedString: item.LocalizedTitle);
+
             if (viewModel is NavBarItemViewModel navBarItem)
             {
                 TopItems.Add(item: navBarItem);
@@ -52,6 +54,8 @@ public class NavBarViewModel : ViewModelBase
         foreach (var item in bottomItems)
         {
             var viewModel = await NavigationManager.MaterialiseViewModelAsync(metaData: item);
+
+            viewModel?.SetTitle(localizedString: item.LocalizedTitle);
 
             if (viewModel is NavBarItemViewModel navBarItem)
             {

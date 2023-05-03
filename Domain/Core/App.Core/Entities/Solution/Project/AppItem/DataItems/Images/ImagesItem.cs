@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.Solution.Project.AppItem.DataItems.Images;
+﻿namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 
 public class ImagesItem
 {

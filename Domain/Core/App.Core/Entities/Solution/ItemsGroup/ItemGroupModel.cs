@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.Solution.ItemsGroup;
+﻿namespace ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 
 public class ItemGroupModel
 {

@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="clr-namespace:ProjectAvalonia.Features.SearchBar"
     xmlns:searchBar="clr-namespace:ProjectAvalonia.Features.SearchBar"
+    xmlns:properties="clr-namespace:ProjectAvalonia.Properties"
     x:CompileBindings="True"
     x:DataType="searchBar:SearchBarViewModel"
     mc:Ignorable="d">
@@ -136,7 +137,7 @@
         VerticalAlignment="Center"
         MaxLength="50"
         Text="{Binding SearchText, Mode=TwoWay}"
-        Watermark="Search settings / advanced features">
+        Watermark="{x:Static properties:Resources.SearchBoxLabel}">
 
         <i:Interaction.Behaviors>
             <behaviors:TextBoxAutoSelectTextBehavior />

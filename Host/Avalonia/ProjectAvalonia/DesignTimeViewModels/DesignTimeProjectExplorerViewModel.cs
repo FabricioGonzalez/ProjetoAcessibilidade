@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.Presentation.States;
+using ProjetoAcessibilidade.Core.Entities.Solution;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -18,7 +18,7 @@ public class DesignTimeProjectExplorerViewModel : ReactiveObject, IProjectExplor
         get;
     }
 
-    public SolutionState SolutionState
+    public ProjectSolutionModel SolutionState
     {
         get;
     }

@@ -37,7 +37,7 @@ public class DesignTimeItemViewModel : ReactiveObject, IItemViewModel
         get;
     } = "Teste";
 
-    public ReactiveCommand<IItemViewModel, Unit> CommitFileCommand
+    public ReactiveCommand<IItemGroupViewModel, Unit> CommitFileCommand
     {
         get;
     }

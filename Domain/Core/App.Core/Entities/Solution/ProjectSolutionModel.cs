@@ -1,7 +1,7 @@
-﻿using Core.Entities.Solution.ItemsGroup;
-using Core.Entities.Solution.ReportInfo;
+﻿using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 
-namespace Core.Entities.Solution;
+namespace ProjetoAcessibilidade.Core.Entities.Solution;
 
 public class ProjectSolutionModel
 {

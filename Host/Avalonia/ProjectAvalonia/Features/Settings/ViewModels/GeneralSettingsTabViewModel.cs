@@ -3,11 +3,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
-using Project.Domain.App.Contracts;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Logging;
+using ProjetoAcessibilidade.Domain.App.Contracts;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
 
@@ -15,11 +14,12 @@ namespace ProjectAvalonia.Features.Settings.ViewModels;
     Title = "Opções Gerais",
     Caption = "Gerenciar Opções Gerais",
     Order = 0,
+    LocalizedTitle = "GeneralSettingsViewNavLabel",
     Category = "Opções",
     Keywords = new[]
     {
-        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close"
-        , "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
+        "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
 public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
@@ -36,7 +36,11 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
 
     public GeneralSettingsTabViewModel()
     {
-        languageManager = Locator.Current.GetService<ILanguageManager>();
+        SetTitle(localizedString: "GeneralSettingsViewNavLabel");
+
+        Languages = new ObservableCollection<AppLanguageModel>(
+            collection: ServicesConfig.LanguageManager.AllLanguages.Select(selector: item =>
+                item.ToAppLanguageModel()));
 
         _darkModeEnabled = ServicesConfig.UiConfig.DarkModeEnabled;
         _autoCopy = ServicesConfig.UiConfig.Autocopy;
@@ -44,21 +48,20 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
         _runOnSystemStartup = ServicesConfig.UiConfig.RunOnSystemStartup;
         _downloadNewVersion = ServicesConfig.UiConfig.RunOnSystemStartup;
         _hideOnClose = ServicesConfig.UiConfig.HideOnClose;
+        _language = Languages.FirstOrDefault(predicate: i => i.Code == ServicesConfig.Config.AppLanguage)
+                    ?? ServicesConfig.LanguageManager.CurrentLanguage.ToAppLanguageModel();
 
-        Languages = new ObservableCollection<AppLanguageModel>(
-            collection: languageManager.AllLanguages.Select(selector: item => item.ToAppLanguageModel()));
-
-        Language = Languages.FirstOrDefault(predicate: i => i.Code == ServicesConfig.Config.AppLanguage)
-                   ?? languageManager.CurrentLanguage.ToAppLanguageModel();
-
-        this.WhenAnyValue(property1: vm => vm.Language)
-            .WhereNotNull()
+        this.WhenAnyValue(property1: x => x.Language)
+            .ObserveOn(scheduler: RxApp.TaskpoolScheduler)
+            .Throttle(dueTime: TimeSpan.FromMilliseconds(value: ThrottleTime))
+            .Skip(count: 1)
             .Subscribe(onNext: prop =>
             {
-                languageManager.SetLanguage(languageModel: prop.ToLanguageModel());
+                ServicesConfig.LanguageManager.SetLanguage(languageModel: prop.ToLanguageModel());
                 ServicesConfig.Config.AppLanguage = prop.Code;
-            });
 
+                Save();
+            });
         this.WhenAnyValue(property1: x => x.DarkModeEnabled)
             .Skip(count: 1)
             .Subscribe(
@@ -107,9 +110,14 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
         get;
     }
 
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
+
     protected override void EditConfigOnSave(
         Config config
-    )
-    {
-    }
+    ) =>
+        config.AppLanguage = Language.Code;
 }

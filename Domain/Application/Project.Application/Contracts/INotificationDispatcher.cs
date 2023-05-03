@@ -1,6 +1,9 @@
-﻿namespace Project.Domain.Contracts;
+﻿namespace ProjetoAcessibilidade.Domain.Contracts;
 
-public class INotificationDispatcher
+public interface INotificationDispatcher
 {
-    
+    Task Publish<TNotification>(
+        TNotification notification
+        , CancellationToken cancellation
+    ) where TNotification : INotification;
 }

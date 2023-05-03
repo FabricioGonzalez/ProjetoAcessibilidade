@@ -1,6 +1,6 @@
-﻿using Core.Enuns;
+﻿using ProjetoAcessibilidade.Core.Enuns;
 
-namespace Core.Entities.Solution.Project.AppItem.DataItems.Text;
+namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
 public class AppFormDataItemTextModel : IAppFormDataItemContract
 {

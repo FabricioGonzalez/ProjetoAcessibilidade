@@ -6,52 +6,52 @@ using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Brush = System.Drawing.Brush;
 
 namespace ProjectAvalonia.Common.Controls;
 
 public partial class Stepper : UserControl
 {
+    public static readonly DirectProperty<Stepper, int> IndexProperty = AvaloniaProperty.RegisterDirect<Stepper, int>(
+        name: nameof(Index), getter: numpicker => numpicker.Index,
+        setter: (
+            numpicker
+            , value
+        ) => numpicker.Index = value, defaultBindingMode: BindingMode.TwoWay, enableDataValidation: true);
+
+    public static readonly DirectProperty<Stepper, ObservableCollection<string>> StepsProperty =
+        AvaloniaProperty.RegisterDirect<Stepper, ObservableCollection<string>>(
+            name: nameof(Steps), getter: numpicker => numpicker.Steps,
+            setter: (
+                numpicker
+                , value
+            ) => numpicker.Steps = value, defaultBindingMode: BindingMode.TwoWay, enableDataValidation: true);
+
+    private int _index;
+
+    private ObservableCollection<string> _steps;
+
     public Stepper()
     {
         InitializeComponent();
         Update();
     }
 
-    private int _index;
-
-    public static readonly DirectProperty<Stepper, int> IndexProperty = AvaloniaProperty.RegisterDirect<Stepper, int>(
-        nameof(Index), numpicker => numpicker.Index,
-        (
-            numpicker
-            , value
-        ) => numpicker.Index = value,defaultBindingMode: BindingMode.TwoWay,enableDataValidation:true);
-
     public int Index
     {
         get => _index;
         set
         {
-            SetAndRaise(IndexProperty, ref _index, value);
+            SetAndRaise(property: IndexProperty, field: ref _index, value: value);
             Update();
         }
     }
-
-    private ObservableCollection<string> _steps;
-
-    public static readonly DirectProperty<Stepper, ObservableCollection<string>> StepsProperty = AvaloniaProperty.RegisterDirect<Stepper, int>(
-        nameof(Steps), numpicker => numpicker.Steps,
-        (
-            numpicker
-            , value
-        ) => numpicker.Index = value,defaultBindingMode: BindingMode.TwoWay,enableDataValidation:true);
 
     public ObservableCollection<string> Steps
     {
         get => _steps;
         set
         {
-            SetAndRaise(StepsProperty, ref _steps, value);
+            SetAndRaise(property: StepsProperty, field: ref _steps, value: value);
             Update();
         }
     }
@@ -60,18 +60,20 @@ public partial class Stepper : UserControl
     {
         try
         {
-            Grid grid = this.FindControl<Grid>("gridStepper");
+            var grid = this.FindControl<Grid>(name: "gridStepper");
 
             grid.Children.Clear();
 
-            SetColumnDefinitions(grid);
+            SetColumnDefinitions(grid: grid);
 
-            for (int i = 0; i < Steps.Count; i++)
+            for (var i = 0; i < Steps.Count; i++)
             {
-                AddStep(Steps[i], i, grid);
-
+                AddStep(step: Steps[index: i], index: i, grid: grid);
             }
-        }catch(Exception ex){}
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
     private void SetColumnDefinitions(
@@ -82,7 +84,7 @@ public partial class Stepper : UserControl
 
         foreach (var step in Steps)
         {
-            columns.Add(new ColumnDefinition());
+            columns.Add(item: new ColumnDefinition());
             grid.ColumnDefinitions = columns;
         }
     }
@@ -93,16 +95,28 @@ public partial class Stepper : UserControl
         , Grid grid
     )
     {
-        var PrimaryColor = new SolidColorBrush((Color)Application.Current.FindResource("SystemAccentColor"));
-        var DisabledColor = new SolidColorBrush((Color)Application.Current.FindResource("SystemChromeDisabledLowColor"));
+        var PrimaryColor =
+            new SolidColorBrush(color: (Color)Application.Current.FindResource(key: "SystemAccentColor"));
+        var DisabledColor =
+            new SolidColorBrush(color: (Color)Application.Current.FindResource(key: "SystemChromeDisabledLowColor"));
 
-        var gridItem = new Grid()
+        var gridItem = new Grid
         {
             ColumnDefinitions = { new ColumnDefinition(), new ColumnDefinition() }
         };
 
-        var line = new Border() { CornerRadius = new CornerRadius(3),Margin = new Thickness(-5,0,23,0),Background = DisabledColor,Height = 2,HorizontalAlignment = HorizontalAlignment.Stretch,VerticalAlignment = VerticalAlignment.Center};
-        var line1 = new Border() { CornerRadius = new CornerRadius(3),Margin = new Thickness(-5,0,23,0),Background = DisabledColor,Height = 2,HorizontalAlignment = HorizontalAlignment.Stretch,VerticalAlignment = VerticalAlignment.Center};
+        var line = new Border
+        {
+            CornerRadius = new CornerRadius(uniformRadius: 3),
+            Margin = new Thickness(left: -5, top: 0, right: 23, bottom: 0), Background = DisabledColor, Height = 2,
+            HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center
+        };
+        var line1 = new Border
+        {
+            CornerRadius = new CornerRadius(uniformRadius: 3),
+            Margin = new Thickness(left: -5, top: 0, right: 23, bottom: 0), Background = DisabledColor, Height = 2,
+            HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center
+        };
 
         if (index == 0)
         {
@@ -113,12 +127,7 @@ public partial class Stepper : UserControl
         {
             line1.IsVisible = false;
         }
-
-        if()
-
     }
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
 }

@@ -1,11 +1,18 @@
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Services;
+using ProjetoAcessibilidade.Domain.App.Contracts;
 
 namespace ProjectAvalonia;
 
 public static class ServicesConfig
 {
     public static string DataDir
+    {
+        get;
+        private set;
+    }
+
+    public static ILanguageManager LanguageManager
     {
         get;
         private set;
@@ -54,6 +61,7 @@ public static class ServicesConfig
         Guard.NotNull(parameterName: nameof(global.Config), value: global.Config);
         Guard.NotNull(parameterName: nameof(global.HostedServices), value: global.HostedServices);
         Guard.NotNull(parameterName: nameof(global.UiConfig), value: global.UiConfig);
+        Guard.NotNull(parameterName: nameof(global.LanguageManager), value: global.LanguageManager);
         /*Guard.NotNull(nameof(global.UpdateManager), global.UpdateManager);*/
 
         DataDir = global.DataDir;
@@ -61,7 +69,8 @@ public static class ServicesConfig
         HostedServices = global.HostedServices;
         UiConfig = global.UiConfig;
         UpdateManager = global.UpdateManager;
-
+        LanguageManager = global.LanguageManager;
+        LanguageManager.SetLanguage(languageCode: global.Config.AppLanguage);
         IsInitialized = true;
     }
 }

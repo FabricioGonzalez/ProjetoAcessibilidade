@@ -1,6 +1,6 @@
-﻿using Core.Entities.Solution.Project.AppItem;
+﻿using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 
-namespace Project.Domain.Project.Contracts;
+namespace ProjetoAcessibilidade.Domain.Project.Contracts;
 
 public interface IProjectItemContentRepository
 {

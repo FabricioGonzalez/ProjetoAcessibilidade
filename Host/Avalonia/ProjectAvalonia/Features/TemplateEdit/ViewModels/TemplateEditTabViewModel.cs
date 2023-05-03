@@ -18,7 +18,7 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, IT
 {
     /*private readonly ICommandDispatcher commandDispatcher;
 
-    private readonly IQueryDispatcher queryDispatcher;
+    private readonly IMediator queryDispatcher;
 
     [AutoNotify] private AppModelState _editingItem;
 
@@ -28,7 +28,7 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, IT
 
     public TemplateEditTabViewModel()
     {
-        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+        queryDispatcher ??= Locator.Current.GetService<IMediator>();
         commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
 
         LoadItemCommand = ReactiveCommand.CreateFromTask(async (
@@ -193,4 +193,9 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, IT
                     item.ToAppModel(),
                     InEditingItem.ItemPath),
                 CancellationToken.None);*/
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 }

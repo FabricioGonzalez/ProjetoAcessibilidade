@@ -5,12 +5,11 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using Common;
-using Core.Entities.Solution.ItemsGroup;
-using Project.Domain.App.Queries.Templates;
-using Project.Domain.Contracts;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
+using ProjetoAcessibilidade.Domain.App.Queries.Templates;
+using ProjetoAcessibilidade.Domain.Contracts;
 using ReactiveUI;
 using Splat;
 
@@ -20,7 +19,7 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
 public partial class AddItemViewModel : DialogViewModelBase<ItemState>, IAddItemViewModel
 {
     /*private readonly TemplateItemsStore? _itemsStore;*/
-    private readonly IQueryDispatcher? _queryDispatcher;
+    private readonly IMediator? _queryDispatcher;
 
     [AutoNotify] private string _itemName = "";
 
@@ -30,7 +29,7 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>, IAddItem
     {
         SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
-        _queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
+        _queryDispatcher ??= Locator.Current.GetService<IMediator>();
         /*_itemsStore ??= Locator.Current.GetService<TemplateItemsStore>();*/
 
         this.WhenAnyValue(property1: vm => vm.SelectedItem)
@@ -46,7 +45,7 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>, IAddItem
         LoadAllItems = ReactiveCommand.CreateFromTask(execute: async () =>
             {
                 (await _queryDispatcher?
-                        .Dispatch<GetAllTemplatesQuery, Resource<List<ItemModel>>>(
+                        .Dispatch(
                             query: new GetAllTemplatesQuery(),
                             cancellation: CancellationToken.None))
                     ?.OnSuccess(onSuccessAction: success =>
@@ -75,6 +74,12 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>, IAddItem
                 .Select(selector: prop => prop is not null)
                 .ObserveOn(scheduler: RxApp.MainThreadScheduler));
     }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 
     public IEnumerable<ItemState> Items
     {

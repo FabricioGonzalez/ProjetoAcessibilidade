@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
 using Common;
-using Core.Entities.Solution.ItemsGroup;
-using Project.Domain.App.Queries.Templates;
-using Project.Domain.Contracts;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjetoAcessibilidade.Domain.App.Queries.Templates;
+using ProjetoAcessibilidade.Domain.Contracts;
 using ReactiveUI;
 using Splat;
 
@@ -21,6 +19,7 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Title = "Modelos",
     Caption = "Editar os modelos de relatórios do projeto",
     Order = 0,
+    LocalizedTitle = "TemplateEditViewNavLabel",
     Category = "Templates",
     Searchable = true,
     Keywords = new[]
@@ -32,12 +31,12 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     IconName = "edit_regular")]
 public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditViewModel
 {
-    private readonly IQueryDispatcher _queryDispatcher;
+    private readonly IMediator _queryDispatcher;
 
 
     public TemplateEditViewModel()
     {
-        _queryDispatcher = Locator.Current.GetService<IQueryDispatcher>();
+        _queryDispatcher = Locator.Current.GetService<IMediator>();
 
         SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
@@ -58,6 +57,12 @@ public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditV
         {
         });
     }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 
     /*private readonly TemplateItemsStore _itemsStore;
     private readonly ICommandDispatcher commandDispatcher;
@@ -219,7 +224,7 @@ public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditV
 
     private async Task loadItems() =>
         (await _queryDispatcher?
-            .Dispatch<GetAllTemplatesQuery, Resource<List<ItemModel>>>(
+            .Dispatch(
                 query: new GetAllTemplatesQuery(),
                 cancellation: CancellationToken.None))
         ?.OnSuccess(onSuccessAction: success =>

@@ -11,11 +11,15 @@ using Avalonia;
 using Avalonia.OpenGL;
 using Avalonia.ReactiveUI;
 using Common;
+using Microsoft.Extensions.Configuration;
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.Common.Models;
+using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
 using ProjectAvalonia.Desktop.Extensions;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.ViewModels;
+using ProjetoAcessibilidade.Domain.App.Contracts;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Desktop;
@@ -90,7 +94,16 @@ public class Program
 
         try
         {
-            Global = CreateGlobal(dataDir: dataDir, uiConfig: uiConfig, config: config);
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(path: "appsettings.json")
+                .Build();
+
+            var configFile = new LanguagesConfiguration();
+
+            configuration.GetSection(key: "Languages").Bind(instance: configFile);
+
+            Global = CreateGlobal(dataDir: dataDir, uiConfig: uiConfig, config: config,
+                languageManager: new LanguageManager(configuration: configFile));
             ServicesConfig.Initialize(global: Global);
 
             RxApp.DefaultExceptionHandler = Observer.Create<Exception>(onNext: ex =>
@@ -117,6 +130,7 @@ public class Program
                             , startInBg: runGuiInBackground))
                 .UseReactiveUI()
                 .StartContainer()
+                .AddMediator(markers: typeof(Program))
                 .SetupAppBuilder()
                 .AfterSetup(callback: _ =>
                 {
@@ -163,7 +177,7 @@ public class Program
     /// <summary>
     ///     Initializes Wasabi Logger. Sets user-defined log-level, if provided.
     /// </summary>
-    /// <example>Start Wasabi Wallet with <c>./wassabee --LogLevel=trace</c> to set <see cref="LogLevel.Trace" />.</example>
+    /// <example>Start Wasabi Wallet with <c>./wassabee --LogLevel=trace</c> to set <see cref="Logging.LogLevel.Trace" />.</example>
     private static void SetupLogger(
         string dataDir
         , string[] args
@@ -211,7 +225,8 @@ public class Program
         string dataDir
         , UiConfig uiConfig
         , Config config
-    ) => new(dataDir: dataDir, config: config, uiConfig: uiConfig);
+        , ILanguageManager languageManager
+    ) => new(dataDir: dataDir, config: config, uiConfig: uiConfig, languageManager: languageManager);
 
     /// <summary>
     ///     Do not call this method it should only be called by TerminateService.

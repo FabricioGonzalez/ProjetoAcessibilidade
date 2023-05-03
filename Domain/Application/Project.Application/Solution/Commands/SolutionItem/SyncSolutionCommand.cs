@@ -1,28 +1,19 @@
 ﻿using Common;
-using Core.Entities.Solution;
-using Project.Domain.Contracts;
-using Project.Domain.Solution.Contracts;
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Solution.Contracts;
+using Splat;
 
-namespace Project.Domain.Solution.Commands.SolutionItem;
+namespace ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 
 public sealed record SyncSolutionCommand(
     string SolutionPath
     , ProjectSolutionModel SolutionData
 ) : IRequest<Resource<ProjectSolutionModel>>;
 
-public sealed class SyncSolutionCommandHandler : ICommandHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>
+public sealed class SyncSolutionCommandHandler : IHandler<SyncSolutionCommand, Resource<ProjectSolutionModel>>
 {
-    public ISolutionRepository repository;
-
-    public SyncSolutionCommandHandler(
-        ISolutionRepository solutionRepository
-    )
-    {
-        repository = solutionRepository;
-    }
-
-
-    public async Task<Resource<ProjectSolutionModel>> Handle(
+    public async Task<Resource<ProjectSolutionModel>> HandleAsync(
         SyncSolutionCommand query
         , CancellationToken cancellation
     )
@@ -33,7 +24,8 @@ public sealed class SyncSolutionCommandHandler : ICommandHandler<SyncSolutionCom
                 , Data: default);
         }
 
-        await repository.SyncSolution(solutionPath: query.SolutionPath, dataToWrite: query.SolutionData);
+        await Locator.Current.GetService<ISolutionRepository>()
+            .SyncSolution(solutionPath: query.SolutionPath, dataToWrite: query.SolutionData);
 
         /*if (result is null)
         {

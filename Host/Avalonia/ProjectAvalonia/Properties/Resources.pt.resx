@@ -225,4 +225,26 @@
     <data name="ThemeKeyWords" xml:space="preserve">
     <value>Preto,Branco,Tema,Escuro,Claro</value>
   </data>
+    <data name="ProjectViewNavLabel" xml:space="preserve">
+      <value>Projeto</value>
+    </data>
+    <data name="TemplateEditViewNavLabel" xml:space="preserve">
+      <value>Edição de Modelos</value>
+    </data>
+    <data name="SettingsViewNavLabel" xml:space="preserve">
+      <value>Configurações</value>
+    </data>
+    <data name="GeneralSettingsViewNavLabel" xml:space="preserve">
+      <value>Opções Gerais</value>
+    </data>
+    <data name="AdvancedSettingsViewNavLabel" xml:space="preserve">
+      <value>Opções Avançadas</value>
+    </data>
+    <data name="SearchBoxLabel" xml:space="preserve">
+      <value>Procurar opções / funções avançadas
+</value>
+    </data>
+    <data name="ShutdownDialogTitleLabel" xml:space="preserve">
+      <value>O Sistema está desligando...</value>
+    </data>
 </root>

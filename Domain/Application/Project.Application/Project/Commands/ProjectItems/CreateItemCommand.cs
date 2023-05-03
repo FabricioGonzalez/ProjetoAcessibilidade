@@ -1,16 +1,17 @@
 ﻿using Common;
-using Project.Domain.App.Models;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Contracts;
+using ProjetoAcessibilidade.Domain.App.Models;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Contracts;
+using Splat;
 
-namespace Project.Domain.Project.Commands.ProjectItems;
+namespace ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 
 public sealed record CreateItemCommand(
     string ItemPath
     , string ItemName
 ) : IRequest<Resource<Empty>>;
 
-public sealed class CreateItemCommandHandler : ICommandHandler<CreateItemCommand, Resource<Empty>>
+public sealed class CreateItemCommandHandler : IHandler<CreateItemCommand, Resource<Empty>>
 {
     private readonly IProjectItemContentRepository contentRepository;
 
@@ -21,13 +22,13 @@ public sealed class CreateItemCommandHandler : ICommandHandler<CreateItemCommand
         contentRepository = content;
     }
 
-    public async Task<Resource<Empty>> Handle(
+    public async Task<Resource<Empty>> HandleAsync(
         CreateItemCommand command
         , CancellationToken cancellation
     )
     {
-        await contentRepository.SaveProjectItemContent(
-            dataToWrite: await contentRepository
+        await Locator.Current.GetService<IProjectItemContentRepository>().SaveProjectItemContent(
+            dataToWrite: await Locator.Current.GetService<IProjectItemContentRepository>()
                 .GetSystemProjectItemContent(
                     filePathToWrite: Path.Combine(
                         path1: Constants.AppItemsTemplateFolder

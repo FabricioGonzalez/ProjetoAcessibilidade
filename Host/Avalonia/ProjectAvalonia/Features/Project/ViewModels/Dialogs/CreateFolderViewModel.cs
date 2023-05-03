@@ -46,4 +46,10 @@ public partial class CreateFolderViewModel : DialogViewModelBase<string>, ICreat
         get => _title;
         protected set => this.RaiseAndSetIfChanged(backingField: ref _title, newValue: value);
     }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 }

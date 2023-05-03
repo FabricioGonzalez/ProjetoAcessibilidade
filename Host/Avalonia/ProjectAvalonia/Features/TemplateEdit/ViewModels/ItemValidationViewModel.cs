@@ -17,4 +17,9 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     NavigationTarget = NavigationTarget.HomeScreen)]
 public partial class ItemValidationViewModel : DialogViewModelBase<Unit>
 {
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 }

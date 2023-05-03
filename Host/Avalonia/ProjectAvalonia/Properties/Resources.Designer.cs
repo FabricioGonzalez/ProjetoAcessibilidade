@@ -69,6 +69,24 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced Settings.
+        /// </summary>
+        public static string AdvancedSettingsViewNavLabel {
+            get {
+                return ResourceManager.GetString("AdvancedSettingsViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Appearence.
+        /// </summary>
+        public static string AppearanceLabel {
+            get {
+                return ResourceManager.GetString("AppearanceLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto copy.
         /// </summary>
         public static string AutoCopyBehaviorLabel {
@@ -150,6 +168,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dark Mode.
+        /// </summary>
+        public static string DarkModeLabel {
+            get {
+                return ResourceManager.GetString("DarkModeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Night Mode.
         /// </summary>
         public static string DarkThemeLabel {
@@ -173,6 +200,15 @@ namespace ProjectAvalonia.Properties {
         public static string EnabledGPUTooltip {
             get {
                 return ResourceManager.GetString("EnabledGPUTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General Settings.
+        /// </summary>
+        public static string GeneralSettingsViewNavLabel {
+            get {
+                return ResourceManager.GetString("GeneralSettingsViewNavLabel", resourceCulture);
             }
         }
         
@@ -249,6 +285,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Project.
+        /// </summary>
+        public static string ProjectViewNavLabel {
+            get {
+                return ResourceManager.GetString("ProjectViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restart App.
         /// </summary>
         public static string RestartAppLabel {
@@ -267,6 +312,16 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search settings / advanced features
+        ///.
+        /// </summary>
+        public static string SearchBoxLabel {
+            get {
+                return ResourceManager.GetString("SearchBoxLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manages appearence, and other settings.
         /// </summary>
         public static string SettingsPageCaption {
@@ -281,6 +336,24 @@ namespace ProjectAvalonia.Properties {
         public static string SettingsPageLabel {
             get {
                 return ResourceManager.GetString("SettingsPageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SettingsViewNavLabel {
+            get {
+                return ResourceManager.GetString("SettingsViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App is shutting down.
+        /// </summary>
+        public static string ShutdownDialogTitleLabel {
+            get {
+                return ResourceManager.GetString("ShutdownDialogTitleLabel", resourceCulture);
             }
         }
         
@@ -312,6 +385,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Template Edit.
+        /// </summary>
+        public static string TemplateEditViewNavLabel {
+            get {
+                return ResourceManager.GetString("TemplateEditViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement unit.
         /// </summary>
         public static string TextBoxItemMeasurementUnitLabel {
@@ -335,6 +417,15 @@ namespace ProjectAvalonia.Properties {
         public static string ThemeChangingLabel {
             get {
                 return ResourceManager.GetString("ThemeChangingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark, Light, Theme.
+        /// </summary>
+        public static string ThemeKeyWords {
+            get {
+                return ResourceManager.GetString("ThemeKeyWords", resourceCulture);
             }
         }
     }

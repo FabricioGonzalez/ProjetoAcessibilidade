@@ -13,15 +13,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="publicAppFiles\**"/>
-        <EmbeddedResource Remove="publicAppFiles\**"/>
-        <None Remove="publicAppFiles\**"/>
+        <Compile Remove="publicAppFiles\**" />
+        <EmbeddedResource Remove="publicAppFiles\**" />
+        <None Remove="publicAppFiles\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\Project.Domain.csproj"/>
-        <ProjectReference Include="..\..\..\Domain\Core\App.Core\Core.csproj"/>
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\ProjetoAcessibilidade.Domain.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>
 
 </Project>

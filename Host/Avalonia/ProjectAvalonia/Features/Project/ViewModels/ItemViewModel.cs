@@ -17,7 +17,7 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
         TemplateName = templateName;
         Parent = parent;
 
-        CommitFileCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(execute: CommitFile);
+        CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(execute: CommitFile);
         SelectItemToEditCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(execute: SelectItemToEdit);
         ExcludeFileCommand =
             ReactiveCommand.Create(execute: () =>
@@ -54,7 +54,7 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
         get;
     }
 
-    public ReactiveCommand<IItemViewModel, Unit> CommitFileCommand
+    public ReactiveCommand<IItemGroupViewModel, Unit> CommitFileCommand
     {
         get;
     }
@@ -82,5 +82,5 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
 
     private Task SelectItemToEdit(IItemViewModel item, CancellationToken token) => Task.CompletedTask;
 
-    private Task CommitFile(IItemViewModel item, CancellationToken token) => Task.CompletedTask;
+    private Task CommitFile(IItemGroupViewModel item, CancellationToken token) => Task.CompletedTask;
 }

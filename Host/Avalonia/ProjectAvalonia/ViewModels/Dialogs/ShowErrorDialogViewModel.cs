@@ -37,4 +37,10 @@ public class ShowErrorDialogViewModel : DialogViewModelBase<bool>
         get => _title;
         protected set => this.RaiseAndSetIfChanged(backingField: ref _title, newValue: value);
     }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 }

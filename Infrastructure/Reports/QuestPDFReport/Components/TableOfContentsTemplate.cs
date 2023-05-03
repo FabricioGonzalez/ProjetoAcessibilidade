@@ -40,12 +40,12 @@ public class TableOfContentsTemplate : IComponent
 
                         for (var i = 0; i < Sections.Count; i++)
                         {
-                            if (Sections[index: i] is ReportSection reportSection)
+                            /*if (Sections[index: i] is ReportSection reportSection)
                             {
                                 column.Item().Element(handler: c =>
-                                    DrawLink(container: c, number: i + 1, locationName: reportSection.Title,
+                                    DrawLink(container: c, number: i + 1, itemName: reportSection.Title,
                                         id: reportSection.Id));
-                            }
+                            }*/
 
                             if (Sections[index: i] is ReportSectionGroup reportSectionGroup)
                             {
@@ -53,7 +53,7 @@ public class TableOfContentsTemplate : IComponent
                                 {
                                     colItem.Item()
                                         .Element(handler: c => DrawLink(container: c, number: i + 1
-                                            , locationName: reportSectionGroup.Title,
+                                            , itemName: reportSectionGroup.Title,
                                             id: reportSectionGroup.Id));
 
                                     for (var part = 0; part < reportSectionGroup.Parts.Count; part++)
@@ -61,8 +61,8 @@ public class TableOfContentsTemplate : IComponent
                                         colItem.Item()
                                             .Element(
                                                 handler: c => DrawDeepLink(container: c, parent: i + 1, number: part + 1
-                                                    , locationName: reportSectionGroup.Parts[index: part].Title,
-                                                    id: reportSectionGroup.Parts[index: part].Id));
+                                                    , itemName: reportSectionGroup.Parts[index: part].Title,
+                                                    nestedItemId: reportSectionGroup.Parts[index: part].Id));
                                     }
                                 });
                             }
@@ -78,7 +78,7 @@ public class TableOfContentsTemplate : IComponent
     private void DrawLink(
         IContainer container
         , int number
-        , string locationName,
+        , string itemName,
         string id
     ) =>
         container
@@ -86,7 +86,7 @@ public class TableOfContentsTemplate : IComponent
             .Row(handler: row =>
             {
                 row.ConstantItem(size: 20).Text(text: $"{number}.");
-                row.AutoItem().Text(text: locationName);
+                row.AutoItem().Text(text: itemName);
 
                 row.RelativeItem()
                     .PaddingHorizontal(value: 2)
@@ -120,16 +120,16 @@ public class TableOfContentsTemplate : IComponent
         IContainer container
         , int parent
         , int number
-        , string locationName,
-        string id
+        , string itemName,
+        string nestedItemId
     ) =>
         container
             .PaddingLeft(value: 8)
-            .SectionLink(sectionName: id)
+            .SectionLink(sectionName: nestedItemId)
             .Row(handler: row =>
             {
                 row.ConstantItem(size: 20).Text(text: $"{parent}.{number}.");
-                row.AutoItem().Text(text: locationName);
+                row.AutoItem().Text(text: itemName);
 
                 row.RelativeItem()
                     .PaddingHorizontal(value: 4)
@@ -153,9 +153,9 @@ public class TableOfContentsTemplate : IComponent
 
                 row.ConstantItem(size: 40).Text(content: text =>
                 {
-                    text.BeginPageNumberOfSection(locationName: id);
+                    text.BeginPageNumberOfSection(locationName: nestedItemId);
                     text.Span(text: " - ");
-                    text.EndPageNumberOfSection(locationName: id);
+                    text.EndPageNumberOfSection(locationName: nestedItemId);
                 });
             });
 }

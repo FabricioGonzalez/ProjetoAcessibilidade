@@ -1,10 +1,11 @@
 ﻿using Common;
-using Core.Entities.Solution.Project.AppItem;
-using Project.Domain.App.Models;
-using Project.Domain.Contracts;
-using Project.Domain.Project.Contracts;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+using ProjetoAcessibilidade.Domain.App.Models;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Contracts;
+using Splat;
 
-namespace Project.Domain.Project.Commands.SystemItems;
+namespace ProjetoAcessibilidade.Domain.Project.Commands.SystemItems;
 
 public sealed record SaveSystemProjectItemContentCommand(
     AppItemModel AppItem
@@ -12,23 +13,15 @@ public sealed record SaveSystemProjectItemContentCommand(
 ) : IRequest<Resource<Empty>>;
 
 public class SaveSystemProjectItemContentCommandHandler
-    : ICommandHandler<SaveSystemProjectItemContentCommand, Resource<Empty>>
+    : IHandler<SaveSystemProjectItemContentCommand, Resource<Empty>>
 {
-    private readonly IProjectItemContentRepository contentRepository;
-
-    public SaveSystemProjectItemContentCommandHandler(
-        IProjectItemContentRepository content
-    )
-    {
-        contentRepository = content;
-    }
-
-    public async Task<Resource<Empty>> Handle(
+    public async Task<Resource<Empty>> HandleAsync(
         SaveSystemProjectItemContentCommand command
         , CancellationToken cancellation
     )
     {
-        await contentRepository.SaveSystemProjectItemContentSerealizer(dataToWrite: command.AppItem
+        await Locator.Current.GetService<IProjectItemContentRepository>().SaveSystemProjectItemContentSerealizer(
+            dataToWrite: command.AppItem
             , filePathToWrite: command.ItemPath);
 
         return new Resource<Empty>.Success(Data: Empty.Value);

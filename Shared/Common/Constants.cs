@@ -2,6 +2,7 @@
 
 public static class Constants
 {
+    public const string SolutionName = "ProjetoAcessibilidade";
     public const string AppName = "Gestor de Projeto ARPA";
 
     public const string ShuttingDownLabel = "O Sistema está desligando...";

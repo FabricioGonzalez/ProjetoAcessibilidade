@@ -1,10 +1,10 @@
 ﻿using Common;
-using Core.Entities.Solution;
-using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using ProjectItemReader.XmlFile;
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using QuestPDF.Helpers;
 using QuestPDFReport.Models;
 

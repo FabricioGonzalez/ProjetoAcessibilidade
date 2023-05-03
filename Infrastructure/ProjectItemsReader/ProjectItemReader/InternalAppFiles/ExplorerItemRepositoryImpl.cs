@@ -1,7 +1,7 @@
 ﻿using Common;
-using Core.Entities.Solution.Explorer;
-using Project.Domain.App.Models;
-using Project.Domain.Project.Contracts;
+using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
+using ProjetoAcessibilidade.Domain.App.Models;
+using ProjetoAcessibilidade.Domain.Project.Contracts;
 
 namespace ProjectItemReader.InternalAppFiles;
 

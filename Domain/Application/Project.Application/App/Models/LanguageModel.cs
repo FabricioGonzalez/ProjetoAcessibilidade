@@ -1,4 +1,4 @@
-﻿namespace Project.Domain.App.Models;
+﻿namespace ProjetoAcessibilidade.Domain.App.Models;
 
 public class LanguageModel
 {

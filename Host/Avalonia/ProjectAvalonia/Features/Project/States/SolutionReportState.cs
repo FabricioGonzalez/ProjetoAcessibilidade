@@ -1,6 +1,6 @@
 ﻿using System;
-using Core.Entities.App;
-using Core.Entities.Solution.ReportInfo;
+using ProjetoAcessibilidade.Core.Entities.App;
+using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 
 namespace ProjectAvalonia.Features.Project.States;
 
@@ -25,7 +25,7 @@ public partial class SolutionReportState
     [AutoNotify] private UFModel _uF;
 }
 
-public static partial class Extensions
+public static class Extensions
 {
     public static SolutionReportState ToReportState(
         this SolutionInfo solutionInfo

@@ -1,10 +1,9 @@
-﻿namespace Project.Domain.Contracts;
+﻿namespace ProjetoAcessibilidade.Domain.Contracts;
 
 public interface ICommandDispatcher
 {
-    Task<TCommandResult> Dispatch<TCommand, TCommandResult>(
-        TCommand command
+    Task<TCommandResult> Execute<TCommandResult>(
+        IRequest<TCommandResult> command
         , CancellationToken cancellation
-    )
-        where TCommand : IRequest<TCommandResult>;
+    );
 }

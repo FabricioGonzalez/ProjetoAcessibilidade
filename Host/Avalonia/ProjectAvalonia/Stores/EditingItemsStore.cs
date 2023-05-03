@@ -1,8 +1,8 @@
 ﻿namespace ProjectAvalonia.Stores;
 
-public partial class EditingItemsStore
+public class EditingItemsStore
 {
-    /*private readonly IQueryDispatcher _queryDispatcher;
+    /*private readonly IMediator _queryDispatcher;
 
     private readonly SourceList<ItemState> _selectedItemCollection;
     [AutoNotify] private ItemState _currentSelectedItem;
@@ -10,7 +10,7 @@ public partial class EditingItemsStore
 
     [AutoNotify] private ReadOnlyObservableCollection<ItemState> _selectedItems;
 
-    public EditingItemsStore(IQueryDispatcher queryDispatcher)
+    public EditingItemsStore(IMediator queryDispatcher)
     {
         _queryDispatcher = queryDispatcher;
 

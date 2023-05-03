@@ -1,7 +1,6 @@
 ﻿using Common;
-using Core.Entities.Solution.Explorer;
-using Core.Entities.Solution.ItemsGroup;
-using Project.Domain.App.Contracts;
+using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+using ProjetoAcessibilidade.Domain.App.Contracts;
 
 namespace ProjectItemReader.InternalAppFiles;
 

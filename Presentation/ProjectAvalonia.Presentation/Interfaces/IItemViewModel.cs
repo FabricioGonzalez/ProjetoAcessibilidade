@@ -31,7 +31,7 @@ public interface IItemViewModel : INotifyPropertyChanged
         get;
     }
 
-    public ReactiveCommand<IItemViewModel, Unit> CommitFileCommand
+    public ReactiveCommand<IItemGroupViewModel, Unit> CommitFileCommand
     {
         get;
     }

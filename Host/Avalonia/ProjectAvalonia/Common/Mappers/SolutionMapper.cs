@@ -1,12 +1,12 @@
 ﻿/*using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using Core.Entities.Solution;
-using Core.Entities.Solution.ItemsGroup;
 using DynamicData.Binding;
 using ProjectAvalonia.Features.Project.States;
-using ProjectAvalonia.Features.Project.States.ProjectItems;
-using ProjectAvalonia.Stores;
+using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.ProjectItems;
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 
 namespace ProjectAvalonia.Common.Mappers;
 
@@ -17,7 +17,7 @@ public static class SolutionMapper
     ) =>
         new()
         {
-            FileName = model.FileName, FilePath = model.FilePath, ItemGroups = model
+            FileName = Path.GetFileNameWithoutExtension(model.FilePath), FilePath = model.FilePath, ItemGroups = model
                 .ItemGroups
                 .Select(selector: item => new ItemGroupModel
                 {

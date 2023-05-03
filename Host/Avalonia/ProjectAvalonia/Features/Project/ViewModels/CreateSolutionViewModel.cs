@@ -84,6 +84,12 @@ public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
         protected set;
     }
 
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
+
     public string Caption
     {
         get;

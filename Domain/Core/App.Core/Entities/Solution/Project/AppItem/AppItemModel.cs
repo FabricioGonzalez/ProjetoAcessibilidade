@@ -1,6 +1,6 @@
-﻿using Core.Entities.Solution.Project.AppItem.DataItems;
+﻿using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 
-namespace Core.Entities.Solution.Project.AppItem;
+namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 
 public class AppItemModel
 {

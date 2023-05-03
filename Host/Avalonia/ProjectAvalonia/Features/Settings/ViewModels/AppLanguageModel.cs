@@ -1,4 +1,4 @@
-﻿using Project.Domain.App.Models;
+﻿using ProjetoAcessibilidade.Domain.App.Models;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
 

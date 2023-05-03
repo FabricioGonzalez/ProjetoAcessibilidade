@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Avalonia.Notification;
-using Project.Domain.App.Contracts;
+using ProjetoAcessibilidade.Domain.App.Contracts;
 
 namespace ProjectAvalonia.Services;
 

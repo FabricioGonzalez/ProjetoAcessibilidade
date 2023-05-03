@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.App;
+﻿namespace ProjetoAcessibilidade.Core.Entities.App;
 
 public class MessageModel
 {
@@ -17,8 +17,8 @@ public class MessageModel
 
 public enum MessageType
 {
-    Debug
-    , Info
-    , Error
-    , Warning
+    Debug,
+    Info,
+    Error,
+    Warning
 }

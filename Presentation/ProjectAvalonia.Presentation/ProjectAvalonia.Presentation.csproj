@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Domain\Core\App.Core\Core.csproj" />
+      <ProjectReference Include="..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
     </ItemGroup>
 
 </Project>

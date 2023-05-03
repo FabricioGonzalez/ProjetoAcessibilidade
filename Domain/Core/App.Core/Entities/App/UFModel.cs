@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.App;
+﻿namespace ProjetoAcessibilidade.Core.Entities.App;
 
 public class UFModel
 {

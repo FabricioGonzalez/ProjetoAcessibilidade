@@ -133,7 +133,7 @@
                         <StackPanel>
                             <PathIcon Classes="new size24" />
                             <LayoutTransformControl>
-                                <c:FadeOutTextBlock Text="{Binding Title}" />
+                                <c:FadeOutTextBlock Text="{Binding LocalizedTitle, FallbackValue={Binding Title}}" />
                             </LayoutTransformControl>
                         </StackPanel>
                     </c:NavBarItem>
@@ -157,7 +157,7 @@
                         <StackPanel>
                             <PathIcon Classes="new size24" />
                             <LayoutTransformControl>
-                                <c:FadeOutTextBlock Text="{Binding Title}" />
+                                <c:FadeOutTextBlock Text="{Binding LocalizedTitle, FallbackValue={Binding Title}}" />
                             </LayoutTransformControl>
                         </StackPanel>
                     </c:NavBarItem>
