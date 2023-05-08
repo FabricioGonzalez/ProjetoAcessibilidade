@@ -16,18 +16,19 @@
         HorizontalAlignment="Stretch"
         Command="{Binding CommitItemCommand}"
         InEditMode="{Binding InEditMode, Mode=TwoWay}"
-        Text="{Binding TemplateName}">
-        <controls:EditableTextBlock.ContextFlyout>
-            <MenuFlyout>
-                <MenuFlyout.Items>
-                    <MenuItem
-                        Command="{Binding RenameItemCommand}"
-                        Header="Renomear" />
-                    <MenuItem
-                        Command="{Binding ExcludeItemCommand}"
-                        Header="Excluir" />
-                </MenuFlyout.Items>
+        Text="{Binding TemplateName,Mode=TwoWay}">
+
+        <!--<controls:EditableTextBlock.ContextFlyout>
+            <MenuFlyout >
+                <MenuItem
+                    Command="{Binding ExcludeItemCommand}"
+                    Header="Excluir" />
             </MenuFlyout>
-        </controls:EditableTextBlock.ContextFlyout>
+        </controls:EditableTextBlock.ContextFlyout>-->
+        <controls:EditableTextBlock.Actions>
+            <MenuItem
+                Command="{Binding ExcludeItemCommand}"
+                Header="Excluir" />
+        </controls:EditableTextBlock.Actions>
     </controls:EditableTextBlock>
 </UserControl>

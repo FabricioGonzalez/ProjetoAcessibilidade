@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Reactive;
 using System.Windows.Input;
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
@@ -8,6 +11,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Metadata;
 using Avalonia.Threading;
+using ReactiveUI;
 
 namespace ProjectAvalonia.Common.Controls;
 
@@ -32,6 +36,10 @@ public class EditableTextBlock : TemplatedControl
                 , value
             ) => component.Command = value);
 
+    public static readonly DirectProperty<EditableTextBlock, IEnumerable> ActionsProperty =
+        AvaloniaProperty.RegisterDirect<EditableTextBlock, IEnumerable>(name: nameof(Actions), getter: x => x.Actions,
+            setter: (x, v) => x.Actions = v);
+
     public static readonly DirectProperty<EditableTextBlock, object?> CommandParameterProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, object?>(
             name: nameof(CommandParameter),
@@ -55,6 +63,7 @@ public class EditableTextBlock : TemplatedControl
             defaultBindingMode: BindingMode.TwoWay);
 
     private readonly DispatcherTimer _editClickTimer;
+    private IEnumerable? _actions;
     private string _editText;
     private string _text;
     private TextBox _textBox;
@@ -65,6 +74,28 @@ public class EditableTextBlock : TemplatedControl
 
     public EditableTextBlock()
     {
+        RenameItem = ReactiveCommand.Create(execute: () =>
+        {
+            InEditMode = !InEditMode;
+        });
+
+        _actions = new AvaloniaList<object>
+        {
+            new MenuItem
+            {
+                Command = RenameItem,
+                Header = "Renomear"
+            }
+        };
+
+        if (Actions is not null)
+        {
+            ContextFlyout = new MenuFlyout
+            {
+                Items = _actions
+            };
+        }
+
         _editClickTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromMilliseconds(value: 500)
@@ -123,10 +154,22 @@ public class EditableTextBlock : TemplatedControl
         }, routes: RoutingStrategies.Tunnel);
     }
 
+
+    public IEnumerable? Actions
+    {
+        get => _actions;
+        set => SetAndRaise(property: ActionsProperty, field: ref _actions, value: value);
+    }
+
     public ICommand? Command
     {
         get => command;
         set => SetAndRaise(property: CommandProperty, field: ref command, value: value);
+    }
+
+    private ReactiveCommand<Unit, Unit>? CommitCommand
+    {
+        get;
     }
 
     public object? CommandParameter
@@ -152,6 +195,11 @@ public class EditableTextBlock : TemplatedControl
     {
         get => GetValue(property: InEditModeProperty);
         set => SetValue(property: InEditModeProperty, value: value);
+    }
+
+    private ReactiveCommand<Unit, Unit> RenameItem
+    {
+        get;
     }
 
     protected override void OnApplyTemplate(
@@ -216,8 +264,10 @@ public class EditableTextBlock : TemplatedControl
         else
         {
             Text = EditText;
-            if (Command is not null)
+            /*if (Command is not null)
             {
+                CommitCommand.Execute();
+
                 if (CommandParameter is not null)
                 {
                     Command.Execute(parameter: CommandParameter);
@@ -226,7 +276,7 @@ public class EditableTextBlock : TemplatedControl
                 {
                     Command.Execute(parameter: null);
                 }
-            }
+            }*/
         }
 
         InEditMode = false;

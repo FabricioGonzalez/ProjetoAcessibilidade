@@ -30,6 +30,7 @@
                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
                         Text="{Binding EditText, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                 </Grid>
+
             </ControlTemplate>
         </Setter>
     </Style>

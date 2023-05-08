@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using Common;
+using DynamicData;
+using DynamicData.Binding;
 using ProjectAvalonia.Features.NavBar;
+using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjetoAcessibilidade.Domain.App.Queries.Templates;
@@ -31,16 +37,23 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     IconName = "edit_regular")]
 public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditViewModel
 {
-    private readonly IMediator _queryDispatcher;
+    private readonly IMediator _mediator;
+
+    [AutoNotify] private IEditableItemViewModel? _inEditingItem;
+
+    private IEditableItemViewModel _selectedItem;
 
 
     public TemplateEditViewModel()
     {
-        _queryDispatcher = Locator.Current.GetService<IMediator>();
+        _mediator = Locator.Current.GetService<IMediator>();
 
         SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
+
+        TemplateEditTab = new TemplateEditTabViewModel();
+
 
         AddNewItemCommand = ReactiveCommand.Create(execute: () =>
         {
@@ -56,6 +69,36 @@ public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditV
         CommitItemCommand = ReactiveCommand.Create(execute: () =>
         {
         });
+
+        Items
+            ?.ToObservableChangeSet()
+            .AutoRefresh(propertyAccessor: item => item.TemplateName)
+            .Select(selector: _ => WhenAnyItemClosed())
+            .Switch()
+            .Subscribe(onNext: x =>
+            {
+                Debug.WriteLine(message: x.TemplateName);
+                ;
+                /*if (x?.IsSaved == true)
+                {
+                    EditingItems.Remove(item: x);
+                    return;
+                }
+
+                var dialog = new DeleteDialogViewModel(
+                    message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
+                    , caption: "");
+
+                if ((await NavigateDialogAsync(dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result)
+                {
+                    EditingItems.Remove(item: x);
+                }*/
+            });
+
+        this.WhenAnyValue(property1: vm => vm.InEditingItem)
+            .WhereNotNull()
+            .InvokeCommand(command: TemplateEditTab.LoadEditingItem);
     }
 
     public override string? LocalizedTitle
@@ -63,6 +106,34 @@ public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditV
         get;
         protected set;
     } = null;
+
+    public IEditableItemViewModel? SelectedItem
+    {
+        get => _selectedItem;
+        set
+        {
+            if (InEditingItem is not null && value?.TemplateName != InEditingItem.TemplateName)
+            {
+                Dispatcher.UIThread.InvokeAsync(function: async () =>
+                {
+                    var dialog = new DeleteDialogViewModel(
+                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?"
+                        , title: "Deletar Item", caption: "");
+                    if ((await NavigateDialogAsync(dialog: dialog, target: NavigationTarget.CompactDialogScreen))
+                        .Result)
+                    {
+                        InEditingItem = value;
+                        this.RaiseAndSetIfChanged(backingField: ref _selectedItem, newValue: value);
+                    }
+                });
+                this.RaisePropertyChanged();
+                return;
+            }
+
+            InEditingItem = value;
+            this.RaiseAndSetIfChanged(backingField: ref _selectedItem, newValue: value);
+        }
+    }
 
     /*private readonly TemplateItemsStore _itemsStore;
     private readonly ICommandDispatcher commandDispatcher;
@@ -186,12 +257,6 @@ public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditV
         set;
     }
 
-    public IEditableItemViewModel SelectedItem
-    {
-        get;
-        set;
-    }
-
     public ITemplateEditTabViewModel TemplateEditTab
     {
         get;
@@ -222,10 +287,18 @@ public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditV
         get;
     }
 
+    private IObservable<IEditableItemViewModel?> WhenAnyItemClosed() =>
+        // Select the documents into a list of Observables
+        // who return the Document to close when signaled,
+        // then flatten them all together.
+        Items
+            .Select(selector: x => x.WhenAnyValue(property1: _ => x))
+            .Merge();
+
     private async Task loadItems() =>
-        (await _queryDispatcher?
-            .Dispatch(
-                query: new GetAllTemplatesQuery(),
+        (await _mediator?
+            .Send(
+                request: new GetAllTemplatesQuery(),
                 cancellation: CancellationToken.None))
         ?.OnSuccess(onSuccessAction: success =>
         {

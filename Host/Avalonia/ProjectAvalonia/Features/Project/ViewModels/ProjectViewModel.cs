@@ -36,7 +36,7 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
-    private readonly IMediator? _queryDispatcher;
+    private readonly IMediator? _mediator;
     /*private readonly AddressesStore _addressesStore;
     private readonly SolutionStore _solutionStore;
 
@@ -189,7 +189,7 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
         SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
-        _queryDispatcher ??= Locator.Current.GetService<IMediator>();
+        _mediator ??= Locator.Current.GetService<IMediator>();
 
         this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
             .Select(selector: x => x?.Items.Count > 0)
@@ -274,8 +274,8 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
     }
 
     private async Task ReadSolutionAndOpen(string path) =>
-        (await _queryDispatcher.Dispatch(
-            query: new ReadSolutionProjectQuery(SolutionPath: path),
+        (await _mediator.Send(
+            request: new ReadSolutionProjectQuery(SolutionPath: path),
             cancellation: CancellationToken.None))
         .OnSuccess(
             onSuccessAction: result =>

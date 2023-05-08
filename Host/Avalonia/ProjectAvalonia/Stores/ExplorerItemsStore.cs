@@ -7,13 +7,13 @@ namespace ProjectAvalonia.Stores;
 public class ExplorerItemsStore
 {
     private readonly CancellationTokenSource _cancellationToken;
-    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IMediator _mediator;
     private readonly SolutionStore _solutionStore;
 
-    public ExplorerItemsStore(SolutionStore solutionStore, ICommandDispatcher commandDispatcher)
+    public ExplorerItemsStore(SolutionStore solutionStore, IMediator mediator)
     {
         _solutionStore = solutionStore;
-        _commandDispatcher = commandDispatcher;
+        _mediator = mediator;
 
         _cancellationToken = new CancellationTokenSource();
     }

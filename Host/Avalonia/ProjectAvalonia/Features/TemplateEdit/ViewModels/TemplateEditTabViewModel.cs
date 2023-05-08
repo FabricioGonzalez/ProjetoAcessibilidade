@@ -1,4 +1,10 @@
-﻿using ProjectAvalonia.Presentation.Interfaces;
+﻿using System.Reactive;
+using Common;
+using ProjectAvalonia.Presentation.Interfaces;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Queries.SystemItems;
+using ReactiveUI;
+using Splat;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -16,9 +22,11 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     IconName = "settings_general_regular")]
 public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, ITemplateEditTabViewModel
 {
+    private readonly IMediator _mediator;
+
     /*private readonly ICommandDispatcher commandDispatcher;
 
-    private readonly IMediator queryDispatcher;
+    private readonly IMediator _mediator;
 
     [AutoNotify] private AppModelState _editingItem;
 
@@ -193,9 +201,30 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, IT
                     item.ToAppModel(),
                     InEditingItem.ItemPath),
                 CancellationToken.None);*/
+    public TemplateEditTabViewModel()
+    {
+        _mediator ??= Locator.Current.GetService<IMediator>();
+        LoadEditingItem = ReactiveCommand.CreateFromTask<IEditableItemViewModel>(execute: async editableItem =>
+        {
+            (await _mediator.Send(request: new GetSystemProjectItemContentQuery(ItemPath: editableItem.ItemPath),
+                    cancellation: GetCancellationToken()))
+                .OnSuccess(onSuccessAction: success =>
+                {
+                })
+                .OnError(onErrorAction: error =>
+                {
+                });
+        });
+    }
+
     public override string? LocalizedTitle
     {
         get;
         protected set;
     } = null;
+
+    public ReactiveCommand<IEditableItemViewModel, Unit> LoadEditingItem
+    {
+        get;
+    }
 }
