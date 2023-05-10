@@ -1,5 +1,6 @@
 ﻿using System.Xml.Serialization;
 using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 
 namespace ProjectItemReader.InternalAppFiles.DTO;
 
@@ -33,16 +34,22 @@ public static class Extensions
             {
                 /*Data = model.SolutionReportInfo*/
             },
-            ProjectItems = model.ItemGroups.Select(selector: item => new ProjectItems
-            {
-                ItemName = item.Name, ItemGroup = item.Items.Select(selector: i => new ItemGroup
-                {
-                    Id = i.Id, ItemPath = i.ItemPath, Name = i.Name, TemplateName = i.TemplateName
-                }).ToList()
-            }).ToList()
+            ProjectItems = model.ItemGroups.Select(
+                    selector: item => new ProjectItems
+                    {
+                        ItemName = item.Name, ItemGroup = item.Items.Select(
+                                selector: i => new ItemGroup
+                                {
+                                    Id = i.Id, ItemPath = i.ItemPath, Name = i.Name, TemplateName = i.TemplateName
+                                })
+                            .ToList()
+                    })
+                .ToList()
         };
 
     public static ProjectSolutionModel ToSolutionInfo(
         this SolutionItemRoot model
-    ) => new();
+    ) => ProjectSolutionModel.Create(
+        solutionPath: "",
+        reportInfo: new SolutionInfo());
 }

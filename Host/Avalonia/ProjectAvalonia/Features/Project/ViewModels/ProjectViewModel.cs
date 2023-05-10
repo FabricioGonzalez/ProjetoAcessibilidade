@@ -34,13 +34,15 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_file_regular")]
 public partial class ProjectViewModel
-    : NavBarItemViewModel
-        ,
-    IProjectViewModel
+    : NavBarItemViewModel,
+        IProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
     private readonly IMediator? _mediator;
+
+    private ProjectSolutionModel? projectSolution;
+
     /*private readonly AddressesStore _addressesStore;
     private readonly SolutionStore _solutionStore;
 
@@ -217,7 +219,7 @@ public partial class ProjectViewModel
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
         CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: CreateSolution);
-        PrintProjectCommand = ReactiveCommand.CreateFromTask(
+        PrintProjectCommand = ReactiveCommand.Create(
             execute: PrintSolution,
             canExecute: isSolutionOpen);
 
@@ -289,18 +291,12 @@ public partial class ProjectViewModel
         }
     }
 
-    private async Task<Unit> PrintSolution(
-        CancellationToken arg
-    )
-    {
+    private void PrintSolution() =>
         Navigate(currentTarget: NavigationTarget.FullScreen)
             .To(
                 viewmodel: ProjectPrintPreviewViewModel,
                 mode: NavigationMode.Normal,
                 Parameter: ProjectExplorerViewModel.SolutionState);
-
-        return Unit.Default;
-    }
 
     private async Task<Unit> OpenSolution()
     {

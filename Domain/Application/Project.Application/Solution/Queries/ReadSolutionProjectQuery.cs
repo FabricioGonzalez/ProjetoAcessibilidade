@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Optional;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Contracts;
@@ -24,24 +25,40 @@ public sealed class ReadSolutionProjectQueryHandler
 
 
     public async Task<Resource<ProjectSolutionModel>> HandleAsync(
-        ReadSolutionProjectQuery query
-        , CancellationToken cancellation
-    )
-    {
-        if (string.IsNullOrEmpty(value: query.SolutionPath))
-        {
-            return new Resource<ProjectSolutionModel>.Error(Message: "Caminho da solução não pode ser vázio"
-                , Data: default);
-        }
+        ReadSolutionProjectQuery query,
+        CancellationToken cancellation
+    ) =>
+        await Locator.Current.GetService<ISolutionRepository>()
+            .ToOption()
+            .Map<Task<Resource<ProjectSolutionModel>>>(
+                async instance =>
+                {
+                    return await query.SolutionPath
+                        .ToOption()
+                        .Map<Task<Resource<ProjectSolutionModel>>>(
+                            async path =>
+                            {
+                                var result = await instance.ReadSolution(solutionPath: path.ToOption());
 
-        var result = await Locator.Current.GetService<ISolutionRepository>()
-            ?.ReadSolution(solutionPath: query.SolutionPath);
-
-        if (result is null)
-        {
-            return new Resource<ProjectSolutionModel>.Error(Message: "A solução não foi encontrada", Data: default);
-        }
-
-        return new Resource<ProjectSolutionModel>.Success(Data: result);
-    }
+                                return result.Map<Resource<ProjectSolutionModel>>(
+                                        data => new Resource<ProjectSolutionModel>.Success(Data: data))
+                                    .Reduce(
+                                        () =>
+                                            new Resource<ProjectSolutionModel>.Error(
+                                                Message: "A solução não foi encontrada",
+                                                Data: default));
+                            })
+                        .Reduce(
+                            () => new Task<Resource<ProjectSolutionModel>>(
+                                () => new Resource<ProjectSolutionModel>.Error(
+                                    Message: "Caminho da solução não pode ser vázio",
+                                    Data: default)));
+                })
+            .Reduce(
+                () =>
+                    new Task<Resource<ProjectSolutionModel>>(
+                        () => new Resource<ProjectSolutionModel>.Error(
+                            Message: $"A Instancia {nameof(ISolutionRepository)} não foi encontrada",
+                            Data: default))
+            );
 }

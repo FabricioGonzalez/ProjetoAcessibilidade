@@ -48,23 +48,29 @@ public partial class MainViewModel : ViewModelBase
     {
         ApplyUiConfigWindowSate();
 
-        ValidatedErrors.RegisterHandler(handler: interaction =>
-        {
-            ErrorMessage = interaction.Input.Message;
+        ValidatedErrors.RegisterHandler(
+            handler: interaction =>
+            {
+                ErrorMessage = interaction.Input.Message;
 
-            interaction.SetOutput(output: Unit.Default);
-        });
+                interaction.SetOutput(output: Unit.Default);
+            });
 
-        this.ValidateProperty(property: vm => vm.ErrorMessage, validateMethod: errors =>
-        {
-            errors.Add(severity: ErrorSeverity.Warning, error: ErrorMessage ?? "Nothing");
-        });
+        this.ValidateProperty(
+            property: vm => vm.ErrorMessage,
+            validateMethod: errors =>
+            {
+                errors.Add(
+                    severity: ErrorSeverity.Warning,
+                    error: ErrorMessage ?? "Nothing");
+            });
 
         _dialogScreen = new DialogScreenViewModel();
         _fullScreen = new DialogScreenViewModel(navigationTarget: NavigationTarget.FullScreen);
         _compactDialogScreen = new DialogScreenViewModel(navigationTarget: NavigationTarget.CompactDialogScreen);
         MainScreen = new TargettedNavigationStack(target: NavigationTarget.HomeScreen);
-        NavigationState.Register(homeScreenNavigation: MainScreen,
+        NavigationState.Register(
+            homeScreenNavigation: MainScreen,
             dialogScreenNavigation: DialogScreen,
             fullScreenNavigation: FullScreen,
             compactDialogScreenNavigation: CompactDialogScreen);
@@ -72,7 +78,7 @@ public partial class MainViewModel : ViewModelBase
         UiServices.Initialize();
 
         _settingsPage = new SettingsPageViewModel();
-        _templatePage = new TemplateEditViewModel();
+        _templatePage = new TemplateEditViewModel(new TemplateEditTabViewModel());
         _projectPage = new ProjectViewModel();
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
@@ -92,9 +98,9 @@ public partial class MainViewModel : ViewModelBase
                 property2: x => x.FullScreen.IsDialogOpen,
                 property3: x => x.CompactDialogScreen.IsDialogOpen,
                 selector: (
-                    dialogIsOpen
-                    , fullScreenIsOpen
-                    , compactIsOpen
+                    dialogIsOpen,
+                    fullScreenIsOpen,
+                    compactIsOpen
                 ) => !(dialogIsOpen || fullScreenIsOpen || compactIsOpen))
             .ObserveOn(scheduler: RxApp.MainThreadScheduler);
 
@@ -104,10 +110,10 @@ public partial class MainViewModel : ViewModelBase
                 property3: x => x.FullScreen.CurrentPage,
                 property4: x => x.MainScreen.CurrentPage,
                 selector: (
-                    dialog
-                    , compactDialog
-                    , fullScreenDialog
-                    , mainScreen
+                    dialog,
+                    compactDialog,
+                    fullScreenDialog,
+                    mainScreen
                 ) => compactDialog ?? dialog ?? fullScreenDialog ?? mainScreen)
             .WhereNotNull()
             .ObserveOn(scheduler: RxApp.MainThreadScheduler)
@@ -163,9 +169,12 @@ public partial class MainViewModel : ViewModelBase
     public void OpenProject(
         string projectPath
     ) =>
-        Instance.MainScreen.To(viewmodel: _projectPage, Parameter: projectPath);
+        Instance.MainScreen.To(
+            viewmodel: _projectPage,
+            Parameter: projectPath);
 
     public void PrintProject(
+
         /*SolutionState solutionState*/
     )
     {
@@ -193,31 +202,38 @@ public partial class MainViewModel : ViewModelBase
         ProjectViewModel.Register(createInstance: _projectPage);
         PreviewerViewModel.Register(createInstance: _previewPrintPage);
 
-        GeneralSettingsTabViewModel.RegisterLazy(createInstance: () =>
-        {
-            _settingsPage.SelectedTab = 0;
-            return _settingsPage;
-        });
+        GeneralSettingsTabViewModel.RegisterLazy(
+            createInstance: () =>
+            {
+                _settingsPage.SelectedTab = 0;
+                return _settingsPage;
+            });
 
-        AdvancedSettingsTabViewModel.RegisterLazy(createInstance: () =>
-        {
-            _settingsPage.SelectedTab = 2;
-            return _settingsPage;
-        });
+        AdvancedSettingsTabViewModel.RegisterLazy(
+            createInstance: () =>
+            {
+                _settingsPage.SelectedTab = 2;
+                return _settingsPage;
+            });
 
-        TemplateEditTabViewModel.RegisterLazy(createInstance: () =>
-        {
-            /*_templatePage.SelectedTab = 0;*/
+        TemplateEditTabViewModel.RegisterLazy(
+            createInstance: () =>
+            {
+                /*_templatePage.SelectedTab = 0;*/
 
-            return _templatePage;
-        });
+                return _templatePage;
+            });
     }
 
     public void ApplyUiConfigWindowSate() => WindowState =
-        (WindowState)Enum.Parse(enumType: typeof(WindowState), value: ServicesConfig.UiConfig.WindowState);
+        (WindowState)Enum.Parse(
+            enumType: typeof(WindowState),
+            value: ServicesConfig.UiConfig.WindowState);
 
-    [SuppressMessage(category: "Reliability", checkId: "CA2000:Dispose objects before losing scope"
-        , Justification = "Same lifecycle as the application. Won't be disposed separately.")]
+    [SuppressMessage(
+        category: "Reliability",
+        checkId: "CA2000:Dispose objects before losing scope",
+        Justification = "Same lifecycle as the application. Won't be disposed separately.")]
     private SearchBarViewModel CreateSearchBar()
     {
         // This subject is created to solve the circular dependency between the sources and SearchBarViewModel
@@ -225,7 +241,9 @@ public partial class MainViewModel : ViewModelBase
 
         var source = new CompositeSearchSource(
             new ActionsSearchSource(query: filterChanged),
-            new SettingsSearchSource(settingsPage: _settingsPage, query: filterChanged));
+            new SettingsSearchSource(
+                settingsPage: _settingsPage,
+                query: filterChanged));
 
         var searchBar = new SearchBarViewModel(itemsObservable: source.Changes);
 

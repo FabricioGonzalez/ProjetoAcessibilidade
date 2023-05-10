@@ -1,23 +1,28 @@
 ﻿using Common;
+using Common.Optional;
 using ProjectItemReader.InternalAppFiles;
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 using QuestPDF.Previewer;
 using QuestPDFReport;
+using QuestPDFReport.Models;
 using QuestPDFReport.ReportSettings;
 
 var path = "C:\\Users\\Ti\\Documents\\Teste\\Teste.prja";
 
-var res = Path.Combine(path1: Directory.GetParent(path: path).FullName, path2: Constants.AppProjectItemsFolderName);
-
-res = Constants.AppItemsTemplateFolder;
 
 var solutionReader = new SolutionRepositoryImpl();
 
-var model = await DataSource.GetReport(solutionModel: await solutionReader.ReadSolution(solutionPath: path),
-    extension: Constants.AppProjectTemplateExtension);
+var result = (await solutionReader.ReadSolution(solutionPath: path.ToOption())).Reduce(
+    () => ProjectSolutionModel.Create(
+        solutionPath: "",
+        reportInfo: new SolutionInfo()));
 
-if (model is not null)
-{
-    var Report = new StandardReport(model: model);
+var model = (await DataSource.GetReport(
+        solutionModel: result,
+        extension: Constants.AppProjectTemplateExtension)).ToOption()
+    .Reduce(() => new ReportModel());
 
-    await Report.ShowInPreviewerAsync();
-}
+var report = new StandardReport(model: model);
+
+await report.ShowInPreviewerAsync();

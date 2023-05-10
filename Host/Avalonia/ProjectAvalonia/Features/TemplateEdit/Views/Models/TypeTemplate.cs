@@ -1,5 +1,4 @@
 ﻿using System;
-using Avalonia.Controls;
 
 namespace ProjectAvalonia.Features.TemplateEdit.Views.Models;
 
@@ -11,7 +10,7 @@ public class TypeTemplate
         set;
     }
 
-    public IControl UIElement
+    public object UIElement
     {
         get;
         set;

@@ -7,13 +7,13 @@ namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface ITemplateEditViewModel : INotifyPropertyChanged
 {
-    public ObservableCollection<IEditableItemViewModel> Items
+    public ObservableCollection<IEditableItemViewModel>? Items
     {
         get;
         set;
     }
 
-    public IEditableItemViewModel SelectedItem
+    public IEditableItemViewModel? SelectedItem
     {
         get;
         set;

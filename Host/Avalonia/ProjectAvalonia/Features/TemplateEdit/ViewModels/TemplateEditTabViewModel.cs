@@ -3,6 +3,7 @@ using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
+using ProjetoAcessibilidade.Core.Enuns;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -14,13 +15,13 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Category = "Templates",
     Keywords = new[]
     {
-        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close"
-        , "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
+        "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
 public partial class TemplateEditTabViewModel
-    : TemplateEditTabViewModelBase
-        , ITemplateEditTabViewModel
+    : TemplateEditTabViewModelBase,
+        ITemplateEditTabViewModel
 {
     /*private readonly ICommandDispatcher commandDispatcher;
 
@@ -211,15 +212,23 @@ public partial class TemplateEditTabViewModel
         set;
     } = new()
     {
-        Id = "", FormData = new ReadOnlyObservableCollection<FormItemContainer>(
+        Id = "", FormData =
             new ObservableCollection<FormItemContainer>
             {
                 new()
                 {
-                    Body = new TextItemState("teste item", id: "", textData: "teste", measurementUnit: "m")
-                }
-                , new()
+                    Topic = "Text 1",
+                    Type = AppFormDataType.Texto,
+                    Body = new TextItemState(
+                        topic: "teste item",
+                        id: "",
+                        textData: "teste",
+                        measurementUnit: "m")
+                },
+                new()
                 {
+                    Topic = "Text 1",
+                    Type = AppFormDataType.Checkbox,
                     Body = new CheckboxContainerItemState("Teste")
                     {
                         Children = new ObservableCollection<CheckboxItemState>
@@ -231,28 +240,44 @@ public partial class TemplateEditTabViewModel
                                     new()
                                     {
                                         Value = "Sim", IsChecked = false
-                                    }
-                                    , new()
+                                    },
+                                    new()
                                     {
                                         Value = "Não", IsChecked = false
-                                    }
-                                    , new()
+                                    },
+                                    new()
                                     {
                                         Value = "Talvez", IsChecked = false
                                     }
-                                }
-                                , TextItems = new ObservableCollection<TextItemState>
+                                },
+                                TextItems = new ObservableCollection<TextItemState>
                                 {
-                                    new("inner text", id: "", textData: "teste", measurementUnit: "m")
-                                    , new("inner text 2", id: "", textData: "teste", measurementUnit: "m")
+                                    new(
+                                        topic: "inner text",
+                                        id: "",
+                                        textData: "teste",
+                                        measurementUnit: "m"),
+                                    new(
+                                        topic: "inner text 2",
+                                        id: "",
+                                        textData: "teste",
+                                        measurementUnit: "m")
                                 }
                             }
                         }
                     }
+                },
+                new()
+                {
+                    Topic = "Text 1",
+                    Type = AppFormDataType.Texto,
+                    Body = new TextItemState(
+                        topic: "teste item",
+                        id: "",
+                        textData: "teste2",
+                        measurementUnit: "m")
                 }
-                , new() { Body = new TextItemState("teste item", id: "", textData: "teste2", measurementUnit: "m") }
-            })
-        , ItemName = "Teste", ItemTemplate = "Teste Template"
-        , LawItems = new ReadOnlyObservableCollection<LawStateItem>(new ObservableCollection<LawStateItem>())
+            },
+        ItemName = "Teste", ItemTemplate = "Teste Template", LawItems = new ObservableCollection<LawStateItem>()
     };
 }

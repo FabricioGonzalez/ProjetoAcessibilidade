@@ -44,10 +44,11 @@ public class ProjectSolutionModel : AggregateRoot
     public static ProjectSolutionModel Create(
         string solutionPath,
         SolutionInfo reportInfo
-    )
-    {
-        return new ProjectSolutionModel(Guid.NewGuid(), )
-    }
+    ) =>
+        new(
+            id: Guid.NewGuid(),
+            solutionReportInfo: new SolutionInfo(),
+            filePath: "");
 
     public void AddItemToSolution(
         ItemGroupModel item

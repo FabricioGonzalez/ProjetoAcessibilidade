@@ -30,34 +30,46 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_regular")]
 public partial class TemplateEditViewModel
-    : NavBarItemViewModel
-        , ITemplateEditViewModel
+    : NavBarItemViewModel,
+        ITemplateEditViewModel
 {
     private readonly IMediator _mediator;
 
 
-    public TemplateEditViewModel()
+    public TemplateEditViewModel(
+        ITemplateEditTabViewModel templateEditTab
+    )
     {
+        TemplateEditTab = templateEditTab;
         _mediator = Locator.Current.GetService<IMediator>()!;
 
-        SetupCancel(false, true, true);
+        SetupCancel(
+            enableCancel: false,
+            enableCancelOnEscape: true,
+            enableCancelOnPressed: true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
-        AddNewItemCommand = ReactiveCommand.Create(() =>
-        {
-        });
-        LoadAllItems = ReactiveCommand.CreateFromTask(loadItems, outputScheduler: RxApp.MainThreadScheduler);
+        AddNewItemCommand = ReactiveCommand.Create(
+            () =>
+            {
+            });
+        LoadAllItems = ReactiveCommand.CreateFromTask(
+            execute: LoadItems,
+            outputScheduler: RxApp.MainThreadScheduler);
 
-        ExcludeItemCommand = ReactiveCommand.Create(() =>
-        {
-        });
-        RenameItemCommand = ReactiveCommand.Create(() =>
-        {
-        });
-        CommitItemCommand = ReactiveCommand.Create(() =>
-        {
-        });
+        ExcludeItemCommand = ReactiveCommand.Create(
+            () =>
+            {
+            });
+        RenameItemCommand = ReactiveCommand.Create(
+            () =>
+            {
+            });
+        CommitItemCommand = ReactiveCommand.Create(
+            () =>
+            {
+            });
     }
 
     public override string? LocalizedTitle
@@ -182,13 +194,13 @@ public partial class TemplateEditViewModel
     {
         get;
     }*/
-    public ObservableCollection<IEditableItemViewModel> Items
+    public ObservableCollection<IEditableItemViewModel>? Items
     {
         get;
         set;
     }
 
-    public IEditableItemViewModel SelectedItem
+    public IEditableItemViewModel? SelectedItem
     {
         get;
         set;
@@ -224,24 +236,29 @@ public partial class TemplateEditViewModel
         get;
     }
 
-    private async Task loadItems() =>
+    private async Task LoadItems() =>
         (await _mediator
             .Send(
-                new GetAllTemplatesQuery(),
-                CancellationToken.None))
-        ?.OnSuccess(success =>
-        {
-            Items = new ObservableCollection<IEditableItemViewModel>(success
-                ?.Data
-                ?.Select(item => new EditableItemViewModel
-                {
-                    Id = item.Id ?? Guid.NewGuid().ToString(), ItemPath = item.ItemPath, Name = ""
-                    , TemplateName = item.Name
-                }) ?? Enumerable.Empty<EditableItemViewModel>());
+                request: new GetAllTemplatesQuery(),
+                cancellation: CancellationToken.None)).OnSuccess(
+            success =>
+            {
+                Items = new ObservableCollection<IEditableItemViewModel>(
+                    success.Data
+                        ?.Select(
+                            item => new EditableItemViewModel
+                            {
+                                Id = item.Id ??
+                                     Guid.NewGuid()
+                                         .ToString(),
+                                ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
+                            }) ??
+                    Enumerable.Empty<EditableItemViewModel>());
 
-            this.RaisePropertyChanged(nameof(Items));
-        })
-        ?.OnError(error =>
-        {
-        });
+                this.RaisePropertyChanged(nameof(Items));
+            })
+        .OnError(
+            _ =>
+            {
+            });
 }

@@ -125,17 +125,21 @@ public static class AvaloniaDInjector
     {
         var service = Locator.CurrentMutable;
 
-        service.Register<IExplorerItemRepository>(factory: () =>
-            new ExplorerItemRepositoryImpl());
+        service.Register<IExplorerItemRepository>(
+            factory: () =>
+                new ExplorerItemRepositoryImpl());
 
-        service.Register<IProjectItemContentRepository>(factory: () =>
-            new ProjectItemContentRepositoryImpl());
+        service.Register<IProjectItemContentRepository>(
+            factory: () =>
+                new ProjectItemContentRepositoryImpl());
 
-        service.Register<ISolutionRepository>(factory: () =>
-            new SolutionRepositoryImpl());
+        service.Register<ISolutionRepository>(
+            factory: () =>
+                new SolutionRepositoryImpl());
 
-        service.Register<IAppTemplateRepository>(factory: () =>
-            new AppTemplateRepositoryImpl());
+        service.Register<IAppTemplateRepository>(
+            factory: () =>
+                new AppTemplateRepositoryImpl());
 
         return app;
     }
@@ -151,92 +155,110 @@ public static class AvaloniaDInjector
         /*foreach (var marker in markers)
         {*/
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()
-                     .Where(predicate: x => x.FullName.Contains(value: Constants.SolutionName)))
+                     .Where(predicate: x => x.FullName?.Contains(value: Constants.SolutionName) == true))
         {
             /*var assembly = Assembly.Load(assemblyName);*/
 
-            var requests = GetClassesImplementingInterface(assembly: assembly, typeToMatch: typeof(IRequest<>));
+            var requests = ClassesImplementingInterface(
+                assembly: assembly,
+                typeToMatch: typeof(IRequest<>));
             var notifications =
-                GetClassesImplementingInterface(assembly: assembly, typeToMatch: typeof(INotification));
-            var handlers = GetClassesImplementingInterface(assembly: assembly, typeToMatch: typeof(IHandler<,>));
+                ClassesImplementingInterface(
+                    assembly: assembly,
+                    typeToMatch: typeof(INotification));
+            var handlers = ClassesImplementingInterface(
+                assembly: assembly,
+                typeToMatch: typeof(IHandler<,>));
 
-            requests.ForEach(action: x =>
-            {
-                handlerInfo[key: x] = handlers.SingleOrDefault(predicate: xx =>
-                    x == xx.GetInterface(name: "IHandler`2")!.GetGenericArguments()[0])!;
-            });
+            var notificationHandlers = ClassesImplementingInterface(
+                assembly: assembly,
+                typeToMatch: typeof(INotificationHandler<>));
 
-            notifications.ForEach(action: x =>
-            {
-                notificationHandlerInfo[key: x] = handlers.SingleOrDefault(predicate: xx =>
-                    x == xx.GetInterface(name: "IHandler`2")!.GetGenericArguments()[0])!;
-            });
+            requests.ForEach(
+                action: x =>
+                {
+                    handlerInfo[key: x] = handlers.SingleOrDefault(
+                        predicate: xx =>
+                            x == xx.GetInterface(name: "IHandler`2")!.GetGenericArguments()[0])!;
+                });
 
-            handlers.ForEach(action: handler =>
-            {
-                Locator.CurrentMutable.Register(factory: () =>
-                    {
-                        /*var constructors = handler.GetConstructors();
-                        var firstConstrutor = constructors.FirstOrDefault(); //assume we will have only one constructor
-                        var parameters = new List<object>();
+            notifications.ForEach(
+                action: x =>
+                {
+                    notificationHandlerInfo[key: x] = handlers.SingleOrDefault(
+                        predicate: xx =>
+                            x == xx.GetInterface(name: "IHandler`2")!.GetGenericArguments()[0])!;
+                });
 
-                        foreach (var param in firstConstrutor.GetParameters())
+            handlers.ForEach(
+                action: handler =>
+                {
+                    Locator.CurrentMutable.RegisterConstant(
+                        value: Instantiate(handler),
+                        /*factory: () =>
                         {
-                            var service = Locator.Current.GetService(param.ParameterType);//get instance of the class
-                            parameters.Add(service);
-                        }*/
+                            return ;
+                        },*/
+                        serviceType: handler);
+                });
 
-                        var instance = Activator.CreateInstance(type: handler);
-
-                        return instance;
-                    },
-                    serviceType: handler);
-            });
+            notificationHandlers.ForEach(
+                handler =>
+                {
+                    Locator.CurrentMutable.RegisterConstant(
+                        value: Instantiate(handler),
+                        /*factory: () =>
+                        {
+                            return ;
+                        },*/
+                        serviceType: handler);
+                });
         }
         /*}*/
 
-        Locator.CurrentMutable.RegisterLazySingleton<IMediator>(valueFactory: () =>
-            new Mediator(serviceResolver: type => Locator.Current.GetService(serviceType: type),
-                handlerDetails: handlerInfo,
-                notificationsDetails: notificationHandlerInfo));
+        Locator.CurrentMutable.RegisterLazySingleton<IMediator>(
+            valueFactory: () =>
+                new Mediator(
+                    serviceResolver: type => Locator.Current.GetService(serviceType: type),
+                    handlerDetails: handlerInfo,
+                    notificationsDetails: notificationHandlerInfo));
 
         return app;
     }
 
 
-    private static List<Type> GetClassesImplementingInterface(Assembly assembly, Type typeToMatch) =>
+    private static List<Type> ClassesImplementingInterface(
+        Assembly assembly,
+        Type typeToMatch
+    ) =>
         assembly.ExportedTypes.Where(
-            predicate: type =>
-            {
-                var genericInterfaceTypes = type.GetInterfaces().Where(
-                    predicate: x => x.IsGenericType).ToList();
-                var implementRequestType =
-                    genericInterfaceTypes.Any(predicate: x => x.GetGenericTypeDefinition() == typeToMatch);
+                predicate: type =>
+                {
+                    var genericInterfaceTypes = type.GetInterfaces()
+                        .Where(
+                            predicate: x => x.IsGenericType)
+                        .ToList();
+                    var implementRequestType =
+                        genericInterfaceTypes.Any(predicate: x => x.GetGenericTypeDefinition() == typeToMatch);
 
-                return !type.IsInterface && !type.IsAbstract && implementRequestType;
-            }).ToList();
+                    return type is
+                           {
+                               IsInterface: false,
+                               IsAbstract: false
+                           } &&
+                           implementRequestType;
+                })
+            .ToList();
 
     private static AppBuilder AddServices(
         this AppBuilder app
     )
     {
         var service = Locator.CurrentMutable;
-        service.RegisterLazySingleton<ILanguageManager>(valueFactory: () => new LanguageManager(
-            configuration: Locator.Current.GetService<LanguagesConfiguration>()
-        ));
-
-        return app;
-    }
-
-    private static AppBuilder AddMediator(
-        this AppBuilder app
-    )
-    {
-        var service = Locator.CurrentMutable;
-        /*DependencyResolverMixins.RegisterLazySingleton<ICommandDispatcher>(resolver: service, valueFactory: () =>
-            new CommandDispatcher(serviceProvider: Locator.Current));*/
-        /*service.RegisterLazySingleton<ISender>(valueFactory: () =>
-            new QueryDispatcher(serviceProvider: Locator.Current));*/
+        service.RegisterLazySingleton<ILanguageManager>(
+            valueFactory: () => new LanguageManager(
+                configuration: Locator.Current.GetService<LanguagesConfiguration>()!
+            ));
 
         return app;
     }
@@ -256,15 +278,48 @@ public static class AvaloniaDInjector
         var service = Locator.CurrentMutable;
 
         var config = new LanguagesConfiguration();
-        configuration.GetSection(key: "Languages").Bind(instance: config);
+        configuration.GetSection(key: "Languages")
+            .Bind(instance: config);
         service.RegisterConstant(value: config);
 
         return app;
     }
 
-    public static AppBuilder StartContainer(this AppBuilder app) =>
+    public static AppBuilder StartContainer(
+        this AppBuilder app
+    ) =>
         app
             .AddConfiguration()
             .AddServices()
             .AddRepositories();
+
+    private static object? Instantiate(
+        Type type
+    )
+    {
+        var targetConstructor = type.GetConstructors()
+            .First();
+
+        var parameters = targetConstructor.GetParameters()
+            .Select(
+                info => Locator.Current.GetService(info.ParameterType))
+            .ToArray();
+        var instance = Activator.CreateInstance(
+            type: type,
+            args: parameters);
+        return instance;
+    }
+
+    // getting default values https://stackoverflow.com/a/353073/517446
+    public static object? Default(
+        Type type
+    )
+    {
+        if (type.IsValueType)
+        {
+            return Activator.CreateInstance(type);
+        }
+
+        return null;
+    }
 }

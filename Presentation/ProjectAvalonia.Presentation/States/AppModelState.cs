@@ -18,57 +18,52 @@ public class AppModelState : ReactiveObject
 {
     private readonly SourceList<FormItemContainer> formDataAggregate = new();
     private readonly SourceList<LawStateItem> lawItemsAggregate = new();
-    private ReadOnlyObservableCollection<FormItemContainer> _formData;
 
-
+    private ObservableCollection<FormItemContainer> _formData;
     private string _id;
 
     private string _itemName;
     private string _itemTemplate;
+    private ObservableCollection<LawStateItem> _lawItems;
 
-    private ReadOnlyObservableCollection<LawStateItem> _lawItems;
-
-    public AppModelState()
-    {
-        formDataAggregate
-            .Connect()
-            .Bind(out _formData)
-            .Subscribe();
-
-        lawItemsAggregate
-            .Connect()
-            .Bind(out _lawItems)
-            .Subscribe();
-    }
-
-    public ReadOnlyObservableCollection<FormItemContainer> FormData
+    public ObservableCollection<FormItemContainer> FormData
     {
         get => _formData;
-        set => this.RaiseAndSetIfChanged(ref _formData, value);
+        set => this.RaiseAndSetIfChanged(
+            backingField: ref _formData,
+            newValue: value);
     }
 
     public string ItemName
     {
         get => _itemName;
-        set => this.RaiseAndSetIfChanged(ref _itemName, value);
+        set => this.RaiseAndSetIfChanged(
+            backingField: ref _itemName,
+            newValue: value);
     }
 
     public string ItemTemplate
     {
         get => _itemTemplate;
-        set => this.RaiseAndSetIfChanged(ref _itemTemplate, value);
+        set => this.RaiseAndSetIfChanged(
+            backingField: ref _itemTemplate,
+            newValue: value);
     }
 
-    public ReadOnlyObservableCollection<LawStateItem> LawItems
+    public ObservableCollection<LawStateItem> LawItems
     {
         get => _lawItems;
-        set => this.RaiseAndSetIfChanged(ref _lawItems, value);
+        set => this.RaiseAndSetIfChanged(
+            backingField: ref _lawItems,
+            newValue: value);
     }
 
     public string Id
     {
         get => _id;
-        set => this.RaiseAndSetIfChanged(ref _id, value);
+        set => this.RaiseAndSetIfChanged(
+            backingField: ref _id,
+            newValue: value);
     }
 
     public void AddFormItem(
@@ -84,12 +79,12 @@ public class AppModelState : ReactiveObject
     ) => formDataAggregate.Remove(formItem);
 
     public void ChangeItemType(
-        FormItemContainer formItemToReplace
-        , FormItemContainer newItem
+        FormItemContainer formItemToReplace,
+        FormItemContainer newItem
     ) =>
         formDataAggregate.Replace(
-            formItemToReplace,
-            newItem);
+            original: formItemToReplace,
+            destination: newItem);
 
     public void AddLawItems(
         LawStateItem lawItem
@@ -119,92 +114,100 @@ public static class Extensions
         toReturn.LoadItemData(
             item
                 .FormData
-                .Select<IAppFormDataItemContract, FormItemContainer>(item =>
-                {
-                    if (item is AppFormDataItemCheckboxModel checkbox)
+                .Select<IAppFormDataItemContract, FormItemContainer>(
+                    item =>
                     {
-                        return new FormItemContainer
+                        if (item is AppFormDataItemCheckboxModel checkbox)
                         {
-                            Topic = checkbox.Topic, Body = new CheckboxContainerItemState(checkbox.Topic)
+                            return new FormItemContainer
                             {
-                                Id = checkbox.Id, Children = new ObservableCollectionExtended<CheckboxItemState>(
-                                    checkbox.Children
-                                        .Select(checkboxItem =>
-                                        {
-                                            return new CheckboxItemState
-                                            {
-                                                Id = checkboxItem.Id, Topic = checkboxItem.Topic, TextItems =
-                                                    new ObservableCollectionExtended<TextItemState>(
-                                                        checkboxItem.TextItems.Select(textItem =>
-                                                        {
-                                                            return new TextItemState(
-                                                                id: textItem.Id,
-                                                                topic: textItem.Topic,
-                                                                textData: textItem.TextData,
-                                                                measurementUnit: textItem.MeasurementUnit);
-                                                        }))
-                                                , Options = new ObservableCollectionExtended<OptionsItemState>(
-                                                    checkboxItem.Options
-                                                        .Select(opt => new OptionsItemState
-                                                        {
-                                                            Id = opt.Id, IsChecked = opt.IsChecked, Value = opt.Value
-                                                        }))
-                                            };
-                                        }))
-                            }
-                        };
-                    }
-
-                    if (item is AppFormDataItemTextModel text)
-                    {
-                        return new FormItemContainer
-                        {
-                            Topic = text.Topic, Body = new TextItemState(
-                                id: text.Id,
-                                topic: text.Topic,
-                                textData: text.TextData,
-                                measurementUnit: text.MeasurementUnit)
-                        };
-                    }
-
-                    if (item is AppFormDataItemObservationModel observation)
-                    {
-                        return new FormItemContainer
-                        {
-                            Topic = observation.Topic, Body = new ObservationItemState(
-                                id: observation.Id,
-                                topic: observation.Topic,
-                                observation: observation.Observation)
-                        };
-                    }
-
-                    if (item is AppFormDataItemImageModel images)
-                    {
-                        return new FormItemContainer
-                        {
-                            Topic = images.Topic, Body = new ImageContainerItemState
-                            {
-                                Id = images.Id, Topic = images.Topic, Type = images.Type, ImagesItems =
-                                    new ObservableCollectionExtended<ImageItemState>(
-                                        images
-                                            .ImagesItems
-                                            .Select(image =>
-                                                new ImageItemState
+                                Topic = checkbox.Topic, Body = new CheckboxContainerItemState(checkbox.Topic)
+                                {
+                                    Id = checkbox.Id, Children = new ObservableCollectionExtended<CheckboxItemState>(
+                                        checkbox.Children
+                                            .Select(
+                                                checkboxItem =>
                                                 {
-                                                    Id = image.Id, ImagePath = image.ImagePath
-                                                    , ImageObservation = image.ImageObservation
+                                                    return new CheckboxItemState
+                                                    {
+                                                        Id = checkboxItem.Id, Topic = checkboxItem.Topic, TextItems =
+                                                            new ObservableCollectionExtended<TextItemState>(
+                                                                checkboxItem.TextItems.Select(
+                                                                    textItem =>
+                                                                    {
+                                                                        return new TextItemState(
+                                                                            id: textItem.Id,
+                                                                            topic: textItem.Topic,
+                                                                            textData: textItem.TextData,
+                                                                            measurementUnit: textItem.MeasurementUnit);
+                                                                    })),
+                                                        Options = new ObservableCollectionExtended<OptionsItemState>(
+                                                            checkboxItem.Options
+                                                                .Select(
+                                                                    opt => new OptionsItemState
+                                                                    {
+                                                                        Id = opt.Id, IsChecked = opt.IsChecked,
+                                                                        Value = opt.Value
+                                                                    }))
+                                                    };
                                                 }))
-                            }
-                        };
-                    }
+                                }
+                            };
+                        }
 
-                    return null;
-                }));
+                        if (item is AppFormDataItemTextModel text)
+                        {
+                            return new FormItemContainer
+                            {
+                                Topic = text.Topic, Body = new TextItemState(
+                                    id: text.Id,
+                                    topic: text.Topic,
+                                    textData: text.TextData,
+                                    measurementUnit: text.MeasurementUnit)
+                            };
+                        }
 
-        toReturn.LoadLawItems(item
-            .LawList
-            .Select(law =>
-                new LawStateItem { LawId = law.LawId, LawContent = law.LawTextContent }));
+                        if (item is AppFormDataItemObservationModel observation)
+                        {
+                            return new FormItemContainer
+                            {
+                                Topic = observation.Topic, Body = new ObservationItemState(
+                                    id: observation.Id,
+                                    topic: observation.Topic,
+                                    observation: observation.Observation)
+                            };
+                        }
+
+                        if (item is AppFormDataItemImageModel images)
+                        {
+                            return new FormItemContainer
+                            {
+                                Topic = images.Topic, Body = new ImageContainerItemState
+                                {
+                                    Id = images.Id, Topic = images.Topic, Type = images.Type, ImagesItems =
+                                        new ObservableCollectionExtended<ImageItemState>(
+                                            images
+                                                .ImagesItems
+                                                .Select(
+                                                    image =>
+                                                        new ImageItemState
+                                                        {
+                                                            Id = image.Id, ImagePath = image.ImagePath,
+                                                            ImageObservation = image.ImageObservation
+                                                        }))
+                                }
+                            };
+                        }
+
+                        return null;
+                    }));
+
+        toReturn.LoadLawItems(
+            item
+                .LawList
+                .Select(
+                    law =>
+                        new LawStateItem { LawId = law.LawId, LawContent = law.LawTextContent }));
 
         return toReturn;
     }
@@ -214,102 +217,124 @@ public static class Extensions
     ) =>
         new()
         {
-            Id = !string.IsNullOrWhiteSpace(item.Id) ? item.Id : Guid.NewGuid().ToString()
-            , ItemName = item.ItemName, FormData = item.FormData.Select<FormItemContainer, IAppFormDataItemContract>(
-                item =>
-                {
-                    if (item.Body is CheckboxContainerItemState checkbox)
+            Id = !string.IsNullOrWhiteSpace(item.Id)
+                ? item.Id
+                : Guid.NewGuid()
+                    .ToString(),
+            ItemName = item.ItemName, FormData = item.FormData.Select<FormItemContainer, IAppFormDataItemContract>(
+                    item =>
                     {
-                        return new AppFormDataItemCheckboxModel(
-                            !string.IsNullOrWhiteSpace(checkbox.Id)
-                                ? item.Id
-                                : Guid.NewGuid().ToString(),
-                            checkbox.Topic,
-                            checkbox.Type)
+                        if (item.Body is CheckboxContainerItemState checkbox)
                         {
-                            Children = checkbox
-                                .Children
-                                .Select(item => new AppFormDataItemCheckboxChildModel(
-                                    !string.IsNullOrWhiteSpace(item.Id)
-                                        ? item.Id
-                                        : Guid.NewGuid().ToString(),
-                                    item.Topic)
-                                {
-                                    Options = item
-                                        .Options
-                                        .Select(item =>
-                                            new AppOptionModel(
-                                                item.Value,
-                                                isChecked: item.IsChecked,
+                            return new AppFormDataItemCheckboxModel(
+                                id: !string.IsNullOrWhiteSpace(checkbox.Id)
+                                    ? item.Id
+                                    : Guid.NewGuid()
+                                        .ToString(),
+                                topic: checkbox.Topic,
+                                type: checkbox.Type)
+                            {
+                                Children = checkbox
+                                    .Children
+                                    .Select(
+                                        item => new AppFormDataItemCheckboxChildModel(
+                                            id: !string.IsNullOrWhiteSpace(item.Id)
+                                                ? item.Id
+                                                : Guid.NewGuid()
+                                                    .ToString(),
+                                            topic: item.Topic)
+                                        {
+                                            Options = item
+                                                .Options
+                                                .Select(
+                                                    item =>
+                                                        new AppOptionModel(
+                                                            value: item.Value,
+                                                            isChecked: item.IsChecked,
+                                                            id: !string.IsNullOrWhiteSpace(item.Id)
+                                                                ? item.Id
+                                                                : Guid.NewGuid()
+                                                                    .ToString())
+                                                )
+                                                .ToList(),
+                                            TextItems =
+                                                item
+                                                    .TextItems
+                                                    .Select(
+                                                        item =>
+                                                            new AppFormDataItemTextModel(
+                                                                id: !string.IsNullOrWhiteSpace(item.Id)
+                                                                    ? item.Id
+                                                                    : Guid.NewGuid()
+                                                                        .ToString(),
+                                                                topic: item.Topic,
+                                                                type: item.Type,
+                                                                textData: item.TextData,
+                                                                measurementUnit: item.MeasurementUnit))
+                                                    .ToList()
+                                        })
+                                    .ToList()
+                            };
+                        }
+
+                        if (item.Body is TextItemState text)
+                        {
+                            return new AppFormDataItemTextModel(
+                                id: !string.IsNullOrWhiteSpace(item.Id)
+                                    ? item.Id
+                                    : Guid.NewGuid()
+                                        .ToString(),
+                                topic: text.Topic,
+                                type: text.Type,
+                                textData: text.TextData,
+                                measurementUnit: text.MeasurementUnit);
+                        }
+
+                        if (item.Body is ImageContainerItemState images)
+                        {
+                            return new AppFormDataItemImageModel(
+                                id: !string.IsNullOrWhiteSpace(item.Id)
+                                    ? item.Id
+                                    : Guid.NewGuid()
+                                        .ToString(),
+                                topic: images.Topic,
+                                type: images.Type)
+                            {
+                                ImagesItems = images.ImagesItems.Select(
+                                        item =>
+                                            new ImagesItem(
                                                 id: !string.IsNullOrWhiteSpace(item.Id)
                                                     ? item.Id
-                                                    : Guid.NewGuid().ToString())
-                                        )
-                                        .ToList()
-                                    , TextItems =
-                                        item
-                                            .TextItems
-                                            .Select(item =>
-                                                new AppFormDataItemTextModel(
-                                                    !string.IsNullOrWhiteSpace(item.Id)
-                                                        ? item.Id
-                                                        : Guid.NewGuid().ToString(),
-                                                    item.Topic,
-                                                    item.Type,
-                                                    item.TextData,
-                                                    item.MeasurementUnit))
-                                            .ToList()
-                                })
-                                .ToList()
-                        };
-                    }
+                                                    : Guid.NewGuid()
+                                                        .ToString(),
+                                                imagePath: item.ImagePath,
+                                                imageObservation: item.ImageObservation))
+                                    .ToList()
+                            };
+                        }
 
-                    if (item.Body is TextItemState text)
-                    {
-                        return new AppFormDataItemTextModel(
-                            !string.IsNullOrWhiteSpace(item.Id)
-                                ? item.Id
-                                : Guid.NewGuid().ToString(),
-                            text.Topic,
-                            text.Type,
-                            text.TextData, text.MeasurementUnit);
-                    }
-
-                    if (item.Body is ImageContainerItemState images)
-                    {
-                        return new AppFormDataItemImageModel(!string.IsNullOrWhiteSpace(item.Id)
-                            ? item.Id
-                            : Guid.NewGuid().ToString(), images.Topic, images.Type)
+                        if (item.Body is ObservationItemState observation)
                         {
-                            ImagesItems = images.ImagesItems.Select(item =>
-                                new ImagesItem(
-                                    !string.IsNullOrWhiteSpace(item.Id)
-                                        ? item.Id
-                                        : Guid.NewGuid().ToString(),
-                                    item.ImagePath,
-                                    item.ImageObservation)).ToList()
-                        };
-                    }
+                            return new AppFormDataItemObservationModel(
+                                id: !string.IsNullOrWhiteSpace(item.Id)
+                                    ? item.Id
+                                    : Guid.NewGuid()
+                                        .ToString(),
+                                type: AppFormDataType.Observação,
+                                observation: observation.Observation,
+                                topic: observation.Topic);
+                        }
 
-                    if (item.Body is ObservationItemState observation)
-                    {
-                        return new AppFormDataItemObservationModel(
-                            id: !string.IsNullOrWhiteSpace(item.Id)
-                                ? item.Id
-                                : Guid.NewGuid().ToString(),
-                            type: AppFormDataType.Observação,
-                            observation: observation.Observation,
-                            topic: observation.Topic);
-                    }
-
-                    return null;
-                }).ToList()
-            , LawList = item
+                        return null;
+                    })
+                .ToList(),
+            LawList = item
                 .LawItems
-                .Select(x =>
-                    new AppLawModel(
-                        x.LawId,
-                        x.LawContent))
+                .Select(
+                    x =>
+                        new AppLawModel(
+                            lawId: x.LawId,
+                            lawTextContent: x.LawContent))
                 .ToList()
         };
 }

@@ -8,8 +8,8 @@ using ReactiveUI;
 namespace ProjectAvalonia.DesignTimeViewModels;
 
 public class DesignTimeTemplateEditTabViewModel
-    : ReactiveObject
-        , ITemplateEditTabViewModel
+    : ReactiveObject,
+        ITemplateEditTabViewModel
 {
     public AppModelState EditingItem
     {
@@ -17,53 +17,65 @@ public class DesignTimeTemplateEditTabViewModel
         set;
     } = new()
     {
-        Id = "", FormData = new ReadOnlyObservableCollection<FormItemContainer>(
-            new ObservableCollection<FormItemContainer>
+        Id = "", FormData = new ObservableCollection<FormItemContainer>
+        {
+            new()
             {
-                new()
+                Topic = "Teste", Body = new TextItemState(
+                    topic: "teste item",
+                    id: "",
+                    textData: "teste",
+                    measurementUnit: "m")
+            },
+            new()
+            {
+                Topic = "Teste 2", Body = new CheckboxContainerItemState("Teste")
                 {
-                    Topic = "Teste"
-                    , Body = new TextItemState("teste item", id: "", textData: "teste", measurementUnit: "m")
-                }
-                , new()
-                {
-                    Topic = "Teste 2", Body = new CheckboxContainerItemState("Teste")
+                    Children = new ObservableCollection<CheckboxItemState>
                     {
-                        Children = new ObservableCollection<CheckboxItemState>
+                        new()
                         {
-                            new()
+                            Options = new ObservableCollection<OptionsItemState>
                             {
-                                Options = new ObservableCollection<OptionsItemState>
+                                new()
                                 {
-                                    new()
-                                    {
-                                        Value = "Sim", IsChecked = false
-                                    }
-                                    , new()
-                                    {
-                                        Value = "Não", IsChecked = false
-                                    }
-                                    , new()
-                                    {
-                                        Value = "Talvez", IsChecked = false
-                                    }
-                                }
-                                , TextItems = new ObservableCollection<TextItemState>
+                                    Value = "Sim", IsChecked = false
+                                },
+                                new()
                                 {
-                                    new("inner text", id: "", textData: "teste", measurementUnit: "m")
-                                    , new("inner text 2", id: "", textData: "teste", measurementUnit: "m")
+                                    Value = "Não", IsChecked = false
+                                },
+                                new()
+                                {
+                                    Value = "Talvez", IsChecked = false
                                 }
+                            },
+                            TextItems = new ObservableCollection<TextItemState>
+                            {
+                                new(
+                                    topic: "inner text",
+                                    id: "",
+                                    textData: "teste",
+                                    measurementUnit: "m"),
+                                new(
+                                    topic: "inner text 2",
+                                    id: "",
+                                    textData: "teste",
+                                    measurementUnit: "m")
                             }
                         }
                     }
                 }
-                , new()
-                {
-                    Topic = "Teste"
-                    , Body = new TextItemState("teste item", id: "", textData: "teste2", measurementUnit: "m")
-                }
-            })
-        , ItemName = "Teste", ItemTemplate = "Teste Template"
-        , LawItems = new ReadOnlyObservableCollection<LawStateItem>(new ObservableCollection<LawStateItem>())
+            },
+            new()
+            {
+                Topic = "Teste", Body = new TextItemState(
+                    topic: "teste item",
+                    id: "",
+                    textData: "teste2",
+                    measurementUnit: "m")
+            }
+        },
+        ItemName = "Teste", ItemTemplate = "Teste Template", LawItems = new ObservableCollection<LawStateItem>()
     };
 }

@@ -40,22 +40,45 @@ public static class Constants
     public const string reportItemSolutionName = "SolutionName";
 
     public static string AppFolder = OperatingSystem.IsWindows()
-        ? Path.Combine(path1: Environment.GetFolderPath(folder: Environment.SpecialFolder.ApplicationData)
-            , path2: AppName)
-        : Path.Combine(path1: Environment.GetFolderPath(folder: Environment.SpecialFolder.LocalApplicationData)
-            , path2: AppName);
+        ? Path.Combine(
+            path1: Environment.GetFolderPath(folder: Environment.SpecialFolder.ApplicationData),
+            path2: AppName)
+        : Path.Combine(
+            path1: Environment.GetFolderPath(folder: Environment.SpecialFolder.LocalApplicationData),
+            path2: AppName);
 
-    public static string AppCacheFolder = Path.Combine(path1: AppFolder, path2: "CacheData");
-    public static string AppHistoryFolder = Path.Combine(path1: AppCacheFolder, path2: "RecentlyOpened");
-    public static string AppUnclosedItemsFolder = Path.Combine(path1: AppCacheFolder, path2: "UnclosedItems");
+    public static string AppCacheFolder = Path.Combine(
+        path1: AppFolder,
+        path2: "CacheData");
 
-    public static string AppSettingsFolder = Path.Combine(path1: AppFolder, path2: "Settings");
-    public static string AppUISettings = Path.Combine(path1: AppSettingsFolder, path2: "UISettings");
+    public static string AppHistoryFolder = Path.Combine(
+        path1: AppCacheFolder,
+        path2: "RecentlyOpened");
 
-    public static string AppLogsSettings = Path.Combine(path1: AppSettingsFolder, path2: "Logs");
+    public static string AppUnclosedItemsFolder = Path.Combine(
+        path1: AppCacheFolder,
+        path2: "UnclosedItems");
 
-    public static string AppTemplatesFolder = Path.Combine(path1: AppFolder, path2: "Templates");
+    public static string AppSettingsFolder = Path.Combine(
+        path1: AppFolder,
+        path2: "Settings");
+
+    public static string AppUISettings = Path.Combine(
+        path1: AppSettingsFolder,
+        path2: "UISettings");
+
+    public static string AppLogsSettings = Path.Combine(
+        path1: AppSettingsFolder,
+        path2: "Logs");
+
+    public static string AppTemplatesFolder = Path.Combine(
+        path1: AppFolder,
+        path2: "Templates");
 
     public static string AppItemsTemplateFolder =
-        Path.Combine(path1: AppTemplatesFolder, path2: AppProjectItemsFolderName);
+        Path.Combine(
+            path1: AppTemplatesFolder,
+            path2: AppProjectItemsFolderName);
 }
+#if NET
+#endif

@@ -1,20 +1,21 @@
-﻿using ProjetoAcessibilidade.Core.Entities.Solution;
+﻿using Common.Optional;
+using ProjetoAcessibilidade.Core.Entities.Solution;
 
 namespace ProjetoAcessibilidade.Domain.Solution.Contracts;
 
 public interface ISolutionRepository
 {
-    public Task<ProjectSolutionModel> ReadSolution(
-        string solutionPath
+    public Task<Optional<ProjectSolutionModel>> ReadSolution(
+        Optional<string> solutionPath
     );
 
     public Task SaveSolution(
-        string solutionPath
-        , ProjectSolutionModel dataToWrite
+        Optional<string> solutionPath,
+        Optional<ProjectSolutionModel> dataToWrite
     );
 
     public Task SyncSolution(
-        string solutionPath
-        , ProjectSolutionModel dataToWrite
+        Optional<string> solutionPath,
+        Optional<ProjectSolutionModel> dataToWrite
     );
 }
