@@ -14,8 +14,8 @@ public class FadeOutTextBlock
 {
     private static readonly IBrush FadeoutOpacityMask = new LinearGradientBrush
     {
-        StartPoint = new RelativePoint(x: 0, y: 0, unit: RelativeUnit.Relative)
-        , EndPoint = new RelativePoint(x: 1, y: 0, unit: RelativeUnit.Relative), GradientStops =
+        StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative)
+        , EndPoint = new RelativePoint(1, 0, RelativeUnit.Relative), GradientStops =
         {
             new GradientStop { Color = Colors.White, Offset = 0 }
             , new GradientStop { Color = Colors.White, Offset = 0.7 }
@@ -30,7 +30,7 @@ public class FadeOutTextBlock
 
     public FadeOutTextBlock()
     {
-        TextWrapping = TextWrapping.NoWrap;
+        TextWrapping = TextWrapping.WrapWithOverflow;
     }
 
     public Type StyleKey
@@ -48,7 +48,7 @@ public class FadeOutTextBlock
 
         if (background != null)
         {
-            context.FillRectangle(brush: background, rect: Bounds);
+            context.FillRectangle(background, Bounds);
         }
 
         if (_trimmedLayout is null || _noTrimLayout is null)
@@ -67,10 +67,10 @@ public class FadeOutTextBlock
         var (left, yPosition, _, _) = Padding;
 
         using var a =
-            context.PushPostTransform(matrix: Matrix.CreateTranslation(xPosition: left + centerOffset
-                , yPosition: yPosition));
-        using var b = _cutOff ? context.PushOpacityMask(mask: FadeoutOpacityMask, bounds: Bounds) : Disposable.Empty;
-        _noTrimLayout.Draw(context: context);
+            context.PushPostTransform(Matrix.CreateTranslation(left + centerOffset
+                , yPosition));
+        using var b = _cutOff ? context.PushOpacityMask(FadeoutOpacityMask, Bounds) : Disposable.Empty;
+        _noTrimLayout.Draw(context);
     }
 
     private void NewCreateTextLayout(
@@ -84,7 +84,7 @@ public class FadeOutTextBlock
         }
 
         var text1 = text ?? "";
-        var typeface = new Typeface(fontFamily: FontFamily, style: FontStyle, weight: FontWeight);
+        var typeface = new Typeface(FontFamily, FontStyle, FontWeight);
         var fontSize = FontSize;
         var foreground = Foreground;
         var textAlignment = TextAlignment;
@@ -95,55 +95,55 @@ public class FadeOutTextBlock
         var lineHeight = LineHeight;
 
         _noTrimLayout = new TextLayout(
-            text: text1,
-            typeface: typeface,
-            fontSize: fontSize,
-            foreground: foreground,
-            textAlignment: textAlignment,
-            textWrapping: textWrapping,
-            textTrimming: TextTrimming.None,
-            textDecorations: textDecorations,
-            maxWidth: width,
-            maxHeight: height,
-            lineHeight: lineHeight,
-            maxLines: 1);
+            text1,
+            typeface,
+            fontSize,
+            foreground,
+            textAlignment,
+            textWrapping,
+            TextTrimming.None,
+            textDecorations,
+            width,
+            height,
+            lineHeight,
+            1);
 
         _trimmedLayout = new TextLayout(
-            text: text1,
-            typeface: typeface,
-            fontSize: fontSize,
-            foreground: foreground,
-            textAlignment: textAlignment,
-            textWrapping: textWrapping,
-            textTrimming: TextTrimming.CharacterEllipsis,
-            textDecorations: textDecorations,
-            maxWidth: width,
-            maxHeight: height,
-            lineHeight: lineHeight,
-            maxLines: 1);
+            text1,
+            typeface,
+            fontSize,
+            foreground,
+            textAlignment,
+            textWrapping,
+            TextTrimming.CharacterEllipsis,
+            textDecorations,
+            width,
+            height,
+            lineHeight,
+            1);
 
-        _cutOff = _trimmedLayout.TextLines[index: 0].HasCollapsed;
+        _cutOff = _trimmedLayout.TextLines[0].HasCollapsed;
     }
 
     protected override Size MeasureOverride(
         Size availableSize
     )
     {
-        if (string.IsNullOrEmpty(value: Text))
+        if (string.IsNullOrEmpty(Text))
         {
             return new Size();
         }
 
         var padding = Padding;
 
-        availableSize = availableSize.Deflate(thickness: padding);
+        availableSize = availableSize.Deflate(padding);
 
         if (_constraint != availableSize)
         {
             _constraint = availableSize;
-            NewCreateTextLayout(constraint: _constraint, text: Text);
+            NewCreateTextLayout(_constraint, Text);
         }
 
-        return (_trimmedLayout?.Size ?? Size.Empty).Inflate(thickness: padding);
+        return (_trimmedLayout?.Size ?? Size.Empty).Inflate(padding);
     }
 }

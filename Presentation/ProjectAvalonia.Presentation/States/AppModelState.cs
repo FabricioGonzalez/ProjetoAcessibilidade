@@ -1,24 +1,59 @@
-﻿namespace ProjectAvalonia.Presentation.States;
+﻿using System.Collections.ObjectModel;
+using DynamicData;
+using DynamicData.Binding;
+using ProjectAvalonia.Presentation.States.FormItemState;
+using ProjectAvalonia.Presentation.States.LawItemState;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+using ProjetoAcessibilidade.Core.Enuns;
+using ReactiveUI;
 
-public class AppModelState
+namespace ProjectAvalonia.Presentation.States;
+
+public partial class AppModelState : ReactiveObject
 {
-    /*[AutoNotify]
     private ReadOnlyObservableCollection<FormItemStateBase> _formData;
+    public ReadOnlyObservableCollection<FormItemStateBase> FormData
+    {
+        get => _formData;
+        set => this.RaiseAndSetIfChanged(ref _formData,value);
+    }
 
-    [AutoNotify]
     private string _itemName;
 
-    [AutoNotify]
+    public string ItemName
+    {
+        get => _itemName;
+        set => this.RaiseAndSetIfChanged(ref _itemName, value);
+    }
     private string _itemTemplate;
 
-    [AutoNotify]
-    private ReadOnlyObservableCollection<LawStateItem> _lawItems;
+    public string ItemTemplate
+    {
+        get => _itemTemplate;
+        set => this.RaiseAndSetIfChanged(ref _itemTemplate, value);
+    }
 
+    private ReadOnlyObservableCollection<LawStateItem> _lawItems;
+    public ReadOnlyObservableCollection<LawStateItem> LawItems
+    {
+        get => _lawItems;
+        set => this.RaiseAndSetIfChanged(ref _lawItems, value);
+    }
     private readonly SourceList<FormItemStateBase> formDataAggregate = new();
 
-    [AutoNotify]
-    private string id;
 
+    private string _id;
+
+    public string Id
+    {
+        get =>_id;
+        set => this.RaiseAndSetIfChanged(ref _id,value);
+    }
     private readonly SourceList<LawStateItem> lawItemsAggregate = new();
 
     public AppModelState()
@@ -66,10 +101,8 @@ public class AppModelState
         LawStateItem lawItem
     ) => lawItemsAggregate.Remove(item: lawItem);
 
-    public IObservable<IChangeSet<FormItemStateBase>> GetFormDataObservable() => formDataAggregate.Connect();*/
+    public IObservable<IChangeSet<FormItemStateBase>> GetFormDataObservable() => formDataAggregate.Connect();
 }
-
-/*
 public static partial class Extensions
 {
     public static AppModelState ToAppState(
@@ -265,4 +298,4 @@ public static partial class Extensions
                         lawTextContent: x.LawContent))
                 .ToList()
         };
-}*/
+}

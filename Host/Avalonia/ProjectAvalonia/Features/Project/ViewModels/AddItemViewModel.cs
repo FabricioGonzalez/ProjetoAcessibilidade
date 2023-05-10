@@ -16,7 +16,9 @@ using Splat;
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 [NavigationMetaData(Title = "Adicionar item")]
-public partial class AddItemViewModel : DialogViewModelBase<ItemState>, IAddItemViewModel
+public partial class AddItemViewModel
+    : DialogViewModelBase<ItemState>
+        , IAddItemViewModel
 {
     /*private readonly TemplateItemsStore? _itemsStore;*/
     private readonly IMediator? _queryDispatcher;
@@ -27,59 +29,57 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>, IAddItem
 
     public AddItemViewModel()
     {
-        SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(true, true, true);
 
         _queryDispatcher ??= Locator.Current.GetService<IMediator>();
         /*_itemsStore ??= Locator.Current.GetService<TemplateItemsStore>();*/
 
-        this.WhenAnyValue(property1: vm => vm.SelectedItem)
+        this.WhenAnyValue(vm => vm.SelectedItem)
             .WhereNotNull()
-            .Subscribe(onNext: item =>
+            .Subscribe(item =>
             {
-                if (string.IsNullOrWhiteSpace(value: ItemName))
+                if (string.IsNullOrWhiteSpace(ItemName))
                 {
                     ItemName = item.TemplateName;
                 }
             });
 
-        LoadAllItems = ReactiveCommand.CreateFromTask(execute: async () =>
+        LoadAllItems = ReactiveCommand.CreateFromTask(async () =>
             {
                 (await _queryDispatcher?
                         .Dispatch(
-                            query: new GetAllTemplatesQuery(),
-                            cancellation: CancellationToken.None))
-                    ?.OnSuccess(onSuccessAction: success =>
+                            new GetAllTemplatesQuery(),
+                            CancellationToken.None))
+                    ?.OnSuccess(success =>
                     {
                         Items = success
                             ?.Data
-                            ?.Select(selector: item => new ItemState
+                            ?.Select(item => new ItemState
                             {
-                                Id = item.Id ?? Guid.NewGuid().ToString(),
-                                ItemPath = item.ItemPath,
-                                Name = "",
-                                TemplateName = item.Name
+                                Id = item.Id ?? Guid.NewGuid().ToString(), ItemPath = item.ItemPath, Name = ""
+                                , TemplateName = item.Name
                             }) ?? Enumerable.Empty<ItemState>();
 
-                        this.RaisePropertyChanged(propertyName: nameof(Items));
+                        this.RaisePropertyChanged(nameof(Items));
                     })
-                    ?.OnError(onErrorAction: error =>
+                    ?.OnError(error =>
                     {
                     });
             }
             , outputScheduler: RxApp.MainThreadScheduler);
 
         NextCommand = ReactiveCommand.Create(
-            execute: OnNext,
-            canExecute: this.WhenAnyValue(property1: x => x.SelectedItem)
-                .Select(selector: prop => prop is not null)
-                .ObserveOn(scheduler: RxApp.MainThreadScheduler));
+            OnNext,
+            this.WhenAnyValue(x => x.SelectedItem)
+                .Select(prop => prop is not null)
+                .ObserveOn(RxApp.MainThreadScheduler));
     }
 
     public override string? LocalizedTitle
     {
         get;
         protected set;
-    } = null;
+    }
 
     public IEnumerable<ItemState> Items
     {
@@ -96,6 +96,6 @@ public partial class AddItemViewModel : DialogViewModelBase<ItemState>, IAddItem
     private void OnNext()
     {
         SelectedItem.Name = ItemName;
-        Close(kind: DialogResultKind.Normal, result: SelectedItem);
+        Close(DialogResultKind.Normal, SelectedItem);
     }
 }

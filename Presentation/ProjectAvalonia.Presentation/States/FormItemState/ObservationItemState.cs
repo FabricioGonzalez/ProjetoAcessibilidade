@@ -1,11 +1,13 @@
-﻿namespace ProjectAvalonia.Presentation.States.FormItemState;
+﻿using ProjetoAcessibilidade.Core.Enuns;
+using ReactiveUI;
 
-public class ObservationItemState
+namespace ProjectAvalonia.Presentation.States.FormItemState;
+
+public class ObservationItemState : FormItemStateBase
 {
-    /*[AutoNotify]
     private string _observation = "";
 
-    [AutoNotify]
+
     private string _topic = "";
 
     public ObservationItemState(
@@ -14,9 +16,21 @@ public class ObservationItemState
         , AppFormDataType type = AppFormDataType.Observação
         , string id = ""
     )
-        : base(type: type, id: id)
+        : base(type, id)
     {
         Observation = observation;
         Topic = topic;
-    }*/
+    }
+
+    public string Observation
+    {
+        get => _observation;
+        set => this.RaiseAndSetIfChanged(ref _observation, value);
+    }
+
+    public string Topic
+    {
+        get => _topic;
+        set => this.RaiseAndSetIfChanged(ref _topic, value);
+    }
 }

@@ -4,7 +4,9 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 
-public class DesignTimeEditableItemViewModel : ReactiveObject, IEditableItemViewModel
+public class DesignTimeEditableItemViewModel
+    : ReactiveObject
+        , IEditableItemViewModel
 {
     public bool InEditMode
     {
@@ -16,13 +18,13 @@ public class DesignTimeEditableItemViewModel : ReactiveObject, IEditableItemView
     {
         get;
         set;
-    }
+    } = "Teste";
 
     public string Name
     {
         get;
         set;
-    }
+    } = "Teste";
 
     public string ItemPath
     {

@@ -4,7 +4,9 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 
-public class DeleteDialogViewModel : DialogViewModelBase<bool>, IDeleteDialogViewModel
+public class DeleteDialogViewModel
+    : DialogViewModelBase<bool>
+        , IDeleteDialogViewModel
 {
     private string _title;
 
@@ -18,11 +20,11 @@ public class DeleteDialogViewModel : DialogViewModelBase<bool>, IDeleteDialogVie
         _title = title;
         Caption = caption;
 
-        NextCommand = ReactiveCommand.Create(execute: () => Close(result: true));
+        NextCommand = ReactiveCommand.Create(() => Close(result: true));
 
-        CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel, result: false));
+        CancelCommand = ReactiveCommand.Create(() => Close(DialogResultKind.Cancel));
 
-        SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(true, true, true);
     }
 
     public string Message
@@ -38,7 +40,7 @@ public class DeleteDialogViewModel : DialogViewModelBase<bool>, IDeleteDialogVie
     public override string Title
     {
         get => _title;
-        protected set => this.RaiseAndSetIfChanged(backingField: ref _title, newValue: value);
+        protected set => this.RaiseAndSetIfChanged(ref _title, value);
     }
 
     public override string? LocalizedTitle

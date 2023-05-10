@@ -31,13 +31,13 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
         _selectedTab = 0;
         SelectionMode = NavBarItemSelectionMode.Button;
 
-        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(false, true, true);
 
         GeneralSettingsTab = new GeneralSettingsTabViewModel();
         AdvancedSettingsTab = new AdvancedSettingsTabViewModel();
 
-        RestartCommand = ReactiveCommand.Create(execute: () =>
-            AppLifetimeHelper.Shutdown(withShutdownPrevention: true, restart: true));
+        RestartCommand = ReactiveCommand.Create(() =>
+            AppLifetimeHelper.Shutdown(true, true));
         NextCommand = CancelCommand;
     }
 
@@ -72,13 +72,13 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
         , CompositeDisposable disposables
     )
     {
-        base.OnNavigatedTo(isInHistory: isInHistory, disposables: disposables);
+        base.OnNavigatedTo(isInHistory, disposables);
 
         IsModified = SettingsTabViewModelBase.CheckIfRestartIsNeeded();
 
         SettingsTabViewModelBase.RestartNeeded += OnRestartNeeded;
 
         disposables.Add(
-            item: Disposable.Create(dispose: () => SettingsTabViewModelBase.RestartNeeded -= OnRestartNeeded));
+            Disposable.Create(() => SettingsTabViewModelBase.RestartNeeded -= OnRestartNeeded));
     }
 }

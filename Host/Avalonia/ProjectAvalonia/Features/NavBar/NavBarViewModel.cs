@@ -35,31 +35,29 @@ public class NavBarViewModel : ViewModelBase
 
     public async Task InitialiseAsync()
     {
-        var topItems = NavigationManager.MetaData.Where(predicate: x => x.NavBarPosition == NavBarPosition.Top);
+        var topItems = NavigationManager.MetaData.Where(x => x.NavBarPosition == NavBarPosition.Top);
 
-        var bottomItems = NavigationManager.MetaData.Where(predicate: x => x.NavBarPosition == NavBarPosition.Bottom);
+        var bottomItems = NavigationManager.MetaData.Where(x => x.NavBarPosition == NavBarPosition.Bottom);
 
         foreach (var item in topItems)
         {
-            var viewModel = await NavigationManager.MaterialiseViewModelAsync(metaData: item);
+            var viewModel = await NavigationManager.MaterialiseViewModelAsync(item);
 
-            viewModel?.SetTitle(localizedString: item.LocalizedTitle);
+            viewModel.SetTitle(item.LocalizedTitle);
 
             if (viewModel is NavBarItemViewModel navBarItem)
             {
-                TopItems.Add(item: navBarItem);
+                TopItems.Add(navBarItem);
             }
         }
 
         foreach (var item in bottomItems)
         {
-            var viewModel = await NavigationManager.MaterialiseViewModelAsync(metaData: item);
-
-            viewModel?.SetTitle(localizedString: item.LocalizedTitle);
-
+            var viewModel = await NavigationManager.MaterialiseViewModelAsync(item);
+            viewModel.SetTitle(item.LocalizedTitle);
             if (viewModel is NavBarItemViewModel navBarItem)
             {
-                BottomItems.Add(item: navBarItem);
+                BottomItems.Add(navBarItem);
             }
         }
     }

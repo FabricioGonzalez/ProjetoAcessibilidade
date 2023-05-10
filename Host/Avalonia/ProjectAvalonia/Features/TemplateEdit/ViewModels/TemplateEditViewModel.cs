@@ -29,31 +29,33 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_regular")]
-public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditViewModel
+public partial class TemplateEditViewModel
+    : NavBarItemViewModel
+        , ITemplateEditViewModel
 {
-    private readonly IMediator _queryDispatcher;
+    private readonly IMediator _mediator;
 
 
     public TemplateEditViewModel()
     {
-        _queryDispatcher = Locator.Current.GetService<IMediator>();
+        _mediator = Locator.Current.GetService<IMediator>()!;
 
-        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(false, true, true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
-        AddNewItemCommand = ReactiveCommand.Create(execute: () =>
+        AddNewItemCommand = ReactiveCommand.Create(() =>
         {
         });
-        LoadAllItems = ReactiveCommand.CreateFromTask(execute: loadItems, outputScheduler: RxApp.MainThreadScheduler);
+        LoadAllItems = ReactiveCommand.CreateFromTask(loadItems, outputScheduler: RxApp.MainThreadScheduler);
 
-        ExcludeItemCommand = ReactiveCommand.Create(execute: () =>
+        ExcludeItemCommand = ReactiveCommand.Create(() =>
         {
         });
-        RenameItemCommand = ReactiveCommand.Create(execute: () =>
+        RenameItemCommand = ReactiveCommand.Create(() =>
         {
         });
-        CommitItemCommand = ReactiveCommand.Create(execute: () =>
+        CommitItemCommand = ReactiveCommand.Create(() =>
         {
         });
     }
@@ -223,25 +225,23 @@ public partial class TemplateEditViewModel : NavBarItemViewModel, ITemplateEditV
     }
 
     private async Task loadItems() =>
-        (await _queryDispatcher?
+        (await _mediator
             .Dispatch(
-                query: new GetAllTemplatesQuery(),
-                cancellation: CancellationToken.None))
-        ?.OnSuccess(onSuccessAction: success =>
+                new GetAllTemplatesQuery(),
+                CancellationToken.None))
+        ?.OnSuccess(success =>
         {
-            Items = new ObservableCollection<IEditableItemViewModel>(collection: success
+            Items = new ObservableCollection<IEditableItemViewModel>(success
                 ?.Data
-                ?.Select(selector: item => new EditableItemViewModel
+                ?.Select(item => new EditableItemViewModel
                 {
-                    Id = item.Id ?? Guid.NewGuid().ToString(),
-                    ItemPath = item.ItemPath,
-                    Name = "",
-                    TemplateName = item.Name
+                    Id = item.Id ?? Guid.NewGuid().ToString(), ItemPath = item.ItemPath, Name = ""
+                    , TemplateName = item.Name
                 }) ?? Enumerable.Empty<EditableItemViewModel>());
 
-            this.RaisePropertyChanged(propertyName: nameof(Items));
+            this.RaisePropertyChanged(nameof(Items));
         })
-        ?.OnError(onErrorAction: error =>
+        ?.OnError(error =>
         {
         });
 }

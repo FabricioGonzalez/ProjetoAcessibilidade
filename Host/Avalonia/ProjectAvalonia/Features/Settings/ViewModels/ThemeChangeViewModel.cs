@@ -19,6 +19,7 @@ public partial class ThemeChangeViewModel : RoutableViewModel
         _newTheme = newTheme;
     }
 
+
     public override string? LocalizedTitle
     {
         get;
@@ -30,12 +31,12 @@ public partial class ThemeChangeViewModel : RoutableViewModel
         , CompositeDisposable disposables
     )
     {
-        base.OnNavigatedTo(isInHistory: isInHistory, disposables: disposables);
+        base.OnNavigatedTo(isInHistory, disposables);
 
-        RxApp.MainThreadScheduler.Schedule(action: async () =>
+        RxApp.MainThreadScheduler.Schedule(async () =>
         {
-            await Task.Delay(millisecondsDelay: 500);
-            ThemeHelper.ApplyTheme(theme: _newTheme);
+            await Task.Delay(500);
+            ThemeHelper.ApplyTheme(_newTheme);
             Navigate().Clear();
         });
     }

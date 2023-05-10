@@ -32,7 +32,9 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_file_regular")]
-public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
+public partial class ProjectViewModel
+    : NavBarItemViewModel
+        , IProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
@@ -186,20 +188,20 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
 
     public ProjectViewModel()
     {
-        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(false, true, true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
         _queryDispatcher ??= Locator.Current.GetService<IMediator>();
 
-        this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
-            .Select(selector: x => x?.Items.Count > 0)
-            .ToProperty(source: this, property: x => x.IsSolutionOpen, result: out _isSolutionOpen);
+        this.WhenAnyValue(vm => vm.ProjectExplorerViewModel)
+            .Select(x => x?.Items.Count > 0)
+            .ToProperty(this, x => x.IsSolutionOpen, out _isSolutionOpen);
 
-        var isSolutionOpen = this.WhenAnyValue(property1: vm => vm.IsSolutionOpen);
+        var isSolutionOpen = this.WhenAnyValue(vm => vm.IsSolutionOpen);
 
-        OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
-        CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: CreateSolution);
-        PrintProjectCommand = ReactiveCommand.CreateFromTask(execute: PrintSolution, canExecute: isSolutionOpen);
+        OpenProjectCommand = ReactiveCommand.CreateFromTask(OpenSolution);
+        CreateProjectCommand = ReactiveCommand.CreateFromTask(CreateSolution);
+        PrintProjectCommand = ReactiveCommand.CreateFromTask(PrintSolution, isSolutionOpen);
 
         ProjectEditingViewModel = new ProjectEditingViewModel();
         ProjectPrintPreviewViewModel = new PreviewerViewModel();
@@ -207,15 +209,15 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
         EnableAutoBusyOn(OpenProjectCommand, CreateProjectCommand);
     }
 
+    public PreviewerViewModel ProjectPrintPreviewViewModel
+    {
+        get;
+    }
+
     public override string? LocalizedTitle
     {
         get;
         protected set;
-    } = null;
-
-    public PreviewerViewModel ProjectPrintPreviewViewModel
-    {
-        get;
     }
 
     public bool IsSolutionOpen => _isSolutionOpen.Value;
@@ -251,58 +253,61 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
         get;
     }
 
-    private async Task<Unit> PrintSolution(CancellationToken arg)
+    private async Task<Unit> PrintSolution(
+        CancellationToken arg
+    )
     {
-        Navigate(currentTarget: NavigationTarget.FullScreen)
-            .To(viewmodel: ProjectPrintPreviewViewModel,
-                mode: NavigationMode.Normal,
-                Parameter: ProjectExplorerViewModel.SolutionState);
+        Navigate(NavigationTarget.FullScreen)
+            .To(ProjectPrintPreviewViewModel,
+                NavigationMode.Normal,
+                ProjectExplorerViewModel.SolutionState);
 
         return Unit.Default;
     }
 
     private async Task<Unit> OpenSolution()
     {
-        var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Abrir Projeto");
+        var path = await FileDialogHelper.ShowOpenFileDialogAsync("Abrir Projeto");
 
         if (path is not null)
         {
-            await ReadSolutionAndOpen(path: path);
+            await ReadSolutionAndOpen(path);
         }
 
         return Unit.Default;
     }
 
-    private async Task ReadSolutionAndOpen(string path) =>
+    private async Task ReadSolutionAndOpen(
+        string path
+    ) =>
         (await _queryDispatcher.Dispatch(
-            query: new ReadSolutionProjectQuery(SolutionPath: path),
-            cancellation: CancellationToken.None))
+            new ReadSolutionProjectQuery(path),
+            CancellationToken.None))
         .OnSuccess(
-            onSuccessAction: result =>
+            result =>
             {
                 Dispatcher
                     .UIThread
-                    .Post(action: () =>
+                    .Post(() =>
                     {
-                        ProjectExplorerViewModel = new ProjectExplorerViewModel(items:
-                            result
+                        ProjectExplorerViewModel = new ProjectExplorerViewModel(result
                                 .Data
                                 .ItemGroups
-                                .Select(selector: model =>
+                                .Select(model =>
                                     {
-                                        var vm = new ItemGroupViewModel(name: model.Name,
-                                            itemPath: model.ItemPath);
-                                        vm.TransformFrom(items: model.Items);
+                                        var vm = new ItemGroupViewModel(model.Name,
+                                            model.ItemPath);
+                                        vm.TransformFrom(model.Items);
 
                                         return vm;
                                     }
                                 ).ToList<IItemGroupViewModel>(),
-                            state: result.Data
+                            result.Data
                         );
-                        this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
+                        this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
                     });
             })
-        .OnError(onErrorAction: error =>
+        .OnError(error =>
         {
         });
 
@@ -314,11 +319,11 @@ public partial class ProjectViewModel : NavBarItemViewModel, IProjectViewModel
         , object? Parameter = null
     )
     {
-        if (Parameter is string path && !string.IsNullOrWhiteSpace(value: path))
+        if (Parameter is string path && !string.IsNullOrWhiteSpace(path))
         {
-            Dispatcher.UIThread.Post(action: () =>
+            Dispatcher.UIThread.Post(() =>
             {
-                Task.WhenAll(ReadSolutionAndOpen(path: path));
+                Task.WhenAll(ReadSolutionAndOpen(path));
             });
         }
     }

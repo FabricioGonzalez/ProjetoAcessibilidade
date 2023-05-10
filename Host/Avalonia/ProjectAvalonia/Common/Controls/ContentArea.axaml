@@ -6,7 +6,8 @@
     xmlns:i="using:Avalonia.Xaml.Interactivity"
     xmlns:p="using:ProjectAvalonia.Properties">
     <Design.PreviewWith>
-        <Panel Background="{DynamicResource RegionColor}">
+        <Panel Width="600"
+               Height="500" Background="{DynamicResource TileRegionColor}">
             <c:ContentArea
                 Title="Add a Wallet"
                 Width="500"
@@ -31,6 +32,9 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
                 Value="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" />
         <Setter Property="IsHitTestVisible" Value="{Binding IsActive}" />
+        <Setter Property="HorizontalAlignment" Value="{TemplateBinding HorizontalAlignment}" />
+        <Setter Property="VerticalAlignment" Value="{TemplateBinding VerticalAlignment}" />
+        <Setter Property="Padding" Value="{TemplateBinding Padding}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -136,13 +140,9 @@
         </Setter>
     </Style>
 
-    <Style Selector="c|ContentArea /template/ StackPanel#PART_Header">
-        <Setter Property="Margin" Value="31 0 31 0" />
-    </Style>
-
-    <Style Selector="c|ContentArea /template/ ScrollViewer#PART_ScrollViewer">
-        <Setter Property="Margin" Value="31 11 31 21" />
-    </Style>
+    <!--<Style Selector="c|ContentArea /template/ StackPanel#PART_Header">
+        <Setter Property="Margin" Value="31 0 24 0" />
+    </Style>-->
 
     <Style Selector="c|ContentArea /template/ Panel#PART_ButtonArea">
         <Setter Property="Margin" Value="31,10" />

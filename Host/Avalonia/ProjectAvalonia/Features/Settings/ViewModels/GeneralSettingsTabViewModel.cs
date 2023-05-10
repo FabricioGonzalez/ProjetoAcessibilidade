@@ -18,8 +18,8 @@ namespace ProjectAvalonia.Features.Settings.ViewModels;
     Category = "Opções",
     Keywords = new[]
     {
-        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
-        "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close"
+        , "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
 public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
@@ -36,10 +36,8 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
 
     public GeneralSettingsTabViewModel()
     {
-        SetTitle(localizedString: "GeneralSettingsViewNavLabel");
-
         Languages = new ObservableCollection<AppLanguageModel>(
-            collection: ServicesConfig.LanguageManager.AllLanguages.Select(selector: item =>
+            ServicesConfig.LanguageManager.AllLanguages.Select(item =>
                 item.ToAppLanguageModel()));
 
         _darkModeEnabled = ServicesConfig.UiConfig.DarkModeEnabled;
@@ -48,68 +46,67 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
         _runOnSystemStartup = ServicesConfig.UiConfig.RunOnSystemStartup;
         _downloadNewVersion = ServicesConfig.UiConfig.RunOnSystemStartup;
         _hideOnClose = ServicesConfig.UiConfig.HideOnClose;
-        _language = Languages.FirstOrDefault(predicate: i => i.Code == ServicesConfig.Config.AppLanguage)
+        _language = Languages.FirstOrDefault(i => i.Code == ServicesConfig.Config.AppLanguage)
                     ?? ServicesConfig.LanguageManager.CurrentLanguage.ToAppLanguageModel();
 
-        this.WhenAnyValue(property1: x => x.Language)
-            .ObserveOn(scheduler: RxApp.TaskpoolScheduler)
-            .Throttle(dueTime: TimeSpan.FromMilliseconds(value: ThrottleTime))
-            .Skip(count: 1)
-            .Subscribe(onNext: prop =>
+        this.WhenAnyValue(x => x.Language)
+            .ObserveOn(RxApp.TaskpoolScheduler)
+            .Throttle(TimeSpan.FromMilliseconds(ThrottleTime))
+            .Skip(1)
+            .Subscribe(prop =>
             {
-                ServicesConfig.LanguageManager.SetLanguage(languageModel: prop.ToLanguageModel());
+                ServicesConfig.LanguageManager.SetLanguage(prop.ToLanguageModel());
                 ServicesConfig.Config.AppLanguage = prop.Code;
 
                 Save();
             });
-        this.WhenAnyValue(property1: x => x.DarkModeEnabled)
-            .Skip(count: 1)
+        this.WhenAnyValue(x => x.DarkModeEnabled)
+            .Skip(1)
             .Subscribe(
-                onNext: x =>
+                x =>
                 {
                     ServicesConfig.UiConfig.DarkModeEnabled = x;
-                    Navigate(currentTarget: NavigationTarget.CompactDialogScreen)
-                        .To(viewmodel: new ThemeChangeViewModel(newTheme: x ? Theme.Dark : Theme.Light));
+                    Navigate(NavigationTarget.CompactDialogScreen)
+                        .To(new ThemeChangeViewModel(x ? Theme.Dark : Theme.Light));
                 });
 
-        this.WhenAnyValue(property1: x => x.AutoCopy)
-            .ObserveOn(scheduler: RxApp.TaskpoolScheduler)
-            .Skip(count: 1)
-            .Subscribe(onNext: x => ServicesConfig.UiConfig.Autocopy = x);
+        this.WhenAnyValue(x => x.AutoCopy)
+            .ObserveOn(RxApp.TaskpoolScheduler)
+            .Skip(1)
+            .Subscribe(x => ServicesConfig.UiConfig.Autocopy = x);
 
-        this.WhenAnyValue(property1: x => x.AutoPaste)
-            .ObserveOn(scheduler: RxApp.TaskpoolScheduler)
-            .Skip(count: 1)
-            .Subscribe(onNext: x => ServicesConfig.UiConfig.AutoPaste = x);
+        this.WhenAnyValue(x => x.AutoPaste)
+            .ObserveOn(RxApp.TaskpoolScheduler)
+            .Skip(1)
+            .Subscribe(x => ServicesConfig.UiConfig.AutoPaste = x);
 
-        StartupCommand = ReactiveCommand.Create(execute: async () =>
+        StartupCommand = ReactiveCommand.Create(async () =>
         {
             try
             {
-                await StartupHelper.ModifyStartupSettingAsync(runOnSystemStartup: RunOnSystemStartup);
+                await StartupHelper.ModifyStartupSettingAsync(RunOnSystemStartup);
                 ServicesConfig.UiConfig.RunOnSystemStartup = RunOnSystemStartup;
             }
             catch (Exception ex)
             {
-                Logger.LogError(exception: ex);
+                Logger.LogError(ex);
                 RunOnSystemStartup = !RunOnSystemStartup;
-                await ShowErrorAsync(title: Title
-                    , message: "Couldn't save your change, please see the logs for further information.",
-                    caption: "Error occurred.");
+                await ShowErrorAsync(Title
+                    , "Couldn't save your change, please see the logs for further information.",
+                    "Error occurred.");
             }
         });
 
-        this.WhenAnyValue(property1: x => x.HideOnClose)
-            .ObserveOn(scheduler: RxApp.TaskpoolScheduler)
-            .Skip(count: 1)
-            .Subscribe(onNext: x => ServicesConfig.UiConfig.HideOnClose = x);
+        this.WhenAnyValue(x => x.HideOnClose)
+            .ObserveOn(RxApp.TaskpoolScheduler)
+            .Skip(1)
+            .Subscribe(x => ServicesConfig.UiConfig.HideOnClose = x);
     }
 
     public ICommand StartupCommand
     {
         get;
     }
-
     public override string? LocalizedTitle
     {
         get;

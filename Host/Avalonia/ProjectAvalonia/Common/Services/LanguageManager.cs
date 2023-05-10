@@ -20,9 +20,9 @@ public class LanguageManager : ILanguageManager
     )
     {
         _configuration = configuration;
-        _availableLanguages = new Lazy<Dictionary<string, LanguageModel>>(valueFactory: GetAvailableLanguages);
+        _availableLanguages = new Lazy<Dictionary<string, LanguageModel>>(GetAvailableLanguages);
 
-        DefaultLanguage = CreateLanguageModel(cultureInfo: CultureInfo.GetCultureInfo(name: "en"));
+        DefaultLanguage = CreateLanguageModel(CultureInfo.GetCultureInfo("en"));
     }
 
     public LanguageModel DefaultLanguage
@@ -30,7 +30,7 @@ public class LanguageManager : ILanguageManager
         get;
     }
 
-    public LanguageModel CurrentLanguage => CreateLanguageModel(cultureInfo: Thread.CurrentThread.CurrentUICulture);
+    public LanguageModel CurrentLanguage => CreateLanguageModel(Thread.CurrentThread.CurrentUICulture);
 
     public IEnumerable<LanguageModel> AllLanguages => _availableLanguages.Value.Values;
 
@@ -38,30 +38,28 @@ public class LanguageManager : ILanguageManager
         string languageCode
     )
     {
-        if (string.IsNullOrEmpty(value: languageCode))
+        if (!string.IsNullOrEmpty(languageCode))
         {
-            throw new ArgumentException(message: $"{nameof(languageCode)} can't be empty.");
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(languageCode);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(languageCode);
         }
-
-        Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(name: languageCode);
-        Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(name: languageCode);
     }
 
     public void SetLanguage(
         LanguageModel languageModel
-    ) => SetLanguage(languageCode: languageModel.Code);
+    ) => SetLanguage(languageModel.Code);
 
     private Dictionary<string, LanguageModel> GetAvailableLanguages() =>
         _configuration
             .AvailableLocales
-            .Select(selector: locale => CreateLanguageModel(cultureInfo: new CultureInfo(name: locale)))
-            .ToDictionary(keySelector: lm => lm.Code, elementSelector: lm => lm);
+            .Select(locale => CreateLanguageModel(new CultureInfo(locale)))
+            .ToDictionary(lm => lm.Code, lm => lm);
 
     private LanguageModel CreateLanguageModel(
         CultureInfo cultureInfo
     ) =>
         cultureInfo is null
             ? DefaultLanguage
-            : new LanguageModel(name: cultureInfo.EnglishName, nativeName: cultureInfo.NativeName.ToTitleCase(),
-                code: cultureInfo.TwoLetterISOLanguageName);
+            : new LanguageModel(cultureInfo.EnglishName, cultureInfo.NativeName.ToTitleCase(),
+                cultureInfo.TwoLetterISOLanguageName);
 }

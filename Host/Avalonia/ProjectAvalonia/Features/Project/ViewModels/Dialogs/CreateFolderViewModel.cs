@@ -5,7 +5,9 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 
-public partial class CreateFolderViewModel : DialogViewModelBase<string>, ICreateFolderViewModel
+public partial class CreateFolderViewModel
+    : DialogViewModelBase<string>
+        , ICreateFolderViewModel
 {
     [AutoNotify] private string _folderName = "";
 
@@ -20,15 +22,15 @@ public partial class CreateFolderViewModel : DialogViewModelBase<string>, ICreat
         Message = message;
         _title = title;
         Caption = caption;
-        var canCreate = this.WhenAnyValue(property1: vm => vm.FolderName)
-            .Select(selector: folder => !string.IsNullOrEmpty(value: folder));
+        var canCreate = this.WhenAnyValue(vm => vm.FolderName)
+            .Select(folder => !string.IsNullOrEmpty(folder));
 
 
-        NextCommand = ReactiveCommand.Create(execute: () => Close(result: FolderName), canExecute: canCreate);
+        NextCommand = ReactiveCommand.Create(() => Close(result: FolderName), canCreate);
 
-        CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel, result: ""));
+        CancelCommand = ReactiveCommand.Create(() => Close(DialogResultKind.Cancel, ""));
 
-        SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(true, true, true);
     }
 
     public string Message
@@ -44,7 +46,7 @@ public partial class CreateFolderViewModel : DialogViewModelBase<string>, ICreat
     public override string Title
     {
         get => _title;
-        protected set => this.RaiseAndSetIfChanged(backingField: ref _title, newValue: value);
+        protected set => this.RaiseAndSetIfChanged(ref _title, value);
     }
 
     public override string? LocalizedTitle

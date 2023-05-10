@@ -17,9 +17,9 @@ public class ShowErrorDialogViewModel : DialogViewModelBase<bool>
         _title = title;
         Caption = caption;
 
-        NextCommand = ReactiveCommand.Create(execute: () => Close());
+        NextCommand = ReactiveCommand.Create(() => Close());
 
-        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(false, true, true);
     }
 
     public string Message
@@ -35,7 +35,7 @@ public class ShowErrorDialogViewModel : DialogViewModelBase<bool>
     public override string Title
     {
         get => _title;
-        protected set => this.RaiseAndSetIfChanged(backingField: ref _title, newValue: value);
+        protected set => this.RaiseAndSetIfChanged(ref _title, value);
     }
 
     public override string? LocalizedTitle

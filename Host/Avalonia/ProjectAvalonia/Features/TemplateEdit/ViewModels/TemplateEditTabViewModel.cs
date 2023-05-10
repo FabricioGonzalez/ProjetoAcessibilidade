@@ -1,4 +1,5 @@
 ﻿using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -10,11 +11,13 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Category = "Templates",
     Keywords = new[]
     {
-        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
-        "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close"
+        , "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
-public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, ITemplateEditTabViewModel
+public partial class TemplateEditTabViewModel
+    : TemplateEditTabViewModelBase
+        , ITemplateEditTabViewModel
 {
     /*private readonly ICommandDispatcher commandDispatcher;
 
@@ -198,4 +201,10 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, IT
         get;
         protected set;
     } = null;
+
+    public AppModelState EditingItem
+    {
+        get;
+        set;
+    }
 }
