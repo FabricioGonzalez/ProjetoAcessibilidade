@@ -1,8 +1,4 @@
-﻿using System.Collections.ObjectModel;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.Presentation.States;
-using ProjectAvalonia.Presentation.States.FormItemState;
-using ProjectAvalonia.Presentation.States.LawItemState;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;

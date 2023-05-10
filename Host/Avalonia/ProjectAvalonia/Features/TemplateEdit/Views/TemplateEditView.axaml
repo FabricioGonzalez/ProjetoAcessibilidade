@@ -98,6 +98,11 @@
                     Background="Transparent"
                     Items="{Binding Items}"
                     SelectedItem="{Binding SelectedItem}">
+                    <!--<Interaction.Behaviors>
+                        <EventTriggerBehavior EventName="Selection">
+                            <InvokeCommandAction Command="{Binding LoadAllItems}" />
+                        </EventTriggerBehavior>
+                    </Interaction.Behaviors>-->
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <components:EditableItem DataContext="{Binding}" />

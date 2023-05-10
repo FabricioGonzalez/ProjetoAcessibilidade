@@ -106,11 +106,11 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
 
 
     public static readonly Interaction<IItemViewModel, Unit> SetEditingItem = new();
-    private readonly IMediator? _queryDispatcher;
+    private readonly IMediator? _mediator;
 
     public ProjectEditingViewModel()
     {
-        _queryDispatcher = Locator.Current.GetService<IMediator>();
+        _mediator = Locator.Current.GetService<IMediator>();
 
 
         EditingItems = new ObservableCollection<IEditingItemViewModel>();
@@ -191,8 +191,8 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
         {
             if (EditingItems.All(predicate: x => x.Id != item.Id))
             {
-                var result = await _queryDispatcher?.Dispatch(
-                    query: new GetProjectItemContentQuery(ItemPath: item.ItemPath),
+                var result = await _mediator?.Send(
+                    request: new GetProjectItemContentQuery(ItemPath: item.ItemPath),
                     cancellation: CancellationToken.None);
 
                 result.OnSuccess(onSuccessAction: success =>

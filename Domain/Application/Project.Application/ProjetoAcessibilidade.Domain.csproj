@@ -14,21 +14,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="AppValidationRules\Commands\"/>
-        <Folder Include="AppValidationRules\Queries\"/>
-        <Folder Include="App\Commands\"/>
-        <Folder Include="Common\"/>
-        <Folder Include="Editing\Commands\"/>
-        <Folder Include="Editing\Queries\"/>
+        <Folder Include="AppValidationRules\Commands\" />
+        <Folder Include="AppValidationRules\Queries\" />
+        <Folder Include="App\Commands\" />
+        <Folder Include="Common\" />
+        <Folder Include="Editing\Commands\" />
+        <Folder Include="Editing\Queries\" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Splat" Version="14.6.1"/>
+        <PackageReference Include="Splat" Version="14.6.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
-        <ProjectReference Include="..\..\Core\App.Core\ProjetoAcessibilidade.Core.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+        <ProjectReference Include="..\..\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
     </ItemGroup>
 
 </Project>

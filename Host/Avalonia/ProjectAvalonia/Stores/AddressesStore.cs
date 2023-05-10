@@ -31,7 +31,7 @@ public partial class AddressesStore
     public async Task LoadAllUf(CancellationToken token)
     {
         foreach (var item in (await _queryDispatcher
-                     .Dispatch(query: new GetAllUfQuery()
+                     .Send(request: new GetAllUfQuery()
                          , cancellation: token)
                  ).OrderBy(keySelector: x => x.Name))
         {

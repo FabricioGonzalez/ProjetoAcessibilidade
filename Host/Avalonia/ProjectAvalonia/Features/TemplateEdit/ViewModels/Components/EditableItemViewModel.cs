@@ -4,21 +4,14 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 
-public class EditableItemViewModel : ReactiveObject, IEditableItemViewModel
+public partial class EditableItemViewModel : ReactiveObject, IEditableItemViewModel
 {
-    public string Name
-    {
-        get;
-        set;
-    }
+    [AutoNotify] private string _name;
+
+
+    [AutoNotify] private string _templateName;
 
     public bool InEditMode
-    {
-        get;
-        set;
-    }
-
-    public string TemplateName
     {
         get;
         set;

@@ -235,7 +235,7 @@ public static class AvaloniaDInjector
         var service = Locator.CurrentMutable;
         /*DependencyResolverMixins.RegisterLazySingleton<ICommandDispatcher>(resolver: service, valueFactory: () =>
             new CommandDispatcher(serviceProvider: Locator.Current));*/
-        /*service.RegisterLazySingleton<IQueryDispatcher>(valueFactory: () =>
+        /*service.RegisterLazySingleton<ISender>(valueFactory: () =>
             new QueryDispatcher(serviceProvider: Locator.Current));*/
 
         return app;

@@ -21,7 +21,7 @@ public partial class ApplicationViewModel
         , ICanShutdownProvider
 {
     private readonly IMainWindowService _mainWindowService;
-    private readonly IMediator _queryDispatcher;
+    private readonly IMediator _mediator;
 
     [AutoNotify] private bool _isMainWindowShown = true;
     [AutoNotify] private bool _isShuttingDown;
@@ -30,7 +30,7 @@ public partial class ApplicationViewModel
         IMainWindowService mainWindowService
     )
     {
-        _queryDispatcher = Locator.Current.GetService<IMediator>();
+        _mediator = Locator.Current.GetService<IMediator>();
         _mainWindowService = mainWindowService;
 
         QuitCommand = ReactiveCommand.Create(execute: () => Shutdown(restart: false));
@@ -111,8 +111,8 @@ public partial class ApplicationViewModel
     internal async Task GoToOpenPrint(
         string v
     ) =>
-        (await _queryDispatcher.Dispatch(
-            query: new ReadSolutionProjectQuery(SolutionPath: v),
+        (await _mediator.Send(
+            request: new ReadSolutionProjectQuery(SolutionPath: v),
             cancellation: CancellationToken.None))
         .OnSuccess(
             onSuccessAction: async result =>
