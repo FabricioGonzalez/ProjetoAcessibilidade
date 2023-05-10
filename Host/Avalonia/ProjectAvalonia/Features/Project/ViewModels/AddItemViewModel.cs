@@ -47,7 +47,7 @@ public partial class AddItemViewModel
         LoadAllItems = ReactiveCommand.CreateFromTask(async () =>
             {
                 (await _queryDispatcher?
-                        .Dispatch(
+                        .Send(
                             new GetAllTemplatesQuery(),
                             CancellationToken.None))
                     ?.OnSuccess(success =>

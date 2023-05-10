@@ -1,5 +1,8 @@
-﻿using ProjectAvalonia.Presentation.Interfaces;
+﻿using System.Collections.ObjectModel;
+using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.FormItemState;
+using ProjectAvalonia.Presentation.States.LawItemState;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -206,5 +209,50 @@ public partial class TemplateEditTabViewModel
     {
         get;
         set;
-    }
+    } = new()
+    {
+        Id = "", FormData = new ReadOnlyObservableCollection<FormItemContainer>(
+            new ObservableCollection<FormItemContainer>
+            {
+                new()
+                {
+                    Body = new TextItemState("teste item", id: "", textData: "teste", measurementUnit: "m")
+                }
+                , new()
+                {
+                    Body = new CheckboxContainerItemState("Teste")
+                    {
+                        Children = new ObservableCollection<CheckboxItemState>
+                        {
+                            new()
+                            {
+                                Options = new ObservableCollection<OptionsItemState>
+                                {
+                                    new()
+                                    {
+                                        Value = "Sim", IsChecked = false
+                                    }
+                                    , new()
+                                    {
+                                        Value = "Não", IsChecked = false
+                                    }
+                                    , new()
+                                    {
+                                        Value = "Talvez", IsChecked = false
+                                    }
+                                }
+                                , TextItems = new ObservableCollection<TextItemState>
+                                {
+                                    new("inner text", id: "", textData: "teste", measurementUnit: "m")
+                                    , new("inner text 2", id: "", textData: "teste", measurementUnit: "m")
+                                }
+                            }
+                        }
+                    }
+                }
+                , new() { Body = new TextItemState("teste item", id: "", textData: "teste2", measurementUnit: "m") }
+            })
+        , ItemName = "Teste", ItemTemplate = "Teste Template"
+        , LawItems = new ReadOnlyObservableCollection<LawStateItem>(new ObservableCollection<LawStateItem>())
+    };
 }

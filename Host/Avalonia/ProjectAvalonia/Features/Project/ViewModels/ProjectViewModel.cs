@@ -280,7 +280,7 @@ public partial class ProjectViewModel
     private async Task ReadSolutionAndOpen(
         string path
     ) =>
-        (await _queryDispatcher.Dispatch(
+        (await _queryDispatcher.Send(
             new ReadSolutionProjectQuery(path),
             CancellationToken.None))
         .OnSuccess(

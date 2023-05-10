@@ -8,8 +8,6 @@
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
-    xmlns:models="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Models"
-    xmlns:enuns="clr-namespace:ProjetoAcessibilidade.Core.Enuns;assembly=ProjetoAcessibilidade.Core"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="interfaces:ITemplateEditTabViewModel"
@@ -19,7 +17,7 @@
     <Design.DataContext>
         <designTimeViewModels:DesignTimeTemplateEditTabViewModel />
     </Design.DataContext>
-    <ScrollViewer Padding="2,16">
+    <ScrollViewer Padding="2,16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -52,14 +50,14 @@
                     <ItemsControl Items="{Binding EditingItem.FormData}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <components:ComboEditBox>
-                                    <components:ComboEditBox.Items>
+                                <components:ComboEditBox Topic="{Binding Topic}" SelectedValue="{Binding Type}">
+                                    <!--<components:ComboEditBox.Items>
                                         <models:TypeTemplate>
                                             <models:TypeTemplate.TypeName>
                                                 <enuns:AppFormDataType>Texto</enuns:AppFormDataType>
                                             </models:TypeTemplate.TypeName>
                                             <models:TypeTemplate.UIElement>
-                                                <components:TemplateEditingContainer DataContext="{Binding}" />
+                                                <components:TemplateEditingContainer DataContext="{CompiledBinding}" />
                                             </models:TypeTemplate.UIElement>
                                         </models:TypeTemplate>
                                         <models:TypeTemplate>
@@ -67,10 +65,10 @@
                                                 <enuns:AppFormDataType>Checkbox</enuns:AppFormDataType>
                                             </models:TypeTemplate.TypeName>
                                             <models:TypeTemplate.UIElement>
-                                                <components:TemplateEditingContainer DataContext="{Binding}" />
+                                                <components:TemplateEditingContainer DataContext="{CompiledBinding}" />
                                             </models:TypeTemplate.UIElement>
                                         </models:TypeTemplate>
-                                    </components:ComboEditBox.Items>
+                                    </components:ComboEditBox.Items>-->
                                 </components:ComboEditBox>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

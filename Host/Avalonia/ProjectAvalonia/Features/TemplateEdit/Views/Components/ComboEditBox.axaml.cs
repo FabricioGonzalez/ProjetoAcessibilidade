@@ -34,6 +34,17 @@ public class ComboEditBox : UserControl
             defaultBindingMode: BindingMode.TwoWay
         );
 
+    public static readonly DirectProperty<ComboEditBox, string> TopicProperty =
+        AvaloniaProperty.RegisterDirect<ComboEditBox, string>(
+            nameof(Topic),
+            x => x.Topic,
+            (
+                x
+                , v
+            ) => x.Topic = v,
+            defaultBindingMode: BindingMode.TwoWay
+        );
+
     public static readonly DirectProperty<ComboEditBox, IControl> UiSelectedTemplateItemProperty =
         AvaloniaProperty.RegisterDirect<ComboEditBox, IControl>(
             nameof(UISelectedTemplateItem),
@@ -48,6 +59,7 @@ public class ComboEditBox : UserControl
     private IEnumerable<TypeTemplate> _items;
 
     private string _selectedValue;
+    private string _topic;
     private IControl _uISelectedTemplateItem;
 
     public ComboEditBox()
@@ -64,6 +76,12 @@ public class ComboEditBox : UserControl
                         UISelectedTemplateItem = hasValue.UIElement;
                     });
             });
+    }
+
+    public string Topic
+    {
+        get => _topic;
+        set => SetAndRaise(TopicProperty, ref _topic, value);
     }
 
     public string SelectedValue

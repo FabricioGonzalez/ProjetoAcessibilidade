@@ -226,7 +226,7 @@ public partial class TemplateEditViewModel
 
     private async Task loadItems() =>
         (await _mediator
-            .Dispatch(
+            .Send(
                 new GetAllTemplatesQuery(),
                 CancellationToken.None))
         ?.OnSuccess(success =>
