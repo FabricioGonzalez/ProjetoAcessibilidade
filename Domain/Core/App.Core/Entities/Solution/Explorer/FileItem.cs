@@ -2,4 +2,9 @@
 
 public class FileItem : ExplorerItem
 {
+    public FileItem(
+        Guid id
+    ) : base(id)
+    {
+    }
 }

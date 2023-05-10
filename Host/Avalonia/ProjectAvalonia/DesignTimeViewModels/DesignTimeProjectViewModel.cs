@@ -1,13 +1,13 @@
 ﻿using System.Reactive;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 
-public class DesignTimeProjectViewModel : ReactiveObject, IProjectViewModel
+public class DesignTimeProjectViewModel : ReactiveObject,
+    IProjectViewModel
 {
-    public ReactiveCommand<SolutionState, Unit> SaveSolutionCommand
+    public ReactiveCommand<Unit, Unit> SaveSolutionCommand
     {
         get;
     }

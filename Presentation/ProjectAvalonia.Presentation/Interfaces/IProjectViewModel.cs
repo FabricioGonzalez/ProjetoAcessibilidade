@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Reactive;
-using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -37,7 +36,7 @@ public interface IProjectViewModel : INotifyPropertyChanged
         get;
     }
 
-    public ReactiveCommand<SolutionState, Unit> SaveSolutionCommand
+    public ReactiveCommand<Unit, Unit> SaveSolutionCommand
     {
         get;
     }

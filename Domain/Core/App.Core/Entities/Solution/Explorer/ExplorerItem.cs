@@ -2,6 +2,12 @@
 
 public class ExplorerItem : BaseAuditableEntity
 {
+    public ExplorerItem(
+        Guid id
+    ) : base(id)
+    {
+    }
+
     public string Name
     {
         get;

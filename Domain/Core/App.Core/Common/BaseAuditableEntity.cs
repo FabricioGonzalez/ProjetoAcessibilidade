@@ -2,6 +2,12 @@
 
 public abstract class BaseAuditableEntity : BaseEntity
 {
+    protected BaseAuditableEntity(
+        Guid id
+    ) : base(id)
+    {
+    }
+
     public DateTime Created
     {
         get;

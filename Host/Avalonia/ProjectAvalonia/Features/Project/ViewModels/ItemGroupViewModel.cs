@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using DynamicData;
@@ -16,14 +17,25 @@ using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 using ReactiveUI;
+using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class ItemGroupViewModel : ReactiveObject, IItemGroupViewModel
+public class ItemGroupViewModel : ReactiveObject,
+    IItemGroupViewModel
 {
-    public ItemGroupViewModel(string name, string itemPath)
+    private readonly IMediator _mediator;
+
+    public ItemGroupViewModel(
+        string name,
+        string itemPath
+    )
     {
+        _mediator = Locator.Current.GetService<IMediator>();
+
         Name = name;
         ItemPath = itemPath;
 
@@ -42,30 +54,35 @@ public class ItemGroupViewModel : ReactiveObject, IItemGroupViewModel
             .AutoRefreshOnObservable(reevaluator: document => document.ExcludeFileCommand.IsExecuting)
             .Select(selector: x => WhenAnyDocumentClosed())
             .Switch()
-            .SubscribeAsync(onNextAsync: async x =>
-            {
-                var dialog = new DeleteDialogViewModel(
-                    message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
-                    , caption: "");
-
-                if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
-                        target: NavigationTarget.CompactDialogScreen)).Result)
+            .SubscribeAsync(
+                onNextAsync: async x =>
                 {
-                    Logger.LogDebug(message: x?.Name);
+                    var dialog = new DeleteDialogViewModel(
+                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                        title: "Deletar Item",
+                        caption: "");
 
-                    Items.Remove(item: x);
-                }
-            });
+                    if ((await RoutableViewModel.NavigateDialogAsync(
+                            dialog: dialog,
+                            target: NavigationTarget.CompactDialogScreen)).Result)
+                    {
+                        Logger.LogDebug(message: x?.Name);
+
+                        Items.Remove(item: x);
+                    }
+                });
 
         Items
             .ToObservableChangeSet()
             .AutoRefreshOnObservable(reevaluator: document => document.SelectItemToEditCommand.IsExecuting)
             .Select(selector: x => WhenAnyItemIsSelected())
             .Switch()
-            .SubscribeAsync(onNextAsync: async x =>
-            {
-                var result = ProjectEditingViewModel.SetEditingItem.Handle(input: x).Subscribe();
-            });
+            .SubscribeAsync(
+                onNextAsync: async x =>
+                {
+                    var result = ProjectEditingViewModel.SetEditingItem.Handle(input: x)
+                        .Subscribe();
+                });
     }
 
     public ReactiveCommand<Unit, Unit> SelectItemToEdit
@@ -107,15 +124,21 @@ public class ItemGroupViewModel : ReactiveObject, IItemGroupViewModel
     public ReactiveCommand<Unit, Unit> ExcludeFolderCommand
     {
         get;
-    } = ReactiveCommand.Create(execute: () =>
-    {
-    });
+    } = ReactiveCommand.Create(
+        execute: () =>
+        {
+        });
 
-    public void TransformFrom(List<ItemModel> items)
+    public void TransformFrom(
+        List<ItemModel> items
+    )
     {
         foreach (var item in items)
         {
-            var itemToAdd = new ItemViewModel(id: item.Id, itemPath: item.ItemPath, name: item.Name,
+            var itemToAdd = new ItemViewModel(
+                id: item.Id,
+                itemPath: item.ItemPath,
+                name: item.Name,
                 templateName: item.TemplateName,
                 parent: this);
 
@@ -147,15 +170,36 @@ public class ItemGroupViewModel : ReactiveObject, IItemGroupViewModel
     {
         var addItemViewModel = new AddItemViewModel();
 
-        var dialogResult = await RoutableViewModel.NavigateDialogAsync(dialog: addItemViewModel,
+        var dialogResult = await RoutableViewModel.NavigateDialogAsync(
+            dialog: addItemViewModel,
             target: NavigationTarget.DialogScreen);
 
-        if (dialogResult.Kind is DialogResultKind.Normal && dialogResult.Result is not null)
+        if (dialogResult.Kind is DialogResultKind.Normal &&
+            dialogResult.Result is not null)
         {
-            Items.Add(item: new ItemViewModel(id: Guid.NewGuid().ToString(),
-                itemPath: Path.Combine(path1: ItemPath,
-                    path2: $"{dialogResult.Result.Name}{Constants.AppProjectItemExtension}"),
-                name: dialogResult.Result.Name, templateName: dialogResult.Result.TemplateName, parent: this));
+            var path = Path.Combine(
+                path1: ItemPath,
+                path2: $"{dialogResult.Result.Name}{Constants.AppProjectItemExtension}");
+
+            Items.Add(
+                item: new ItemViewModel(
+                    id: Guid.NewGuid()
+                        .ToString(),
+                    itemPath: path,
+                    name: dialogResult.Result.Name,
+                    templateName: dialogResult.Result.TemplateName,
+                    parent: this));
+
+            await _mediator.Send(
+                request: new CreateItemCommand(
+                    ItemPath: path,
+                    ItemName: dialogResult.Result.TemplateName),
+                cancellation: CancellationToken.None);
+            ProjectInteractions.SyncSolutionInteraction.Handle(Unit.Default)
+                .Subscribe();
+            /*await _mediator.Send(
+                new CreateSolutionCommand(),
+                CancellationToken.None);*/
         }
     }
 
