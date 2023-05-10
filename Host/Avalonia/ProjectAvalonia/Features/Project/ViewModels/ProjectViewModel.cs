@@ -33,14 +33,14 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_file_regular")]
-public partial class ProjectViewModel : NavBarItemViewModel,
+public partial class ProjectViewModel
+    : NavBarItemViewModel
+        ,
     IProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
     private readonly IMediator? _mediator;
-
-    private ProjectSolutionModel? projectSolution;
     /*private readonly AddressesStore _addressesStore;
     private readonly SolutionStore _solutionStore;
 

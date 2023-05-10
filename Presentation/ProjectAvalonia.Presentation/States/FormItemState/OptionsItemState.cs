@@ -1,13 +1,30 @@
-﻿namespace ProjectAvalonia.Presentation.States.FormItemState;
+﻿using ReactiveUI;
 
-public class OptionsItemState
+namespace ProjectAvalonia.Presentation.States.FormItemState;
+
+public class OptionsItemState : ReactiveObject
 {
-    /*[AutoNotify]
     private string _id;
 
-    [AutoNotify]
     private bool _isChecked;
 
-    [AutoNotify]
-    private string _value;*/
+    private string _value;
+
+    public bool IsChecked
+    {
+        get => _isChecked;
+        set => this.RaiseAndSetIfChanged(ref _isChecked, value);
+    }
+
+    public string Value
+    {
+        get => _value;
+        set => this.RaiseAndSetIfChanged(ref _value, value);
+    }
+
+    public string Id
+    {
+        get => _id;
+        set => this.RaiseAndSetIfChanged(ref _id, value);
+    }
 }

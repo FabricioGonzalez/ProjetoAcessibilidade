@@ -4,12 +4,27 @@ namespace ProjectAvalonia.Presentation.States.FormItemState;
 
 public class ImageItemState : ReactiveObject
 {
-    /*[AutoNotify]
     private string _id = "";
 
-    [AutoNotify]
-    private string imageObservation = "";
+    private string _imageObservation = "";
 
-    [AutoNotify]
-    private string imagePath = "";*/
+    private string _imagePath = "";
+
+    public string Id
+    {
+        get => _id;
+        set => this.RaiseAndSetIfChanged(ref _id, value);
+    }
+
+    public string ImageObservation
+    {
+        get => _imageObservation;
+        set => this.RaiseAndSetIfChanged(ref _imageObservation, value);
+    }
+
+    public string ImagePath
+    {
+        get => _imagePath;
+        set => this.RaiseAndSetIfChanged(ref _imagePath, value);
+    }
 }

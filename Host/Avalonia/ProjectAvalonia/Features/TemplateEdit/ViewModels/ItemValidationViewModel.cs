@@ -21,5 +21,5 @@ public partial class ItemValidationViewModel : DialogViewModelBase<Unit>
     {
         get;
         protected set;
-    } = null;
+    }
 }

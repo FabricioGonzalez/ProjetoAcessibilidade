@@ -24,8 +24,8 @@ public abstract partial class RoutableViewModel
 
     protected RoutableViewModel()
     {
-        BackCommand = ReactiveCommand.Create(execute: () => Navigate().Back());
-        CancelCommand = ReactiveCommand.Create(execute: () => Navigate().Clear());
+        BackCommand = ReactiveCommand.Create(() => Navigate().Back());
+        CancelCommand = ReactiveCommand.Create(() => Navigate().Clear());
     }
 
     public abstract string Title
@@ -86,20 +86,22 @@ public abstract partial class RoutableViewModel
 
     public void OnNavigatedTo(
         bool isInHistory
-    ) => DoNavigateTo(isInHistory: isInHistory);
+    ) => DoNavigateTo(isInHistory);
 
     public void OnNavigatedTo(
         bool isInHistory
         , object Parameter = null
-    ) => DoNavigateTo(isInHistory: isInHistory, Parameter: Parameter);
+    ) => DoNavigateTo(isInHistory, Parameter);
 
     void INavigatable.OnNavigatedFrom(
         bool isInHistory
-    ) => DoNavigateFrom(isInHistory: isInHistory);
+    ) => DoNavigateFrom(isInHistory);
 
-    public void SetTitle(string localizedString)
+    public void SetTitle(
+        string localizedString
+    )
     {
-        if (!string.IsNullOrWhiteSpace(value: localizedString))
+        if (!string.IsNullOrWhiteSpace(localizedString))
         {
             Title = localizedString.GetLocalized();
             LocalizedTitle = localizedString.GetLocalized();
@@ -112,12 +114,12 @@ public abstract partial class RoutableViewModel
     {
         if (_currentDisposable is not null)
         {
-            throw new Exception(message: "Can't navigate to something that has already been navigated to.");
+            throw new Exception("Can't navigate to something that has already been navigated to.");
         }
 
         _currentDisposable = new CompositeDisposable();
 
-        OnNavigatedTo(isInHistory: isInHistory, disposables: _currentDisposable);
+        OnNavigatedTo(isInHistory, _currentDisposable);
     }
 
     private void DoNavigateTo(
@@ -127,19 +129,19 @@ public abstract partial class RoutableViewModel
     {
         if (_currentDisposable is not null)
         {
-            throw new Exception(message: "Can't navigate to something that has already been navigated to.");
+            throw new Exception("Can't navigate to something that has already been navigated to.");
         }
 
         _currentDisposable = new CompositeDisposable();
 
         if (Parameter is null)
         {
-            OnNavigatedTo(isInHistory: isInHistory, disposables: _currentDisposable);
+            OnNavigatedTo(isInHistory, _currentDisposable);
         }
 
         else
         {
-            OnNavigatedTo(isInHistory: isInHistory, disposables: _currentDisposable, Parameter: Parameter);
+            OnNavigatedTo(isInHistory, _currentDisposable, Parameter);
         }
     }
 
@@ -162,7 +164,7 @@ public abstract partial class RoutableViewModel
         bool isInHistory
     )
     {
-        OnNavigatedFrom(isInHistory: isInHistory);
+        OnNavigatedFrom(isInHistory);
 
         _currentDisposable?.Dispose();
         _currentDisposable = null;
@@ -172,7 +174,7 @@ public abstract partial class RoutableViewModel
     {
         var currentTarget = CurrentTarget == NavigationTarget.Default ? DefaultTarget : CurrentTarget;
 
-        return Navigate(currentTarget: currentTarget);
+        return Navigate(currentTarget);
     }
 
     public static INavigationStack<RoutableViewModel> Navigate(
@@ -180,11 +182,11 @@ public abstract partial class RoutableViewModel
     ) =>
         currentTarget switch
         {
-            NavigationTarget.HomeScreen => NavigationState.Instance.HomeScreenNavigation,
-            NavigationTarget.DialogScreen => NavigationState.Instance.DialogScreenNavigation,
-            NavigationTarget.FullScreen => NavigationState.Instance.FullScreenNavigation,
-            NavigationTarget.CompactDialogScreen => NavigationState.Instance.CompactDialogScreenNavigation,
-            _ => throw new NotSupportedException()
+            NavigationTarget.HomeScreen => NavigationState.Instance.HomeScreenNavigation
+            , NavigationTarget.DialogScreen => NavigationState.Instance.DialogScreenNavigation
+            , NavigationTarget.FullScreen => NavigationState.Instance.FullScreenNavigation
+            , NavigationTarget.CompactDialogScreen => NavigationState.Instance.CompactDialogScreenNavigation
+            , _ => throw new NotSupportedException()
         };
 
     public void SetActive()
@@ -225,16 +227,16 @@ public abstract partial class RoutableViewModel
         foreach (var command in commands)
         {
             (command as IReactiveCommand)?.IsExecuting
-                .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-                .Skip(count: 1)
-                .ToProperty(source: this, property: x => x.IsBusy, result: out _isBusy);
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Skip(1)
+                .ToProperty(this, x => x.IsBusy, out _isBusy);
         }
     }
 
     public async Task<DialogResult<TResult>> NavigateDialogAsync<TResult>(
         DialogViewModelBase<TResult> dialog
     )
-        => await NavigateDialogAsync(dialog: dialog, target: CurrentTarget);
+        => await NavigateDialogAsync(dialog, CurrentTarget);
 
     public static async Task<DialogResult<TResult>> NavigateDialogAsync<TResult>(
         DialogViewModelBase<TResult> dialog
@@ -244,11 +246,11 @@ public abstract partial class RoutableViewModel
     {
         var dialogTask = dialog.GetDialogResultAsync();
 
-        Navigate(currentTarget: target).To(viewmodel: dialog, mode: navigationMode);
+        Navigate(target).To(dialog, navigationMode);
 
         var result = await dialogTask;
 
-        Navigate(currentTarget: target).Back();
+        Navigate(target).Back();
 
         return result;
     }
@@ -260,7 +262,7 @@ public abstract partial class RoutableViewModel
         , NavigationTarget target = NavigationTarget.Default
     )
     {
-        var dialog = new ShowErrorDialogViewModel(message: message, title: title, caption: caption);
+        var dialog = new ShowErrorDialogViewModel(message, title, caption);
 
         var navigationTarget = target != NavigationTarget.Default
             ? target
@@ -268,7 +270,7 @@ public abstract partial class RoutableViewModel
                 ? NavigationTarget.CompactDialogScreen
                 : NavigationTarget.DialogScreen;
 
-        await NavigateDialogAsync(dialog: dialog, target: navigationTarget);
+        await NavigateDialogAsync(dialog, navigationTarget);
     }
 
     protected void SetupCancel(

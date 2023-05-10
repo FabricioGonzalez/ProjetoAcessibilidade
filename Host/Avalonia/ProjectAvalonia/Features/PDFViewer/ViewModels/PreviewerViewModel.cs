@@ -44,46 +44,46 @@ public partial class PreviewerViewModel : RoutableViewModel
 
     public PreviewerViewModel()
     {
-        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(false, true, true);
 
-        this.WhenAnyValue(property1: vm => vm.SolutionPath)
-            .Where(predicate: prop => !string.IsNullOrWhiteSpace(value: prop))
-            .SubscribeAsync(onNextAsync: async prop =>
+        this.WhenAnyValue(vm => vm.SolutionPath)
+            .Where(prop => !string.IsNullOrWhiteSpace(prop))
+            .SubscribeAsync(async prop =>
             {
-                var report = new StandardReport(model: await DataSource.GetReport(
-                    path: prop,
-                    extension: Constants.AppProjectItemExtension));
+                var report = new StandardReport(await DataSource.GetReport(
+                    prop,
+                    Constants.AppProjectItemExtension));
 
                 Document = report;
             });
 
-        this.WhenAnyValue(property1: vm => vm.SolutionModel)
+        this.WhenAnyValue(vm => vm.SolutionModel)
             .WhereNotNull()
-            .SubscribeAsync(onNextAsync: async prop =>
+            .SubscribeAsync(async prop =>
             {
-                var report = new StandardReport(model: await DataSource.GetReport(
-                    solutionModel: prop,
-                    extension: Constants.AppProjectItemExtension));
+                var report = new StandardReport(await DataSource.GetReport(
+                    prop,
+                    Constants.AppProjectItemExtension));
 
                 Document = report;
             });
 
-        this.WhenAnyValue(property1: vm => vm.Document)
-            .Subscribe(onNext: prop =>
+        this.WhenAnyValue(vm => vm.Document)
+            .Subscribe(prop =>
             {
-                UpdateDocument(document: prop);
+                UpdateDocument(prop);
             });
 
-        this.WhenAnyValue(property1: vm => vm.ScrollViewportSize)
-            .Subscribe(onNext: prop =>
+        this.WhenAnyValue(vm => vm.ScrollViewportSize)
+            .Subscribe(prop =>
             {
                 VerticalScrollbarVisible = prop < 1;
             });
 
-        ShowPdfCommand = ReactiveCommand.Create(execute: ShowPdf);
-        ShowDocumentationCommand = ReactiveCommand.Create(execute: () =>
-            OpenLink(path: "https://www.questpdf.com/documentation/api-reference.html"));
-        PrintCommand = ReactiveCommand.Create(execute: () => OpenLink(path: "https://github.com/sponsors/QuestPDF"));
+        ShowPdfCommand = ReactiveCommand.Create(ShowPdf);
+        ShowDocumentationCommand = ReactiveCommand.Create(() =>
+            OpenLink("https://www.questpdf.com/documentation/api-reference.html"));
+        PrintCommand = ReactiveCommand.Create(() => OpenLink("https://github.com/sponsors/QuestPDF"));
     }
 
     public DocumentRenderer DocumentRenderer
@@ -94,8 +94,8 @@ public partial class PreviewerViewModel : RoutableViewModel
     public bool VerticalScrollbarVisible
     {
         get => _verticalScrollbarVisible;
-        private set => Dispatcher.UIThread.Post(action: () =>
-            this.RaiseAndSetIfChanged(backingField: ref _verticalScrollbarVisible, newValue: value));
+        private set => Dispatcher.UIThread.Post(() =>
+            this.RaiseAndSetIfChanged(ref _verticalScrollbarVisible, value));
     }
 
     public ReactiveCommand<Unit, Unit> ShowPdfCommand
@@ -122,7 +122,7 @@ public partial class PreviewerViewModel : RoutableViewModel
     {
         get;
         protected set;
-    } = null;
+    }
 
     public PreviewerViewModel SetSolutionPath(
         string solutionPath
@@ -139,7 +139,7 @@ public partial class PreviewerViewModel : RoutableViewModel
         , object? Parameter = null
     )
     {
-        if (Parameter is string path && !string.IsNullOrWhiteSpace(value: path))
+        if (Parameter is string path && !string.IsNullOrWhiteSpace(path))
         {
             SolutionPath = path;
         }
@@ -163,26 +163,26 @@ public partial class PreviewerViewModel : RoutableViewModel
     private void InvalidateDocument(
         object? sender
         , EventArgs e
-    ) => UpdateDocument(document: Document);
+    ) => UpdateDocument(Document);
 
     private Task UpdateDocument(
         IDocument? document
-    ) => Task.Run(action: () => DocumentRenderer.UpdateDocument(document: document));
+    ) => Task.Run(() => DocumentRenderer.UpdateDocument(document));
 
     private void ShowPdf()
     {
-        var filePath = Path.Combine(path1: Path.GetTempPath(), path2: $"{Guid.NewGuid():N}.pdf");
+        var filePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.pdf");
 
         try
         {
-            Document?.GeneratePdf(filePath: filePath);
+            Document?.GeneratePdf(filePath);
         }
         catch (Exception exception)
         {
-            new ExceptionDocument(exception: exception).GeneratePdf(filePath: filePath);
+            new ExceptionDocument(exception).GeneratePdf(filePath);
         }
 
-        OpenLink(path: filePath);
+        OpenLink(filePath);
     }
 
     private void OpenLink(

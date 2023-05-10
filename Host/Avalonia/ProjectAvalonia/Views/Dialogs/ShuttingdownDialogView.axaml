@@ -14,7 +14,7 @@
     mc:Ignorable="d">
     <c:ContentArea
         EnableNext="True"
-        NextContent="{x:Static p:Resources.CancelActionLabel}"
+        NextContent="Send"
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <c:ContentArea.Title>
             <TextBlock Text="{Binding LocalizedTitle, FallbackValue={Binding Title}}" TextAlignment="Center" />

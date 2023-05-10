@@ -7,7 +7,7 @@ using ProjectAvalonia.Logging;
 
 namespace ProjectAvalonia;
 
-[JsonObject(memberSerialization: MemberSerialization.OptIn)]
+[JsonObject(MemberSerialization.OptIn)]
 public class Config : ConfigBase
 {
     /// <summary>
@@ -20,7 +20,7 @@ public class Config : ConfigBase
 
     public Config(
         string filePath
-    ) : base(filePath: filePath)
+    ) : base(filePath)
     {
         /*   ServiceConfiguration = new ServiceConfiguration(GetBitcoinP2pEndPoint(), DustThreshold);*/
     }
@@ -32,13 +32,14 @@ public class Config : ConfigBase
         internal set;
     } = true;
 
-    [DefaultValue(value: true)]
+    [DefaultValue(true)]
     [JsonProperty(PropertyName = "DownloadNewVersion", DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool DownloadNewVersion
     {
         get;
         internal set;
     } = true;
+
 
     [JsonProperty(PropertyName = "AppVersion", DefaultValueHandling = DefaultValueHandling.Populate)]
     public string AppVersion
@@ -47,6 +48,7 @@ public class Config : ConfigBase
         internal set;
     } = "1.0.0";
 
+    [DefaultValue("en")]
     [JsonProperty(PropertyName = "AppLanguage", DefaultValueHandling = DefaultValueHandling.Populate)]
     public string AppLanguage
     {
@@ -64,11 +66,11 @@ public class Config : ConfigBase
     {
         try
         {
-            var jsObject = JsonConvert.DeserializeObject<JObject>(value: jsonString);
+            var jsObject = JsonConvert.DeserializeObject<JObject>(jsonString);
 
             if (jsObject is null)
             {
-                Logger.LogWarning(message: "Failed to parse config JSON.");
+                Logger.LogWarning("Failed to parse config JSON.");
                 return false;
             }
 
@@ -78,8 +80,8 @@ public class Config : ConfigBase
         }
         catch (Exception ex)
         {
-            Logger.LogWarning(message: "Backwards compatibility couldn't be ensured.");
-            Logger.LogInfo(exception: ex);
+            Logger.LogWarning("Backwards compatibility couldn't be ensured.");
+            Logger.LogInfo(ex);
             return false;
         }
     }

@@ -10,7 +10,6 @@ using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.SearchBars.ViewModels.SearchBar.Sources;
-using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
 
 namespace ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
@@ -21,12 +20,12 @@ public class ActionsSearchSource : ISearchSource
         IObservable<string> query
     )
     {
-        var filter = query.Select(selector: SearchSource.DefaultFilter);
+        var filter = query.Select(SearchSource.DefaultFilter);
 
         Changes = GetItemsFromMetadata()
             .ToObservable()
-            .ToObservableChangeSet(keySelector: x => x.Key)
-            .Filter(predicateChanged: filter);
+            .ToObservableChangeSet(x => x.Key)
+            .Filter(filter);
     }
 
     public IObservable<IChangeSet<ISearchItem, ComposedKey>> Changes
@@ -36,15 +35,15 @@ public class ActionsSearchSource : ISearchSource
 
     private static IEnumerable<ISearchItem> GetItemsFromMetadata() =>
         NavigationManager.MetaData
-            .Where(predicate: m => m.Searchable)
-            .Select(selector: m =>
+            .Where(m => m.Searchable)
+            .Select(m =>
             {
-                var onActivate = CreateOnActivateFunction(navigationMetaData: m);
-                var searchItem = new ActionableItem(name: m.Title,
-                    description: m.Caption,
-                    onExecution: onActivate,
-                    category: m.Category ?? "No category",
-                    keywords: m.Keywords)
+                var onActivate = CreateOnActivateFunction(m);
+                var searchItem = new ActionableItem(m.Title,
+                    m.Caption,
+                    onActivate,
+                    m.Category ?? "No category",
+                    m.Keywords)
                 {
                     Icon = m.IconName, IsDefault = true
                 };
@@ -56,26 +55,26 @@ public class ActionsSearchSource : ISearchSource
     ) =>
         async () =>
         {
-            var vm = await NavigationManager.MaterialiseViewModelAsync(metaData: navigationMetaData);
+            var vm = await NavigationManager.MaterialiseViewModelAsync(navigationMetaData);
             if (vm is null)
             {
                 return;
             }
 
-            if (vm is NavBarItemViewModel item && item.OpenCommand.CanExecute(parameter: default))
+            if (vm is NavBarItemViewModel item && item.OpenCommand.CanExecute.Wait())
             {
-                item.OpenCommand.Execute(parameter: default);
+                item.OpenCommand.Execute(default);
             }
             else if (vm is TriggerCommandViewModel triggerCommandViewModel
-                     && triggerCommandViewModel.TargetCommand.CanExecute(parameter: default))
+                     && triggerCommandViewModel.TargetCommand.CanExecute(default))
             {
-                triggerCommandViewModel.TargetCommand.Execute(parameter: default);
+                triggerCommandViewModel.TargetCommand.Execute(default);
             }
             else
             {
                 RoutableViewModel
-                    .Navigate(currentTarget: vm.DefaultTarget)
-                    .To(viewmodel: vm);
+                    .Navigate(vm.DefaultTarget)
+                    .To(vm);
             }
         };
 }

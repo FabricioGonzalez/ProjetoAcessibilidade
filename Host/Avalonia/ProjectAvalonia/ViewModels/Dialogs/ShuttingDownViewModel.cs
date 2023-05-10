@@ -18,8 +18,6 @@ public partial class ShuttingDownViewModel : RoutableViewModel
         , bool restart
     )
     {
-        SetTitle(localizedString: "ShutdownDialogTitleLabel");
-
         _applicationViewModel = applicationViewModel;
         _restart = restart;
         NextCommand = CancelCommand;
@@ -36,15 +34,15 @@ public partial class ShuttingDownViewModel : RoutableViewModel
         , CompositeDisposable disposables
     ) =>
         Observable
-            .Interval(period: TimeSpan.FromSeconds(value: 5))
-            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-            .Subscribe(onNext: _ =>
+            .Interval(TimeSpan.FromSeconds(5))
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Subscribe(_ =>
             {
                 if (_applicationViewModel.CanShutdown())
                 {
                     Navigate().Clear();
-                    _applicationViewModel.Shutdown(restart: _restart);
+                    _applicationViewModel.Shutdown(_restart);
                 }
             })
-            .DisposeWith(compositeDisposable: disposables);
+            .DisposeWith(disposables);
 }

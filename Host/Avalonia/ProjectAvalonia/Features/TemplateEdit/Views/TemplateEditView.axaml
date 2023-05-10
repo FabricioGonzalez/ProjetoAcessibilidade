@@ -5,13 +5,14 @@
     xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
     xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
     d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignWidth="800" Padding="0"
     x:CompileBindings="True"
-    x:DataType="viewModels:TemplateEditViewModel"
+    x:DataType="interfaces:ITemplateEditViewModel"
     mc:Ignorable="d">
     <Design.DataContext>
         <designTimeViewModels:DesignTimeTemplateEditViewModel />
@@ -22,44 +23,36 @@
         </EventTriggerBehavior>
     </Interaction.Behaviors>
 
-    <controls:ContentArea ScrollViewer.VerticalScrollBarVisibility="Disabled">
+    <controls:ContentArea Padding="2" ClipToBounds="True" HorizontalContentAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch">
         <controls:ContentArea.Title>
-            <DockPanel Height="32">
-                <StackPanel HorizontalAlignment="Left" Margin="0 -5 0 0" DockPanel.Dock="Left"
-                            Orientation="Horizontal" Spacing="10">
-                    <Button
-                        Width="42"
-                        Height="28"
-                        Margin="4,2"
-                        Classes="function"
-                        ToolTip.Tip="Abrir">
-                        <Button.Content>
-                            <PathIcon Data="{StaticResource document_regular}" />
-                        </Button.Content>
-                    </Button>
-                    <Button
-                        Width="42"
-                        Height="28"
-                        Margin="4,2"
-                        Classes="function"
-                        ToolTip.Tip="Novo">
-                        <Button.Content>
-                            <PathIcon Data="{StaticResource add_regular}" />
-                        </Button.Content>
-                    </Button>
 
-                    <Button
-                        x:Name="AppPrintButton"
-                        Width="42"
-                        Height="28"
-                        BorderThickness="0"
-                        Margin="4,2"
-                        Classes="function"
-                        ToolTip.Tip="Imprimir">
-                        <PathIcon Data="{StaticResource printer_regular}" />
-                    </Button>
-                </StackPanel>
-                <Button Width="42"
+            <StackPanel Height="32" HorizontalAlignment="Left" DockPanel.Dock="Left"
+                        Orientation="Horizontal" Spacing="10">
+                <Button
+                    Width="42"
+                    Height="28"
+                    Margin="4,2"
+                    Classes="function"
+                    ToolTip.Tip="Abrir">
+                    <Button.Content>
+                        <PathIcon Data="{StaticResource document_regular}" />
+                    </Button.Content>
+                </Button>
+                <Button
+                    Width="42"
+                    Height="28"
+                    Margin="4,2"
+                    Classes="function"
+                    ToolTip.Tip="Novo">
+                    <Button.Content>
+                        <PathIcon Data="{StaticResource add_regular}" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            <!--<Button Width="42"
                         Height="28"
                         Margin="4,2" Classes="action" HorizontalAlignment="Right" DockPanel.Dock="Right">
                     <Button.Flyout>
@@ -88,15 +81,16 @@
                     </Button.Flyout>
                     <PathIcon Data="{StaticResource more_regular}"
                               Foreground="{DynamicResource TextForegroundColor}" />
-                </Button>
-            </DockPanel>
+                </Button>-->
+
         </controls:ContentArea.Title>
         <SplitView
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             DisplayMode="Inline"
             IsPaneOpen="True"
-            PaneBackground="Transparent">
+            OpenPaneLength="220"
+            PaneBackground="{DynamicResource RegionBrush}">
             <SplitView.Pane>
                 <ListBox
                     HorizontalAlignment="Stretch"
@@ -116,13 +110,13 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </SplitView.Pane>
-            <!--<TabControl SelectedIndex="{CompiledBinding SelectedTab, Mode=TwoWay}">
-            <TabItem Header="Template">
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <v:TemplateEditTabView DataContext="{CompiledBinding TemplateEditTab, Mode=TwoWay}" />
-                </ScrollViewer>
-            </TabItem>
-        </TabControl>-->
+            <TabControl>
+                <TabItem Header="Template">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <views:TemplateEditTabView DataContext="{CompiledBinding TemplateEditTab, Mode=TwoWay}" />
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
         </SplitView>
     </controls:ContentArea>
 </UserControl>

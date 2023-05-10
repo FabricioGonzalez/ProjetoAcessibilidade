@@ -1,10 +1,26 @@
-﻿namespace ProjectAvalonia.Presentation.States.FormItemState;
+﻿using System.Collections.ObjectModel;
+using DynamicData.Binding;
+using ProjetoAcessibilidade.Core.Enuns;
+using ReactiveUI;
+
+namespace ProjectAvalonia.Presentation.States.FormItemState;
 
 public class CheckboxContainerItemState : FormItemStateBase
 {
-    /*[AutoNotify] private ObservableCollectionExtended<CheckboxItemState> children;
+    private ObservableCollection<CheckboxItemState> _children;
+    public ObservableCollection<CheckboxItemState> Children
+    {
+        get => _children;
+        set => this.RaiseAndSetIfChanged(ref _children, value);
+    }
 
-    [AutoNotify] private string topic;
+     private string _topic;
+     public string Topic
+     {
+         get => _topic;
+         set => this.RaiseAndSetIfChanged(ref _topic, value);
+     }
+
 
     public CheckboxContainerItemState(
         string topic
@@ -15,5 +31,5 @@ public class CheckboxContainerItemState : FormItemStateBase
     {
         Topic = topic;
         Children = new ObservableCollectionExtended<CheckboxItemState>();
-    }*/
+    }
 }

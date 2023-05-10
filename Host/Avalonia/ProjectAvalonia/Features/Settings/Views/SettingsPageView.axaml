@@ -53,13 +53,13 @@
             </c:InfoMessage>
 
             <TabControl SelectedIndex="{Binding SelectedTab, Mode=TwoWay}">
-                <TabItem Header="{Binding GeneralSettingsTab.LocalizedTitle, FallbackValue={Binding Title} }">
+                <TabItem Header="{Binding GeneralSettingsTab.LocalizedTitle }">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <v:GeneralSettingsTabView DataContext="{Binding GeneralSettingsTab}" />
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem Header="{Binding AdvancedSettingsTab.LocalizedTitle, FallbackValue={Binding Title}}">
+                <TabItem Header="{Binding AdvancedSettingsTab.LocalizedTitle}">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <v:AdvancedSettingsTabView DataContext="{Binding AdvancedSettingsTab}" />
                     </ScrollViewer>

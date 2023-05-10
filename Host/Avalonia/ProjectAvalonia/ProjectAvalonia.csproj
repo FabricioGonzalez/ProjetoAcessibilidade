@@ -38,6 +38,8 @@
         <Compile Remove="Features\TemplateRules\**" />
         <Compile Remove="Languages\**" />
         <Compile Remove="Models\**" />
+        <Content Include="Features\TemplateEdit\Views\Components\ComboEditBox.axaml" />
+        <Content Include="Features\TemplateEdit\Views\Components\TemplateEditingContainer.axaml" />
         <EmbeddedResource Remove="Features\ItemValidation\**" />
         <EmbeddedResource Remove="Features\TemplateEditing\**" />
         <EmbeddedResource Remove="Features\TemplateRules\**" />
@@ -52,12 +54,15 @@
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
         <Compile Update="Common\Controls\IconButton.axaml.cs">
-          <DependentUpon>IconButton.axaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>IconButton.axaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
         <EmbeddedResource Update="Properties\Resources.en.resx">
-          <Generator>PublicResXFileCodeGenerator</Generator>
+            <Generator>PublicResXFileCodeGenerator</Generator>
         </EmbeddedResource>
+        <Content Remove="C:\Users\Fabricio\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
+        <AvaloniaXaml Remove="Features\TemplateEdit\Views\Components\TemplateEditingContainer.axaml" />
+        <AvaloniaXaml Remove="Features\TemplateEdit\Views\Components\ComboEditBox.axaml" />
     </ItemGroup>
     <ItemGroup>
         <AvaloniaXaml Include="Common\Controls\EditableTextBlock.axaml" />

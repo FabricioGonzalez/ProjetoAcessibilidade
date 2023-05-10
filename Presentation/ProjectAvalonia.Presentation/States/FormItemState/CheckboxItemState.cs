@@ -1,12 +1,43 @@
-﻿namespace ProjectAvalonia.Presentation.States.FormItemState;
+﻿using System.Collections.ObjectModel;
+using ReactiveUI;
 
-public class CheckboxItemState
+namespace ProjectAvalonia.Presentation.States.FormItemState;
+
+public class CheckboxItemState : ReactiveObject
 {
-    /*[AutoNotify] private string _id;
+    private string _id;
 
-    [AutoNotify] private ObservableCollectionExtended<OptionsItemState> _options;
+    private ObservableCollection<OptionsItemState> _options;
+    private ObservableCollection<TextItemState> _textItems;
+    private string _topic;
 
-    [AutoNotify] private ObservableCollectionExtended<TextItemState> _textItems;
+    public CheckboxItemState()
+    {
+        _options = new ObservableCollection<OptionsItemState>();
+        _textItems = new ObservableCollection<TextItemState>();
+    }
 
-    [AutoNotify] private string _topic;*/
+    public string Id
+    {
+        get => _id;
+        set => this.RaiseAndSetIfChanged(ref _id, value);
+    }
+
+    public ObservableCollection<OptionsItemState> Options
+    {
+        get => _options;
+        set => this.RaiseAndSetIfChanged(ref _options, value);
+    }
+
+    public ObservableCollection<TextItemState> TextItems
+    {
+        get => _textItems;
+        set => this.RaiseAndSetIfChanged(ref _textItems, value);
+    }
+
+    public string Topic
+    {
+        get => _topic;
+        set => this.RaiseAndSetIfChanged(ref _topic, value);
+    }
 }

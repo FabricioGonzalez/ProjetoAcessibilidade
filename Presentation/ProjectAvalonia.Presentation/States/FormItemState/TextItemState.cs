@@ -1,14 +1,14 @@
-﻿namespace ProjectAvalonia.Presentation.States.FormItemState;
+﻿using ProjetoAcessibilidade.Core.Enuns;
+using ReactiveUI;
 
-public class TextItemState
+namespace ProjectAvalonia.Presentation.States.FormItemState;
+
+public class TextItemState : FormItemStateBase
 {
-    /*[AutoNotify]
     private string? _measurementUnit;
 
-    [AutoNotify]
     private string _textData = "";
 
-    [AutoNotify]
     private string _topic = "";
 
     public TextItemState(
@@ -18,10 +18,28 @@ public class TextItemState
         , AppFormDataType type = AppFormDataType.Texto
         , string id = ""
     )
-        : base(type: type, id: id)
+        : base(type, id)
     {
         Topic = topic;
         TextData = textData;
         MeasurementUnit = measurementUnit;
-    }*/
+    }
+
+    public string? MeasurementUnit
+    {
+        get => _measurementUnit;
+        set => this.RaiseAndSetIfChanged(ref _measurementUnit, value);
+    }
+
+    public string TextData
+    {
+        get => _textData;
+        set => this.RaiseAndSetIfChanged(ref _textData, value);
+    }
+
+    public string Topic
+    {
+        get => _topic;
+        set => this.RaiseAndSetIfChanged(ref _topic, value);
+    }
 }

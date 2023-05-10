@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
-using System.Reactive;
-using ReactiveUI;
+using ProjectAvalonia.Presentation.States;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface ITemplateEditTabViewModel : INotifyPropertyChanged
 {
-    public ReactiveCommand<IEditableItemViewModel, Unit> LoadEditingItem
+    public AppModelState EditingItem
     {
         get;
+        set;
     }
 }

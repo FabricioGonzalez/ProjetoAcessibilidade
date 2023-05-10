@@ -21,14 +21,14 @@ public partial class AdvancedSettingsTabViewModel : SettingsTabViewModelBase
 
     public AdvancedSettingsTabViewModel()
     {
-        SetTitle(localizedString: "AdvancedSettingsViewNavLabel");
+        SetTitle("AdvancedSettingsViewNavLabel");
         _enableGpu = ServicesConfig.Config.EnableGpu;
 
-        this.WhenAnyValue(property1: x => x.EnableGpu)
-            .ObserveOn(scheduler: RxApp.TaskpoolScheduler)
-            .Throttle(dueTime: TimeSpan.FromMilliseconds(value: ThrottleTime))
-            .Skip(count: 1)
-            .Subscribe(onNext: _ => Save());
+        this.WhenAnyValue(x => x.EnableGpu)
+            .ObserveOn(RxApp.TaskpoolScheduler)
+            .Throttle(TimeSpan.FromMilliseconds(ThrottleTime))
+            .Skip(1)
+            .Subscribe(_ => Save());
     }
 
     public override string? LocalizedTitle

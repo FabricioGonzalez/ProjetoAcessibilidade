@@ -78,7 +78,13 @@ public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
 
     public SolutionState SolutionModel => _solutionStore.CurrentOpenSolution;
 */
-    public override sealed string Title
+
+    public string Caption
+    {
+        get;
+    }
+
+    public override string Title
     {
         get;
         protected set;
@@ -88,10 +94,5 @@ public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
     {
         get;
         protected set;
-    } = null;
-
-    public string Caption
-    {
-        get;
     }
 }

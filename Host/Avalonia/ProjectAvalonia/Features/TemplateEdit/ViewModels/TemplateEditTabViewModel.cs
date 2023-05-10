@@ -1,10 +1,8 @@
-﻿using System.Reactive;
-using Common;
+﻿using System.Collections.ObjectModel;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Project.Queries.SystemItems;
-using ReactiveUI;
-using Splat;
+using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.FormItemState;
+using ProjectAvalonia.Presentation.States.LawItemState;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -16,17 +14,17 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Category = "Templates",
     Keywords = new[]
     {
-        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
-        "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close"
+        , "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
-public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, ITemplateEditTabViewModel
+public partial class TemplateEditTabViewModel
+    : TemplateEditTabViewModelBase
+        , ITemplateEditTabViewModel
 {
-    private readonly IMediator _mediator;
-
     /*private readonly ICommandDispatcher commandDispatcher;
 
-    private readonly IMediator _mediator;
+    private readonly IMediator queryDispatcher;
 
     [AutoNotify] private AppModelState _editingItem;
 
@@ -201,30 +199,60 @@ public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase, IT
                     item.ToAppModel(),
                     InEditingItem.ItemPath),
                 CancellationToken.None);*/
-    public TemplateEditTabViewModel()
-    {
-        _mediator ??= Locator.Current.GetService<IMediator>();
-        LoadEditingItem = ReactiveCommand.CreateFromTask<IEditableItemViewModel>(execute: async editableItem =>
-        {
-            (await _mediator.Send(request: new GetSystemProjectItemContentQuery(ItemPath: editableItem.ItemPath),
-                    cancellation: GetCancellationToken()))
-                .OnSuccess(onSuccessAction: success =>
-                {
-                })
-                .OnError(onErrorAction: error =>
-                {
-                });
-        });
-    }
-
     public override string? LocalizedTitle
     {
         get;
         protected set;
     } = null;
 
-    public ReactiveCommand<IEditableItemViewModel, Unit> LoadEditingItem
+    public AppModelState EditingItem
     {
         get;
-    }
+        set;
+    } = new()
+    {
+        Id = "", FormData = new ReadOnlyObservableCollection<FormItemContainer>(
+            new ObservableCollection<FormItemContainer>
+            {
+                new()
+                {
+                    Body = new TextItemState("teste item", id: "", textData: "teste", measurementUnit: "m")
+                }
+                , new()
+                {
+                    Body = new CheckboxContainerItemState("Teste")
+                    {
+                        Children = new ObservableCollection<CheckboxItemState>
+                        {
+                            new()
+                            {
+                                Options = new ObservableCollection<OptionsItemState>
+                                {
+                                    new()
+                                    {
+                                        Value = "Sim", IsChecked = false
+                                    }
+                                    , new()
+                                    {
+                                        Value = "Não", IsChecked = false
+                                    }
+                                    , new()
+                                    {
+                                        Value = "Talvez", IsChecked = false
+                                    }
+                                }
+                                , TextItems = new ObservableCollection<TextItemState>
+                                {
+                                    new("inner text", id: "", textData: "teste", measurementUnit: "m")
+                                    , new("inner text 2", id: "", textData: "teste", measurementUnit: "m")
+                                }
+                            }
+                        }
+                    }
+                }
+                , new() { Body = new TextItemState("teste item", id: "", textData: "teste2", measurementUnit: "m") }
+            })
+        , ItemName = "Teste", ItemTemplate = "Teste Template"
+        , LawItems = new ReadOnlyObservableCollection<LawStateItem>(new ObservableCollection<LawStateItem>())
+    };
 }

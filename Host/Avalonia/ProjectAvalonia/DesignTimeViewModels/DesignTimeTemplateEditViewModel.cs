@@ -5,13 +5,22 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 
-public class DesignTimeTemplateEditViewModel : ReactiveObject, ITemplateEditViewModel
+public class DesignTimeTemplateEditViewModel
+    : ReactiveObject
+        , ITemplateEditViewModel
 {
     public ObservableCollection<IEditableItemViewModel> Items
     {
         get;
         set;
-    }
+    } = new()
+    {
+        new DesignTimeEditableItemViewModel()
+        , new DesignTimeEditableItemViewModel()
+        , new DesignTimeEditableItemViewModel()
+        , new DesignTimeEditableItemViewModel()
+        , new DesignTimeEditableItemViewModel()
+    };
 
     public IEditableItemViewModel SelectedItem
     {
