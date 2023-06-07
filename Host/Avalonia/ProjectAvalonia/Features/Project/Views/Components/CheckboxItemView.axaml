@@ -1,34 +1,42 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
-             xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
-             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ProjectAvalonia.Features.Project.Views.Components.CheckboxItemView"
-             x:DataType="interfaces:ICheckboxItemViewModel"
-             x:CompileBindings="True" HorizontalAlignment="Stretch">
+﻿<UserControl
+    x:Class="ProjectAvalonia.Features.Project.Views.Components.CheckboxItemView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    HorizontalAlignment="Stretch"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:CompileBindings="True"
+    x:DataType="interfaces:ICheckboxItemViewModel"
+    mc:Ignorable="d">
     <Design.DataContext>
         <designTimeViewModels:DesignTimeCheckboxItemViewModel />
     </Design.DataContext>
 
-    <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TextBlock Margin="8,2" DockPanel.Dock="Top" HorizontalAlignment="Stretch"
-                   FontWeight="Bold"
-                   Text="{Binding Topic}"
-                   TextWrapping="Wrap" />
+    <DockPanel
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        LastChildFill="True">
+        <TextBlock
+            Margin="8,2"
+            HorizontalAlignment="Stretch"
+            DockPanel.Dock="Top"
+            FontWeight="Bold"
+            Text="{Binding Topic}"
+            TextWrapping="Wrap" />
         <ItemsControl DockPanel.Dock="Bottom" Items="{Binding TextItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <components:TextBoxItem
-                        DataContext="{Binding}" />
+                    <components:TextBoxItem DataContext="{Binding}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <components:OptionsContainerItem Margin="8,2"
-                                         DataContext="{Binding Options}" />
+        <components:OptionsContainer Margin="8,2" DataContext="{Binding Options}" />
 
     </DockPanel>
 

@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
 
-public partial class OptionsContainerItem : UserControl
+public partial class OptionsContainer : UserControl
 {
-    public OptionsContainerItem()
+    public OptionsContainer()
     {
         InitializeComponent();
     }

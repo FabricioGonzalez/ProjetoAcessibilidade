@@ -38,7 +38,6 @@
         <Compile Remove="Features\TemplateRules\**" />
         <Compile Remove="Languages\**" />
         <Compile Remove="Models\**" />
-        <Content Include="Features\TemplateEdit\Views\Components\TemplateEditingContainer.axaml" />
         <EmbeddedResource Remove="Features\ItemValidation\**" />
         <EmbeddedResource Remove="Features\TemplateEditing\**" />
         <EmbeddedResource Remove="Features\TemplateRules\**" />
@@ -56,11 +55,16 @@
             <DependentUpon>IconButton.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Features\Project\Views\Components\ObservationItem.axaml.cs">
+          <DependentUpon>ObservationItem.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\OptionsContainer.axaml.cs">
+          <DependentUpon>OptionsContainer.axaml</DependentUpon>
+        </Compile>
         <EmbeddedResource Update="Properties\Resources.en.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
         </EmbeddedResource>
         <Content Remove="C:\Users\Fabricio\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
-        <AvaloniaXaml Remove="Features\TemplateEdit\Views\Components\TemplateEditingContainer.axaml" />
         <AvaloniaXaml Remove="Features\TemplateEdit\Views\Components\ComboEditBox.axaml" />
         <Compile Update="Specifications\ComboEditBox.axaml.cs">
           <DependentUpon>ComboEditBox.axaml</DependentUpon>

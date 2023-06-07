@@ -43,7 +43,7 @@
 
             <DataTemplate x:DataType="interfaces:IObservationFormItemViewModel"
                           DataType="interfaces:IObservationFormItemViewModel">
-                <components:ObservationItemView BorderThickness="1"
+              <components:ObservationItem BorderThickness="1"
                                                 BorderBrush="{DynamicResource TileBorderColor}" DataContext="{Binding}" />
             </DataTemplate>
         </ItemsControl.DataTemplates>

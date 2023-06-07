@@ -1,4 +1,5 @@
 ﻿using ProjetoAcessibilidade.Core.Enuns;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
@@ -6,6 +7,7 @@ namespace ProjectAvalonia.Presentation.States.FormItemState;
 public class FormItemContainer : ReactiveObject
 {
     private FormItemStateBase _body;
+
     private string _id;
 
     private string _topic;

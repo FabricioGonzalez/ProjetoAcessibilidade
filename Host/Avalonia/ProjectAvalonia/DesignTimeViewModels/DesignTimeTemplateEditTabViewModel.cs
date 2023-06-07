@@ -1,8 +1,10 @@
 using System.Collections.ObjectModel;
+
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -17,11 +19,12 @@ public class DesignTimeTemplateEditTabViewModel
         set;
     } = new()
     {
-        Id = "", FormData = new ObservableCollection<FormItemContainer>
+        Id = "",
+        FormData = new ObservableCollection<FormItemContainer>
         {
             new()
             {
-                Topic = "Teste", Body = new TextItemState(
+                Topic = "Teste",Type=ProjetoAcessibilidade.Core.Enuns.AppFormDataType.Texto, Body = new TextItemState(
                     topic: "teste item",
                     id: "",
                     textData: "teste",
@@ -29,7 +32,7 @@ public class DesignTimeTemplateEditTabViewModel
             },
             new()
             {
-                Topic = "Teste 2", Body = new CheckboxContainerItemState("Teste")
+                Topic = "Teste 2",Type=ProjetoAcessibilidade.Core.Enuns.AppFormDataType.Checkbox, Body = new CheckboxContainerItemState("Teste")
                 {
                     Children = new ObservableCollection<CheckboxItemState>
                     {
@@ -69,13 +72,15 @@ public class DesignTimeTemplateEditTabViewModel
             },
             new()
             {
-                Topic = "Teste", Body = new TextItemState(
+                Topic = "Teste",Type=ProjetoAcessibilidade.Core.Enuns.AppFormDataType.Texto, Body = new TextItemState(
                     topic: "teste item",
                     id: "",
                     textData: "teste2",
                     measurementUnit: "m")
             }
         },
-        ItemName = "Teste", ItemTemplate = "Teste Template", LawItems = new ObservableCollection<LawStateItem>()
+        ItemName = "Teste",
+        ItemTemplate = "Teste Template",
+        LawItems = new ObservableCollection<LawStateItem>()
     };
 }

@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+
 using DynamicData.Binding;
+
 using ProjetoAcessibilidade.Core.Enuns;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
@@ -14,12 +17,12 @@ public class CheckboxContainerItemState : FormItemStateBase
         set => this.RaiseAndSetIfChanged(ref _children, value);
     }
 
-     private string _topic;
-     public string Topic
-     {
-         get => _topic;
-         set => this.RaiseAndSetIfChanged(ref _topic, value);
-     }
+    private string _topic;
+    public string Topic
+    {
+        get => _topic;
+        set => this.RaiseAndSetIfChanged(ref _topic, value);
+    }
 
 
     public CheckboxContainerItemState(

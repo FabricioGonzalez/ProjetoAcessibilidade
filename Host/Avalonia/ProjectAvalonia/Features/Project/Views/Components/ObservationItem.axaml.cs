@@ -1,12 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
 
-public partial class ObservationItemView : UserControl
+public partial class ObservationItem : UserControl
 {
-    public ObservationItemView()
+    public ObservationItem()
     {
         InitializeComponent();
     }
