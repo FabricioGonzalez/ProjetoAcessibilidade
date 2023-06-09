@@ -1,9 +1,20 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Reactive.Linq;
+
+using DynamicData;
+using DynamicData.Binding;
+
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
+
 using ProjetoAcessibilidade.Core.Enuns;
+
+using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -200,19 +211,53 @@ public partial class TemplateEditTabViewModel
                     item.ToAppModel(),
                     InEditingItem.ItemPath),
                 CancellationToken.None);*/
+
+    public TemplateEditTabViewModel()
+    {
+        var observable = this.WhenAnyValue(vm => vm.EditingItem)
+            .Select(x => x.FormData
+            .ToObservableChangeSet()
+             .AutoRefresh())
+            .Switch()
+             .WhenPropertyChanged(prop => prop.Type, notifyOnInitialValue: false)
+              .Subscribe(prop =>
+              {
+                  ChangeBody(prop.Sender);
+              }, error =>
+              {
+                  Debug.WriteLine(error);
+              },
+            () =>
+            {
+                Debug.WriteLine("Completado");
+            });
+    }
+
+    private void ChangeBody(FormItemContainer container)
+    {
+
+        container.Body = container.Type switch
+        {
+            AppFormDataType.Texto => container.ChangeItem(type: AppFormDataType.Texto)
+            .Reduce(orElse: () => new TextItemState(topic: container.Body.Topic, textData: "", id: container.Body.Id)),
+
+            AppFormDataType.Checkbox => container.ChangeItem(type: AppFormDataType.Checkbox)
+            .Reduce(orElse: () => new CheckboxContainerItemState(topic: container.Body.Topic, id: container.Body.Id))
+        };
+
+        container.AddToHistory(container.Body);
+    }
+
     public override string? LocalizedTitle
     {
         get;
         protected set;
     } = null;
 
-    public AppModelState EditingItem
+    private AppModelState _editingItem = new()
     {
-        get;
-        set;
-    } = new()
-    {
-        Id = "", FormData =
+        Id = "",
+        FormData =
             new ObservableCollection<FormItemContainer>
             {
                 new()
@@ -278,6 +323,13 @@ public partial class TemplateEditTabViewModel
                         measurementUnit: "m")
                 }
             },
-        ItemName = "Teste", ItemTemplate = "Teste Template", LawItems = new ObservableCollection<LawStateItem>()
+        ItemName = "Teste",
+        ItemTemplate = "Teste Template",
+        LawItems = new ObservableCollection<LawStateItem>()
     };
+    public AppModelState EditingItem
+    {
+        get => _editingItem;
+        set => this.RaiseAndSetIfChanged(ref _editingItem, value);
+    }
 }

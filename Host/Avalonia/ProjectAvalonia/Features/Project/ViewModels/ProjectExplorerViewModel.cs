@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -13,21 +14,43 @@ using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ProjetoAcessibilidade.Core.Entities.Solution;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 {
-    public ProjectExplorerViewModel(List<IItemGroupViewModel> items, ProjectSolutionModel state)
+    public ProjectExplorerViewModel(ProjectSolutionModel state)
     {
-        Items = new ObservableCollection<IItemGroupViewModel>(list: items);
         SolutionState = state;
 
-        Items
-            .ToObservableChangeSet()
-            .AutoRefreshOnObservable(reevaluator: document => document.ExcludeFolderCommand.IsExecuting)
+        Items = new ObservableCollection<IItemGroupViewModel>(list:
+           state.ItemGroups
+                .Select(
+                 selector: model =>
+                 {
+                     var vm = new ItemGroupViewModel(
+                     name: model.Name,
+                     itemPath: model.ItemPath);
+                     vm.TransformFrom(items: model.Items);
+
+                     return vm;
+                 }).ToList<IItemGroupViewModel>());
+
+        var changeSet = Items
+            .ToObservableChangeSet();
+
+        Items.SelectMany(x => x.Items)
+            .AsObservableChangeSet()
+            .OnItemAdded(prop =>
+            {
+                Logger.LogDebug(prop.ItemPath);
+            });
+
+        changeSet.AutoRefreshOnObservable(reevaluator: document => document.ExcludeFolderCommand.IsExecuting)
             .Select(selector: x => WhenAnyFolderIsDeleted())
             .Switch()
             .SubscribeAsync(onNextAsync: async x =>
@@ -50,7 +73,8 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         {
             var dialog = new CreateFolderViewModel(
                 message: "Defina o nome da pasta", title: "Criar Pasta"
-                , caption: "");
+                , caption: "",
+                Items);
 
             var result = await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
                 target: NavigationTarget.CompactDialogScreen);

@@ -2,6 +2,7 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.Components.CbEditContainer"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
@@ -10,64 +11,76 @@
     mc:Ignorable="d">
     <Expander
         Margin="4"
+        Padding="4"
         HorizontalAlignment="Stretch"
-        HorizontalContentAlignment="Stretch">
+        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch"
+        Background="Transparent"
+        CornerRadius="4">
         <Expander.HeaderTemplate>
             <DataTemplate>
                 <Grid ColumnDefinitions="1*,0.1*,1*">
                     <TextBox
                         Grid.Column="0"
-                        Height="60"
                         FontSize="11"
                         Text="{Binding Topic, Mode=TwoWay}"
-                        UseFloatingWatermark="True"
                         Watermark="{x:Static p:Resources.CheckboxContainerTopicLabel}" />
-                    <Separator Grid.Column="1" />
-                    <Button
+                    <Separator
+                        Grid.Column="1"
+                        Width="1"
+                        Height="{Binding $parent.Height}"
+                        VerticalAlignment="Stretch" />
+                    <c:IconButton
                         Grid.Column="2"
+                        Width="24"
+                        Height="24"
+                        Margin="8,0"
                         HorizontalAlignment="Right"
-                        Classes="function">
-                        <PathIcon Data="{StaticResource dismiss_light}" />
-                    </Button>
+                        Classes="function"
+                        Icon="{StaticResource dismiss_regular}"
+                        IconSize="16"
+                        ToolTip.Tip="Remove Group" />
                 </Grid>
             </DataTemplate>
         </Expander.HeaderTemplate>
         <Grid
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            ColumnDefinitions="1*,0.1*"
-            RowDefinitions="1* 1*">
-            <TextBox
-                Grid.Row="0"
-                Grid.Column="0"
-                Height="60"
-                FontSize="11"
-                Text="{Binding Topic, Mode=TwoWay}"
-                UseFloatingWatermark="True"
-                Watermark="{x:Static p:Resources.CheckboxContainerTopicLabel}" />
+            Background="Transparent"
+            ColumnDefinitions="1*,72"
+            RowDefinitions="1*,2*">
             <StackPanel
+                Grid.Row="0"
                 Grid.Column="1"
-                VerticalAlignment="Stretch"
-                Orientation="Horizontal">
-                <Button
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Classes="function"
-                    ToolTip.Tip="Add CheckboxItem">
-                    <PathIcon Data="{StaticResource add_regular}" />
-                </Button>
+                HorizontalAlignment="Right"
+                Orientation="Horizontal"
+                Spacing="8">
 
-                <Button
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
+                <c:IconButton
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Width="24"
+                    Height="24"
                     Classes="function"
-                    ToolTip.Tip="Remove Checkboxes">
-                    <PathIcon Data="{StaticResource dismiss_light}" />
-                </Button>
+                    Icon="{StaticResource add_regular}"
+                    IconSize="16"
+                    ToolTip.Tip="Add CheckboxItem" />
+
+                <c:IconButton
+                    Width="24"
+                    Height="24"
+                    Classes="function"
+                    Icon="{StaticResource dismiss_regular}"
+                    IconSize="16"
+                    ToolTip.Tip="Remove Checkboxes" />
             </StackPanel>
+
             <ItemsControl
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
                 Items="{Binding Children, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -76,34 +89,42 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             CornerRadius="8">
-                            <Grid ColumnDefinitions="1*,0.1*" RowDefinitions="auto auto">
+                            <Grid ColumnDefinitions="1*,72" RowDefinitions="auto auto">
                                 <TextBox
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Height="60"
                                     VerticalAlignment="Bottom"
                                     FontSize="11"
                                     Text="{Binding Topic, Mode=TwoWay}"
+                                    UseFloatingWatermark="True"
                                     Watermark="{x:Static p:Resources.CheckboxItemTopicLabel}" />
                                 <StackPanel
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     Orientation="Horizontal">
-                                    <Button
+                                    <c:IconButton
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Width="24"
+                                        Height="24"
+                                        Margin="8,0"
                                         HorizontalAlignment="Left"
-                                        VerticalAlignment="Stretch"
                                         Classes="function"
-                                        ToolTip.Tip="Add Option">
-                                        <PathIcon Data="{StaticResource add_regular}" />
-                                    </Button>
+                                        Icon="{StaticResource add_regular}"
+                                        IconSize="16"
+                                        ToolTip.Tip="Add CheckboxItem" />
 
-                                    <Button
+                                    <c:IconButton
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Width="24"
+                                        Height="24"
+                                        Margin="8,0"
                                         HorizontalAlignment="Right"
-                                        VerticalAlignment="Stretch"
                                         Classes="function"
-                                        ToolTip.Tip="Remove Checkbox Item">
-                                        <PathIcon Data="{StaticResource dismiss_light}" />
-                                    </Button>
+                                        Icon="{StaticResource dismiss_regular}"
+                                        IconSize="16"
+                                        ToolTip.Tip="Remove Checkboxes" />
                                 </StackPanel>
                                 <ItemsControl
                                     Grid.Row="1"
@@ -115,20 +136,23 @@
                                                 Margin="0,4"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch">
-                                                <Grid ColumnDefinitions="1*,0.1*">
+                                                <Grid ColumnDefinitions="1*,40">
                                                     <TextBox
-                                                        Height="60"
                                                         FontSize="11"
                                                         Text="{Binding Value, Mode=TwoWay}"
                                                         UseFloatingWatermark="True"
                                                         Watermark="{x:Static p:Resources.CheckboxItemValueLabel}" />
-                                                    <Button
+                                                    <c:IconButton
+                                                        Grid.Row="0"
                                                         Grid.Column="1"
+                                                        Width="24"
+                                                        Height="24"
+                                                        Margin="8,0"
                                                         HorizontalAlignment="Right"
                                                         Classes="function"
-                                                        ToolTip.Tip="Remove Option">
-                                                        <PathIcon Data="{StaticResource dismiss_light}" />
-                                                    </Button>
+                                                        Icon="{StaticResource dismiss_regular}"
+                                                        IconSize="16"
+                                                        ToolTip.Tip="Remove Checkboxes" />
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>

@@ -1162,6 +1162,7 @@
       "projectavalonia.presentation": {
         "type": "Project",
         "dependencies": {
+          "Common": "[1.0.0, )",
           "ProjetoAcessibilidade.Core": "[1.0.0, )",
           "ReactiveUI": "[18.4.26, )"
         }

@@ -2,6 +2,7 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.TemplateEditTabView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
     xmlns:controls="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
@@ -29,22 +30,22 @@
             RowDefinitions="0.08*,1*,0.3*">
             <TextBox
                 Grid.Row="0"
-                Margin="8,0"
+                Margin="8,8"
                 UseFloatingWatermark="True"
                 Watermark="{x:Static p:Resources.ItemNameLabel}" />
 
             <ItemsControl Grid.Row="1" Items="{Binding EditingItem.FormData}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <Grid ColumnDefinitions="1* 1*">
-                                <TextBox Margin="0,0,4,0" Text="{Binding Topic}" />
+                        <StackPanel Margin="0,8" Spacing="8">
+                            <Grid ColumnDefinitions="1* 1* 0.1*">
+                                <TextBox Margin="4,0,4,0" Text="{Binding Topic}" />
                                 <ComboBox
                                     Grid.Row="0"
                                     Grid.Column="1"
                                     Margin="2,0"
                                     HorizontalAlignment="Stretch"
-                                    SelectedItem="{Binding Type}">
+                                    SelectedItem="{Binding Type, Mode=TwoWay}">
                                     <ComboBox.Items>
                                         <enuns:AppFormDataType>Texto</enuns:AppFormDataType>
                                         <enuns:AppFormDataType>Checkbox</enuns:AppFormDataType>
@@ -55,8 +56,20 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
+
+                                <c:IconButton
+                                    Grid.Column="2"
+                                    Width="24"
+                                    Height="24"
+                                    Margin="8,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Classes="function"
+                                    Icon="{StaticResource dismiss_regular}"
+                                    IconSize="16"
+                                    ToolTip.Tip="Remove Group" />
                             </Grid>
-                            <controls:ReportContainer Content="{Binding Body, Mode=OneWay}" />
+                            <controls:ReportContainer Content="{Binding Body, Mode=OneWay}" CornerRadius="4" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

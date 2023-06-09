@@ -4,18 +4,25 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Avalonia.Threading;
+
 using Common;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 using ProjetoAcessibilidade.Domain.Solution.Queries;
+
 using ReactiveUI;
+
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -218,7 +225,9 @@ public partial class ProjectViewModel
         var isSolutionOpen = this.WhenAnyValue(property1: vm => vm.IsSolutionOpen);
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
+
         CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: CreateSolution);
+
         PrintProjectCommand = ReactiveCommand.Create(
             execute: PrintSolution,
             canExecute: isSolutionOpen);
@@ -327,22 +336,6 @@ public partial class ProjectViewModel
                         action: () =>
                         {
                             ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                                items:
-                                result
-                                    .Data
-                                    .ItemGroups
-                                    .Select(
-                                        selector: model =>
-                                        {
-                                            var vm = new ItemGroupViewModel(
-                                                name: model.Name,
-                                                itemPath: model.ItemPath);
-                                            vm.TransformFrom(items: model.Items);
-
-                                            return vm;
-                                        }
-                                    )
-                                    .ToList<IItemGroupViewModel>(),
                                 state: result.Data
                             );
                             this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
@@ -353,7 +346,23 @@ public partial class ProjectViewModel
             {
             });
 
-    private async Task<Unit> CreateSolution() => Unit.Default;
+    private async Task CreateSolution()
+    {
+        var dialogResult = await NavigateDialogAsync(
+                dialog: new CreateSolutionViewModel(title: "Criar Solução", ProjectExplorerViewModel.SolutionState)
+                , target: NavigationTarget.CompactDialogScreen);
+
+        if (dialogResult is { Result: { } dialogData, Kind: DialogResultKind.Normal })
+        {
+
+            await _mediator.Send(new CreateSolutionCommand(dialogData.FilePath, dialogData), CancellationToken.None);
+            /* NotificationHelpers.Show(title: "Create", message: "Create Project?", onClick: () =>
+             {
+                 Logger.LogDebug(message: $"create Project {dialogData.FileName}");
+             });*/
+        }
+
+    }
 
     protected override void OnNavigatedTo(
         bool isInHistory,

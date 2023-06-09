@@ -32,13 +32,13 @@ public class ProjectSolutionModel : AggregateRoot
     public string FileName
     {
         get;
-        init;
+        set;
     }
 
     public string FilePath
     {
         get;
-        init;
+        set;
     }
 
     public static ProjectSolutionModel Create(

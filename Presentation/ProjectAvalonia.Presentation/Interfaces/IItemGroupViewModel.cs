@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -18,7 +20,7 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
         get;
     }
 
-    ObservableCollection<IItemViewModel> Items
+    public ObservableCollection<IItemViewModel> Items
     {
         get;
     }

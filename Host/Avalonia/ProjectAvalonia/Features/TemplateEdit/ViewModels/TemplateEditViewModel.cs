@@ -2,15 +2,24 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Common;
+using Common.Optional;
+
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
+
 using ProjetoAcessibilidade.Domain.App.Queries.Templates;
 using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Queries.SystemItems;
+
 using ReactiveUI;
+
 using Splat;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
@@ -50,6 +59,11 @@ public partial class TemplateEditViewModel
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
+        this.WhenAnyValue(x => x.SelectedItem)
+            .WhereNotNull()
+            .InvokeCommand(LoadSelectedItem);
+
+
         AddNewItemCommand = ReactiveCommand.Create(
             () =>
             {
@@ -71,6 +85,22 @@ public partial class TemplateEditViewModel
             {
             });
     }
+
+    private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem => ReactiveCommand.CreateFromTask<IEditableItemViewModel>(async (item) =>
+    {
+        var result = await _mediator.Send(
+               new GetSystemProjectItemContentQuery(item.ItemPath),
+               CancellationToken.None);
+
+        result.OnSuccess(onSuccessAction: success =>
+        {
+            success
+            ?.Data
+            ?.ToAppStateFillable()
+            .ToOption()
+            .Map(val => TemplateEditTab.EditingItem = val);
+        });
+    });
 
     public override string? LocalizedTitle
     {
@@ -199,11 +229,11 @@ public partial class TemplateEditViewModel
         get;
         set;
     }
-
+    private IEditableItemViewModel _selectedItem;
     public IEditableItemViewModel? SelectedItem
     {
-        get;
-        set;
+        get => _selectedItem;
+        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
     }
 
     public ITemplateEditTabViewModel TemplateEditTab
@@ -251,7 +281,9 @@ public partial class TemplateEditViewModel
                                 Id = item.Id ??
                                      Guid.NewGuid()
                                          .ToString(),
-                                ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
+                                ItemPath = item.ItemPath,
+                                Name = "",
+                                TemplateName = item.Name
                             }) ??
                     Enumerable.Empty<EditableItemViewModel>());
 

@@ -7,19 +7,25 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Common;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
+
 using ReactiveUI;
+
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -168,7 +174,7 @@ public class ItemGroupViewModel : ReactiveObject,
 
     private async Task AddProjectItem()
     {
-        var addItemViewModel = new AddItemViewModel();
+        var addItemViewModel = new AddItemViewModel(Items);
 
         var dialogResult = await RoutableViewModel.NavigateDialogAsync(
             dialog: addItemViewModel,

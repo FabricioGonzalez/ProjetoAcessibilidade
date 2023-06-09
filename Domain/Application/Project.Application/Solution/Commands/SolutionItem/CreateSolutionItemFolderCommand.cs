@@ -1,7 +1,6 @@
 ﻿using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
-using Splat;
 
 namespace ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 
@@ -26,8 +25,7 @@ public sealed class CreateSolutionItemFolderCommandHandler : IHandler<CreateSolu
         , CancellationToken cancellation
     )
     {
-        var service = Locator.Current.GetService<IExplorerItemRepository>();
-        service.RenameFolderItem(itemName: command.ItemName, itemPath: command.ItemPath);
+        _repository.RenameFolderItem(itemName: command.ItemName, itemPath: command.ItemPath);
 
         return new Empty();
     }

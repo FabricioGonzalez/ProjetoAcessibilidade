@@ -1,26 +1,37 @@
-﻿using ProjectAvalonia.Presentation.States;
+﻿using System.IO;
+using System.Reactive;
+using System.Reactive.Linq;
+
+using Avalonia.Threading;
+
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
+
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Domain.Contracts;
+
+using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
+public class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
 {
-    /*private readonly ICommandDispatcher _commandDispatcher;
-    private readonly SolutionStore _solutionStore;
+    private readonly IMediator _mediator;
+    private ProjectSolutionModel solutionState;
 
-    public ICommand ChooseLogoPath;
-    public ICommand ChooseSolutionPath;
+    public ProjectSolutionModel SolutionModel => solutionState;
 
-    public CreateSolutionViewModel(
-        string title
-        , string caption = ""
-    )
+    public CreateSolutionViewModel(string title, ProjectSolutionModel solutionState, string caption = "")
     {
+        Title = title;
+        this.solutionState = solutionState;
+
         Title = title;
         Caption = caption;
 
-        _commandDispatcher = Locator.Current.GetService<ICommandDispatcher>();
-        _solutionStore = Locator.Current.GetService<SolutionStore>();
+        _mediator = Locator.Current.GetService<IMediator>();
 
         SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
         EnableBack = false;
@@ -32,11 +43,11 @@ public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
         var nextCommandCanExecute = this
             .WhenAnyValue(
                 property1: x => x.IsDialogOpen,
-                property2: x => x.SolutionModel,
+                property2: x => x.solutionState,
                 selector: delegate
                 {
                     // This will fire validations before return canExecute value.
-                    this.RaisePropertyChanged(propertyName: nameof(SolutionModel));
+                    this.RaisePropertyChanged(propertyName: nameof(solutionState));
 
                     return IsDialogOpen;
                 })
@@ -48,7 +59,7 @@ public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
 
         BackCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Back)
             , canExecute: backCommandCanExecute);
-        NextCommand = ReactiveCommand.Create(execute: () => Close(result: SolutionModel)
+        NextCommand = ReactiveCommand.Create(execute: () => Close(result: solutionState)
             , canExecute: nextCommandCanExecute);
         CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel)
             , canExecute: cancelCommandCanExecute);
@@ -59,8 +70,8 @@ public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
 
             Dispatcher.UIThread.Post(action: () =>
             {
-                _solutionStore.CurrentOpenSolution.FilePath = path;
-                _solutionStore.CurrentOpenSolution.FileName = Path.GetFileNameWithoutExtension(path: path);
+                solutionState.FilePath = path;
+                solutionState.FileName = Path.GetFileNameWithoutExtension(path: path);
             });
         });
 
@@ -69,15 +80,22 @@ public class CreateSolutionViewModel : DialogViewModelBase<SolutionState>
             var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Logo da Empresa"
                 , filterExtTypes: new[] { "png" });
 
-            /*Dispatcher.UIThread.Post(action: () =>
+            Dispatcher.UIThread.Post(action: () =>
             {
-                _solutionStore.CurrentOpenSolution.LogoPath = path;
-            });#1#
+                solutionState.SolutionReportInfo.LogoPath = path;
+            });
         });
     }
 
-    public SolutionState SolutionModel => _solutionStore.CurrentOpenSolution;
-*/
+    public ReactiveCommand<Unit, Unit> ChooseSolutionPath
+    {
+        get;
+    }
+    public ReactiveCommand<Unit, Unit> ChooseLogoPath
+    {
+        get;
+    }
+
 
     public string Caption
     {

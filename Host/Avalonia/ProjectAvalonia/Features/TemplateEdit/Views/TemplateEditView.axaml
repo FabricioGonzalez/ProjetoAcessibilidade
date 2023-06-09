@@ -2,15 +2,16 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.TemplateEditView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
     xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
+    Padding="0"
     d:DesignHeight="450"
-    d:DesignWidth="800" Padding="0"
+    d:DesignWidth="800"
     x:CompileBindings="True"
     x:DataType="interfaces:ITemplateEditViewModel"
     mc:Ignorable="d">
@@ -23,14 +24,22 @@
         </EventTriggerBehavior>
     </Interaction.Behaviors>
 
-    <controls:ContentArea Padding="2" ClipToBounds="True" HorizontalContentAlignment="Stretch"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
-                          ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch">
+    <controls:ContentArea
+        Padding="2"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch"
+        ClipToBounds="True"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <controls:ContentArea.Title>
 
-            <StackPanel Height="32" HorizontalAlignment="Left" DockPanel.Dock="Left"
-                        Orientation="Horizontal" Spacing="10">
+            <StackPanel
+                Height="32"
+                HorizontalAlignment="Left"
+                DockPanel.Dock="Left"
+                Orientation="Horizontal"
+                Spacing="10">
                 <Button
                     Width="42"
                     Height="28"
@@ -97,12 +106,7 @@
                     VerticalAlignment="Stretch"
                     Background="Transparent"
                     Items="{Binding Items}"
-                    SelectedItem="{Binding SelectedItem}">
-                    <!--<Interaction.Behaviors>
-                        <EventTriggerBehavior EventName="Selection">
-                            <InvokeCommandAction Command="{Binding LoadAllItems}" />
-                        </EventTriggerBehavior>
-                    </Interaction.Behaviors>-->
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <components:EditableItem DataContext="{Binding}" />

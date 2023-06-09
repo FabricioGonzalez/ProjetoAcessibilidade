@@ -4,13 +4,18 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
+
 using Common;
+
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
+
 using ProjetoAcessibilidade.Domain.App.Queries.Templates;
 using ProjetoAcessibilidade.Domain.Contracts;
+
 using ReactiveUI;
+
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -21,18 +26,23 @@ public partial class AddItemViewModel
         , IAddItemViewModel
 {
     /*private readonly TemplateItemsStore? _itemsStore;*/
-    private readonly IMediator? _queryDispatcher;
+    private readonly IMediator? _mediator;
 
     [AutoNotify] private string _itemName = "";
 
     [AutoNotify] private ItemState? _selectedItem;
 
-    public AddItemViewModel()
+    public AddItemViewModel(System.Collections.ObjectModel.ObservableCollection<IItemViewModel> fileItems)
     {
         SetupCancel(true, true, true);
 
-        _queryDispatcher ??= Locator.Current.GetService<IMediator>();
+        _mediator ??= Locator.Current.GetService<IMediator>();
         /*_itemsStore ??= Locator.Current.GetService<TemplateItemsStore>();*/
+
+        var canCreateItem = this.WhenAnyValue(vm => vm.ItemName)
+            .Select(name => !string.IsNullOrEmpty(name)
+            && !fileItems.Any(x => x.Name == name)
+            && SelectedItem != null);
 
         this.WhenAnyValue(vm => vm.SelectedItem)
             .WhereNotNull()
@@ -46,7 +56,7 @@ public partial class AddItemViewModel
 
         LoadAllItems = ReactiveCommand.CreateFromTask(async () =>
             {
-                (await _queryDispatcher?
+                (await _mediator?
                         .Send(
                             new GetAllTemplatesQuery(),
                             CancellationToken.None))
@@ -56,8 +66,11 @@ public partial class AddItemViewModel
                             ?.Data
                             ?.Select(item => new ItemState
                             {
-                                Id = item.Id ?? Guid.NewGuid().ToString(), ItemPath = item.ItemPath, Name = ""
-                                , TemplateName = item.Name
+                                Id = item.Id ?? Guid.NewGuid().ToString(),
+                                ItemPath = item.ItemPath,
+                                Name = ""
+                                ,
+                                TemplateName = item.Name
                             }) ?? Enumerable.Empty<ItemState>();
 
                         this.RaisePropertyChanged(nameof(Items));
@@ -70,9 +83,7 @@ public partial class AddItemViewModel
 
         NextCommand = ReactiveCommand.Create(
             OnNext,
-            this.WhenAnyValue(x => x.SelectedItem)
-                .Select(prop => prop is not null)
-                .ObserveOn(RxApp.MainThreadScheduler));
+            canCreateItem);
     }
 
     public override string? LocalizedTitle
