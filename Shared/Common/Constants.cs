@@ -30,14 +30,14 @@ public static class Constants
 
 
     public const string report = "report";
-    public const string reportItemNomeEmpresa = "NomeEmpresa";
-    public const string reportItemEmail = "Email";
-    public const string reportItemEndereco = "Endereco";
-    public const string reportItemResponsavel = "Responsavel";
-    public const string reportItemTelefone = "Telefone";
-    public const string reportItemData = "Data";
-    public const string reportItemLogoPath = "LogoPath";
-    public const string reportItemSolutionName = "SolutionName";
+    public const string reportItemNomeEmpresa = "company_name";
+    public const string reportItemEmail = "email";
+    public const string reportItemEndereco = "address";
+    public const string reportItemResponsavel = "responsable";
+    public const string reportItemTelefone = "phone";
+    public const string reportItemData = "report_data";
+    public const string reportItemLogoPath = "logo_path";
+    public const string reportItemSolutionName = "solution_name";
 
     public static string AppFolder = OperatingSystem.IsWindows()
         ? Path.Combine(

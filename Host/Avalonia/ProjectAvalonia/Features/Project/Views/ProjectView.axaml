@@ -206,7 +206,7 @@
                 <local:ProjectExplorerView
                     Width="350"
                     VerticalAlignment="Stretch"
-                    DataContext="{Binding ProjectExplorerViewModel}"
+                    DataContext="{Binding ProjectExplorerViewModel,Mode=OneWay}"
                     DockPanel.Dock="Right" />
                 <local:ProjectEditingView DataContext="{Binding ProjectEditingViewModel}" />
             </DockPanel>

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 
+using Common.Linq;
+using Common.Optional;
+
 using DynamicData;
 using DynamicData.Binding;
 
@@ -81,8 +84,21 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 
             if (result.Kind == DialogResultKind.Normal)
             {
-                Items.Add(item: new ItemGroupViewModel(name: result.Result, itemPath: ""));
+                var item = new ItemGroupViewModel(name: result.Result, itemPath: "");
+
+                Items.Add(item: item);
+
+                return Optional<IItemGroupViewModel>.Some(item);
             }
+            return Optional<IItemGroupViewModel>.None();
+        });
+
+        CreateFolderCommand.Subscribe(result =>
+        {
+            result.Map(res =>
+            {
+                state.ItemGroups.AsEnumerable().AddIfNotFound(res, (i) => i.Name != res.Name);
+            });
         });
     }
 
@@ -92,15 +108,18 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         set;
     }
 
-
-    public ReactiveCommand<Unit, Unit> CreateFolderCommand
+    public void SetCurrentSolution(ProjectSolutionModel state)
+    {
+    SolutionState = state;
+    }
+    public ReactiveCommand<Unit, Optional<IItemGroupViewModel>> CreateFolderCommand
     {
         get;
     }
 
     public ProjectSolutionModel SolutionState
     {
-        get;
+        get;private set;
     }
 
 

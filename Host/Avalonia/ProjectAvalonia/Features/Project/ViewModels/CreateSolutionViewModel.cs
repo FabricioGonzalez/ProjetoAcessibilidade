@@ -4,6 +4,8 @@ using System.Reactive.Linq;
 
 using Avalonia.Threading;
 
+using Common;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 
@@ -70,8 +72,10 @@ public class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
 
             Dispatcher.UIThread.Post(action: () =>
             {
-                solutionState.FilePath = path;
-                solutionState.FileName = Path.GetFileNameWithoutExtension(path: path);
+                solutionState.FilePath = Path.Combine(path,$"{solutionState.SolutionReportInfo.SolutionName}{Constants.AppProjectSolutionExtension}");
+                solutionState.FileName = Path.GetFileNameWithoutExtension(path: solutionState.FilePath);
+
+                this.RaisePropertyChanged();
             });
         });
 
@@ -83,6 +87,7 @@ public class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
             Dispatcher.UIThread.Post(action: () =>
             {
                 solutionState.SolutionReportInfo.LogoPath = path;
+                this.RaisePropertyChanged();
             });
         });
     }

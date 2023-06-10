@@ -41,7 +41,7 @@ public class ReportItem
     } = "";
 
     [XmlElement(elementName: "report_uf")]
-    public UFModel UF
+    public string UF
     {
         get;
         set;

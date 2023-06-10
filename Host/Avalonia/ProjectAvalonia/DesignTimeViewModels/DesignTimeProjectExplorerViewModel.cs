@@ -1,5 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+
+using Common.Optional;
+
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ReactiveUI;
@@ -13,7 +16,7 @@ public class DesignTimeProjectExplorerViewModel : ReactiveObject, IProjectExplor
         get;
     }
 
-    public ReactiveCommand<Unit, Unit> CreateFolderCommand
+    public ReactiveCommand<Unit, Optional<IItemGroupViewModel>> CreateFolderCommand
     {
         get;
     }
@@ -31,4 +34,8 @@ public class DesignTimeProjectExplorerViewModel : ReactiveObject, IProjectExplor
     {
         new DesignTimeItemGroupViewModel()
     };
+
+    public void SetCurrentSolution(ProjectSolutionModel state)
+    {
+    }
 }

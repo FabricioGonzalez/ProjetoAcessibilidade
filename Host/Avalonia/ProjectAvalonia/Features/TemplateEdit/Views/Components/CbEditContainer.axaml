@@ -18,32 +18,6 @@
         VerticalContentAlignment="Stretch"
         Background="Transparent"
         CornerRadius="4">
-        <Expander.HeaderTemplate>
-            <DataTemplate>
-                <Grid ColumnDefinitions="1*,0.1*,1*">
-                    <TextBox
-                        Grid.Column="0"
-                        FontSize="11"
-                        Text="{Binding Topic, Mode=TwoWay}"
-                        Watermark="{x:Static p:Resources.CheckboxContainerTopicLabel}" />
-                    <Separator
-                        Grid.Column="1"
-                        Width="1"
-                        Height="{Binding $parent.Height}"
-                        VerticalAlignment="Stretch" />
-                    <c:IconButton
-                        Grid.Column="2"
-                        Width="24"
-                        Height="24"
-                        Margin="8,0"
-                        HorizontalAlignment="Right"
-                        Classes="function"
-                        Icon="{StaticResource dismiss_regular}"
-                        IconSize="16"
-                        ToolTip.Tip="Remove Group" />
-                </Grid>
-            </DataTemplate>
-        </Expander.HeaderTemplate>
         <Grid
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"

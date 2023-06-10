@@ -21,6 +21,8 @@ using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 using ProjetoAcessibilidade.Domain.Solution.Queries;
 
+using QuestPDF.Helpers;
+
 using ReactiveUI;
 
 using Splat;
@@ -46,7 +48,7 @@ public partial class ProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
-    private readonly IMediator? _mediator;
+    private readonly IMediator _mediator;
 
     private ProjectSolutionModel? projectSolution;
 
@@ -213,10 +215,10 @@ public partial class ProjectViewModel
             });
 
         SelectionMode = NavBarItemSelectionMode.Button;
-        _mediator ??= Locator.Current.GetService<IMediator>();
+        _mediator ??= Locator.Current.GetService<IMediator>()!;
 
         this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
-            .Select(selector: x => x?.Items.Count > 0)
+            .Select(selector: x => x != null)
             .ToProperty(
                 source: this,
                 property: x => x.IsSolutionOpen,
@@ -292,7 +294,7 @@ public partial class ProjectViewModel
     {
         if (projectSolution is not null)
         {
-            await _mediator?.Send(
+            await _mediator.Send(
                 request: new CreateSolutionCommand(
                     SolutionPath: projectSolution.FilePath,
                     SolutionData: projectSolution),
@@ -330,7 +332,7 @@ public partial class ProjectViewModel
             {
                 projectSolution = result.Data;
 
-                Dispatcher
+                    Dispatcher
                     .UIThread
                     .Post(
                         action: () =>
@@ -349,13 +351,16 @@ public partial class ProjectViewModel
     private async Task CreateSolution()
     {
         var dialogResult = await NavigateDialogAsync(
-                dialog: new CreateSolutionViewModel(title: "Criar Solução", ProjectExplorerViewModel.SolutionState)
+                dialog: new CreateSolutionViewModel(title: "Criar Solução", ProjectExplorerViewModel?.SolutionState 
+                ?? ProjectSolutionModel.Create(solutionPath: "",new()))
                 , target: NavigationTarget.CompactDialogScreen);
 
         if (dialogResult is { Result: { } dialogData, Kind: DialogResultKind.Normal })
         {
 
             await _mediator.Send(new CreateSolutionCommand(dialogData.FilePath, dialogData), CancellationToken.None);
+
+            await ReadSolutionAndOpen(dialogData.FilePath);
             /* NotificationHelpers.Show(title: "Create", message: "Create Project?", onClick: () =>
              {
                  Logger.LogDebug(message: $"create Project {dialogData.FileName}");
