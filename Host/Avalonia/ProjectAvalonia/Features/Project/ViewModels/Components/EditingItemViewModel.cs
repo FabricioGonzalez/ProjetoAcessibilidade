@@ -1,6 +1,8 @@
 ﻿using System.Reactive;
+
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
@@ -15,6 +17,8 @@ public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
         CloseItemCommand = ReactiveCommand.Create(execute: () =>
         {
         });
+
+
         Body = body;
     }
 
@@ -76,6 +80,8 @@ public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
     {
         get;
     }
+
+
 
     public IEditingBodyViewModel Body
     {

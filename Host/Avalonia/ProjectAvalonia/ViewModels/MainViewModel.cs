@@ -4,8 +4,11 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+
 using Avalonia.Controls;
+
 using Common;
+
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Validation;
 using ProjectAvalonia.Common.ViewModels;
@@ -20,6 +23,7 @@ using ProjectAvalonia.Features.Settings.ViewModels;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels;
@@ -44,8 +48,11 @@ public partial class MainViewModel : ViewModelBase
     [AutoNotify] private string _title = Constants.AppName;
     [AutoNotify] private WindowState _windowState;
 
+    [AutoNotify] private MenuViewModel? _toolBarMenu;
+
     public MainViewModel()
     {
+
         ApplyUiConfigWindowSate();
 
         ValidatedErrors.RegisterHandler(
@@ -117,7 +124,12 @@ public partial class MainViewModel : ViewModelBase
                 ) => compactDialog ?? dialog ?? fullScreenDialog ?? mainScreen)
             .WhereNotNull()
             .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-            .Do(onNext: page => page.SetActive())
+            .Do(onNext: page =>
+            {
+                page.SetActive();
+
+                ToolBarMenu = page?.ToolBar ?? null;
+            })
             .Subscribe();
 
         IsBusy = MainScreen.CurrentPage is { IsBusy: true } ||
@@ -175,7 +187,7 @@ public partial class MainViewModel : ViewModelBase
 
     public void PrintProject(
 
-        /*SolutionState solutionState*/
+    /*SolutionState solutionState*/
     )
     {
         /*Instance.FullScreen.To(viewmodel: _previewPrintPage, Parameter: solutionState);

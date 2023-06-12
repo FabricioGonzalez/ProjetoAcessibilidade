@@ -13,6 +13,7 @@ using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 
@@ -212,6 +213,10 @@ public partial class ProjectViewModel
                 context.SetOutput(Unit.Default);
             });
 
+        ToolBar = new MenuViewModel(ImmutableList
+            .CreateBuilder()
+            .)
+
         SelectionMode = NavBarItemSelectionMode.Button;
         _mediator ??= Locator.Current.GetService<IMediator>();
 
@@ -284,6 +289,11 @@ public partial class ProjectViewModel
     }
 
     public ReactiveCommand<Unit, Unit> SaveSolutionCommand
+    {
+        get;
+    }
+
+    public override MenuViewModel? ToolBar
     {
         get;
     }

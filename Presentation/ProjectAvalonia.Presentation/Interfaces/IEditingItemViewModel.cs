@@ -1,4 +1,5 @@
 ﻿using System.Reactive;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -24,6 +25,7 @@ public interface IEditingItemViewModel
     {
         get;
     }
+
 
     public IEditingBodyViewModel Body
     {

@@ -2,6 +2,7 @@
     x:Class="ProjectAvalonia.Features.Shell.Shell"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:commanding="using:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shell="clr-namespace:ProjectAvalonia.Features.Shell"
@@ -13,8 +14,11 @@
     mc:Ignorable="d">
     <Panel>
         <shell:Background />
-        <shell:MainScreen x:CompileBindings="False"
-                          IsHitTestVisible="{Binding $parent.DataContext.IsMainContentEnabled^, FallbackValue=True}" />
+        <commanding:ToolBar
+            x:CompileBindings="False"
+            DataContext="{Binding $parent.DataContext.ToolBarMenu}"
+            IsVisible="{Binding $parent.DataContext.ToolBarMenu, Converter={x:Static ObjectConverters.IsNotNull}}" />
+        <shell:MainScreen x:CompileBindings="False" IsHitTestVisible="{Binding $parent.DataContext.IsMainContentEnabled^, FallbackValue=True}" />
         <shell:Dialogs />
     </Panel>
 </UserControl>

@@ -2,11 +2,11 @@
     x:Class="ProjectAvalonia.Features.Project.Views.ProjectEditingView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
-    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
@@ -29,12 +29,12 @@
         Template="{DynamicResource TabControlControlTemplate1}">
         <TabControl.ItemTemplate>
             <DataTemplate>
-                <components:EditingTabHeader DataContext="{Binding }" />
+                <components:EditingTabHeader DataContext="{Binding}" />
             </DataTemplate>
         </TabControl.ItemTemplate>
         <TabControl.ContentTemplate>
-            <DataTemplate x:DataType="interfaces:IEditingItemViewModel">
-                <components:EditingItemView DataContext="{Binding Body }" />
+            <DataTemplate x:CompileBindings="True" x:DataType="interfaces:IEditingItemViewModel">
+                <components:EditingItemView DataContext="{Binding Body}" />
             </DataTemplate>
         </TabControl.ContentTemplate>
     </TabControl>

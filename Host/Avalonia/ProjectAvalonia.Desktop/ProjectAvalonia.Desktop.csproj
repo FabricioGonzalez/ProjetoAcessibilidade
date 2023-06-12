@@ -45,7 +45,7 @@
         <PackageIcon>Assets\logo.ico</PackageIcon>
         <Product>Project Avalonia</Product>
         <!-- owners is not supported in MSBuild -->
-        <AvaloniaVersion>0.10.18</AvaloniaVersion>
+        <AvaloniaVersion>0.10.21</AvaloniaVersion>
     </PropertyGroup>
 
     <ItemGroup>

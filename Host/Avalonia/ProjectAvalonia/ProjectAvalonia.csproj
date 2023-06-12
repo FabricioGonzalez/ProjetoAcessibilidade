@@ -22,7 +22,7 @@
         <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia</PathMap>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-        <AvaloniaVersion>0.10.18</AvaloniaVersion>
+        <AvaloniaVersion>0.10.21</AvaloniaVersion>
         <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
         <SignAssembly>False</SignAssembly>
     </PropertyGroup>
@@ -32,25 +32,24 @@
         <AvaloniaXaml Remove="Features\TemplateEditing\**" />
         <AvaloniaXaml Remove="Features\TemplateRules\**" />
         <AvaloniaXaml Remove="Languages\**" />
-        <AvaloniaXaml Remove="Models\**" />
         <Compile Remove="Features\ItemValidation\**" />
         <Compile Remove="Features\TemplateEditing\**" />
         <Compile Remove="Features\TemplateRules\**" />
         <Compile Remove="Languages\**" />
-        <Compile Remove="Models\**" />
         <EmbeddedResource Remove="Features\ItemValidation\**" />
         <EmbeddedResource Remove="Features\TemplateEditing\**" />
         <EmbeddedResource Remove="Features\TemplateRules\**" />
         <EmbeddedResource Remove="Languages\**" />
-        <EmbeddedResource Remove="Models\**" />
         <None Remove="Features\ItemValidation\**" />
         <None Remove="Features\TemplateEditing\**" />
         <None Remove="Features\TemplateRules\**" />
         <None Remove="Languages\**" />
-        <None Remove="Models\**" />
         <Content Remove="C:\Users\Ti\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
         <None Remove=".gitignore" />
         <None Remove="Views\EditableTextBlock.xaml" />
+        <Compile Update="Common\Controls\Commanding\Toolbar.axaml.cs">
+          <DependentUpon>ToolBar.axaml</DependentUpon>
+        </Compile>
         <Compile Update="Common\Controls\IconButton.axaml.cs">
             <DependentUpon>IconButton.axaml</DependentUpon>
             <SubType>Code</SubType>
@@ -89,15 +88,15 @@
     <ItemGroup>
         <PackageReference Include="AsyncImageLoader.Avalonia" Version="2.4.0" />
         <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="0.10.18.1" />
         <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Xaml.Interactions" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Dock.Avalonia" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.18" />
+        <PackageReference Include="Dock.Avalonia" Version="0.10.18" />
         <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
         <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />

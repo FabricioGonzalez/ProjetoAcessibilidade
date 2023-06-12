@@ -1,5 +1,9 @@
 ﻿using System.Reactive;
+
+using Avalonia.Input;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -20,7 +24,14 @@ public class DesignTimeEditingItemViewModel : ReactiveObject, IEditingItemViewMo
     {
         get;
     } = true;
-
+    public KeyGesture Gesture
+    {
+        get;
+    } = new KeyGesture(Key.S, InputModifiers.Control);
+    public ReactiveCommand<Unit, Unit> SaveItemCommand
+    {
+        get;
+    }
     public ReactiveCommand<Unit, Unit> CloseItemCommand
     {
         get;
