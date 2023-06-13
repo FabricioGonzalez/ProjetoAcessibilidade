@@ -2,6 +2,8 @@
 
 public abstract class Resource<T>
 {
+    public object OnSuccess(Action<object> onSuccessAction) => throw new NotImplementedException();
+
     public sealed class Success : Resource<T>
     {
         public Success(

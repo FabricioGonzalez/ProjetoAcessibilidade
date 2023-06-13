@@ -2,8 +2,35 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Common;
+
+using Common.Linq;
+using Common.Optional;
+
+using DynamicData;
+using DynamicData.Alias;
+using DynamicData.Binding;
+
+using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.ViewModels;
+using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
+using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.ViewModels.Dialogs.Base;
+using ProjectAvalonia.ViewModels.Navigation;
+
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
+
+using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -86,6 +113,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 
             if (result.Kind == DialogResultKind.Normal)
             {
+
                 var item = new ItemGroupViewModel(name: result.Result, itemPath: Path.Combine(Directory.GetParent(SolutionState.FilePath).FullName, Constants.AppProjectItemsFolderName, result.Result));
 
                 Items.Add(item: item);
@@ -105,7 +133,20 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                 });
 
                 await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath), CancellationToken.None);
+
+                Items.Add(item: item);
+
+                return Optional<IItemGroupViewModel>.Some(item);
             }
+            return Optional<IItemGroupViewModel>.None();
+        });
+
+        CreateFolderCommand.Subscribe(result =>
+        {
+            result.Map(res =>
+            {
+                state.ItemGroups.AsEnumerable().AddIfNotFound(res, (i) => i.Name != res.Name);
+            });
         });
 
         CreateFolderCommand
@@ -140,15 +181,18 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         set;
     }
 
-
-    public ReactiveCommand<Unit, Unit> CreateFolderCommand
+    public void SetCurrentSolution(ProjectSolutionModel state)
+    {
+        SolutionState = state;
+    }
+    public ReactiveCommand<Unit, Optional<IItemGroupViewModel>> CreateFolderCommand
     {
         get;
     }
 
     public ProjectSolutionModel SolutionState
     {
-        get;
+        get; private set;
     }
 
     private IObservable<IItemGroupViewModel?> WhenAnyFolderIsDeleted() =>
