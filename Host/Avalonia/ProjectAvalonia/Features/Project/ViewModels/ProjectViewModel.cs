@@ -1,32 +1,6 @@
 ﻿using System;
-using System.Collections.Immutable;
-using System.Reactive;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Avalonia.Threading;
-
-using Common;
-
-using ProjectAvalonia.Common.Helpers;
-using ProjectAvalonia.Features.NavBar;
-using ProjectAvalonia.Features.PDFViewer.ViewModels;
-using ProjectAvalonia.Models;
-using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.ViewModels;
-using ProjectAvalonia.ViewModels.Dialogs.Base;
-using ProjectAvalonia.ViewModels.Navigation;
-
-using ProjetoAcessibilidade.Core.Entities.Solution;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
-using ProjetoAcessibilidade.Domain.Solution.Queries;
-
-using ReactiveUI;
-
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -49,7 +23,7 @@ public partial class ProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
-    private readonly IMediator? _mediator;
+    private readonly IMediator _mediator;
 
     private ProjectSolutionModel? projectSolution;
 
@@ -384,15 +358,15 @@ public partial class ProjectViewModel
                 projectSolution = result.Data;
 
                 Dispatcher
-                    .UIThread
-                    .Post(
-                        action: () =>
-                        {
-                            ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                                state: result.Data
-                            );
-                            this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
-                        });
+                .UIThread
+                .Post(
+                    action: () =>
+                    {
+                        ProjectExplorerViewModel = new ProjectExplorerViewModel(
+                            state: result.Data
+                        );
+                        this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
+                    });
             })
         .OnError(
             onErrorAction: error =>

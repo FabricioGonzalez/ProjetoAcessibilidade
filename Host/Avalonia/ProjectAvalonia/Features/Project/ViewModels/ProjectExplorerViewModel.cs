@@ -2,32 +2,8 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Common;
-
-using DynamicData;
-using DynamicData.Alias;
-using DynamicData.Binding;
-
-using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Common.ViewModels;
-using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.ViewModels.Dialogs.Base;
-using ProjectAvalonia.ViewModels.Navigation;
-
-using ProjetoAcessibilidade.Core.Entities.Solution;
-using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
-
-using ReactiveUI;
-
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 

@@ -9,6 +9,8 @@
     xmlns:project="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+	Height="450"
+    Width="800"
     x:DataType="project:CreateSolutionViewModel"
     xml:lang="pt-br"
     mc:Ignorable="d">
