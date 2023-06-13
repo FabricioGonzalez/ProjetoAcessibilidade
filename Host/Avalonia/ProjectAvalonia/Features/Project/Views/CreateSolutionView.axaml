@@ -14,6 +14,7 @@
     mc:Ignorable="d">
     <c:ContentArea
         Title="{Binding Title}"
+        Padding="4"
         CancelContent="{x:Static p:Resources.CancelActionLabel}"
         Caption="{Binding Caption}"
         EnableBack="{Binding EnableBack}"
@@ -21,7 +22,6 @@
         EnableNext="True"
         NextContent="{x:Static p:Resources.ContinueActionLabel}">
         <StackPanel>
-
             <Grid
                 Margin="8"
                 HorizontalAlignment="Stretch"
@@ -51,9 +51,9 @@
 
                     <ComboBox
                         HorizontalAlignment="Stretch"
-                        Items="{Binding SolutionModel.UfList}"
+                        Items="{Binding UfList}"
                         PlaceholderText="UF"
-                        SelectedItem="{Binding SolutionModel.SolutionReportInfo.UF}">
+                        SelectedItem="{Binding SelectedUf}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Code}" />
@@ -96,7 +96,7 @@
             </Grid>
             <TextBox
                 VerticalAlignment="Center"
-                Text="{Binding SolutionModel.FileName}"
+                Text="{Binding FileName}"
                 UseFloatingWatermark="True"
                 Watermark="Nome da Solução" />
 
@@ -105,7 +105,7 @@
                 Classes="Header"
                 IsEnabled="True"
                 IsReadOnly="True"
-                Text="{Binding SolutionModel.FilePath}"
+                Text="{Binding FilePath}"
                 UseFloatingWatermark="True"
                 Watermark="Local da Solução">
                 <TextBox.InnerRightContent>
@@ -125,7 +125,7 @@
                 Classes="Header"
                 IsEnabled="True"
                 IsReadOnly="True"
-                Text="{Binding SolutionModel.SolutionReportInfo.LogoPath, Mode=TwoWay}"
+                Text="{Binding LogoPath, Mode=TwoWay}"
                 UseFloatingWatermark="True"
                 Watermark="Local da Logo da Empresa">
                 <TextBox.InnerRightContent>
@@ -138,7 +138,6 @@
                     </Button>
                 </TextBox.InnerRightContent>
             </TextBox>
-
         </StackPanel>
     </c:ContentArea>
 </UserControl>

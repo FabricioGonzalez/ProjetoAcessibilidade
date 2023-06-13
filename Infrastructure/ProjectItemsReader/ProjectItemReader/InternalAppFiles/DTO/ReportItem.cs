@@ -1,5 +1,4 @@
 ﻿using System.Xml.Serialization;
-using ProjetoAcessibilidade.Core.Entities.App;
 
 namespace ProjectItemReader.InternalAppFiles.DTO;
 
@@ -41,7 +40,7 @@ public class ReportItem
     } = "";
 
     [XmlElement(elementName: "report_uf")]
-    public UFModel UF
+    public string UF
     {
         get;
         set;

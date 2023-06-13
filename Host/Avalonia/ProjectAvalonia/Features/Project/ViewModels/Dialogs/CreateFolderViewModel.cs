@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reactive.Linq;
 
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 
 using ReactiveUI;
@@ -36,7 +37,7 @@ public partial class CreateFolderViewModel
 
         SetupCancel(true, true, true);
     }
-
+    public override MenuViewModel? ToolBar => null;
     public string Message
     {
         get;

@@ -30,8 +30,8 @@
         </Style>
 
     </UserControl.Styles>
-    <Grid>
-        <ItemsControl Items="{Binding Items}">
+    <Grid ColumnDefinitions="0.05* 1* 0.05*">
+        <ItemsControl Grid.Column="1" Items="{Binding Items}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="1" />
@@ -48,16 +48,20 @@
 
                 <DataTemplate DataType="mod:MenuItemModel">
                     <Button
-                        Width="18"
-                        Height="18"
+                        Width="24"
+                        Height="24"
                         Margin="0"
                         BorderThickness="0"
                         Command="{Binding Command}"
                         ToolTip.Tip="{Binding Label}">
-                        <DrawingPresenter
-                            Width="16"
-                            Height="16"
-                            Drawing="{Binding Icon}" />
+                        <Button.KeyBindings>
+                            <KeyBinding Command="{Binding Command}" Gesture="{Binding Gesture}" />
+                        </Button.KeyBindings>
+
+                        <PathIcon
+                            Width="18"
+                            Height="18"
+                            Data="{Binding Icon}" />
                     </Button>
                 </DataTemplate>
             </ItemsControl.DataTemplates>

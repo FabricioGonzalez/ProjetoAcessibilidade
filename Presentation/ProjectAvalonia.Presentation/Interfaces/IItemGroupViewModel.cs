@@ -35,7 +35,7 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
         get;
     }
 
-    public ReactiveCommand<Unit, Unit> AddProjectItemCommand
+    public ReactiveCommand<Unit, IItemViewModel> AddProjectItemCommand
     {
         get;
     }

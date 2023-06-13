@@ -1,11 +1,13 @@
-﻿using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+﻿using System.Linq;
+
+using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 
 namespace ProjetoAcessibilidade.Core.Entities.Solution;
 
 public class ProjectSolutionModel : AggregateRoot
 {
-    private readonly List<ItemGroupModel> _itemGroups;
+    private List<ItemGroupModel> _itemGroups;
 
     private ProjectSolutionModel(
         Guid id,
@@ -20,7 +22,10 @@ public class ProjectSolutionModel : AggregateRoot
         _itemGroups = new List<ItemGroupModel>();
     }
 
-
+    public void ReloadItem(List<ItemGroupModel> items)
+    {
+        _itemGroups = items;
+    }
     public SolutionInfo SolutionReportInfo
     {
         get;
@@ -47,11 +52,15 @@ public class ProjectSolutionModel : AggregateRoot
     ) =>
         new(
             id: Guid.NewGuid(),
-            solutionReportInfo: new SolutionInfo(),
-            filePath: "");
+            solutionReportInfo: reportInfo,
+            filePath: solutionPath);
 
     public void AddItemToSolution(
         ItemGroupModel item
     ) =>
         _itemGroups.Add(item);
+    public void RemoveFromSolution(
+        Func<ItemGroupModel, bool> predicate
+    ) =>
+        _itemGroups.Remove(_itemGroups.First(predicate));
 }

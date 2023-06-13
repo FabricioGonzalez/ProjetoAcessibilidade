@@ -1,4 +1,5 @@
 using ProjectAvalonia.ViewModels.Dialogs.Base;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Dialogs;
@@ -21,7 +22,7 @@ public class ShowErrorDialogViewModel : DialogViewModelBase<bool>
 
         SetupCancel(false, true, true);
     }
-
+    public override MenuViewModel? ToolBar => null;
     public string Message
     {
         get;

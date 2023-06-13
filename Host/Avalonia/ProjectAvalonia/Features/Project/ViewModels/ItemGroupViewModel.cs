@@ -86,7 +86,9 @@ public class ItemGroupViewModel : ReactiveObject,
             .SubscribeAsync(
                 onNextAsync: async x =>
                 {
-                    var result = ProjectEditingViewModel.SetEditingItem.Handle(input: x)
+                    var result = ProjectEditingViewModel
+                    .SetEditingItem
+                    .Handle(input: x)
                         .Subscribe();
                 });
     }
@@ -122,7 +124,7 @@ public class ItemGroupViewModel : ReactiveObject,
         get;
     }
 
-    public ReactiveCommand<Unit, Unit> AddProjectItemCommand
+    public ReactiveCommand<Unit, IItemViewModel> AddProjectItemCommand
     {
         get;
     }
@@ -172,7 +174,7 @@ public class ItemGroupViewModel : ReactiveObject,
             .Select(selector: x => x.ExcludeFileCommand.Select(selector: _ => x))
             .Merge();
 
-    private async Task AddProjectItem()
+    private async Task<IItemViewModel?> AddProjectItem()
     {
         var addItemViewModel = new AddItemViewModel(Items);
 
@@ -187,26 +189,26 @@ public class ItemGroupViewModel : ReactiveObject,
                 path1: ItemPath,
                 path2: $"{dialogResult.Result.Name}{Constants.AppProjectItemExtension}");
 
-            Items.Add(
-                item: new ItemViewModel(
+            var item = new ItemViewModel(
                     id: Guid.NewGuid()
                         .ToString(),
                     itemPath: path,
                     name: dialogResult.Result.Name,
                     templateName: dialogResult.Result.TemplateName,
-                    parent: this));
+                    parent: this);
+
+            Items.Add(
+                item: item);
 
             await _mediator.Send(
                 request: new CreateItemCommand(
                     ItemPath: path,
                     ItemName: dialogResult.Result.TemplateName),
                 cancellation: CancellationToken.None);
-            ProjectInteractions.SyncSolutionInteraction.Handle(Unit.Default)
-                .Subscribe();
-            /*await _mediator.Send(
-                new CreateSolutionCommand(),
-                CancellationToken.None);*/
+
+            return item;
         }
+        return null;
     }
 
     private async Task CommitFolder()

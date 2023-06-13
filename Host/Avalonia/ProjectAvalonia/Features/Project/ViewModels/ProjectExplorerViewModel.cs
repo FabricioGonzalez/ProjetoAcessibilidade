@@ -1,34 +1,48 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+using Common;
 
 using DynamicData;
+using DynamicData.Alias;
 using DynamicData.Binding;
 
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 
 using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 
 using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 {
+    private readonly IMediator _mediator;
+
     public ProjectExplorerViewModel(ProjectSolutionModel state)
     {
         SolutionState = state;
 
+        _mediator = Locator.Current.GetService<IMediator>()!;
+
         Items = new ObservableCollection<IItemGroupViewModel>(list:
-           state.ItemGroups
+           SolutionState.ItemGroups
                 .Select(
                  selector: model =>
                  {
@@ -43,14 +57,31 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         var changeSet = Items
             .ToObservableChangeSet();
 
-        Items.SelectMany(x => x.Items)
-            .AsObservableChangeSet()
-            .OnItemAdded(prop =>
-            {
-                Logger.LogDebug(prop.ItemPath);
-            });
+        changeSet.AutoRefreshOnObservable(reevaluator: document => document.AddProjectItemCommand.IsExecuting)
+            .Select(selector: x => WhenAnyItemWasAdded())
+            .Switch()
+             .SubscribeAsync(async item =>
+             {
+                 SolutionState.ReloadItem(Items
+                     .Select(x => new ItemGroupModel()
+                     {
+                         Name = x.Name,
+                         ItemPath = x.ItemPath,
+                         Items = x.Items.Select(x => new ItemModel()
+                         {
+                             Id = x.Id,
+                             ItemPath = x.ItemPath,
+                             Name = x.Name,
+                             TemplateName = x.TemplateName
+                         })
+                    .ToList()
+                     }).ToList());
 
-        changeSet.AutoRefreshOnObservable(reevaluator: document => document.ExcludeFolderCommand.IsExecuting)
+                 await SaveSolution(Unit.Default);
+             });
+
+        changeSet
+            .AutoRefreshOnObservable(reevaluator: document => document.ExcludeFolderCommand.IsExecuting)
             .Select(selector: x => WhenAnyFolderIsDeleted())
             .Switch()
             .SubscribeAsync(onNextAsync: async x =>
@@ -62,12 +93,10 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                 if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
                         target: NavigationTarget.CompactDialogScreen)).Result)
                 {
-                    Logger.LogDebug(message: x?.Name);
-
                     Items.Remove(item: x);
+                    SolutionState.RemoveFromSolution(i => i.Name == x.Name);
                 }
             });
-
 
         CreateFolderCommand = ReactiveCommand.CreateFromTask(execute: async () =>
         {
@@ -81,9 +110,52 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 
             if (result.Kind == DialogResultKind.Normal)
             {
-                Items.Add(item: new ItemGroupViewModel(name: result.Result, itemPath: ""));
+                var item = new ItemGroupViewModel(name: result.Result, itemPath: Path.Combine(Directory.GetParent(SolutionState.FilePath).FullName, Constants.AppProjectItemsFolderName, result.Result));
+
+                Items.Add(item: item);
+
+                SolutionState.AddItemToSolution(new()
+                {
+                    Name = result.Result,
+                    ItemPath = item.ItemPath,
+                    Items = item.Items.Select(x => new ItemModel()
+                    {
+                        Id = x.Id,
+                        ItemPath = x.ItemPath,
+                        Name = x.Name,
+                        TemplateName = x.TemplateName
+                    })
+                    .ToList()
+                });
+
+                await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath), CancellationToken.None);
             }
         });
+
+        CreateFolderCommand
+            .DoAsync(SaveSolution)
+            .Subscribe();
+    }
+
+    private IObservable<IItemViewModel?> WhenAnyItemWasAdded() =>
+    // Select the documents into a list of Observables
+    // who return the Document to close when signaled,
+    // then flatten them all together.
+    Items
+        .Select(selector: x => x.AddProjectItemCommand.Select(s => s))
+        .Merge();
+
+
+    private async Task SaveSolution(Unit nothing)
+    {
+        if (SolutionState is not null)
+        {
+            await _mediator.Send(
+                request: new CreateSolutionCommand(
+                    SolutionPath: SolutionState.FilePath,
+                    SolutionData: SolutionState),
+                cancellation: CancellationToken.None);
+        }
     }
 
     public ObservableCollection<IItemGroupViewModel> Items
@@ -103,202 +175,6 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         get;
     }
 
-
-    /*private readonly ICommandDispatcher _commandDispatcher;
-    private readonly EditingItemsStore _editingItemsStore;
-    private readonly ExplorerItemsStore _explorerItemsStore;
-    private readonly SolutionStore _solutionStore;
-    [AutoNotify] private bool _isDocumentSolutionEnabled;
-    [AutoNotify] private ReadOnlyObservableCollection<ItemGroupState> _items;
-    [AutoNotify] private string _phoneMask = "(00)0000-0000";
-
-    [AutoNotify] private ItemState _selectedItem;
-
-    public ProjectExplorerViewModel()
-    {
-        _solutionStore ??= Locator.Current.GetService<SolutionStore>();
-        _editingItemsStore ??= Locator.Current.GetService<EditingItemsStore>();
-        _explorerItemsStore ??= Locator.Current.GetService<ExplorerItemsStore>();
-        _commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
-
-
-        Observable.Where(this.WhenValueChanged(propertyAccessor: vm =>
-                vm
-                    .CurrentOpenSolution
-                    .ReportData
-                    .Telefone), predicate: value => !string.IsNullOrWhiteSpace(value: value))
-            .Subscribe(onNext: value =>
-            {
-                var val = value
-                    .Replace(oldValue: "(", newValue: "")
-                    .Replace(oldValue: ")", newValue: "")
-                    .Replace(oldValue: "-", newValue: "")
-                    .Replace(oldValue: "_", newValue: "");
-
-                if (val
-                        .Length <= 10)
-                {
-                    PhoneMask = "(00)0000-0000";
-                }
-                else
-                {
-                    PhoneMask = "(00)00000-0000";
-                }
-
-                Logger.LogDebug(message: $"{PhoneMask} - {val}");
-            });
-
-        this.WhenAnyValue(property1: vm => vm._solutionStore.CurrentOpenSolution.ItemGroups)
-            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-            .Subscribe(onNext: prop =>
-            {
-                Items = prop;
-            });
-
-        RenameFileCommand = ReactiveCommand.Create<ItemState>(execute: model =>
-        {
-            Logger.LogInfo(message: model.Name);
-        });
-
-        ExcludeFolderCommand = ReactiveCommand.CreateFromTask<ItemGroupState>(execute: async groupModels =>
-        {
-            var dialog = new DeleteDialogViewModel(
-                message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
-                , caption: "");
-
-            if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
-                    target: NavigationTarget.CompactDialogScreen)).Result)
-            {
-                _solutionStore.CurrentOpenSolution.DeleteFolderItem(item: groupModels);
-            }
-        });
-
-        AddProjectItemCommand = ReactiveCommand.CreateFromTask<ItemGroupState>(execute: async groupModels =>
-        {
-            var addItemViewModel = new AddItemViewModel();
-
-            var dialogResult = await RoutableViewModel.NavigateDialogAsync(dialog: addItemViewModel,
-                target: NavigationTarget.DialogScreen);
-            if (dialogResult.Kind is DialogResultKind.Normal && dialogResult.Result is not null)
-            {
-                _solutionStore.CurrentOpenSolution.AddNewItem(itemsContainer: groupModels,
-                    item: dialogResult.Result);
-            }
-        });
-
-        ExcludeFileCommand = ReactiveCommand.CreateFromTask<ItemState>(execute: async item =>
-        {
-            var dialog = new DeleteDialogViewModel(
-                message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
-                , caption: "");
-
-            if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
-                    target: NavigationTarget.CompactDialogScreen)).Result)
-            {
-                _solutionStore.CurrentOpenSolution.DeleteItem(item: item);
-
-                await _commandDispatcher.Dispatch<DeleteProjectFileItemCommand, Resource<Empty>>(
-                    command: new DeleteProjectFileItemCommand(Item: new FileItem
-                        { Name = item.Name, Path = item.ItemPath })
-                    , cancellation: GetCancellationToken());
-            }
-        });
-
-        CreateFolderCommand = ReactiveCommand.Create(execute: () =>
-        {
-            if (_solutionStore?.CurrentOpenSolution is not null)
-            {
-                _solutionStore?.CurrentOpenSolution?.AddNewFolderItem(item: new ItemGroupState
-                {
-                    InEditMode = true
-                });
-            }
-        });
-
-        CommitFolderCommand = ReactiveCommand.CreateFromTask<ItemGroupState?>(execute: async itemsGroup =>
-        {
-            if (itemsGroup is not null && _solutionStore?.CurrentOpenSolution is not null)
-            {
-                itemsGroup.ItemPath = Path.Combine(
-                    path1: Directory.GetParent(path: _solutionStore?.CurrentOpenSolution?.FilePath).FullName,
-                    path2: Constants.AppProjectItemsFolderName, path3: itemsGroup.Name);
-            }
-
-            await _commandDispatcher.Dispatch<CreateSolutionItemFolderCommand, Empty>(
-                command: new CreateSolutionItemFolderCommand(
-                    ItemName: itemsGroup.Name,
-                    ItemPath: itemsGroup.ItemPath)
-                , cancellation: GetCancellationToken());
-        });
-
-        CreateItemCommand = ReactiveCommand.CreateFromTask<ItemState?>(execute: async item =>
-        {
-            if (item is not null)
-            {
-                _editingItemsStore.Item = await _editingItemsStore.EditItem(item: item);
-            }
-        });
-    }
-
-    public SolutionState CurrentOpenSolution => _solutionStore?.CurrentOpenSolution;
-
-    public ICommand CreateItemCommand
-    {
-        get;
-    }
-
-    public ICommand ExcludeFileCommand
-    {
-        get;
-        set;
-    }
-
-    public ICommand RenameFileCommand
-    {
-        get;
-        set;
-    }
-
-    public ICommand ExcludeFolderCommand
-    {
-        get;
-        set;
-    }
-
-    public ICommand AddProjectItemCommand
-    {
-        get;
-        set;
-    }
-
-    public ICommand CreateFolderCommand
-    {
-        get;
-        set;
-    }
-
-    public ICommand CommitFolderCommand
-    {
-        get;
-        set;
-    }
-
-    public ICommand OpenSolutionCommand
-    {
-        get;
-        set;
-    }
-
-      var dialog = new DeleteDialogViewModel(
-            message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
-            , caption: "");
-
-        if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
-                target: NavigationTarget.CompactDialogScreen)).Result)
-        {
-            _solutionStore.CurrentOpenSolution.DeleteFolderItem(item: groupModels);
-}
-    */
     private IObservable<IItemGroupViewModel?> WhenAnyFolderIsDeleted() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,

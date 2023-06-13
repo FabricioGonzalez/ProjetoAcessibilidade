@@ -1,9 +1,12 @@
 ﻿using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
+
 using Common;
 using Common.Optional;
+
 using ProjectItemReader.InternalAppFiles.DTO;
+
 using ProjetoAcessibilidade.Core.Entities.App;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
@@ -19,84 +22,28 @@ public class SolutionRepositoryImpl : ISolutionRepository
     ) =>
         await Task.Run(
             () =>
-            {
-                return solutionPath.MapOptional<ProjectSolutionModel>(
-                    path =>
-                    {
-                        var xml = new XmlDocument();
+                solutionPath
+                .Map(
+                        path =>
+                        {
+                            var serializer = new XmlSerializer(type: typeof(SolutionItemRoot)).ToOption();
 
-                        xml.Load(filename: path);
+                            using var reader = new StreamReader(path);
 
-                        xml.GetElementsByTagName(name: "solution");
-
-                        var solution = ProjectSolutionModel.Create(
-                            solutionPath: path,
-                            reportInfo: ReadSolutionInfo(document: xml));
-                        ReadProjectItems(
-                                document: xml,
-                                solutionPath: path)
-                            .ForEach(
-                                item => solution.AddItemToSolution(item));
-
-                        return Optional<ProjectSolutionModel>.Some(solution);
-                    });
-            });
+                            return serializer
+                            .Map(
+                                    result =>
+                                    {
+                                        return (SolutionItemRoot)result.Deserialize(reader);
+                                    })
+                             .Map(x => x.ToSolutionInfo(path));
+                        })
+                    .Reduce(() => new()));
 
     public async Task SaveSolution(
         Optional<string> solutionPath,
         Optional<ProjectSolutionModel> dataToWrite
     ) =>
-        /*ar path = Directory.GetParent(solutionPath);
-
-        var appProject = Path.Combine(path.FullName, Path.GetFileNameWithoutExtension(solutionPath));
-
-        var files = GetDirectoryItems(appProject);
-
-        var file = files.FirstOrDefault(fileItem =>
-        Path.GetFileName(fileItem)
-        .Equals(Path.GetFileName(solutionPath)));
-
-        StreamWriter writer = null;
-
-        CreateDirectory(appProject);
-
-        CreateDirectory(
-           Path.Combine(path.FullName,
-           Path.GetFileNameWithoutExtension(solutionPath),
-           Constants.AppProjectItemsFolderName)
-               );
-
-        var xml = CreateSolutionStructure(new XmlDocument());
-        xml = SetReportData(xml, dataToWrite.SolutionReportInfo);
-        xml = SetItemsGroup(xml, dataToWrite.ItemGroups);
-
-        if (file is null)
-        {
-            writer = new StreamWriter(
-                File.Create(
-                    Path.Combine(path.FullName,
-                Path.GetFileNameWithoutExtension(solutionPath),
-                Path.GetFileName(solutionPath))
-                    ));
-
-            xml.Save(writer);
-
-            writer.Close();
-            await writer.DisposeAsync();
-
-            return;
-        }
-        if (file is not null)
-        {
-            writer = new StreamWriter(file);
-
-            xml.Save(writer);
-
-            writer.Close();
-            await writer.DisposeAsync();
-
-            return;
-        }*/
         await Task.Run(
             () =>
                 solutionPath.MapValue(

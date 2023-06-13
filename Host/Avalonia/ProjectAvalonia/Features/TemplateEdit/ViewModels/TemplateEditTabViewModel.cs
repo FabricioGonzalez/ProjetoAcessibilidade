@@ -11,6 +11,7 @@ using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
+using ProjectAvalonia.ViewModels;
 
 using ProjetoAcessibilidade.Core.Enuns;
 
@@ -217,10 +218,10 @@ public partial class TemplateEditTabViewModel
         var observable = this.WhenAnyValue(vm => vm.EditingItem)
             .Select(x => x.FormData
             .ToObservableChangeSet()
-             .AutoRefresh())
+            .AutoRefresh())
             .Switch()
-             .WhenPropertyChanged(prop => prop.Type, notifyOnInitialValue: false)
-              .Subscribe(prop =>
+            .WhenPropertyChanged(prop => prop.Type, notifyOnInitialValue: false)
+            .Subscribe(prop =>
               {
                   ChangeBody(prop.Sender);
               }, error =>
@@ -232,7 +233,7 @@ public partial class TemplateEditTabViewModel
                 Debug.WriteLine("Completado");
             });
     }
-
+    public override MenuViewModel? ToolBar => null;
     private void ChangeBody(FormItemContainer container)
     {
 

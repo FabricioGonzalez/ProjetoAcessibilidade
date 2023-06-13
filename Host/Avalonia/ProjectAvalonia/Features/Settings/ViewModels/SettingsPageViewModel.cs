@@ -1,10 +1,13 @@
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Windows.Input;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Features.NavBar;
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
@@ -55,7 +58,7 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
     {
         get;
     }
-
+    public override MenuViewModel? ToolBar => null;
     public override string? LocalizedTitle
     {
         get;

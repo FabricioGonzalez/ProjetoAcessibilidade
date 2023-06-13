@@ -4,17 +4,26 @@ using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using Avalonia.Threading;
+
 using Common;
+
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ProjetoAcessibilidade.Core.Entities.Solution;
+
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
+
 using QuestPDFReport;
 using QuestPDFReport.ReportSettings;
+
 using ReactiveUI;
+
 using Unit = System.Reactive.Unit;
 
 namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -90,7 +99,7 @@ public partial class PreviewerViewModel : RoutableViewModel
     {
         get;
     } = new();
-
+    public override MenuViewModel? ToolBar => null;
     public bool VerticalScrollbarVisible
     {
         get => _verticalScrollbarVisible;
@@ -146,6 +155,8 @@ public partial class PreviewerViewModel : RoutableViewModel
 
         if (Parameter is ProjectSolutionModel solution)
         {
+            SolutionModel = null;
+
             SolutionModel = solution;
         }
     }
@@ -193,7 +204,8 @@ public partial class PreviewerViewModel : RoutableViewModel
         {
             StartInfo = new ProcessStartInfo
             {
-                UseShellExecute = true, FileName = path
+                UseShellExecute = true,
+                FileName = path
             }
         };
 

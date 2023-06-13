@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 
+using Avalonia.Input;
 using Avalonia.Media;
 
 namespace ProjectAvalonia.Models;
@@ -10,7 +11,7 @@ public interface IMenuItem
         get;
     }
 
-    DrawingGroup Icon
+    StreamGeometry Icon
     {
         get;
     }
@@ -20,7 +21,7 @@ public interface IMenuItem
         get;
     }
 
-    string Gesture
+    KeyGesture Gesture
     {
         get;
     }

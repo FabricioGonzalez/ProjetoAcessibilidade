@@ -1,5 +1,7 @@
 ﻿using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -36,7 +38,7 @@ public class DeleteDialogViewModel
     {
         get;
     }
-
+    public override MenuViewModel? ToolBar => null;
     public override string Title
     {
         get => _title;

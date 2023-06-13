@@ -4,6 +4,6 @@ internal interface IToolBarHost
 {
     MenuViewModel ToolBar
     {
-        get; set;
+        get;
     }
 }

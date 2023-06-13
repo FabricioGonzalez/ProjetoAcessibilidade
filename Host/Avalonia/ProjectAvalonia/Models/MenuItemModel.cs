@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
+using Avalonia.Input;
 using Avalonia.Media;
 
 using ReactiveUI;
@@ -10,25 +11,45 @@ namespace ProjectAvalonia.Models;
 
 public class MenuItemModel : ReactiveObject, IMenuItem
 {
-    public string Label => _menuItem.Label;
-    public DrawingGroup Icon => _menuItem.Icon;
-
-    public ICommand Command => _menuItem.Command;
-
-    public string Gesture => _menuItem?.Gesture;
-
-    public IEnumerable<IMenuItem> Children
+    public string Label
     {
-        get;
+        get; init;
+    }
+    public StreamGeometry Icon
+    {
+        get; init;
     }
 
-    private IMenuItem _menuItem;
+    public ICommand Command
+    {
+        get; init;
+    }
+
+    public KeyGesture Gesture
+    {
+        get; init;
+    }
+
+    public IReadOnlyCollection<IMenuItem> Children
+    {
+        get; init;
+    }
+
 
     public MenuItemModel(
-        IMenuItem menuItem, IEnumerable<IMenuItem>? children = null)
+         string label,
+         ICommand? command,
+         StreamGeometry? icon,
+         string gesture = null,
+         IEnumerable<IMenuItem>? children = null
+        )
     {
-        _menuItem = menuItem;
 
-        Children = children?.ToList() ?? Enumerable.Empty<IMenuItem>();
+
+        Children = children?.ToList() ?? Enumerable.Empty<IMenuItem>().ToList();
+        Label = label;
+        Icon = icon;
+        Command = command;
+        Gesture = KeyGesture.Parse(gesture);
     }
 }

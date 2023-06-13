@@ -13,6 +13,7 @@ using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.ViewModels;
 
 using ProjetoAcessibilidade.Domain.App.Queries.Templates;
 using ProjetoAcessibilidade.Domain.Contracts;
@@ -85,7 +86,7 @@ public partial class TemplateEditViewModel
             {
             });
     }
-
+    public override MenuViewModel? ToolBar => null;
     private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem => ReactiveCommand.CreateFromTask<IEditableItemViewModel>(async (item) =>
     {
         var result = await _mediator.Send(

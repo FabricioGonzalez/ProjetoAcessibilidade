@@ -1,8 +1,11 @@
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
+
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
@@ -25,7 +28,7 @@ public partial class ThemeChangeViewModel : RoutableViewModel
         get;
         protected set;
     } = null;
-
+    public override MenuViewModel? ToolBar => null;
     protected override void OnNavigatedTo(
         bool isInHistory
         , CompositeDisposable disposables

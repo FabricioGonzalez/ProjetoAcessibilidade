@@ -99,7 +99,6 @@
         <PackageReference Include="Dock.Avalonia" Version="0.10.18" />
         <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
         <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
         <PackageReference Include="Microsoft.Win32.SystemEvents" Version="4.5.0" />

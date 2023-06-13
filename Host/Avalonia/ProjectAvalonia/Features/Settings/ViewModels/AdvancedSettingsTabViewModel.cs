@@ -1,5 +1,8 @@
 using System;
 using System.Reactive.Linq;
+
+using ProjectAvalonia.ViewModels;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
@@ -30,7 +33,7 @@ public partial class AdvancedSettingsTabViewModel : SettingsTabViewModelBase
             .Skip(1)
             .Subscribe(_ => Save());
     }
-
+    public override MenuViewModel? ToolBar => null;
     public override string? LocalizedTitle
     {
         get;
