@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <validation_rule>
-  <targets>
-    <target>{ItemId}</target>
-  </targets>
-  <conditions>
-    <condition>
-      <operation>Obrigatority</operation>
-      <values>
+  <rules>
+    <targets>
+      <target>{ItemId}</target>
+    </targets>
+    <conditions>
+      <condition>
+        <operation>Obrigatority</operation>
         <based_on_target>{ItemId}</based_on_target>
-        <value_to_trigger>{ItemValue} is checked</value_to_trigger>
-      </values>
-    </condition>
-  </conditions>
+        <condition_to_check>
+          <value_to_trigger>{ItemValue} is checked</value_to_trigger>
+        </condition_to_check>
+      </condition>
+    </conditions>
+  </rules>
 </validation_rule>
