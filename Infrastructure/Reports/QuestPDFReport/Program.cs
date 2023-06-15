@@ -1,14 +1,18 @@
 ﻿using Common;
 using Common.Optional;
+
 using ProjectItemReader.InternalAppFiles;
+
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
+
 using QuestPDF.Previewer;
+
 using QuestPDFReport;
 using QuestPDFReport.Models;
 using QuestPDFReport.ReportSettings;
 
-var path = "C:\\Users\\Ti\\Documents\\Teste\\Teste.prja";
+var path = "C:\\Users\\Ti\\Pictures\\Teste\\Teste.prja";
 
 
 var solutionReader = new SolutionRepositoryImpl();

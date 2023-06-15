@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reactive;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -36,7 +37,7 @@ public interface IEditableItemViewModel : INotifyPropertyChanged
         set;
     }
 
-    public ReactiveCommand<Unit, Unit> CommitItemCommand
+    public ReactiveCommand<IEditableItemViewModel, Unit> CommitItemCommand
     {
         get;
     }

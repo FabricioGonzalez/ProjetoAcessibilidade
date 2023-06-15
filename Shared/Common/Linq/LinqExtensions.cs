@@ -7,4 +7,13 @@ public static class LinqExtensions
 
         return !exists ? items.Append(target) : items;
     }
+
+    public static IEnumerable<T> IterateOn<T>(this IEnumerable<T> items, Action<T> iterator)
+    {
+        foreach (var item in items)
+        {
+            iterator(item);
+        }
+        return items;
+    }
 }

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     d:DesignHeight="450"
@@ -37,17 +38,18 @@
                     Width="24"
                     Height="24"
                     Classes="function"
+                    Command="{Binding AddCheckboxItem}"
                     Icon="{StaticResource add_regular}"
                     IconSize="16"
                     ToolTip.Tip="Add CheckboxItem" />
 
-                <c:IconButton
+                <!--<c:IconButton
                     Width="24"
                     Height="24"
                     Classes="function"
                     Icon="{StaticResource dismiss_regular}"
                     IconSize="16"
-                    ToolTip.Tip="Remove Checkboxes" />
+                    ToolTip.Tip="Remove Checkboxes" />-->
             </StackPanel>
 
             <ItemsControl
@@ -63,7 +65,7 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             CornerRadius="8">
-                            <Grid ColumnDefinitions="1*,72" RowDefinitions="auto auto">
+                            <Grid ColumnDefinitions="1*,72" RowDefinitions="40 0.5* 0.5*">
                                 <TextBox
                                     Grid.Row="0"
                                     Grid.Column="0"
@@ -86,7 +88,22 @@
                                         Classes="function"
                                         Icon="{StaticResource add_regular}"
                                         IconSize="16"
-                                        ToolTip.Tip="Add CheckboxItem" />
+                                        ToolTip.Tip="Add Options">
+                                        <c:IconButton.Flyout>
+                                            <MenuFlyout>
+                                                <MenuItem
+                                                    Command="{Binding $parent[local:CbEditContainer].DataContext.AddOption}"
+                                                    CommandParameter="{Binding}"
+                                                    Header="Add Option"
+                                                    Icon="{StaticResource add_regular}" />
+                                                <MenuItem
+                                                    Command="{Binding $parent[local:CbEditContainer].DataContext.AddTextItem}"
+                                                    CommandParameter="{Binding}"
+                                                    Header="Add Text Item"
+                                                    Icon="{StaticResource add_regular}" />
+                                            </MenuFlyout>
+                                        </c:IconButton.Flyout>
+                                    </c:IconButton>
 
                                     <c:IconButton
                                         Grid.Row="0"
@@ -96,42 +113,53 @@
                                         Margin="8,0"
                                         HorizontalAlignment="Right"
                                         Classes="function"
+                                        Command="{Binding $parent[local:CbEditContainer].DataContext.RemoveCheckboxItem}"
+                                        CommandParameter="{Binding}"
                                         Icon="{StaticResource dismiss_regular}"
                                         IconSize="16"
                                         ToolTip.Tip="Remove Checkboxes" />
                                 </StackPanel>
-                                <ItemsControl
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="2"
-                                    Items="{Binding Options}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border
-                                                Margin="0,4"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch">
-                                                <Grid ColumnDefinitions="1*,40">
-                                                    <TextBox
-                                                        FontSize="11"
-                                                        Text="{Binding Value, Mode=TwoWay}"
-                                                        UseFloatingWatermark="True"
-                                                        Watermark="{x:Static p:Resources.CheckboxItemValueLabel}" />
-                                                    <c:IconButton
-                                                        Grid.Row="0"
-                                                        Grid.Column="1"
-                                                        Width="24"
-                                                        Height="24"
-                                                        Margin="8,0"
-                                                        HorizontalAlignment="Right"
-                                                        Classes="function"
-                                                        Icon="{StaticResource dismiss_regular}"
-                                                        IconSize="16"
-                                                        ToolTip.Tip="Remove Checkboxes" />
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+
+                                <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
+                                    <ItemsControl Items="{Binding Options}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                    Margin="0,4"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch">
+                                                    <Grid ColumnDefinitions="1*,40">
+                                                        <TextBox
+                                                            FontSize="11"
+                                                            Text="{Binding Value, Mode=TwoWay}"
+                                                            UseFloatingWatermark="True"
+                                                            Watermark="{x:Static p:Resources.CheckboxItemValueLabel}" />
+                                                        <c:IconButton
+                                                            Grid.Row="0"
+                                                            Grid.Column="1"
+                                                            Width="24"
+                                                            Height="24"
+                                                            Margin="8,0"
+                                                            HorizontalAlignment="Right"
+                                                            Classes="function"
+                                                            Icon="{StaticResource dismiss_regular}"
+                                                            IconSize="16"
+                                                            ToolTip.Tip="Remove Checkboxes" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                                <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2">
+                                    <ItemsControl Items="{Binding TextItems}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <local:TextContainer />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
                             </Grid>
                         </Border>
                     </DataTemplate>

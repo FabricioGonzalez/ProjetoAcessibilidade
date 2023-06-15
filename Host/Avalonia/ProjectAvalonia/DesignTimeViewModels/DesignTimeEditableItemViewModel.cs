@@ -1,5 +1,7 @@
 ﻿using System.Reactive;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -38,7 +40,7 @@ public class DesignTimeEditableItemViewModel
         set;
     }
 
-    public ReactiveCommand<Unit, Unit> CommitItemCommand
+    public ReactiveCommand<IEditableItemViewModel, Unit> CommitItemCommand
     {
         get;
     }

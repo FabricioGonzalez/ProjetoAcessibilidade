@@ -1,5 +1,7 @@
 ﻿using System.Reactive;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
@@ -10,6 +12,10 @@ public partial class EditableItemViewModel : ReactiveObject, IEditableItemViewMo
 
 
     [AutoNotify] private string _templateName;
+
+    public EditableItemViewModel()
+    {
+    }
 
     public bool InEditMode
     {
@@ -29,9 +35,9 @@ public partial class EditableItemViewModel : ReactiveObject, IEditableItemViewMo
         set;
     }
 
-    public ReactiveCommand<Unit, Unit> CommitItemCommand
+    public ReactiveCommand<IEditableItemViewModel, Unit> CommitItemCommand
     {
-        get;
+        get; init;
     }
 
     public ReactiveCommand<Unit, Unit> ExcludeItemCommand

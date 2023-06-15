@@ -1,8 +1,10 @@
-﻿using QuestPDF.Fluent;
+﻿using Common.Linq;
+
+using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Models;
-using SkiaSharp;
 
 namespace QuestPDFReport.Components;
 
@@ -25,7 +27,7 @@ public class SectionTemplate : IComponent
         IContainer container
     )
     {
-        if (Model is ReportSection reportSection)
+        /*if (Model is ReportSection reportSection)
         {
             container
                 .EnsureSpace()
@@ -95,12 +97,11 @@ public class SectionTemplate : IComponent
                             }
                         });
                 });
-        }
+        }*/
 
         if (Model is ReportSectionGroup reportSectionGroup)
         {
             container
-                .EnsureSpace()
                 .Section(sectionName: reportSectionGroup.Id)
                 .Decoration(handler: decoration =>
                 {
@@ -128,17 +129,18 @@ public class SectionTemplate : IComponent
                                             column
                                                 .Item()
                                                 .PaddingLeft(value: 8)
-                                                .ShowOnce()
                                                 .Text(text: part.Title)
                                                 .Style(style: Typography.SubLine);
-                                            column.Item().Column(handler: items =>
+                                            column
+                                            .Item()
+                                            .Column(handler: items =>
                                             {
                                                 foreach (var sectionPart in part.Parts)
                                                 {
                                                     items
                                                         .Item()
                                                         .ValueCell()
-                                                        .EnsureSpace(minHeight: 25)
+                                                        .EnsureSpace()
                                                         .Column(handler: partColumn =>
                                                         {
                                                             partColumn
@@ -151,7 +153,8 @@ public class SectionTemplate : IComponent
                                                             {
                                                                 var frame = partColumn
                                                                     .Item()
-                                                                    .ValueCell();
+                                                                    .ValueCell()
+                                                                    .ExtendHorizontal();
 
                                                                 if (sectionPart is ReportSectionText text)
                                                                 {
@@ -163,9 +166,25 @@ public class SectionTemplate : IComponent
                                                                 if (sectionPart is ReportSectionCheckbox checkboxes)
                                                                 {
                                                                     frame
-                                                                        .Element(handler: x =>
-                                                                            MapCheckboxes(container: x,
-                                                                                checkboxes: checkboxes));
+                                                                    .AlignTop()
+                                                                    .Column(column =>
+                                                                    {
+                                                                        column
+                                                                        .Item()
+                                                                        .EnsureSpace(25)
+                                                                        .Row(checkboxRow =>
+                                                                        {
+                                                                            checkboxes
+                                                                       .Checkboxes
+                                                                       .Select(item =>
+                                                                       new CheckboxItemComponent(item))
+                                                                       .IterateOn(item =>
+                                                                       checkboxRow
+                                                                       .RelativeItem()
+                                                                       .Height(20)
+                                                                       .Component(item));
+                                                                        });
+                                                                    });
                                                                 }
 
                                                                 if (sectionPart is ReportSectionPhotoContainer photos)
@@ -209,84 +228,6 @@ public class SectionTemplate : IComponent
         container.ShowEntire().Column(handler: column =>
         {
             column.Item().Text(text: title).Style(style: Typography.Normal);
-        });
-
-    private void MapCheckboxes(
-        IContainer container
-        , ReportSectionCheckbox checkboxes
-    ) =>
-        container.ShowEntire().Column(handler: column =>
-        {
-            column.Spacing(value: 5);
-            column.Item().Row(handler: row =>
-            {
-                foreach (var item in checkboxes.Checkboxes)
-                {
-                    row.Spacing(value: 5);
-
-                    row.ConstantItem(size: 16)
-                        .Layers(handler: layers =>
-                        {
-                            layers.Layer().Canvas(handler: (
-                                canvas
-                                , size
-                            ) =>
-                            {
-                                DrawRoundedRectangle(color: Colors.White, isStroke: false);
-                                DrawRoundedRectangle(color: Colors.Black, isStroke: true);
-
-                                if (item.IsChecked)
-                                {
-                                    DrawLine(color: Colors.Black, isStroke: true, fromX: 6, fromY: 4, toX: 10, toY: 12);
-                                    DrawLine(color: Colors.Black, isStroke: true, fromX: 9.80f, fromY: 12.0f, toX: 15.5f
-                                        , toY: -1f);
-                                }
-
-
-                                void DrawLine(
-                                    string color
-                                    , bool isStroke
-                                    , float fromX
-                                    , float fromY
-                                    , float toX
-                                    , float toY
-                                )
-                                {
-                                    using var paint = new SKPaint
-                                    {
-                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1,
-                                        IsAntialias = true
-                                    };
-
-                                    canvas.DrawLine(p0: new SKPoint(x: fromX, y: fromY), p1: new SKPoint(x: toX, y: toY)
-                                        , paint: paint);
-                                }
-
-                                void DrawRoundedRectangle(
-                                    string color
-                                    , bool isStroke
-                                )
-                                {
-                                    using var paint = new SKPaint
-                                    {
-                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1,
-                                        IsAntialias = true
-                                    };
-
-                                    canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: paint);
-                                }
-                            });
-
-                            layers
-                                .PrimaryLayer()
-                                /* .Text("Sample text")
-                                                                                                                                                                                                                                                                          .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/
-                                ;
-                        });
-
-                    row.AutoItem().Text(text: item.Value);
-                }
-            });
         });
 
     private void MapElement(
@@ -341,7 +282,8 @@ public class SectionTemplate : IComponent
                 {
                     var image = new ImagePlaceholder
                     {
-                        ImagePath = x.Path, Observation = x.Observation
+                        ImagePath = x.Path,
+                        Observation = x.Observation
                     };
                     grid
                         .Item()

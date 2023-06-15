@@ -13,7 +13,9 @@ public static class Constants
     public const string AppUISettingsFile = "UiConfig.json";
 
     public const string AppProjectItemsFolderName = "Itens";
+    public const string AppValidationRulesTemplateFolderName = "Validation Templates";
     public const string AppProjectSolutionExtension = ".prja";
+    public const string AppProjectValidationTemplateExtension = ".vldr";
     public const string AppProjectTemplateExtension = ".xml";
     public const string AppProjectItemExtension = ".prjd";
 
@@ -79,6 +81,11 @@ public static class Constants
         Path.Combine(
             path1: AppTemplatesFolder,
             path2: AppProjectItemsFolderName);
+
+    public static string AppValidationRulesTemplateFolder =
+        Path.Combine(
+            path1: AppTemplatesFolder,
+            path2: AppValidationRulesTemplateFolderName);
 }
 #if NET
 #endif

@@ -8,8 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Common;
-
-using Common.Linq;
 using Common.Optional;
 
 using DynamicData;
@@ -134,21 +132,9 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 
                 await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath), CancellationToken.None);
 
-                Items.Add(item: item);
-
                 return Optional<IItemGroupViewModel>.Some(item);
             }
             return Optional<IItemGroupViewModel>.None();
-        });
-
-        CreateFolderCommand.Subscribe(result =>
-        {
-            result.Map(res =>
-            {
-                state.ItemGroups.AddIfNotFound((ItemGroupModel)res, (i) => i.Name != res.Name);
-
-                return res;
-            });
         });
 
         CreateFolderCommand

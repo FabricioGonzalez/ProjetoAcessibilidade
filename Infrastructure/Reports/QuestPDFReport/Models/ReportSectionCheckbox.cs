@@ -16,4 +16,10 @@ public class ReportSectionCheckbox : ReportSectionElement
         get;
         set;
     } = new();
+
+    public List<TextModel> TextItems
+    {
+        get;
+        set;
+    } = new();
 }

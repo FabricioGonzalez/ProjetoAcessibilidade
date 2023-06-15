@@ -1,5 +1,7 @@
 ﻿using System.Xml.Serialization;
+
 using ProjectItemReader.XmlFile.DTO.FormItem;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
@@ -62,7 +64,8 @@ public static class Extensions
     ) =>
         new()
         {
-            Id = model.Id, FormData = model.FormData.Select<IAppFormDataItemContract, ItemFormDataContainer>(
+            Id = model.Id,
+            FormData = model.FormData.Select<IAppFormDataItemContract, ItemFormDataContainer>(
                 selector: item =>
                 {
                     if (item is AppFormDataItemCheckboxModel checkbox)
@@ -77,7 +80,11 @@ public static class Extensions
                                         new ItemOptionModel(
                                             value: option.Value,
                                             id: option.Id,
-                                            isChecked: option.IsChecked)).ToList()
+                                            isChecked: option.IsChecked))
+                                    .ToList(),
+                                    TextItems = item.TextItems.Select(textItem =>
+                                   new ItemFormDataTextModel(id: textItem.Id, topic: textItem.Topic, textData: textItem.TextData, measurementUnit: textItem.MeasurementUnit))
+                                    .ToList()
                                 };
                             }).ToList()
                         };
@@ -96,14 +103,17 @@ public static class Extensions
                     {
                         return new ItemFormDataItemImageModel(id: images.Id, topic: images.Topic)
                         {
-                            ImagesItems = images.ImagesItems.Select(
+                            ImagesItems = images?
+                            .ImagesItems?
+                            .Select(
                                     selector: item => new ImageItem(
                                         id: item.Id,
                                         imagePath: item.ImagePath,
                                         imageObservation: item.ImageObservation))
-                                .ToList()
+                                .ToList() ?? Enumerable.Empty<ImageItem>().ToList()
                         };
-                    }
+                    };
+
 
                     if (item is AppFormDataItemObservationModel observation)
                     {
@@ -120,7 +130,9 @@ public static class Extensions
                         type: ItemFormDataEnum.Empty,
                         id: "");
                 }).ToList(),
-            ItemName = model.ItemName, TemplateName = model.TemplateName, LawList = model.LawList.Select(
+            ItemName = model.ItemName,
+            TemplateName = model.TemplateName,
+            LawList = model.LawList.Select(
                     selector: item =>
                         new ItemLaw(
                             lawId: item.LawId,
@@ -133,7 +145,8 @@ public static class Extensions
     ) =>
         new()
         {
-            Id = model.Id, FormData = model.FormData.Select<ItemFormDataContainer, IAppFormDataItemContract>(
+            Id = model.Id,
+            FormData = model.FormData.Select<ItemFormDataContainer, IAppFormDataItemContract>(
                 selector: item =>
                 {
                     if (item is ItemFormDataCheckboxModel checkbox)
@@ -148,7 +161,10 @@ public static class Extensions
                                         new AppOptionModel(
                                             value: option.Value,
                                             id: option.Id,
-                                            isChecked: option.IsChecked)).ToList()
+                                            isChecked: option.IsChecked)).ToList(),
+                                    TextItems = item.TextItems.Select(textItem =>
+                                    new AppFormDataItemTextModel(id: textItem.Id, topic: textItem.Topic, textData: textItem.TextData, measurementUnit: textItem.MeasurementUnit))
+                                    .ToList()
                                 };
                             }).ToList()
                         };
@@ -187,7 +203,9 @@ public static class Extensions
 
                     return new AppFormDataEmptyModel();
                 }).ToList(),
-            ItemName = model.ItemName, TemplateName = model.TemplateName, LawList = model.LawList.Select(
+            ItemName = model.ItemName,
+            TemplateName = model.TemplateName,
+            LawList = model.LawList.Select(
                     selector: item =>
                         new AppLawModel(
                             lawId: item.LawId,

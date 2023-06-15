@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Reactive;
 
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
@@ -83,4 +84,14 @@ public class DesignTimeTemplateEditTabViewModel
         ItemTemplate = "Teste Template",
         LawItems = new ObservableCollection<LawStateItem>()
     };
+
+    public ReactiveCommand<Unit, Unit> AddItemCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> AddLawCommand
+    {
+        get;
+    }
 }

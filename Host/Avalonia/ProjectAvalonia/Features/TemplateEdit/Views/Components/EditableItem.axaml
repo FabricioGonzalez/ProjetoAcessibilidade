@@ -18,6 +18,7 @@
     <controls:EditableTextBlock
         HorizontalAlignment="Stretch"
         Command="{Binding CommitItemCommand}"
+        CommandParameter="{Binding}"
         InEditMode="{Binding InEditMode, Mode=TwoWay}"
         Text="{Binding TemplateName, Mode=TwoWay}">
 
