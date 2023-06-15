@@ -25,7 +25,7 @@ public class MenuItemModel : ReactiveObject, IMenuItem
         get; init;
     }
 
-    public KeyGesture Gesture
+    public KeyGesture? Gesture
     {
         get; init;
     }
@@ -50,6 +50,6 @@ public class MenuItemModel : ReactiveObject, IMenuItem
         Label = label;
         Icon = icon;
         Command = command;
-        Gesture = KeyGesture.Parse(gesture);
+        Gesture = !string.IsNullOrWhiteSpace(gesture) ? KeyGesture.Parse(gesture) : null;
     }
 }

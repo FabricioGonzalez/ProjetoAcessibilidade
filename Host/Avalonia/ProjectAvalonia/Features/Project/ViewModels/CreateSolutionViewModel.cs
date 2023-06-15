@@ -1,6 +1,25 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
+
+using Avalonia.Threading;
+
+using Common;
+
+using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.ViewModels;
+using ProjectAvalonia.ViewModels.Dialogs.Base;
+
+using ProjetoAcessibilidade.Core.Entities.App;
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Domain.App.Queries.UF;
+using ProjetoAcessibilidade.Domain.Contracts;
+
+using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 

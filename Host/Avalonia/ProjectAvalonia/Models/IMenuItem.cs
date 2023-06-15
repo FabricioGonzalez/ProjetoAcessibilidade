@@ -21,7 +21,7 @@ public interface IMenuItem
         get;
     }
 
-    KeyGesture Gesture
+    KeyGesture? Gesture
     {
         get;
     }

@@ -2,8 +2,6 @@
 
 public abstract class Resource<T>
 {
-    public object OnSuccess(Action<object> onSuccessAction) => throw new NotImplementedException();
-
     public sealed class Success : Resource<T>
     {
         public Success(
@@ -139,7 +137,7 @@ public static class Extensions
     {
         if (resource.resource is Resource<T>.Error error)
         {
-            return ((Resource<T>.Error resource, T? value))(resource.resource, value: onErrorAction.Invoke(arg: error));
+            return (error, value: onErrorAction.Invoke(arg: error));
         }
 
         return ((Resource<T>.Error resource, T? value))resource;

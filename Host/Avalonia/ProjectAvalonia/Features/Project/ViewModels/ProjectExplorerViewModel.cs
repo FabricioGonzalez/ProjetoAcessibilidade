@@ -80,7 +80,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                     .ToList()
                      }).ToList());
 
-                 await SaveSolution(Unit.Default);
+                 await SaveSolution();
              });
 
         changeSet
@@ -145,12 +145,14 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         {
             result.Map(res =>
             {
-                state.ItemGroups.AsEnumerable().AddIfNotFound(res, (i) => i.Name != res.Name);
+                state.ItemGroups.AddIfNotFound((ItemGroupModel)res, (i) => i.Name != res.Name);
+
+                return res;
             });
         });
 
         CreateFolderCommand
-            .DoAsync(SaveSolution)
+            .DoAsync(async _ => await SaveSolution())
             .Subscribe();
     }
 
@@ -163,7 +165,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         .Merge();
 
 
-    private async Task SaveSolution(Unit nothing)
+    private async Task SaveSolution()
     {
         if (SolutionState is not null)
         {

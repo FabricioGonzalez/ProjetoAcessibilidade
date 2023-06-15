@@ -63,11 +63,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectAvalonia.WindowsInst
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{594CC6EF-C9A3-4C67-8F00-A35DDE903368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectAvalonia.Presentation", "Presentation\ProjectAvalonia.Presentation\ProjectAvalonia.Presentation.csproj", "{F0EBBEC6-A5FE-4532-884E-CE3F19549998}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectAvalonia.Presentation", "Presentation\ProjectAvalonia.Presentation\ProjectAvalonia.Presentation.csproj", "{F0EBBEC6-A5FE-4532-884E-CE3F19549998}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DI", "DI", "{0A488BE3-6D93-4FE6-8AE9-1D7387BDE44A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppDI", "DI\AppDI\AppDI.csproj", "{378D45D9-041E-4624-BFC0-9812E74B4186}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppDI", "DI\AppDI\AppDI.csproj", "{378D45D9-041E-4624-BFC0-9812E74B4186}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

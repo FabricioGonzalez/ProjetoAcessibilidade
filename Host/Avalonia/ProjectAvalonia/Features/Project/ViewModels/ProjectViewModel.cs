@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 using Avalonia.Threading;
 
+using Common;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -291,8 +293,21 @@ public partial class ProjectViewModel
               ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe();
           },
           canExecute: isSolutionOpen),
-         icon: "print_24_rounded".GetIcon(),
-         "Ctrl+P"));
+         icon: "add_folder_24_rounded".GetIcon(),
+         "Ctrl+Shift+N"));
+
+
+        /* listBuilder.Add(new MenuItemModel(
+          label: "Add File",
+          command: ReactiveCommand.Create(
+           execute: () =>
+           {
+               ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe();
+           },
+           canExecute: isSolutionOpen),
+          icon: "add_file_24_rounded".GetIcon(),
+          "Ctrl+N"));*/
+
 
         return listBuilder;
     }
