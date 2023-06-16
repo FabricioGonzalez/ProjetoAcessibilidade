@@ -1,16 +1,24 @@
 ﻿using System.Reflection;
+
 using Avalonia;
+
 using Common;
+
 using Microsoft.Extensions.Configuration;
+
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
+
 using ProjectItemReader.InternalAppFiles;
 using ProjectItemReader.XmlFile;
+
 using ProjetoAcessibilidade.Domain.App.Contracts;
+using ProjetoAcessibilidade.Domain.AppValidationRules.Contracts;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Implementations;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Contracts;
+
 using Splat;
 
 namespace AppDI;
@@ -29,6 +37,7 @@ public static class AvaloniaDInjector
                 return new ApplicationInfo(Assembly.GetExecutingAssembly());
             });
         }*/
+
     /*private static AppBuilder AddQueryHandlers(
         this AppBuilder app
     )
@@ -140,6 +149,9 @@ public static class AvaloniaDInjector
         service.Register<IAppTemplateRepository>(
             factory: () =>
                 new AppTemplateRepositoryImpl());
+        service.Register<IValidationRulesRepository>(
+                    factory: () =>
+                        new ValidationRulesRepositoryImpl());
 
         return app;
     }
@@ -242,10 +254,10 @@ public static class AvaloniaDInjector
                         genericInterfaceTypes.Any(predicate: x => x.GetGenericTypeDefinition() == typeToMatch);
 
                     return type is
-                           {
-                               IsInterface: false,
-                               IsAbstract: false
-                           } &&
+                    {
+                        IsInterface: false,
+                        IsAbstract: false
+                    } &&
                            implementRequestType;
                 })
             .ToList();

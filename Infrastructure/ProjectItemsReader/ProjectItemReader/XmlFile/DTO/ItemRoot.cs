@@ -1,14 +1,14 @@
 ﻿using System.Xml.Serialization;
 
+using Core.Entities.Solution.Project.AppItem;
+
 using ProjectItemReader.XmlFile.DTO.FormItem;
 
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
-using ProjetoAcessibilidade.Core.Enuns;
 
 namespace ProjectItemReader.XmlFile.DTO;
 
@@ -39,10 +39,23 @@ public class ItemRoot
     [XmlArray(elementName: "table")]
     [XmlArrayItem(elementName: "checkbox_items", Type = typeof(ItemFormDataCheckboxModel))]
     [XmlArrayItem(elementName: "text_item", Type = typeof(ItemFormDataTextModel))]
-    [XmlArrayItem(elementName: "image_items", Type = typeof(ItemFormDataItemImageModel))]
-    [XmlArrayItem(elementName: "observation_item", Type = typeof(ItemFormDataObservationModel))]
+    [XmlArrayItem(elementName: "image_items", Type = typeof(ImagesModel))]
 
-    public List<ItemFormDataContainer> FormData
+
+    public IEnumerable<ItemFormDataContainer> FormData
+    {
+        get;
+        set;
+    }
+
+    [XmlArray(elementName: "observations")]
+    public IEnumerable<ObservationModel> Observations
+    {
+        get;
+        set;
+    }
+    [XmlArray(elementName: "images")]
+    public IEnumerable<ImagesItem> Images
     {
         get;
         set;
@@ -50,7 +63,7 @@ public class ItemRoot
 
     [XmlArray(elementName: "law")]
     [XmlArrayItem(elementName: "law_item", Type = typeof(ItemLaw))]
-    public List<ItemLaw> LawList
+    public IEnumerable<ItemLaw> LawList
     {
         get;
         set;
@@ -99,37 +112,14 @@ public static class Extensions
                             measurementUnit: text.MeasurementUnit);
                     }
 
-                    if (item is AppFormDataItemImageModel images)
-                    {
-                        return new ItemFormDataItemImageModel(id: images.Id, topic: images.Topic)
-                        {
-                            ImagesItems = images?
-                            .ImagesItems?
-                            .Select(
-                                    selector: item => new ImageItem(
-                                        id: item.Id,
-                                        imagePath: item.ImagePath,
-                                        imageObservation: item.ImageObservation))
-                                .ToList() ?? Enumerable.Empty<ImageItem>().ToList()
-                        };
-                    };
-
-
-                    if (item is AppFormDataItemObservationModel observation)
-                    {
-                        return new ItemFormDataObservationModel(
-                            observation: observation.Observation,
-                            topic: observation.Topic,
-                            type: ItemFormDataEnum.Observation,
-                            id: observation.Id);
-                    }
-
-                    return new ItemFormDataObservationModel(
-                        observation: "",
-                        topic: "",
-                        type: ItemFormDataEnum.Empty,
-                        id: "");
+                    return new ItemFormDataTextModel(
+                          id: "",
+                            topic: "",
+                            textData: "",
+                            type: ItemFormDataEnum.Empty);
                 }).ToList(),
+            Observations = model.Observations.Select(x => new ObservationModel() { Id = x.Id, Observation = x.ObservationText }),
+            Images = model.Images.Select(x => new ImagesItem(x.Id, x.ImagePath, x.ImageObservation)),
             ItemName = model.ItemName,
             TemplateName = model.TemplateName,
             LawList = model.LawList.Select(
@@ -179,30 +169,10 @@ public static class Extensions
                             measurementUnit: text.MeasurementUnit);
                     }
 
-                    if (item is ItemFormDataItemImageModel images)
-                    {
-                        return new AppFormDataItemImageModel(id: images.Id, topic: images.Topic)
-                        {
-                            ImagesItems = images.ImagesItems.Select(
-                                    selector: item => new ImagesItem(
-                                        id: item.Id,
-                                        imagePath: item.ImagePath,
-                                        imageObservation: item.ImageObservation))
-                                .ToList()
-                        };
-                    }
-
-                    if (item is ItemFormDataObservationModel observation)
-                    {
-                        return new AppFormDataItemObservationModel(
-                            observation: observation.Observation,
-                            topic: observation.Topic,
-                            type: AppFormDataType.Observação,
-                            id: observation.Id);
-                    }
-
                     return new AppFormDataEmptyModel();
                 }).ToList(),
+            Observations = model.Observations.Select(x => new Core.Entities.Solution.Project.AppItem.ObservationModel() { Id = x.Id, Observation = x.Observation }),
+            Images = model.Images.Select(x => new ImagesItem(x.Id, x.ImagePath, x.ImageObservation)),
             ItemName = model.ItemName,
             TemplateName = model.TemplateName,
             LawList = model.LawList.Select(

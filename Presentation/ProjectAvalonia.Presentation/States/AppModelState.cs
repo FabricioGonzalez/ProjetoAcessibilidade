@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
+using Core.Entities.Solution.Project.AppItem;
+
 using DynamicData;
 using DynamicData.Binding;
 

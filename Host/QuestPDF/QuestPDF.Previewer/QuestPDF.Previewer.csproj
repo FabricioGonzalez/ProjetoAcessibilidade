@@ -35,28 +35,28 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Resources\Logo.png"/>
+        <AvaloniaResource Include="Resources\Logo.png" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\Logo.png"/>
-        <None Include="Resources\Logo.png" Pack="true" PackagePath="\"/>
-        <None Include="Resources\PackageReadme.md" Pack="true" PackagePath="\"/>
+        <EmbeddedResource Include="Resources\Logo.png" />
+        <None Include="Resources\Logo.png" Pack="true" PackagePath="\" />
+        <None Include="Resources\PackageReadme.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
-        <PackageReference Include="Avalonia" Version="11.0.0-preview4"/>
-        <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview4"/>
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.0-preview4"/>
-        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.0-preview4"/>
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview4"/>
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-preview4"/>
-        <PackageReference Include="ReactiveUI" Version="18.4.26"/>
-        <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3"/>
-        <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.3"/>
-        <PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="2.88.3"/>
-        <PackageReference Include="System.Reactive" Version="5.0.0"/>
-        <PackageReference Include="SkiaSharp" Version="2.88.3"/>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Avalonia" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview4" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-preview4" />
+        <PackageReference Include="ReactiveUI" Version="19.2.1" />
+        <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3" />
+        <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.3" />
+        <PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="2.88.3" />
+        <PackageReference Include="System.Reactive" Version="6.0.0" />
+        <PackageReference Include="SkiaSharp" Version="2.88.3" />
     </ItemGroup>
 </Project>

@@ -6,12 +6,19 @@ using System.Net.Sockets;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
+
 using AppDI;
+
 using Avalonia;
 using Avalonia.OpenGL;
 using Avalonia.ReactiveUI;
+using Avalonia.Xaml.Interactions.Core;
+using Avalonia.Xaml.Interactivity;
+
 using Common;
+
 using Microsoft.Extensions.Configuration;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
@@ -19,7 +26,9 @@ using ProjectAvalonia.Common.Services.Terminate;
 using ProjectAvalonia.Desktop.Extensions;
 using ProjectAvalonia.Logging;
 using ProjectAvalonia.ViewModels;
+
 using ProjetoAcessibilidade.Domain.App.Contracts;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Desktop;
@@ -112,13 +121,15 @@ public class Program
                 {
                     Debugger.Break();
                 }
-
                 Logger.LogError(exception: ex);
 
                 RxApp.MainThreadScheduler.Schedule(action: () =>
                     throw new ApplicationException(message: "Exception has been thrown in unobserved ThrownExceptions"
                         , innerException: ex));
             });
+
+            GC.KeepAlive(typeof(Interaction).Assembly);
+            GC.KeepAlive(typeof(ComparisonConditionType).Assembly);
 
             Logger.LogSoftwareStarted(appName: "Gestor de Projeto ARPA GUI");
             AppBuilder

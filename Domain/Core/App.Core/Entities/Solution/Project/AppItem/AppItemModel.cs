@@ -1,6 +1,8 @@
-﻿using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
+﻿using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 
-namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+namespace Core.Entities.Solution.Project.AppItem;
 
 public class AppItemModel
 {
@@ -22,13 +24,23 @@ public class AppItemModel
         set;
     }
 
-    public IList<IAppFormDataItemContract> FormData
+    public IEnumerable<IAppFormDataItemContract> FormData
     {
         get;
         set;
     }
 
-    public IList<AppLawModel> LawList
+    public IEnumerable<ObservationModel> Observations
+    {
+        get;
+        set;
+    }
+    public IEnumerable<ImagesItem> Images
+    {
+        get;
+        set;
+    }
+    public IEnumerable<AppLawModel> LawList
     {
         get;
         set;

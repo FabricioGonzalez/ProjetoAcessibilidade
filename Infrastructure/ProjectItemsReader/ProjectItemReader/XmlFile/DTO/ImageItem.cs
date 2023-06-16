@@ -1,8 +1,8 @@
 ﻿using System.Xml.Serialization;
 
-namespace ProjectItemReader.XmlFile.DTO.FormItem;
+namespace ProjectItemReader.XmlFile.DTO;
 
-public class ImageItem : ItemFormData
+public class ImageItem
 {
     public ImageItem()
     {
@@ -13,7 +13,6 @@ public class ImageItem : ItemFormData
         , string imagePath
         , string imageObservation
     )
-        : base(id: id)
     {
         Id = id;
         ImagePath = imagePath;
@@ -22,6 +21,12 @@ public class ImageItem : ItemFormData
 
     [XmlElement(elementName: "image_path")]
     public string ImagePath
+    {
+        get;
+        set;
+    }
+    [XmlElement(elementName: "id")]
+    public string Id
     {
         get;
         set;

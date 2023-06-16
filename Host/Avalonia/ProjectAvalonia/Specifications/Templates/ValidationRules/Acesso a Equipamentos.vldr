@@ -7,10 +7,12 @@
     <conditions>
       <condition>
         <operation>Obrigatority</operation>
-        <based_on_target>{ItemId}</based_on_target>
-        <condition_to_check>
-          <value_to_trigger>{ItemValue} is checked</value_to_trigger>
-        </condition_to_check>
+        <conditions_to_check>
+          <value_trigger>{TargetId} current {ItemValue} is checked</value_trigger>
+        </conditions_to_check>
+        <results>
+          <result_item>Acesso Indisponível</result_item>
+        </results>
       </condition>
     </conditions>
   </rules>

@@ -14,7 +14,10 @@ public class Optional<T> : IEquatable<Optional<T>>
 
     public static Optional<T> Some(
         T obj
-    ) => new() { _content = obj };
+    ) => new()
+    {
+        _content = obj
+    };
 
     public static Optional<T> None() => new();
 
@@ -28,6 +31,17 @@ public class Optional<T> : IEquatable<Optional<T>>
                 ? map(_content)
                 : null
         };
+
+    public Optional<Task<TResult>> MapAsync<TResult>(
+       Func<T, Task<TResult>> map
+   )
+       where TResult : class =>
+       new()
+       {
+           _content = _content is not null
+               ? map(_content)
+               : null
+       };
 
     public ValueOption<TResult> MapValue<TResult>(
         Func<T, TResult> map

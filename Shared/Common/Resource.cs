@@ -22,7 +22,7 @@ public abstract class Resource<T>
     {
         public Error(
             string? Message
-            , T? Data
+            , T? Data = default
         )
         {
             this.Message = Message;

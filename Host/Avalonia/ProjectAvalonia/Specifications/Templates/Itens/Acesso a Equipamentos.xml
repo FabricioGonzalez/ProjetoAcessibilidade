@@ -49,6 +49,19 @@
       <observation />
     </observation_item>
   </table>
+  <observations>
+    <observation>
+      <id></id>
+      <text></text>
+    </observation>
+  </observations>
+  <images>
+    <image>
+      <id></id>
+      <path></path>
+      <observation></observation>
+    </image>
+  </images>
   <law>
     <law_item>
       <id>NBR9050/20</id>
