@@ -122,19 +122,20 @@
         </checkbox_item>
       </checkboxes>
     </checkbox_items>
-    <observation_item>
-      <id>ef45f54f-de0c-47a7-986f-8d8d22632bc2</id>
-      <topic xsi:nil="true" />
-      <type>observation</type>
-      <observation />
-    </observation_item>
-    <image_items>
-      <id>86c4f6dc-f19f-47a1-bf60-9e2825522608</id>
-      <topic xsi:nil="true" />
-      <type>image</type>
-      <images />
-    </image_items>
   </table>
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law>
     <law_item>
       <id>NBR9050/15</id>

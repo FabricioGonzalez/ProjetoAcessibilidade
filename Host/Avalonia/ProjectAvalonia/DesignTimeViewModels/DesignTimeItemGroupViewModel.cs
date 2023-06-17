@@ -56,6 +56,10 @@ public class DesignTimeItemGroupViewModel : ReactiveObject, IItemGroupViewModel
         get;
     }
 
+    public ReactiveCommand<Unit, Unit> MoveItemCommand
+    {
+        get;
+    }
 
     public void TransformFrom(List<ItemModel> items)
     {

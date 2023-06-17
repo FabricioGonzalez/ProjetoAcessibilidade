@@ -26,17 +26,19 @@
         </checkbox_item>
       </checkboxes>
     </checkbox_items>
-    <observation_item>
-      <id>1aea07c2-ffbe-4028-90dd-9b8d7bcaca0a</id>
-      <topic xsi:nil="true" />
-      <type>observation</type>
-    </observation_item>
-    <image_items>
-      <id>9b2cd940-aeb2-4257-bea7-96fa795a7413</id>
-      <topic xsi:nil="true" />
-      <type>image</type>
-      <images />
-    </image_items>
   </table>
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law />
 </item>

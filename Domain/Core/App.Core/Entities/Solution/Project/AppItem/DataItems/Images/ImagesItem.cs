@@ -1,7 +1,13 @@
-﻿namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+﻿using System.Xml.Serialization;
+
+namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 
 public class ImagesItem
 {
+    public ImagesItem()
+    {
+        
+    }
     public ImagesItem(
         string id
         , string imagePath
@@ -12,19 +18,19 @@ public class ImagesItem
         ImagePath = imagePath;
         ImageObservation = imageObservation;
     }
-
+    [XmlElement(elementName: "id")]
     public string Id
     {
         get;
         set;
     }
-
+    [XmlElement(elementName: "path")]
     public string ImagePath
     {
         get;
         set;
     }
-
+    [XmlElement(elementName: "observation")]
     public string ImageObservation
     {
         get;

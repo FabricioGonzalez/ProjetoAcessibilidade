@@ -82,19 +82,20 @@
       <value />
       <measurement_unit xsi:nil="true" />
     </text_item>
-    <observation_item>
-      <id>869bb7d7-e9bc-48f3-b685-aaa64e56225b</id>
-      <topic xsi:nil="true" />
-      <type>observation</type>
-      <observation />
-    </observation_item>
-    <image_items>
-      <id>af5cf4aa-b0b7-440e-a1cc-4e78db554074</id>
-      <topic xsi:nil="true" />
-      <type>image</type>
-      <images />
-    </image_items>
   </table>
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law>
     <law_item>
       <id>NBR9050/20</id>

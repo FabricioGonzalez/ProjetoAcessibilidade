@@ -3,18 +3,19 @@
   <id>79d9fac9-2f69-4aaf-9663-08401fd80ca9</id>
   <name>Teste 2</name>
   <table>
-    <observation_item>
-      <id>8a39296c-9ca0-4797-b536-0aa5da368e4b</id>
-      <topic>Observações</topic>
-      <type>observation</type>
-      <observation />
-    </observation_item>
-    <image_items>
-      <id>cbb05dd0-79e2-4cac-871d-12d2f1262487</id>
-      <topic>Imagens</topic>
-      <type>image</type>
-      <images />
-    </image_items>
   </table>
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law />
 </item>

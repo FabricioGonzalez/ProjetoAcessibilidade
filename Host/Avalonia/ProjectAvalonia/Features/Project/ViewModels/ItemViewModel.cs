@@ -1,8 +1,16 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
+
+using DynamicData;
+
+using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -23,12 +31,41 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
             ReactiveCommand.Create(execute: () =>
             {
             });
+        CanMoveCommand =
+            ReactiveCommand.CreateFromTask< IItemGroupViewModel>(execute: async(parent) =>
+            {
+                var dialog = new DeleteDialogViewModel(
+                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                        title: "Deletar Item",
+                        caption: "");
+
+                if ((await RoutableViewModel.NavigateDialogAsync(
+                        dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result)
+                {
+                    MoveItem(parent);
+                }
+            });
 
         ExcludeFileCommand.Subscribe();
 
         RenameFileCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(execute: RenameFile);
     }
 
+    private void MoveItem(IItemGroupViewModel parent)
+    {
+        if(parent.Items.Any(x => x.Name == Name))
+        {
+            NotificationHelpers.Show("Erro", "O Item Já Existe");
+
+            return;
+        }
+        Parent.Items.Remove(this);
+        Parent = parent;
+        Parent.Items.Add(this);
+
+        Parent.MoveItemCommand.Execute();
+    }
     public string Id
     {
         get;
@@ -36,7 +73,7 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
 
     public IItemGroupViewModel Parent
     {
-        get;
+        get; private set;
     }
 
     public string ItemPath
@@ -73,6 +110,11 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
     });
 
     public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand
+    {
+        get;
+        set;
+    }   
+    public ReactiveCommand<IItemGroupViewModel, Unit> CanMoveCommand
     {
         get;
         set;

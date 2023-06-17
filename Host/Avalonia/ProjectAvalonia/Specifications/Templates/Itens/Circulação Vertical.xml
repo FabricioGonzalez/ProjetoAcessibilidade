@@ -438,18 +438,19 @@
       <value />
       <measurement_unit />
     </text_item>
-    <observation_item>
-      <id>b9eda973-7a94-4c5d-b84e-95e758ad6274</id>
-      <topic xsi:nil="true" />
-      <type>observation</type>
-      <observation />
-    </observation_item>
-    <image_items>
-      <id>3565cef7-c289-40f5-b95d-100718626e5f</id>
-      <topic xsi:nil="true" />
-      <type>image</type>
-      <images />
-    </image_items>
   </table>
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law />
 </item>

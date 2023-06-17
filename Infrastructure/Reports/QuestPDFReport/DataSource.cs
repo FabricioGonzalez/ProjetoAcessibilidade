@@ -1,4 +1,7 @@
 ﻿using Common;
+
+using Core.Entities.Solution.Project.AppItem;
+
 using ProjectItemReader.XmlFile;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
@@ -54,7 +57,7 @@ public static class DataSource
 
         foreach (var item in items)
         {
-            var data = await repository.GetProjectItemContent(filePathToRead: item);
+            AppItemModel? data = await repository.GetProjectItemContent(filePathToRead: item);
 
             var section = new ReportSection();
 

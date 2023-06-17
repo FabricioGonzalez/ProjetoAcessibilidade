@@ -29,18 +29,22 @@
     </PropertyGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
+        <AvaloniaXaml Remove="Behaviors\DragDropHandlers\**" />
         <AvaloniaXaml Remove="Features\ItemValidation\**" />
         <AvaloniaXaml Remove="Features\TemplateEditing\**" />
         <AvaloniaXaml Remove="Features\TemplateRules\**" />
         <AvaloniaXaml Remove="Languages\**" />
+        <Compile Remove="Behaviors\DragDropHandlers\**" />
         <Compile Remove="Features\ItemValidation\**" />
         <Compile Remove="Features\TemplateEditing\**" />
         <Compile Remove="Features\TemplateRules\**" />
         <Compile Remove="Languages\**" />
+        <EmbeddedResource Remove="Behaviors\DragDropHandlers\**" />
         <EmbeddedResource Remove="Features\ItemValidation\**" />
         <EmbeddedResource Remove="Features\TemplateEditing\**" />
         <EmbeddedResource Remove="Features\TemplateRules\**" />
         <EmbeddedResource Remove="Languages\**" />
+        <None Remove="Behaviors\DragDropHandlers\**" />
         <None Remove="Features\ItemValidation\**" />
         <None Remove="Features\TemplateEditing\**" />
         <None Remove="Features\TemplateRules\**" />
@@ -219,8 +223,5 @@
     </ItemGroup>
     <ItemGroup>
         <EditorConfigFiles Remove="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Behaviors\DragDropHandlers\" />
     </ItemGroup>
 </Project>
