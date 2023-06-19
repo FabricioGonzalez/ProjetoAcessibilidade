@@ -1,11 +1,16 @@
 ﻿using Common;
+using Common.Linq;
+
 using ProjectItemReader.XmlFile;
+
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+
 using QuestPDF.Helpers;
+
 using QuestPDFReport.Models;
 
 namespace QuestPDFReport;
@@ -42,7 +47,8 @@ public static class DataSource
 
         var report = new ReportModel
         {
-            Title = "Sample Report Document", HeaderFields = HeaderFields()
+            Title = "Sample Report Document",
+            HeaderFields = HeaderFields()
         };
 
         var res = Path.Combine(path1: Directory.GetParent(path: path).FullName
@@ -82,7 +88,9 @@ public static class DataSource
                             new CheckboxModel(isChecked: item.IsChecked, value: item.Value));
 
                         var reportCheckbox = new ReportSectionCheckbox(label: options.Topic, id: options.Id)
-                            { Checkboxes = checkboxModels.ToList() };
+                        {
+                            Checkboxes = checkboxModels.ToList()
+                        };
 
                         section.Parts.Add(item: reportCheckbox);
                     }
@@ -92,7 +100,8 @@ public static class DataSource
                 {
                     var container = new ReportSectionPhotoContainer
                     {
-                        Label = "Imagens", Photos = imageContainer
+                        Label = "Imagens",
+                        Photos = imageContainer
                             .ImagesItems
                             .Select(selector: x =>
                                 new ReportSectionPhoto(observation: x.ImageObservation, path: x.ImagePath, id: x.Id))
@@ -178,6 +187,7 @@ public static class DataSource
             var sectionGroup = new ReportSectionGroup();
 
             sectionGroup.Title = item.Name;
+            sectionGroup.Id = Guid.NewGuid().ToString();
 
             foreach (var itemModel in item.Items)
             {
@@ -185,9 +195,9 @@ public static class DataSource
 
                 var section = new ReportSection();
                 section.Title = itemModel.Name;
-                section.Id = Guid.NewGuid().ToString();
+                section.Id = itemModel.Id;
 
-                foreach (var formData in data.FormData)
+                data.FormData.IterateOn((formData) =>
                 {
                     if (formData is AppFormDataItemTextModel text)
                     {
@@ -228,12 +238,44 @@ public static class DataSource
                             section.Parts.Add(item: reportCheckbox);
                         }
                     }
+                });
 
-                    if (formData is AppFormDataItemImageModel imageContainer)
+                data.Images.IterateOn((image) =>
+                {
+                    section.Images = section.Images.Append(new()
+                    {
+                        ImagePath = image.ImagePath,
+                        Observation = image.ImageObservation
+                    });
+                });
+
+                data.Observations.IterateOn((observation) =>
+                {
+                    section.Observation = section.Observation.Append(new()
+                    {
+                        Observation = observation.ObservationText
+                    });
+                });
+
+                data.LawList.IterateOn((law) =>
+               {
+                   section.Laws = section.Laws.Append(new()
+                   {
+                       LawContent = law.LawTextContent,
+                       LawId = law.LawId
+                   });
+               });
+
+                foreach (var formData in data.FormData)
+                {
+
+
+                    /*if (formData is AppFormDataItemImageModel imageContainer)
                     {
                         var container = new ReportSectionPhotoContainer
                         {
-                            Label = "Imagens", Photos = imageContainer
+                            Label = "Imagens",
+                            Photos = imageContainer
                                 .ImagesItems
                                 .Select(selector: x =>
                                     new ReportSectionPhoto(
@@ -253,7 +295,7 @@ public static class DataSource
                                 label: "Observações",
                                 id: observation.Id,
                                 observation: observation.Observation));
-                    }
+                    }*/
                 }
 
                 sectionGroup.Parts.Add(item: section);
@@ -269,7 +311,8 @@ public static class DataSource
     {
         return new ReportModel
         {
-            Title = "Sample Report Document", HeaderFields = HeaderFields(),
+            Title = "Sample Report Document",
+            HeaderFields = HeaderFields(),
             LogoData = Helpers.GetImage(name: "Logo.png"),
             Sections = Enumerable.Range(start: 0, count: 40).Select(selector: x => GenerateSection()).ToList()
             /* Photos = Enumerable.Range(0, 25).Select(x => GetReportPhotos()).ToList()*/
@@ -306,7 +349,8 @@ public static class DataSource
 
             return new ReportSection
             {
-                Title = Placeholders.Label(), Parts = Enumerable.Range(start: 0, count: sectionLength)
+                Title = Placeholders.Label(),
+                Parts = Enumerable.Range(start: 0, count: sectionLength)
                     .Select(selector: x => GetRandomElement())
                     .ToList()
             };
@@ -374,7 +418,8 @@ public static class DataSource
         {
             return new ReportSectionPhotoContainer
             {
-                Label = "Photos", Photos = new List<ReportSectionPhoto>()
+                Label = "Photos",
+                Photos = new List<ReportSectionPhoto>()
             };
         }
 

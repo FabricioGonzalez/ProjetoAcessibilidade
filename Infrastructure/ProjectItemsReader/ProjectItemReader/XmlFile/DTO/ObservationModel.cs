@@ -2,7 +2,6 @@
 
 namespace ProjectItemReader.XmlFile.DTO;
 
-[XmlRoot(elementName: "observation")]
 public class ObservationModel
 {
     public ObservationModel()

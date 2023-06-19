@@ -1,6 +1,7 @@
-﻿using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+﻿using Core.Entities.Solution.Project.AppItem.DataItems.Images;
+
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 
 namespace Core.Entities.Solution.Project.AppItem;
 

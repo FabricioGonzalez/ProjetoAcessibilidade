@@ -198,6 +198,14 @@ public class SectionTemplate : IComponent
                                             });
 
                                             column
+                                          .Item()
+                                          .Column(handler: items =>
+                                          {
+                                              column
+                                              .Item()
+                                              .Element(x => ObservationElement(x, part.Observation));
+                                          });
+                                            column
                                            .Item()
                                            .Column(handler: items =>
                                            {
@@ -228,11 +236,17 @@ public class SectionTemplate : IComponent
 
     private void ObservationElement(
         IContainer x
-        , ObservationSectionElement observation
-    ) =>
-        x
-            .Text(text: observation.Observation)
-            .Style(style: Typography.Normal);
+        , IEnumerable<ObservationSectionElement> observation
+    ) => x.Column(handler: column =>
+    {
+        column.Item().Text("Observações");
+
+        observation.IterateOn((item) =>
+        {
+            column.Item().Text(text: item.Observation);
+        });
+
+    });
 
     private void MapTitle(
         IContainer container
