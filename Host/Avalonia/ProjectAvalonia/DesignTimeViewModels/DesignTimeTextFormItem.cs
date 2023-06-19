@@ -1,4 +1,5 @@
 ﻿using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -20,4 +21,9 @@ public class DesignTimeTextFormItem : ReactiveObject, ITextFormItemViewModel
     {
         get;
     } = "m";
+    public string Id
+    {
+        get;
+        set;
+    }
 }

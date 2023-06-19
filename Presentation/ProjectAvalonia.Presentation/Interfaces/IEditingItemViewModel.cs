@@ -20,12 +20,16 @@ public interface IEditingItemViewModel
     {
         get;
     }
+    public string TemplateName
+    {
+        get;
+    }
 
     public ReactiveCommand<Unit, Unit> CloseItemCommand
     {
         get;
-    }   
-    
+    }
+
     public ReactiveCommand<Unit, Unit> SaveItemCommand
     {
         get;

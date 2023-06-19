@@ -6,9 +6,13 @@ public interface IOptionViewModel
     {
         get;
     }
-
-    public bool IsChecked
+    public string Id
     {
         get;
+        set;
+    }
+    public bool IsChecked
+    {
+        get; set;
     }
 }

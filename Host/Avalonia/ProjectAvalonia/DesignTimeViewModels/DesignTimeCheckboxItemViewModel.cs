@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -24,4 +26,9 @@ public class DesignTimeCheckboxItemViewModel : ReactiveObject, ICheckboxItemView
         new DesignTimeTextFormItem(),
         new DesignTimeTextFormItem()
     };
+    public string Id
+    {
+        get;
+        set;
+    }
 }

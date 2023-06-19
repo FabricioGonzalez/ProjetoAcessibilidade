@@ -1,4 +1,6 @@
-﻿namespace ProjectItemReader.XmlFile.DTO;
+﻿using System.Xml.Serialization;
+
+namespace ProjectItemReader.XmlFile.DTO;
 
 public class ObservationModel
 {

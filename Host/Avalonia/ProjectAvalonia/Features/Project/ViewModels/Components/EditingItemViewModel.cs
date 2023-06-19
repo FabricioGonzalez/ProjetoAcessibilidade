@@ -1,17 +1,28 @@
 ﻿using System.Reactive;
+using System.Threading;
 
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
 
+using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
+
 using ReactiveUI;
+
+using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
 
 public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
 {
-    public EditingItemViewModel(string itemName, string id, IEditingBodyViewModel body, bool isSaved = true)
+
+    private readonly IMediator _mediator;
+    public EditingItemViewModel(string itemName, string id, string itemPath, IEditingBodyViewModel body, bool isSaved = true, string templateName = null)
     {
+        _mediator ??= Locator.Current.GetService<IMediator>();
+
         ItemName = itemName;
+        ItemPath = itemPath;
         Id = id;
         IsSaved = isSaved;
         CloseItemCommand = ReactiveCommand.Create(execute: () =>
@@ -22,17 +33,20 @@ public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
             {
                 if (Body is not null)
                 {
-                    /*var itemModel = Body.ToAppModel();
+                    var itemModel = Body.ToAppModel();
+                    itemModel.ItemName = ItemName;
+                    itemModel.TemplateName = TemplateName;
 
-                    await _commandDispatcher
-                        .Dispatch<SaveProjectItemContentCommand, Resource<Empty>>(
-                            command: new SaveProjectItemContentCommand(
-                                AppItem: itemModel, ItemPath: _editingItemsStore.CurrentSelectedItem.ItemPath),
-                            cancellation: CancellationToken.None);*/
+                    await _mediator
+                        .Send(
+                             request: new SaveProjectItemContentCommand(
+                                AppItem: itemModel, ItemPath: ItemPath),
+                            cancellation: CancellationToken.None);
                 }
             });
 
         Body = body;
+        TemplateName = templateName;
     }
 
     /*private readonly ICommandDispatcher _commandDispatcher;
@@ -65,6 +79,14 @@ public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
     {
         get;
     }
+    public string ItemPath
+    {
+        get;
+    }
+    public string TemplateName
+    {
+        get;
+    }
 
     public string Id
     {
@@ -77,6 +99,11 @@ public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
     }
 
     public ReactiveCommand<Unit, Unit> CloseItemCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<Unit, Unit> SaveItemCommand
     {
         get;
     }

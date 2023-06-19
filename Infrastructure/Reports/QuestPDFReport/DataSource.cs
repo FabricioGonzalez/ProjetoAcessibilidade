@@ -1,4 +1,21 @@
-﻿namespace QuestPDFReport;
+﻿using Common;
+using Common.Linq;
+
+using Core.Entities.Solution.Project.AppItem;
+using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+
+using ProjectItemReader.XmlFile;
+
+using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+
+using QuestPDF.Helpers;
+
+using QuestPDFReport.Models;
+
+namespace QuestPDFReport;
 
 public static class DataSource
 {

@@ -1,4 +1,5 @@
 ﻿using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -9,9 +10,13 @@ public class ObservationFormItem : ReactiveObject, IObservationFormItemViewModel
     {
         Observation = observation;
     }
-
-    public string Observation
+    public string Id
     {
         get;
+        set;
+    }
+    public string Observation
+    {
+        get; set;
     }
 }

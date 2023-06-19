@@ -216,7 +216,7 @@ public partial class ProjectViewModel
 
     private async Task SaveReportData()
     {
-        ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
+        await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
     }
 
     private void PrintSolution() =>

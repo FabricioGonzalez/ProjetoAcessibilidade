@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
 using Core.Entities.Solution.Project.AppItem;
+using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using Core.Entities.Solution.Project.AppItem.DataItems.Images;
 
 using DynamicData;
 using DynamicData.Binding;

@@ -8,6 +8,9 @@ using System.Threading;
 
 using Common;
 
+using Core.Entities.Solution.Project.AppItem;
+using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+
 using DynamicData;
 using DynamicData.Binding;
 
@@ -22,8 +25,6 @@ using ProjectAvalonia.ViewModels.Navigation;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
@@ -192,7 +193,7 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
         {
             if (EditingItems.All(predicate: x => x.Id != item.Id))
             {
-                var result = await _mediator?.Send(
+                var result = await _mediator.Send(
                     request: new GetProjectItemContentQuery(ItemPath: item.ItemPath),
                     cancellation: CancellationToken.None);
 
@@ -203,9 +204,17 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
                     IEditingItemViewModel itemToEdit = new EditingItemViewModel(
                         id: item.Id,
                         itemName: successData.ItemName,
+                        itemPath: item.ItemPath,
                         body: new EditingBodyViewModel(
                             lawList: successData.LawList.ToViewLawList(),
-                            form: successData.FormData.ToViewForm()));
+                            form: new(successData.FormData.ToViewForm()
+                            .Append(new ObservationFormItem(
+                string.Join(";\n", successData.Observations
+                .Select(x => x.ObservationText))))
+            .Append(new ImageContainerFormItemViewModel(
+                imageItems: new(
+                successData.Images
+                .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath, imageObservation: x.ImageObservation))), "Imagens")))));
 
 
                     EditingItems.Add(item: itemToEdit);
@@ -234,33 +243,88 @@ public static class Extension
             new LawListViewModel(lawId: item.LawId, lawContent: item.LawTextContent)));
 
     public static ObservableCollection<IFormViewModel> ToViewForm(this IEnumerable<IAppFormDataItemContract> formItems) =>
-        new(collection: formItems.Select<IAppFormDataItemContract, IFormViewModel>(selector: item =>
+        new(collection:
+            formItems
+            .Select<IAppFormDataItemContract, IFormViewModel>(selector: item =>
         {
             return item switch
             {
-                AppFormDataItemTextModel text => new TextFormItemViewModel(topic: text.Topic, textData: text.TextData,
+                AppFormDataItemTextModel text => new TextFormItemViewModel(
+                    id: text.Id,
+                    topic: text.Topic,
+                    textData: text.TextData,
                     measurementUnit: text.MeasurementUnit ?? ""),
-                AppFormDataItemCheckboxModel checkbox => new CheckboxFormItem(topic: checkbox.Topic,
+                AppFormDataItemCheckboxModel checkbox => new CheckboxFormItem(id: checkbox.Id, topic: checkbox.Topic,
                     checkboxItems: new ObservableCollection<ICheckboxItemViewModel>(
                         collection: checkbox.Children.Select(
-                            selector: child => new CheckboxItemViewModel(topic: child.Topic,
+                            selector: child => new CheckboxItemViewModel(id: child.Id, topic: child.Topic,
                                 textItems: new ObservableCollection<ITextFormItemViewModel>(
                                     collection: child.TextItems.Select(selector: textItem =>
-                                        new TextFormItemViewModel(topic: textItem.Topic, textData: textItem.TextData,
-                                            measurementUnit: textItem.MeasurementUnit ?? ""))),
+                                        new TextFormItemViewModel(id: textItem.Id,
+                                                                  topic: textItem.Topic,
+                                                                  textData: textItem.TextData,
+                                                                  measurementUnit: textItem.MeasurementUnit ?? ""))),
                                 options: new OptionContainerViewModel(
                                     options: new ObservableCollection<IOptionViewModel>(
                                         collection: child.Options.Select(selector: option =>
-                                            new OptionItemViewModel(value: option.Value,
-                                                isChecked: option.IsChecked)))))))),
-                AppFormDataItemImageModel image => new ImageContainerFormItemViewModel(topic: image.Topic,
-                    imageItems: new ObservableCollection<IImageItemViewModel>(collection: image.ImagesItems.Select(
-                        selector: imageItem =>
-                            new ImageViewModel(imageObservation: imageItem.ImageObservation,
-                                imagePath: imageItem.ImagePath)))),
-                AppFormDataItemObservationModel observation => new ObservationFormItem(
-                    observation: observation.Observation),
+                                            new OptionItemViewModel(id: option.Id,
+                                                                    value: option.Value,
+                                                                    isChecked: option.IsChecked)))))))),
                 _ => throw new ArgumentOutOfRangeException(paramName: nameof(item), actualValue: item, message: null)
             };
         }));
+
+    public static AppItemModel ToAppModel(this IEditingBodyViewModel viewModel)
+    {
+        var appModel = new AppItemModel();
+
+        appModel.FormData = viewModel.Form
+            .Where(x => x is not IImageFormItemViewModel && x is not IObservationFormItemViewModel)
+            .Select<IFormViewModel, IAppFormDataItemContract>(formData =>
+        {
+            return formData switch
+            {
+                TextFormItemViewModel text => new AppFormDataItemTextModel(id: text.Id, topic: text.Topic, textData: text.TextData,
+                    measurementUnit: text.MeasurementUnit ?? ""),
+                CheckboxFormItem checkbox => new AppFormDataItemCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
+                {
+                    Children = checkbox.CheckboxItems.Select(
+                            selector: child => new AppFormDataItemCheckboxChildModel(id: child.Id, topic: child.Topic)
+                            {
+                                TextItems = child.TextItems.Select(selector: textItem =>
+                                        new AppFormDataItemTextModel(
+                                            id: textItem.Id,
+                                            topic: textItem.Topic,
+                                            textData: textItem.TextData,
+                                            measurementUnit: textItem.MeasurementUnit ?? "")),
+                                Options = child.Options.Options.Select(selector: option =>
+                                            new AppOptionModel(
+                                                id: option.Id,
+                                                value: option.Value,
+                                                isChecked: option.IsChecked))
+                            })
+
+                },
+                _ => throw new ArgumentOutOfRangeException(paramName: nameof(formData), actualValue: formData, message: null)
+            };
+        });
+
+        appModel.Images = viewModel
+            .Form
+            .Where(x => x is IImageFormItemViewModel)
+            .Cast<IImageFormItemViewModel>()
+            .SelectMany(x => x.ImageItems)
+            .Select(x => new Core.Entities.Solution.Project.AppItem.DataItems.Images.ImagesItem() { Id = x.Id, ImagePath = x.ImagePath, ImageObservation = x.ImageObservation });
+
+        appModel.Observations = viewModel
+            .Form
+            .Where(x => x is IObservationFormItemViewModel)
+            .Cast<IObservationFormItemViewModel>()
+            .Select(x => x.Observation.Split(";\n").AsEnumerable())
+            .SelectMany(x => x.Select(x => new ObservationModel() { Id = Guid.NewGuid().ToString(), ObservationText = x }));
+
+        appModel.LawList = viewModel.LawList.Select(x => new AppLawModel(x.LawId, x.LawContent));
+
+        return appModel;
+    }
 }

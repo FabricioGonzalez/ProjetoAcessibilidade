@@ -22,7 +22,7 @@ public class DesingTimeEditingBodyViewModel : ReactiveObject, IEditingBodyViewMo
     public KeyGesture Gesture
     {
         get;
-    } = new KeyGesture(Key.S, InputModifiers.Control);
+    } = new KeyGesture(Key.S, KeyModifiers.Control);
     public ReactiveCommand<Unit, Unit> SaveItemCommand
     {
         get;

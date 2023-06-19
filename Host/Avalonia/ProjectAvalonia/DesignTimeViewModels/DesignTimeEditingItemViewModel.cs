@@ -41,4 +41,9 @@ public class DesignTimeEditingItemViewModel : ReactiveObject, IEditingItemViewMo
     {
         get;
     } = new DesingTimeEditingBodyViewModel();
+
+    public string TemplateName
+    {
+        get;
+    }
 }

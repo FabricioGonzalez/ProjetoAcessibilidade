@@ -1,6 +1,8 @@
-﻿using ProjetoAcessibilidade.Core.Enuns;
+﻿using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 
-namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using ProjetoAcessibilidade.Core.Enuns;
+
+namespace Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 
 public class AppFormDataItemCheckboxModel : IAppFormDataItemContract
 {
@@ -13,9 +15,9 @@ public class AppFormDataItemCheckboxModel : IAppFormDataItemContract
     {
     }
 
-    public List<AppFormDataItemCheckboxChildModel> Children
+    public IEnumerable<AppFormDataItemCheckboxChildModel> Children
     {
         get;
         set;
-    } = new();
+    } = Enumerable.Empty<AppFormDataItemCheckboxChildModel>();
 }

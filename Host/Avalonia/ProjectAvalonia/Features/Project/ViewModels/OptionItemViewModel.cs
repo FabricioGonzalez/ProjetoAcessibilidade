@@ -1,23 +1,27 @@
 ﻿using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class OptionItemViewModel : ReactiveObject, IOptionViewModel
+public partial class OptionItemViewModel : ReactiveObject, IOptionViewModel
 {
-    public OptionItemViewModel(string value, bool isChecked)
+    public OptionItemViewModel(string value, bool isChecked, string id)
     {
         Value = value;
         IsChecked = isChecked;
+        Id = id;
     }
 
     public string Value
     {
         get;
     }
-
-    public bool IsChecked
+    [AutoNotify]
+    private bool _isChecked = false;
+    public string Id
     {
         get;
+        set;
     }
 }

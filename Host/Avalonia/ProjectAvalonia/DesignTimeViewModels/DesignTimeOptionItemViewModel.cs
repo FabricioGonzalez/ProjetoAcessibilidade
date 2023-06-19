@@ -1,4 +1,5 @@
 ﻿using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -13,7 +14,13 @@ public class DesignTimeOptionCheckedItemViewModel : ReactiveObject, IOptionViewM
     public bool IsChecked
     {
         get;
+        set;
     } = true;
+    public string Id
+    {
+        get;
+        set;
+    }
 }
 
 public class DesignTimeOptionUnCheckedItemViewModel : ReactiveObject, IOptionViewModel
@@ -25,6 +32,11 @@ public class DesignTimeOptionUnCheckedItemViewModel : ReactiveObject, IOptionVie
 
     public bool IsChecked
     {
-        get;
+        get; set;
     } = false;
+    public string Id
+    {
+        get;
+        set;
+    }
 }

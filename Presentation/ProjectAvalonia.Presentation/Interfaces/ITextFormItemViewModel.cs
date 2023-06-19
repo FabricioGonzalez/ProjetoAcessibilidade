@@ -6,7 +6,11 @@ public interface ITextFormItemViewModel : IFormViewModel
     {
         get;
     }
-
+    public string Id
+    {
+        get;
+        set;
+    }
     public string TextData
     {
         get;

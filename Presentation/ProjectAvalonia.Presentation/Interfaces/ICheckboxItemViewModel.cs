@@ -9,7 +9,11 @@ public interface ICheckboxItemViewModel : INotifyPropertyChanged
     {
         get;
     }
-
+    public string Id
+    {
+        get;
+        set;
+    }
     public IOptionsContainerViewModel Options
     {
         get;
