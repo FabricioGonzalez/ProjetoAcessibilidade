@@ -7,5 +7,5 @@ public interface IValidationRulesRepository
 {
     public Task CreateValidationRule(ValidationRule validationRule);
 
-    public Task<Optional<ValidationRule>> LoadValidationRule(string validationItemPath);
+    public Task<Optional<IEnumerable<ValidationRule>>> LoadValidationRule(string validationItemPath);
 }

@@ -46,9 +46,5 @@ public sealed class CreateItemCommandHandler : IHandler<CreateItemCommand, Resou
             return value.IsCompletedSuccessfully ? new Resource<Empty>.Success(Empty.Value) : new Resource<Empty>.Error(Message: "Houve um erro no processo");
         })
         .Reduce(() => new Resource<Empty>.Error(Message: "Houve um erro no processo"));
-
-
-
-
     }
 }

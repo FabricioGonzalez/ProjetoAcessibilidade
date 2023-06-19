@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -12,6 +12,8 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 
 using MathNet.Numerics.Interpolation;
+
+using ProjectAvalonia.Common.Helpers;
 
 namespace ProjectAvalonia.Common.Controls;
 
@@ -935,5 +937,5 @@ public partial class LineChart : Control
         }
     }
 }
-*/
+
 

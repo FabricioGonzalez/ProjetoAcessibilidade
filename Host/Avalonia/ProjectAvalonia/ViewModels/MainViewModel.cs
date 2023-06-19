@@ -85,7 +85,7 @@ public partial class MainViewModel : ViewModelBase
         UiServices.Initialize();
 
         _settingsPage = new SettingsPageViewModel();
-        _templatePage = new TemplateEditViewModel(new TemplateEditTabViewModel());
+        _templatePage = new TemplateEditViewModel(new TemplateEditTabViewModel(), new ItemValidationViewModel());
         _projectPage = new ProjectViewModel();
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();

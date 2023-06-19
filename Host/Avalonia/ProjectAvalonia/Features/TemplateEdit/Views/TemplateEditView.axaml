@@ -47,7 +47,12 @@
         <TabControl>
             <TabItem Header="Template">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <views:TemplateEditTabView DataContext="{CompiledBinding TemplateEditTab, Mode=TwoWay}" />
+                    <views:TemplateEditTabView DataContext="{Binding TemplateEditTab, Mode=TwoWay}" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Regras de Validação">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <views:ItemValidationView DataContext="{Binding ItemValidationTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
         </TabControl>

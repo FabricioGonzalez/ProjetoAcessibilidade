@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -64,7 +63,8 @@ public partial class TemplateEditViewModel
 
 
     public TemplateEditViewModel(
-        ITemplateEditTabViewModel templateEditTab
+        ITemplateEditTabViewModel templateEditTab,
+        ItemValidationViewModel itemValidationTab
     )
     {
         SetupCancel(
@@ -81,6 +81,8 @@ public partial class TemplateEditViewModel
         ToolBar = new MenuViewModel(CreateMenu().ToImmutable());
 
         TemplateEditTab = templateEditTab;
+        ItemValidationTab = itemValidationTab;
+
         _mediator = Locator.Current.GetService<IMediator>()!;
 
         this.WhenAnyValue(x => x.SelectedItem)
@@ -113,21 +115,10 @@ public partial class TemplateEditViewModel
     {
         get;
     }
-    private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem => ReactiveCommand.CreateFromTask<IEditableItemViewModel, Unit>(async (item) =>
+    private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem => ReactiveCommand.CreateFromTask<IEditableItemViewModel>(async (item) =>
     {
-        var result = await _mediator.Send(
-               new GetSystemProjectItemContentQuery(item.ItemPath),
-               CancellationToken.None);
-
-        result.OnSuccess(onSuccessAction: success =>
-        {
-            success
-            ?.Data
-            ?.ToAppStateFillable()
-            .ToOption()
-            .Map(val => TemplateEditTab.EditingItem = val);
-        });
-        return Unit.Default;
+        await Task.WhenAll(LoadItemReport(item.ItemPath),
+            LoadValidationRules(Path.Combine(Constants.AppValidationRulesTemplateFolder, $"{item.TemplateName}{Constants.AppProjectValidationTemplateExtension}")));
     });
     private ImmutableList<IMenuItem>.Builder CreateMenu()
     {
@@ -196,7 +187,36 @@ public partial class TemplateEditViewModel
         return listBuilder;
     }
 
+    private async Task LoadItemReport(string path)
+    {
+        var result = await _mediator.Send(
+             new GetSystemProjectItemContentQuery(path),
+             CancellationToken.None);
 
+        result.OnSuccess(onSuccessAction: success =>
+        {
+            success
+            ?.Data
+            ?.ToAppStateFillable()
+            .ToOption()
+            .Map(val => TemplateEditTab.EditingItem = val);
+        });
+    }
+    private async Task LoadValidationRules(string path)
+    {
+        var result = await _mediator.Send(
+             new GetValidationRulesQuery(path),
+             CancellationToken.None);
+
+        result.OnSuccess(onSuccessAction: success =>
+        {
+            success
+            ?.Data
+            ?.ToAppStateFillable()
+            .ToOption()
+            .Map(val => TemplateEditTab.EditingItem = val);
+        });
+    }
     public override string? LocalizedTitle
     {
         get;
@@ -332,6 +352,10 @@ public partial class TemplateEditViewModel
     }
 
     public ITemplateEditTabViewModel TemplateEditTab
+    {
+        get;
+    }
+    public IItemValidationRulesViewModel ItemValidationTab
     {
         get;
     }

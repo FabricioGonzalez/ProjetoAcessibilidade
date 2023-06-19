@@ -15,12 +15,12 @@
 
     <DockPanel IsEnabled="{Binding IsMainContentEnabled^}">
         <shell:TitleBar DockPanel.Dock="Top" />
-        <commanding:ToolBar
-            Margin="0,2"
-            x:CompileBindings="True"
-            Background="{DynamicResource AcrylicTrimBackground}"
-            DataContext="{Binding ToolBarMenu, Mode=OneWay}"
-            DockPanel.Dock="Top" />
+        <Border BoxShadow="{DynamicResource InfoBoxShadow}" DockPanel.Dock="Top">
+            <commanding:ToolBar
+                Margin="0,2"
+                x:CompileBindings="True"
+                DataContext="{Binding ToolBarMenu, Mode=OneWay}" />
+        </Border>
         <DockPanel>
             <navbar:NavBar DataContext="{Binding NavBar}" DockPanel.Dock="Left" />
             <Border

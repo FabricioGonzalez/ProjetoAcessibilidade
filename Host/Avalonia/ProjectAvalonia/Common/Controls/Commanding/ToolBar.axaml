@@ -61,7 +61,8 @@
                         <PathIcon
                             Width="18"
                             Height="18"
-                            Data="{Binding Icon}" />
+                            Data="{Binding Icon}"
+                            Foreground="{DynamicResource SystemChromeWhiteColor}" />
                     </Button>
                 </DataTemplate>
             </ItemsControl.DataTemplates>

@@ -2,12 +2,24 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.ItemValidationView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="viewModels:ItemValidationViewModel"
+    x:CompileBindings="True"
+    x:DataType="interfaces:IItemValidationRulesViewModel"
     mc:Ignorable="d">
-    Welcome to Avalonia!
+    <Grid ColumnDefinitions="0.2* 0.5* 0.3* 0.2*" RowDefinitions="48 1*">
+        <Label Grid.Column="0" Content="Validation Rules" />
+        <controls:IconButton
+            Grid.Column="3"
+            Width="18"
+            Height="18"
+            HorizontalAlignment="Right"
+            Icon="{StaticResource add_regular}"
+            IconSize="16" />
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4" />
+    </Grid>
 </UserControl>

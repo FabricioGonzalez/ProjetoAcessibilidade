@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rules>
-  <ruleitem type="checkbox">
-    <check>
-      <condition/>
-      <output/>
-    </check>
-    <check>
-      <condition/>
-      <output/>
-    </check>
-  </ruleitem>
-</rules>
+<validation_rules>
+  <rule>
+    <targets>
+      <target>{ItemId}</target>
+    </targets>
+    <conditions>
+      <condition>
+        <operation>Obrigatority</operation>
+        <conditions_to_check>
+          <value_trigger>{TargetId} current {ItemValue} is checked</value_trigger>
+        </conditions_to_check>
+        <results>
+          <result_item>Acesso Indisponível</result_item>
+        </results>
+      </condition>
+    </conditions>
+  </rule>
+</validation_rules>

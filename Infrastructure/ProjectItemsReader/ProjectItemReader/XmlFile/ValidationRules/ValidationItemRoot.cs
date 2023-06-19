@@ -3,16 +3,12 @@
 namespace ProjectItemReader.XmlFile.ValidationRules;
 
 
-[XmlRoot(elementName: "validation_rule")]
+[XmlRoot(elementName: "validation_rules")]
 public class ValidationItemRoot
 {
-    [XmlArray(elementName: "targets")]
-    public IEnumerable<RuleTargetsItem> Targets
-    {
-        get; set;
-    }
-    [XmlArray(elementName: "conditions")]
-    public IEnumerable<RuleConditionItems> RuleConditions
+    [XmlArray]
+    [XmlArrayItem(elementName: "rule")]
+    public List<ValidationItem> Rules
     {
         get; set;
     }

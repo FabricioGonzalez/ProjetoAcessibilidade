@@ -42,14 +42,6 @@
                     Icon="{StaticResource add_regular}"
                     IconSize="16"
                     ToolTip.Tip="Add CheckboxItem" />
-
-                <!--<c:IconButton
-                    Width="24"
-                    Height="24"
-                    Classes="function"
-                    Icon="{StaticResource dismiss_regular}"
-                    IconSize="16"
-                    ToolTip.Tip="Remove Checkboxes" />-->
             </StackPanel>
 
             <ItemsControl
@@ -61,6 +53,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border
+                            Name="itemBox"
                             Margin="0,4"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
@@ -121,44 +114,76 @@
                                 </StackPanel>
 
                                 <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
-                                    <ItemsControl Items="{Binding Options}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border
-                                                    Margin="0,4"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Stretch">
-                                                    <Grid ColumnDefinitions="1*,40">
-                                                        <TextBox
-                                                            FontSize="11"
-                                                            Text="{Binding Value, Mode=TwoWay}"
-                                                            UseFloatingWatermark="True"
-                                                            Watermark="{x:Static p:Resources.CheckboxItemValueLabel}" />
+                                    <Grid ColumnDefinitions="0.2* 0.6* 0.2*" RowDefinitions="40 1*">
+                                        <Label Content="Options" />
+                                        <ItemsControl
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="3"
+                                            Items="{Binding Options}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border
+                                                        Margin="0,4"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch">
+                                                        <Grid ColumnDefinitions="1*,40">
+                                                            <TextBox
+                                                                FontSize="11"
+                                                                Text="{Binding Value, Mode=TwoWay}"
+                                                                UseFloatingWatermark="True"
+                                                                Watermark="{x:Static p:Resources.CheckboxItemValueLabel}" />
+                                                            <c:IconButton
+                                                                Grid.Row="0"
+                                                                Grid.Column="1"
+                                                                Width="24"
+                                                                Height="24"
+                                                                Margin="8,0"
+                                                                HorizontalAlignment="Right"
+                                                                Classes="function"
+                                                                Command="{Binding #itemBox.DataContext.RemoveOption}"
+                                                                CommandParameter="{Binding}"
+                                                                Icon="{StaticResource dismiss_regular}"
+                                                                IconSize="16"
+                                                                ToolTip.Tip="Remove Checkboxes" />
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </ScrollViewer>
+
+                                <ScrollViewer
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,4">
+                                    <Grid ColumnDefinitions="0.2* 0.6* 0.2*" RowDefinitions="40 1*">
+                                        <Label Content="Text Items" />
+                                        <ItemsControl
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="3"
+                                            Items="{Binding TextItems}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid ColumnDefinitions="1* 32">
+                                                        <local:TextContainer />
                                                         <c:IconButton
-                                                            Grid.Row="0"
                                                             Grid.Column="1"
                                                             Width="24"
                                                             Height="24"
                                                             Margin="8,0"
                                                             HorizontalAlignment="Right"
                                                             Classes="function"
+                                                            Command="{Binding #itemBox.DataContext.RemoveTextItem}"
+                                                            CommandParameter="{Binding}"
                                                             Icon="{StaticResource dismiss_regular}"
                                                             IconSize="16"
-                                                            ToolTip.Tip="Remove Checkboxes" />
+                                                            ToolTip.Tip="Remove Text Item" />
                                                     </Grid>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-                                <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2">
-                                    <ItemsControl Items="{Binding TextItems}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <local:TextContainer />
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
                                 </ScrollViewer>
                             </Grid>
                         </Border>

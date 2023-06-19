@@ -59,4 +59,9 @@ public class DesignTimeTemplateEditViewModel
     {
         get;
     }
+
+    public IItemValidationRulesViewModel ItemValidationTab
+    {
+        get;
+    }
 }

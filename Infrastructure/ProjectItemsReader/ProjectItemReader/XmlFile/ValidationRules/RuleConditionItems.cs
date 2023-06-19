@@ -2,10 +2,9 @@
 
 namespace ProjectItemReader.XmlFile.ValidationRules;
 
-
-[XmlRoot(elementName: "condition")]
 public class RuleConditionItems
 {
+
     [XmlElement(elementName: "operation")]
     public string Operation
     {
@@ -13,13 +12,15 @@ public class RuleConditionItems
     }
 
     [XmlArray(elementName: "conditions_to_check")]
-    public IEnumerable<ValueTriggers> Triggers
+    [XmlArrayItem(elementName: "value_trigger", type: typeof(ValueTriggers))]
+    public List<ValueTriggers> Triggers
     {
         get; set;
     }
 
     [XmlArray(elementName: "results")]
-    public IEnumerable<Results> Results
+    [XmlArrayItem(elementName: "result_item", typeof(Results))]
+    public List<Results> Results
     {
         get; set;
     }

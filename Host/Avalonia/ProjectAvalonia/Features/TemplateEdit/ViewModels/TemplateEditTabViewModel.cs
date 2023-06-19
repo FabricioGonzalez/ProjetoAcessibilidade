@@ -224,14 +224,14 @@ public partial class TemplateEditTabViewModel
             .AutoRefresh())
             .Switch()
             .WhenPropertyChanged(prop => prop.Type, notifyOnInitialValue: false)
-            .Subscribe(prop =>
+            .Subscribe(onNext: prop =>
               {
                   ChangeBody(prop.Sender);
-              }, error =>
+              }, onError: error =>
               {
                   Debug.WriteLine(error);
               },
-            () =>
+            onCompleted: () =>
             {
                 Debug.WriteLine("Completado");
             });
@@ -276,6 +276,16 @@ public partial class TemplateEditTabViewModel
     public ReactiveCommand<Unit, Unit> AddLawCommand => ReactiveCommand.Create(() =>
     {
         EditingItem.AddLawItems(new());
+    });
+
+    public ReactiveCommand<FormItemContainer, Unit> RemoveItemCommand => ReactiveCommand.Create<FormItemContainer>((item) =>
+    {
+        EditingItem.RemoveItem(item);
+    });
+
+    public ReactiveCommand<LawStateItem, Unit> RemoveLawCommand => ReactiveCommand.Create<LawStateItem>((item) =>
+    {
+        EditingItem.RemoveLawItem(item);
     });
 
     public override string? LocalizedTitle

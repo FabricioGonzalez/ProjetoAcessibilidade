@@ -98,7 +98,12 @@ public class AppModelState : ReactiveObject
 
     public void RemoveItem(
         FormItemContainer formItem
-    ) => formDataAggregate.Remove(formItem);
+    )
+    {
+        /*formDataAggregate.Remove(formItem);*/
+        FormData.Remove(formItem);
+    }
+
 
     public void ChangeItemType(
         FormItemContainer formItemToReplace,
@@ -127,7 +132,12 @@ public class AppModelState : ReactiveObject
 
     public void RemoveLawItem(
         LawStateItem lawItem
-    ) => lawItemsAggregate.Remove(lawItem);
+    )
+    {
+        /*lawItemsAggregate.Remove(lawItem);*/
+        LawItems.Remove(lawItem);
+    }
+
 
     public IObservable<IChangeSet<FormItemContainer>> GetFormDataObservable() => formDataAggregate.Connect();
 }

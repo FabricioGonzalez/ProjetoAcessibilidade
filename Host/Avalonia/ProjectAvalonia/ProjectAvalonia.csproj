@@ -25,11 +25,9 @@
         <AvaloniaVersion>0.10.21</AvaloniaVersion>
         <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
         <SignAssembly>False</SignAssembly>
-<<<<<<< HEAD
+
         <ApplicationManifest>app.manifest</ApplicationManifest>
-=======
-        
->>>>>>> 8d2606dab06e56ff2dd40330ad678c6d31ee2206
+
     </PropertyGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />

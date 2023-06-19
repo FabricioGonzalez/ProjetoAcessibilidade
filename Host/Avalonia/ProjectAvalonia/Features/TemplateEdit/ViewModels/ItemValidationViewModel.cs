@@ -1,7 +1,6 @@
-﻿using System.Reactive;
-
+﻿using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States.ValidationRulesState;
 using ProjectAvalonia.ViewModels;
-using ProjectAvalonia.ViewModels.Dialogs.Base;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -17,13 +16,13 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     },
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen)]
-public partial class ItemValidationViewModel : DialogViewModelBase<Unit>
+public partial class ItemValidationViewModel : TemplateEditTabViewModelBase, IItemValidationRulesViewModel
 {
     public override string? LocalizedTitle
     {
         get;
         protected set;
     }
-
+    [AutoNotify] ValidationRuleContainerState _validationItemRules;
     public override MenuViewModel? ToolBar => null;
 }

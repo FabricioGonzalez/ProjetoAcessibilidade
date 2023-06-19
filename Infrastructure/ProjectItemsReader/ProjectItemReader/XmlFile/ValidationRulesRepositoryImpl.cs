@@ -1,5 +1,7 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
+using System.Xml.Serialization;
 
+using Common;
 using Common.Optional;
 
 using Core.Entities.ValidationRules;
@@ -15,10 +17,43 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
     {
 
     }
-    public async Task<Optional<ValidationRule>> LoadValidationRule(string validationItemPath)
+    public async Task<Optional<IEnumerable<ValidationRule>>> LoadValidationRule(string validationItemPath)
     {
-        return Optional<ValidationRule>.None();
+        return validationItemPath
+            .ToOption()
+            .Map(item =>
+            CreateSerealizer()
+            .Map(xmlReader =>
+            {
+                using var reader = XmlReader.Create(inputUri: item);
+
+                return (ValidationItemRoot)xmlReader.Deserialize(reader);
+            })
+            .Map<Resource<ValidationItemRoot>>(item => new Resource<ValidationItemRoot>.Success(item))
+            .Reduce(() => new Resource<ValidationItemRoot>.Error("Erro ao deserializar arquivo", default)))
+            .Map(item =>
+            {
+                if (item is Resource<ValidationItemRoot>.Error)
+                {
+                    return Enumerable.Empty<ValidationRule>();
+                }
+
+                return ((Resource<ValidationItemRoot>.Success)item)
+                .Data
+                .Rules
+                .Select(x => new ValidationRule()
+                {
+                    Targets = x.Targets.Select(x => new Targets() { Id = x.Id }),
+                    Rules = x.RuleConditions.Select(x => new RuleSet()
+                    {
+                        Operation = x.Operation
+                    })
+                });
+            });
     }
 
-    public XmlSerializer CreateSerealizer() => new(type: typeof(ValidationItemRoot));
+    public Optional<XmlSerializer> CreateSerealizer() => Optional<XmlSerializer>.Some(new(type: typeof(ValidationItemRoot)));
+
+
+
 }

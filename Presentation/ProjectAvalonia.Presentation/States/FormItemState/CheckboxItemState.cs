@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reactive;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
@@ -34,7 +36,25 @@ public class CheckboxItemState : ReactiveObject
         get => _textItems;
         set => this.RaiseAndSetIfChanged(ref _textItems, value);
     }
+    public ReactiveCommand<Unit, Unit> AddOption => ReactiveCommand.Create(() =>
+    {
+        Options.Add(new OptionsItemState() { Id = Guid.NewGuid().ToString() });
+    });
 
+    public ReactiveCommand<Unit, Unit> AddTextItem => ReactiveCommand.Create(() =>
+    {
+        TextItems.Add(new TextItemState("", "", id: Guid.NewGuid().ToString()));
+    });
+
+    public ReactiveCommand<OptionsItemState, Unit> RemoveOption => ReactiveCommand.Create<OptionsItemState>((item) =>
+    {
+        Options.Remove(item);
+    });
+
+    public ReactiveCommand<TextItemState, Unit> RemoveTextItem => ReactiveCommand.Create<TextItemState>((item) =>
+    {
+        TextItems.Remove(item);
+    });
     public string Topic
     {
         get => _topic;

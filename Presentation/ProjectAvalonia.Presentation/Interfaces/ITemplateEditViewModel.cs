@@ -24,6 +24,10 @@ public interface ITemplateEditViewModel : INotifyPropertyChanged
     {
         get;
     }
+    public IItemValidationRulesViewModel ItemValidationTab
+    {
+        get;
+    }
 
     public ReactiveCommand<Unit, Unit> AddNewItemCommand
     {

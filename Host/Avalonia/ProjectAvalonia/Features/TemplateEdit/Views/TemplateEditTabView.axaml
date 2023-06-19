@@ -87,7 +87,10 @@
                                         Margin="8,0"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top"
+                                        x:CompileBindings="False"
                                         Classes="function"
+                                        Command="{Binding $parent[UserControl].DataContext.RemoveItemCommand}"
+                                        CommandParameter="{Binding}"
                                         Icon="{StaticResource dismiss_regular}"
                                         IconSize="16"
                                         ToolTip.Tip="Remove Group" />

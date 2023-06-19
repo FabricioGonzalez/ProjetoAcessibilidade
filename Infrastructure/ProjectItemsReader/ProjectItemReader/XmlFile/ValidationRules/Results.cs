@@ -2,7 +2,6 @@
 
 namespace ProjectItemReader.XmlFile.ValidationRules;
 
-[XmlRoot(elementName: "result_item")]
 public class Results
 {
     [XmlText]

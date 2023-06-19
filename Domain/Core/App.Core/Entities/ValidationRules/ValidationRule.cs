@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Core.Entities.ValidationRules;
+﻿namespace Core.Entities.ValidationRules;
 public class ValidationRule
 {
     public IEnumerable<Targets> Targets
@@ -8,13 +6,7 @@ public class ValidationRule
         get; set;
     }
 
-    public string Operation
-    {
-        get; set;
-    }
-
-    public IEnumerable<Expression<Func<IValidatableItem,
-        (bool evaluationResult, IEnumerable<string> results)>>> Conditions
+    public IEnumerable<RuleSet> Rules
     {
         get; set;
     }

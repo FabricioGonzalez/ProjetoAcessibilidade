@@ -2,4 +2,8 @@
 
 public class Targets
 {
+    public string Id
+    {
+        get; set;
+    }
 }
