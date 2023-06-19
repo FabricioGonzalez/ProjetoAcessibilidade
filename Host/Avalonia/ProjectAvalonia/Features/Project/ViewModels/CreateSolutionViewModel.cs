@@ -1,13 +1,20 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
 
 using Avalonia.Threading;
 
+using Common;
+
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 
+using ProjetoAcessibilidade.Core.Entities.App;
 using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Domain.App.Queries.UF;
 using ProjetoAcessibilidade.Domain.Contracts;
 
 using ReactiveUI;
@@ -16,24 +23,29 @@ using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
+public partial class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
 {
-    private readonly IMediator _mediator;
-    private ProjectSolutionModel solutionState;
-
-    public ProjectSolutionModel SolutionModel => solutionState;
+    private ProjectSolutionModel _solutionState;
+    private IMediator _mediator;
+    public ProjectSolutionModel SolutionModel => _solutionState;
 
     public CreateSolutionViewModel(string title, ProjectSolutionModel solutionState, string caption = "")
     {
         Title = title;
-        this.solutionState = solutionState;
+
+        this._solutionState = solutionState;
 
         Title = title;
         Caption = caption;
 
         _mediator = Locator.Current.GetService<IMediator>();
 
-        SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            UfList = new(new((await _mediator.Send(new GetAllUfQuery(), CancellationToken.None))));
+        });
+
+        SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: false);
         EnableBack = false;
 
         var backCommandCanExecute = this
@@ -43,11 +55,11 @@ public class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
         var nextCommandCanExecute = this
             .WhenAnyValue(
                 property1: x => x.IsDialogOpen,
-                property2: x => x.solutionState,
+                property2: x => x._solutionState,
                 selector: delegate
                 {
                     // This will fire validations before return canExecute value.
-                    this.RaisePropertyChanged(propertyName: nameof(solutionState));
+                    this.RaisePropertyChanged(propertyName: nameof(SolutionModel));
 
                     return IsDialogOpen;
                 })
@@ -59,7 +71,14 @@ public class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
 
         BackCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Back)
             , canExecute: backCommandCanExecute);
-        NextCommand = ReactiveCommand.Create(execute: () => Close(result: solutionState)
+        NextCommand = ReactiveCommand.Create(execute: () =>
+        {
+            _solutionState.SolutionReportInfo.UF = SelectedUf;
+            _solutionState.FilePath = Path.Combine(FilePath, $"{FileName}{Constants.AppProjectSolutionExtension}");
+            _solutionState.FileName = FileName;
+
+            Close(result: _solutionState);
+        }
             , canExecute: nextCommandCanExecute);
         CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel)
             , canExecute: cancelCommandCanExecute);
@@ -70,8 +89,7 @@ public class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
 
             Dispatcher.UIThread.Post(action: () =>
             {
-                solutionState.FilePath = path;
-                solutionState.FileName = Path.GetFileNameWithoutExtension(path: path);
+                FilePath = path;
             });
         });
 
@@ -82,11 +100,20 @@ public class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
 
             Dispatcher.UIThread.Post(action: () =>
             {
-                solutionState.SolutionReportInfo.LogoPath = path;
+
+                LogoPath = path;
+                _solutionState.SolutionReportInfo.LogoPath = path;
             });
         });
     }
+    [AutoNotify] private string _filePath = "";
+    [AutoNotify] private string _fileName = "";
+    [AutoNotify] private string _logoPath = "";
+    [AutoNotify] private ReadOnlyObservableCollection<UFModel> _ufList;
+    [AutoNotify] private UFModel _selectedUf;
 
+
+    public override MenuViewModel? ToolBar => null;
     public ReactiveCommand<Unit, Unit> ChooseSolutionPath
     {
         get;

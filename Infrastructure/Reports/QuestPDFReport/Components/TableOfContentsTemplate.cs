@@ -1,6 +1,8 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Models;
+
 using SkiaSharp;
 
 namespace QuestPDFReport.Components;
@@ -40,19 +42,12 @@ public class TableOfContentsTemplate : IComponent
 
                         for (var i = 0; i < Sections.Count; i++)
                         {
-                            /*if (Sections[index: i] is ReportSection reportSection)
-                            {
-                                column.Item().Element(handler: c =>
-                                    DrawLink(container: c, number: i + 1, itemName: reportSection.Title,
-                                        id: reportSection.Id));
-                            }*/
-
                             if (Sections[index: i] is ReportSectionGroup reportSectionGroup)
                             {
                                 column.Item().Column(handler: colItem =>
                                 {
                                     colItem.Item()
-                                        .Element(handler: c => DrawLink(container: c, number: i + 1
+                                        .Element(handler: con => DrawLink(container: con, number: i + 1
                                             , itemName: reportSectionGroup.Title,
                                             id: reportSectionGroup.Id));
 

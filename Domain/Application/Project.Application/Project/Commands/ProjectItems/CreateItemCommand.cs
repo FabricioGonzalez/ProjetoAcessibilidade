@@ -1,8 +1,8 @@
 ﻿using Common;
+
 using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
-using Splat;
 
 namespace ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 
@@ -13,24 +13,42 @@ public sealed record CreateItemCommand(
 
 public sealed class CreateItemCommandHandler : IHandler<CreateItemCommand, Resource<Empty>>
 {
+    private readonly IProjectItemContentRepository _repository;
+    public CreateItemCommandHandler(IProjectItemContentRepository repository)
+    {
+        _repository = repository;
+    }
     public async Task<Resource<Empty>> HandleAsync(
         CreateItemCommand command,
         CancellationToken cancellation
     )
     {
-        var result = await Locator.Current.GetService<IProjectItemContentRepository>()
+        var result = await _repository
             .GetSystemProjectItemContent(
                 filePathToWrite: Path.Combine(
                     path1: Constants.AppItemsTemplateFolder,
                     path2: $"{command.ItemName}{Constants.AppProjectTemplateExtension}"));
 
-        result.ItemName = Path.GetFileNameWithoutExtension(command.ItemPath);
+        return result.Map((item) =>
+        {
+            item.ItemName = Path.GetFileNameWithoutExtension(command.ItemPath);
+            return item;
 
-        await Locator.Current.GetService<IProjectItemContentRepository>()
+        }).Map(async value =>
+        {
+            await _repository
             .SaveProjectItemContent(
-                dataToWrite: result,
+                dataToWrite: value,
                 filePathToWrite: command.ItemPath);
+        })
+        .Map<Resource<Empty>>((value) =>
+        {
+            return value.IsCompletedSuccessfully ? new Resource<Empty>.Success(Empty.Value) : new Resource<Empty>.Error(Message: "Houve um erro no processo");
+        })
+        .Reduce(() => new Resource<Empty>.Error(Message: "Houve um erro no processo"));
 
-        return new Resource<Empty>.Success(Data: Empty.Value);
+
+
+
     }
 }

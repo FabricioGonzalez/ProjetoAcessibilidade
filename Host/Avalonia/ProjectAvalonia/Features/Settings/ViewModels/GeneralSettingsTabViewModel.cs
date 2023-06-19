@@ -3,9 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Logging;
+using ProjectAvalonia.ViewModels;
+
 using ProjetoAcessibilidade.Domain.App.Contracts;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
@@ -102,7 +106,7 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
             .Skip(1)
             .Subscribe(x => ServicesConfig.UiConfig.HideOnClose = x);
     }
-
+    public override MenuViewModel? ToolBar => null;
     public ICommand StartupCommand
     {
         get;

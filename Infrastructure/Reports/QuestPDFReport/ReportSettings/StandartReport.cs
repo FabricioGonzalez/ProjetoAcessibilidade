@@ -2,6 +2,7 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Components;
 using QuestPDFReport.Models;
 
@@ -24,7 +25,8 @@ public class StandardReport : IDocument
     public DocumentMetadata GetMetadata() =>
         new()
         {
-            Title = Model.Title, DocumentLayoutExceptionThreshold = 5000
+            Title = Model.Title,
+            DocumentLayoutExceptionThreshold = 5000
         };
 
     public void Compose(
@@ -103,7 +105,9 @@ public class StandardReport : IDocument
     {
         if (Model is NestedReportModel nestedModel)
         {
-            container.PaddingVertical(value: 20).Column(handler: column =>
+            container
+                .PaddingVertical(value: 20)
+                .Column(handler: column =>
             {
                 column.Spacing(value: 20);
 

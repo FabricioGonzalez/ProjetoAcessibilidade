@@ -23,104 +23,33 @@
             <InvokeCommandAction Command="{Binding LoadAllItems}" />
         </EventTriggerBehavior>
     </Interaction.Behaviors>
-
-    <controls:ContentArea
-        Padding="2"
+    <SplitView
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        HorizontalContentAlignment="Stretch"
-        VerticalContentAlignment="Stretch"
-        ClipToBounds="True"
-        ScrollViewer.VerticalScrollBarVisibility="Disabled">
-        <controls:ContentArea.Title>
-
-            <StackPanel
-                Height="32"
-                HorizontalAlignment="Left"
-                DockPanel.Dock="Left"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Button
-                    Width="42"
-                    Height="28"
-                    Margin="4,2"
-                    Classes="function"
-                    ToolTip.Tip="Abrir">
-                    <Button.Content>
-                        <PathIcon Data="{StaticResource document_regular}" />
-                    </Button.Content>
-                </Button>
-                <Button
-                    Width="42"
-                    Height="28"
-                    Margin="4,2"
-                    Classes="function"
-                    ToolTip.Tip="Novo">
-                    <Button.Content>
-                        <PathIcon Data="{StaticResource add_regular}" />
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-            <!--<Button Width="42"
-                        Height="28"
-                        Margin="4,2" Classes="action" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                    <Button.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuItem Header="Coinjoin Settings">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource wallet_action_coinjoin}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Wallet Settings">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource settings_wallet_regular}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Wallet Stats">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource stats_wallet_regular}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Wallet Info">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource info_regular}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuFlyout>
-                    </Button.Flyout>
-                    <PathIcon Data="{StaticResource more_regular}"
-                              Foreground="{DynamicResource TextForegroundColor}" />
-                </Button>-->
-
-        </controls:ContentArea.Title>
-        <SplitView
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            DisplayMode="Inline"
-            IsPaneOpen="True"
-            OpenPaneLength="220"
-            PaneBackground="{DynamicResource RegionBrush}">
-            <SplitView.Pane>
-                <ListBox
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Background="Transparent"
-                    Items="{Binding Items}"
-                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <components:EditableItem DataContext="{Binding}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </SplitView.Pane>
-            <TabControl>
-                <TabItem Header="Template">
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <views:TemplateEditTabView DataContext="{CompiledBinding TemplateEditTab, Mode=TwoWay}" />
-                    </ScrollViewer>
-                </TabItem>
-            </TabControl>
-        </SplitView>
-    </controls:ContentArea>
+        DisplayMode="Inline"
+        IsPaneOpen="True"
+        OpenPaneLength="220"
+        PaneBackground="{DynamicResource RegionBrush}">
+        <SplitView.Pane>
+            <ListBox
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                Items="{Binding Items}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <components:EditableItem DataContext="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </SplitView.Pane>
+        <TabControl>
+            <TabItem Header="Template">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <views:TemplateEditTabView DataContext="{CompiledBinding TemplateEditTab, Mode=TwoWay}" />
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </SplitView>
 </UserControl>

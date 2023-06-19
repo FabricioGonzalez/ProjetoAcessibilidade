@@ -1,21 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Common;
 using Common.Optional;
 
+using Core.Entities.Solution.Project.AppItem;
+
+using DynamicData;
+using DynamicData.Alias;
+using DynamicData.Binding;
+
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
+using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.ViewModels;
 
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using ProjetoAcessibilidade.Domain.App.Queries.Templates;
 using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Commands.SystemItems;
 using ProjetoAcessibilidade.Domain.Project.Queries.SystemItems;
 
 using ReactiveUI;
@@ -49,15 +67,21 @@ public partial class TemplateEditViewModel
         ITemplateEditTabViewModel templateEditTab
     )
     {
-        TemplateEditTab = templateEditTab;
-        _mediator = Locator.Current.GetService<IMediator>()!;
-
         SetupCancel(
             enableCancel: false,
             enableCancelOnEscape: true,
             enableCancelOnPressed: true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
+
+        var changeSet = Items?.ToObservableChangeSet();
+
+        CommitItemCommand = ReactiveCommand.CreateFromTask<IEditableItemViewModel>(CreateItem);
+
+        ToolBar = new MenuViewModel(CreateMenu().ToImmutable());
+
+        TemplateEditTab = templateEditTab;
+        _mediator = Locator.Current.GetService<IMediator>()!;
 
         this.WhenAnyValue(x => x.SelectedItem)
             .WhereNotNull()
@@ -67,6 +91,7 @@ public partial class TemplateEditViewModel
         AddNewItemCommand = ReactiveCommand.Create(
             () =>
             {
+
             });
         LoadAllItems = ReactiveCommand.CreateFromTask(
             execute: LoadItems,
@@ -80,13 +105,15 @@ public partial class TemplateEditViewModel
             () =>
             {
             });
-        CommitItemCommand = ReactiveCommand.Create(
-            () =>
-            {
-            });
+
     }
 
-    private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem => ReactiveCommand.CreateFromTask<IEditableItemViewModel>(async (item) =>
+
+    public override MenuViewModel? ToolBar
+    {
+        get;
+    }
+    private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem => ReactiveCommand.CreateFromTask<IEditableItemViewModel, Unit>(async (item) =>
     {
         var result = await _mediator.Send(
                new GetSystemProjectItemContentQuery(item.ItemPath),
@@ -100,7 +127,75 @@ public partial class TemplateEditViewModel
             .ToOption()
             .Map(val => TemplateEditTab.EditingItem = val);
         });
+        return Unit.Default;
     });
+    private ImmutableList<IMenuItem>.Builder CreateMenu()
+    {
+        var listBuilder = ImmutableList.CreateBuilder<IMenuItem>();
+
+        listBuilder.Add(new MenuItemModel(
+            label: "Open",
+            command: ReactiveCommand.Create(() => { }),
+            icon: "file_open_24_rounded".GetIcon(),
+            "Ctrl+Shift+O"));
+
+        listBuilder.Add(new MenuItemModel(
+            label: "Create Item",
+            command: ReactiveCommand.Create(() =>
+            {
+                Items?.Add(new EditableItemViewModel(CommitItemCommand)
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    InEditMode = true,
+                    Name = "",
+                    TemplateName = "",
+                    ItemPath = ""
+                });
+            }),
+            icon: "solution_create_24_rounded".GetIcon(),
+            "Ctrl+Shift+N"));
+
+        listBuilder.Add(new MenuItemSeparatorModel());
+
+        listBuilder.Add(new MenuItemModel(
+           label: "Save Current Item",
+          command: ReactiveCommand.CreateFromTask(async () =>
+          {
+              TemplateEditTab.EditingItem.ToOption()
+              .Map(async (item) =>
+              {
+                  await SaveItemData(item);
+              });
+          }),
+           icon: "save_data_24_rounded".GetIcon(),
+           "Ctrl+S"));
+
+        /*listBuilder.Add(new MenuItemSeparatorModel());*/
+
+        /*listBuilder.Add(new MenuItemModel(
+          label: "Print Solution",
+          command: ReactiveCommand.Create(
+           execute: PrintSolution,
+           canExecute: isSolutionOpen),
+          icon: "print_24_rounded".GetIcon(),
+          "Ctrl+P"));*/
+
+        /* listBuilder.Add(new MenuItemSeparatorModel());*/
+
+        /* listBuilder.Add(new MenuItemModel(
+          label: "Add Folder",
+          command: ReactiveCommand.Create(
+           execute: () =>
+           {
+               ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe();
+           },
+           canExecute: isSolutionOpen),
+          icon: "add_folder_24_rounded".GetIcon(),
+          "Ctrl+Shift+N"));*/
+
+        return listBuilder;
+    }
+
 
     public override string? LocalizedTitle
     {
@@ -261,7 +356,7 @@ public partial class TemplateEditViewModel
         get;
     }
 
-    public ReactiveCommand<Unit, Unit> CommitItemCommand
+    public ReactiveCommand<IEditableItemViewModel, Unit> CommitItemCommand
     {
         get;
     }
@@ -276,7 +371,7 @@ public partial class TemplateEditViewModel
                 Items = new ObservableCollection<IEditableItemViewModel>(
                     success.Data
                         ?.Select(
-                            item => new EditableItemViewModel
+                            item => new EditableItemViewModel(CommitItemCommand)
                             {
                                 Id = item.Id ??
                                      Guid.NewGuid()
@@ -293,4 +388,35 @@ public partial class TemplateEditViewModel
             _ =>
             {
             });
+    private async Task CreateItem(IEditableItemViewModel item)
+    {
+        item.Name = item.TemplateName;
+        item.ItemPath = Path.Combine(Constants.AppItemsTemplateFolder, $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");
+
+        var itemContent = new AppItemModel();
+        itemContent.Id = item.Id;
+        itemContent.ItemName = item.TemplateName;
+        itemContent.TemplateName = item.TemplateName;
+
+        itemContent.FormData = new List<IAppFormDataItemContract>()
+        {
+            new AppFormDataItemImageModel(Guid.NewGuid().ToString(),"Images"),
+            new AppFormDataItemObservationModel("",Guid.NewGuid().ToString(),"Observation")
+    };
+        itemContent.LawList = new List<AppLawModel>();
+
+
+        await _mediator
+           .Send(new SaveSystemProjectItemContentCommand(itemContent, ItemPath: item.ItemPath), CancellationToken.None);
+    }
+
+    private async Task SaveItemData(
+        AppModelState item
+    ) =>
+        await _mediator
+            .Send(
+                new SaveSystemProjectItemContentCommand(
+                    item.ToAppModel(),
+                    SelectedItem.ItemPath),
+                CancellationToken.None);
 }

@@ -1,5 +1,7 @@
 ﻿using Common;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+
+using Core.Entities.Solution.Project.AppItem;
+
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 

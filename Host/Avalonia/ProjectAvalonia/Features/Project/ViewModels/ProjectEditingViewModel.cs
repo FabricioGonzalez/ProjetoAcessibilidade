@@ -5,17 +5,20 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
+
 using Common;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
@@ -24,7 +27,9 @@ using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Obs
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
+
 using ReactiveUI;
+
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -112,16 +117,12 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
     {
         _mediator = Locator.Current.GetService<IMediator>();
 
-
         EditingItems = new ObservableCollection<IEditingItemViewModel>();
 
         AddItemToEdit = ReactiveCommand.CreateFromObservable<IItemViewModel, Unit>(execute: AddItem);
 
         SetEditingItem.RegisterHandler(handler: value =>
         {
-            Logger.LogDebug(message: value.Input.Name);
-
-
             AddItemToEdit.Execute(parameter: value.Input);
 
             value.SetOutput(output: Unit.Default);
@@ -228,11 +229,11 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
 
 public static class Extension
 {
-    public static ObservableCollection<ILawListViewModel> ToViewLawList(this IList<AppLawModel> lawModels) =>
+    public static ObservableCollection<ILawListViewModel> ToViewLawList(this IEnumerable<AppLawModel> lawModels) =>
         new(collection: lawModels.Select(selector: item =>
             new LawListViewModel(lawId: item.LawId, lawContent: item.LawTextContent)));
 
-    public static ObservableCollection<IFormViewModel> ToViewForm(this IList<IAppFormDataItemContract> formItems) =>
+    public static ObservableCollection<IFormViewModel> ToViewForm(this IEnumerable<IAppFormDataItemContract> formItems) =>
         new(collection: formItems.Select<IAppFormDataItemContract, IFormViewModel>(selector: item =>
         {
             return item switch

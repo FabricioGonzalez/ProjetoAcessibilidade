@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
+using Core.Entities.Solution.Project.AppItem;
+
 using DynamicData;
 using DynamicData.Binding;
 
@@ -78,7 +80,11 @@ public class AppModelState : ReactiveObject
 
     public void AddFormItem(
         FormItemContainer formItem
-    ) => formDataAggregate.Add(formItem);
+    )
+    {
+        /*formDataAggregate.Add(formItem);*/
+        FormData.Add(formItem);
+    }
 
     public void LoadItemData(
         IEnumerable<FormItemContainer>? items
@@ -102,7 +108,12 @@ public class AppModelState : ReactiveObject
 
     public void AddLawItems(
         LawStateItem lawItem
-    ) => lawItemsAggregate.Add(lawItem);
+    )
+    {
+        /*lawItemsAggregate.Add(lawItem);*/
+        LawItems.Add(lawItem);
+    }
+
 
     public void LoadLawItems(
         IEnumerable<LawStateItem> items

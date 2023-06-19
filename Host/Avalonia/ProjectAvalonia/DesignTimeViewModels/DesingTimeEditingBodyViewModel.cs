@@ -1,5 +1,10 @@
 using System.Collections.ObjectModel;
+using System.Reactive;
+
+using Avalonia.Input;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -14,7 +19,14 @@ public class DesingTimeEditingBodyViewModel : ReactiveObject, IEditingBodyViewMo
         new DesignTimeLawListViewModel(),
         new DesignTimeLawListViewModel()
     };
-
+    public KeyGesture Gesture
+    {
+        get;
+    } = new KeyGesture(Key.S, InputModifiers.Control);
+    public ReactiveCommand<Unit, Unit> SaveItemCommand
+    {
+        get;
+    }
     public ObservableCollection<IFormViewModel> Form
     {
         get;

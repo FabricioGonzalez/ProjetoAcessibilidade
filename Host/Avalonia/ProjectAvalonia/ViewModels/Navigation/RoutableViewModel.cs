@@ -3,10 +3,12 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Navigation;
@@ -14,6 +16,7 @@ namespace ProjectAvalonia.ViewModels.Navigation;
 public abstract partial class RoutableViewModel
     : ViewModelBase
         , INavigatable
+    , IToolBarHost
 {
     private CompositeDisposable? _currentDisposable;
     [AutoNotify] private bool _enableBack;
@@ -82,6 +85,12 @@ public abstract partial class RoutableViewModel
     {
         get;
         protected set;
+    }
+
+    public abstract MenuViewModel? ToolBar
+    {
+        get;
+
     }
 
     public void OnNavigatedTo(
@@ -183,10 +192,14 @@ public abstract partial class RoutableViewModel
         currentTarget switch
         {
             NavigationTarget.HomeScreen => NavigationState.Instance.HomeScreenNavigation
-            , NavigationTarget.DialogScreen => NavigationState.Instance.DialogScreenNavigation
-            , NavigationTarget.FullScreen => NavigationState.Instance.FullScreenNavigation
-            , NavigationTarget.CompactDialogScreen => NavigationState.Instance.CompactDialogScreenNavigation
-            , _ => throw new NotSupportedException()
+            ,
+            NavigationTarget.DialogScreen => NavigationState.Instance.DialogScreenNavigation
+            ,
+            NavigationTarget.FullScreen => NavigationState.Instance.FullScreenNavigation
+            ,
+            NavigationTarget.CompactDialogScreen => NavigationState.Instance.CompactDialogScreenNavigation
+            ,
+            _ => throw new NotSupportedException()
         };
 
     public void SetActive()

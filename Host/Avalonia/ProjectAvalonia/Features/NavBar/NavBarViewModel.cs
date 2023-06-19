@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
 
@@ -43,7 +44,7 @@ public class NavBarViewModel : ViewModelBase
         {
             var viewModel = await NavigationManager.MaterialiseViewModelAsync(item);
 
-            viewModel.SetTitle(item.LocalizedTitle);
+            viewModel?.SetTitle(item.LocalizedTitle);
 
             if (viewModel is NavBarItemViewModel navBarItem)
             {
@@ -54,7 +55,9 @@ public class NavBarViewModel : ViewModelBase
         foreach (var item in bottomItems)
         {
             var viewModel = await NavigationManager.MaterialiseViewModelAsync(item);
-            viewModel.SetTitle(item.LocalizedTitle);
+
+            viewModel?.SetTitle(item.LocalizedTitle);
+
             if (viewModel is NavBarItemViewModel navBarItem)
             {
                 BottomItems.Add(navBarItem);

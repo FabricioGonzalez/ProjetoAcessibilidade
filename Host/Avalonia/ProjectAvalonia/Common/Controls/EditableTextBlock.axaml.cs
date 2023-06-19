@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reactive;
 using System.Windows.Input;
+
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -11,6 +12,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Metadata;
 using Avalonia.Threading;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Common.Controls;
@@ -299,10 +301,8 @@ public class EditableTextBlock : TemplatedControl
         else
         {
             Text = EditText;
-            /*if (Command is not null)
+            if (Command is not null)
             {
-                CommitCommand.Execute();
-
                 if (CommandParameter is not null)
                 {
                     Command.Execute(parameter: CommandParameter);
@@ -311,7 +311,7 @@ public class EditableTextBlock : TemplatedControl
                 {
                     Command.Execute(parameter: null);
                 }
-            }*/
+            }
         }
 
         InEditMode = false;

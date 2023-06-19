@@ -57,4 +57,9 @@ public class DesignTimeItemViewModel : ReactiveObject, IItemViewModel
     {
         get;
     }
+
+    public ReactiveCommand<IItemGroupViewModel, Unit> CanMoveCommand
+    {
+        get;
+    }
 }

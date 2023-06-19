@@ -23,6 +23,7 @@
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TileButton.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/QuestionControl.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/PreviewItem.axaml" />
+
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/AdorningContentControl.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TileControl.axaml" />
     <!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/StatusItem.axaml" />-->

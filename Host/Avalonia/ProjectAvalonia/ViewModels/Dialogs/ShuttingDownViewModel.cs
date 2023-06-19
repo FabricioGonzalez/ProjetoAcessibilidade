@@ -1,8 +1,11 @@
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+
 using Common;
+
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Dialogs;
@@ -28,7 +31,7 @@ public partial class ShuttingDownViewModel : RoutableViewModel
         get;
         protected set;
     } = null;
-
+    public override MenuViewModel? ToolBar => null;
     protected override void OnNavigatedTo(
         bool isInHistory
         , CompositeDisposable disposables

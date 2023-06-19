@@ -2,12 +2,13 @@
     x:Class="ProjectAvalonia.Features.Project.Views.ProjectView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:designVm="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:local="using:ProjectAvalonia.Features.Project.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:designVm="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
-    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
-    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    Padding="4"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
@@ -16,203 +17,17 @@
     <Design.DataContext>
         <designVm:DesignTimeProjectViewModel />
     </Design.DataContext>
-
-    <controls:ContentArea ScrollViewer.VerticalScrollBarVisibility="Disabled">
-        <controls:ContentArea.Title>
-            <DockPanel Height="32">
-                <StackPanel HorizontalAlignment="Left" Margin="0 -5 0 0" DockPanel.Dock="Left"
-                            Orientation="Horizontal" Spacing="10">
-                    <Button
-                        Width="42"
-                        Height="28"
-                        Margin="4,2"
-                        Classes="function"
-                        Command="{Binding OpenProjectCommand}"
-                        ToolTip.Tip="Abrir">
-                        <Button.Content>
-                            <PathIcon Data="{StaticResource document_regular}" />
-                        </Button.Content>
-                    </Button>
-                    <Button
-                        Width="42"
-                        Height="28"
-                        Margin="4,2"
-                        Classes="function"
-                        Command="{Binding CreateProjectCommand}"
-                        ToolTip.Tip="Novo">
-                        <Button.Content>
-                            <PathIcon Data="{StaticResource add_regular}" />
-                        </Button.Content>
-                    </Button>
-                    <!--<Button
-                        x:Name="SaveSolutionButton"
-                        Width="42"
-                        Height="28"
-                        Margin="4,2"
-                        Classes="function"
-                        Command="{Binding SaveSolutionCommand}"
-                        CommandParameter="{Binding SolutionState}"
-                        ToolTip.Tip="Sincronizar Solução">
-                        <PathIcon Data="{StaticResource save_regular}" />
-                    </Button>-->
-
-                    <Button
-                        x:Name="AppPrintButton"
-                        Width="42"
-                        Height="28"
-                        BorderThickness="0"
-                        Margin="4,2"
-                        Classes="function"
-                        Command="{Binding PrintProjectCommand}"
-                        ToolTip.Tip="Imprimir">
-                        <PathIcon Data="{StaticResource printer_regular}" />
-                    </Button>
-                </StackPanel>
-                <Button Width="42"
-                        Height="28"
-                        Margin="4,2" Classes="action" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                    <Button.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuItem Header="Coinjoin Settings">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource wallet_action_coinjoin}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Wallet Settings">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource settings_wallet_regular}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Wallet Stats">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource stats_wallet_regular}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Wallet Info">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource info_regular}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <!--<MenuItem
-                                IsSelected="{Binding ProjectExplorerViewModel.IsDocumentSolutionEnabled, Mode=TwoWay}">
-                                <MenuItem.Icon>
-                                    <PathIcon Data="{StaticResource document_regular}" />
-                                </MenuItem.Icon>
-                                ~1~<Button
-                                    Width="42"
-                                    Height="28"
-                                    Margin="4,2"
-                                    Classes="function"
-                                    ToolTip.Tip="Visualizar Solução">
-                                    <PathIcon Data="{StaticResource document_regular}" />
-                                    <Button.Flyout>
-                                        <Flyout>
-                                            <ScrollViewer Width="400">
-                                                <StackPanel
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Stretch"
-                                                    Spacing="8">
-                                                    <TextBox
-                                                        HorizontalAlignment="Stretch"
-                                                        Text="{Binding SolutionState.ReportData.NomeEmpresa}"
-                                                        UseFloatingWatermark="True"
-                                                        Watermark="Nome da Empresa" />
-
-                                                    <DatePicker
-
-                                                        DayVisible="True"
-                                                        MonthVisible="True"
-                                                        SelectedDate="{Binding SolutionState.ReportData.Data}"
-                                                        YearVisible="True" />
-
-                                                    <ComboBox
-                                                        HorizontalAlignment="Stretch"
-                                                        IsTextSearchEnabled="True"
-                                                        Items="{Binding UfList, Mode=TwoWay}"
-                                                        PlaceholderText="UF"
-                                                        SelectedItem="{Binding SolutionState.ReportData.UF, Mode=TwoWay}">
-                                                        <ComboBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding Code}" />
-                                                            </DataTemplate>
-                                                        </ComboBox.ItemTemplate>
-                                                    </ComboBox>
-
-                                                    <TextBox
-                                                        HorizontalAlignment="Stretch"
-                                                        Text="{Binding SolutionState.ReportData.Responsavel}"
-                                                        UseFloatingWatermark="True"
-                                                        Watermark="Responsável pelo Projeto">
-                                                        <Interaction.Behaviors>
-                                                            <behaviors:PhoneBoxMaskBehavior />
-                                                        </Interaction.Behaviors>
-                                                    </TextBox>
-
-                                                    <TextBox
-                                                        HorizontalAlignment="Stretch"
-                                                        Text="{Binding SolutionState.ReportData.Endereco}"
-                                                        UseFloatingWatermark="True"
-                                                        Watermark="Endereço da Empresa" />
-
-                                                    <TextBox
-                                                        HorizontalAlignment="Stretch"
-                                                        Text="{Binding SolutionState.ReportData.Email}"
-                                                        UseFloatingWatermark="True"
-                                                        Watermark="Email do Responsável" />
-
-                                                    <MaskedTextBox
-                                                        HorizontalAlignment="Stretch"
-                                                        Text="{Binding SolutionState.ReportData.Telefone, Mode=TwoWay}"
-                                                        UseFloatingWatermark="True"
-                                                        Watermark="Telefone do Responsável" />
-
-                                                    <TextBox
-                                                        HorizontalAlignment="Stretch"
-                                                        Text="{Binding SolutionState.FileName}"
-                                                        UseFloatingWatermark="True"
-                                                        Watermark="Nome da Solução" />
-
-                                                    <TextBox
-                                                        Margin="4,0"
-                                                        IsReadOnly="True"
-                                                        Text="{Binding SolutionState.ReportData.LogoPath}"
-                                                        UseFloatingWatermark="True"
-                                                        Watermark="Local da Logo da Empresa">
-                                                        <TextBox.InnerRightContent>
-                                                            <Button
-                                                                VerticalAlignment="Stretch"
-                                                                Classes="no-material"
-
-                                                                Cursor="Arrow">
-                                                                <PathIcon Data="{StaticResource folder_regular}" />
-                                                            </Button>
-                                                        </TextBox.InnerRightContent>
-                                                    </TextBox>
-                                                </StackPanel>
-                                            </ScrollViewer>
-                                        </Flyout>
-                                    </Button.Flyout>
-                                </Button>@1@
-                            </MenuItem>-->
-                        </MenuFlyout>
-                    </Button.Flyout>
-                    <PathIcon Data="{StaticResource more_regular}"
-                              Foreground="{DynamicResource TextForegroundColor}" />
-                </Button>
-            </DockPanel>
-        </controls:ContentArea.Title>
-        <Grid>
-            <DockPanel IsVisible="{Binding  IsSolutionOpen}">
-                <local:ProjectExplorerView
-                    Width="350"
-                    VerticalAlignment="Stretch"
-                    DataContext="{Binding ProjectExplorerViewModel}"
-                    DockPanel.Dock="Right" />
-                <local:ProjectEditingView DataContext="{Binding ProjectEditingViewModel}" />
-            </DockPanel>
-            <DockPanel IsVisible="{Binding !IsSolutionOpen }">
-                <TextBlock>No Solution Open</TextBlock>
-            </DockPanel>
-        </Grid>
-    </controls:ContentArea>
+    <Grid>
+        <DockPanel IsVisible="{Binding IsSolutionOpen}">
+            <local:ProjectExplorerView
+                Width="350"
+                VerticalAlignment="Stretch"
+                DataContext="{Binding ProjectExplorerViewModel}"
+                DockPanel.Dock="Right" />
+            <local:ProjectEditingView DataContext="{Binding ProjectEditingViewModel}" />
+        </DockPanel>
+        <DockPanel IsVisible="{Binding !IsSolutionOpen}">
+            <TextBlock>No Solution Open</TextBlock>
+        </DockPanel>
+    </Grid>
 </UserControl>

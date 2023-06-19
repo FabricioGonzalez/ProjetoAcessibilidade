@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="using:ProjectAvalonia.Common.Controls"
+    xmlns:commanding="using:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:navbar="using:ProjectAvalonia.Features.NavBar"
     xmlns:shell="clr-namespace:ProjectAvalonia.Features.Shell"
@@ -14,6 +15,12 @@
 
     <DockPanel IsEnabled="{Binding IsMainContentEnabled^}">
         <shell:TitleBar DockPanel.Dock="Top" />
+        <commanding:ToolBar
+            Margin="0,2"
+            x:CompileBindings="True"
+            Background="{DynamicResource AcrylicTrimBackground}"
+            DataContext="{Binding ToolBarMenu, Mode=OneWay}"
+            DockPanel.Dock="Top" />
         <DockPanel>
             <navbar:NavBar DataContext="{Binding NavBar}" DockPanel.Dock="Left" />
             <Border
@@ -29,7 +36,7 @@
                         CornerRadius="10 0 0 0"
                         IsHitTestVisible="False" />
                     <Panel Height="30" VerticalAlignment="Bottom">
-                        <TextBlock Text="{Binding ErrorMessage,Mode=TwoWay}" />
+                        <TextBlock Text="{Binding ErrorMessage, Mode=TwoWay}" />
                     </Panel>
                     <DockPanel>
                         <DockPanel.Styles>

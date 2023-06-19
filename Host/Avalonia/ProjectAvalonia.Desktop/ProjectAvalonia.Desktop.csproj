@@ -45,7 +45,7 @@
         <PackageIcon>Assets\logo.ico</PackageIcon>
         <Product>Project Avalonia</Product>
         <!-- owners is not supported in MSBuild -->
-        <AvaloniaVersion>0.10.18</AvaloniaVersion>
+        <AvaloniaVersion>0.10.21</AvaloniaVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -59,8 +59,8 @@
     <ItemGroup>
         <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="ReactiveUI" Version="18.4.26" />
-        <PackageReference Include="System.Reactive" Version="5.0.0" />
+        <PackageReference Include="ReactiveUI" Version="19.2.1" />
+        <PackageReference Include="System.Reactive" Version="6.0.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\..\DI\AppDI\AppDI.csproj" />

@@ -22,7 +22,7 @@ public abstract class Resource<T>
     {
         public Error(
             string? Message
-            , T? Data
+            , T? Data = default
         )
         {
             this.Message = Message;
@@ -137,7 +137,7 @@ public static class Extensions
     {
         if (resource.resource is Resource<T>.Error error)
         {
-            return ((Resource<T>.Error resource, T? value))(resource.resource, value: onErrorAction.Invoke(arg: error));
+            return (error, value: onErrorAction.Invoke(arg: error));
         }
 
         return ((Resource<T>.Error resource, T? value))resource;

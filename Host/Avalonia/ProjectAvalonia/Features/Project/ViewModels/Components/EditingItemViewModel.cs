@@ -1,6 +1,8 @@
 ﻿using System.Reactive;
+
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
@@ -15,6 +17,21 @@ public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
         CloseItemCommand = ReactiveCommand.Create(execute: () =>
         {
         });
+        SaveItemCommand = ReactiveCommand.CreateFromTask(
+            execute: async () =>
+            {
+                if (Body is not null)
+                {
+                    /*var itemModel = Body.ToAppModel();
+
+                    await _commandDispatcher
+                        .Dispatch<SaveProjectItemContentCommand, Resource<Empty>>(
+                            command: new SaveProjectItemContentCommand(
+                                AppItem: itemModel, ItemPath: _editingItemsStore.CurrentSelectedItem.ItemPath),
+                            cancellation: CancellationToken.None);*/
+                }
+            });
+
         Body = body;
     }
 
@@ -35,20 +52,7 @@ public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
             });
 
 
-        SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState?>(
-            execute: async appModel =>
-            {
-                if (appModel is not null)
-                {
-                    var itemModel = appModel.ToAppModel();
-
-                    await _commandDispatcher
-                        .Dispatch<SaveProjectItemContentCommand, Resource<Empty>>(
-                            command: new SaveProjectItemContentCommand(
-                                AppItem: itemModel, ItemPath: _editingItemsStore.CurrentSelectedItem.ItemPath),
-                            cancellation: CancellationToken.None);
-                }
-            });
+        
     }
 
     public ICommand SaveItemCommand
@@ -76,6 +80,8 @@ public class EditingItemViewModel : ViewModelBase, IEditingItemViewModel
     {
         get;
     }
+
+
 
     public IEditingBodyViewModel Body
     {

@@ -9,6 +9,7 @@ using Common;
 
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 
 using ProjetoAcessibilidade.Domain.App.Queries.Templates;
@@ -103,6 +104,7 @@ public partial class AddItemViewModel
         get;
     }
 
+    public override MenuViewModel? ToolBar => null;
 
     private void OnNext()
     {

@@ -98,19 +98,20 @@
       <value />
       <measurement_unit />
     </text_item>
-    <observation_item>
-      <id>a64fbddf-6ac4-4d34-ae37-6bcb9190c178</id>
-      <topic xsi:nil="true" />
-      <type>observation</type>
-      <observation />
-    </observation_item>
-    <image_items>
-      <id>e8db255c-30eb-4c82-bf1c-0a0fb4c133f7</id>
-      <topic xsi:nil="true" />
-      <type>image</type>
-      <images />
-    </image_items>
   </table>
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law>
     <law_item>
       <id>DECRETO FEDERAL 5296/04</id>

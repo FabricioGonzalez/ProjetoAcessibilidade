@@ -2,7 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
+
+using Common.Optional;
 
 using DynamicData;
 using DynamicData.Binding;
@@ -11,6 +14,7 @@ using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
+using ProjectAvalonia.ViewModels;
 
 using ProjetoAcessibilidade.Core.Enuns;
 
@@ -217,10 +221,10 @@ public partial class TemplateEditTabViewModel
         var observable = this.WhenAnyValue(vm => vm.EditingItem)
             .Select(x => x.FormData
             .ToObservableChangeSet()
-             .AutoRefresh())
+            .AutoRefresh())
             .Switch()
-             .WhenPropertyChanged(prop => prop.Type, notifyOnInitialValue: false)
-              .Subscribe(prop =>
+            .WhenPropertyChanged(prop => prop.Type, notifyOnInitialValue: false)
+            .Subscribe(prop =>
               {
                   ChangeBody(prop.Sender);
               }, error =>
@@ -232,21 +236,47 @@ public partial class TemplateEditTabViewModel
                 Debug.WriteLine("Completado");
             });
     }
-
+    public override MenuViewModel? ToolBar => null;
     private void ChangeBody(FormItemContainer container)
     {
 
-        container.Body = container.Type switch
-        {
-            AppFormDataType.Texto => container.ChangeItem(type: AppFormDataType.Texto)
-            .Reduce(orElse: () => new TextItemState(topic: container.Body.Topic, textData: "", id: container.Body.Id)),
+        var result = container.Body.ToOption()
+            .Map(e => e = container.Type switch
+            {
+                AppFormDataType.Texto => container.ChangeItem(type: AppFormDataType.Texto)
+                .Reduce(orElse: () => new TextItemState(topic: container.Body.Topic, textData: "", id: container.Body.Id)),
 
-            AppFormDataType.Checkbox => container.ChangeItem(type: AppFormDataType.Checkbox)
-            .Reduce(orElse: () => new CheckboxContainerItemState(topic: container.Body.Topic, id: container.Body.Id))
-        };
+                AppFormDataType.Checkbox => container.ChangeItem(type: AppFormDataType.Checkbox)
+                .Reduce(orElse: () => new CheckboxContainerItemState(topic: container.Body.Topic, id: container.Body.Id))
+            })
+            .Reduce(() => container.Type switch
+            {
+                AppFormDataType.Texto => container.ChangeItem(type: AppFormDataType.Texto)
+                .Reduce(orElse: () => new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString())),
 
-        container.AddToHistory(container.Body);
+                AppFormDataType.Checkbox => container.ChangeItem(type: AppFormDataType.Checkbox)
+                .Reduce(orElse: () => new CheckboxContainerItemState(topic: "", id: Guid.NewGuid().ToString()))
+            });
+        container.Body = result;
+
+        container.AddToHistory(result);
     }
+
+
+    public ReactiveCommand<Unit, Unit> AddItemCommand => ReactiveCommand.Create(() =>
+    {
+        EditingItem.AddFormItem(new()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Topic = "",
+            Type = AppFormDataType.Texto,
+            Body = new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString())
+        });
+    });
+    public ReactiveCommand<Unit, Unit> AddLawCommand => ReactiveCommand.Create(() =>
+    {
+        EditingItem.AddLawItems(new());
+    });
 
     public override string? LocalizedTitle
     {
@@ -326,6 +356,21 @@ public partial class TemplateEditTabViewModel
         ItemName = "Teste",
         ItemTemplate = "Teste Template",
         LawItems = new ObservableCollection<LawStateItem>()
+        {
+            new()
+            {
+                LawId = "TESTE 01",
+                LawContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            },new()
+            {
+                LawId = "TESTE 02",
+                LawContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            },new()
+            {
+                LawId = "TESTE 03",
+                LawContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            }
+        }
     };
     public AppModelState EditingItem
     {

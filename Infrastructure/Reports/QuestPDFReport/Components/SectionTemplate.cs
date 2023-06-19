@@ -1,8 +1,10 @@
-﻿using QuestPDF.Fluent;
+﻿using Common.Linq;
+
+using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Models;
-using SkiaSharp;
 
 namespace QuestPDFReport.Components;
 
@@ -25,7 +27,7 @@ public class SectionTemplate : IComponent
         IContainer container
     )
     {
-        if (Model is ReportSection reportSection)
+        /*if (Model is ReportSection reportSection)
         {
             container
                 .EnsureSpace()
@@ -95,12 +97,11 @@ public class SectionTemplate : IComponent
                             }
                         });
                 });
-        }
+        }*/
 
         if (Model is ReportSectionGroup reportSectionGroup)
         {
             container
-                .EnsureSpace()
                 .Section(sectionName: reportSectionGroup.Id)
                 .Decoration(handler: decoration =>
                 {
@@ -120,74 +121,105 @@ public class SectionTemplate : IComponent
                             foreach (var part in reportSectionGroup.Parts)
                             {
                                 contentDecoration
+                                .Before()
+                                .Column(column =>
+                                {
+                                    column
+                                                  .Item()
+                                                  .PaddingLeft(value: 8)
+                                                  .Text(text: part.Title)
+                                                  .Style(style: Typography.SubLine);
+                                });
+
+                                contentDecoration
                                     .Content()
                                     .Section(sectionName: part.Id)
                                     .Column(
                                         handler: column =>
                                         {
                                             column
-                                                .Item()
-                                                .PaddingLeft(value: 8)
-                                                .ShowOnce()
-                                                .Text(text: part.Title)
-                                                .Style(style: Typography.SubLine);
-                                            column.Item().Column(handler: items =>
+                                            .Item()
+                                            .Column(handler: items =>
                                             {
-                                                foreach (var sectionPart in part.Parts)
+                                                part.Parts.IterateOn((item) =>
                                                 {
                                                     items
                                                         .Item()
                                                         .ValueCell()
-                                                        .EnsureSpace(minHeight: 25)
+                                                        .EnsureSpace()
                                                         .Column(handler: partColumn =>
                                                         {
                                                             partColumn
                                                                 .Item()
                                                                 .LabelCell()
                                                                 .ExtendHorizontal()
-                                                                .Text(text: sectionPart.Label);
+                                                                .Text(text: item.Label);
 
-                                                            if (sectionPart is not ReportSectionTitle)
+                                                            if (item is not ReportSectionTitle)
                                                             {
                                                                 var frame = partColumn
                                                                     .Item()
-                                                                    .ValueCell();
+                                                                    .ValueCell()
+                                                                    .ExtendHorizontal();
 
-                                                                if (sectionPart is ReportSectionText text)
+                                                                if (item is ReportSectionText text)
                                                                 {
                                                                     frame
                                                                         .ShowEntire()
                                                                         .Text(text: text.Text);
                                                                 }
 
-                                                                if (sectionPart is ReportSectionCheckbox checkboxes)
+                                                                if (item is ReportSectionCheckbox checkboxes)
                                                                 {
                                                                     frame
-                                                                        .Element(handler: x =>
-                                                                            MapCheckboxes(container: x,
-                                                                                checkboxes: checkboxes));
-                                                                }
-
-                                                                if (sectionPart is ReportSectionPhotoContainer photos)
-                                                                {
-                                                                    frame
-                                                                        .Element(handler: x =>
-                                                                            PhotosElement(container: x, model: photos));
-                                                                }
-
-                                                                if (sectionPart is ReportSectionObservation observation)
-                                                                {
-                                                                    frame
-                                                                        .Background(color: Colors.Yellow.Medium)
-                                                                        .Element(handler: x =>
-                                                                            ObservationElement(x: x,
-                                                                                observation: observation));
+                                                                    .AlignTop()
+                                                                    .Column(column =>
+                                                                    {
+                                                                        column
+                                                                        .Item()
+                                                                        .EnsureSpace(25)
+                                                                        .Row(checkboxRow =>
+                                                                        {
+                                                                            checkboxes
+                                                                       .Checkboxes
+                                                                       .Select(item =>
+                                                                       new CheckboxItemComponent(item))
+                                                                       .IterateOn(item =>
+                                                                       checkboxRow
+                                                                       .RelativeItem()
+                                                                       .Height(20)
+                                                                       .Component(item));
+                                                                        });
+                                                                    });
                                                                 }
                                                             }
                                                         });
-                                                }
+                                                });
                                             });
+
+                                            column
+                                           .Item()
+                                           .Column(handler: items =>
+                                           {
+                                               column
+                                               .Item()
+                                               .Element(x => PhotosElement(x, part.Images));
+                                           });
                                         });
+
+                                contentDecoration
+                                .After()
+                                    .Column(column =>
+                                    {
+                                        column
+                                       .Item()
+                                       .Column(handler: items =>
+                                       {
+                                           column
+                                          .Item()
+                                          .Element(x => LawItemsElement(x, part.Laws));
+                                       });
+                                    });
                             }
                         });
                 });
@@ -196,7 +228,7 @@ public class SectionTemplate : IComponent
 
     private void ObservationElement(
         IContainer x
-        , ReportSectionObservation observation
+        , ObservationSectionElement observation
     ) =>
         x
             .Text(text: observation.Observation)
@@ -209,84 +241,6 @@ public class SectionTemplate : IComponent
         container.ShowEntire().Column(handler: column =>
         {
             column.Item().Text(text: title).Style(style: Typography.Normal);
-        });
-
-    private void MapCheckboxes(
-        IContainer container
-        , ReportSectionCheckbox checkboxes
-    ) =>
-        container.ShowEntire().Column(handler: column =>
-        {
-            column.Spacing(value: 5);
-            column.Item().Row(handler: row =>
-            {
-                foreach (var item in checkboxes.Checkboxes)
-                {
-                    row.Spacing(value: 5);
-
-                    row.ConstantItem(size: 16)
-                        .Layers(handler: layers =>
-                        {
-                            layers.Layer().Canvas(handler: (
-                                canvas
-                                , size
-                            ) =>
-                            {
-                                DrawRoundedRectangle(color: Colors.White, isStroke: false);
-                                DrawRoundedRectangle(color: Colors.Black, isStroke: true);
-
-                                if (item.IsChecked)
-                                {
-                                    DrawLine(color: Colors.Black, isStroke: true, fromX: 6, fromY: 4, toX: 10, toY: 12);
-                                    DrawLine(color: Colors.Black, isStroke: true, fromX: 9.80f, fromY: 12.0f, toX: 15.5f
-                                        , toY: -1f);
-                                }
-
-
-                                void DrawLine(
-                                    string color
-                                    , bool isStroke
-                                    , float fromX
-                                    , float fromY
-                                    , float toX
-                                    , float toY
-                                )
-                                {
-                                    using var paint = new SKPaint
-                                    {
-                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1,
-                                        IsAntialias = true
-                                    };
-
-                                    canvas.DrawLine(p0: new SKPoint(x: fromX, y: fromY), p1: new SKPoint(x: toX, y: toY)
-                                        , paint: paint);
-                                }
-
-                                void DrawRoundedRectangle(
-                                    string color
-                                    , bool isStroke
-                                )
-                                {
-                                    using var paint = new SKPaint
-                                    {
-                                        Color = SKColor.Parse(hexString: color), IsStroke = isStroke, StrokeWidth = 1,
-                                        IsAntialias = true
-                                    };
-
-                                    canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: paint);
-                                }
-                            });
-
-                            layers
-                                .PrimaryLayer()
-                                /* .Text("Sample text")
-                                                                                                                                                                                                                                                                          .FontSize(16).FontColor(Colors.Blue.Darken2).SemiBold()*/
-                                ;
-                        });
-
-                    row.AutoItem().Text(text: item.Value);
-                }
-            });
         });
 
     private void MapElement(
@@ -321,15 +275,9 @@ public class SectionTemplate : IComponent
 
     private void PhotosElement(
         IContainer container
-        , ReportSectionPhotoContainer model
+        , IEnumerable<ImageSectionElement> models
     )
     {
-        if (model.Photos.Count == 0)
-        {
-            container.Text(text: "No photos").Style(style: Typography.Normal);
-            return;
-        }
-
         container
             //.DebugArea("Photos")
             .Grid(handler: grid =>
@@ -337,18 +285,38 @@ public class SectionTemplate : IComponent
                 grid.Spacing(value: 5);
                 grid.Columns(value: 2);
 
-                model.Photos.ForEach(action: x =>
-                {
-                    var image = new ImagePlaceholder
-                    {
-                        ImagePath = x.Path, Observation = x.Observation
-                    };
-                    grid
-                        .Item()
-                        .AlignCenter()
-                        .ScaleToFit()
-                        .Component(component: image);
-                });
+                models.IterateOn((item) =>
+        {
+            var image = new ImagePlaceholder
+            {
+                ImagePath = item.ImagePath,
+                Observation = item.Observation
+            };
+            grid
+                .Item()
+                .AlignCenter()
+                .ScaleToFit()
+                .Component(component: image);
+        });
             });
+
+    }
+
+    private void LawItemsElement(
+        IContainer container
+        , IEnumerable<LawSectionElement> models
+    )
+    {
+        container.Column(handler: column =>
+        {
+            models.IterateOn((item) =>
+            {
+                column.Item().Text(item.LawId);
+
+                column.Item().Text(item.LawContent);
+            });
+
+        });
+
     }
 }

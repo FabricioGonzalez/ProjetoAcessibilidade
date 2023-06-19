@@ -1,0 +1,71 @@
+<UserControl
+    x:Class="ProjectAvalonia.Common.Controls.ToolBar"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mod="clr-namespace:ProjectAvalonia.Models"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="Button /template/ ContentPresenter">
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <Style Selector="Button /template/ ContentPresenter">
+            <Setter Property="Background" Value="#00FFFFFF" />
+        </Style>
+
+        <Style Selector="Button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#22FFFFFF" />
+        </Style>
+
+        <Style Selector="Button:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#007ACC" />
+        </Style>
+
+    </UserControl.Styles>
+    <Grid ColumnDefinitions="0.05* 1* 0.05*">
+        <ItemsControl Grid.Column="1" Items="{Binding Items}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="1" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.DataTemplates>
+                <DataTemplate DataType="mod:MenuItemSeparatorModel">
+                    <Grid
+                        Width="1"
+                        Margin="4,0"
+                        Background="#3F3F46" />
+                </DataTemplate>
+
+                <DataTemplate DataType="mod:MenuItemModel">
+                    <Button
+                        Width="24"
+                        Height="24"
+                        Margin="0"
+                        BorderThickness="0"
+                        Command="{Binding Command}"
+                        ToolTip.Tip="{Binding Label}">
+                        <Button.KeyBindings>
+                            <KeyBinding Command="{Binding Command}" Gesture="{Binding Gesture}" />
+                        </Button.KeyBindings>
+
+                        <PathIcon
+                            Width="18"
+                            Height="18"
+                            Data="{Binding Icon}" />
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.DataTemplates>
+        </ItemsControl>
+    </Grid>
+
+</UserControl>

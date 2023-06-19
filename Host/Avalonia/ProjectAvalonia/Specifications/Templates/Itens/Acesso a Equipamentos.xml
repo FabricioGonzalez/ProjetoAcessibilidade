@@ -42,13 +42,20 @@
         </checkbox_item>
       </checkboxes>
     </checkbox_items>
-    <observation_item>
-      <id>290f526a-c1a6-412c-9cc7-5cc040cd0c11</id>
-      <topic xsi:nil="true" />
-      <type>observation</type>
-      <observation />
-    </observation_item>
   </table>
+  <observations>
+    <observation>
+      <id></id>
+      <text></text>
+    </observation>
+  </observations>
+  <images>
+    <image>
+      <id></id>
+      <path></path>
+      <observation></observation>
+    </image>
+  </images>
   <law>
     <law_item>
       <id>NBR9050/20</id>

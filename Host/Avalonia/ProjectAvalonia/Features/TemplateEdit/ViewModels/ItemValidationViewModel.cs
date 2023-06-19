@@ -1,4 +1,6 @@
 ﻿using System.Reactive;
+
+using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
@@ -22,4 +24,6 @@ public partial class ItemValidationViewModel : DialogViewModelBase<Unit>
         get;
         protected set;
     }
+
+    public override MenuViewModel? ToolBar => null;
 }

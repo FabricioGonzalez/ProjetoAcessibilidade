@@ -3,5 +3,18 @@
   <id>3a51b6dd-0925-4c7b-9a72-a5040f95ea77</id>
   <name>Teste</name>
   <table />
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law />
 </item>

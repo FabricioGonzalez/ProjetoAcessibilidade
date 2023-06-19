@@ -8,6 +8,20 @@ public class ReportSection : IReportSection
         set;
     } = new();
 
+    public IEnumerable<ImageSectionElement> Images
+    {
+
+        get; set;
+    } = Enumerable.Empty<ImageSectionElement>();
+    public IEnumerable<ObservationSectionElement> Observation
+    {
+
+        get; set;
+    } = Enumerable.Empty<ObservationSectionElement>();
+    public IEnumerable<LawSectionElement> Laws
+    {
+        get; set;
+    } = Enumerable.Empty<LawSectionElement>();
     public string Id
     {
         get;

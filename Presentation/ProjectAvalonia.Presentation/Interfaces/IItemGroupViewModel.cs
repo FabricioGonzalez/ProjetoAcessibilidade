@@ -29,13 +29,17 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
     {
         get;
     }
+    public ReactiveCommand<Unit, Unit> MoveItemCommand
+    {
+        get;
+    }
 
     public ReactiveCommand<Unit, Unit> RenameFolderCommand
     {
         get;
     }
 
-    public ReactiveCommand<Unit, Unit> AddProjectItemCommand
+    public ReactiveCommand<Unit, IItemViewModel> AddProjectItemCommand
     {
         get;
     }

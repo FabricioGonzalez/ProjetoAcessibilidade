@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -43,7 +46,7 @@ public class DesignTimeItemGroupViewModel : ReactiveObject, IItemGroupViewModel
         get;
     }
 
-    public ReactiveCommand<Unit, Unit> AddProjectItemCommand
+    public ReactiveCommand<Unit, IItemViewModel> AddProjectItemCommand
     {
         get;
     }
@@ -53,6 +56,10 @@ public class DesignTimeItemGroupViewModel : ReactiveObject, IItemGroupViewModel
         get;
     }
 
+    public ReactiveCommand<Unit, Unit> MoveItemCommand
+    {
+        get;
+    }
 
     public void TransformFrom(List<ItemModel> items)
     {

@@ -1,204 +1,43 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
+
+using Common.Optional;
+
+using Core.Entities.Solution.Project.AppItem;
+
 using ProjectItemReader.XmlFile.DTO;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
+
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 
 namespace ProjectItemReader.XmlFile;
 
 public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 {
-    public async Task<AppItemModel?> GetSystemProjectItemContent(
+    public XmlSerializer CreateSerealizer() => new(type: typeof(ItemRoot));
+
+    public async Task<Optional<AppItemModel>> GetSystemProjectItemContent(
         string filePathToRead
     )
     {
-        /*  var task = new Task<AppItemModel>(() =>
-          {
-              try
-              {
-                  var doc = new XmlDocument();
-                  using (var reader = new StreamReader(filePathToWrite))
-                  {
-                      doc.Load(reader);
-                  }
-
-                  var model = new AppItemModel();
-
-                  var root = doc.GetElementsByTagName("item")[0];
-
-                  model.ItemName = root!.ChildNodes[0]!.InnerXml.Replace("\n", "");
-
-                  var modelTable = new ObservableCollection<IAppFormDataItemContract>();
-
-                  var lawModel = new List<AppLawModel>();
-
-                  foreach (var itemTable in root.ChildNodes[1]?.ChildNodes)
-                  {
-                      var res = (itemTable as XmlNode)?.ChildNodes[0]?.InnerXml;
-
-                      Enum.TryParse(typeof(AppFormDataType),
-                          Regex.Replace(res, "^[a-z]", m => m.Value.ToUpper()),
-                          out var type);
-
-                      if ((AppFormDataType)type! == AppFormDataType.Texto)
-                      {
-                          var topicText = (itemTable as XmlNode)!.ChildNodes[1]!.InnerXml.Replace("\n", "");
-                          var unidadeText = "";
-                          string value = "";
-
-                          if ((itemTable as XmlNode)!.ChildNodes[2]!.Name == "value")
-                          {
-                              value = (itemTable as XmlNode)!.ChildNodes[2]!.InnerXml;
-                          }
-                          else
-                          {
-                              unidadeText = (itemTable as XmlNode)!.ChildNodes[2]!.InnerXml;
-                              value = (itemTable as XmlNode)!.ChildNodes[3]!.InnerXml;
-                          }
-
-                          var textItem = new AppFormDataItemTextModel(
-                              id: "", topic: topicText, type: (AppFormDataType)type, textData: value, measurementUnit: unidadeText);
-                          modelTable.Add(textItem);
-                      }
-
-                      if ((AppFormDataType)type == AppFormDataType.Checkbox)
-                      {
-                          var checkboxItem = new AppFormDataItemCheckboxModel(
-                             id: "", topic: "", type: (AppFormDataType)type)
-                          {
-                              Children = new List<AppFormDataItemCheckboxChildModel>(),
-                          };
-
-                          XmlNodeList? checkboxes;
-
-                          if ((itemTable as XmlNode)!.ChildNodes[1]!.Name == "topic")
-                          {
-                              checkboxItem.Topic = (itemTable as XmlNode)!.ChildNodes[1]!.InnerXml.Replace("\n", "");
-                              checkboxes = (itemTable as XmlNode)!.ChildNodes[2]!.ChildNodes;
-                          }
-                          else
-                          {
-                              checkboxes = (itemTable as XmlNode)!.ChildNodes[1]!.ChildNodes;
-                          }
-
-                          foreach (XmlNode item in checkboxes)
-                          {
-                              var checkbox = item;
-
-                              var newItem = new AppFormDataItemCheckboxChildModel(
-                                  id: "", topic: checkbox.ChildNodes[0]!.InnerXml.Replace("\n", ""))
-                              {
-                                  Options = new ObservableCollection<AppOptionModel>(),
-                              };
-
-                              foreach (XmlNode options in checkbox.ChildNodes[1]!.ChildNodes)
-                              {
-                                  var optionItem = new AppOptionModel(value: options.ChildNodes[1]!.InnerXml,
-                                      id: "",
-                                      isChecked: bool.Parse(options.ChildNodes[0]!.InnerXml));
-
-                                  newItem.Options.Add(optionItem);
-                              }
-                              newItem.TextItems = new ObservableCollection<AppFormDataItemTextModel?>();
-
-                              if (checkbox.ChildNodes[2] is not null && checkbox.ChildNodes[2].Name == "texto")
-                              {
-                                  var textItem = new AppFormDataItemTextModel(
-                                      id: "",
-                                      topic: checkbox.ChildNodes[2].ChildNodes[0].InnerXml,
-                                      type: AppFormDataType.Texto,
-                                      textData: checkbox.ChildNodes[2].ChildNodes[2].InnerXml,
-                                      measurementUnit: checkbox.ChildNodes[2].ChildNodes[1].InnerXml);
-
-                                  newItem.TextItems.Add(textItem);
-                              }
-
-                              checkboxItem.Children.Add(newItem);
-                          }
-                          modelTable.Add(checkboxItem);
-                      }
-
-                      if ((AppFormDataType)type == AppFormDataType.Observação)
-                      {
-                          var value = (itemTable as XmlNode)!.ChildNodes[1]!.InnerXml;
-
-                          var observation = new AppFormDataItemObservationModel(
-                              observation: value, id: "", topic: "Observações", type: (AppFormDataType)type);
-                          modelTable.Add(observation);
-                      }
-
-                      if ((AppFormDataType)type == AppFormDataType.Image)
-                      {
-                          var value = (itemTable as XmlNode);
-
-                          var image = new AppFormDataItemImageModel(
-                              id: "", topic: "Imagens", type: (AppFormDataType)type)
-                          {
-                              ImagesItems = new List<ImagesItem>(),
-                          };
-
-                          if ((itemTable as XmlNode)!.ChildNodes[1] is not null)
-                          {
-                              foreach (XmlNode item in (itemTable as XmlNode)!.ChildNodes[1])
-                              {
-                                  image.ImagesItems.Add(
-                                      item: new(
-                                      id: "",
-                                      imagePath: item?.ChildNodes[0]?.InnerXml,
-                                      imageObservation: item?.ChildNodes[1]?.InnerXml));
-                              }
-
-                          }
-                          modelTable.Add(image);
-                      }
-                  }
-
-                  foreach (XmlNode itemLaw in root.ChildNodes[2]!.ChildNodes)
-                  {
-                      var lawContent = new StringBuilder();
-
-                      foreach (XmlNode item in itemLaw.ChildNodes[1].ChildNodes)
-                      {
-                          lawContent.AppendLine(item.InnerXml);
-                      }
-
-                      var law = new AppLawModel(
-                          lawId: itemLaw.ChildNodes[0]?.InnerXml,
-                          lawTextContent: lawContent.ToString());
-
-
-                      lawModel.Add(law);
-                  }
-
-                  model.FormData = modelTable;
-                  model.LawList = lawModel;
-
-                  return model;
-
-              }
-              catch (Exception)
-              {
-                  throw;
-              }
-          });
-
-          task.Start();
-
-          return await task;*/
-
-
-        if (!Path.Exists(path: filePathToRead))
+        return await Task.Run(() =>
         {
-            return null;
-        }
+            if (!Path.Exists(path: filePathToRead))
+            {
+                Optional<AppItemModel>.None();
+            }
 
-        var serializer = new XmlSerializer(type: typeof(ItemRoot));
+            return CreateSerealizer()
+                .ToOption()
+            .Map(res =>
+            {
+                using var reader = XmlReader.Create(inputUri: filePathToRead);
 
-        using var reader = XmlReader.Create(inputUri: filePathToRead);
-
-        var result = await Task.Run<ItemRoot>(function: () => (ItemRoot)serializer.Deserialize(xmlReader: reader));
-
-        return result.ToAppItemModel();
+                return res.Deserialize(xmlReader: reader)
+                .ToOption()
+                .Map(res => ((ItemRoot)res).ToAppItemModel());
+            })
+                .Reduce(() => Optional<AppItemModel>.None());
+        });
     }
 
     public async Task<AppItemModel?> GetProjectItemContent(
