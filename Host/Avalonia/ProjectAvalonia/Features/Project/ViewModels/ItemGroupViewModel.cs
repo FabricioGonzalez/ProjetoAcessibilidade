@@ -124,6 +124,12 @@ public class ItemGroupViewModel : ReactiveObject,
         get;
     }
 
+    public ReactiveCommand<Unit, Unit> MoveItemCommand
+    {
+        get;set;
+    } 
+    =ReactiveCommand.CreateFromObservable(() => Observable.Return(Unit.Default));
+
     public ReactiveCommand<Unit, IItemViewModel> AddProjectItemCommand
     {
         get;

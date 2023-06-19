@@ -333,19 +333,20 @@
         </checkbox_item>
       </checkboxes>
     </checkbox_items>
-    <observation_item>
-      <id>1d144094-18b9-4d4b-a3bf-e4bf6cd1d86a</id>
-      <topic xsi:nil="true" />
-      <type>observation</type>
-      <observation />
-    </observation_item>
-    <image_items>
-      <id>d3a97600-5747-42ab-90fb-d4ab1accc82e</id>
-      <topic xsi:nil="true" />
-      <type>image</type>
-      <images />
-    </image_items>
   </table>
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law>
     <law_item>
       <id>NBR9050/20</id>

@@ -13,8 +13,9 @@ public partial class EditableItemViewModel : ReactiveObject, IEditableItemViewMo
 
     [AutoNotify] private string _templateName;
 
-    public EditableItemViewModel()
+    public EditableItemViewModel(ReactiveCommand<IEditableItemViewModel, Unit> commit)
     {
+        CommitItemCommand = commit;
     }
 
     public bool InEditMode

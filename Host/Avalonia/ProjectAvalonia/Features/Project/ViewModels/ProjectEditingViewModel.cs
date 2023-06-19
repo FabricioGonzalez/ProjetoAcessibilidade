@@ -229,11 +229,11 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
 
 public static class Extension
 {
-    public static ObservableCollection<ILawListViewModel> ToViewLawList(this IList<AppLawModel> lawModels) =>
+    public static ObservableCollection<ILawListViewModel> ToViewLawList(this IEnumerable<AppLawModel> lawModels) =>
         new(collection: lawModels.Select(selector: item =>
             new LawListViewModel(lawId: item.LawId, lawContent: item.LawTextContent)));
 
-    public static ObservableCollection<IFormViewModel> ToViewForm(this IList<IAppFormDataItemContract> formItems) =>
+    public static ObservableCollection<IFormViewModel> ToViewForm(this IEnumerable<IAppFormDataItemContract> formItems) =>
         new(collection: formItems.Select<IAppFormDataItemContract, IFormViewModel>(selector: item =>
         {
             return item switch

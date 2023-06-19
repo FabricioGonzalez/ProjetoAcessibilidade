@@ -35,7 +35,10 @@ public interface IItemViewModel : INotifyPropertyChanged
     {
         get;
     }
-
+    public ReactiveCommand<IItemGroupViewModel, Unit> CanMoveCommand
+    {
+        get;
+    }
 
     public ReactiveCommand<IItemViewModel, Unit> SelectItemToEditCommand
     {

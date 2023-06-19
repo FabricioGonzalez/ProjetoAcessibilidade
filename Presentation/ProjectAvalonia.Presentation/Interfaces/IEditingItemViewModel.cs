@@ -24,6 +24,11 @@ public interface IEditingItemViewModel
     public ReactiveCommand<Unit, Unit> CloseItemCommand
     {
         get;
+    }   
+    
+    public ReactiveCommand<Unit, Unit> SaveItemCommand
+    {
+        get;
     }
 
 

@@ -1,19 +1,4 @@
-﻿using Common;
-using Common.Linq;
-
-using ProjectItemReader.XmlFile;
-
-using ProjetoAcessibilidade.Core.Entities.Solution;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
-
-using QuestPDF.Helpers;
-
-using QuestPDFReport.Models;
-
-namespace QuestPDFReport;
+﻿namespace QuestPDFReport;
 
 public static class DataSource
 {
@@ -60,7 +45,7 @@ public static class DataSource
 
         foreach (var item in items)
         {
-            var data = await repository.GetProjectItemContent(filePathToRead: item);
+            AppItemModel? data = await repository.GetProjectItemContent(filePathToRead: item);
 
             var section = new ReportSection();
 

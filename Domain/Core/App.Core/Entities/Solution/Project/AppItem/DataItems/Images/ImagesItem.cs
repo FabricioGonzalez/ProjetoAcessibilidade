@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace Core.Entities.Solution.Project.AppItem.DataItems.Images;
+﻿namespace Core.Entities.Solution.Project.AppItem.DataItems.Images;
 
 public class ImagesItem
 {

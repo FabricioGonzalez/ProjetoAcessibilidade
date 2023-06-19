@@ -2,7 +2,7 @@
 
 internal interface IToolBarHost
 {
-    MenuViewModel ToolBar
+    MenuViewModel? ToolBar
     {
         get;
     }

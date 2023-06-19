@@ -128,7 +128,7 @@ public partial class MainViewModel : ViewModelBase
             {
                 page.SetActive();
 
-                ToolBarMenu = page?.ToolBar ?? null;
+                ToolBarMenu = MainScreen.CurrentPage.ToolBar;
             })
             .Subscribe();
 

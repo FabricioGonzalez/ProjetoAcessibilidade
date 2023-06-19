@@ -176,19 +176,20 @@
         </checkbox_item>
       </checkboxes>
     </checkbox_items>
-    <observation_item>
-      <id>a716e082-c6a9-4188-afb6-9315a06d5b9b</id>
-      <topic xsi:nil="true" />
-      <type>observation</type>
-      <observation />
-    </observation_item>
-    <image_items>
-      <id>db238897-9efc-4a3b-8400-80b000aefee7</id>
-      <topic xsi:nil="true" />
-      <type>image</type>
-      <images />
-    </image_items>
   </table>
+	<observations>
+		<observation>
+			<id></id>
+			<text></text>
+		</observation>
+	</observations>
+	<images>
+		<image>
+			<id></id>
+			<path></path>
+			<observation></observation>
+		</image>
+	</images>
   <law>
     <law_item>
       <id>NBR9050/20</id>

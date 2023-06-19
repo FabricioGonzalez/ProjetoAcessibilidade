@@ -6,11 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Common;
 using Common.Optional;
+
+using Core.Entities.Solution.Project.AppItem;
 
 using DynamicData;
 using DynamicData.Alias;
@@ -110,7 +113,7 @@ public partial class TemplateEditViewModel
     {
         get;
     }
-    private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem => ReactiveCommand.CreateFromTask<IEditableItemViewModel>(async (item) =>
+    private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem => ReactiveCommand.CreateFromTask<IEditableItemViewModel, Unit>(async (item) =>
     {
         var result = await _mediator.Send(
                new GetSystemProjectItemContentQuery(item.ItemPath),
@@ -124,6 +127,7 @@ public partial class TemplateEditViewModel
             .ToOption()
             .Map(val => TemplateEditTab.EditingItem = val);
         });
+        return Unit.Default;
     });
     private ImmutableList<IMenuItem>.Builder CreateMenu()
     {
@@ -139,14 +143,13 @@ public partial class TemplateEditViewModel
             label: "Create Item",
             command: ReactiveCommand.Create(() =>
             {
-                Items?.Add(new EditableItemViewModel()
+                Items?.Add(new EditableItemViewModel(CommitItemCommand)
                 {
                     Id = Guid.NewGuid().ToString(),
                     InEditMode = true,
                     Name = "",
                     TemplateName = "",
-                    ItemPath = "",
-                    CommitItemCommand = CommitItemCommand
+                    ItemPath = ""
                 });
             }),
             icon: "solution_create_24_rounded".GetIcon(),
@@ -368,7 +371,7 @@ public partial class TemplateEditViewModel
                 Items = new ObservableCollection<IEditableItemViewModel>(
                     success.Data
                         ?.Select(
-                            item => new EditableItemViewModel
+                            item => new EditableItemViewModel(CommitItemCommand)
                             {
                                 Id = item.Id ??
                                      Guid.NewGuid()

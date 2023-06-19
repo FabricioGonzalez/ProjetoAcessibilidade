@@ -18,6 +18,7 @@ using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 
@@ -50,6 +51,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                      var vm = new ItemGroupViewModel(
                      name: model.Name,
                      itemPath: model.ItemPath);
+                     vm.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
                      vm.TransformFrom(items: model.Items);
 
                      return vm;
@@ -63,21 +65,6 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
             .Switch()
              .SubscribeAsync(async item =>
              {
-                 SolutionState.ReloadItem(Items
-                     .Select(x => new ItemGroupModel()
-                     {
-                         Name = x.Name,
-                         ItemPath = x.ItemPath,
-                         Items = x.Items.Select(x => new ItemModel()
-                         {
-                             Id = x.Id,
-                             ItemPath = x.ItemPath,
-                             Name = x.Name,
-                             TemplateName = x.TemplateName
-                         })
-                    .ToList()
-                     }).ToList());
-
                  await SaveSolution();
              });
 
@@ -149,12 +136,34 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
     Items
         .Select(selector: x => x.AddProjectItemCommand.Select(s => s))
         .Merge();
+    private IObservable<IItemGroupViewModel?> WhenAnyItemWasMoved() =>
+    // Select the documents into a list of Observables
+    // who return the Document to close when signaled,
+    // then flatten them all together.
+    Items
+        .Select(selector: x => x.MoveItemCommand.Select(_ => x))
+        .Merge();
 
 
     private async Task SaveSolution()
     {
         if (SolutionState is not null)
         {
+            SolutionState.ReloadItem(Items
+                     .Select(x => new ItemGroupModel()
+                     {
+                         Name = x.Name,
+                         ItemPath = x.ItemPath,
+                         Items = x.Items.Select(x => new ItemModel()
+                         {
+                             Id = x.Id,
+                             ItemPath = x.ItemPath,
+                             Name = x.Name,
+                             TemplateName = x.TemplateName
+                         })
+                    .ToList()
+                     }).ToList());
+
             await _mediator.Send(
                 request: new CreateSolutionCommand(
                     SolutionPath: SolutionState.FilePath,

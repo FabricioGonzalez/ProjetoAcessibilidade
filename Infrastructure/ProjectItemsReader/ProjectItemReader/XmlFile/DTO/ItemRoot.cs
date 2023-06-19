@@ -1,16 +1,4 @@
-﻿using System.Xml.Serialization;
-
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-
-using ProjectItemReader.XmlFile.DTO.FormItem;
-
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
-
-namespace ProjectItemReader.XmlFile.DTO;
+﻿namespace ProjectItemReader.XmlFile.DTO;
 
 [XmlRoot(elementName: "item")]
 public class ItemRoot

@@ -3,7 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
-             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+           
+			 xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
              xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
              xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -13,8 +14,8 @@
     <Design.DataContext>
         <designTimeViewModels:DesignTimeItemGroupViewModel />
     </Design.DataContext>
-    <TreeViewItem HorizontalAlignment="Stretch" Items="{Binding Items}">
-        <TreeViewItem.Header>
+    <TreeViewItem HorizontalAlignment="Stretch" DragDrop.AllowDrop="True"  PointerPressed="InputElement_OnPointerPressed"  Items="{Binding Items}">
+		<TreeViewItem.Header>
             <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
                 <PathIcon DockPanel.Dock="Left" Margin="0,0,8,0" Data="{StaticResource folder_regular}" />
                 <controls:EditableTextBlock
@@ -37,7 +38,7 @@
         </TreeViewItem.ContextMenu>
         <TreeViewItem.ItemTemplate>
             <DataTemplate>
-                <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+                <DockPanel HorizontalAlignment="Stretch" LastChildFill="True"  DragDrop.AllowDrop="True" PointerPressed="InputElement_OnPointerPressed">
                     <Interaction.Behaviors>
                         <behaviors:ExecuteCommandOnDoubleTappedBehavior
                             Command="{Binding SelectItemToEditCommand}"

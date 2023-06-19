@@ -39,7 +39,7 @@ public interface IEditableItemViewModel : INotifyPropertyChanged
 
     public ReactiveCommand<IEditableItemViewModel, Unit> CommitItemCommand
     {
-        get;
+        get;init;
     }
 
     public ReactiveCommand<Unit, Unit> ExcludeItemCommand
