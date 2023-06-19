@@ -25,6 +25,7 @@
         <AvaloniaVersion>0.10.18</AvaloniaVersion>
         <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
         <SignAssembly>False</SignAssembly>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
