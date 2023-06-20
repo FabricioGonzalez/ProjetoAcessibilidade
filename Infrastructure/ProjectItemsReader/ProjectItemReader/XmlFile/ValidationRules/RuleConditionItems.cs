@@ -12,12 +12,22 @@ public class RuleConditionItems
     }
 
     [XmlArray(elementName: "conditions_to_check")]
-    [XmlArrayItem(elementName: "value_trigger", type: typeof(ValueTriggers))]
-    public List<ValueTriggers> Triggers
+    [XmlArrayItem(elementName: "rules_set", type: typeof(RuleSetItem))]
+    public List<RuleSetItem> RuleSetItems
     {
         get; set;
     }
 
+
+}
+
+public class RuleSetItem
+{
+    [XmlElement(elementName: "value_trigger")]
+    public ValueTriggers ValueTrigger
+    {
+        get; set;
+    }
     [XmlArray(elementName: "results")]
     [XmlArrayItem(elementName: "result_item", typeof(Results))]
     public List<Results> Results

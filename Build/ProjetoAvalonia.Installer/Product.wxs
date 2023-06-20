@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define ProjectAvalonia.Desktop_TargetDir=$(var.ProjectAvalonia.Desktop.TargetDir)?>
-	<Product Id="*" Name="ProjetoAvalonia.Installer" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="9f02da0c-c79d-4d6c-92b5-fed5d41d01be">
+	<Product Id="*" Name="ProjetoAvalonia.Installer" Language="1033" Version="1.0.0.0" Manufacturer="Fabricio" UpgradeCode="9f02da0c-c79d-4d6c-92b5-fed5d41d01be">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />

@@ -8,12 +8,19 @@
       <condition>
         <operation>Obrigatority</operation>
         <conditions_to_check>
+          <rules_set>
           <value_trigger>{TargetId} -> #ItemValue# is checked</value_trigger>
-          <value_trigger>{TargetId2} -> #ItemValue# has $my text$</value_trigger>
+            <results>
+              <result_item>Acesso Indisponível</result_item>
+            </results>
+          </rules_set>
+          <rules_set>
+            <value_trigger>{TargetId2} -> #ItemValue# has $my text$</value_trigger>
+            <results>
+              <result_item>Acesso Indisponível</result_item>
+            </results>
+          </rules_set>
         </conditions_to_check>
-        <results>
-          <result_item>Acesso Indisponível</result_item>
-        </results>
       </condition>
     </conditions>
   </rule>

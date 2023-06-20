@@ -46,7 +46,8 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
                     Targets = x.Targets.Select(x => new Targets() { Id = x.Id }),
                     Rules = x.RuleConditions.Select(x => new RuleSet()
                     {
-                        Operation = x.Operation
+                        Operation = x.Operation,
+                        /* Conditions = x.RuleSetItems.Select()*/
                     })
                 });
             });

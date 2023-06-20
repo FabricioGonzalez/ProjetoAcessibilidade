@@ -69,6 +69,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppDI", "DI\AppDI\AppDI.csp
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "ProjetoAvalonia.Installer", "Build\ProjetoAvalonia.Installer\ProjetoAvalonia.Installer.wixproj", "{1ED0FBF5-F303-46E5-A215-E825F2FE1616}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfrastrutureTests", "Infrastructure\Tests\InfrastrutureTests\InfrastrutureTests.csproj", "{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -329,6 +331,22 @@ Global
 		{1ED0FBF5-F303-46E5-A215-E825F2FE1616}.Release|x64.Build.0 = Release|x86
 		{1ED0FBF5-F303-46E5-A215-E825F2FE1616}.Release|x86.ActiveCfg = Release|x86
 		{1ED0FBF5-F303-46E5-A215-E825F2FE1616}.Release|x86.Build.0 = Release|x86
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Debug|arm64.Build.0 = Debug|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Debug|x64.Build.0 = Debug|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Release|arm64.ActiveCfg = Release|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Release|arm64.Build.0 = Release|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Release|x64.ActiveCfg = Release|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Release|x64.Build.0 = Release|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -356,6 +374,7 @@ Global
 		{F0EBBEC6-A5FE-4532-884E-CE3F19549998} = {594CC6EF-C9A3-4C67-8F00-A35DDE903368}
 		{378D45D9-041E-4624-BFC0-9812E74B4186} = {0A488BE3-6D93-4FE6-8AE9-1D7387BDE44A}
 		{1ED0FBF5-F303-46E5-A215-E825F2FE1616} = {6487D63E-23A2-4DF4-9EB5-610AD80B3C9F}
+		{489DE6C9-B58F-4A45-ABC5-E0E0A92EDFFD} = {70CDA4DF-6612-4CF7-87EA-03701778A84E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {121D87D8-30BB-4E71-80CE-67CC06814434}
