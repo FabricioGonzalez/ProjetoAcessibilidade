@@ -1,19 +1,28 @@
-﻿using ProjectAvalonia.Presentation.Interfaces;
+﻿using System.Collections.Generic;
+
+using Core.Entities.ValidationRules;
+
+using ProjectAvalonia.Presentation.Interfaces;
 
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class TextFormItemViewModel : ReactiveObject, ITextFormItemViewModel
+public partial class TextFormItemViewModel : ReactiveObject, ITextFormItemViewModel
 {
-    public TextFormItemViewModel(string topic, string textData, string measurementUnit, string id)
+    public TextFormItemViewModel(string topic, string textData, string measurementUnit, string id, IEnumerable<ValidationRule> rules)
     {
         Topic = topic;
         TextData = textData;
         MeasurementUnit = measurementUnit;
-        this.Id = id;
+        Id = id;
+        Rules = rules;
     }
     public string Id
+    {
+        get; set;
+    }
+    public IEnumerable<ValidationRule> Rules
     {
         get; set;
     }
@@ -21,11 +30,7 @@ public class TextFormItemViewModel : ReactiveObject, ITextFormItemViewModel
     {
         get;
     }
-
-    public string TextData
-    {
-        get;
-    }
+    [AutoNotify] private string _textData;
 
     public string MeasurementUnit
     {

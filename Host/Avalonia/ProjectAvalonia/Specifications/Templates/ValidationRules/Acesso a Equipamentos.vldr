@@ -2,7 +2,7 @@
 <validation_rules>
   <rule>
     <targets>
-      <target>{ItemId}</target>
+      <target>ItemId</target>
     </targets>
     <conditions>
       <condition>

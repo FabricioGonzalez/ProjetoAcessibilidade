@@ -56,7 +56,17 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="interfaces:IImageItemViewModel">
-                            <components:ImageItemView DataContext="{Binding}" />
+                            <components:ImageItemView DataContext="{Binding}">
+                                <components:ImageItemView.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuItem
+                                            x:CompileBindings="False"
+                                            Command="{Binding $parent[Expander].DataContext.RemoveImageCommand}"
+                                            CommandParameter="{Binding}"
+                                            Header="Deletar Imagem" />
+                                    </MenuFlyout>
+                                </components:ImageItemView.ContextFlyout>
+                            </components:ImageItemView>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

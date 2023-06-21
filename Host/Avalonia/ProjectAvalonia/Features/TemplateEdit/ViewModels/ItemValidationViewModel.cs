@@ -1,4 +1,8 @@
-﻿using ProjectAvalonia.Presentation.Interfaces;
+﻿using System.Collections.ObjectModel;
+
+using Core.Entities.ValidationRules;
+
+using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ValidationRulesState;
 using ProjectAvalonia.ViewModels;
 
@@ -25,4 +29,8 @@ public partial class ItemValidationViewModel : TemplateEditTabViewModelBase, IIt
     }
     [AutoNotify] ValidationRuleContainerState _validationItemRules;
     public override MenuViewModel? ToolBar => null;
+
+
+    [AutoNotify]
+    private ObservableCollection<ValidationRule> _rules;
 }

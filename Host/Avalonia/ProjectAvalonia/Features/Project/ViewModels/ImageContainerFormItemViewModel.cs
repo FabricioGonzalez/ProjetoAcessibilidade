@@ -35,6 +35,11 @@ public class ImageContainerFormItemViewModel : ReactiveObject, IImageFormItemVie
              })
              .Reduce(() => Empty.Value);
         });
+
+        RemoveImageCommand = ReactiveCommand.Create<IImageItemViewModel>(image =>
+        {
+            ImageItems.Remove(image);
+        });
     }
 
     public ObservableCollection<IImageItemViewModel> ImageItems
@@ -49,6 +54,10 @@ public class ImageContainerFormItemViewModel : ReactiveObject, IImageFormItemVie
 
 
     public ReactiveCommand<Unit, Unit> AddPhotoCommand
+    {
+        get;
+    }
+    public ReactiveCommand<IImageItemViewModel, Unit> RemoveImageCommand
     {
         get;
     }

@@ -15,7 +15,6 @@ using DynamicData.Binding;
 
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
@@ -37,7 +36,8 @@ public class ItemGroupViewModel : ReactiveObject,
 
     public ItemGroupViewModel(
         string name,
-        string itemPath
+        string itemPath,
+        Func<Task> SaveSolution
     )
     {
         _mediator = Locator.Current.GetService<IMediator>();
@@ -72,9 +72,10 @@ public class ItemGroupViewModel : ReactiveObject,
                             dialog: dialog,
                             target: NavigationTarget.CompactDialogScreen)).Result)
                     {
-                        Logger.LogDebug(message: x?.Name);
-
                         Items.Remove(item: x);
+
+                        await _mediator.Send(new DeleteProjectFileItemCommand(x.ItemPath), CancellationToken.None);
+                        await SaveSolution();
                     }
                 });
 
@@ -126,9 +127,9 @@ public class ItemGroupViewModel : ReactiveObject,
 
     public ReactiveCommand<Unit, Unit> MoveItemCommand
     {
-        get;set;
-    } 
-    =ReactiveCommand.CreateFromObservable(() => Observable.Return(Unit.Default));
+        get; set;
+    }
+    = ReactiveCommand.CreateFromObservable(() => Observable.Return(Unit.Default));
 
     public ReactiveCommand<Unit, IItemViewModel> AddProjectItemCommand
     {

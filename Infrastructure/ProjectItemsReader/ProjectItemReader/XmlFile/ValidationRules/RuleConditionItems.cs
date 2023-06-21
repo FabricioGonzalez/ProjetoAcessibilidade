@@ -24,7 +24,7 @@ public class RuleConditionItems
 public class RuleSetItem
 {
     [XmlElement(elementName: "value_trigger")]
-    public ValueTriggers ValueTrigger
+    public string ValueTrigger
     {
         get; set;
     }

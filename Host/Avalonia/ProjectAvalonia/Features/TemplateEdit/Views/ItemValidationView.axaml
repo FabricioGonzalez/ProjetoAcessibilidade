@@ -20,6 +20,44 @@
             HorizontalAlignment="Right"
             Icon="{StaticResource add_regular}"
             IconSize="16" />
-        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4" />
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4">
+            <ItemsControl Items="{Binding Rules}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl Items="{Binding Rules}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid RowDefinitions="40 1*">
+                                        <Label Grid.Row="0" Content="{Binding Operation}" />
+                                        <StackPanel Grid.Row="1" Spacing="4">
+                                            <Label Content="Conditions" />
+                                            <ItemsControl Items="{Binding Conditions}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Spacing="8">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBox Text="{Binding Type}" />
+                                                                <TextBox Text="{Binding CheckingValue}" />
+                                                            </StackPanel>
+                                                            <ItemsControl Items="{Binding Result}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBox Text="{Binding}" />
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

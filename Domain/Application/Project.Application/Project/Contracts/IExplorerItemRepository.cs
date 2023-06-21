@@ -1,4 +1,5 @@
 ﻿using Common;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.App.Models;
 
@@ -19,11 +20,11 @@ public interface IExplorerItemRepository
     );
 
     Task<Resource<ExplorerItem>> DeleteFolderItemAsync(
-        ExplorerItem item
+        string itemPath
     );
 
     Task<Resource<ExplorerItem>> DeleteFileItemAsync(
-        ExplorerItem item
+        string itemPath
     );
 
     Resource<Empty> RenameFolderItem(

@@ -1,26 +1,32 @@
 ﻿using Common;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
-using Splat;
 
 namespace ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 
 public sealed record DeleteProjectFileItemCommand(
-    FileItem Item
+    string itemPath
 ) : IRequest<Resource<Empty>>;
 
 public sealed class DeleteProjectFileItemCommandHandler
     : IHandler<DeleteProjectFileItemCommand, Resource<Empty>>
 {
+    private IExplorerItemRepository _repository;
+
+    public DeleteProjectFileItemCommandHandler(IExplorerItemRepository repository)
+    {
+        _repository = repository;
+    }
+
     public async Task<Resource<Empty>> HandleAsync(
         DeleteProjectFileItemCommand request
         , CancellationToken cancellationToken
     )
     {
-        var result = await Locator.Current.GetService<IExplorerItemRepository>()
-            .DeleteFileItemAsync(item: request.Item);
+        var result = await _repository.DeleteFileItemAsync(itemPath: request.itemPath);
 
         return result switch
         {

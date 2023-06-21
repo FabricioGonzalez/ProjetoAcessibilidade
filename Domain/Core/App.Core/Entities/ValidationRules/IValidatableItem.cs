@@ -2,12 +2,12 @@
 
 public interface IValidatableItem
 {
-    public IEnumerable<string> TargetIds
+    public string TargetIds
     {
         get; set;
     }
 
-    public IEnumerable<string> Values
+    public string Value
     {
         get; set;
     }

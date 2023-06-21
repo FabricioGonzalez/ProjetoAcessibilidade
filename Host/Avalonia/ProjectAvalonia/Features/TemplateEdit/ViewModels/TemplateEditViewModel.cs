@@ -31,6 +31,7 @@ using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using ProjetoAcessibilidade.Domain.App.Queries.Templates;
+using ProjetoAcessibilidade.Domain.AppValidationRules.Queries;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Commands.SystemItems;
 using ProjetoAcessibilidade.Domain.Project.Queries.SystemItems;
@@ -212,9 +213,8 @@ public partial class TemplateEditViewModel
         {
             success
             ?.Data
-            ?.ToAppStateFillable()
             .ToOption()
-            .Map(val => TemplateEditTab.EditingItem = val);
+            .Map(val => ItemValidationTab.Rules = new(val));
         });
     }
     public override string? LocalizedTitle

@@ -1,61 +1,67 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
-           
-			 xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
-             xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
-             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:DataType="interfaces:IItemGroupViewModel"
-             x:CompileBindings="True"
-             x:Class="ProjectAvalonia.Features.Project.Views.Components.ItemGroupView">
+﻿<UserControl
+    x:Class="ProjectAvalonia.Features.Project.Views.Components.ItemGroupView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:CompileBindings="True"
+    x:DataType="interfaces:IItemGroupViewModel"
+    mc:Ignorable="d">
     <Design.DataContext>
         <designTimeViewModels:DesignTimeItemGroupViewModel />
     </Design.DataContext>
-    <TreeViewItem HorizontalAlignment="Stretch" DragDrop.AllowDrop="True"  PointerPressed="InputElement_OnPointerPressed"  Items="{Binding Items}">
-		<TreeViewItem.Header>
-            <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
-                <PathIcon DockPanel.Dock="Left" Margin="0,0,8,0" Data="{StaticResource folder_regular}" />
-                <controls:EditableTextBlock
-                    Command="{Binding CommitFolderCommand}"
-                    Text="{Binding Name}" />
+    <TreeViewItem
+        HorizontalAlignment="Stretch"
+        DragDrop.AllowDrop="True"
+        Items="{Binding Items}"
+        PointerPressed="InputElement_OnPointerPressed">
+        <TreeViewItem.Header>
+            <DockPanel
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                LastChildFill="True">
+                <PathIcon
+                    Margin="0,0,8,0"
+                    Data="{StaticResource folder_regular}"
+                    DockPanel.Dock="Left" />
+                <controls:EditableTextBlock Command="{Binding CommitFolderCommand}" Text="{Binding Name}" />
             </DockPanel>
         </TreeViewItem.Header>
         <TreeViewItem.ContextMenu>
             <ContextMenu>
-                <MenuItem
-                    Command="{Binding AddProjectItemCommand}"
-                    Header="Adicionar Item" />
-                <MenuItem
-                    Command="{Binding RenameFolderCommand}"
-                    Header="Renomer Item" />
-                <MenuItem
-                    Command="{Binding ExcludeFolderCommand}"
-                    Header="Excluir Pasta" />
+                <MenuItem Command="{Binding AddProjectItemCommand}" Header="Adicionar Item" />
+                <MenuItem Command="{Binding RenameFolderCommand}" Header="Renomer Item" />
+                <MenuItem Command="{Binding ExcludeFolderCommand}" Header="Excluir Pasta" />
             </ContextMenu>
         </TreeViewItem.ContextMenu>
         <TreeViewItem.ItemTemplate>
             <DataTemplate>
-                <DockPanel HorizontalAlignment="Stretch" LastChildFill="True"  DragDrop.AllowDrop="True" PointerPressed="InputElement_OnPointerPressed">
+                <DockPanel
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    DragDrop.AllowDrop="True"
+                    LastChildFill="True"
+                    PointerPressed="InputElement_OnPointerPressed">
                     <Interaction.Behaviors>
-                        <behaviors:ExecuteCommandOnDoubleTappedBehavior
-                            Command="{Binding SelectItemToEditCommand}"
-                            CommandParameter="{Binding}" />
+                        <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding SelectItemToEditCommand}" CommandParameter="{Binding}" />
                     </Interaction.Behaviors>
-                    <PathIcon HorizontalAlignment="Left" Margin="0,0,8,0"
-                              Data="{StaticResource document_regular}" />
+                    <PathIcon
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Left"
+                        Data="{StaticResource document_regular}" />
                     <controls:EditableTextBlock
-                        Command="{Binding  CommitFileCommand}"
+                        Command="{Binding CommitFileCommand}"
                         CommandParameter="{Binding Parent}"
                         Text="{Binding Name}" />
                     <DockPanel.ContextMenu>
                         <ContextMenu>
-                            <MenuItem
-                                Command="{Binding ExcludeFileCommand}"
-
-                                Header="Excluir" />
+                            <MenuItem Command="{Binding ExcludeFileCommand}" Header="Excluir" />
                             <MenuItem
                                 Command="{Binding RenameFileCommand}"
                                 CommandParameter="{Binding}"

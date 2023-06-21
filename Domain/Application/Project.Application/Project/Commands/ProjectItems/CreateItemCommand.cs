@@ -31,6 +31,7 @@ public sealed class CreateItemCommandHandler : IHandler<CreateItemCommand, Resou
 
         return result.Map((item) =>
         {
+            item.TemplateName = item.ItemName;
             item.ItemName = Path.GetFileNameWithoutExtension(command.ItemPath);
             return item;
 

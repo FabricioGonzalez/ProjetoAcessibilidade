@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 using Common;
 
 using Core.Entities.Solution.Project.AppItem;
 using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using Core.Entities.ValidationRules;
 
 using DynamicData;
 using DynamicData.Binding;
@@ -19,13 +22,13 @@ using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
 
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+using ProjetoAcessibilidade.Domain.AppValidationRules.Queries;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
 
@@ -193,13 +196,19 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
         {
             if (EditingItems.All(predicate: x => x.Id != item.Id))
             {
-                var result = await _mediator.Send(
-                    request: new GetProjectItemContentQuery(ItemPath: item.ItemPath),
+                var getItem = _mediator.Send(
+                     request: new GetProjectItemContentQuery(ItemPath: item.ItemPath),
+                     cancellation: CancellationToken.None);
+
+                var getRules = _mediator.Send(
+                    request: new GetValidationRulesQuery(ItemPath: Path.Combine(Constants.AppValidationRulesTemplateFolder, $"{item.TemplateName}{Constants.AppProjectValidationTemplateExtension}")),
                     cancellation: CancellationToken.None);
 
-                result.OnSuccess(onSuccessAction: success =>
+                await Task.WhenAll(getItem, getRules);
+
+                if (getItem.Result is Resource<AppItemModel>.Success itemModel && getRules.Result is Resource<IEnumerable<ValidationRule>>.Success rules)
                 {
-                    var successData = success.Data;
+                    var successData = itemModel.Data;
 
                     IEditingItemViewModel itemToEdit = new EditingItemViewModel(
                         id: item.Id,
@@ -207,22 +216,17 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
                         itemPath: item.ItemPath,
                         body: new EditingBodyViewModel(
                             lawList: successData.LawList.ToViewLawList(),
-                            form: new(successData.FormData.ToViewForm()
+                            form: new(successData.FormData.ToViewForm(rules.Data)
                             .Append(new ObservationFormItem(
                 string.Join(";\n", successData.Observations
-                .Select(x => x.ObservationText))))
-            .Append(new ImageContainerFormItemViewModel(
-                imageItems: new(
+                        .Select(x => x.ObservationText))))
+                        .Append(new ImageContainerFormItemViewModel(
+                         imageItems: new(
                 successData.Images
-                .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath, imageObservation: x.ImageObservation))), "Imagens")))));
-
-
+                        .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath, imageObservation: x.ImageObservation))), "Imagens")))));
                     EditingItems.Add(item: itemToEdit);
-                });
-                result.OnError(onErrorAction: error =>
-                {
-                    MainViewModel.ValidatedErrors.Handle(input: new Exception(message: error.Message)).Subscribe();
-                });
+
+                }
             }
 
             else
@@ -242,7 +246,7 @@ public static class Extension
         new(collection: lawModels.Select(selector: item =>
             new LawListViewModel(lawId: item.LawId, lawContent: item.LawTextContent)));
 
-    public static ObservableCollection<IFormViewModel> ToViewForm(this IEnumerable<IAppFormDataItemContract> formItems) =>
+    public static ObservableCollection<IFormViewModel> ToViewForm(this IEnumerable<IAppFormDataItemContract> formItems, IEnumerable<ValidationRule> rules) =>
         new(collection:
             formItems
             .Select<IAppFormDataItemContract, IFormViewModel>(selector: item =>
@@ -252,18 +256,22 @@ public static class Extension
                 AppFormDataItemTextModel text => new TextFormItemViewModel(
                     id: text.Id,
                     topic: text.Topic,
-                    textData: text.TextData,
-                    measurementUnit: text.MeasurementUnit ?? ""),
+                textData: text.TextData,
+                    measurementUnit: text.MeasurementUnit ?? "", rules: rules.Where(x => x.Targets.Any(i => i.Id == text.Id))),
                 AppFormDataItemCheckboxModel checkbox => new CheckboxFormItem(id: checkbox.Id, topic: checkbox.Topic,
                     checkboxItems: new ObservableCollection<ICheckboxItemViewModel>(
                         collection: checkbox.Children.Select(
-                            selector: child => new CheckboxItemViewModel(id: child.Id, topic: child.Topic,
+                            selector: child => new CheckboxItemViewModel(
+                                id: child.Id,
+                                topic: child.Topic,
+                                rules: rules.Where(x => x.Targets.Any(i => i.Id == child.Id)),
                                 textItems: new ObservableCollection<ITextFormItemViewModel>(
                                     collection: child.TextItems.Select(selector: textItem =>
                                         new TextFormItemViewModel(id: textItem.Id,
                                                                   topic: textItem.Topic,
                                                                   textData: textItem.TextData,
-                                                                  measurementUnit: textItem.MeasurementUnit ?? ""))),
+                                                                  measurementUnit: textItem.MeasurementUnit ?? "",
+                                                                  rules: rules.Where(x => x.Targets.Any(i => i.Id == child.Id))))),
                                 options: new OptionContainerViewModel(
                                     options: new ObservableCollection<IOptionViewModel>(
                                         collection: child.Options.Select(selector: option =>

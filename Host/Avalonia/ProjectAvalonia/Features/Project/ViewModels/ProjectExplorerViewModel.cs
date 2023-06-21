@@ -18,13 +18,13 @@ using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Commands.FolderItems;
 using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 
 using ReactiveUI;
@@ -50,7 +50,8 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                  {
                      var vm = new ItemGroupViewModel(
                      name: model.Name,
-                     itemPath: model.ItemPath);
+                     itemPath: model.ItemPath,
+                     async () => await SaveSolution());
                      vm.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
                      vm.TransformFrom(items: model.Items);
 
@@ -82,6 +83,11 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                         target: NavigationTarget.CompactDialogScreen)).Result)
                 {
                     Items.Remove(item: x);
+
+                    await _mediator.Send(new DeleteProjectFolderItemCommand(x.ItemPath), CancellationToken.None);
+
+                    await SaveSolution();
+
                     SolutionState.RemoveFromSolution(i => i.Name == x.Name);
                 }
             });
@@ -99,7 +105,10 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
             if (result.Kind == DialogResultKind.Normal)
             {
 
-                var item = new ItemGroupViewModel(name: result.Result, itemPath: Path.Combine(Directory.GetParent(SolutionState.FilePath).FullName, Constants.AppProjectItemsFolderName, result.Result));
+                var item = new ItemGroupViewModel(
+                    name: result.Result,
+                    itemPath: Path.Combine(Directory.GetParent(SolutionState.FilePath).FullName, Constants.AppProjectItemsFolderName, result.Result),
+                   async () => await SaveSolution());
 
                 Items.Add(item: item);
 
@@ -147,28 +156,36 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 
     private async Task SaveSolution()
     {
-        if (SolutionState is not null)
+        try
         {
-            SolutionState.ReloadItem(Items
-                     .Select(x => new ItemGroupModel()
-                     {
-                         Name = x.Name,
-                         ItemPath = x.ItemPath,
-                         Items = x.Items.Select(x => new ItemModel()
+            if (SolutionState is not null)
+            {
+                SolutionState.ReloadItem(Items
+                         .Select(x => new ItemGroupModel()
                          {
-                             Id = x.Id,
-                             ItemPath = x.ItemPath,
                              Name = x.Name,
-                             TemplateName = x.TemplateName
-                         })
-                    .ToList()
-                     }).ToList());
+                             ItemPath = x.ItemPath,
+                             Items = x.Items.Select(x => new ItemModel()
+                             {
+                                 Id = x.Id,
+                                 ItemPath = x.ItemPath,
+                                 Name = x.Name,
+                                 TemplateName = x.TemplateName
+                             })
+                        .ToList()
+                         }).ToList());
 
-            await _mediator.Send(
-                request: new CreateSolutionCommand(
-                    SolutionPath: SolutionState.FilePath,
-                    SolutionData: SolutionState),
-                cancellation: CancellationToken.None);
+                await _mediator.Send(
+                    request: new CreateSolutionCommand(
+                        SolutionPath: SolutionState.FilePath,
+                        SolutionData: SolutionState),
+                    cancellation: CancellationToken.None);
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
         }
     }
 

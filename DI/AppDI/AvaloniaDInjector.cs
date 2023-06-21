@@ -151,7 +151,7 @@ public static class AvaloniaDInjector
                 new AppTemplateRepositoryImpl());
         service.Register<IValidationRulesRepository>(
                     factory: () =>
-                        new ValidationRulesRepositoryImpl());
+                        new ValidationRulesRepositoryImpl(new()));
 
         return app;
     }

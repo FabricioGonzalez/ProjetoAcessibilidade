@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -17,6 +19,10 @@ public class DesignTimeImageContainerFormItemViewModel : ReactiveObject, IImageF
     {
         get;
     } = "Imagens";
+    public ReactiveCommand<IImageItemViewModel, Unit> RemoveImageCommand
+    {
+        get;
+    }
 
     public ObservableCollection<IImageItemViewModel> ImageItems
     {

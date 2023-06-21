@@ -49,7 +49,7 @@ public class TableOfContentsTemplate : IComponent
                                     colItem.Item()
                                         .Element(handler: con => DrawLink(container: con, number: i + 1
                                             , itemName: reportSectionGroup.Title,
-                                            id: reportSectionGroup.Id));
+                                            id: reportSectionGroup.Title));
 
                                     for (var part = 0; part < reportSectionGroup.Parts.Count; part++)
                                     {
@@ -57,7 +57,7 @@ public class TableOfContentsTemplate : IComponent
                                             .Element(
                                                 handler: c => DrawDeepLink(container: c, parent: i + 1, number: part + 1
                                                     , itemName: reportSectionGroup.Parts[index: part].Title,
-                                                    nestedItemId: reportSectionGroup.Parts[index: part].Id));
+                                                    nestedItemId: $"{reportSectionGroup.Title} - {reportSectionGroup.Parts[index: part].Title}"));
                                     }
                                 });
                             }

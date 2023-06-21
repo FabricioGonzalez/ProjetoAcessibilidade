@@ -102,7 +102,7 @@ public class SectionTemplate : IComponent
         if (Model is ReportSectionGroup reportSectionGroup)
         {
             container
-                .Section(sectionName: reportSectionGroup.Id)
+                .Section(sectionName: reportSectionGroup.Title)
                 .Decoration(handler: decoration =>
                 {
                     decoration
@@ -122,6 +122,7 @@ public class SectionTemplate : IComponent
                             {
                                 contentDecoration
                                 .Before()
+                                 .Section(sectionName: $"{reportSectionGroup.Title} - {part.Title}")
                                 .Column(column =>
                                 {
                                     column
@@ -133,7 +134,7 @@ public class SectionTemplate : IComponent
 
                                 contentDecoration
                                     .Content()
-                                    .Section(sectionName: part.Id)
+
                                     .Column(
                                         handler: column =>
                                         {

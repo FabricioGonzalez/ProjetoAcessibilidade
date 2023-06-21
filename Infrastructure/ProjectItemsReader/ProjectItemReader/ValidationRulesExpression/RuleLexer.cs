@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace ProjectItemReader.ValidationRulesExpression;
 
@@ -6,7 +7,7 @@ public class RuleLexer
 {
     public string GetTargetId(string instruction)
     {
-        var id = Regex.Match(instruction, @$"\{KeyWordsDefinition.EvluationTargetStartKey}(.*?)\{KeyWordsDefinition.EvluationTargetEndKey}");
+        var id = Regex.Match(instruction, @$"\{KeyWordsDefinition.EvluationTargetStartKey}(.*)\{KeyWordsDefinition.EvluationTargetEndKey}");
 
         return id.Value[1..^1];
     }
@@ -26,43 +27,25 @@ public class RuleLexer
         return items;
     }
 
+    public (string target, string checkingValue, IEnumerable<string> evaluation) GetEvaluation(string evaluatingExpression)
+    {
+        return (GetTargetId(evaluatingExpression), GetCheckingValue(evaluatingExpression), GetEvaluationExpression(evaluatingExpression));
+    }
+    public static bool Compare(string op, string left, string right)
+    {
+        return op switch
+        {
+            "<" => double.Parse(left, CultureInfo.InvariantCulture) < double.Parse(right, CultureInfo.InvariantCulture),
+            ">" => double.Parse(left, CultureInfo.InvariantCulture) > double.Parse(right, CultureInfo.InvariantCulture),
+            "<=" => double.Parse(left, CultureInfo.InvariantCulture) >= double.Parse(right, CultureInfo.InvariantCulture),
+            ">=" => double.Parse(left, CultureInfo.InvariantCulture) <= double.Parse(right, CultureInfo.InvariantCulture),
+            "is" => left.Equals(right),
+            "has" => left.Contains(right.Replace("$", "")),
+            _ => false,
+        };
+    }
     public Func<bool> MountEvaluation(string checkingValue, string evaluationType, string targetValue)
     {
-        if (evaluationType == KeyWordsDefinition.EvaluationBooleanExpression)
-        {
-            return () => checkingValue == "True" && targetValue.Trim() == "checked" ? true : checkingValue == "False" && targetValue == "unchecked" ? true : false;
-        }
-        if (evaluationType == KeyWordsDefinition.EvaluationMatchingExpression)
-        {
-            return () => checkingValue.Contains(targetValue);
-        }
-        if (evaluationType == KeyWordsDefinition.EvaluationGreatValueExpression)
-        {
-            return () => double.Parse(checkingValue) > double.Parse(targetValue.Trim());
-        }
-        if (evaluationType == KeyWordsDefinition.EvaluationMinorValueExpression)
-        {
-            return () => double.Parse(checkingValue) < double.Parse(targetValue.Trim());
-        }
-        if (evaluationType == $"{KeyWordsDefinition.EvaluationGreatValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression}")
-        {
-            return () => double.Parse(checkingValue) >= double.Parse(targetValue.Trim());
-        }
-        if (evaluationType == $"{KeyWordsDefinition.EvaluationMinorValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression}")
-        {
-            return () => double.Parse(checkingValue) <= double.Parse(targetValue.Trim());
-        }
-        return () => false;
-
+        return () => KeyWordsDefinition.Operations.TryGetValue(evaluationType, out var op) && Compare(op, checkingValue, targetValue.Trim());
     }
-}
-
-public class ExpressionObject
-{
-
-}
-
-public class ExpressionConverter
-{
-
 }

@@ -38,6 +38,16 @@ public class EditableTextBlock : TemplatedControl
                 value
             ) => component.Command = value);
 
+    public static readonly DirectProperty<EditableTextBlock, bool?> HasActionsProperty =
+       AvaloniaProperty.RegisterDirect<EditableTextBlock, bool?>(
+           name: nameof(HasActions),
+           getter: component => component.HasActions,
+           setter: (
+               component,
+               value
+           ) => component.HasActions = value,
+           unsetValue: false);
+
     public static readonly DirectProperty<EditableTextBlock, IEnumerable?> ActionsProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, IEnumerable?>(
             name: nameof(Actions),
@@ -72,8 +82,10 @@ public class EditableTextBlock : TemplatedControl
 
     private readonly DispatcherTimer _editClickTimer;
     private IEnumerable? _actions;
+    private bool? _hasActions;
 
     private ICommand? _command;
+
 
     private object? _commandParameter;
     private string _editText = string.Empty;
@@ -88,7 +100,9 @@ public class EditableTextBlock : TemplatedControl
                 InEditMode = !InEditMode;
             });
 
-        _actions = new AvaloniaList<object>
+        if (_hasActions.GetValueOrDefault(false))
+        {
+            _actions = new AvaloniaList<object>
         {
             new MenuItem
             {
@@ -97,12 +111,13 @@ public class EditableTextBlock : TemplatedControl
             }
         };
 
-        if (Actions is not null)
-        {
-            ContextFlyout = new MenuFlyout
+            if (Actions is not null)
             {
-                Items = _actions
-            };
+                ContextFlyout = new MenuFlyout
+                {
+                    Items = _actions
+                };
+            }
         }
 
         _editClickTimer = new DispatcherTimer
@@ -189,6 +204,14 @@ public class EditableTextBlock : TemplatedControl
         set => SetAndRaise(
             property: CommandProperty,
             field: ref _command,
+            value: value);
+    }
+    public bool? HasActions
+    {
+        get => _hasActions;
+        set => SetAndRaise(
+            property: HasActionsProperty,
+            field: ref _hasActions,
             value: value);
     }
 

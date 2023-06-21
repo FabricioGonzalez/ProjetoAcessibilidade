@@ -1,4 +1,5 @@
 ﻿using Common;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
@@ -54,7 +55,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         {
             var folderItem = new FolderItem(Guid.NewGuid())
             {
-                Name = Path.GetFileNameWithoutExtension(path: projectItemsRootPath), Path = projectItemsRootPath,
+                Name = Path.GetFileNameWithoutExtension(path: projectItemsRootPath),
+                Path = projectItemsRootPath,
                 Children = new List<ExplorerItem>()
             };
 
@@ -106,7 +108,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         {
             var folderItem = new FolderItem(Guid.NewGuid())
             {
-                Name = Path.GetFileNameWithoutExtension(path: projectItemsRootPath), Path = projectItemsRootPath
+                Name = Path.GetFileNameWithoutExtension(path: projectItemsRootPath),
+                Path = projectItemsRootPath
             };
 
             list.Add(item: folderItem);
@@ -202,69 +205,38 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
     }
 
     public async Task<Resource<ExplorerItem>> DeleteFolderItemAsync(
-        ExplorerItem item
+        string itemPath
     )
     {
-        var path = Directory.GetParent(path: item.Path)
-            .FullName;
-        if (item is not null)
+        if (itemPath is not null)
         {
-            if (File.Exists(path: item.Path))
+            if (Directory.Exists(path: itemPath))
             {
-                File.Move(
-                    sourceFileName: item.Path,
-                    destFileName: Path.Combine(
-                        path1: path,
-                        path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+                Directory.Delete(path: itemPath, recursive: true);
+                return new Resource<ExplorerItem>.Success(Data: new ExplorerItem(Guid.NewGuid()));
             }
-            else
-            {
-                File.Copy(
-                    sourceFileName: item.ReferencedItem,
-                    destFileName: Path.Combine(
-                        path1: path,
-                        path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-
-            item.Path = item.Path.Replace(
-                oldValue: Path.GetFileName(path: item.Path),
-                newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
         }
-
-        return new Resource<ExplorerItem>.Success(Data: new ExplorerItem(Guid.NewGuid()));
+        return new Resource<ExplorerItem>.Error(Message: "Diretório não existe", Data: new ExplorerItem(Guid.NewGuid()));
     }
 
     public async Task<Resource<ExplorerItem>> DeleteFileItemAsync(
-        ExplorerItem item
+        string itemPath
     )
     {
-        var path = Directory.GetParent(path: item.Path)
-            .FullName;
-        if (item is not null)
+        if (itemPath is not null)
         {
-            if (File.Exists(path: item.Path))
+            if (File.Exists(path: itemPath))
             {
-                File.Move(
-                    sourceFileName: item.Path,
-                    destFileName: Path.Combine(
-                        path1: path,
-                        path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
-            else
-            {
-                File.Copy(
-                    sourceFileName: item.ReferencedItem,
-                    destFileName: Path.Combine(
-                        path1: path,
-                        path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
-            }
+                await Task.Run(() =>
+                {
+                    File.Delete(path: itemPath);
+                });
 
-            item.Path = item.Path.Replace(
-                oldValue: Path.GetFileName(path: item.Path),
-                newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+                return new Resource<ExplorerItem>.Success(Data: new ExplorerItem(Guid.NewGuid()));
+            }
         }
 
-        return new Resource<ExplorerItem>.Success(Data: new ExplorerItem(Guid.NewGuid()));
+        return new Resource<ExplorerItem>.Error(Message: "Erro ao deletar arquivo", Data: new ExplorerItem(Guid.NewGuid()));
     }
 
     public Resource<ExplorerItem> RenameFolderItem(
@@ -386,7 +358,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             {
                 var i = new FileItem(Guid.NewGuid())
                 {
-                    Name = Path.GetFileNameWithoutExtension(path: item), Path = item
+                    Name = Path.GetFileNameWithoutExtension(path: item),
+                    Path = item
                 };
                 list.Add(item: i);
             }
@@ -398,7 +371,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 
                 var folderItem = new FolderItem(Guid.NewGuid())
                 {
-                    Name = Path.GetFileNameWithoutExtension(path: item), Path = item
+                    Name = Path.GetFileNameWithoutExtension(path: item),
+                    Path = item
                 };
 
                 foreach (var fileItem in itens)
@@ -418,7 +392,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
                     {
                         var i = new FileItem(Guid.NewGuid())
                         {
-                            Name = Path.GetFileNameWithoutExtension(path: fileItem), Path = fileItem
+                            Name = Path.GetFileNameWithoutExtension(path: fileItem),
+                            Path = fileItem
                         };
                         folderItem.Children.Add(item: i);
                     }
@@ -443,7 +418,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             {
                 var i = new FileItem(Guid.NewGuid())
                 {
-                    Name = Path.GetFileNameWithoutExtension(path: item), Path = item
+                    Name = Path.GetFileNameWithoutExtension(path: item),
+                    Path = item
                 };
                 list.Add(item: i);
             }
@@ -454,7 +430,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 
                 var folderItem = new FolderItem(Guid.NewGuid())
                 {
-                    Name = Path.GetDirectoryName(path: item), Path = item
+                    Name = Path.GetDirectoryName(path: item),
+                    Path = item
                 };
 
                 foreach (var fileItem in itens)
@@ -473,7 +450,8 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
                     {
                         var i = new FileItem(Guid.NewGuid())
                         {
-                            Name = Path.GetFileNameWithoutExtension(path: item), Path = item
+                            Name = Path.GetFileNameWithoutExtension(path: item),
+                            Path = item
                         };
                         folderItem.Children.Add(item: i);
                     }

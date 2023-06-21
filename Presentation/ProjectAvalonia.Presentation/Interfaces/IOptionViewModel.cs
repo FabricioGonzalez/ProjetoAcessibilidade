@@ -1,6 +1,8 @@
-﻿namespace ProjectAvalonia.Presentation.Interfaces;
+﻿using System.ComponentModel;
 
-public interface IOptionViewModel
+namespace ProjectAvalonia.Presentation.Interfaces;
+
+public interface IOptionViewModel : INotifyPropertyChanged
 {
     public string Value
     {

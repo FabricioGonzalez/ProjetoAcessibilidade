@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
