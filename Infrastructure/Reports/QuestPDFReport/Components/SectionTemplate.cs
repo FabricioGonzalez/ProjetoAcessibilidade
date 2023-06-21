@@ -27,78 +27,6 @@ public class SectionTemplate : IComponent
         IContainer container
     )
     {
-        /*if (Model is ReportSection reportSection)
-        {
-            container
-                .EnsureSpace()
-                .Decoration(handler: decoration =>
-                {
-                    decoration
-                        .Before()
-                        .PaddingBottom(value: 5)
-                        .Text(text: Model.Title)
-                        .Style(style: Typography.Headline);
-
-                    decoration
-                        .Content()
-                        .Section(sectionName: reportSection.Id)
-                        .Border(value: 0.75f)
-                        .BorderColor(color: Colors.Grey.Medium)
-                        .Column(handler: column =>
-                        {
-                            foreach (var part in reportSection.Parts)
-                            {
-                                column
-                                    .Item()
-                                    .EnsureSpace(minHeight: 25)
-                                    .Column(handler: column =>
-                                    {
-                                        column
-                                            .Item()
-                                            .LabelCell()
-                                            .ExtendHorizontal()
-                                            .Text(text: part.Label);
-
-                                        if (part is not ReportSectionTitle)
-                                        {
-                                            var frame = column
-                                                .Item()
-                                                .ValueCell();
-
-                                            if (part is ReportSectionText text)
-                                            {
-                                                frame
-                                                    .ShowEntire()
-                                                    .Text(text: text.Text);
-                                            }
-
-                                            if (part is ReportSectionCheckbox checkboxes)
-                                            {
-                                                frame
-                                                    .Element(handler: x =>
-                                                        MapCheckboxes(container: x, checkboxes: checkboxes));
-                                            }
-
-                                            if (part is ReportSectionPhotoContainer photos)
-                                            {
-                                                frame
-                                                    .Element(handler: x => PhotosElement(container: x, model: photos));
-                                            }
-
-                                            if (part is ReportSectionObservation observation)
-                                            {
-                                                frame
-                                                    .Background(color: Colors.Yellow.Medium)
-                                                    .Element(handler: x =>
-                                                        ObservationElement(x: x, observation: observation));
-                                            }
-                                        }
-                                    });
-                            }
-                        });
-                });
-        }*/
-
         if (Model is ReportSectionGroup reportSectionGroup)
         {
             container
@@ -116,120 +44,114 @@ public class SectionTemplate : IComponent
                         .Content()
                         .Border(value: 0.75f)
                         .BorderColor(color: Colors.Grey.Medium)
-                        .Decoration(handler: contentDecoration =>
+                        .Column(column =>
                         {
-                            foreach (var part in reportSectionGroup.Parts)
+
+                            reportSectionGroup.Parts.IterateOn((item) =>
                             {
-                                contentDecoration
-                                .Before()
-                                 .Section(sectionName: $"{reportSectionGroup.Title} - {part.Title}")
-                                .Column(column =>
+                                column.Item()
+                                      .Section(sectionName: $"{reportSectionGroup.Title} - {item.Title}")
+                                      .Decoration(handler: contentDecoration =>
                                 {
-                                    column
-                                                  .Item()
-                                                  .PaddingLeft(value: 8)
-                                                  .Text(text: part.Title)
-                                                  .Style(style: Typography.SubLine);
-                                });
-
-                                contentDecoration
-                                    .Content()
-
-                                    .Column(
-                                        handler: column =>
-                                        {
-                                            column
-                                            .Item()
-                                            .Column(handler: items =>
-                                            {
-                                                part.Parts.IterateOn((item) =>
-                                                {
-                                                    items
-                                                        .Item()
-                                                        .ValueCell()
-                                                        .EnsureSpace()
-                                                        .Column(handler: partColumn =>
-                                                        {
-                                                            partColumn
-                                                                .Item()
-                                                                .LabelCell()
-                                                                .ExtendHorizontal()
-                                                                .Text(text: item.Label);
-
-                                                            if (item is not ReportSectionTitle)
-                                                            {
-                                                                var frame = partColumn
-                                                                    .Item()
-                                                                    .ValueCell()
-                                                                    .ExtendHorizontal();
-
-                                                                if (item is ReportSectionText text)
-                                                                {
-                                                                    frame
-                                                                        .ShowEntire()
-                                                                        .Text(text: text.Text);
-                                                                }
-
-                                                                if (item is ReportSectionCheckbox checkboxes)
-                                                                {
-                                                                    frame
-                                                                    .AlignTop()
-                                                                    .Column(column =>
-                                                                    {
-                                                                        column
-                                                                        .Item()
-                                                                        .EnsureSpace(25)
-                                                                        .Row(checkboxRow =>
-                                                                        {
-                                                                            checkboxes
-                                                                       .Checkboxes
-                                                                       .Select(item =>
-                                                                       new CheckboxItemComponent(item))
-                                                                       .IterateOn(item =>
-                                                                       checkboxRow
-                                                                       .RelativeItem()
-                                                                       .Height(20)
-                                                                       .Component(item));
-                                                                        });
-                                                                    });
-                                                                }
-                                                            }
-                                                        });
-                                                });
-                                            });
-
-                                            column
-                                          .Item()
-                                          .Column(handler: items =>
-                                          {
-                                              column
-                                              .Item()
-                                              .Element(x => ObservationElement(x, part.Observation));
-                                          });
-                                            column
-                                           .Item()
-                                           .Column(handler: items =>
-                                           {
-                                               column
-                                               .Item()
-                                               .Element(x => PhotosElement(x, part.Images));
-                                           });
-                                        });
-
-                                contentDecoration
-                                .After()
+                                    contentDecoration
+                                    .Before()
+                                    .ShowOnce()
                                     .Column(column =>
                                     {
                                         column
-                                       .Item()
-                                       .Column(handler: items =>
-                                       {
-                                           column
-                                          .Item()
-                                          .Element(x => LawItemsElement(x, part.Laws));
-                                       });
+                                        .Item()
+                                        .PaddingLeft(value: 8)
+                                        .Text(text: item.Title)
+                                        .Style(style: Typography.SubLine);
                                     });
-                            }
+
+                                    contentDecoration
+                                        .Content()
+                                        .Column(
+                                            handler: column =>
+                                            {
+                                                column
+                                                .Item()
+                                                .Column(handler: items =>
+                                                {
+                                                    item.Parts.IterateOn((item) =>
+                                                    {
+                                                        items
+                                                            .Item()
+                                                            .ValueCell()
+                                                            .Column(handler: partColumn =>
+                                                            {
+                                                                partColumn
+                                                                    .Item()
+                                                                    .LabelCell()
+                                                                    .ExtendHorizontal()
+                                                                    .Text(text: item.Label);
+
+                                                                if (item is not ReportSectionTitle)
+                                                                {
+                                                                    var frame = partColumn
+                                                                        .Item()
+                                                                        .ValueCell()
+                                                                        .ExtendHorizontal();
+
+                                                                    if (item is ReportSectionText text)
+                                                                    {
+                                                                        frame.Text(text: text.Text);
+                                                                    }
+
+                                                                    if (item is ReportSectionCheckbox checkboxes)
+                                                                    {
+                                                                        frame
+                                                                        .AlignTop()
+                                                                        .Column(column =>
+                                                                        {
+                                                                            column
+                                                                            .Item()
+                                                                            .Row(checkboxRow =>
+                                                                            {
+                                                                                checkboxes
+                                                                           .Checkboxes
+                                                                           .Select(item =>
+                                                                           new CheckboxItemComponent(item))
+                                                                           .IterateOn(item =>
+                                                                           checkboxRow
+                                                                           .RelativeItem()
+                                                                           .MinHeight(20)
+                                                                           .MaxHeight(40)
+                                                                           .Component(item));
+                                                                            });
+                                                                        });
+                                                                    }
+                                                                }
+                                                            });
+                                                    });
+                                                });
+
+                                                column
+                                              .Item()
+                                              .Column(handler: items =>
+                                              {
+                                                  column
+                                                  .Item()
+                                                  .Element(x => ObservationElement(x, item.Observation));
+                                              });
+                                                if (item.Images.Count() > 0)
+                                                {
+                                                    column
+                                                   .Item()
+                                                   .Column(handler: items =>
+                                                   {
+                                                       column
+                                                       .Item()
+                                                       .Element(x => PhotosElement(x, item.Images));
+                                                   });
+                                                }
+                                            });
+                                });
+                                column
+                                .Item()
+                                .Element(x => LawItemsElement(x, item.Laws));
+                            });
                         });
                 });
         }
@@ -249,44 +171,6 @@ public class SectionTemplate : IComponent
 
     });
 
-    private void MapTitle(
-        IContainer container
-        , string title
-    ) =>
-        container.ShowEntire().Column(handler: column =>
-        {
-            column.Item().Text(text: title).Style(style: Typography.Normal);
-        });
-
-    private void MapElement(
-        IContainer container
-        , ReportSectionMap model
-    )
-    {
-        if (model.Location == null)
-        {
-            container.Text(text: "No location provided");
-            return;
-        }
-
-        container
-            .ShowEntire()
-            .Column(handler: column =>
-            {
-                column
-                    .Spacing(value: 5);
-
-                column
-                    .Item()
-                    .MaxWidth(value: 250)
-                    .AspectRatio(ratio: 4 / 3f)
-                    .Component<ImagePlaceholder>();
-
-                column
-                    .Item()
-                    .Text(text: model.Location.Format());
-            });
-    }
 
     private void PhotosElement(
         IContainer container
@@ -294,7 +178,7 @@ public class SectionTemplate : IComponent
     )
     {
         container
-            //.DebugArea("Photos")
+            .DebugArea("Photos")
             .Grid(handler: grid =>
             {
                 grid.Spacing(value: 5);
@@ -310,7 +194,6 @@ public class SectionTemplate : IComponent
             grid
                 .Item()
                 .AlignCenter()
-                .ScaleToFit()
                 .Component(component: image);
         });
             });
@@ -322,7 +205,9 @@ public class SectionTemplate : IComponent
         , IEnumerable<LawSectionElement> models
     )
     {
-        container.Column(handler: column =>
+        container
+            .Padding(2)
+            .Column(handler: column =>
         {
             models.IterateOn((item) =>
             {

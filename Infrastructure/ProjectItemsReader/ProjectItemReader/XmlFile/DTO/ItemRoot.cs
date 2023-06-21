@@ -121,7 +121,10 @@ public static class Extensions
                             type: ItemFormDataEnum.Empty);
                 }).ToList(),
             Observations = model.Observations.Select(x => new ObservationModel() { Id = x.Id, Observation = x.ObservationText }).ToList(),
-            Images = model.Images.Select(x => new ImagesItem(x.Id, x.ImagePath, x.ImageObservation)).ToList(),
+            Images = model.Images
+            .Where(x => !string.IsNullOrWhiteSpace(x.ImagePath))
+            .Select(x => new ImagesItem(x.Id, x.ImagePath, x.ImageObservation))
+            .ToList(),
             ItemName = model.ItemName,
             TemplateName = model.TemplateName,
             LawList = model.LawList.Select(
@@ -174,7 +177,10 @@ public static class Extensions
                     return new AppFormDataEmptyModel();
                 }).ToList(),
             Observations = model.Observations.Select(x => new Core.Entities.Solution.Project.AppItem.ObservationModel() { Id = x.Id, ObservationText = x.Observation }),
-            Images = model.Images.Select(x => new ImagesItem(x.Id, x.ImagePath, x.ImageObservation)),
+            Images = model
+            .Images
+            .Where(x => !string.IsNullOrWhiteSpace(x.ImagePath))
+            .Select(x => new ImagesItem(x.Id, x.ImagePath, x.ImageObservation)),
             ItemName = model.ItemName,
             TemplateName = model.TemplateName,
             LawList = model.LawList.Select(

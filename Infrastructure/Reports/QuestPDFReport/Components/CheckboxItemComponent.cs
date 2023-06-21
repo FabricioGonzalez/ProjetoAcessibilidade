@@ -23,7 +23,6 @@ internal class CheckboxItemComponent : IComponent
                  row.Spacing(5);
 
                  row.ConstantItem(size: 16)
-                  .MinimalBox()
                      .Layers(handler: layers =>
                      {
                          layers

@@ -1,4 +1,6 @@
-﻿using QuestPDF.Drawing;
+﻿using Common.Linq;
+
+using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -26,7 +28,7 @@ public class StandardReport : IDocument
         new()
         {
             Title = Model.Title,
-            DocumentLayoutExceptionThreshold = 5000
+            DocumentLayoutExceptionThreshold = 1000000000
         };
 
     public void Compose(
@@ -71,12 +73,24 @@ public class StandardReport : IDocument
     ) =>
         container.Column(handler: column =>
         {
-            column.Item().PaddingTop(value: -10).Text(text: Model.Title).Style(style: Typography.Title);
+            column
+            .Item().
+            PaddingTop(value: -10)
+            .Text(text: Model.Title)
+            .Style(style: Typography.Title);
 
-            column.Item().ShowOnce().PaddingVertical(value: 15).Border(value: 1f)
-                .BorderColor(color: Colors.Grey.Lighten1).ExtendHorizontal();
+            column.Item()
+            .ShowOnce()
+            .PaddingVertical(value: 15)
+            .Border(value: 1f)
+                .BorderColor(color: Colors.Grey.Lighten1)
+                .ExtendHorizontal();
 
-            column.Item().ShowOnce().Border(value: 0.5f).Grid(handler: grid =>
+            column
+            .Item()
+            .ShowOnce()
+            .Border(value: 0.5f)
+            .Grid(handler: grid =>
             {
                 grid.Columns(value: 4);
                 grid.Spacing(value: 5);
@@ -92,11 +106,19 @@ public class StandardReport : IDocument
                 }
             });
 
-            column.Item().PaddingVertical(value: 5).LineHorizontal(size: 1).LineColor(value: Colors.Grey.Medium);
+            column
+            .Item()
+            .PaddingVertical(value: 5)
+            .LineHorizontal(size: 1)
+            .LineColor(value: Colors.Grey.Medium);
 
-            column.Item().Container().Background(color: Colors.LightBlue.Lighten2).Text(text: Model.StandardLaw)
-                .Style(style: Typography.Headline)
-                .FontColor(value: Colors.Black);
+            column
+            .Item()
+            .Container()
+            .Background(color: Colors.LightBlue.Lighten2)
+            .Text(text: Model.StandardLaw)
+            .Style(style: Typography.Headline)
+            .FontColor(value: Colors.Black);
         });
 
     private void ComposeContent(
@@ -118,83 +140,15 @@ public class StandardReport : IDocument
                         .Cast<IReportSection>()
                         .ToList()));
 
-                column
-                    .Item()
-                    .PageBreak();
-
-                foreach (var section in nestedModel.Sections)
+                nestedModel.Sections.IterateOn(section =>
                 {
                     column
-                        .Item()
-                        .Section(sectionName: section.Title)
-                        .Component(component: new SectionTemplate(model: section));
-                }
-
-
-                if (nestedModel.Photos.Count > 0)
-                {
-                    column
-                        .Item()
-                        .PageBreak();
-                    column
-                        .Item()
-                        .Section(sectionName: "Photos");
-
-                    foreach (var photo in nestedModel.Photos)
-                    {
-                        column
-                            .Item()
-                            .Component(component: new PhotoTemplate(model: photo));
-                    }
-                }
+                       .Item()
+                       .Section(sectionName: section.Title)
+                       .Component(component: new SectionTemplate(model: section));
+                });
             });
         }
 
-        /*
-        if (Model is ReportModel reportModel)
-        {
-            container.PaddingVertical(value: 20).Column(handler: column =>
-            {
-                column.Spacing(value: 20);
-
-                column
-                    .Item()
-                    .Component(component: new TableOfContentsTemplate(
-                        sections: reportModel
-                            .Sections
-                            .Cast<IReportSection>()
-                            .ToList()));
-
-                column
-                    .Item()
-                    .PageBreak();
-
-                foreach (var section in reportModel.Sections)
-                {
-                    column
-                        .Item()
-                        .Section(sectionName: section.Id)
-                        .Component(component: new SectionTemplate(model: section));
-                }
-
-
-                if (reportModel.Photos.Count > 0)
-                {
-                    column
-                        .Item()
-                        .PageBreak();
-                    column
-                        .Item()
-                        .Section(sectionName: "Photos");
-
-                    foreach (var photo in reportModel.Photos)
-                    {
-                        column
-                            .Item()
-                            .Component(component: new PhotoTemplate(model: photo));
-                    }
-                }
-            });
-        }*/
     }
 }
