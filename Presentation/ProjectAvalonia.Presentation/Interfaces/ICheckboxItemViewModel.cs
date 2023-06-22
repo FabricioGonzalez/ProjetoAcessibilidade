@@ -14,6 +14,10 @@ public interface ICheckboxItemViewModel : INotifyPropertyChanged
         get;
         set;
     }
+    public bool IsInvalid
+    {
+        get; set;
+    }
     public IOptionsContainerViewModel Options
     {
         get;

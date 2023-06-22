@@ -18,7 +18,7 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
+public partial class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
 {
     public CheckboxItemViewModel(string topic,
         IOptionsContainerViewModel options,
@@ -39,18 +39,22 @@ public class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
           .ToObservableChangeSet()
           .AutoRefreshOnObservable(x => x.WhenAnyValue(it => it.IsChecked)))
           .Switch()
-          .WhenPropertyChanged(propertyAccessor: prop => prop.IsChecked, notifyOnInitialValue: false)
+          .WhenPropertyChanged(propertyAccessor: prop => prop.IsChecked/*, notifyOnInitialValue: false*/)
           .Do(prop =>
           {
               if (prop.Value == false)
               {
                   var rulesToEvaluate = Rules
-                 .SelectMany(x =>
-                 x.Rules
-                 .SelectMany(rule => rule.Conditions
-                 .Where(y => y.TargetId == prop.Sender.Id)
-                 .Select(z => z.ConditionsFunctions)));
-                  var ok = rulesToEvaluate.Select(x => x.Invoke(prop.Value ? "checked" : "unchecked"));
+             .SelectMany(x =>
+             x.Rules
+             .SelectMany(rule => rule.Conditions
+             .Where(y => y.TargetId == prop.Sender.Id)
+            ));
+
+
+                  var ok = rulesToEvaluate
+                  .Select(z => z.ConditionsFunctions)
+                  .Select(x => x.Invoke(prop.Value ? "checked" : "unchecked"));
 
                   ok.IterateOn(x =>
                   {
@@ -59,6 +63,11 @@ public class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
                       var itemsToRemove = x.results.Where(it => exsits(it));
                       observations.RemoveMany(observations.Items.IntersectBy(itemsToRemove, it => it.ObservationText));
                       this.RaisePropertyChanged();
+
+                      if (Rules.SelectMany(x => x.Rules.Where(x => x.Operation == "Obrigatority")).Count() > 0)
+                      {
+                          IsInvalid = false;
+                      }
                   });
               }
           })
@@ -70,8 +79,12 @@ public class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
               x.Rules
               .SelectMany(rule => rule.Conditions
               .Where(y => y.TargetId == prop.Sender.Id)
-              .Select(z => z.ConditionsFunctions)));
-              var ok = rulesToEvaluate.Select(x => x.Invoke(prop.Value ? "checked" : "unchecked"));
+             ));
+
+
+              var ok = rulesToEvaluate
+              .Select(z => z.ConditionsFunctions)
+              .Select(x => x.Invoke(prop.Value ? "checked" : "unchecked"));
 
               ok.IterateOn(x =>
               {
@@ -85,6 +98,11 @@ public class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
                       observations.AddRange(item
                           .Select(it => new ObservationModel() { Id = Guid.NewGuid().ToString(), ObservationText = it }));
                   }
+                  if (Rules.SelectMany(x => x.Rules.Where(x => x.Operation == "Obrigatority")).Count() > 0)
+                  {
+                      IsInvalid = true;
+                  }
+
               });
 
               Options
@@ -119,7 +137,8 @@ public class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
     {
         get;
     }
-
+    [AutoNotify]
+    private bool _isInvalid = false;
     public IOptionsContainerViewModel Options
     {
         get;

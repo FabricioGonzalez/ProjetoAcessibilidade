@@ -34,7 +34,8 @@ public partial class TextFormItemViewModel : ReactiveObject, ITextFormItemViewMo
              .SelectMany(x =>
              x.Rules
              .SelectMany(rule => rule.Conditions
-             .Where(y => y.TargetId == prop.Sender.Id).Select(z => z.ConditionsFunctions)));
+             .Where(y => y.TargetId == prop.Sender.Id)
+             .Select(z => z.ConditionsFunctions)));
 
                 var ok = rulesToEvaluate.Select(x => x.Invoke(prop.Value ?? ""));
 

@@ -31,4 +31,9 @@ public class DesignTimeCheckboxItemViewModel : ReactiveObject, ICheckboxItemView
         get;
         set;
     }
+    public bool IsInvalid
+    {
+        get;
+        set;
+    }
 }

@@ -53,6 +53,7 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
                 .Select(x => new ValidationRule()
                 {
                     Targets = x.Targets.Select(x => new Targets() { Id = x.Id }),
+
                     Rules = x.RuleConditions.Select(x =>
                     {
 
