@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 
+using Common.Linq;
+
+using Core.Entities.Solution.Project.AppItem;
 using Core.Entities.ValidationRules;
 
 using DynamicData;
@@ -17,8 +20,12 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
 {
-    public CheckboxItemViewModel(string topic, IOptionsContainerViewModel options,
-        ObservableCollection<ITextFormItemViewModel> textItems, string id, IEnumerable<ValidationRule> rules)
+    public CheckboxItemViewModel(string topic,
+        IOptionsContainerViewModel options,
+        SourceList<ObservationModel> observations,
+        ObservableCollection<ITextFormItemViewModel> textItems,
+        string id,
+        IEnumerable<ValidationRule> rules)
     {
         Topic = topic;
         Options = options;
@@ -33,14 +40,64 @@ public class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
           .AutoRefreshOnObservable(x => x.WhenAnyValue(it => it.IsChecked)))
           .Switch()
           .WhenPropertyChanged(propertyAccessor: prop => prop.IsChecked, notifyOnInitialValue: false)
+          .Do(prop =>
+          {
+              if (prop.Value == false)
+              {
+                  var rulesToEvaluate = Rules
+                 .SelectMany(x =>
+                 x.Rules
+                 .SelectMany(rule => rule.Conditions
+                 .Where(y => y.TargetId == prop.Sender.Id)
+                 .Select(z => z.ConditionsFunctions)));
+                  var ok = rulesToEvaluate.Select(x => x.Invoke(prop.Value ? "checked" : "unchecked"));
+
+                  ok.IterateOn(x =>
+                  {
+                      var exsits = (string it) => observations.Items.Any(observation => observation.ObservationText == it);
+
+                      var itemsToRemove = x.results.Where(it => exsits(it));
+                      observations.RemoveMany(observations.Items.IntersectBy(itemsToRemove, it => it.ObservationText));
+                      this.RaisePropertyChanged();
+                  });
+              }
+          })
+          .Where(it => it.Value)
           .Subscribe(prop =>
           {
               var rulesToEvaluate = Rules
               .SelectMany(x =>
               x.Rules
               .SelectMany(rule => rule.Conditions
-              .Where(y => y.TargetId == prop.Sender.Id).Select(z => z.ConditionsFunctions)));
+              .Where(y => y.TargetId == prop.Sender.Id)
+              .Select(z => z.ConditionsFunctions)));
               var ok = rulesToEvaluate.Select(x => x.Invoke(prop.Value ? "checked" : "unchecked"));
+
+              ok.IterateOn(x =>
+              {
+                  var exsits = (string it) => observations.Items.Any(observation => observation.ObservationText == it);
+
+                  if (x.evaluationResult)
+                  {
+                      var item = x.results
+                         .Where(it => !exsits(it));
+
+                      observations.AddRange(item
+                          .Select(it => new ObservationModel() { Id = Guid.NewGuid().ToString(), ObservationText = it }));
+                  }
+              });
+
+              Options
+              .Options
+              .Chunk(2)
+              .SelectMany(item => item.Where((i) => item.Any(x => x.Id == prop.Sender.Id)))
+              .IterateOn(item =>
+              {
+                  if (item.Id != prop.Sender.Id)
+                  {
+                      item.IsChecked = false;
+                  }
+              });
 
 
           });

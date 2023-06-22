@@ -73,8 +73,9 @@ public static class DataSource
                 if (formData is AppFormDataItemTextModel text)
                 {
                     section.Parts.Add(item: new ReportSectionText(label: text.Topic,
-                        text: $"{text.TextData} {(text.MeasurementUnit is not null ? text.MeasurementUnit : "")}"
-                        , id: text.Id));
+                        text: $"{text.TextData}",
+                        measurementUnit: text.MeasurementUnit is not null ? text.MeasurementUnit : "",
+                        id: text.Id));
                 }
 
                 if (formData is AppFormDataItemCheckboxModel checkbox)
@@ -208,7 +209,8 @@ public static class DataSource
                             .Add(item: new ReportSectionText(
                                 label: text.Topic,
                                 text:
-                                $"{text.TextData} {(text.MeasurementUnit is not null ? text.MeasurementUnit : "")}",
+                                $"{text.TextData}",
+                               measurementUnit: text.MeasurementUnit is not null ? text.MeasurementUnit : "",
                                 id: text.Id));
                     }
 
@@ -387,8 +389,11 @@ public static class DataSource
 
         ReportSectionText GetTextElement()
         {
-            return new ReportSectionText(label: Placeholders.Label(), text: Placeholders.Paragraph()
-                , id: Guid.NewGuid().ToString());
+            return new ReportSectionText(
+                label: Placeholders.Label(),
+                text: Placeholders.Paragraph(),
+                measurementUnit: "",
+                id: Guid.NewGuid().ToString());
         }
 
         ReportSectionCheckbox GetCheckboxElement()

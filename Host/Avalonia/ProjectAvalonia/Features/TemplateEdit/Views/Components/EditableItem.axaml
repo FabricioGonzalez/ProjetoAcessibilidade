@@ -20,17 +20,10 @@
         Command="{Binding CommitItemCommand}"
         CommandParameter="{Binding}"
         InEditMode="{Binding InEditMode, Mode=TwoWay}"
-        Text="{Binding TemplateName, Mode=TwoWay}">
-
-        <!--<controls:EditableTextBlock.ContextFlyout>
-            <MenuFlyout >
-                <MenuItem
-                    Command="{Binding ExcludeItemCommand}"
-                    Header="Excluir" />
-            </MenuFlyout>
-        </controls:EditableTextBlock.ContextFlyout>-->
-        <controls:EditableTextBlock.Actions>
+        Text="{Binding TemplateName, Mode=TwoWay}" />
+    <UserControl.ContextFlyout>
+        <MenuFlyout>
             <MenuItem Command="{Binding ExcludeItemCommand}" Header="Excluir" />
-        </controls:EditableTextBlock.Actions>
-    </controls:EditableTextBlock>
+        </MenuFlyout>
+    </UserControl.ContextFlyout>
 </UserControl>

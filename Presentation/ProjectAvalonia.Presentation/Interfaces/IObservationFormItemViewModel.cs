@@ -1,10 +1,14 @@
-﻿namespace ProjectAvalonia.Presentation.Interfaces;
+﻿using System.Collections.ObjectModel;
+
+using Core.Entities.Solution.Project.AppItem;
+
+namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface IObservationFormItemViewModel : IFormViewModel
 {
-    public string Observation
+    public ReadOnlyObservableCollection<ObservationModel> Observations
     {
-        get; set;
+        get;
     }
     public string Id
     {

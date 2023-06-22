@@ -96,7 +96,12 @@ public class SectionTemplate : IComponent
 
                                                                     if (item is ReportSectionText text)
                                                                     {
-                                                                        frame.Text(text: text.Text);
+                                                                        frame.Row(row =>
+                                                                        {
+                                                                            row.RelativeItem(0.9f).Text(text: text.Text);
+                                                                            row.RelativeItem(0.1f).AlignRight().Text(text: text.MeasurementUnit);
+
+                                                                        });
                                                                     }
 
                                                                     if (item is ReportSectionCheckbox checkboxes)
@@ -116,6 +121,7 @@ public class SectionTemplate : IComponent
                                                                            .IterateOn(item =>
                                                                            checkboxRow
                                                                            .RelativeItem()
+                                                                           .AlignCenter()
                                                                            .MinHeight(20)
                                                                            .MaxHeight(40)
                                                                            .Component(item));
@@ -162,11 +168,11 @@ public class SectionTemplate : IComponent
         , IEnumerable<ObservationSectionElement> observation
     ) => x.Column(handler: column =>
     {
-        column.Item().Text("Observações");
+        column.Item().LabelCell().Text("Observações");
 
         observation.IterateOn((item) =>
         {
-            column.Item().Text(text: item.Observation);
+            column.Item().ValueCell().Text(text: item.Observation);
         });
 
     });
@@ -178,7 +184,7 @@ public class SectionTemplate : IComponent
     )
     {
         container
-            .DebugArea("Photos")
+            /*.DebugArea("Photos")*/
             .Grid(handler: grid =>
             {
                 grid.Spacing(value: 5);
@@ -207,13 +213,14 @@ public class SectionTemplate : IComponent
     {
         container
             .Padding(2)
+            .ExtendHorizontal()
             .Column(handler: column =>
         {
             models.IterateOn((item) =>
             {
-                column.Item().Text(item.LawId);
+                column.Item().LabelCell().Text(item.LawId);
 
-                column.Item().Text(item.LawContent);
+                column.Item().ValueCell().Text(item.LawContent);
             });
 
         });

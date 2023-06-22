@@ -19,6 +19,9 @@ public partial class OptionItemViewModel : ReactiveObject, IOptionViewModel
     }
     [AutoNotify]
     private bool _isChecked = false;
+
+    [AutoNotify]
+    private bool _shouldBeUnchecked = false;
     public string Id
     {
         get;

@@ -18,6 +18,9 @@ public class EditingBodyViewModel : ReactiveObject, IEditingBodyViewModel
         LawList = lawList;
         Form = form;
 
+
+
+
         SaveItemCommand = ReactiveCommand.Create(execute: () =>
         {
             Logger.LogDebug("Ok, saving");

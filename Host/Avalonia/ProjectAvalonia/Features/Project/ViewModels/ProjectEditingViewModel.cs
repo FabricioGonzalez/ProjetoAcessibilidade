@@ -210,20 +210,22 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
                 {
                     var successData = itemModel.Data;
 
+                    var observations = new ObservationFormItem();
+
+                    observations.SourceItems.AddRange(successData.Observations.Where(it => it.ObservationText.Length > 0));
+
                     IEditingItemViewModel itemToEdit = new EditingItemViewModel(
-                        id: item.Id,
-                        itemName: successData.ItemName,
-                        itemPath: item.ItemPath,
-                        body: new EditingBodyViewModel(
-                            lawList: successData.LawList.ToViewLawList(),
-                            form: new(successData.FormData.ToViewForm(rules.Data)
-                            .Append(new ObservationFormItem(
-                string.Join(";\n", successData.Observations
-                        .Select(x => x.ObservationText))))
-                        .Append(new ImageContainerFormItemViewModel(
-                         imageItems: new(
-                successData.Images
-                        .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath, imageObservation: x.ImageObservation))), "Imagens")))));
+                      id: item.Id,
+                      itemName: successData.ItemName,
+                      itemPath: item.ItemPath,
+                      body: new EditingBodyViewModel(
+                          lawList: successData.LawList.ToViewLawList(),
+                          form: new(successData.FormData.ToViewForm(rules.Data, observations.SourceItems)
+                          .Append(observations)
+                          .Append(new ImageContainerFormItemViewModel(
+                       imageItems: new(
+              successData.Images
+                      .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath, imageObservation: x.ImageObservation))), "Imagens")))));
                     EditingItems.Add(item: itemToEdit);
 
                 }
@@ -246,7 +248,9 @@ public static class Extension
         new(collection: lawModels.Select(selector: item =>
             new LawListViewModel(lawId: item.LawId, lawContent: item.LawTextContent)));
 
-    public static ObservableCollection<IFormViewModel> ToViewForm(this IEnumerable<IAppFormDataItemContract> formItems, IEnumerable<ValidationRule> rules) =>
+    public static ObservableCollection<IFormViewModel> ToViewForm(
+        this IEnumerable<IAppFormDataItemContract> formItems,
+        IEnumerable<ValidationRule> rules, SourceList<ObservationModel> observations) =>
         new(collection:
             formItems
             .Select<IAppFormDataItemContract, IFormViewModel>(selector: item =>
@@ -257,19 +261,21 @@ public static class Extension
                     id: text.Id,
                     topic: text.Topic,
                 textData: text.TextData,
-                    measurementUnit: text.MeasurementUnit ?? "", rules: rules.Where(x => x.Targets.Any(i => i.Id == text.Id))),
+                    measurementUnit: text.MeasurementUnit ?? "", observations: observations, rules: rules.Where(x => x.Targets.Any(i => i.Id == text.Id))),
                 AppFormDataItemCheckboxModel checkbox => new CheckboxFormItem(id: checkbox.Id, topic: checkbox.Topic,
                     checkboxItems: new ObservableCollection<ICheckboxItemViewModel>(
                         collection: checkbox.Children.Select(
                             selector: child => new CheckboxItemViewModel(
                                 id: child.Id,
                                 topic: child.Topic,
+                                observations: observations,
                                 rules: rules.Where(x => x.Targets.Any(i => i.Id == child.Id)),
                                 textItems: new ObservableCollection<ITextFormItemViewModel>(
                                     collection: child.TextItems.Select(selector: textItem =>
                                         new TextFormItemViewModel(id: textItem.Id,
                                                                   topic: textItem.Topic,
                                                                   textData: textItem.TextData,
+                                                                  observations: observations,
                                                                   measurementUnit: textItem.MeasurementUnit ?? "",
                                                                   rules: rules.Where(x => x.Targets.Any(i => i.Id == child.Id))))),
                                 options: new OptionContainerViewModel(
@@ -324,12 +330,12 @@ public static class Extension
             .SelectMany(x => x.ImageItems)
             .Select(x => new Core.Entities.Solution.Project.AppItem.DataItems.Images.ImagesItem() { Id = x.Id, ImagePath = x.ImagePath, ImageObservation = x.ImageObservation });
 
-        appModel.Observations = viewModel
+        var result = viewModel
             .Form
             .Where(x => x is IObservationFormItemViewModel)
-            .Cast<IObservationFormItemViewModel>()
-            .Select(x => x.Observation.Split(";\n").AsEnumerable())
-            .SelectMany(x => x.Select(x => new ObservationModel() { Id = Guid.NewGuid().ToString(), ObservationText = x }));
+            .Cast<IObservationFormItemViewModel>();
+
+        appModel.Observations = result.SelectMany(x => x.Observations).Where(it => it.ObservationText.Length > 0);
 
         appModel.LawList = viewModel.LawList.Select(x => new AppLawModel(x.LawId, x.LawContent));
 

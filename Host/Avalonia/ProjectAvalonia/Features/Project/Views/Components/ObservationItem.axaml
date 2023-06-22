@@ -20,13 +20,21 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         CornerRadius="8">
-        <TextBox
-            MinHeight="200"
-            Margin="0,8"
-            AcceptsReturn="True"
-            AcceptsTab="True"
-            Text="{Binding Observation}"
-            UseFloatingWatermark="True"
-            Watermark="Observações" />
+        <StackPanel>
+            <Label Content="Observações" />
+            <ItemsControl Items="{Binding Observations, Mode=TwoWay}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBox
+                            Margin="0,8"
+                            AcceptsReturn="True"
+                            AcceptsTab="True"
+                            Text="{Binding ObservationText}"
+                            UseFloatingWatermark="True"
+                            Watermark="Observações" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </Border>
 </UserControl>

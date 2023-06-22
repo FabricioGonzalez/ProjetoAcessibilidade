@@ -13,7 +13,7 @@ public interface ITextFormItemViewModel : IFormViewModel
     }
     public string TextData
     {
-        get;
+        get; set;
     }
 
     public string MeasurementUnit

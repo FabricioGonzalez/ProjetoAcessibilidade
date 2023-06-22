@@ -216,7 +216,10 @@ public partial class ProjectViewModel
 
     private async Task SaveReportData()
     {
-        await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
+        if (ProjectEditingViewModel is { SelectedItem: { } })
+        {
+            await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
+        }
     }
 
     private void PrintSolution() =>
@@ -230,7 +233,7 @@ public partial class ProjectViewModel
     {
         var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Abrir Projeto");
 
-        if (path is not null)
+        if (path is { Length: > 0 })
         {
             await ReadSolutionAndOpen(path: path);
         }
@@ -302,8 +305,7 @@ public partial class ProjectViewModel
         object? Parameter = null
     )
     {
-        if (Parameter is string path &&
-            !string.IsNullOrWhiteSpace(value: path))
+        if (Parameter is string { Length: > 0 } path)
         {
             Dispatcher.UIThread.Post(
                 action: () =>

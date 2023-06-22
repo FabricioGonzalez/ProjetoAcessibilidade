@@ -6,11 +6,13 @@ public class ReportSectionText : ReportSectionElement
         string text
         , string label
         , string id
-    )
+,
+string measurementUnit)
     {
         Text = text;
         Label = label;
         Id = id;
+        MeasurementUnit = measurementUnit;
     }
 
     public string Text
@@ -18,4 +20,8 @@ public class ReportSectionText : ReportSectionElement
         get;
         set;
     }
+    public string MeasurementUnit
+    {
+        get; set;
+    } = "";
 }

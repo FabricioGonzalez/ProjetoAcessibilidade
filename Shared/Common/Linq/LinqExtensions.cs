@@ -8,6 +8,19 @@ public static class LinqExtensions
         return !exists ? items.Append(target) : items;
     }
 
+    public static IEnumerable<T> AddRangeIfNotFound<T>(this IEnumerable<T> items, IEnumerable<T> target, Func<T, bool> predicate)
+    {
+        target.IterateOn(item =>
+        {
+            var exists = items.Any(predicate);
+            if (!exists)
+            {
+                items = items.Append(item);
+            }
+        });
+        return items;
+    }
+
     public static IEnumerable<T> IterateOn<T>(this IEnumerable<T> items, Action<T> iterator)
     {
         foreach (var item in items)
