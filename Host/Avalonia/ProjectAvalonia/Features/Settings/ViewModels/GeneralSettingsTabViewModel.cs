@@ -40,6 +40,8 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
 
     public GeneralSettingsTabViewModel()
     {
+        SetTitle("GeneralSettingsViewNavLabel");
+
         Languages = new ObservableCollection<AppLanguageModel>(
             ServicesConfig.LanguageManager.AllLanguages.Select(item =>
                 item.ToAppLanguageModel()));

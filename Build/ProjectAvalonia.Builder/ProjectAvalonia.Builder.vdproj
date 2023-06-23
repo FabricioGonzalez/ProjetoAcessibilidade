@@ -1028,7 +1028,7 @@
                                 {
                                     "{9EF0B969-E518-4E46-987F-47570745A589}:_41A4FF255AE8487E94F7140F81AADDDF"
                                     {
-                                    "Name" = "8:ValidationRules"
+                                    "Name" = "8:Validation Templates"
                                     "AlwaysCreate" = "11:FALSE"
                                     "Condition" = "8:"
                                     "Transitive" = "11:FALSE"
@@ -1082,7 +1082,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Gestor de Projetos ARPA"
         "ProductCode" = "8:{DB58A4F4-4717-437B-BCA9-6369065B5E95}"
-        "PackageCode" = "8:{C660179D-7B56-46C2-B7D4-D932ED0D3F6F}"
+        "PackageCode" = "8:{AB3C4A5E-FAA6-49E9-9A4D-81656DB05D82}"
         "UpgradeCode" = "8:{2FE20B19-09B5-466F-8D6F-3524BC50A954}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Common.Result;
 
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.App.Models;
@@ -9,10 +9,10 @@ namespace ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 
 public sealed record DeleteProjectFileItemCommand(
     string itemPath
-) : IRequest<Resource<Empty>>;
+) : IRequest<Result<Empty, Exception>>;
 
 public sealed class DeleteProjectFileItemCommandHandler
-    : IHandler<DeleteProjectFileItemCommand, Resource<Empty>>
+    : IHandler<DeleteProjectFileItemCommand, Result<Empty, Exception>>
 {
     private IExplorerItemRepository _repository;
 
@@ -21,20 +21,16 @@ public sealed class DeleteProjectFileItemCommandHandler
         _repository = repository;
     }
 
-    public async Task<Resource<Empty>> HandleAsync(
+    public async Task<Result<Empty, Exception>> HandleAsync(
         DeleteProjectFileItemCommand request
         , CancellationToken cancellationToken
     )
     {
-        var result = await _repository.DeleteFileItemAsync(itemPath: request.itemPath);
+        Result<ExplorerItem, Exception> result = await _repository.DeleteFileItemAsync(itemPath: request.itemPath);
 
-        return result switch
-        {
-            Resource<ExplorerItem>.Success => new Resource<Empty>.Success(Data: new Empty()),
-            Resource<ExplorerItem>.Error => new Resource<Empty>.Error(Data: new Empty()
-                , Message: "No data was Deleted"),
-            _ => new Resource<Empty>.Error(Data: new Empty()
-                , Message: $"Nothing was returned from {nameof(IExplorerItemRepository.DeleteFileItemAsync)}")
-        };
+        return result.Match(
+            success => Result<Empty, Exception>.Success(new Empty()),
+            failure => Result<Empty, Exception>.Failure(new("No data was Deleted"))
+            );
     }
 }

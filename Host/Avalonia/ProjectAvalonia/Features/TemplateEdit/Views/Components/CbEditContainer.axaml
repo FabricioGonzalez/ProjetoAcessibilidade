@@ -2,6 +2,7 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.Components.CbEditContainer"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors;assembly=ProjectAvalonia"
     xmlns:c="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
@@ -145,6 +146,32 @@
                                                                 Icon="{StaticResource dismiss_regular}"
                                                                 IconSize="16"
                                                                 ToolTip.Tip="Remove Checkboxes" />
+                                                            <c:IconButton
+                                                                Grid.Row="0"
+                                                                Grid.Column="1"
+                                                                Width="24"
+                                                                Height="24"
+                                                                Margin="8,0"
+                                                                HorizontalAlignment="Left"
+                                                                Classes="function"
+                                                                Icon="{StaticResource preview_regular}"
+                                                                IconSize="16">
+                                                                <Interaction.Behaviors>
+                                                                    <behaviors:ShowFlyoutOnPointerOverBehavior />
+                                                                </Interaction.Behaviors>
+                                                                <FlyoutBase.AttachedFlyout>
+                                                                    <Flyout Placement="Bottom" ShowMode="TransientWithDismissOnPointerMoveAway">
+                                                                        <DockPanel>
+                                                                            <TextBlock DockPanel.Dock="Top" Text="Your privacy is well protected in this transaction" />
+                                                                            <Image
+                                                                                Width="100"
+                                                                                Height="100"
+                                                                                Margin="0,20"
+                                                                                Source="{StaticResource privacy_indicator_good}" />
+                                                                        </DockPanel>
+                                                                    </Flyout>
+                                                                </FlyoutBase.AttachedFlyout>
+                                                            </c:IconButton>
                                                         </Grid>
                                                     </Border>
                                                 </DataTemplate>

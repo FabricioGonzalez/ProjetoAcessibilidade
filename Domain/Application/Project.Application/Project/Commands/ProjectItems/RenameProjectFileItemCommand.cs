@@ -1,26 +1,32 @@
-﻿using Common;
+﻿using Common.Result;
+
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
-using Splat;
 
 namespace ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 
 public sealed record RenameProjectFileItemCommand(
     FileItem Item
-) : IRequest<Resource<ExplorerItem>>;
+) : IRequest<Result<ExplorerItem, Exception>>;
 
 public sealed class RenameProjectFileItemCommandHandler
-    : IHandler<RenameProjectFileItemCommand, Resource<ExplorerItem>>
+    : IHandler<RenameProjectFileItemCommand, Result<ExplorerItem, Exception>>
 {
-    public async Task<Resource<ExplorerItem>> HandleAsync(
+    private IExplorerItemRepository _repository;
+
+    public RenameProjectFileItemCommandHandler(IExplorerItemRepository repository)
+    {
+        _repository = repository;
+    }
+
+    public async Task<Result<ExplorerItem, Exception>> HandleAsync(
         RenameProjectFileItemCommand request
         , CancellationToken cancellationToken
     )
     {
-        var result = await Locator.Current.GetService<IExplorerItemRepository>()
-            .RenameFileItemAsync(item: request.Item);
+        return await _repository.RenameFileItemAsync(item: request.Item);
 
-        return result;
+
     }
 }

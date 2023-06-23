@@ -14,13 +14,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="SkiaSharp" Version="2.88.3"/>
+        <PackageReference Include="SkiaSharp" Version="2.88.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Host\QuestPDF\QuestPDF\QuestPDF.csproj"/>
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
-        <ProjectReference Include="..\..\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj"/>
+        <ProjectReference Include="..\..\..\Host\QuestPDF\QuestPDF\QuestPDF.csproj" />
+        <ProjectReference Include="..\..\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
     </ItemGroup>
 
     <ItemGroup>

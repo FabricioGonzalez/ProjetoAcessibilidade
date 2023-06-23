@@ -53,7 +53,7 @@
             </c:InfoMessage>
 
             <TabControl SelectedIndex="{Binding SelectedTab, Mode=TwoWay}">
-                <TabItem Header="{Binding GeneralSettingsTab.LocalizedTitle }">
+                <TabItem Header="{Binding GeneralSettingsTab.LocalizedTitle}">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <v:GeneralSettingsTabView DataContext="{Binding GeneralSettingsTab}" />
                     </ScrollViewer>

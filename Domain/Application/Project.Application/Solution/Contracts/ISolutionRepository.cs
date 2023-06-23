@@ -1,11 +1,13 @@
 ﻿using Common.Optional;
+using Common.Result;
+
 using ProjetoAcessibilidade.Core.Entities.Solution;
 
 namespace ProjetoAcessibilidade.Domain.Solution.Contracts;
 
 public interface ISolutionRepository
 {
-    public Task<Optional<ProjectSolutionModel>> ReadSolution(
+    public Task<Result<ProjectSolutionModel, Exception>> ReadSolution(
         Optional<string> solutionPath
     );
 

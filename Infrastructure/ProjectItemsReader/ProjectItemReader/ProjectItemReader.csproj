@@ -21,7 +21,6 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\Domain\Application\Project.Application\ProjetoAcessibilidade.Domain.csproj" />
         <ProjectReference Include="..\..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>
 
 </Project>

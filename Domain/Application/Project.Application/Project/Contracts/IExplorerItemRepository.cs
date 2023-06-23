@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Common.Result;
 
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.App.Models;
@@ -7,64 +7,73 @@ namespace ProjetoAcessibilidade.Domain.Project.Contracts;
 
 public interface IExplorerItemRepository
 {
-    Task<Resource<List<ExplorerItem>>> GetAllItemsAsync(
+    public Result<ExplorerItem, Exception> CreateExplorerItem(
+          ExplorerItem item
+      );
+
+    public Result<ExplorerItem, Exception> DeleteExplorerItem(
+        ExplorerItem item
+    );
+
+    public Result<ExplorerItem, Exception> RenameFileItem(
+        ExplorerItem item
+    );
+
+    public Result<ExplorerItem, Exception> DeleteFolderItem(
+        ExplorerItem item
+    );
+
+    public Result<IEnumerable<ExplorerItem>, Exception> GetAllItems(
         string solutionPath
     );
 
-    Task<Resource<ExplorerItem>> RenameFolderItemAsync(
+    public Task<Result<IEnumerable<ExplorerItem>, Exception>> GetAllItemsAsync(
+        string solutionPath
+    );
+
+    public Result<ExplorerItem, Exception> UpdateExplorerItem(
         ExplorerItem item
     );
 
-    Task<Resource<ExplorerItem>> RenameFileItemAsync(
+    public Task<Result<ExplorerItem, Exception>> UpdateExplorerItemAsync(
         ExplorerItem item
     );
 
-    Task<Resource<ExplorerItem>> DeleteFolderItemAsync(
+    public Task<Result<ExplorerItem, Exception>> RenameFileItemAsync(
+        ExplorerItem item
+    );
+
+    public Task<Result<ExplorerItem, Exception>> RenameFolderItemAsync(
+        ExplorerItem item
+    );
+
+    public Task<Result<ExplorerItem, Exception>> DeleteFolderItemAsync(
         string itemPath
     );
 
-    Task<Resource<ExplorerItem>> DeleteFileItemAsync(
+    public Task<Result<ExplorerItem, Exception>> DeleteFileItemAsync(
         string itemPath
     );
 
-    Resource<Empty> RenameFolderItem(
+    public Result<ExplorerItem, Exception> RenameFolderItem(
+        ExplorerItem item
+    );
+
+    public Result<ExplorerItem, Exception> DeleteFileItem(
+        ExplorerItem item
+    );
+
+    public Result<Empty, Exception> RenameFolderItem(
         string itemName,
         string itemPath
     );
 
-    Task<Resource<ExplorerItem>> UpdateExplorerItemAsync(
+    public Task<Result<ExplorerItem, Exception>> CreateExplorerItemAsync(
         ExplorerItem item
     );
 
-    Resource<List<ExplorerItem>> GetAllItems(
-        string solutionPath
-    );
-
-    Resource<ExplorerItem> CreateExplorerItem(
+    public Task<Result<ExplorerItem, Exception>> DeleteExplorerItemAsync(
         ExplorerItem item
     );
 
-    Resource<ExplorerItem> DeleteExplorerItem(
-        ExplorerItem item
-    );
-
-    Resource<ExplorerItem> RenameFolderItem(
-        ExplorerItem item
-    );
-
-    Resource<ExplorerItem> RenameFileItem(
-        ExplorerItem item
-    );
-
-    Resource<ExplorerItem> DeleteFolderItem(
-        ExplorerItem item
-    );
-
-    Resource<ExplorerItem> DeleteFileItem(
-        ExplorerItem item
-    );
-
-    Resource<ExplorerItem> UpdateExplorerItem(
-        ExplorerItem item
-    );
 }

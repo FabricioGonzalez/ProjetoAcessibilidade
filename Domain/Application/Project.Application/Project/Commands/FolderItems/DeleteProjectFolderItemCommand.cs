@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Common.Result;
 
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.Contracts;
@@ -8,10 +8,10 @@ namespace ProjetoAcessibilidade.Domain.Project.Commands.FolderItems;
 
 public sealed record DeleteProjectFolderItemCommand(
     string ItemPath
-) : IRequest<Resource<ExplorerItem>>;
+) : IRequest<Result<ExplorerItem, Exception>>;
 
 public sealed class DeleteProjectFolderItemCommandHandler
-    : IHandler<DeleteProjectFolderItemCommand, Resource<ExplorerItem>>
+    : IHandler<DeleteProjectFolderItemCommand, Result<ExplorerItem, Exception>>
 {
     private IExplorerItemRepository _repository;
 
@@ -20,13 +20,11 @@ public sealed class DeleteProjectFolderItemCommandHandler
         _repository = repository;
     }
 
-    public async Task<Resource<ExplorerItem>> HandleAsync(
+    public async Task<Result<ExplorerItem, Exception>> HandleAsync(
         DeleteProjectFolderItemCommand request
         , CancellationToken cancellationToken
     )
     {
-        var result = await _repository.DeleteFolderItemAsync(request.ItemPath);
-
-        return result;
+        return await _repository.DeleteFolderItemAsync(request.ItemPath);
     }
 }

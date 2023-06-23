@@ -5,6 +5,7 @@ using Common.Optional;
 
 using Core.Entities.Solution.Project.AppItem;
 
+using ProjectItemReader.InternalAppFiles.DTO;
 using ProjectItemReader.XmlFile.DTO;
 
 using ProjetoAcessibilidade.Domain.Project.Contracts;
@@ -13,7 +14,8 @@ namespace ProjectItemReader.XmlFile;
 
 public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 {
-    public XmlSerializer CreateSerealizer() => new(type: typeof(ItemRoot));
+    public XmlSerializer CreateSerealizer() => _serializer ??= new(type: typeof(ItemRoot));
+    private static XmlSerializer _serializer;
 
     public async Task<Optional<AppItemModel>> GetSystemProjectItemContent(
         string filePathToRead
@@ -28,13 +30,16 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
             return CreateSerealizer()
                 .ToOption()
-            .Map(res =>
+                .MapValue(res =>
             {
                 using var reader = XmlReader.Create(inputUri: filePathToRead);
 
-                return res.Deserialize(xmlReader: reader)
-                .ToOption()
-                .Map(res => ((ItemRoot)res).ToAppItemModel());
+                if (res.Deserialize(xmlReader: reader) is { } result)
+                {
+                    Optional<AppItemModel>.Some(((ItemRoot)result!).ToAppItemModel());
+                }
+
+                return Optional<AppItemModel>.None();
             })
                 .Reduce(() => Optional<AppItemModel>.None());
         });

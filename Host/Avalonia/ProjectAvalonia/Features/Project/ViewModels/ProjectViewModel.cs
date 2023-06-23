@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 using Avalonia.Threading;
 
-using Common;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -243,31 +241,27 @@ public partial class ProjectViewModel
 
     private async Task ReadSolutionAndOpen(
         string path
-    ) =>
-        (await _mediator.Send(
+    )
+    {
+        var result = await _mediator.Send(
             request: new ReadSolutionProjectQuery(SolutionPath: path),
-            cancellation: CancellationToken.None))
-        .OnSuccess(
-            onSuccessAction: result =>
-            {
-                projectSolution = result.Data;
+            cancellation: CancellationToken.None);
 
-                Dispatcher
-                .UIThread
-                .Post(
-                    action: () =>
-                    {
-                        ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                            state: result.Data
-                        );
-                        this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
-                    });
-            })
-        .OnError(
-            onErrorAction: error =>
+        result.IfSucc(success =>
+        {
+            Dispatcher
+            .UIThread
+            .Post(
+             action: () =>
             {
+                ProjectExplorerViewModel = new ProjectExplorerViewModel(
+                    state: success
+                );
+                this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
             });
+        });
 
+    }
     private async Task CreateSolution()
     {
         var dialogResult = await NavigateDialogAsync(

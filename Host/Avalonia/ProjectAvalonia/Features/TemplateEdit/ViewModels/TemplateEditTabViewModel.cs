@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
@@ -221,7 +220,8 @@ public partial class TemplateEditTabViewModel
         var observable = this.WhenAnyValue(vm => vm.EditingItem)
             .Select(x => x.FormData
             .ToObservableChangeSet()
-            .AutoRefresh())
+            .AutoRefresh()
+            .DisposeMany())
             .Switch()
             .WhenPropertyChanged(prop => prop.Type, notifyOnInitialValue: false)
             .Subscribe(onNext: prop =>
@@ -294,94 +294,7 @@ public partial class TemplateEditTabViewModel
         protected set;
     } = null;
 
-    private AppModelState _editingItem = new()
-    {
-        Id = "",
-        FormData =
-            new ObservableCollection<FormItemContainer>
-            {
-                new()
-                {
-                    Topic = "Text 1",
-                    Type = AppFormDataType.Texto,
-                    Body = new TextItemState(
-                        topic: "teste item",
-                        id: "",
-                        textData: "teste",
-                        measurementUnit: "m")
-                },
-                new()
-                {
-                    Topic = "Text 1",
-                    Type = AppFormDataType.Checkbox,
-                    Body = new CheckboxContainerItemState("Teste")
-                    {
-                        Children = new ObservableCollection<CheckboxItemState>
-                        {
-                            new()
-                            {
-                                Options = new ObservableCollection<OptionsItemState>
-                                {
-                                    new()
-                                    {
-                                        Value = "Sim", IsChecked = false
-                                    },
-                                    new()
-                                    {
-                                        Value = "Não", IsChecked = false
-                                    },
-                                    new()
-                                    {
-                                        Value = "Talvez", IsChecked = false
-                                    }
-                                },
-                                TextItems = new ObservableCollection<TextItemState>
-                                {
-                                    new(
-                                        topic: "inner text",
-                                        id: "",
-                                        textData: "teste",
-                                        measurementUnit: "m"),
-                                    new(
-                                        topic: "inner text 2",
-                                        id: "",
-                                        textData: "teste",
-                                        measurementUnit: "m")
-                                }
-                            }
-                        }
-                    }
-                },
-                new()
-                {
-                    Topic = "Text 1",
-                    Type = AppFormDataType.Texto,
-                    Body = new TextItemState(
-                        topic: "teste item",
-                        id: "",
-                        textData: "teste2",
-                        measurementUnit: "m")
-                }
-            },
-        ItemName = "Teste",
-        ItemTemplate = "Teste Template",
-        LawItems = new ObservableCollection<LawStateItem>()
-        {
-            new()
-            {
-                LawId = "TESTE 01",
-                LawContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-            },new()
-            {
-                LawId = "TESTE 02",
-                LawContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-            },new()
-            {
-                LawId = "TESTE 03",
-                LawContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-            }
-        }
-    };
+    private AppModelState _editingItem;
     public AppModelState EditingItem
     {
         get => _editingItem;

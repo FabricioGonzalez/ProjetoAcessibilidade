@@ -123,7 +123,6 @@
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ProjectAvalonia.Presentation\ProjectAvalonia.Presentation.csproj" />
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
         <ProjectReference Include="..\..\QuestPDF\QuestPDF\QuestPDF.csproj" />
     </ItemGroup>
     <ItemGroup>

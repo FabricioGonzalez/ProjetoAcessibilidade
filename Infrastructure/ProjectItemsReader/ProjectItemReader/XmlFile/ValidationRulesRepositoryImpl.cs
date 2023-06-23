@@ -88,7 +88,8 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
 
     }
 
-    public Optional<XmlSerializer> CreateSerealizer() => Optional<XmlSerializer>.Some(new(type: typeof(ValidationItemRoot)));
+    public Optional<XmlSerializer> CreateSerealizer() => _serializer.IsNone ? _serializer = Optional<XmlSerializer>.Some(new(type: typeof(ValidationItemRoot))) : _serializer;
+    private Optional<XmlSerializer> _serializer;
 
 
 

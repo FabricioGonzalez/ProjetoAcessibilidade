@@ -3,15 +3,19 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 using Avalonia.Controls;
-using Common;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
+
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Queries;
+
 using ReactiveUI;
+
 using Splat;
 
 namespace ProjectAvalonia.ViewModels;
@@ -114,22 +118,16 @@ public partial class ApplicationViewModel
         (await _mediator.Send(
             request: new ReadSolutionProjectQuery(SolutionPath: v),
             cancellation: CancellationToken.None))
-        .OnSuccess(
-            onSuccessAction: async result =>
-            {
-                /*MainViewModel.Instance.PrintProject(solutionState: result?.Data?.ToSolutionState());*/
+        .IfSucc(sucess =>
+        {/*MainViewModel.Instance.PrintProject(solutionState: result?.Data?.ToSolutionState());*/
 
-                /*  MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
-                    , Parameter: result.Data.ToSolutionState());
+            /*  MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
+                , Parameter: result.Data.ToSolutionState());
 
-          MainViewModel.Instance.MainScreen.To(
-                      await NavigationManager.MaterialiseViewModelAsync(ProjectViewModel.MetaData)
-                     , Parameter: v);*/
-            })
-        .OnError(onErrorAction: error =>
-        {
+      MainViewModel.Instance.MainScreen.To(
+                  await NavigationManager.MaterialiseViewModelAsync(ProjectViewModel.MetaData)
+                 , Parameter: v);*/
         });
-
     internal void GoToOpenProject(
         string v
     ) => MainViewModel.Instance.OpenProject(projectPath: v);

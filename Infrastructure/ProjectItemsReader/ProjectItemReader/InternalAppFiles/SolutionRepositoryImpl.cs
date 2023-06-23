@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 
 using Common;
 using Common.Optional;
+using Common.Result;
 
 using ProjectItemReader.InternalAppFiles.DTO;
 
@@ -17,28 +18,47 @@ namespace ProjectItemReader.InternalAppFiles;
 
 public class SolutionRepositoryImpl : ISolutionRepository
 {
-    public async Task<Optional<ProjectSolutionModel>> ReadSolution(
+    private static XmlSerializer _serializer;
+
+    private static XmlSerializer CreateSerializer() => _serializer ??= new XmlSerializer(type: typeof(SolutionItemRoot));
+
+    public async Task<Result<ProjectSolutionModel, Exception>> ReadSolution(
         Optional<string> solutionPath
     ) =>
         await Task.Run(
             () =>
                 solutionPath
-                .Map(
-                        path =>
+                .MapValue(
+                        path => (itemPath: path, exists: File.Exists(path)))
+            .MapValue(item =>
+            {
+                try
+                {
+                    if (item.exists)
+                    {
+                        var serializer = CreateSerializer();
+
+                        using var reader = new StreamReader(item.itemPath);
+                        if (serializer.Deserialize(reader) is { } result)
                         {
-                            var serializer = new XmlSerializer(type: typeof(SolutionItemRoot)).ToOption();
-
-                            using var reader = new StreamReader(path);
-
-                            return serializer
-                            .Map(
-                                    result =>
-                                    {
-                                        return (SolutionItemRoot)result.Deserialize(reader);
-                                    })
-                             .Map(x => x.ToSolutionInfo(path));
-                        })
-                    .Reduce(() => new()));
+                            return Result<SolutionItemRoot, Exception>.Success((SolutionItemRoot)result!);
+                        }
+                        return Result<SolutionItemRoot, Exception>.Failure(new Exception($"Erro ao Deserializar{item.itemPath}"));
+                    }
+                    return Result<SolutionItemRoot, Exception>.Failure(new Exception($"Arquivo não existe no caminho {item.itemPath}"));
+                }
+                catch (Exception ex)
+                {
+                    return Result<SolutionItemRoot, Exception>.Failure(ex);
+                }
+            })
+            .MapValue(item =>
+            {
+                return item.Match(success => Result<ProjectSolutionModel, Exception>.Success(success
+                .ToSolutionInfo(solutionPath.Reduce(() => ""))),
+                failure => Result<ProjectSolutionModel, Exception>.Failure(failure));
+            })
+             .Reduce(() => new()));
 
     public async Task SaveSolution(
         Optional<string> solutionPath,

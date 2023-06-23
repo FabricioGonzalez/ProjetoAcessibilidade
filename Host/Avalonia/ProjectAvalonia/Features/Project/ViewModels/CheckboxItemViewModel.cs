@@ -37,7 +37,8 @@ public partial class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewMo
           .Select(op => op.Options)
           .Select(op => op
           .ToObservableChangeSet()
-          .AutoRefreshOnObservable(x => x.WhenAnyValue(it => it.IsChecked)))
+          .AutoRefreshOnObservable(x => x.WhenAnyValue(it => it.IsChecked))
+          .DisposeMany())
           .Switch()
           .WhenPropertyChanged(propertyAccessor: prop => prop.IsChecked/*, notifyOnInitialValue: false*/)
           .Do(prop =>
@@ -80,7 +81,6 @@ public partial class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewMo
               .SelectMany(rule => rule.Conditions
               .Where(y => y.TargetId == prop.Sender.Id)
              ));
-
 
               var ok = rulesToEvaluate
               .Select(z => z.ConditionsFunctions)

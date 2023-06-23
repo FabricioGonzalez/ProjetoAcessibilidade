@@ -65,7 +65,6 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\DI\AppDI\AppDI.csproj" />
         <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj" />
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>

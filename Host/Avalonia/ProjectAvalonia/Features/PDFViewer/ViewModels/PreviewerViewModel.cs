@@ -167,6 +167,7 @@ public partial class PreviewerViewModel : RoutableViewModel
     {
         UnregisterHotReloadHandler();
         Document = null;
+        SolutionModel = null;
     }
 
     public void UnregisterHotReloadHandler() => HotReloadManager.UpdateApplicationRequested -= InvalidateDocument;
