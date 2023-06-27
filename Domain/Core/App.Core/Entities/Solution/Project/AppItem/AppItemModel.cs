@@ -29,21 +29,21 @@ public class AppItemModel
     {
         get;
         set;
-    }
+    } = Enumerable.Empty<IAppFormDataItemContract>();
 
     public IEnumerable<ObservationModel> Observations
     {
         get;
         set;
-    }
+    } = Enumerable.Empty<ObservationModel>();
     public IEnumerable<ImagesItem> Images
     {
         get;
         set;
-    }
+    } = Enumerable.Empty<ImagesItem>();
     public IEnumerable<AppLawModel> LawList
     {
         get;
         set;
-    }
+    } = Enumerable.Empty<AppLawModel>();
 }

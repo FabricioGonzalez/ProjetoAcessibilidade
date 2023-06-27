@@ -61,7 +61,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
         var changeSet = Items
             .ToObservableChangeSet();
 
-        changeSet.AutoRefreshOnObservable(reevaluator: document => document.AddProjectItemCommand.IsExecuting)
+        _ = changeSet.AutoRefreshOnObservable(reevaluator: document => document.AddProjectItemCommand.IsExecuting)
             .Select(selector: x => WhenAnyItemWasAdded())
             .Switch()
              .SubscribeAsync(async item =>
@@ -69,7 +69,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                  await SaveSolution();
              });
 
-        changeSet
+        _ = changeSet
             .AutoRefreshOnObservable(reevaluator: document => document.ExcludeFolderCommand.IsExecuting)
             .Select(selector: x => WhenAnyFolderIsDeleted())
             .Switch()
@@ -82,9 +82,9 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                 if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
                         target: NavigationTarget.CompactDialogScreen)).Result)
                 {
-                    Items.Remove(item: x);
+                    _ = Items.Remove(item: x);
 
-                    await _mediator.Send(new DeleteProjectFolderItemCommand(x.ItemPath), CancellationToken.None);
+                    _ = await _mediator.Send(new DeleteProjectFolderItemCommand(x.ItemPath), CancellationToken.None);
 
                     await SaveSolution();
 
@@ -126,14 +126,14 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                     .ToList()
                 });
 
-                await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath), CancellationToken.None);
+                _ = await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath), CancellationToken.None);
 
                 return Optional<IItemGroupViewModel>.Some(item);
             }
             return Optional<IItemGroupViewModel>.None();
         });
 
-        CreateFolderCommand
+        _ = CreateFolderCommand
             .DoAsync(async _ => await SaveSolution())
             .Subscribe();
     }
@@ -175,7 +175,7 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
                         .ToList()
                          }).ToList());
 
-                await _mediator.Send(
+                _ = await _mediator.Send(
                     request: new CreateSolutionCommand(
                         SolutionPath: SolutionState.FilePath,
                         SolutionData: SolutionState),

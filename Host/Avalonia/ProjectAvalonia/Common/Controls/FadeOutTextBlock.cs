@@ -1,5 +1,6 @@
 using System;
 using System.Reactive.Disposables;
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -15,7 +16,9 @@ public class FadeOutTextBlock
     private static readonly IBrush FadeoutOpacityMask = new LinearGradientBrush
     {
         StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative)
-        , EndPoint = new RelativePoint(1, 0, RelativeUnit.Relative), GradientStops =
+        ,
+        EndPoint = new RelativePoint(1, 0, RelativeUnit.Relative),
+        GradientStops =
         {
             new GradientStop { Color = Colors.White, Offset = 0 }
             , new GradientStop { Color = Colors.White, Offset = 0.7 }
@@ -30,7 +33,7 @@ public class FadeOutTextBlock
 
     public FadeOutTextBlock()
     {
-        TextWrapping = TextWrapping.WrapWithOverflow;
+        TextWrapping = TextWrapping.NoWrap;
     }
 
     public Type StyleKey
@@ -61,7 +64,9 @@ public class FadeOutTextBlock
         var centerOffset = TextAlignment switch
         {
             TextAlignment.Center => (width - _trimmedLayout.Size.Width) / 2.0
-            , TextAlignment.Right => width - _trimmedLayout.Size.Width, _ => 0.0
+            ,
+            TextAlignment.Right => width - _trimmedLayout.Size.Width,
+            _ => 0.0
         };
 
         var (left, yPosition, _, _) = Padding;
@@ -70,7 +75,13 @@ public class FadeOutTextBlock
             context.PushPostTransform(Matrix.CreateTranslation(left + centerOffset
                 , yPosition));
         using var b = _cutOff ? context.PushOpacityMask(FadeoutOpacityMask, Bounds) : Disposable.Empty;
-        _noTrimLayout.Draw(context);
+
+        if (!_cutOff)
+        {
+            _noTrimLayout.Draw(context);
+            return;
+        }
+        _trimmedLayout.Draw(context);
     }
 
     private void NewCreateTextLayout(
@@ -119,10 +130,9 @@ public class FadeOutTextBlock
             textDecorations,
             width,
             height,
-            lineHeight,
-            1);
+            lineHeight);
 
-        _cutOff = _trimmedLayout.TextLines[0].HasCollapsed;
+        _cutOff = _trimmedLayout.TextLines[0].HasCollapsed || _trimmedLayout.TextLines.Count > 1;
     }
 
     protected override Size MeasureOverride(

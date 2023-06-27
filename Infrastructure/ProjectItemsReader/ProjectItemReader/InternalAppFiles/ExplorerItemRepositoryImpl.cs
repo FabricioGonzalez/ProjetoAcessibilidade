@@ -12,25 +12,25 @@ namespace ProjectItemReader.InternalAppFiles;
 
 public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 {
-    public Result<ExplorerItem, Exception> CreateExplorerItem(
+    public Result<ExplorerItem> CreateExplorerItem(
         ExplorerItem item
-    ) => Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
 
-    public Result<ExplorerItem, Exception> DeleteExplorerItem(
+    public Result<ExplorerItem> DeleteExplorerItem(
         ExplorerItem item
-    ) => Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
 
-    public Result<ExplorerItem, Exception> RenameFileItem(
-        ExplorerItem item
-    ) =>
-        throw new NotImplementedException();
-
-    public Result<ExplorerItem, Exception> DeleteFolderItem(
+    public Result<ExplorerItem> RenameFileItem(
         ExplorerItem item
     ) =>
         throw new NotImplementedException();
 
-    public Result<IEnumerable<ExplorerItem>, Exception> GetAllItems(
+    public Result<ExplorerItem> DeleteFolderItem(
+        ExplorerItem item
+    ) =>
+        throw new NotImplementedException();
+
+    public Result<IEnumerable<ExplorerItem>> GetAllItems(
         string solutionPath
     )
     {
@@ -80,14 +80,14 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         {
             if (resultItem.Count() > 0)
             {
-                return Result<IEnumerable<ExplorerItem>, Exception>.Success(resultItem);
+                return Result<IEnumerable<ExplorerItem>>.Success(resultItem);
             }
-            return Result<IEnumerable<ExplorerItem>, Exception>.Failure(new Exception("Não Há items"));
+            return Result<IEnumerable<ExplorerItem>>.Failure(new Exception("Não Há items"));
         })
-            .Reduce(() => Result<IEnumerable<ExplorerItem>, Exception>.Failure(new Exception("Erro Intero em algum dos Processos")));
+            .Reduce(() => Result<IEnumerable<ExplorerItem>>.Failure(new Exception("Erro Intero em algum dos Processos")));
     }
 
-    public async Task<Result<IEnumerable<ExplorerItem>, Exception>> GetAllItemsAsync(
+    public async Task<Result<IEnumerable<ExplorerItem>>> GetAllItemsAsync(
         string solutionPath
     )
     {
@@ -137,22 +137,22 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             {
                 if (resultItem.Count() > 0)
                 {
-                    return Result<IEnumerable<ExplorerItem>, Exception>.Success(resultItem);
+                    return Result<IEnumerable<ExplorerItem>>.Success(resultItem);
                 }
-                return Result<IEnumerable<ExplorerItem>, Exception>.Failure(new Exception("Não Há items"));
+                return Result<IEnumerable<ExplorerItem>>.Failure(new Exception("Não Há items"));
             })
-            .Reduce(() => Result<IEnumerable<ExplorerItem>, Exception>.Failure(new Exception("Erro Intero em algum dos Processos")));
+            .Reduce(() => Result<IEnumerable<ExplorerItem>>.Failure(new Exception("Erro Intero em algum dos Processos")));
     }
 
-    public Result<ExplorerItem, Exception> UpdateExplorerItem(
+    public Result<ExplorerItem> UpdateExplorerItem(
         ExplorerItem item
-    ) => Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
 
-    public async Task<Result<ExplorerItem, Exception>> UpdateExplorerItemAsync(
+    public async Task<Result<ExplorerItem>> UpdateExplorerItemAsync(
         ExplorerItem item
-    ) => Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
 
-    public async Task<Result<ExplorerItem, Exception>> RenameFileItemAsync(
+    public async Task<Result<ExplorerItem>> RenameFileItemAsync(
         ExplorerItem item
     )
     {
@@ -180,38 +180,38 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
                             oldValue: Path.GetFileName(path: explorerItem.itemPath),
                             newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
 
-                            return Result<ExplorerItem, Exception>.Success(item);
+                            return Result<ExplorerItem>.Success(item);
                         }
 
-                        return Result<ExplorerItem, Exception>.Failure(new Exception("Erro na operação!"));
+                        return Result<ExplorerItem>.Failure(new Exception("Erro na operação!"));
                     }
                     catch (IOException ex)
                     {
-                        return Result<ExplorerItem, Exception>.Failure(ex);
+                        return Result<ExplorerItem>.Failure(ex);
                     }
                     catch (UnauthorizedAccessException ex)
                     {
-                        return Result<ExplorerItem, Exception>.Failure(ex);
+                        return Result<ExplorerItem>.Failure(ex);
                     }
                     catch (ArgumentException ex)
                     {
-                        return Result<ExplorerItem, Exception>.Failure(ex);
+                        return Result<ExplorerItem>.Failure(ex);
                     }
                     catch (NotSupportedException ex)
                     {
-                        return Result<ExplorerItem, Exception>.Failure(ex);
+                        return Result<ExplorerItem>.Failure(ex);
                     }
                     catch (SecurityException ex)
                     {
-                        return Result<ExplorerItem, Exception>.Failure(ex);
+                        return Result<ExplorerItem>.Failure(ex);
                     }
                 });
             }))
-            .Reduce(() => Result<ExplorerItem, Exception>.Failure(new Exception("Não foi Possivel finalizar a operação")));
+            .Reduce(() => Result<ExplorerItem>.Failure(new Exception("Não foi Possivel finalizar a operação")));
     }
 
 
-    public async Task<Result<ExplorerItem, Exception>> RenameFolderItemAsync(
+    public async Task<Result<ExplorerItem>> RenameFolderItemAsync(
         ExplorerItem item
     )
     {
@@ -228,7 +228,7 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             }
             else
             {
-                Directory.CreateDirectory(
+                _ = Directory.CreateDirectory(
                     path: Path.Combine(
                         path1: item.Path,
                         path2: item.Name));
@@ -239,10 +239,10 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
                 newValue: item.Name);
         }
 
-        return Result<ExplorerItem, Exception>.Success(item);
+        return Result<ExplorerItem>.Success(item);
     }
 
-    public async Task<Result<ExplorerItem, Exception>> DeleteFolderItemAsync(
+    public async Task<Result<ExplorerItem>> DeleteFolderItemAsync(
         string itemPath
     )
     {
@@ -251,13 +251,13 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             if (Directory.Exists(path: itemPath))
             {
                 Directory.Delete(path: itemPath, recursive: true);
-                return Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+                return Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
             }
         }
-        return Result<ExplorerItem, Exception>.Failure(new Exception("Diretório não existe"));
+        return Result<ExplorerItem>.Failure(new Exception("Diretório não existe"));
     }
 
-    public async Task<Result<ExplorerItem, Exception>> DeleteFileItemAsync(
+    public async Task<Result<ExplorerItem>> DeleteFileItemAsync(
         string itemPath
     )
     {
@@ -270,14 +270,14 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
                     File.Delete(path: itemPath);
                 });
 
-                return Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+                return Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
             }
         }
 
-        return Result<ExplorerItem, Exception>.Failure(new Exception("Erro ao deletar arquivo"));
+        return Result<ExplorerItem>.Failure(new Exception("Erro ao deletar arquivo"));
     }
 
-    public Result<ExplorerItem, Exception> RenameFolderItem(
+    public Result<ExplorerItem> RenameFolderItem(
         ExplorerItem item
     )
     {
@@ -307,10 +307,10 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
                 newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
         }
 
-        return Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+        return Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
     }
 
-    public Result<ExplorerItem, Exception> DeleteFileItem(
+    public Result<ExplorerItem> DeleteFileItem(
         ExplorerItem item
     )
     {
@@ -340,10 +340,10 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
                 newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
         }
 
-        return Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+        return Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
     }
 
-    public Result<Empty, Exception> RenameFolderItem(
+    public Result<Empty> RenameFolderItem(
         string itemName,
         string itemPath
     )
@@ -369,20 +369,20 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             }
             else
             {
-                Directory.CreateDirectory(path: itemPath);
+                _ = Directory.CreateDirectory(path: itemPath);
             }
         }
 
-        return Result<Empty, Exception>.Success(new Empty());
+        return Result<Empty>.Success(new Empty());
     }
 
-    public async Task<Result<ExplorerItem, Exception>> CreateExplorerItemAsync(
+    public async Task<Result<ExplorerItem>> CreateExplorerItemAsync(
         ExplorerItem item
-    ) => Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
 
-    public async Task<Result<ExplorerItem, Exception>> DeleteExplorerItemAsync(
+    public async Task<Result<ExplorerItem>> DeleteExplorerItemAsync(
         ExplorerItem item
-    ) => Result<ExplorerItem, Exception>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
 
     private async Task GetDataFromPathAsync(
         string[] folder,

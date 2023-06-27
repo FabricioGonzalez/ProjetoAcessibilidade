@@ -8,19 +8,19 @@ namespace ProjetoAcessibilidade.Domain.Project.Commands.FolderItems;
 
 public sealed record DeleteProjectFolderItemCommand(
     string ItemPath
-) : IRequest<Result<ExplorerItem, Exception>>;
+) : IRequest<Result<ExplorerItem>>;
 
 public sealed class DeleteProjectFolderItemCommandHandler
-    : IHandler<DeleteProjectFolderItemCommand, Result<ExplorerItem, Exception>>
+    : IHandler<DeleteProjectFolderItemCommand, Result<ExplorerItem>>
 {
-    private IExplorerItemRepository _repository;
+    private readonly IExplorerItemRepository _repository;
 
     public DeleteProjectFolderItemCommandHandler(IExplorerItemRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<Result<ExplorerItem, Exception>> HandleAsync(
+    public async Task<Result<ExplorerItem>> HandleAsync(
         DeleteProjectFolderItemCommand request
         , CancellationToken cancellationToken
     )

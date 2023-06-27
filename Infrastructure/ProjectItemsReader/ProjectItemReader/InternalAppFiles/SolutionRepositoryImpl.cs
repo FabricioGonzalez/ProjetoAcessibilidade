@@ -22,7 +22,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
 
     private static XmlSerializer CreateSerializer() => _serializer ??= new XmlSerializer(type: typeof(SolutionItemRoot));
 
-    public async Task<Result<ProjectSolutionModel, Exception>> ReadSolution(
+    public async Task<Result<ProjectSolutionModel>> ReadSolution(
         Optional<string> solutionPath
     ) =>
         await Task.Run(
@@ -41,22 +41,22 @@ public class SolutionRepositoryImpl : ISolutionRepository
                         using var reader = new StreamReader(item.itemPath);
                         if (serializer.Deserialize(reader) is { } result)
                         {
-                            return Result<SolutionItemRoot, Exception>.Success((SolutionItemRoot)result!);
+                            return Result<SolutionItemRoot>.Success((SolutionItemRoot)result!);
                         }
-                        return Result<SolutionItemRoot, Exception>.Failure(new Exception($"Erro ao Deserializar{item.itemPath}"));
+                        return Result<SolutionItemRoot>.Failure(new Exception($"Erro ao Deserializar{item.itemPath}"));
                     }
-                    return Result<SolutionItemRoot, Exception>.Failure(new Exception($"Arquivo não existe no caminho {item.itemPath}"));
+                    return Result<SolutionItemRoot>.Failure(new Exception($"Arquivo não existe no caminho {item.itemPath}"));
                 }
                 catch (Exception ex)
                 {
-                    return Result<SolutionItemRoot, Exception>.Failure(ex);
+                    return Result<SolutionItemRoot>.Failure(ex);
                 }
             })
             .MapValue(item =>
             {
-                return item.Match(success => Result<ProjectSolutionModel, Exception>.Success(success
+                return item.Match(success => Result<ProjectSolutionModel>.Success(success
                 .ToSolutionInfo(solutionPath.Reduce(() => ""))),
-                failure => Result<ProjectSolutionModel, Exception>.Failure(failure));
+                failure => Result<ProjectSolutionModel>.Failure(failure));
             })
              .Reduce(() => new()));
 
@@ -74,7 +74,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
                             return serializer.MapValue(
                                     result =>
                                     {
-                                        dataToWrite.MapValue(
+                                        _ = dataToWrite.MapValue(
                                                 data =>
                                                 {
                                                     using var writer =
@@ -277,7 +277,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
                 attribute.Value = item.Name;
                 attribute.InnerXml = item.Name;
 
-                itemGroupItemElement.SetAttributeNode(newAttr: attribute);
+                _ = itemGroupItemElement.SetAttributeNode(newAttr: attribute);
 
                 foreach (var subitem in item.Items)
                 {
@@ -295,15 +295,15 @@ public class SolutionRepositoryImpl : ISolutionRepository
                     var subItemTemplateName = xml.CreateElement(name: Constants.items_groups_item_template_name);
                     subItemTemplateName.InnerXml = subitem.TemplateName;
 
-                    subItem.AppendChild(newChild: subItemId);
-                    subItem.AppendChild(newChild: subItemName);
-                    subItem.AppendChild(newChild: subItemItemPath);
-                    subItem.AppendChild(newChild: subItemTemplateName);
+                    _ = subItem.AppendChild(newChild: subItemId);
+                    _ = subItem.AppendChild(newChild: subItemName);
+                    _ = subItem.AppendChild(newChild: subItemItemPath);
+                    _ = subItem.AppendChild(newChild: subItemTemplateName);
 
-                    itemGroupItemElement.AppendChild(newChild: subItem);
+                    _ = itemGroupItemElement.AppendChild(newChild: subItem);
                 }
 
-                itemGroupsElement?.AppendChild(newChild: itemGroupItemElement);
+                _ = (itemGroupsElement?.AppendChild(newChild: itemGroupItemElement));
             }
         }
 
@@ -347,14 +347,14 @@ public class SolutionRepositoryImpl : ISolutionRepository
             var solutionName = xml.CreateElement(name: Constants.reportItemSolutionName);
             solutionName.InnerXml = reportData.SolutionName;
 
-            element?.AppendChild(newChild: nomeEmpresa);
-            element?.AppendChild(newChild: responsavel);
-            element?.AppendChild(newChild: email);
-            element?.AppendChild(newChild: endereco);
-            element?.AppendChild(newChild: telefone);
-            element?.AppendChild(newChild: data);
-            element?.AppendChild(newChild: logo);
-            element?.AppendChild(newChild: solutionName);
+            _ = (element?.AppendChild(newChild: nomeEmpresa));
+            _ = (element?.AppendChild(newChild: responsavel));
+            _ = (element?.AppendChild(newChild: email));
+            _ = (element?.AppendChild(newChild: endereco));
+            _ = (element?.AppendChild(newChild: telefone));
+            _ = (element?.AppendChild(newChild: data));
+            _ = (element?.AppendChild(newChild: logo));
+            _ = (element?.AppendChild(newChild: solutionName));
         }
 
         return xml;
@@ -368,10 +368,10 @@ public class SolutionRepositoryImpl : ISolutionRepository
         var report = document.CreateElement(name: Constants.report);
         var projectItems = document.CreateElement(name: Constants.project_items);
 
-        root.AppendChild(newChild: report);
-        root.AppendChild(newChild: projectItems);
+        _ = root.AppendChild(newChild: report);
+        _ = root.AppendChild(newChild: projectItems);
 
-        document.AppendChild(newChild: root);
+        _ = document.AppendChild(newChild: root);
 
         return document;
     }
@@ -394,7 +394,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
     {
         if (!Directory.Exists(path: filePath))
         {
-            Directory.CreateDirectory(path: filePath);
+            _ = Directory.CreateDirectory(path: filePath);
         }
     }
 }

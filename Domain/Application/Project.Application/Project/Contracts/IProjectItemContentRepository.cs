@@ -1,4 +1,5 @@
 ﻿using Common.Optional;
+using Common.Result;
 
 using Core.Entities.Solution.Project.AppItem;
 
@@ -14,7 +15,7 @@ public interface IProjectItemContentRepository
         string filePathToWrite
     );
 
-    public Task<AppItemModel?> GetSystemProjectItemContentSerealizer(
+    public Task<Result<AppItemModel>> GetSystemProjectItemContentSerealizer(
         string filePathToWrite
     );
 

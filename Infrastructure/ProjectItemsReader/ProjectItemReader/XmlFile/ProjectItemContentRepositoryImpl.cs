@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 
 using Common.Optional;
+using Common.Result;
 
 using Core.Entities.Solution.Project.AppItem;
 
@@ -25,7 +26,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
         {
             if (!Path.Exists(path: filePathToRead))
             {
-                Optional<AppItemModel>.None();
+                _ = Optional<AppItemModel>.None();
             }
 
             return CreateSerealizer()
@@ -36,7 +37,7 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
 
                 if (res.Deserialize(xmlReader: reader) is { } result)
                 {
-                    Optional<AppItemModel>.Some(((ItemRoot)result!).ToAppItemModel());
+                    _ = Optional<AppItemModel>.Some(((ItemRoot)result!).ToAppItemModel());
                 }
 
                 return Optional<AppItemModel>.None();
@@ -87,22 +88,41 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
         serializer.Serialize(textWriter: writer, o: dataToWrite.ToItemRoot());
     }
 
-    public async Task<AppItemModel?> GetSystemProjectItemContentSerealizer(
+    public async Task<Result<AppItemModel>> GetSystemProjectItemContentSerealizer(
         string filePathToRead
     )
     {
-        if (!Path.Exists(path: filePathToRead))
-        {
-            return null;
-        }
+        return filePathToRead
+            .ToOption()
+            .MapValue(itemPath =>
+            {
+                try
+                {
+                    if (Path.Exists(path: filePathToRead))
+                    {
+                        var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
-        var serializer = new XmlSerializer(type: typeof(ItemRoot));
+                        using var reader = XmlReader.Create(inputUri: filePathToRead);
+                        var result = serializer.Deserialize(xmlReader: reader);
 
-        using var reader = XmlReader.Create(inputUri: filePathToRead);
+                        return Result<ItemRoot>.Success((ItemRoot)result);
+                    }
+                    return Result<ItemRoot>.Failure(new Exception("File does not exists"));
+                }
+                catch (Exception ex)
+                {
+                    return Result<ItemRoot>.Failure(ex);
+                }
+            })
+            .MapValue(item =>
+            {
+                return item.Match(
+                    success => Result<AppItemModel>.Success(success.ToAppItemModel()),
+                    fail => Result<AppItemModel>.Failure(new Exception("File was not returned")));
+            })
+            .Reduce(() => Result<AppItemModel>.Failure(new Exception("Process has broken")));
 
-        var result = await Task.Run<ItemRoot>(function: () => (ItemRoot)serializer.Deserialize(xmlReader: reader));
 
-        return result.ToAppItemModel();
     }
 
     public async Task SaveSystemProjectItemContentSerealizer(

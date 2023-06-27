@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 using Core.Entities.ValidationRules;
 
@@ -27,10 +29,29 @@ public partial class ItemValidationViewModel : TemplateEditTabViewModelBase, IIt
         get;
         protected set;
     }
-    [AutoNotify] ValidationRuleContainerState _validationItemRules;
+    [AutoNotify] private ValidationRuleContainerState? _validationItemRules;
     public override MenuViewModel? ToolBar => null;
+    public ItemValidationViewModel()
+    {
 
+    }
 
     [AutoNotify]
-    private ObservableCollection<ValidationRule> _rules;
+    private ObservableCollection<ValidationRule> _validationRules = new()
+    {
+        new ValidationRule(){Rules = new List<RuleSet>()
+        {
+            new RuleSet()
+            {
+                Operation = "Obrigatority",
+                Conditions = new List<Conditions>()
+                {
+                    new("0","has","checked",new List<string>(){ "Teste","Teste 2" },(teste) => { return (false,Enumerable.Empty<string>()); })
+                }
+            }
+        },Targets = new List<Targets>(){
+            new Targets(){Id = ""}
+        } }
+    };
+
 }

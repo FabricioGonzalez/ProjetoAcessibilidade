@@ -7,7 +7,7 @@ namespace ProjetoAcessibilidade.Domain.Solution.Contracts;
 
 public interface ISolutionRepository
 {
-    public Task<Result<ProjectSolutionModel, Exception>> ReadSolution(
+    public Task<Result<ProjectSolutionModel>> ReadSolution(
         Optional<string> solutionPath
     );
 

@@ -9,10 +9,10 @@ namespace ProjetoAcessibilidade.Domain.Solution.Queries;
 
 public sealed record ReadSolutionProjectQuery(
     string SolutionPath
-) : IRequest<Result<ProjectSolutionModel, Exception>>;
+) : IRequest<Result<ProjectSolutionModel>>;
 
 public sealed class ReadSolutionProjectQueryHandler
-    : IHandler<ReadSolutionProjectQuery, Result<ProjectSolutionModel, Exception>>
+    : IHandler<ReadSolutionProjectQuery, Result<ProjectSolutionModel>>
 {
     public ISolutionRepository _repository;
 
@@ -24,7 +24,7 @@ public sealed class ReadSolutionProjectQueryHandler
     }
 
 
-    public async Task<Result<ProjectSolutionModel, Exception>> HandleAsync(
+    public async Task<Result<ProjectSolutionModel>> HandleAsync(
         ReadSolutionProjectQuery query,
         CancellationToken cancellation
     ) =>

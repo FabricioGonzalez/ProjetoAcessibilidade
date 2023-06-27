@@ -8,9 +8,9 @@ namespace ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
 
 public sealed record GetProjectItemsQuery(
     string SolutionPath
-) : IRequest<Result<IEnumerable<ExplorerItem>, Exception>>;
+) : IRequest<Result<IEnumerable<ExplorerItem>>>;
 
-public sealed class GetProjectItemsQueryHandler : IHandler<GetProjectItemsQuery, Result<IEnumerable<ExplorerItem>, Exception>>
+public sealed class GetProjectItemsQueryHandler : IHandler<GetProjectItemsQuery, Result<IEnumerable<ExplorerItem>>>
 {
     private readonly IExplorerItemRepository _repository;
 
@@ -21,14 +21,12 @@ public sealed class GetProjectItemsQueryHandler : IHandler<GetProjectItemsQuery,
         _repository = repository;
     }
 
-    public async Task<Result<IEnumerable<ExplorerItem>, Exception>> HandleAsync(
+    public async Task<Result<IEnumerable<ExplorerItem>>> HandleAsync(
         GetProjectItemsQuery request,
         CancellationToken cancellationToken
     )
     {
-        Result<IEnumerable<ExplorerItem>, Exception> result = await _repository
+        return await _repository
             .GetAllItemsAsync(solutionPath: request.SolutionPath);
-
-        return result;
     }
 }

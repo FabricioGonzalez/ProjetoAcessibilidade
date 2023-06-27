@@ -8,19 +8,19 @@ namespace ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 
 public sealed record RenameProjectFileItemCommand(
     FileItem Item
-) : IRequest<Result<ExplorerItem, Exception>>;
+) : IRequest<Result<ExplorerItem>>;
 
 public sealed class RenameProjectFileItemCommandHandler
-    : IHandler<RenameProjectFileItemCommand, Result<ExplorerItem, Exception>>
+    : IHandler<RenameProjectFileItemCommand, Result<ExplorerItem>>
 {
-    private IExplorerItemRepository _repository;
+    private readonly IExplorerItemRepository _repository;
 
     public RenameProjectFileItemCommandHandler(IExplorerItemRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<Result<ExplorerItem, Exception>> HandleAsync(
+    public async Task<Result<ExplorerItem>> HandleAsync(
         RenameProjectFileItemCommand request
         , CancellationToken cancellationToken
     )

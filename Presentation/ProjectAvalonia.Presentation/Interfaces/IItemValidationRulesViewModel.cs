@@ -6,7 +6,7 @@ namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface IItemValidationRulesViewModel
 {
-    public ObservableCollection<ValidationRule> Rules
+    public ObservableCollection<ValidationRule> ValidationRules
     {
         get; set;
     }

@@ -44,15 +44,15 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </SplitView.Pane>
-        <TabControl>
+        <TabControl Padding="4" Background="{DynamicResource RegionBrush}">
             <TabItem Header="Template">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <views:TemplateEditTabView DataContext="{Binding TemplateEditTab, Mode=TwoWay}" />
+                    <views:TemplateEditTabView CornerRadius="4" DataContext="{Binding TemplateEditTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Regras de Validação">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <views:ItemValidationView DataContext="{Binding ItemValidationTab, Mode=TwoWay}" />
+                    <views:ItemValidationView CornerRadius="4" DataContext="{Binding ItemValidationTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
         </TabControl>

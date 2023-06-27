@@ -218,6 +218,7 @@ public partial class TemplateEditTabViewModel
     public TemplateEditTabViewModel()
     {
         var observable = this.WhenAnyValue(vm => vm.EditingItem)
+            .WhereNotNull()
             .Select(x => x.FormData
             .ToObservableChangeSet()
             .AutoRefresh()

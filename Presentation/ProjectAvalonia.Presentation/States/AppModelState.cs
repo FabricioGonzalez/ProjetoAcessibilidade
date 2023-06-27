@@ -101,7 +101,7 @@ public class AppModelState : ReactiveObject
     )
     {
         /*formDataAggregate.Remove(formItem);*/
-        FormData.Remove(formItem);
+        _ = FormData.Remove(formItem);
     }
 
 
@@ -135,7 +135,7 @@ public class AppModelState : ReactiveObject
     )
     {
         /*lawItemsAggregate.Remove(lawItem);*/
-        LawItems.Remove(lawItem);
+        _ = LawItems.Remove(lawItem);
     }
 
 
@@ -471,6 +471,9 @@ public static class Extensions
                         return null;
                     })
                 .ToList(),
+            Images = Enumerable.Empty<ImagesItem>(),
+            Observations = Enumerable.Empty<ObservationModel>(),
+            TemplateName = item.ItemName,
             LawList = item
                 .LawItems
                 .Select(

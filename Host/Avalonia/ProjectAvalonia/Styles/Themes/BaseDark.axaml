@@ -4,21 +4,21 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <Color x:Key="SystemAccentColor">#fff88c20</Color>
-                    <Color x:Key="SystemAltHighColor">#FF000000</Color>
-                    <Color x:Key="SystemAltLowColor">#FF000000</Color>
-                    <Color x:Key="SystemAltMediumColor">#FF000000</Color>
-                    <Color x:Key="SystemAltMediumHighColor">#FF000000</Color>
-                    <Color x:Key="SystemAltMediumLowColor">#FF000000</Color>
+                    <Color x:Key="SystemAltHighColor">#CE222222</Color>
+                    <Color x:Key="SystemAltLowColor">#CE222222</Color>
+                    <Color x:Key="SystemAltMediumColor">#CE222222</Color>
+                    <Color x:Key="SystemAltMediumHighColor">#CE222222</Color>
+                    <Color x:Key="SystemAltMediumLowColor">#CE222222</Color>
                     <Color x:Key="SystemBaseHighColor">#FFFFFFFF</Color>
                     <Color x:Key="SystemBaseLowColor">#FF232A33</Color>
                     <Color x:Key="SystemBaseMediumColor">#FF8D95A3</Color>
                     <Color x:Key="SystemBaseMediumHighColor">#FFA8B0BF</Color>
                     <Color x:Key="SystemBaseMediumLowColor">#FF58606B</Color>
                     <Color x:Key="SystemChromeAltLowColor">#FFA8B0BF</Color>
-                    <Color x:Key="SystemChromeBlackHighColor">#FF000000</Color>
+                    <Color x:Key="SystemChromeBlackHighColor">#CE222222</Color>
                     <Color x:Key="SystemChromeBlackLowColor">#FFA8B0BF</Color>
-                    <Color x:Key="SystemChromeBlackMediumColor">#FF000000</Color>
-                    <Color x:Key="SystemChromeBlackMediumLowColor">#FF000000</Color>
+                    <Color x:Key="SystemChromeBlackMediumColor">#CE222222</Color>
+                    <Color x:Key="SystemChromeBlackMediumLowColor">#CE222222</Color>
                     <Color x:Key="SystemChromeDisabledHighColor">#282828</Color>
                     <Color x:Key="SystemChromeDisabledLowColor">#FF8D95A3</Color>
                     <Color x:Key="SystemChromeGrayColor">#FF737A87</Color>
@@ -39,7 +39,7 @@
                     <Color x:Key="SystemAccentColorLight1">#fff29c46</Color>
                     <Color x:Key="SystemAccentColorLight2">#f09f4f</Color>
                     <Color x:Key="SystemAccentColorLight3">#f5b97d</Color>
-                    <Color x:Key="RegionColor">#191D24</Color>
+                    <Color x:Key="RegionColor">#AC343134</Color>
                     <Color x:Key="ActionForegroundColor">Black</Color>
                     <Color x:Key="ActionColorDark1">#cf751b</Color>
                     <Color x:Key="ActionColorDark2">#b06315</Color>
@@ -48,16 +48,6 @@
                     <Color x:Key="ActionColorLight2">#f09f4f</Color>
                     <Color x:Key="ActionColorLight3">#f5b97d</Color>
                     <Color x:Key="ActionColor">#fff88c20</Color>
-
-                    <Color x:Key="SukiPrimaryColor">#fff88c20</Color>
-                    <Color x:Key="SukiPrimaryColorGradient">#fff88c20</Color>
-
-                    <Color x:Key="SukiBackground">#fff88c20</Color>
-                    <Color x:Key="SukiLightBackground">#fff88c20</Color>
-                    <Color x:Key="SukiStrongBackground">#fff88c20</Color>
-
-                    <Color x:Key="SukiBorderBrush">#fff88c20</Color>
-                    <Color x:Key="SukiControlBorderBrush">#fff88c20</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -105,11 +95,15 @@
         <BoxShadows x:Key="InfoBoxShadow">0 1 1.5 #3F000000</BoxShadows>
         <BoxShadows x:Key="BoxShadow">0 1 4 #121212</BoxShadows>
         <BoxShadows x:Key="OptionButtonShadow">0 2 2 #121212</BoxShadows>
+        <BoxShadows x:Key="AppElevationShadow">0 2 2 #AC323232</BoxShadows>
+
+        <SolidColorBrush x:Key="AppElevationBrush" Color="#CC484848" />
 
         <BoxShadows x:Key="OptimizePrivacyOptionBoxShadow1">0 6 16 0 #22000000</BoxShadows>
         <BoxShadows x:Key="OptimizePrivacyOptionBoxShadow2">0 9 23 0 #4A000000</BoxShadows>
     </Styles.Resources>
     <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentDark.xaml" />
+    <StyleInclude Source="avares://Avalonia.Themes.Fluent/DensityStyles/Compact.xaml" />
 
     <!--  Needs to be here because of dependency reason  -->
     <StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml" />
