@@ -1,30 +1,35 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:dialogs="clr-namespace:ProjectAvalonia.Features.Project.ViewModels.Dialogs"
-             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" x:CompileBindings="True"
-             x:DataType="dialogs:CreateFolderViewModel"
-             x:Class="ProjectAvalonia.Features.Project.Views.Dialogs.CreateFolderView">
+﻿<UserControl
+    x:Class="ProjectAvalonia.Features.Project.Views.Dialogs.CreateFolderView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="clr-namespace:ProjectAvalonia.Features.Project.ViewModels.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:CompileBindings="True"
+    x:DataType="dialogs:CreateFolderViewModel"
+    mc:Ignorable="d">
     <controls:ContentArea
         Title="{Binding Title}"
-        CancelContent="Cancel"
+        CancelContent="{x:Static p:Resources.CancelActionLabel}"
         Caption="{Binding Caption}"
         EnableCancel="True"
         EnableNext="True"
-        NextContent="OK"
+        NextContent="{x:Static p:Resources.NextActionLabel}"
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <DockPanel VerticalAlignment="Bottom">
             <TextBox
-                Watermark="Folder Name"
-                UseFloatingWatermark="True"
                 MaxWidth="500"
                 Margin="20,0"
                 DockPanel.Dock="Bottom"
-                Text="{Binding FolderName,Mode=TwoWay}"
+                Text="{Binding FolderName, Mode=TwoWay}"
                 TextAlignment="Center"
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap"
+                UseFloatingWatermark="True"
+                Watermark="{x:Static p:Resources.Folder_Name_Watermark}" />
             <!--<Viewbox MaxHeight="150" Margin="40">
                 <PathIcon Data="{StaticResource warning_regular}" />
             </Viewbox>-->

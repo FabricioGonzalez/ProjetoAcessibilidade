@@ -1,142 +1,406 @@
-﻿<root>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>1.3</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
-        </value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
-        </value>
-    </resheader>
-    <data name="AddItemNameLabel" xml:space="preserve">
-        <value>Item name</value>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
-    <data name="AdvancedSettingsViewNavLabel" xml:space="preserve">
-        <value>Advanced Settings</value>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
-    <data name="AppearanceLabel" xml:space="preserve">
-        <value>Appearence</value>
-    </data>
-    <data name="AutoCopyBehaviorLabel" xml:space="preserve">
-        <value>Auto copy</value>
-    </data>
-    <data name="AutoDownloadLabel" xml:space="preserve">
-        <value>Download latest version automatically</value>
-    </data>
-    <data name="AutoPasteBehaviorLabel" xml:space="preserve">
-        <value>Auto paste</value>
-    </data>
-    <data name="CancelActionLabel" xml:space="preserve">
-        <value>Cancel</value>
-    </data>
-    <data name="CheckboxContainerTopicLabel" xml:space="preserve">
-        <value>Topic</value>
-    </data>
-    <data name="CheckboxItemTopicLabel" xml:space="preserve">
-        <value>Topic</value>
-    </data>
-    <data name="CheckboxItemValueLabel" xml:space="preserve">
-        <value>Value</value>
-    </data>
-    <data name="ConfirmActionLabel" xml:space="preserve">
-        <value>Confirm</value>
-    </data>
-    <data name="ContinueActionLabel" xml:space="preserve">
-        <value>Continue</value>
-    </data>
-    <data name="DarkModeLabel" xml:space="preserve">
-        <value>Dark Mode</value>
-    </data>
-    <data name="DarkThemeLabel" xml:space="preserve">
-        <value>Night Mode</value>
-    </data>
-    <data name="EnabledGPULabel" xml:space="preserve">
-        <value>Turn on GPU Acceleration</value>
-    </data>
-    <data name="EnabledGPUTooltip" xml:space="preserve">
-        <value>When the GPU Acceleration is enabled to render the UI. Using the GPU instead of CPU may improve performance.</value>
-    </data>
-    <data name="GeneralSettingsViewNavLabel" xml:space="preserve">
-        <value>General Settings</value>
-    </data>
-    <data name="ItemFormDataLabel" xml:space="preserve">
-        <value>Report Items</value>
-    </data>
-    <data name="ItemLawItemContentLabel" xml:space="preserve">
-        <value>Law Content</value>
-    </data>
-    <data name="ItemLawItemIdLabel" xml:space="preserve">
-        <value>Law ID</value>
-    </data>
-    <data name="ItemLawItemsLabel" xml:space="preserve">
-        <value>Laws</value>
-    </data>
-    <data name="ItemNameLabel" xml:space="preserve">
-        <value>Item Name</value>
-    </data>
-    <data name="LanguageSelectorLabel" xml:space="preserve">
-        <value>Select a Language</value>
-    </data>
-    <data name="onClosedBehaviorLabel" xml:space="preserve">
-        <value>Keep running the app on background</value>
-    </data>
-    <data name="onStartupBehaviorLabel" xml:space="preserve">
-        <value>Start app with windows</value>
-    </data>
-    <data name="ProjectViewNavLabel" xml:space="preserve">
-        <value>Project</value>
-    </data>
-    <data name="RestartAppLabel" xml:space="preserve">
-        <value>Restart App</value>
-    </data>
-    <data name="RestartNotificationLabel" xml:space="preserve">
-        <value>The changes will be commited after restarting the application.</value>
-    </data>
-    <data name="SearchBoxLabel" xml:space="preserve">
-        <value>Search settings / advanced features
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddItemNameLabel" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="Add_Checkbox_ToolTip" xml:space="preserve">
+    <value>Adicionar Checkbox</value>
+  </data>
+  <data name="Add_Condition_ToolTip" xml:space="preserve">
+    <value>Add Condition</value>
+  </data>
+  <data name="Add_Folder_Item_Menu_Header" xml:space="preserve">
+    <value>Adicionar Item</value>
+  </data>
+  <data name="Add_Item_Dialog_Caption" xml:space="preserve">
+    <value>Selecione um item para adicionar ao projeto</value>
+  </data>
+  <data name="Add_Item_ToolTip" xml:space="preserve">
+    <value>Adicionar Item de Relatório</value>
+  </data>
+  <data name="Add_Law_ToolTip" xml:space="preserve">
+    <value>Adicionar Lei</value>
+  </data>
+  <data name="Add_Options_ToolTip" xml:space="preserve">
+    <value>Adicionar Opções</value>
+  </data>
+  <data name="Add_Option_ToolTip" xml:space="preserve">
+    <value>Adicionar Opção</value>
+  </data>
+  <data name="Add_Result_ToolTip" xml:space="preserve">
+    <value>Add Result</value>
+  </data>
+  <data name="Add_Rule_ToolTip" xml:space="preserve">
+    <value>Add Rule</value>
+  </data>
+  <data name="Add_Solution_Item_Menu_Item" xml:space="preserve">
+    <value>Adicionar Item</value>
+  </data>
+  <data name="Add_Text_Item_ToolTip" xml:space="preserve">
+    <value>Adicionar Item de Texto</value>
+  </data>
+  <data name="AdvancedSettingsViewNavLabel" xml:space="preserve">
+    <value>Advanced Settings</value>
+  </data>
+  <data name="AppearanceLabel" xml:space="preserve">
+    <value>Appearence</value>
+  </data>
+  <data name="AutoCopyBehaviorLabel" xml:space="preserve">
+    <value>Auto copy</value>
+  </data>
+  <data name="AutoDownloadLabel" xml:space="preserve">
+    <value>Download latest version automatically</value>
+  </data>
+  <data name="AutoPasteBehaviorLabel" xml:space="preserve">
+    <value>Auto paste</value>
+  </data>
+  <data name="CancelActionLabel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CheckboxContainerTopicLabel" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="CheckboxItemTopicLabel" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="CheckboxItemValueLabel" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Company_Address_Watermark" xml:space="preserve">
+    <value>Endereço da Empresa</value>
+  </data>
+  <data name="Company_Logo_FilePath_Watermark" xml:space="preserve">
+    <value>Local da Logo da Empresa</value>
+  </data>
+  <data name="Company_Name_Watermark" xml:space="preserve">
+    <value>Nome da Empresa</value>
+  </data>
+  <data name="Conditions_Label" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="ConfirmActionLabel" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ContinueActionLabel" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="DarkModeLabel" xml:space="preserve">
+    <value>Dark Mode</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Night Mode</value>
+  </data>
+  <data name="Delete_Image_Item_Menu_Header" xml:space="preserve">
+    <value>Deletar Imagem</value>
+  </data>
+  <data name="EnabledGPULabel" xml:space="preserve">
+    <value>Turn on GPU Acceleration</value>
+  </data>
+  <data name="EnabledGPUTooltip" xml:space="preserve">
+    <value>When the GPU Acceleration is enabled to render the UI. Using the GPU instead of CPU may improve performance.</value>
+  </data>
+  <data name="Exclude_Condition_ToolTip" xml:space="preserve">
+    <value>Exclude Condition</value>
+  </data>
+  <data name="Exclude_File_Item_Menu_Header" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="Exclude_Folder_Item_Menu_Header" xml:space="preserve">
+    <value>Excluir Pasta</value>
+  </data>
+  <data name="Exclude_Result_ToolTip" xml:space="preserve">
+    <value>Exclude Result</value>
+  </data>
+  <data name="Exclude_Rule_ToolTip" xml:space="preserve">
+    <value>Exclude Rule</value>
+  </data>
+  <data name="Folder_Name_Watermark" xml:space="preserve">
+    <value>Folder Name</value>
+  </data>
+  <data name="GeneralSettingsViewNavLabel" xml:space="preserve">
+    <value>General Settings</value>
+  </data>
+  <data name="Generate_Document_ToolTip" xml:space="preserve">
+    <value>Gerar PDF</value>
+  </data>
+  <data name="ItemFormDataLabel" xml:space="preserve">
+    <value>Report Items</value>
+  </data>
+  <data name="ItemLawItemContentLabel" xml:space="preserve">
+    <value>Law Content</value>
+  </data>
+  <data name="ItemLawItemIdLabel" xml:space="preserve">
+    <value>Law ID</value>
+  </data>
+  <data name="ItemLawItemsLabel" xml:space="preserve">
+    <value>Laws</value>
+  </data>
+  <data name="ItemNameLabel" xml:space="preserve">
+    <value>Item Name</value>
+  </data>
+  <data name="Items_Label" xml:space="preserve">
+    <value>Itens</value>
+  </data>
+  <data name="LanguageSelectorLabel" xml:space="preserve">
+    <value>Select a Language</value>
+  </data>
+  <data name="Laws_Label" xml:space="preserve">
+    <value>Leis</value>
+  </data>
+  <data name="Law_Body_Watermark" xml:space="preserve">
+    <value>Conteúdo da Lei</value>
+  </data>
+  <data name="Law_Id_Watermark" xml:space="preserve">
+    <value>Identificador de Lei</value>
+  </data>
+  <data name="NextActionLabel" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="No_Solution_Open_Label" xml:space="preserve">
+    <value>No Solution Open</value>
+  </data>
+  <data name="Observation_Label" xml:space="preserve">
+    <value>Observações</value>
+  </data>
+  <data name="Observation_Watermark" xml:space="preserve">
+    <value>Observações</value>
+  </data>
+  <data name="onClosedBehaviorLabel" xml:space="preserve">
+    <value>Keep running the app on background</value>
+  </data>
+  <data name="onStartupBehaviorLabel" xml:space="preserve">
+    <value>Start app with windows</value>
+  </data>
+  <data name="Operation_Label" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="Options_Label" xml:space="preserve">
+    <value>Opções</value>
+  </data>
+  <data name="Print_Document_ToolTip" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="Print_Page_Title" xml:space="preserve">
+    <value>Imprimir Documento</value>
+  </data>
+  <data name="ProjectViewNavLabel" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Project_Responsable_Watermark" xml:space="preserve">
+    <value>Responsável pelo Projeto</value>
+  </data>
+  <data name="Remove_Checkbox_ToolTip" xml:space="preserve">
+    <value>Remover Checkbox</value>
+  </data>
+  <data name="Remove_Group_ToolTip" xml:space="preserve">
+    <value>Remover Grupo</value>
+  </data>
+  <data name="Rename_File_Item_Menu_Header" xml:space="preserve">
+    <value>Renomear</value>
+  </data>
+  <data name="Rename_Folder_Item_Menu_Header" xml:space="preserve">
+    <value>Renomer Item</value>
+  </data>
+  <data name="Report_Date_Calendar_Header" xml:space="preserve">
+    <value>Data do Relatório</value>
+  </data>
+  <data name="Report_State_Watermark" xml:space="preserve">
+    <value>UF</value>
+  </data>
+  <data name="Responsable_Mail_Address_Watermark" xml:space="preserve">
+    <value>Email do Responsável</value>
+  </data>
+  <data name="Responsable_Phone_Number_Watermark" xml:space="preserve">
+    <value>Telefone do Responsável</value>
+  </data>
+  <data name="RestartAppLabel" xml:space="preserve">
+    <value>Restart App</value>
+  </data>
+  <data name="RestartNotificationLabel" xml:space="preserve">
+    <value>The changes will be commited after restarting the application.</value>
+  </data>
+  <data name="SearchBoxLabel" xml:space="preserve">
+    <value>Search settings / advanced features
 </value>
-    </data>
-    <data name="SettingsPageCaption" xml:space="preserve">
-        <value>Manages appearence, and other settings</value>
-    </data>
-    <data name="SettingsPageLabel" xml:space="preserve">
-        <value>Settings</value>
-    </data>
-    <data name="SettingsViewNavLabel" xml:space="preserve">
-        <value>Settings</value>
-    </data>
-    <data name="ShutdownMessagePart1" xml:space="preserve">
-        <value>Setting everything down to finished the application.</value>
-    </data>
-    <data name="ShutdownMessagePart2" xml:space="preserve">
-        <value>It may take some time to be finished. Please, wait...</value>
-    </data>
-    <data name="SkipActionLabel" xml:space="preserve">
-        <value>Skip</value>
-    </data>
-    <data name="TemplateEditViewNavLabel" xml:space="preserve">
-        <value>Template Edit</value>
-    </data>
-    <data name="TextBoxItemMeasurementUnitLabel" xml:space="preserve">
-        <value>Measurement unit</value>
-    </data>
-    <data name="TextBoxItemTopicLabel" xml:space="preserve">
-        <value>Topic</value>
-    </data>
-    <data name="ThemeChangingLabel" xml:space="preserve">
-        <value>Theme is changing... Please Wait...</value>
-    </data>
-    <data name="ThemeKeyWords" xml:space="preserve">
-        <value>Dark, Light, Theme</value>
-    </data>
-    <data name="ShutdownDialogTitleLabel" xml:space="preserve">
-        <value>App is shutting down</value>
-    </data>
+  </data>
+  <data name="Search_Solution_Items_Watermark" xml:space="preserve">
+    <value>Pesquisar itens</value>
+  </data>
+  <data name="SettingsPageCaption" xml:space="preserve">
+    <value>Manages appearence, and other settings</value>
+  </data>
+  <data name="SettingsPageLabel" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsViewNavLabel" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ShutdownDialogTitleLabel" xml:space="preserve">
+    <value>App is shutting down</value>
+  </data>
+  <data name="ShutdownMessagePart1" xml:space="preserve">
+    <value>Setting everything down to finished the application.</value>
+  </data>
+  <data name="ShutdownMessagePart2" xml:space="preserve">
+    <value>It may take some time to be finished. Please, wait...</value>
+  </data>
+  <data name="SkipActionLabel" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="Solution_Explorer_Label" xml:space="preserve">
+    <value>Explorador de Solução</value>
+  </data>
+  <data name="Solution_Folder_Watermark" xml:space="preserve">
+    <value>Local da Solução</value>
+  </data>
+  <data name="Solution_Name_Watermark" xml:space="preserve">
+    <value>Nome da Solução</value>
+  </data>
+  <data name="TemplateEditViewNavLabel" xml:space="preserve">
+    <value>Template Edit</value>
+  </data>
+  <data name="Template_Tab_Header" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="TextBoxItemMeasurementUnitLabel" xml:space="preserve">
+    <value>Measurement unit</value>
+  </data>
+  <data name="TextBoxItemTopicLabel" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="ThemeChangingLabel" xml:space="preserve">
+    <value>Theme is changing... Please Wait...</value>
+  </data>
+  <data name="ThemeKeyWords" xml:space="preserve">
+    <value>Dark, Light, Theme</value>
+  </data>
+  <data name="Then_Label" xml:space="preserve">
+    <value>Then</value>
+  </data>
+  <data name="Validation_Rules_Label" xml:space="preserve">
+    <value>Validation Rules</value>
+  </data>
+  <data name="Validation_Rules_Tab_Header" xml:space="preserve">
+    <value>Validation Rules</value>
+  </data>
+  <data name="When_Label" xml:space="preserve">
+    <value>When</value>
+  </data>
 </root>

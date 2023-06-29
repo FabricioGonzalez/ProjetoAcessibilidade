@@ -8,6 +8,7 @@
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
     Padding="0"
     d:DesignHeight="450"
@@ -45,12 +46,12 @@
             </ListBox>
         </SplitView.Pane>
         <TabControl Padding="4" Background="{DynamicResource RegionBrush}">
-            <TabItem Header="Template">
+            <TabItem Header="{x:Static p:Resources.Template_Tab_Header}">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <views:TemplateEditTabView CornerRadius="4" DataContext="{Binding TemplateEditTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Regras de Validação">
+            <TabItem Header="{x:Static p:Resources.Template_Tab_Header}">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <views:ItemValidationView CornerRadius="4" DataContext="{Binding ItemValidationTab, Mode=TwoWay}" />
                 </ScrollViewer>

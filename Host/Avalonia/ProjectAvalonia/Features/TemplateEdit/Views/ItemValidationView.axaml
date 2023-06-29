@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:vm="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels;assembly=ProjectAvalonia"
     Padding="4,8"
     d:DesignHeight="450"
@@ -20,15 +21,16 @@
     <Grid ColumnDefinitions="0.2* 0.5* 0.3* 0.2*" RowDefinitions="48 1*">
         <Label
             Grid.Column="0"
-            Content="Validation Rules"
+            Content="{x:Static p:Resources.Validation_Rules_Label}"
             FontWeight="DemiBold" />
         <controls:IconButton
             Grid.Column="3"
-            Width="18"
-            Height="18"
+            Width="16"
+            Height="16"
             HorizontalAlignment="Right"
-            Icon="{StaticResource add_regular}"
-            IconSize="16" />
+            Icon="{StaticResource add_circle_regular}"
+            IconSize="16"
+            ToolTip.Tip="{x:Static p:Resources.Add_Rule_ToolTip}" />
         <ScrollViewer
             Grid.Row="1"
             Grid.ColumnSpan="4"
@@ -51,13 +53,13 @@
                                             BorderThickness="0.3"
                                             BoxShadow="{DynamicResource AppElevationShadow}"
                                             CornerRadius="4">
-                                            <Grid ColumnDefinitions="0.2* 0.2* 0.4*">
+                                            <Grid ColumnDefinitions="0.2* 8 0.4* 40">
                                                 <Label
                                                     Grid.Row="0"
                                                     Grid.Column="0"
                                                     Margin="4,0"
                                                     VerticalAlignment="Center"
-                                                    Content="Operation"
+                                                    Content="{x:Static p:Resources.Operation_Label}"
                                                     FontWeight="DemiBold" />
                                                 <ComboBox
                                                     Grid.Column="2"
@@ -66,6 +68,14 @@
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Center"
                                                     SelectedItem="{Binding Operation}" />
+                                                <controls:IconButton
+                                                    Grid.Column="3"
+                                                    Width="18"
+                                                    Height="18"
+                                                    HorizontalAlignment="Right"
+                                                    Icon="{StaticResource cancel_regular}"
+                                                    IconSize="16"
+                                                    ToolTip.Tip="{x:Static p:Resources.Exclude_Rule_ToolTip}" />
                                             </Grid>
                                         </Border>
 
@@ -75,21 +85,30 @@
                                             BorderThickness="0.3"
                                             BoxShadow="{DynamicResource AppElevationShadow}"
                                             CornerRadius="4">
-                                            <Grid RowDefinitions="40 8 1.2*">
-                                                <Label Content="Conditions" FontWeight="DemiBold" />
+                                            <Grid ColumnDefinitions="1* 48" RowDefinitions="40 8 1.2*">
+                                                <Label Content="{x:Static p:Resources.Conditions_Label}" FontWeight="DemiBold" />
+                                                <controls:IconButton
+                                                    Grid.Column="1"
+                                                    Width="18"
+                                                    Height="18"
+                                                    HorizontalAlignment="Right"
+                                                    Icon="{StaticResource add_circle_regular}"
+                                                    IconSize="16"
+                                                    ToolTip.Tip="{x:Static p:Resources.Add_Condition_ToolTip}" />
                                                 <ItemsControl
                                                     Grid.Row="2"
+                                                    Grid.ColumnSpan="2"
                                                     CornerRadius="4"
                                                     Items="{Binding Conditions}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <Grid RowDefinitions="40 8 1.2*">
 
-                                                                <Grid ColumnDefinitions="0.2* 16 0.15* 16 0.4*">
+                                                                <Grid ColumnDefinitions="0.2* 16 0.15* 16 0.4* 40 40">
                                                                     <Label
                                                                         Grid.Row="0"
                                                                         Grid.Column="0"
-                                                                        Content="When"
+                                                                        Content="{x:Static p:Resources.Add_Condition_ToolTip}"
                                                                         FontWeight="DemiBold" />
                                                                     <ComboBox
                                                                         Grid.Row="0"
@@ -105,6 +124,23 @@
                                                                         Height="24"
                                                                         Padding="4,0"
                                                                         Text="{Binding CheckingValue}" />
+
+                                                                    <controls:IconButton
+                                                                        Grid.Column="5"
+                                                                        Width="18"
+                                                                        Height="18"
+                                                                        HorizontalAlignment="Right"
+                                                                        Icon="{StaticResource cancel_regular}"
+                                                                        IconSize="16"
+                                                                        ToolTip.Tip="{x:Static p:Resources.Exclude_Condition_ToolTip}" />
+                                                                    <controls:IconButton
+                                                                        Grid.Column="6"
+                                                                        Width="18"
+                                                                        Height="18"
+                                                                        HorizontalAlignment="Right"
+                                                                        Icon="{StaticResource add_circle_regular}"
+                                                                        IconSize="16"
+                                                                        ToolTip.Tip="{x:Static p:Resources.Add_Result_ToolTip}" />
                                                                 </Grid>
 
                                                                 <Grid
@@ -115,7 +151,7 @@
                                                                         Grid.Row="0"
                                                                         Grid.Column="0"
                                                                         VerticalAlignment="Center"
-                                                                        Content="Then"
+                                                                        Content="{x:Static p:Resources.Then_Label}"
                                                                         FontWeight="DemiBold" />
                                                                     <ItemsControl
                                                                         Grid.RowSpan="2"
@@ -123,7 +159,17 @@
                                                                         Items="{Binding Result}">
                                                                         <ItemsControl.ItemTemplate>
                                                                             <DataTemplate>
-                                                                                <TextBox Margin="0,4,0,0" Text="{Binding}" />
+                                                                                <Grid ColumnDefinitions="1* 40">
+                                                                                    <TextBox Margin="0,4,0,0" Text="{Binding}" />
+                                                                                    <controls:IconButton
+                                                                                        Grid.Column="1"
+                                                                                        Width="18"
+                                                                                        Height="18"
+                                                                                        HorizontalAlignment="Right"
+                                                                                        Icon="{StaticResource cancel_regular}"
+                                                                                        IconSize="16"
+                                                                                        ToolTip.Tip="{x:Static p:Resources.Exclude_Result_ToolTip}" />
+                                                                                </Grid>
                                                                             </DataTemplate>
                                                                         </ItemsControl.ItemTemplate>
                                                                     </ItemsControl>

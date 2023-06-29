@@ -19,10 +19,10 @@
     </Interaction.Behaviors>
     <c:ContentArea
         Title="{Binding Title}"
-        Caption="Selecione um item para adicionar ao projeto"
+        Caption="{x:Static p:Resources.Add_Item_Dialog_Caption}"
         EnableNext="True"
         FocusNext="True"
-        NextContent="Continue">
+        NextContent="{x:Static p:Resources.ContinueActionLabel}">
         <c:ContentArea.FooterContent>
             <TextBox
                 HorizontalAlignment="Stretch"

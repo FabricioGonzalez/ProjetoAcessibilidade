@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:quest="clr-namespace:QuestPDF.Previewer;assembly=ProjectAvalonia"
     xmlns:viewModels="using:ProjectAvalonia.Features.PDFViewer.ViewModels"
     d:DesignHeight="450"
@@ -32,7 +33,7 @@
                 FontSize="14"
                 FontWeight="Regular"
                 IsHitTestVisible="False"
-                Text="Imprimir Documento"
+                Text="{x:Static p:Resources.Print_Page_Title}"
                 TextAlignment="Center" />
 
             <SplitView
@@ -56,7 +57,7 @@
                             VerticalAlignment="Bottom"
                             Command="{Binding ShowPdfCommand, Mode=OneTime}"
                             CornerRadius="100"
-                            ToolTip.Tip="Gerar PDF">
+                            ToolTip.Tip="{x:Static p:Resources.Generate_Document_ToolTip}">
                             <Viewbox Width="24" Height="24">
                                 <PathIcon Data="{StaticResource pdf_regular}" />
                             </Viewbox>
@@ -68,7 +69,7 @@
                             VerticalAlignment="Bottom"
                             Command="{Binding PrintCommand, Mode=OneTime}"
                             CornerRadius="100"
-                            ToolTip.Tip="Imprimir">
+                            ToolTip.Tip="{x:Static p:Resources.Print_Document_ToolTip}">
                             <Viewbox Width="24" Height="24">
                                 <PathIcon Data="{StaticResource printer_regular}" />
                             </Viewbox>

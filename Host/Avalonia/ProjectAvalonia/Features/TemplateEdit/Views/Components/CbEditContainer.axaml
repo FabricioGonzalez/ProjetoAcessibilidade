@@ -40,9 +40,9 @@
                     Height="24"
                     Classes="function"
                     Command="{Binding AddCheckboxItem}"
-                    Icon="{StaticResource add_regular}"
+                    Icon="{StaticResource add_circle_regular}"
                     IconSize="16"
-                    ToolTip.Tip="Add CheckboxItem" />
+                    ToolTip.Tip="{x:Static p:Resources.Add_Checkbox_ToolTip}" />
             </StackPanel>
 
             <ItemsControl
@@ -82,18 +82,18 @@
                                         Classes="function"
                                         Icon="{StaticResource add_regular}"
                                         IconSize="16"
-                                        ToolTip.Tip="Add Options">
+                                        ToolTip.Tip="{x:Static p:Resources.Add_Options_ToolTip}">
                                         <c:IconButton.Flyout>
                                             <MenuFlyout>
                                                 <MenuItem
                                                     Command="{Binding $parent[local:CbEditContainer].DataContext.AddOption}"
                                                     CommandParameter="{Binding}"
-                                                    Header="Add Option"
+                                                    Header="{x:Static p:Resources.Add_Option_ToolTip}"
                                                     Icon="{StaticResource add_regular}" />
                                                 <MenuItem
                                                     Command="{Binding $parent[local:CbEditContainer].DataContext.AddTextItem}"
                                                     CommandParameter="{Binding}"
-                                                    Header="Add Text Item"
+                                                    Header="{x:Static p:Resources.Add_Text_Item_ToolTip}"
                                                     Icon="{StaticResource add_regular}" />
                                             </MenuFlyout>
                                         </c:IconButton.Flyout>
@@ -111,12 +111,12 @@
                                         CommandParameter="{Binding}"
                                         Icon="{StaticResource dismiss_regular}"
                                         IconSize="16"
-                                        ToolTip.Tip="Remove Checkboxes" />
+                                        ToolTip.Tip="{x:Static p:Resources.Remove_Checkbox_ToolTip}" />
                                 </StackPanel>
 
                                 <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
                                     <Grid ColumnDefinitions="0.2* 0.6* 0.2*" RowDefinitions="40 1*">
-                                        <Label Content="Options" />
+                                        <Label Content="{x:Static p:Resources.Options_Label}" />
                                         <ItemsControl
                                             Grid.Row="1"
                                             Grid.ColumnSpan="3"

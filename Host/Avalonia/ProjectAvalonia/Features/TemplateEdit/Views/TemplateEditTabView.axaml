@@ -46,7 +46,7 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Margin="4,0"
-                        Content="Items" />
+                        Content="{x:Static p:Resources.Items_Label}" />
 
                     <c:IconButton
                         Grid.Column="1"
@@ -57,7 +57,7 @@
                         Command="{Binding AddItemCommand}"
                         Icon="{StaticResource add_regular}"
                         IconSize="20"
-                        ToolTip.Tip="Adicionar Item" />
+                        ToolTip.Tip="{x:Static p:Resources.Add_Item_ToolTip}" />
 
                     <ItemsControl
                         Grid.Row="1"
@@ -98,7 +98,7 @@
                                             CommandParameter="{Binding}"
                                             Icon="{StaticResource dismiss_regular}"
                                             IconSize="16"
-                                            ToolTip.Tip="Remove Group" />
+                                            ToolTip.Tip="{x:Static p:Resources.Remove_Group_ToolTip}" />
                                     </Grid>
                                     <controls:ReportContainer Content="{Binding Body, Mode=OneWay}" CornerRadius="4" />
                                 </StackPanel>
@@ -120,7 +120,7 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Margin="4,0"
-                        Content="Leis" />
+                        Content="{x:Static p:Resources.Laws_Label}" />
 
                     <c:IconButton
                         Grid.Column="1"
@@ -131,7 +131,7 @@
                         Command="{Binding AddLawCommand}"
                         Icon="{StaticResource add_regular}"
                         IconSize="20"
-                        ToolTip.Tip="Adicionar Lei" />
+                        ToolTip.Tip="{x:Static p:Resources.Add_Law_ToolTip}" />
 
                     <ItemsControl
                         Grid.Row="1"
@@ -151,21 +151,24 @@
                                             Grid.Column="0"
                                             Text="{Binding LawId}"
                                             UseFloatingWatermark="True"
-                                            Watermark="Identificador da Lei" />
-                                        <Button
+                                            Watermark="{x:Static p:Resources.Law_Id_Watermark}" />
+                                        <c:IconButton
                                             Grid.Column="1"
+                                            Width="24"
+                                            Height="24"
+                                            Margin="8,0"
                                             HorizontalAlignment="Right"
-                                            Classes="function"
-                                            CommandParameter="{Binding}">
-                                            <PathIcon Data="{StaticResource dismiss_light}" />
-                                        </Button>
+                                            CommandParameter="{Binding}"
+                                            Icon="{StaticResource cancel_regular}"
+                                            IconSize="20"
+                                            ToolTip.Tip="{x:Static p:Resources.Add_Law_ToolTip}" />
                                         <TextBox
                                             Grid.Row="2"
                                             Grid.RowSpan="2"
                                             Text="{Binding LawContent}"
                                             TextWrapping="Wrap"
                                             UseFloatingWatermark="True"
-                                            Watermark="Descrição da Lei" />
+                                            Watermark="{x:Static p:Resources.Law_Body_Watermark}" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>
