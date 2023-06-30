@@ -1,7 +1,7 @@
-﻿using Common.Optional;
+﻿using Common.Models;
+using Common.Optional;
 
 using ProjetoAcessibilidade.Core.Entities.Solution;
-using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Contracts;
 

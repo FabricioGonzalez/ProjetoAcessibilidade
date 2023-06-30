@@ -1,6 +1,6 @@
-﻿using Common.Result;
+﻿using Common.Models;
+using Common.Result;
 
-using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 

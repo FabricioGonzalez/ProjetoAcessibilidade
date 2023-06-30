@@ -19,6 +19,7 @@ using DynamicData;
 using DynamicData.Alias;
 using DynamicData.Binding;
 
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
@@ -127,13 +128,13 @@ public partial class TemplateEditViewModel
         var listBuilder = ImmutableList.CreateBuilder<IMenuItem>();
 
         listBuilder.Add(new MenuItemModel(
-            label: "Open",
+            label: "Template_Edit_Open_ToolBarItem".GetLocalized(),
             command: ReactiveCommand.Create(() => { }),
             icon: "file_open_24_rounded".GetIcon(),
             "Ctrl+Shift+O"));
 
         listBuilder.Add(new MenuItemModel(
-            label: "Create Item",
+            label: "Template_Edit_Create_Item_ToolBarItem".GetLocalized(),
             command: ReactiveCommand.Create(() =>
             {
                 Items?.Add(new EditableItemViewModel(CommitItemCommand)
@@ -151,14 +152,15 @@ public partial class TemplateEditViewModel
         listBuilder.Add(new MenuItemSeparatorModel());
 
         listBuilder.Add(new MenuItemModel(
-           label: "Save Current Item",
+           label: "Template_Edit_Save_Item_ToolBarItem".GetLocalized(),
           command: ReactiveCommand.CreateFromTask(async () =>
           {
-              _ = TemplateEditTab.EditingItem.ToOption()
+              await TemplateEditTab.EditingItem.ToOption()
               .Map(async (item) =>
               {
                   await SaveItemData(item);
-              });
+              })
+              .Reduce(() => Task.CompletedTask);
           }),
            icon: "save_data_24_rounded".GetIcon(),
            "Ctrl+S"));

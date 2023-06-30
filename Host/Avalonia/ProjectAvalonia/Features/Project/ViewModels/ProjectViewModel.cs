@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Avalonia.Threading;
 
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -49,7 +50,7 @@ public partial class ProjectViewModel
 
     private readonly IMediator _mediator;
 
-    private ProjectSolutionModel? projectSolution;
+    private readonly ProjectSolutionModel? projectSolution;
 
     public ProjectViewModel()
     {
@@ -60,7 +61,7 @@ public partial class ProjectViewModel
 
         var isSolutionOpen = this.WhenAnyValue(property1: vm => vm.IsSolutionOpen);
 
-        this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
+        _ = this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
            .Select(selector: x => (x?.Items.Count > 0) || (x?.SolutionState is not null))
            .ToProperty(
                source: this,
@@ -70,10 +71,10 @@ public partial class ProjectViewModel
         ToolBar = new MenuViewModel(CreateMenu(isSolutionOpen).ToImmutable());
 
 
-        ProjectInteractions.SyncSolutionInteraction.RegisterHandler(
+        _ = ProjectInteractions.SyncSolutionInteraction.RegisterHandler(
             context =>
             {
-                SaveSolutionCommand?.Execute();
+                _ = (SaveSolutionCommand?.Execute());
 
                 context.SetOutput(Unit.Default);
             });
@@ -103,13 +104,13 @@ public partial class ProjectViewModel
         var listBuilder = ImmutableList.CreateBuilder<IMenuItem>();
 
         listBuilder.Add(new MenuItemModel(
-            label: "Open",
+            label: "Solution_Open_ToolBarItem".GetLocalized(),
             command: ReactiveCommand.CreateFromTask(execute: OpenSolution),
             icon: "file_open_24_rounded".GetIcon(),
             "Ctrl+Shift+O"));
 
         listBuilder.Add(new MenuItemModel(
-            label: "Create Solution",
+            label: "Solution_Create_ToolBarItem".GetLocalized(),
             command: ReactiveCommand.CreateFromTask(execute: CreateSolution),
             icon: "solution_create_24_rounded".GetIcon(),
             "Ctrl+Shift+N"));
@@ -117,7 +118,7 @@ public partial class ProjectViewModel
         listBuilder.Add(new MenuItemSeparatorModel());
 
         listBuilder.Add(new MenuItemModel(
-           label: "Save Current Item",
+           label: "Project_Item_Save_ToolBarItem".GetLocalized(),
            command: ReactiveCommand.CreateFromTask(
             execute: SaveReportData,
             canExecute: isSolutionOpen),
@@ -127,7 +128,7 @@ public partial class ProjectViewModel
         listBuilder.Add(new MenuItemSeparatorModel());
 
         listBuilder.Add(new MenuItemModel(
-          label: "Print Solution",
+          label: "Solution_Print_ToolBarItem".GetLocalized(),
           command: ReactiveCommand.Create(
            execute: PrintSolution,
            canExecute: isSolutionOpen),
@@ -137,11 +138,11 @@ public partial class ProjectViewModel
         listBuilder.Add(new MenuItemSeparatorModel());
 
         listBuilder.Add(new MenuItemModel(
-         label: "Add Folder",
+         label: "Project_Add_Folder_ToolBarItem".GetLocalized(),
          command: ReactiveCommand.Create(
           execute: () =>
           {
-              ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe();
+              _ = (ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe());
           },
           canExecute: isSolutionOpen),
          icon: "add_folder_24_rounded".GetIcon(),
@@ -216,7 +217,7 @@ public partial class ProjectViewModel
     {
         if (ProjectEditingViewModel is { SelectedItem: { } })
         {
-            await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
+            _ = await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
         }
     }
 
@@ -247,7 +248,7 @@ public partial class ProjectViewModel
             request: new ReadSolutionProjectQuery(SolutionPath: path),
             cancellation: CancellationToken.None);
 
-        result.IfSucc(success =>
+        _ = result.IfSucc(success =>
         {
             Dispatcher
             .UIThread
@@ -273,7 +274,7 @@ public partial class ProjectViewModel
         if (dialogResult is { Result: { } dialogData, Kind: DialogResultKind.Normal })
         {
 
-            await _mediator.Send(new CreateSolutionCommand(dialogData.FilePath, dialogData), CancellationToken.None);
+            _ = await _mediator.Send(new CreateSolutionCommand(dialogData.FilePath, dialogData), CancellationToken.None);
 
             Dispatcher
                   .UIThread
@@ -304,7 +305,7 @@ public partial class ProjectViewModel
             Dispatcher.UIThread.Post(
                 action: () =>
                 {
-                    Task.WhenAll(ReadSolutionAndOpen(path: path));
+                    _ = Task.WhenAll(ReadSolutionAndOpen(path: path));
                 });
         }
     }

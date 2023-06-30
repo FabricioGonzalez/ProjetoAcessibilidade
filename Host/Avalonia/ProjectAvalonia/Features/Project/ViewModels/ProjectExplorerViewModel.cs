@@ -86,9 +86,10 @@ public class ProjectExplorerViewModel : ViewModelBase, IProjectExplorerViewModel
 
                     _ = await _mediator.Send(new DeleteProjectFolderItemCommand(x.ItemPath), CancellationToken.None);
 
+                    SolutionState.RemoveFromSolution(i => i.Name == x.Name);
+
                     await SaveSolution();
 
-                    SolutionState.RemoveFromSolution(i => i.Name == x.Name);
                 }
             });
 

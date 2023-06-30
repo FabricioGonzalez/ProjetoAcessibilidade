@@ -61,7 +61,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Checkbox.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add New Checkbox.
         /// </summary>
         public static string Add_Checkbox_ToolTip {
             get {
@@ -79,7 +79,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Item.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add Item.
         /// </summary>
         public static string Add_Folder_Item_Menu_Header {
             get {
@@ -88,7 +88,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Selecione um item para adicionar ao projeto.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Select an Item to Add to Project.
         /// </summary>
         public static string Add_Item_Dialog_Caption {
             get {
@@ -97,7 +97,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Item de Relatório.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add New Report Item.
         /// </summary>
         public static string Add_Item_ToolTip {
             get {
@@ -106,7 +106,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Lei.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add New Law.
         /// </summary>
         public static string Add_Law_ToolTip {
             get {
@@ -115,7 +115,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Opção.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add New Option.
         /// </summary>
         public static string Add_Option_ToolTip {
             get {
@@ -124,7 +124,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Opções.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add Options.
         /// </summary>
         public static string Add_Options_ToolTip {
             get {
@@ -151,7 +151,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Item.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add Solution Item.
         /// </summary>
         public static string Add_Solution_Item_Menu_Item {
             get {
@@ -160,7 +160,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Item de Texto.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add New Text Item.
         /// </summary>
         public static string Add_Text_Item_ToolTip {
             get {
@@ -259,7 +259,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Endereço da Empresa.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Company Address.
         /// </summary>
         public static string Company_Address_Watermark {
             get {
@@ -268,7 +268,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Local da Logo da Empresa.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Company Logo Path.
         /// </summary>
         public static string Company_Logo_FilePath_Watermark {
             get {
@@ -277,7 +277,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da Empresa.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Company Name.
         /// </summary>
         public static string Company_Name_Watermark {
             get {
@@ -331,7 +331,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Deletar Imagem.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Delete Image.
         /// </summary>
         public static string Delete_Image_Item_Menu_Header {
             get {
@@ -367,7 +367,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Excluir.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Exclude File.
         /// </summary>
         public static string Exclude_File_Item_Menu_Header {
             get {
@@ -376,7 +376,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Excluir Pasta.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Exclude Folder.
         /// </summary>
         public static string Exclude_Folder_Item_Menu_Header {
             get {
@@ -421,7 +421,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Gerar PDF.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Generate PDF.
         /// </summary>
         public static string Generate_Document_ToolTip {
             get {
@@ -475,7 +475,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Itens.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Report Items.
         /// </summary>
         public static string Items_Label {
             get {
@@ -493,7 +493,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Conteúdo da Lei.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Law Content.
         /// </summary>
         public static string Law_Body_Watermark {
             get {
@@ -502,7 +502,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Identificador de Lei.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Law Id.
         /// </summary>
         public static string Law_Id_Watermark {
             get {
@@ -511,7 +511,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Leis.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Laws.
         /// </summary>
         public static string Laws_Label {
             get {
@@ -538,7 +538,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Observações.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Observations.
         /// </summary>
         public static string Observation_Label {
             get {
@@ -547,7 +547,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Observações.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Observations.
         /// </summary>
         public static string Observation_Watermark {
             get {
@@ -583,7 +583,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Opções.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Options.
         /// </summary>
         public static string Options_Label {
             get {
@@ -592,7 +592,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Imprimir.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Print.
         /// </summary>
         public static string Print_Document_ToolTip {
             get {
@@ -601,7 +601,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Imprimir Documento.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Print Document.
         /// </summary>
         public static string Print_Page_Title {
             get {
@@ -610,7 +610,25 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Responsável pelo Projeto.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Add Folder.
+        /// </summary>
+        public static string Project_Add_Folder_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Project_Add_Folder_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Save Current Item.
+        /// </summary>
+        public static string Project_Item_Save_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Project_Item_Save_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Project Responsable.
         /// </summary>
         public static string Project_Responsable_Watermark {
             get {
@@ -628,7 +646,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Remover Checkbox.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Remove Checkbox.
         /// </summary>
         public static string Remove_Checkbox_ToolTip {
             get {
@@ -637,7 +655,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Remover Grupo.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Remove Group.
         /// </summary>
         public static string Remove_Group_ToolTip {
             get {
@@ -646,7 +664,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Renomear.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Rename File.
         /// </summary>
         public static string Rename_File_Item_Menu_Header {
             get {
@@ -655,7 +673,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Renomer Item.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Rename Folder.
         /// </summary>
         public static string Rename_Folder_Item_Menu_Header {
             get {
@@ -664,7 +682,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Data do Relatório.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Report Date.
         /// </summary>
         public static string Report_Date_Calendar_Header {
             get {
@@ -673,7 +691,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a UF.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a State Code.
         /// </summary>
         public static string Report_State_Watermark {
             get {
@@ -682,7 +700,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Email do Responsável.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Responsable Email Address.
         /// </summary>
         public static string Responsable_Mail_Address_Watermark {
             get {
@@ -691,7 +709,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Telefone do Responsável.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Responsable Phone Number.
         /// </summary>
         public static string Responsable_Phone_Number_Watermark {
             get {
@@ -718,7 +736,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Search Items.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Search Solution Item.
         /// </summary>
         public static string Search_Solution_Items_Watermark {
             get {
@@ -800,6 +818,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Create Solution.
+        /// </summary>
+        public static string Solution_Create_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Solution_Create_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Solution Explorer.
         /// </summary>
         public static string Solution_Explorer_Label {
@@ -823,6 +850,51 @@ namespace ProjectAvalonia.Properties {
         public static string Solution_Name_Watermark {
             get {
                 return ResourceManager.GetString("Solution_Name_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Open Solution.
+        /// </summary>
+        public static string Solution_Open_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Solution_Open_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Print Solution.
+        /// </summary>
+        public static string Solution_Print_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Solution_Print_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Create New Report Template.
+        /// </summary>
+        public static string Template_Edit_Create_Item_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Create_Item_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Open Report Template.
+        /// </summary>
+        public static string Template_Edit_Open_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Open_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Save Report Template.
+        /// </summary>
+        public static string Template_Edit_Save_Item_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Save_Item_ToolBarItem", resourceCulture);
             }
         }
         

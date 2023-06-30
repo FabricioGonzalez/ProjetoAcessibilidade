@@ -303,6 +303,12 @@
   <data name="ProjectViewNavLabel" xml:space="preserve">
     <value>Projeto</value>
   </data>
+  <data name="Project_Add_Folder_ToolBarItem" xml:space="preserve">
+    <value>Adicionar Nova Pasta à Solução</value>
+  </data>
+  <data name="Project_Item_Save_ToolBarItem" xml:space="preserve">
+    <value>Salvar Item de Relatório Atual</value>
+  </data>
   <data name="Project_Responsable_Watermark" xml:space="preserve">
     <value>Responsável pelo Projeto</value>
   </data>
@@ -363,6 +369,9 @@
   <data name="SkipActionLabel" xml:space="preserve">
     <value>Pular</value>
   </data>
+  <data name="Solution_Create_ToolBarItem" xml:space="preserve">
+    <value>Criar Solução</value>
+  </data>
   <data name="Solution_Explorer_Label" xml:space="preserve">
     <value>Explorador de Solução</value>
   </data>
@@ -372,8 +381,23 @@
   <data name="Solution_Name_Watermark" xml:space="preserve">
     <value>Nome da Solução</value>
   </data>
+  <data name="Solution_Open_ToolBarItem" xml:space="preserve">
+    <value>Abrir Solução</value>
+  </data>
+  <data name="Solution_Print_ToolBarItem" xml:space="preserve">
+    <value>Imprimir Solução</value>
+  </data>
   <data name="TemplateEditViewNavLabel" xml:space="preserve">
     <value>Edição de Template</value>
+  </data>
+  <data name="Template_Edit_Create_Item_ToolBarItem" xml:space="preserve">
+    <value>Criar Template de Relatório</value>
+  </data>
+  <data name="Template_Edit_Open_ToolBarItem" xml:space="preserve">
+    <value>Abrir Template de Relatório</value>
+  </data>
+  <data name="Template_Edit_Save_Item_ToolBarItem" xml:space="preserve">
+    <value>Salvar Template de Relatório</value>
   </data>
   <data name="Template_Tab_Header" xml:space="preserve">
     <value>Template</value>

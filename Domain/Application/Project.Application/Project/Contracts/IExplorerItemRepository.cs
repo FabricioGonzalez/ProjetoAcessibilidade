@@ -1,7 +1,7 @@
-﻿using Common.Result;
+﻿using Common.Models;
+using Common.Result;
 
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
-using ProjetoAcessibilidade.Domain.App.Models;
 
 namespace ProjetoAcessibilidade.Domain.Project.Contracts;
 
@@ -17,6 +17,10 @@ public interface IExplorerItemRepository
 
     public Result<ExplorerItem> RenameFileItem(
         ExplorerItem item
+    );
+    public Result<Empty> MoveFileItem(
+        string oldPath,
+        string newPath
     );
 
     public Result<ExplorerItem> DeleteFolderItem(

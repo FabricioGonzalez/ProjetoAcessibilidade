@@ -121,28 +121,28 @@
     <value>Item name</value>
   </data>
   <data name="Add_Checkbox_ToolTip" xml:space="preserve">
-    <value>Adicionar Checkbox</value>
+    <value>Add New Checkbox</value>
   </data>
   <data name="Add_Condition_ToolTip" xml:space="preserve">
     <value>Add Condition</value>
   </data>
   <data name="Add_Folder_Item_Menu_Header" xml:space="preserve">
-    <value>Adicionar Item</value>
+    <value>Add Item</value>
   </data>
   <data name="Add_Item_Dialog_Caption" xml:space="preserve">
-    <value>Selecione um item para adicionar ao projeto</value>
+    <value>Select an Item to Add to Project</value>
   </data>
   <data name="Add_Item_ToolTip" xml:space="preserve">
-    <value>Adicionar Item de Relatório</value>
+    <value>Add New Report Item</value>
   </data>
   <data name="Add_Law_ToolTip" xml:space="preserve">
-    <value>Adicionar Lei</value>
+    <value>Add New Law</value>
   </data>
   <data name="Add_Options_ToolTip" xml:space="preserve">
-    <value>Adicionar Opções</value>
+    <value>Add Options</value>
   </data>
   <data name="Add_Option_ToolTip" xml:space="preserve">
-    <value>Adicionar Opção</value>
+    <value>Add New Option</value>
   </data>
   <data name="Add_Result_ToolTip" xml:space="preserve">
     <value>Add Result</value>
@@ -151,10 +151,10 @@
     <value>Add Rule</value>
   </data>
   <data name="Add_Solution_Item_Menu_Item" xml:space="preserve">
-    <value>Adicionar Item</value>
+    <value>Add Solution Item</value>
   </data>
   <data name="Add_Text_Item_ToolTip" xml:space="preserve">
-    <value>Adicionar Item de Texto</value>
+    <value>Add New Text Item</value>
   </data>
   <data name="AdvancedSettingsViewNavLabel" xml:space="preserve">
     <value>Advanced Settings</value>
@@ -184,13 +184,13 @@
     <value>Value</value>
   </data>
   <data name="Company_Address_Watermark" xml:space="preserve">
-    <value>Endereço da Empresa</value>
+    <value>Company Address</value>
   </data>
   <data name="Company_Logo_FilePath_Watermark" xml:space="preserve">
-    <value>Local da Logo da Empresa</value>
+    <value>Company Logo Path</value>
   </data>
   <data name="Company_Name_Watermark" xml:space="preserve">
-    <value>Nome da Empresa</value>
+    <value>Company Name</value>
   </data>
   <data name="Conditions_Label" xml:space="preserve">
     <value>Conditions</value>
@@ -208,7 +208,7 @@
     <value>Night Mode</value>
   </data>
   <data name="Delete_Image_Item_Menu_Header" xml:space="preserve">
-    <value>Deletar Imagem</value>
+    <value>Delete Image</value>
   </data>
   <data name="EnabledGPULabel" xml:space="preserve">
     <value>Turn on GPU Acceleration</value>
@@ -220,10 +220,10 @@
     <value>Exclude Condition</value>
   </data>
   <data name="Exclude_File_Item_Menu_Header" xml:space="preserve">
-    <value>Excluir</value>
+    <value>Exclude File</value>
   </data>
   <data name="Exclude_Folder_Item_Menu_Header" xml:space="preserve">
-    <value>Excluir Pasta</value>
+    <value>Exclude Folder</value>
   </data>
   <data name="Exclude_Result_ToolTip" xml:space="preserve">
     <value>Exclude Result</value>
@@ -238,7 +238,7 @@
     <value>General Settings</value>
   </data>
   <data name="Generate_Document_ToolTip" xml:space="preserve">
-    <value>Gerar PDF</value>
+    <value>Generate PDF</value>
   </data>
   <data name="ItemFormDataLabel" xml:space="preserve">
     <value>Report Items</value>
@@ -256,19 +256,19 @@
     <value>Item Name</value>
   </data>
   <data name="Items_Label" xml:space="preserve">
-    <value>Itens</value>
+    <value>Report Items</value>
   </data>
   <data name="LanguageSelectorLabel" xml:space="preserve">
     <value>Select a Language</value>
   </data>
   <data name="Laws_Label" xml:space="preserve">
-    <value>Leis</value>
+    <value>Laws</value>
   </data>
   <data name="Law_Body_Watermark" xml:space="preserve">
-    <value>Conteúdo da Lei</value>
+    <value>Law Content</value>
   </data>
   <data name="Law_Id_Watermark" xml:space="preserve">
-    <value>Identificador de Lei</value>
+    <value>Law Id</value>
   </data>
   <data name="NextActionLabel" xml:space="preserve">
     <value>Next</value>
@@ -277,10 +277,10 @@
     <value>No Solution Open</value>
   </data>
   <data name="Observation_Label" xml:space="preserve">
-    <value>Observações</value>
+    <value>Observations</value>
   </data>
   <data name="Observation_Watermark" xml:space="preserve">
-    <value>Observações</value>
+    <value>Observations</value>
   </data>
   <data name="onClosedBehaviorLabel" xml:space="preserve">
     <value>Keep running the app on background</value>
@@ -292,43 +292,49 @@
     <value>Operation</value>
   </data>
   <data name="Options_Label" xml:space="preserve">
-    <value>Opções</value>
+    <value>Options</value>
   </data>
   <data name="Print_Document_ToolTip" xml:space="preserve">
-    <value>Imprimir</value>
+    <value>Print</value>
   </data>
   <data name="Print_Page_Title" xml:space="preserve">
-    <value>Imprimir Documento</value>
+    <value>Print Document</value>
   </data>
   <data name="ProjectViewNavLabel" xml:space="preserve">
     <value>Project</value>
   </data>
+  <data name="Project_Add_Folder_ToolBarItem" xml:space="preserve">
+    <value>Add Folder</value>
+  </data>
+  <data name="Project_Item_Save_ToolBarItem" xml:space="preserve">
+    <value>Save Current Item</value>
+  </data>
   <data name="Project_Responsable_Watermark" xml:space="preserve">
-    <value>Responsável pelo Projeto</value>
+    <value>Project Responsable</value>
   </data>
   <data name="Remove_Checkbox_ToolTip" xml:space="preserve">
-    <value>Remover Checkbox</value>
+    <value>Remove Checkbox</value>
   </data>
   <data name="Remove_Group_ToolTip" xml:space="preserve">
-    <value>Remover Grupo</value>
+    <value>Remove Group</value>
   </data>
   <data name="Rename_File_Item_Menu_Header" xml:space="preserve">
-    <value>Renomear</value>
+    <value>Rename File</value>
   </data>
   <data name="Rename_Folder_Item_Menu_Header" xml:space="preserve">
-    <value>Renomer Item</value>
+    <value>Rename Folder</value>
   </data>
   <data name="Report_Date_Calendar_Header" xml:space="preserve">
-    <value>Data do Relatório</value>
+    <value>Report Date</value>
   </data>
   <data name="Report_State_Watermark" xml:space="preserve">
-    <value>UF</value>
+    <value>State Code</value>
   </data>
   <data name="Responsable_Mail_Address_Watermark" xml:space="preserve">
-    <value>Email do Responsável</value>
+    <value>Responsable Email Address</value>
   </data>
   <data name="Responsable_Phone_Number_Watermark" xml:space="preserve">
-    <value>Telefone do Responsável</value>
+    <value>Responsable Phone Number</value>
   </data>
   <data name="RestartAppLabel" xml:space="preserve">
     <value>Restart App</value>
@@ -341,7 +347,7 @@
 </value>
   </data>
   <data name="Search_Solution_Items_Watermark" xml:space="preserve">
-    <value>Search Items</value>
+    <value>Search Solution Item</value>
   </data>
   <data name="SettingsPageCaption" xml:space="preserve">
     <value>Manages appearence, and other settings</value>
@@ -364,6 +370,9 @@
   <data name="SkipActionLabel" xml:space="preserve">
     <value>Skip</value>
   </data>
+  <data name="Solution_Create_ToolBarItem" xml:space="preserve">
+    <value>Create Solution</value>
+  </data>
   <data name="Solution_Explorer_Label" xml:space="preserve">
     <value>Solution Explorer</value>
   </data>
@@ -373,8 +382,23 @@
   <data name="Solution_Name_Watermark" xml:space="preserve">
     <value>Solution Name</value>
   </data>
+  <data name="Solution_Open_ToolBarItem" xml:space="preserve">
+    <value>Open Solution</value>
+  </data>
+  <data name="Solution_Print_ToolBarItem" xml:space="preserve">
+    <value>Print Solution</value>
+  </data>
   <data name="TemplateEditViewNavLabel" xml:space="preserve">
     <value>Template Edit</value>
+  </data>
+  <data name="Template_Edit_Create_Item_ToolBarItem" xml:space="preserve">
+    <value>Create New Report Template</value>
+  </data>
+  <data name="Template_Edit_Open_ToolBarItem" xml:space="preserve">
+    <value>Open Report Template</value>
+  </data>
+  <data name="Template_Edit_Save_Item_ToolBarItem" xml:space="preserve">
+    <value>Save Report Template</value>
   </data>
   <data name="Template_Tab_Header" xml:space="preserve">
     <value>Template</value>

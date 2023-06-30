@@ -1,8 +1,8 @@
 ﻿using Common;
+using Common.Models;
 
 using Core.Entities.Solution.Project.AppItem;
 
-using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 

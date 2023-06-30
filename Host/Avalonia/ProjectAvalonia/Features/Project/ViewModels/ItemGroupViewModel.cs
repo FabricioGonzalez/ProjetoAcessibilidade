@@ -14,6 +14,7 @@ using DynamicData;
 using DynamicData.Binding;
 
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
@@ -55,7 +56,7 @@ public class ItemGroupViewModel : ReactiveObject,
         // requested to close, then Switch to that. When we get something
         // to close, remove it from the list.
 
-        Items
+        _ = Items
             .ToObservableChangeSet()
             .AutoRefreshOnObservable(reevaluator: document => document.ExcludeFileCommand.IsExecuting)
             .Select(selector: x => WhenAnyDocumentClosed())
@@ -72,14 +73,14 @@ public class ItemGroupViewModel : ReactiveObject,
                             dialog: dialog,
                             target: NavigationTarget.CompactDialogScreen)).Result)
                     {
-                        Items.Remove(item: x);
+                        _ = Items.Remove(item: x);
 
-                        await _mediator.Send(new DeleteProjectFileItemCommand(x.ItemPath), CancellationToken.None);
+                        _ = await _mediator.Send(new DeleteProjectFileItemCommand(x.ItemPath), CancellationToken.None);
                         await SaveSolution();
                     }
                 });
 
-        Items
+        _ = Items
             .ToObservableChangeSet()
             .AutoRefreshOnObservable(reevaluator: document => document.SelectItemToEditCommand.IsExecuting)
             .Select(selector: x => WhenAnyItemIsSelected())
@@ -207,11 +208,15 @@ public class ItemGroupViewModel : ReactiveObject,
             Items.Add(
                 item: item);
 
-            await _mediator.Send(
+            _ = (await _mediator.Send(
                 request: new CreateItemCommand(
                     ItemPath: path,
                     ItemName: dialogResult.Result.TemplateName),
-                cancellation: CancellationToken.None);
+                cancellation: CancellationToken.None))
+                .IfFail(error =>
+                {
+                    NotificationHelpers.Show("Erro ao criar item", error.Message);
+                });
 
             return item;
         }

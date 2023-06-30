@@ -1,5 +1,4 @@
-﻿using Common.Optional;
-using Common.Result;
+﻿using Common.Result;
 
 using Core.Entities.Solution.Project.AppItem;
 
@@ -7,11 +6,11 @@ namespace ProjetoAcessibilidade.Domain.Project.Contracts;
 
 public interface IProjectItemContentRepository
 {
-    public Task<AppItemModel?> GetProjectItemContent(
+    public Task<Result<AppItemModel>> GetProjectItemContent(
         string filePathToWrite
     );
 
-    public Task<Optional<AppItemModel>> GetSystemProjectItemContent(
+    public Task<Result<AppItemModel>> GetSystemProjectItemContent(
         string filePathToWrite
     );
 

@@ -1,11 +1,11 @@
 ﻿using System.Security;
 
 using Common;
+using Common.Models;
 using Common.Optional;
 using Common.Result;
 
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
-using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 
 namespace ProjectItemReader.InternalAppFiles;
@@ -24,6 +24,37 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
         ExplorerItem item
     ) =>
         throw new NotImplementedException();
+
+    public Result<Empty> MoveFileItem(
+        string oldPath,
+        string newPath
+    )
+    {
+        return oldPath
+             .ToOption()
+             .MapValue(item =>
+             {
+                 try
+                 {
+                     if (File.Exists(item))
+                     {
+                         if (!string.IsNullOrWhiteSpace(newPath))
+                         {
+                             File.Move(item, newPath);
+                             return Result<Empty>.Success(Empty.Value);
+                         }
+                         return Result<Empty>.Failure(new Exception("O destino do arquivo não pode ser nulo"));
+                     }
+                     return Result<Empty>.Failure(new Exception("O arquivo não existe"));
+                 }
+                 catch (IOException ex)
+                 {
+                     return Result<Empty>.Failure(ex);
+                 }
+             })
+             .Reduce(() => Result<Empty>.Failure(new Exception("A Operação não pode ser concluída")));
+    }
+
 
     public Result<ExplorerItem> DeleteFolderItem(
         ExplorerItem item

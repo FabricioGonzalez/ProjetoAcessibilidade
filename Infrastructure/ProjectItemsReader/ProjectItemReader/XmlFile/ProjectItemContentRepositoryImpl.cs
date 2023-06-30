@@ -18,50 +18,78 @@ public class ProjectItemContentRepositoryImpl : IProjectItemContentRepository
     public XmlSerializer CreateSerealizer() => _serializer ??= new(type: typeof(ItemRoot));
     private static XmlSerializer _serializer;
 
-    public async Task<Optional<AppItemModel>> GetSystemProjectItemContent(
+    public async Task<Result<AppItemModel>> GetSystemProjectItemContent(
         string filePathToRead
     )
     {
         return await Task.Run(() =>
         {
-            if (!Path.Exists(path: filePathToRead))
+            return filePathToRead
+            .ToOption()
+            .MapValue(item =>
             {
-                _ = Optional<AppItemModel>.None();
-            }
-
-            return CreateSerealizer()
-                .ToOption()
-                .MapValue(res =>
-            {
-                using var reader = XmlReader.Create(inputUri: filePathToRead);
-
-                if (res.Deserialize(xmlReader: reader) is { } result)
+                try
                 {
-                    _ = Optional<AppItemModel>.Some(((ItemRoot)result!).ToAppItemModel());
-                }
+                    if (Path.Exists(path: filePathToRead))
+                    {
+                        return CreateSerealizer()
+                    .ToOption()
+                    .MapValue(res =>
+                    {
+                        using var reader = XmlReader.Create(inputUri: filePathToRead);
 
-                return Optional<AppItemModel>.None();
+                        if (res.Deserialize(xmlReader: reader) is { } result)
+                        {
+                            return Result<ItemRoot>.Success((ItemRoot)result);
+                        }
+
+                        return Result<ItemRoot>.Failure(new Exception("Não foi possível ler item"));
+                    })
+                    .Reduce(() => Result<ItemRoot>.Failure(new Exception("Impossível de completar leitura")));
+                    }
+
+                    return Result<ItemRoot>.Failure(new Exception("Item inexistente"));
+                }
+                catch (Exception ex)
+                {
+                    return Result<ItemRoot>.Failure(ex);
+                }
             })
-                .Reduce(() => Optional<AppItemModel>.None());
+            .Reduce(() => Result<ItemRoot>.Failure(new Exception("Item inexistente")))
+            .Match(success => Result<AppItemModel>.Success(success.ToAppItemModel()), Result<AppItemModel>.Failure);
+
         });
     }
 
-    public async Task<AppItemModel?> GetProjectItemContent(
+    public async Task<Result<AppItemModel>> GetProjectItemContent(
         string filePathToRead
     )
     {
-        if (!Path.Exists(path: filePathToRead))
-        {
-            return null;
-        }
+        return (await filePathToRead
+             .ToOption()
+             .Map(async item =>
+             {
+                 try
+                 {
+                     if (File.Exists(item))
+                     {
+                         var serializer = new XmlSerializer(type: typeof(ItemRoot));
 
-        var serializer = new XmlSerializer(type: typeof(ItemRoot));
+                         using var reader = XmlReader.Create(inputUri: filePathToRead);
 
-        using var reader = XmlReader.Create(inputUri: filePathToRead);
-
-        var result = await Task.Run<ItemRoot>(function: () => (ItemRoot)serializer.Deserialize(xmlReader: reader));
-
-        return result.ToAppItemModel();
+                         return Result<ItemRoot>.Success(await Task.Run<ItemRoot>(function: () => (ItemRoot)serializer.Deserialize(xmlReader: reader)));
+                     }
+                     return Result<ItemRoot>.Failure(new Exception("Arquivo inexistente"));
+                 }
+                 catch (Exception ex)
+                 {
+                     return Result<ItemRoot>.Failure(ex);
+                 }
+             })
+             .Reduce(() => Task.Run(() => Result<ItemRoot>.Failure(new Exception("Arquivo inexistente"))))
+             )
+             .Match(Succ: success => Result<AppItemModel>.Success(success.ToAppItemModel()),
+             Fail: Result<AppItemModel>.Failure);
     }
 
     public async Task SaveProjectItemContent(

@@ -1,6 +1,7 @@
 ﻿using Common;
+using Common.Models;
+using Common.Result;
 
-using ProjetoAcessibilidade.Domain.App.Models;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 
@@ -9,43 +10,34 @@ namespace ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 public sealed record CreateItemCommand(
     string ItemPath,
     string ItemName
-) : IRequest<Resource<Empty>>;
+) : IRequest<Result<Empty>>;
 
-public sealed class CreateItemCommandHandler : IHandler<CreateItemCommand, Resource<Empty>>
+public sealed class CreateItemCommandHandler : IHandler<CreateItemCommand, Result<Empty>>
 {
     private readonly IProjectItemContentRepository _repository;
     public CreateItemCommandHandler(IProjectItemContentRepository repository)
     {
         _repository = repository;
     }
-    public async Task<Resource<Empty>> HandleAsync(
+    public async Task<Result<Empty>> HandleAsync(
         CreateItemCommand command,
         CancellationToken cancellation
     )
     {
-        var result = await _repository
-            .GetSystemProjectItemContent(
-                filePathToWrite: Path.Combine(
-                    path1: Constants.AppItemsTemplateFolder,
-                    path2: $"{command.ItemName}{Constants.AppProjectTemplateExtension}"));
+        return await (await _repository
+           .GetSystemProjectItemContent(
+               filePathToWrite: Path.Combine(
+                   path1: Constants.AppItemsTemplateFolder,
+                   path2: $"{command.ItemName}{Constants.AppProjectTemplateExtension}")))
+                   .MatchAsync(async success =>
+                   {
+                       success.TemplateName = success.ItemName;
+                       success.ItemName = Path.GetFileNameWithoutExtension(command.ItemPath);
 
-        return result.Map((item) =>
-        {
-            item.TemplateName = item.ItemName;
-            item.ItemName = Path.GetFileNameWithoutExtension(command.ItemPath);
-            return item;
+                       await _repository.SaveProjectItemContent(dataToWrite: success, filePathToWrite: command.ItemPath);
 
-        }).Map(async value =>
-        {
-            await _repository
-            .SaveProjectItemContent(
-                dataToWrite: value,
-                filePathToWrite: command.ItemPath);
-        })
-        .Map<Resource<Empty>>((value) =>
-        {
-            return value.IsCompletedSuccessfully ? new Resource<Empty>.Success(Empty.Value) : new Resource<Empty>.Error(Message: "Houve um erro no processo");
-        })
-        .Reduce(() => new Resource<Empty>.Error(Message: "Houve um erro no processo"));
+                       return Result<Empty>.Success(Empty.Value);
+                   },
+                   async failure => await Task.Run(() => Result<Empty>.Failure(failure)));
     }
 }

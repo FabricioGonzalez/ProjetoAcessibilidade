@@ -125,14 +125,14 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
 
         AddItemToEdit = ReactiveCommand.CreateFromObservable<IItemViewModel, Unit>(execute: AddItem);
 
-        SetEditingItem.RegisterHandler(handler: value =>
+        _ = SetEditingItem.RegisterHandler(handler: value =>
         {
-            AddItemToEdit.Execute(parameter: value.Input);
+            _ = AddItemToEdit.Execute(parameter: value.Input);
 
             value.SetOutput(output: Unit.Default);
         });
 
-        EditingItems
+        _ = EditingItems
             .ToObservableChangeSet()
             .AutoRefreshOnObservable(reevaluator: item => item.CloseItemCommand.IsExecuting)
             .Select(selector: x => WhenAnyItemClosed())
@@ -141,7 +141,7 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
             {
                 if (x?.IsSaved == true)
                 {
-                    EditingItems.Remove(item: x);
+                    _ = EditingItems.Remove(item: x);
                     return;
                 }
 
@@ -152,11 +152,11 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
                 if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
                         target: NavigationTarget.CompactDialogScreen)).Result)
                 {
-                    EditingItems.Remove(item: x);
+                    _ = EditingItems.Remove(item: x);
                 }
             });
 
-        EditingItems
+        _ = EditingItems
             .ToObservableChangeSet()
             .WhereNotNull()
             .OnItemAdded(addAction: model =>
@@ -206,29 +206,30 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
 
                 await Task.WhenAll(getItem, getRules);
 
-                if (getItem.Result is Resource<AppItemModel>.Success itemModel && getRules.Result is Resource<IEnumerable<ValidationRule>>.Success rules)
+                _ = getItem.Result.IfSucc(successData =>
                 {
-                    var successData = itemModel.Data;
+                    if (getRules.Result is Resource<IEnumerable<ValidationRule>>.Success rules)
+                    {
+                        var observations = new ObservationFormItem();
 
-                    var observations = new ObservationFormItem();
+                        observations.SourceItems.AddRange(successData.Observations.Where(it => it.ObservationText.Length > 0));
 
-                    observations.SourceItems.AddRange(successData.Observations.Where(it => it.ObservationText.Length > 0));
+                        IEditingItemViewModel itemToEdit = new EditingItemViewModel(
+                          id: item.Id,
+                          itemName: successData.ItemName,
+                          itemPath: item.ItemPath,
+                          body: new EditingBodyViewModel(
+                              lawList: successData.LawList.ToViewLawList(),
+                              form: new(successData.FormData.ToViewForm(rules.Data, observations.SourceItems)
+                              .Append(observations)
+                              .Append(new ImageContainerFormItemViewModel(
+                           imageItems: new(
+                  successData.Images
+                          .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath, imageObservation: x.ImageObservation))), "Imagens")))));
+                        EditingItems.Add(item: itemToEdit);
 
-                    IEditingItemViewModel itemToEdit = new EditingItemViewModel(
-                      id: item.Id,
-                      itemName: successData.ItemName,
-                      itemPath: item.ItemPath,
-                      body: new EditingBodyViewModel(
-                          lawList: successData.LawList.ToViewLawList(),
-                          form: new(successData.FormData.ToViewForm(rules.Data, observations.SourceItems)
-                          .Append(observations)
-                          .Append(new ImageContainerFormItemViewModel(
-                       imageItems: new(
-              successData.Images
-                      .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath, imageObservation: x.ImageObservation))), "Imagens")))));
-                    EditingItems.Add(item: itemToEdit);
-
-                }
+                    }
+                });
             }
 
             else

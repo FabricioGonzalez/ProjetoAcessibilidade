@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Common.Result;
 
 using Core.Entities.Solution.Project.AppItem;
 
@@ -9,10 +9,10 @@ namespace ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
 
 public sealed record GetProjectItemContentQuery(
     string ItemPath
-) : IRequest<Resource<AppItemModel>>;
+) : IRequest<Result<AppItemModel>>;
 
 public sealed class GetProjectItemContentQueryHandler
-    : IHandler<GetProjectItemContentQuery, Resource<AppItemModel>>
+    : IHandler<GetProjectItemContentQuery, Result<AppItemModel>>
 {
     private readonly IProjectItemContentRepository _repository;
 
@@ -23,25 +23,33 @@ public sealed class GetProjectItemContentQueryHandler
         _repository = repository;
     }
 
-    public async Task<Resource<AppItemModel>> HandleAsync(
+    public async Task<Result<AppItemModel>> HandleAsync(
         GetProjectItemContentQuery query,
         CancellationToken cancellation
     )
     {
-        var result = await _repository.GetProjectItemContent(filePathToWrite: query.ItemPath);
+        return (await _repository.GetProjectItemContent(filePathToWrite: query.ItemPath))
+            .Match
+            (success =>
+            {
+                success.Id = string.IsNullOrWhiteSpace(value: success.Id)
+               ? Guid.NewGuid()
+                   .ToString()
+               : success.Id;
 
-        if (result is not null)
-        {
-            result.Id = string.IsNullOrWhiteSpace(value: result.Id)
-                ? Guid.NewGuid()
-                    .ToString()
-                : result.Id;
+                return Result<AppItemModel>.Success(success);
+            },
+        Result<AppItemModel>.Failure);
+        /*
+                if (result is not null)
+                {
 
-            return new Resource<AppItemModel>.Success(Data: result);
-        }
 
-        return new Resource<AppItemModel>.Error(
-            Data: result,
-            Message: $"Erro ao ler arquivo {Path.GetFileName(path: query.ItemPath)}");
+                    return new Resource<AppItemModel>.Success(Data: result);
+                }
+
+                return new Resource<AppItemModel>.Error(
+                    Data: result,
+                    Message: $"Erro ao ler arquivo {Path.GetFileName(path: query.ItemPath)}");*/
     }
 }

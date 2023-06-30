@@ -2,12 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Reactive;
 
+using Common.Models;
 using Common.Optional;
 
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Presentation.Interfaces;
-
-using ProjetoAcessibilidade.Domain.App.Models;
 
 using ReactiveUI;
 
@@ -22,7 +21,7 @@ public class ImageContainerFormItemViewModel : ReactiveObject, IImageFormItemVie
 
         AddPhotoCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            (await FileDialogHelper.ShowOpenFileDialogAsync("Get Images")).ToOption()
+            _ = (await FileDialogHelper.ShowOpenFileDialogAsync("Get Images")).ToOption()
              .Map(item =>
              {
                  return new ImageViewModel(imagePath: item, "", Guid.NewGuid().ToString());
@@ -38,7 +37,7 @@ public class ImageContainerFormItemViewModel : ReactiveObject, IImageFormItemVie
 
         RemoveImageCommand = ReactiveCommand.Create<IImageItemViewModel>(image =>
         {
-            ImageItems.Remove(image);
+            _ = ImageItems.Remove(image);
         });
     }
 
