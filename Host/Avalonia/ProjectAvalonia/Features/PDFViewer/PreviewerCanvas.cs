@@ -3,7 +3,7 @@ using QuestPDF.Drawing;
 using QuestPDF.Infrastructure;
 using SkiaSharp;
 
-namespace QuestPDF.Previewer;
+namespace ProjectAvalonia.Features.PDFViewer;
 
 public record PreviewPage(
     SKPicture Picture

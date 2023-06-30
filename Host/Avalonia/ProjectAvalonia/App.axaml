@@ -20,6 +20,7 @@
     <Application.Resources>
         <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
         <conv:SizePercentageConverter x:Key="SizePercentageConverter" />
+        <conv:CheckingValueByTypeConverter x:Key="CheckingValueByTypeConverter" />
     </Application.Resources>
 
     <Application.Styles>

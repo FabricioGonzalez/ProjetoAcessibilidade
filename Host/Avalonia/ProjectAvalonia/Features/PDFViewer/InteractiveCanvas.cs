@@ -5,10 +5,11 @@ using Avalonia;
 using Avalonia.Platform;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
+using QuestPDF.Previewer;
 using SkiaSharp;
 using Size = QuestPDF.Infrastructure.Size;
 
-namespace QuestPDF.Previewer;
+namespace ProjectAvalonia.Features.PDFViewer;
 
 internal class InteractiveCanvas : ICustomDrawOperation
 {

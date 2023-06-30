@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:vm="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels;assembly=ProjectAvalonia"
+    xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
     Padding="4,8"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -67,7 +68,14 @@
                                                     Margin="4,0"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Center"
-                                                    SelectedItem="{Binding Operation}" />
+                                                    Items="{x:Static validationTypes:AppValidation.operationTypes}"
+                                                    SelectedItem="{Binding Operation}">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate x:CompileBindings="False">
+                                                            <TextBlock Text="{Binding LocalizationKey}" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                                 <controls:IconButton
                                                     Grid.Column="3"
                                                     Width="18"
@@ -86,7 +94,8 @@
                                             BoxShadow="{DynamicResource AppElevationShadow}"
                                             CornerRadius="4">
                                             <Grid ColumnDefinitions="1* 48" RowDefinitions="40 8 1.2*">
-                                                <Label Content="{x:Static p:Resources.Conditions_Label}" FontWeight="DemiBold" />
+                                                <Label Content="{x:Static p:Resources.Conditions_Label}"
+                                                       FontWeight="DemiBold" />
                                                 <controls:IconButton
                                                     Grid.Column="1"
                                                     Width="18"
@@ -114,17 +123,35 @@
                                                                         Grid.Row="0"
                                                                         Grid.Column="2"
                                                                         Height="24"
+                                                                        Items="{x:Static validationTypes:AppValidation.checkingOperationTypes}"
                                                                         Padding="4,0"
                                                                         HorizontalAlignment="Stretch"
                                                                         VerticalAlignment="Stretch"
-                                                                        SelectedItem="{Binding Type}" />
+                                                                        SelectedItem="{Binding Type}">
+                                                                        <ComboBox.ItemTemplate>
+                                                                            <DataTemplate x:CompileBindings="False">
+                                                                                <TextBlock
+                                                                                    Text="{Binding LocalizationKey}" />
+                                                                            </DataTemplate>
+                                                                        </ComboBox.ItemTemplate>
+                                                                    </ComboBox>
                                                                     <TextBox
                                                                         Grid.Row="0"
+                                                                        IsVisible="{Binding Type, Converter={StaticResource CheckingValueByTypeConverter}}"
                                                                         Grid.Column="4"
                                                                         Height="24"
                                                                         Padding="4,0"
                                                                         Text="{Binding CheckingValue}" />
-
+                                                                    <ComboBox Grid.Column="4"
+                                                                              IsVisible="{Binding Type, Converter={StaticResource CheckingValueByTypeConverter}}"
+                                                                              Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                                                        <ComboBox.ItemTemplate>
+                                                                            <DataTemplate x:CompileBindings="False">
+                                                                                <TextBlock
+                                                                                    Text="{Binding LocalizationKey}" />
+                                                                            </DataTemplate>
+                                                                        </ComboBox.ItemTemplate>
+                                                                    </ComboBox>
                                                                     <controls:IconButton
                                                                         Grid.Column="5"
                                                                         Width="18"
@@ -160,7 +187,8 @@
                                                                         <ItemsControl.ItemTemplate>
                                                                             <DataTemplate>
                                                                                 <Grid ColumnDefinitions="1* 40">
-                                                                                    <TextBox Margin="0,4,0,0" Text="{Binding}" />
+                                                                                    <TextBox Margin="0,4,0,0"
+                                                                                        Text="{Binding}" />
                                                                                     <controls:IconButton
                                                                                         Grid.Column="1"
                                                                                         Width="18"

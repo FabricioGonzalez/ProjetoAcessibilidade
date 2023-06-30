@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection.Metadata;
-using QuestPDF.Previewer;
+using ProjectAvalonia.Features.PDFViewer;
 
 [assembly: MetadataUpdateHandler(handlerType: typeof(HotReloadManager))]
 
-namespace QuestPDF.Previewer;
+namespace ProjectAvalonia.Features.PDFViewer;
 
 /// <summary>
 ///     Helper for subscribing to hot reload notifications.

@@ -1,14 +1,14 @@
 ﻿namespace Core.Entities.ValidationRules;
 
-public class ValidationRule
+public class Target
 {
-    public Target Target
+    public string Id
     {
         get;
         set;
     }
 
-    public IEnumerable<RuleSet> Rules
+    public string Name
     {
         get;
         set;

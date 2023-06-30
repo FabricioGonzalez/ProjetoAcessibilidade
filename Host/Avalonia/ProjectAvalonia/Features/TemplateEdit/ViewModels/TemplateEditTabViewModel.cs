@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-
 using Common.Optional;
-
 using DynamicData;
 using DynamicData.Binding;
-
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
+using ProjectAvalonia.Presentation.States.ValidationRulesState;
 using ProjectAvalonia.ViewModels;
-
 using ProjetoAcessibilidade.Core.Enuns;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
@@ -37,6 +32,9 @@ public partial class TemplateEditTabViewModel
     : TemplateEditTabViewModelBase,
         ITemplateEditTabViewModel
 {
+    private AppModelState _editingItem;
+
+    private ValidationRuleContainerState _editingItemRules;
     /*private readonly ICommandDispatcher commandDispatcher;
 
     private readonly IMediator queryDispatcher;
@@ -220,71 +218,33 @@ public partial class TemplateEditTabViewModel
         var observable = this.WhenAnyValue(vm => vm.EditingItem)
             .WhereNotNull()
             .Select(x => x.FormData
-            .ToObservableChangeSet()
-            .AutoRefresh()
-            .DisposeMany())
+                .ToObservableChangeSet()
+                .AutoRefresh()
+                .DisposeMany())
             .Switch()
-            .WhenPropertyChanged(prop => prop.Type, notifyOnInitialValue: false)
-            .Subscribe(onNext: prop =>
-              {
-                  ChangeBody(prop.Sender);
-              }, onError: error =>
-              {
-                  Debug.WriteLine(error);
-              },
-            onCompleted: () =>
-            {
-                Debug.WriteLine("Completado");
-            });
+            .WhenPropertyChanged(prop => prop.Type, false)
+            .Subscribe(prop =>
+                {
+                    ChangeBody(prop.Sender);
+                }, error =>
+                {
+                    Debug.WriteLine(error);
+                },
+                () =>
+                {
+                    Debug.WriteLine("Completado");
+                });
     }
+
     public override MenuViewModel? ToolBar => null;
-    private void ChangeBody(FormItemContainer container)
-    {
 
-        var result = container.Body.ToOption()
-            .Map(e => e = container.Type switch
-            {
-                AppFormDataType.Texto => container.ChangeItem(type: AppFormDataType.Texto)
-                .Reduce(orElse: () => new TextItemState(topic: container.Body.Topic, textData: "", id: container.Body.Id)),
-
-                AppFormDataType.Checkbox => container.ChangeItem(type: AppFormDataType.Checkbox)
-                .Reduce(orElse: () => new CheckboxContainerItemState(topic: container.Body.Topic, id: container.Body.Id))
-            })
-            .Reduce(() => container.Type switch
-            {
-                AppFormDataType.Texto => container.ChangeItem(type: AppFormDataType.Texto)
-                .Reduce(orElse: () => new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString())),
-
-                AppFormDataType.Checkbox => container.ChangeItem(type: AppFormDataType.Checkbox)
-                .Reduce(orElse: () => new CheckboxContainerItemState(topic: "", id: Guid.NewGuid().ToString()))
-            });
-        container.Body = result;
-
-        container.AddToHistory(result);
-    }
-
-
-    public ReactiveCommand<Unit, Unit> AddItemCommand => ReactiveCommand.Create(() =>
-    {
-        EditingItem.AddFormItem(new()
+    public ReactiveCommand<FormItemContainer, Unit> RemoveItemCommand => ReactiveCommand.Create<FormItemContainer>(
+        item =>
         {
-            Id = Guid.NewGuid().ToString(),
-            Topic = "",
-            Type = AppFormDataType.Texto,
-            Body = new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString())
+            EditingItem.RemoveItem(item);
         });
-    });
-    public ReactiveCommand<Unit, Unit> AddLawCommand => ReactiveCommand.Create(() =>
-    {
-        EditingItem.AddLawItems(new());
-    });
 
-    public ReactiveCommand<FormItemContainer, Unit> RemoveItemCommand => ReactiveCommand.Create<FormItemContainer>((item) =>
-    {
-        EditingItem.RemoveItem(item);
-    });
-
-    public ReactiveCommand<LawStateItem, Unit> RemoveLawCommand => ReactiveCommand.Create<LawStateItem>((item) =>
+    public ReactiveCommand<LawStateItem, Unit> RemoveLawCommand => ReactiveCommand.Create<LawStateItem>(item =>
     {
         EditingItem.RemoveLawItem(item);
     });
@@ -295,10 +255,49 @@ public partial class TemplateEditTabViewModel
         protected set;
     } = null;
 
-    private AppModelState _editingItem;
+    public ReactiveCommand<Unit, Unit> AddItemCommand => ReactiveCommand.Create(() =>
+    {
+        EditingItem.AddFormItem(new FormItemContainer
+        {
+            Id = Guid.NewGuid().ToString(),
+            Topic = "",
+            Type = AppFormDataType.Texto,
+            Body = new TextItemState("", "", id: Guid.NewGuid().ToString())
+        });
+    });
+
+    public ReactiveCommand<Unit, Unit> AddLawCommand => ReactiveCommand.Create(() =>
+    {
+        EditingItem.AddLawItems(new LawStateItem());
+    });
+
     public AppModelState EditingItem
     {
         get => _editingItem;
         set => this.RaiseAndSetIfChanged(ref _editingItem, value);
+    }
+
+    private void ChangeBody(FormItemContainer container)
+    {
+        var result = container.Body.ToOption()
+            .Map(e => container.Type switch
+            {
+                AppFormDataType.Texto => container.ChangeItem(AppFormDataType.Texto)
+                    .Reduce(() => new TextItemState(container.Body.Topic, "", id: container.Body.Id)),
+
+                AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
+                    .Reduce(() => new CheckboxContainerItemState(container.Body.Topic, id: container.Body.Id))
+            })
+            .Reduce(() => container.Type switch
+            {
+                AppFormDataType.Texto => container.ChangeItem(AppFormDataType.Texto)
+                    .Reduce(() => new TextItemState("", "", id: Guid.NewGuid().ToString())),
+
+                AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
+                    .Reduce(() => new CheckboxContainerItemState("", id: Guid.NewGuid().ToString()))
+            });
+        container.Body = result;
+
+        container.AddToHistory(result);
     }
 }

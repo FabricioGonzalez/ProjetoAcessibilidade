@@ -1,19 +1,17 @@
 ﻿using System.Xml.Serialization;
-
 using Common;
 using Common.Optional;
-
 using Core.Entities.ValidationRules;
-
 using ProjectItemReader.ValidationRulesExpression;
 using ProjectItemReader.XmlFile.ValidationRules;
-
 using ProjetoAcessibilidade.Domain.AppValidationRules.Contracts;
 
 namespace ProjectItemReader.XmlFile;
+
 public class ValidationRulesRepositoryImpl : IValidationRulesRepository
 {
-    private RuleLexer _ruleLexer;
+    private readonly RuleLexer _ruleLexer;
+    private Optional<XmlSerializer> _serializer;
 
     public ValidationRulesRepositoryImpl(RuleLexer ruleLexer)
     {
@@ -23,74 +21,72 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
     public async Task CreateValidationRule(ValidationRule validationRule)
     {
     }
-    public async Task<Optional<IEnumerable<ValidationRule>>> LoadValidationRule(string validationItemPath)
-    {
-        return validationItemPath
+
+    public async Task<Optional<IEnumerable<ValidationRule>>> LoadValidationRule(string validationItemPath) =>
+        validationItemPath
             .ToOption()
             .Map(item =>
-            CreateSerealizer()
-            .Map<Resource<ValidationItemRoot>>(xmlReader =>
-            {
-                if (File.Exists(item))
-                {
-                    using var reader = new StreamReader(item);
-
-                    var result = (ValidationItemRoot)xmlReader.Deserialize(reader);
-
-                    return new Resource<ValidationItemRoot>.Success(result);
-                }
-                return new Resource<ValidationItemRoot>.Error("Arquivo não Existe", default);
-            })
-            .Map(item =>
-            {
-                if (item is Resource<ValidationItemRoot>.Error)
-                {
-                    return Enumerable.Empty<ValidationRule>();
-                }
-                return ((Resource<ValidationItemRoot>.Success)item)
-                .Data
-                .Rules
-                .Select(x => new ValidationRule()
-                {
-                    Targets = x.Targets.Select(x => new Targets() { Id = x.Id }),
-
-                    Rules = x.RuleConditions.Select(x =>
+                CreateSerealizer()
+                    .Map<Resource<ValidationItemRoot>>(xmlReader =>
                     {
-
-                        var conditions = x.RuleSetItems.Select(x =>
+                        if (File.Exists(item))
                         {
-                            var res = _ruleLexer.GetEvaluation(x.ValueTrigger);
+                            using var reader = new StreamReader(item);
 
-                            return new Conditions(
-                                TargetId: res.target,
-                                Type: res.evaluation.First(),
-                                CheckingValue: res.evaluation.Last(),
-                                Result: x.Results.Select(result => result.Result),
-                                ConditionsFunctions: new((item) =>
-                            {
-                                var expression = _ruleLexer.MountEvaluation(item, res.evaluation.First(), res.evaluation.Last());
+                            var result = (ValidationItemRoot)xmlReader.Deserialize(reader);
 
-                                return (expression(), x.Results.Select(x => x.Result));
-                            }));
-                        });
+                            return new Resource<ValidationItemRoot>.Success(result);
+                        }
 
-                        var results = x.RuleSetItems.SelectMany(x => x.Results.Select(y => y.Result));
-
-                        return new RuleSet()
-                        {
-                            Operation = x.Operation,
-                            Conditions = conditions
-                        };
+                        return new Resource<ValidationItemRoot>.Error("Arquivo não Existe");
                     })
-                });
-            })
-            .Reduce(() => Enumerable.Empty<ValidationRule>()));
+                    .Map(item =>
+                    {
+                        if (item is Resource<ValidationItemRoot>.Error)
+                        {
+                            return Enumerable.Empty<ValidationRule>();
+                        }
 
-    }
+                        return ((Resource<ValidationItemRoot>.Success)item)
+                            .Data
+                            .Rules
+                            .Select(x => new ValidationRule
+                            {
+                                Target = new Target { Id = x.Target.Id },
 
-    public Optional<XmlSerializer> CreateSerealizer() => _serializer.IsNone ? _serializer = Optional<XmlSerializer>.Some(new(type: typeof(ValidationItemRoot))) : _serializer;
-    private Optional<XmlSerializer> _serializer;
+                                Rules = x.RuleConditions.Select(x =>
+                                {
+                                    var conditions = x.RuleSetItems.Select(x =>
+                                    {
+                                        var res = _ruleLexer.GetEvaluation(x.ValueTrigger);
 
+                                        return new Conditions(
+                                            res.target,
+                                            res.evaluation.First(),
+                                            res.evaluation.Last(),
+                                            x.Results.Select(result => result.Result),
+                                            item =>
+                                            {
+                                                var expression = _ruleLexer.MountEvaluation(item,
+                                                    res.evaluation.First(), res.evaluation.Last());
 
+                                                return (expression(), x.Results.Select(x => x.Result));
+                                            });
+                                    });
 
+                                    var results = x.RuleSetItems.SelectMany(x => x.Results.Select(y => y.Result));
+
+                                    return new RuleSet
+                                    {
+                                        Operation = x.Operation,
+                                        Conditions = conditions
+                                    };
+                                })
+                            });
+                    })
+                    .Reduce(() => Enumerable.Empty<ValidationRule>()));
+
+    public Optional<XmlSerializer> CreateSerealizer() => _serializer.IsNone
+        ? _serializer = Optional<XmlSerializer>.Some(new XmlSerializer(typeof(ValidationItemRoot)))
+        : _serializer;
 }

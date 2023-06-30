@@ -4,8 +4,9 @@ using System.ComponentModel;
 using Avalonia.Threading;
 using QuestPDF.Drawing;
 using QuestPDF.Infrastructure;
+using QuestPDF.Previewer;
 
-namespace QuestPDF.Previewer;
+namespace ProjectAvalonia.Features.PDFViewer;
 
 public class DocumentRenderer : INotifyPropertyChanged
 {

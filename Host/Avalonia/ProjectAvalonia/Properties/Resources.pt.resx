@@ -1,429 +1,471 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
+    <!-- 
+      Microsoft ResX Schema 
+      
+      Version 2.0
+      
+      The primary goals of this format is to allow a simple XML format 
+      that is mostly human readable. The generation and parsing of the 
+      various data types are done through the TypeConverter classes 
+      associated with the data types.
+      
+      Example:
+      
+      ... ado.net/XML headers & schema ...
+      <resheader name="resmimetype">text/microsoft-resx</resheader>
+      <resheader name="version">2.0</resheader>
+      <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+      <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+      <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+      <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+      <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+          <value>[base64 mime encoded serialized .NET Framework object]</value>
+      </data>
+      <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+          <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+          <comment>This is a comment</comment>
+      </data>
+                  
+      There are any number of "resheader" rows that contain simple 
+      name/value pairs.
+      
+      Each data row contains a name, and value. The row also contains a 
+      type or mimetype. Type corresponds to a .NET class that support 
+      text/value conversion through the TypeConverter architecture. 
+      Classes that don't support this are serialized and stored with the 
+      mimetype set.
+      
+      The mimetype is used for serialized objects, and tells the 
+      ResXResourceReader how to depersist the object. This is currently not 
+      extensible. For a given mimetype the value must be set accordingly:
+      
+      Note - application/x-microsoft.net.object.binary.base64 is the format 
+      that the ResXResourceWriter will generate, however the reader can 
+      read any of the formats listed below.
+      
+      mimetype: application/x-microsoft.net.object.binary.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+              : and then encoded with base64 encoding.
+      
+      mimetype: application/x-microsoft.net.object.soap.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+              : and then encoded with base64 encoding.
+  
+      mimetype: application/x-microsoft.net.object.bytearray.base64
+      value   : The object must be serialized into a byte array 
+              : using a System.ComponentModel.TypeConverter
+              : and then encoded with base64 encoding.
+      -->
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+                id="root"
+                xmlns="">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+        <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string"/>
+                            <xsd:attribute name="type" type="xsd:string"/>
+                            <xsd:attribute name="mimetype" type="xsd:string"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string"/>
+                            <xsd:attribute name="name" type="xsd:string"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="AddItemNameLabel" xml:space="preserve">
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <data name="AddItemNameLabel" xml:space="preserve">
     <value>Nome do Item</value>
   </data>
-  <data name="Add_Checkbox_ToolTip" xml:space="preserve">
+    <data name="Add_Checkbox_ToolTip" xml:space="preserve">
     <value>Adicionar Checkbox</value>
   </data>
-  <data name="Add_Condition_ToolTip" xml:space="preserve">
-    <value>Add Condition</value>
-  </data>
-  <data name="Add_Folder_Item_Menu_Header" xml:space="preserve">
+    <data name="Add_Condition_ToolTip" xml:space="preserve">
+      <value>Adicionar Condição</value>
+    </data>
+    <data name="Add_Folder_Item_Menu_Header" xml:space="preserve">
     <value>Adicionar Item</value>
   </data>
-  <data name="Add_Item_Dialog_Caption" xml:space="preserve">
+    <data name="Add_Item_Dialog_Caption" xml:space="preserve">
     <value>Selecione um item para adicionar ao projeto</value>
   </data>
-  <data name="Add_Item_ToolTip" xml:space="preserve">
+    <data name="Add_Item_ToolTip" xml:space="preserve">
     <value>Adicionar Item de Relatório</value>
   </data>
-  <data name="Add_Law_ToolTip" xml:space="preserve">
+    <data name="Add_Law_ToolTip" xml:space="preserve">
     <value>Adicionar Lei</value>
   </data>
-  <data name="Add_Options_ToolTip" xml:space="preserve">
+    <data name="Add_Options_ToolTip" xml:space="preserve">
     <value>Adicionar Opções</value>
   </data>
-  <data name="Add_Option_ToolTip" xml:space="preserve">
+    <data name="Add_Option_ToolTip" xml:space="preserve">
     <value>Adicionar Opção</value>
   </data>
-  <data name="Add_Result_ToolTip" xml:space="preserve">
-    <value>Add Result</value>
-  </data>
-  <data name="Add_Rule_ToolTip" xml:space="preserve">
+    <data name="Add_Result_ToolTip" xml:space="preserve">
+      <value>Adicionar Resultado</value>
+    </data>
+    <data name="Add_Rule_ToolTip" xml:space="preserve">
     <value>Adicionar Regra</value>
   </data>
-  <data name="Add_Solution_Item_Menu_Item" xml:space="preserve">
+    <data name="Add_Solution_Item_Menu_Item" xml:space="preserve">
     <value>Adicionar Item de Relatório</value>
   </data>
-  <data name="Add_Text_Item_ToolTip" xml:space="preserve">
+    <data name="Add_Text_Item_ToolTip" xml:space="preserve">
     <value>Adicionar Item de Texto</value>
   </data>
-  <data name="AdvancedSettingsViewNavLabel" xml:space="preserve">
+    <data name="AdvancedSettingsViewNavLabel" xml:space="preserve">
     <value>Configurações Avançadas</value>
   </data>
-  <data name="AppearanceLabel" xml:space="preserve">
+    <data name="AppearanceLabel" xml:space="preserve">
     <value>Aparência</value>
   </data>
-  <data name="AutoCopyBehaviorLabel" xml:space="preserve">
+    <data name="AutoCopyBehaviorLabel" xml:space="preserve">
     <value>Auto Copiar</value>
   </data>
-  <data name="AutoDownloadLabel" xml:space="preserve">
+    <data name="AutoDownloadLabel" xml:space="preserve">
     <value>Baixar as últimas atualizações automáticamente</value>
   </data>
-  <data name="AutoPasteBehaviorLabel" xml:space="preserve">
+    <data name="AutoPasteBehaviorLabel" xml:space="preserve">
     <value>Auto Colar</value>
   </data>
-  <data name="CancelActionLabel" xml:space="preserve">
+    <data name="CancelActionLabel" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="CheckboxContainerTopicLabel" xml:space="preserve">
+    <data name="CheckboxContainerTopicLabel" xml:space="preserve">
     <value>Tópico</value>
   </data>
-  <data name="CheckboxItemTopicLabel" xml:space="preserve">
+    <data name="CheckboxItemTopicLabel" xml:space="preserve">
     <value>Tópico</value>
   </data>
-  <data name="CheckboxItemValueLabel" xml:space="preserve">
+    <data name="CheckboxItemValueLabel" xml:space="preserve">
     <value>Valor</value>
   </data>
-  <data name="Company_Address_Watermark" xml:space="preserve">
+    <data name="Company_Address_Watermark" xml:space="preserve">
     <value>Endereço da Empresa</value>
   </data>
-  <data name="Company_Logo_FilePath_Watermark" xml:space="preserve">
+    <data name="Company_Logo_FilePath_Watermark" xml:space="preserve">
     <value>Local da Logo da Empresa</value>
   </data>
-  <data name="Company_Name_Watermark" xml:space="preserve">
+    <data name="Company_Name_Watermark" xml:space="preserve">
     <value>Nome da Empresa</value>
   </data>
-  <data name="Conditions_Label" xml:space="preserve">
+    <data name="Conditions_Label" xml:space="preserve">
     <value>Condições</value>
   </data>
-  <data name="ConfirmActionLabel" xml:space="preserve">
+    <data name="ConfirmActionLabel" xml:space="preserve">
     <value>Confirmar</value>
   </data>
-  <data name="ContinueActionLabel" xml:space="preserve">
+    <data name="ContinueActionLabel" xml:space="preserve">
     <value>Continuar</value>
   </data>
-  <data name="DarkModeLabel" xml:space="preserve">
+    <data name="DarkModeLabel" xml:space="preserve">
     <value>Modo Noturno</value>
   </data>
-  <data name="DarkThemeLabel" xml:space="preserve">
+    <data name="DarkThemeLabel" xml:space="preserve">
     <value>Modo Noturno</value>
   </data>
-  <data name="Delete_Image_Item_Menu_Header" xml:space="preserve">
+    <data name="Delete_Image_Item_Menu_Header" xml:space="preserve">
     <value>Deletar Imagem</value>
   </data>
-  <data name="EnabledGPULabel" xml:space="preserve">
+    <data name="EnabledGPULabel" xml:space="preserve">
     <value>Ativar a Aceleração por GPU.</value>
   </data>
-  <data name="EnabledGPUTooltip" xml:space="preserve">
+    <data name="EnabledGPUTooltip" xml:space="preserve">
     <value>Indica quando a Aceleração por GPU está ativa para renderizar a tela. Usar a GPU ao invés do CPU pode levar à ganhos de performance.</value>
   </data>
-  <data name="Exclude_Condition_ToolTip" xml:space="preserve">
+    <data name="Exclude_Condition_ToolTip" xml:space="preserve">
     <value>Excluir Condição</value>
   </data>
-  <data name="Exclude_File_Item_Menu_Header" xml:space="preserve">
+    <data name="Exclude_File_Item_Menu_Header" xml:space="preserve">
     <value>Excluir</value>
   </data>
-  <data name="Exclude_Folder_Item_Menu_Header" xml:space="preserve">
+    <data name="Exclude_Folder_Item_Menu_Header" xml:space="preserve">
     <value>Excluir Pasta</value>
   </data>
-  <data name="Exclude_Result_ToolTip" xml:space="preserve">
+    <data name="Exclude_Result_ToolTip" xml:space="preserve">
     <value>Excluir Resultado</value>
   </data>
-  <data name="Exclude_Rule_ToolTip" xml:space="preserve">
+    <data name="Exclude_Rule_ToolTip" xml:space="preserve">
     <value>Excluir Regra</value>
   </data>
-  <data name="Folder_Name_Watermark" xml:space="preserve">
+    <data name="Folder_Name_Watermark" xml:space="preserve">
     <value>Nome da Pasta</value>
   </data>
-  <data name="GeneralSettingsViewNavLabel" xml:space="preserve">
+    <data name="GeneralSettingsViewNavLabel" xml:space="preserve">
     <value>Configurações Gerais</value>
   </data>
-  <data name="Generate_Document_ToolTip" xml:space="preserve">
+    <data name="Generate_Document_ToolTip" xml:space="preserve">
     <value>Gerar PDF</value>
   </data>
-  <data name="ItemFormDataLabel" xml:space="preserve">
+    <data name="ItemFormDataLabel" xml:space="preserve">
     <value>Itens de Relatório</value>
   </data>
-  <data name="ItemLawItemContentLabel" xml:space="preserve">
+    <data name="ItemLawItemContentLabel" xml:space="preserve">
     <value>Conteúdo da Lei</value>
   </data>
-  <data name="ItemLawItemIdLabel" xml:space="preserve">
+    <data name="ItemLawItemIdLabel" xml:space="preserve">
     <value>Identificador da Lei</value>
   </data>
-  <data name="ItemLawItemsLabel" xml:space="preserve">
+    <data name="ItemLawItemsLabel" xml:space="preserve">
     <value>Leis</value>
   </data>
-  <data name="ItemNameLabel" xml:space="preserve">
+    <data name="ItemNameLabel" xml:space="preserve">
     <value>Nome do Item</value>
   </data>
-  <data name="Items_Label" xml:space="preserve">
+    <data name="Items_Label" xml:space="preserve">
     <value>Itens</value>
   </data>
-  <data name="LanguageSelectorLabel" xml:space="preserve">
+    <data name="LanguageSelectorLabel" xml:space="preserve">
     <value>Selecione o idioma</value>
   </data>
-  <data name="Laws_Label" xml:space="preserve">
+    <data name="Laws_Label" xml:space="preserve">
     <value>Leis</value>
   </data>
-  <data name="Law_Body_Watermark" xml:space="preserve">
+    <data name="Law_Body_Watermark" xml:space="preserve">
     <value>Conteúdo da Lei</value>
   </data>
-  <data name="Law_Id_Watermark" xml:space="preserve">
+    <data name="Law_Id_Watermark" xml:space="preserve">
     <value>Identificador de Lei</value>
   </data>
-  <data name="NextActionLabel" xml:space="preserve">
+    <data name="NextActionLabel" xml:space="preserve">
     <value>Próximo</value>
   </data>
-  <data name="No_Solution_Open_Label" xml:space="preserve">
+    <data name="No_Solution_Open_Label" xml:space="preserve">
     <value>Nenhuma Solução Aberta</value>
   </data>
-  <data name="Observation_Label" xml:space="preserve">
+    <data name="Observation_Label" xml:space="preserve">
     <value>Observações</value>
   </data>
-  <data name="Observation_Watermark" xml:space="preserve">
+    <data name="Observation_Watermark" xml:space="preserve">
     <value>Observações</value>
   </data>
-  <data name="onClosedBehaviorLabel" xml:space="preserve">
+    <data name="onClosedBehaviorLabel" xml:space="preserve">
     <value>Manter o processo rodando em segundo plano</value>
   </data>
-  <data name="onStartupBehaviorLabel" xml:space="preserve">
+    <data name="onStartupBehaviorLabel" xml:space="preserve">
     <value>Iniciar juntamente ao Windows</value>
   </data>
-  <data name="Operation_Label" xml:space="preserve">
+    <data name="Operation_Label" xml:space="preserve">
     <value>Operaçõa</value>
   </data>
-  <data name="Options_Label" xml:space="preserve">
+    <data name="Options_Label" xml:space="preserve">
     <value>Opções</value>
   </data>
-  <data name="Print_Document_ToolTip" xml:space="preserve">
+    <data name="Print_Document_ToolTip" xml:space="preserve">
     <value>Imprimir</value>
   </data>
-  <data name="Print_Page_Title" xml:space="preserve">
+    <data name="Print_Page_Title" xml:space="preserve">
     <value>Imprimir Documento</value>
   </data>
-  <data name="ProjectViewNavLabel" xml:space="preserve">
+    <data name="ProjectViewNavLabel" xml:space="preserve">
     <value>Projeto</value>
   </data>
-  <data name="Project_Add_Folder_ToolBarItem" xml:space="preserve">
+    <data name="Project_Add_Folder_ToolBarItem" xml:space="preserve">
     <value>Adicionar Nova Pasta à Solução</value>
   </data>
-  <data name="Project_Item_Save_ToolBarItem" xml:space="preserve">
+    <data name="Project_Item_Save_ToolBarItem" xml:space="preserve">
     <value>Salvar Item de Relatório Atual</value>
   </data>
-  <data name="Project_Responsable_Watermark" xml:space="preserve">
+    <data name="Project_Responsable_Watermark" xml:space="preserve">
     <value>Responsável pelo Projeto</value>
   </data>
-  <data name="Remove_Checkbox_ToolTip" xml:space="preserve">
+    <data name="Remove_Checkbox_ToolTip" xml:space="preserve">
     <value>Remover Checkbox</value>
   </data>
-  <data name="Remove_Group_ToolTip" xml:space="preserve">
+    <data name="Remove_Group_ToolTip" xml:space="preserve">
     <value>Remover Grupo</value>
   </data>
-  <data name="Rename_File_Item_Menu_Header" xml:space="preserve">
+    <data name="Rename_File_Item_Menu_Header" xml:space="preserve">
     <value>Renomear</value>
   </data>
-  <data name="Rename_Folder_Item_Menu_Header" xml:space="preserve">
+    <data name="Rename_Folder_Item_Menu_Header" xml:space="preserve">
     <value>Renomer Item</value>
   </data>
-  <data name="Report_Date_Calendar_Header" xml:space="preserve">
+    <data name="Report_Date_Calendar_Header" xml:space="preserve">
     <value>Data do Relatório</value>
   </data>
-  <data name="Report_State_Watermark" xml:space="preserve">
+    <data name="Report_State_Watermark" xml:space="preserve">
     <value>UF</value>
   </data>
-  <data name="Responsable_Mail_Address_Watermark" xml:space="preserve">
+    <data name="Responsable_Mail_Address_Watermark" xml:space="preserve">
     <value>Email do Responsável</value>
   </data>
-  <data name="Responsable_Phone_Number_Watermark" xml:space="preserve">
+    <data name="Responsable_Phone_Number_Watermark" xml:space="preserve">
     <value>Telefone do Responsável</value>
   </data>
-  <data name="RestartAppLabel" xml:space="preserve">
+    <data name="RestartAppLabel" xml:space="preserve">
     <value>Reiniciar a Aplicação</value>
   </data>
-  <data name="RestartNotificationLabel" xml:space="preserve">
+    <data name="RestartNotificationLabel" xml:space="preserve">
     <value>As Alterações serão aplicadas após reiniciar a aplicação</value>
   </data>
-  <data name="SearchBoxLabel" xml:space="preserve">
+    <data name="SearchBoxLabel" xml:space="preserve">
     <value>Procurar por Configurações / Funcionalidades Avançadas</value>
   </data>
-  <data name="Search_Solution_Items_Watermark" xml:space="preserve">
+    <data name="Search_Solution_Items_Watermark" xml:space="preserve">
     <value>Pesquisar itens</value>
   </data>
-  <data name="SettingsPageCaption" xml:space="preserve">
+    <data name="SettingsPageCaption" xml:space="preserve">
     <value>Gerencia a aparência e outras configurações</value>
   </data>
-  <data name="SettingsPageLabel" xml:space="preserve">
+    <data name="SettingsPageLabel" xml:space="preserve">
     <value>Configurações</value>
   </data>
-  <data name="SettingsViewNavLabel" xml:space="preserve">
+    <data name="SettingsViewNavLabel" xml:space="preserve">
     <value>Configurações</value>
   </data>
-  <data name="ShutdownDialogTitleLabel" xml:space="preserve">
+    <data name="ShutdownDialogTitleLabel" xml:space="preserve">
     <value>A aplicação está desligando</value>
   </data>
-  <data name="ShutdownMessagePart1" xml:space="preserve">
+    <data name="ShutdownMessagePart1" xml:space="preserve">
     <value>Preparando-se para desligar</value>
   </data>
-  <data name="ShutdownMessagePart2" xml:space="preserve">
+    <data name="ShutdownMessagePart2" xml:space="preserve">
     <value>Isso pode demorar a finalizar... Por favor, aguarde...</value>
   </data>
-  <data name="SkipActionLabel" xml:space="preserve">
+    <data name="SkipActionLabel" xml:space="preserve">
     <value>Pular</value>
   </data>
-  <data name="Solution_Create_ToolBarItem" xml:space="preserve">
+    <data name="Solution_Create_ToolBarItem" xml:space="preserve">
     <value>Criar Solução</value>
   </data>
-  <data name="Solution_Explorer_Label" xml:space="preserve">
+    <data name="Solution_Explorer_Label" xml:space="preserve">
     <value>Explorador de Solução</value>
   </data>
-  <data name="Solution_Folder_Watermark" xml:space="preserve">
+    <data name="Solution_Folder_Watermark" xml:space="preserve">
     <value>Local da Solução</value>
   </data>
-  <data name="Solution_Name_Watermark" xml:space="preserve">
+    <data name="Solution_Name_Watermark" xml:space="preserve">
     <value>Nome da Solução</value>
   </data>
-  <data name="Solution_Open_ToolBarItem" xml:space="preserve">
+    <data name="Solution_Open_ToolBarItem" xml:space="preserve">
     <value>Abrir Solução</value>
   </data>
-  <data name="Solution_Print_ToolBarItem" xml:space="preserve">
+    <data name="Solution_Print_ToolBarItem" xml:space="preserve">
     <value>Imprimir Solução</value>
   </data>
-  <data name="TemplateEditViewNavLabel" xml:space="preserve">
+    <data name="TemplateEditViewNavLabel" xml:space="preserve">
     <value>Edição de Template</value>
   </data>
-  <data name="Template_Edit_Create_Item_ToolBarItem" xml:space="preserve">
+    <data name="Template_Edit_Create_Item_ToolBarItem" xml:space="preserve">
     <value>Criar Template de Relatório</value>
   </data>
-  <data name="Template_Edit_Open_ToolBarItem" xml:space="preserve">
+    <data name="Template_Edit_Open_ToolBarItem" xml:space="preserve">
     <value>Abrir Template de Relatório</value>
   </data>
-  <data name="Template_Edit_Save_Item_ToolBarItem" xml:space="preserve">
+    <data name="Template_Edit_Save_Item_ToolBarItem" xml:space="preserve">
     <value>Salvar Template de Relatório</value>
   </data>
-  <data name="Template_Tab_Header" xml:space="preserve">
+    <data name="Template_Tab_Header" xml:space="preserve">
     <value>Template</value>
   </data>
-  <data name="TextBoxItemMeasurementUnitLabel" xml:space="preserve">
+    <data name="TextBoxItemMeasurementUnitLabel" xml:space="preserve">
     <value>Unidade de Medida</value>
   </data>
-  <data name="TextBoxItemTopicLabel" xml:space="preserve">
+    <data name="TextBoxItemTopicLabel" xml:space="preserve">
     <value>Tópico</value>
   </data>
-  <data name="ThemeChangingLabel" xml:space="preserve">
+    <data name="ThemeChangingLabel" xml:space="preserve">
     <value>O Tema está sendo alterado... Por favor, aguarde</value>
   </data>
-  <data name="ThemeKeyWords" xml:space="preserve">
+    <data name="ThemeKeyWords" xml:space="preserve">
     <value>Escuro, Claro, Tema</value>
   </data>
-  <data name="Then_Label" xml:space="preserve">
+    <data name="Then_Label" xml:space="preserve">
     <value>Então</value>
   </data>
-  <data name="Validation_Rules_Label" xml:space="preserve">
+    <data name="Validation_Rules_Label" xml:space="preserve">
     <value>Regras de Validação</value>
   </data>
-  <data name="Validation_Rules_Tab_Header" xml:space="preserve">
+    <data name="Validation_Rules_Tab_Header" xml:space="preserve">
     <value>Regras de Validação</value>
   </data>
-  <data name="When_Label" xml:space="preserve">
+    <data name="When_Label" xml:space="preserve">
     <value>Quando</value>
   </data>
+    <data name="Edit_Rules_Button" xml:space="preserve">
+    <value>Editar Regras</value>
+  </data>
+    <data name="Create_Rules_Button" xml:space="preserve">
+      <value>Criar nova Regra</value>
+    </data>
+    <data name="UncheckedValueLabel" xml:space="preserve">
+      <value>Desmarcado</value>
+    </data>
+    <data name="CheckedValueLabel" xml:space="preserve">
+      <value>Marcado</value>
+    </data>
+    <data name="GreaterOperationLabel" xml:space="preserve">
+      <value>Maior que</value>
+    </data>
+    <data name="HasOperationLabel" xml:space="preserve">
+      <value>Contém</value>
+    </data>
+    <data name="GreaterThanOperationLabel" xml:space="preserve">
+      <value>Igual ou maior que</value>
+    </data>
+    <data name="IsOperationLabel" xml:space="preserve">
+      <value>Está</value>
+    </data>
+    <data name="LessThanOperationLabel" xml:space="preserve">
+      <value>Igual ou Menor que</value>
+    </data>
+    <data name="ObrigatorityLabel" xml:space="preserve">
+      <value>Obrigatório</value>
+    </data>
+    <data name="ValueCheckLabel" xml:space="preserve">
+      <value>Checagem de valor</value>
+    </data>
+    <data name="LessOperationLabel" xml:space="preserve">
+      <value>Menor que</value>
+    </data>
 </root>

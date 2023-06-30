@@ -4,13 +4,15 @@ public class RuleSet
 {
     public string Operation
     {
-        get; set;
-    }
-    public IEnumerable<Conditions> Conditions
-    {
-        get; set;
+        get;
+        set;
     }
 
+    public IEnumerable<Conditions> Conditions
+    {
+        get;
+        set;
+    }
 }
 
 public record Conditions(string TargetId,

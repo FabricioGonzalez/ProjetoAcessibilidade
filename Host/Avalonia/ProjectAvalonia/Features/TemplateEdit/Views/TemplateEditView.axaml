@@ -3,7 +3,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
-    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
@@ -51,7 +50,7 @@
                     <views:TemplateEditTabView CornerRadius="4" DataContext="{Binding TemplateEditTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:Resources.Template_Tab_Header}">
+            <TabItem Header="{x:Static p:Resources.Validation_Rules_Tab_Header}">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <views:ItemValidationView CornerRadius="4" DataContext="{Binding ItemValidationTab, Mode=TwoWay}" />
                 </ScrollViewer>
