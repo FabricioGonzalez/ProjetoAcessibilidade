@@ -1,6 +1,5 @@
 ﻿using Common.Models;
-using Common.Result;
-
+using LanguageExt.Common;
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 
 namespace ProjetoAcessibilidade.Domain.Project.Contracts;
@@ -8,8 +7,8 @@ namespace ProjetoAcessibilidade.Domain.Project.Contracts;
 public interface IExplorerItemRepository
 {
     public Result<ExplorerItem> CreateExplorerItem(
-          ExplorerItem item
-      );
+        ExplorerItem item
+    );
 
     public Result<ExplorerItem> DeleteExplorerItem(
         ExplorerItem item
@@ -18,9 +17,10 @@ public interface IExplorerItemRepository
     public Result<ExplorerItem> RenameFileItem(
         ExplorerItem item
     );
+
     public Result<Empty> MoveFileItem(
-        string oldPath,
-        string newPath
+        string oldPath
+        , string newPath
     );
 
     public Result<ExplorerItem> DeleteFolderItem(
@@ -68,8 +68,8 @@ public interface IExplorerItemRepository
     );
 
     public Result<Empty> RenameFolderItem(
-        string itemName,
-        string itemPath
+        string itemName
+        , string itemPath
     );
 
     public Task<Result<ExplorerItem>> CreateExplorerItemAsync(
@@ -79,5 +79,4 @@ public interface IExplorerItemRepository
     public Task<Result<ExplorerItem>> DeleteExplorerItemAsync(
         ExplorerItem item
     );
-
 }

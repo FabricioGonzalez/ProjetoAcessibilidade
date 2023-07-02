@@ -4,7 +4,7 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDFReport.Components;
 
-public class ImagePlaceholder : IComponent
+public class ReportImage : IComponent
 {
     public static bool Solid
     {
@@ -28,37 +28,85 @@ public class ImagePlaceholder : IComponent
         IContainer container
     )
     {
-        if (!string.IsNullOrWhiteSpace(value: ImagePath))
+        if (!string.IsNullOrWhiteSpace(ImagePath))
         {
             var s = ImagePath;
-            using var stream = new FileStream(path: s, mode: FileMode.Open);
-            container.Decoration(handler: decoration =>
+            using var stream = new FileStream(s, FileMode.Open);
+            container.Decoration(decoration =>
             {
                 decoration
                     .Before()
-                    .Height(value: 2f, unit: Unit.Inch)
-                    .Border(value: 0.25f)
-                    .BorderColor(color: Colors.Grey.Medium)
+                    .Height(2f, Unit.Inch)
+                    .Border(0.25f)
+                    .BorderColor(Colors.Grey.Medium)
                     .ScaleToFit()
-                    .Image(fileStream: stream, scaling: ImageScaling.FitArea);
+                    .Image(stream, ImageScaling.FitArea);
 
                 decoration
                     .Content()
-                    .Border(value: 0.25f)
-                    .BorderColor(color: Colors.Grey.Medium)
-                    .Text(text: Observation);
+                    .Border(0.25f)
+                    .BorderColor(Colors.Grey.Medium)
+                    .Text(Observation);
             });
         }
         else
         {
             if (Solid)
             {
-                container.Background(color: Placeholders.Color());
+                container.Background(Placeholders.Color());
             }
 
             else
             {
-                container.Image(imageSource: Placeholders.Image);
+                container.Image(Placeholders.Image);
+            }
+        }
+    }
+}
+
+public class CapeImage : IComponent
+{
+    public static bool Solid
+    {
+        get;
+        set;
+    } = false;
+
+    public string ImagePath
+    {
+        get;
+        set;
+    }
+
+    public void Compose(
+        IContainer container
+    )
+    {
+        if (!string.IsNullOrWhiteSpace(ImagePath))
+        {
+            var s = ImagePath;
+            using var stream = new FileStream(s, FileMode.Open);
+            container.Decoration(decoration =>
+            {
+                decoration
+                    .Before()
+                    .Height(2f, Unit.Inch)
+                    .Border(0.25f)
+                    .BorderColor(Colors.Grey.Medium)
+                    .ScaleToFit()
+                    .Image(stream, ImageScaling.FitArea);
+            });
+        }
+        else
+        {
+            if (Solid)
+            {
+                container.Background(Placeholders.Color());
+            }
+
+            else
+            {
+                container.Image(Placeholders.Image);
             }
         }
     }

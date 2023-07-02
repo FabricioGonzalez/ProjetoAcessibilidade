@@ -7,8 +7,6 @@
     xmlns:local="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
-    xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
-    xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -95,35 +93,7 @@
                                             </MenuFlyout>
                                         </c:IconButton.Flyout>
                                     </c:IconButton>
-                                    <c:IconButton
-                                        Width="24"
-                                        Height="24"
-                                        Margin="8,0"
-                                        HorizontalAlignment="Left"
-                                        Classes="function"
-                                        Icon="{StaticResource preview_regular}"
-                                        IconSize="16">
-                                        <Interaction.Behaviors>
-                                            <behaviors:ShowFlyoutOnPointerOverBehavior />
-                                        </Interaction.Behaviors>
-                                        <FlyoutBase.AttachedFlyout>
-                                            <Flyout Placement="Bottom"
-                                                    ShowMode="TransientWithDismissOnPointerMoveAway">
-                                                <Grid RowDefinitions="1* 40" ColumnDefinitions="1* 1*">
-                                                    <ItemsControl Grid.ColumnSpan="2"
-                                                                  Items="{Binding $parent[views:TemplateEditTabView].DataContext.EditingItemRules}" />
 
-                                                    <Button Grid.Row="1" Grid.Column="0"
-                                                            Command="{Binding $parent[views:TemplateEditTabView].DataContext.AddRuleToItem}"
-
-                                                            Content="{x:Static p:Resources.Create_Rules_Button}" />
-                                                    <Button Grid.Row="1" Grid.Column="1"
-                                                            Command="{Binding $parent[views:TemplateEditTabView].DataContext.EditRuleCommand}"
-                                                            Content="{x:Static p:Resources.Edit_Rules_Button}" />
-                                                </Grid>
-                                            </Flyout>
-                                        </FlyoutBase.AttachedFlyout>
-                                    </c:IconButton>
                                     <c:IconButton
                                         Width="24"
                                         Height="24"

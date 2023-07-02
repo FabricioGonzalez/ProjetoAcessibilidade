@@ -24,6 +24,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="0.10.18.1" />
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
         <PackageReference Include="Splat" Version="14.6.37" />
     </ItemGroup>
 

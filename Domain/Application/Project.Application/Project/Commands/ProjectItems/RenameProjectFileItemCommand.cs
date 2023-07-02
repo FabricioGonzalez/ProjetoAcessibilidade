@@ -1,5 +1,4 @@
-﻿using Common.Result;
-
+﻿using LanguageExt.Common;
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
@@ -15,7 +14,9 @@ public sealed class RenameProjectFileItemCommandHandler
 {
     private readonly IExplorerItemRepository _repository;
 
-    public RenameProjectFileItemCommandHandler(IExplorerItemRepository repository)
+    public RenameProjectFileItemCommandHandler(
+        IExplorerItemRepository repository
+    )
     {
         _repository = repository;
     }
@@ -23,10 +24,6 @@ public sealed class RenameProjectFileItemCommandHandler
     public async Task<Result<ExplorerItem>> HandleAsync(
         RenameProjectFileItemCommand request
         , CancellationToken cancellationToken
-    )
-    {
-        return await _repository.RenameFileItemAsync(item: request.Item);
-
-
-    }
+    ) =>
+        await _repository.RenameFileItemAsync(request.Item);
 }

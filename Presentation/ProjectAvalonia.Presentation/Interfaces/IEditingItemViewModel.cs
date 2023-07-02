@@ -1,10 +1,10 @@
-﻿using System.Reactive;
-
+﻿using System.ComponentModel;
+using System.Reactive;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface IEditingItemViewModel
+public interface IEditingItemViewModel : INotifyPropertyChanged
 {
     public string ItemName
     {
@@ -20,6 +20,7 @@ public interface IEditingItemViewModel
     {
         get;
     }
+
     public string TemplateName
     {
         get;

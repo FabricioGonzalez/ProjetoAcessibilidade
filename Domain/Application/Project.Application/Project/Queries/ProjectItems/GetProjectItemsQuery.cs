@@ -1,5 +1,4 @@
-﻿using Common.Result;
-
+﻿using LanguageExt.Common;
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
@@ -22,11 +21,9 @@ public sealed class GetProjectItemsQueryHandler : IHandler<GetProjectItemsQuery,
     }
 
     public async Task<Result<IEnumerable<ExplorerItem>>> HandleAsync(
-        GetProjectItemsQuery request,
-        CancellationToken cancellationToken
-    )
-    {
-        return await _repository
-            .GetAllItemsAsync(solutionPath: request.SolutionPath);
-    }
+        GetProjectItemsQuery request
+        , CancellationToken cancellationToken
+    ) =>
+        await _repository
+            .GetAllItemsAsync(request.SolutionPath);
 }

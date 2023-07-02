@@ -1,5 +1,4 @@
-﻿using Common.Result;
-
+﻿using LanguageExt.Common;
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
@@ -15,7 +14,9 @@ public sealed class DeleteProjectFolderItemCommandHandler
 {
     private readonly IExplorerItemRepository _repository;
 
-    public DeleteProjectFolderItemCommandHandler(IExplorerItemRepository repository)
+    public DeleteProjectFolderItemCommandHandler(
+        IExplorerItemRepository repository
+    )
     {
         _repository = repository;
     }
@@ -23,8 +24,6 @@ public sealed class DeleteProjectFolderItemCommandHandler
     public async Task<Result<ExplorerItem>> HandleAsync(
         DeleteProjectFolderItemCommand request
         , CancellationToken cancellationToken
-    )
-    {
-        return await _repository.DeleteFolderItemAsync(request.ItemPath);
-    }
+    ) =>
+        await _repository.DeleteFolderItemAsync(request.ItemPath);
 }

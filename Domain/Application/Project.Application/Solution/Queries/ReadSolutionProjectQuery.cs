@@ -1,6 +1,5 @@
-﻿using Common.Optional;
-using Common.Result;
-
+﻿using LanguageExt;
+using LanguageExt.Common;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Contracts;
@@ -25,8 +24,8 @@ public sealed class ReadSolutionProjectQueryHandler
 
 
     public async Task<Result<ProjectSolutionModel>> HandleAsync(
-        ReadSolutionProjectQuery query,
-        CancellationToken cancellation
+        ReadSolutionProjectQuery query
+        , CancellationToken cancellation
     ) =>
-        await _repository.ReadSolution(query.SolutionPath.ToOption());
+        await _repository.ReadSolution(Option<string>.Some(query.SolutionPath));
 }

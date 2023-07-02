@@ -1,6 +1,5 @@
-﻿using Common.Result;
-
-using Core.Entities.Solution.Project.AppItem;
+﻿using Core.Entities.Solution.Project.AppItem;
+using LanguageExt.Common;
 
 namespace ProjetoAcessibilidade.Domain.Project.Contracts;
 

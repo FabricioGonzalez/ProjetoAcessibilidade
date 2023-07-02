@@ -1,6 +1,8 @@
-﻿namespace ProjectAvalonia.Presentation.Interfaces;
+﻿using System.ComponentModel;
 
-public interface ICheckingValue
+namespace ProjectAvalonia.Presentation.Interfaces;
+
+public interface ICheckingValue : INotifyPropertyChanged
 {
     string Value
     {

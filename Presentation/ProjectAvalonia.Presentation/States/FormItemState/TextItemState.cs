@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using ProjectAvalonia.Presentation.States.ValidationRulesState;
+using ProjectAvalonia.Presentation.Interfaces;
 using ProjetoAcessibilidade.Core.Enuns;
 using ReactiveUI;
 
@@ -12,7 +12,7 @@ public class TextItemState : FormItemStateBase
     private string _textData = "";
 
     private string _topic = "";
-    private ObservableCollection<ValidationRuleContainerState> _validationRules = new();
+    private ObservableCollection<IValidationRuleContainerState> _validationRules = new();
 
     public TextItemState(
         string topic
@@ -28,7 +28,7 @@ public class TextItemState : FormItemStateBase
         MeasurementUnit = measurementUnit;
     }
 
-    public ObservableCollection<ValidationRuleContainerState> ValidationRules
+    public ObservableCollection<IValidationRuleContainerState> ValidationRules
     {
         get => _validationRules;
         set => this.RaiseAndSetIfChanged(ref _validationRules, value);

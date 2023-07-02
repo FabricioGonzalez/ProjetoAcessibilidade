@@ -1,7 +1,5 @@
-﻿using Common.Result;
-
-using Core.Entities.Solution.Project.AppItem;
-
+﻿using Core.Entities.Solution.Project.AppItem;
+using LanguageExt.Common;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 
@@ -24,32 +22,19 @@ public sealed class GetProjectItemContentQueryHandler
     }
 
     public async Task<Result<AppItemModel>> HandleAsync(
-        GetProjectItemContentQuery query,
-        CancellationToken cancellation
-    )
-    {
-        return (await _repository.GetProjectItemContent(filePathToWrite: query.ItemPath))
-            .Match
-            (success =>
+        GetProjectItemContentQuery query
+        , CancellationToken cancellation
+    ) =>
+        (await _repository.GetProjectItemContent(query.ItemPath))
+        .Match
+        (success =>
             {
-                success.Id = string.IsNullOrWhiteSpace(value: success.Id)
-               ? Guid.NewGuid()
-                   .ToString()
-               : success.Id;
+                success.Id = string.IsNullOrWhiteSpace(success.Id)
+                    ? Guid.NewGuid()
+                        .ToString()
+                    : success.Id;
 
-                return Result<AppItemModel>.Success(success);
+                return new Result<AppItemModel>(success);
             },
-        Result<AppItemModel>.Failure);
-        /*
-                if (result is not null)
-                {
-
-
-                    return new Resource<AppItemModel>.Success(Data: result);
-                }
-
-                return new Resource<AppItemModel>.Error(
-                    Data: result,
-                    Message: $"Erro ao ler arquivo {Path.GetFileName(path: query.ItemPath)}");*/
-    }
+            error => new Result<AppItemModel>(error));
 }

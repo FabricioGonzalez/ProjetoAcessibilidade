@@ -1,10 +1,8 @@
 ﻿using Common.Linq;
-
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-
 using QuestPDFReport.Components;
 using QuestPDFReport.Models;
 
@@ -27,43 +25,42 @@ public class StandardReport : IDocument
     public DocumentMetadata GetMetadata() =>
         new()
         {
-            Title = Model.Title,
-            DocumentLayoutExceptionThreshold = 1000000000
+            Title = Model.Title, DocumentLayoutExceptionThreshold = 1000000000
         };
 
     public void Compose(
         IDocumentContainer container
     ) =>
         container
-            .Page(handler: page =>
+            .Page(page =>
             {
                 page
-                    .DefaultTextStyle(textStyle: Typography.Normal);
+                    .DefaultTextStyle(Typography.Normal);
 
                 page
-                    .MarginVertical(value: 10);
+                    .MarginVertical(10);
 
                 page
-                    .MarginHorizontal(value: 30);
+                    .MarginHorizontal(30);
 
                 page
-                    .Size(pageSize: PageSizes.A4);
+                    .Size(PageSizes.A4);
 
                 page
                     .Header()
-                    .Element(handler: ComposeHeader);
+                    .Element(ComposeHeader);
 
                 page
                     .Content()
-                    .Element(handler: ComposeContent);
+                    .Element(ComposeContent);
 
                 page
                     .Footer()
                     .AlignCenter()
-                    .Text(content: text =>
+                    .Text(text =>
                     {
                         text.CurrentPageNumber();
-                        text.Span(text: " / ");
+                        text.Span(" / ");
                         text.TotalPages();
                     });
             });
@@ -71,54 +68,53 @@ public class StandardReport : IDocument
     private void ComposeHeader(
         IContainer container
     ) =>
-        container.Column(handler: column =>
+        container.Column(column =>
         {
             column
-            .Item().
-            PaddingTop(value: -10)
-            .Text(text: Model.Title)
-            .Style(style: Typography.Title);
+                .Item().PaddingTop(-10)
+                .Text(Model.Title)
+                .Style(Typography.Title);
 
             column.Item()
-            .ShowOnce()
-            .PaddingVertical(value: 15)
-            .Border(value: 1f)
-                .BorderColor(color: Colors.Grey.Lighten1)
+                .ShowOnce()
+                .PaddingVertical(15)
+                .Border(1f)
+                .BorderColor(Colors.Grey.Lighten1)
                 .ExtendHorizontal();
 
             column
-            .Item()
-            .ShowOnce()
-            .Border(value: 0.5f)
-            .Grid(handler: grid =>
-            {
-                grid.Columns(value: 4);
-                grid.Spacing(value: 5);
-
-                foreach (var field in Model.HeaderFields)
+                .Item()
+                .ShowOnce()
+                .Border(0.5f)
+                .Grid(grid =>
                 {
-                    grid.Item().Column(handler: column =>
+                    grid.Columns(4);
+                    grid.Spacing(5);
+
+                    foreach (var field in Model.HeaderFields)
                     {
-                        column.Item().Text(text: field.Label);
+                        grid.Item().Column(column =>
+                        {
+                            column.Item().Text(field.Label);
 
-                        column.Item().Text(text: field.Value);
-                    });
-                }
-            });
-
-            column
-            .Item()
-            .PaddingVertical(value: 5)
-            .LineHorizontal(size: 1)
-            .LineColor(value: Colors.Grey.Medium);
+                            column.Item().Text(field.Value);
+                        });
+                    }
+                });
 
             column
-            .Item()
-            .Container()
-            .Background(color: Colors.LightBlue.Lighten2)
-            .Text(text: Model.StandardLaw)
-            .Style(style: Typography.Headline)
-            .FontColor(value: Colors.Black);
+                .Item()
+                .PaddingVertical(5)
+                .LineHorizontal(1)
+                .LineColor(Colors.Grey.Medium);
+
+            column
+                .Item()
+                .Container()
+                .Background(Colors.LightBlue.Lighten2)
+                .Text(Model.StandardLaw)
+                .Style(Typography.Headline)
+                .FontColor(Colors.Black);
         });
 
     private void ComposeContent(
@@ -128,27 +124,74 @@ public class StandardReport : IDocument
         if (Model is NestedReportModel nestedModel)
         {
             container
-                .PaddingVertical(value: 20)
-                .Column(handler: column =>
-            {
-                column.Spacing(value: 20);
-
-                column
-                    .Item()
-                    .Component(component: new TableOfContentsTemplate(sections: nestedModel
-                        .Sections
-                        .Cast<IReportSection>()
-                        .ToList()));
-
-                nestedModel.Sections.IterateOn(section =>
+                .PaddingVertical(20)
+                .Column(column =>
                 {
-                    column
-                       .Item()
-                       .Section(sectionName: section.Title)
-                       .Component(component: new SectionTemplate(model: section));
-                });
-            });
-        }
+                    column.Spacing(20);
+                    column.Item()
+                        .Component(new CapeComponent(new CapeContainer { CompanyLogo = Model.CompanyLogo }));
 
+
+                    column
+                        .Item()
+                        .Component(new TableOfContentsTemplate(nestedModel
+                            .Sections
+                            .Cast<IReportSection>()
+                            .ToList()));
+
+                    nestedModel.Sections.IterateOn(section =>
+                    {
+                        column
+                            .Item()
+                            .Section(section.Title)
+                            .Component(new SectionTemplate(section));
+                    });
+                });
+        }
+    }
+}
+
+internal class CapeComponent : IComponent
+{
+    public CapeComponent(
+        CapeContainer cape
+    )
+    {
+        Cape = cape;
+    }
+
+    public CapeContainer Cape
+    {
+        get;
+        set;
+    }
+
+    public void Compose(
+        IContainer container
+    ) =>
+        container.Column(column =>
+        {
+            column.Item().AlignTop();
+            column.Item().AlignCenter().Component(new CapeImage { ImagePath = Cape.CompanyLogo });
+            column.Item().AlignBottom().Row(row =>
+            {
+                row.RelativeItem(0.2f).Text(DateTime.Now.ToString("ddddd, dd/MM/yyyy"));
+                row.RelativeItem(0.8f).Text(Cape.CompanyName);
+            });
+        });
+}
+
+public class CapeContainer
+{
+    public string CompanyName
+    {
+        get;
+        set;
+    } = "ARPA";
+
+    public string CompanyLogo
+    {
+        get;
+        set;
     }
 }

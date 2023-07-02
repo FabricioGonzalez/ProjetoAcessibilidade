@@ -1,39 +1,42 @@
 using System.Collections.ObjectModel;
 using System.Reactive;
-
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
-
+using ProjetoAcessibilidade.Core.Enuns;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 
 public class DesignTimeTemplateEditTabViewModel
-    : ReactiveObject,
-        ITemplateEditTabViewModel
+    : ReactiveObject
+        , ITemplateEditTabViewModel
 {
+    public ReactiveCommand<LawStateItem, Unit> RemoveLawCommand
+    {
+        get;
+    }
+
     public AppModelState EditingItem
     {
         get;
         set;
     } = new()
     {
-        Id = "",
-        FormData = new ObservableCollection<FormItemContainer>
+        Id = "", FormData = new ObservableCollection<FormItemContainer>
         {
             new()
             {
-                Topic = "Teste",Type=ProjetoAcessibilidade.Core.Enuns.AppFormDataType.Texto, Body = new TextItemState(
-                    topic: "teste item",
+                Topic = "Teste", Type = AppFormDataType.Texto, Body = new TextItemState(
+                    "teste item",
                     id: "",
                     textData: "teste",
                     measurementUnit: "m")
-            },
-            new()
+            }
+            , new()
             {
-                Topic = "Teste 2",Type=ProjetoAcessibilidade.Core.Enuns.AppFormDataType.Checkbox, Body = new CheckboxContainerItemState("Teste")
+                Topic = "Teste 2", Type = AppFormDataType.Checkbox, Body = new CheckboxContainerItemState("Teste")
                 {
                     Children = new ObservableCollection<CheckboxItemState>
                     {
@@ -44,25 +47,25 @@ public class DesignTimeTemplateEditTabViewModel
                                 new()
                                 {
                                     Value = "Sim", IsChecked = false
-                                },
-                                new()
+                                }
+                                , new()
                                 {
                                     Value = "Não", IsChecked = false
-                                },
-                                new()
+                                }
+                                , new()
                                 {
                                     Value = "Talvez", IsChecked = false
                                 }
-                            },
-                            TextItems = new ObservableCollection<TextItemState>
+                            }
+                            , TextItems = new ObservableCollection<TextItemState>
                             {
                                 new(
-                                    topic: "inner text",
+                                    "inner text",
                                     id: "",
                                     textData: "teste",
-                                    measurementUnit: "m"),
-                                new(
-                                    topic: "inner text 2",
+                                    measurementUnit: "m")
+                                , new(
+                                    "inner text 2",
                                     id: "",
                                     textData: "teste",
                                     measurementUnit: "m")
@@ -70,20 +73,24 @@ public class DesignTimeTemplateEditTabViewModel
                         }
                     }
                 }
-            },
-            new()
+            }
+            , new()
             {
-                Topic = "Teste",Type=ProjetoAcessibilidade.Core.Enuns.AppFormDataType.Texto, Body = new TextItemState(
-                    topic: "teste item",
+                Topic = "Teste", Type = AppFormDataType.Texto, Body = new TextItemState(
+                    "teste item",
                     id: "",
                     textData: "teste2",
                     measurementUnit: "m")
             }
-        },
-        ItemName = "Teste",
-        ItemTemplate = "Teste Template",
-        LawItems = new ObservableCollection<LawStateItem>()
+        }
+        , ItemName = "Teste", ItemTemplate = "Teste Template", LawItems = new ObservableCollection<LawStateItem>()
     };
+
+    public ObservableCollection<IValidationRuleContainerState> EditingItemRules
+    {
+        get;
+        set;
+    }
 
     public ReactiveCommand<Unit, Unit> AddItemCommand
     {

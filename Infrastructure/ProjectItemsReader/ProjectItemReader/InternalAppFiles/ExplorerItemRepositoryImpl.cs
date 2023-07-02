@@ -1,10 +1,8 @@
 ﻿using System.Security;
-
 using Common;
 using Common.Models;
 using Common.Optional;
-using Common.Result;
-
+using LanguageExt.Common;
 using ProjetoAcessibilidade.Core.Entities.Solution.Explorer;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 
@@ -14,46 +12,16 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 {
     public Result<ExplorerItem> CreateExplorerItem(
         ExplorerItem item
-    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => new(new ExplorerItem(Guid.NewGuid()));
 
     public Result<ExplorerItem> DeleteExplorerItem(
         ExplorerItem item
-    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => new(new ExplorerItem(Guid.NewGuid()));
 
     public Result<ExplorerItem> RenameFileItem(
         ExplorerItem item
     ) =>
         throw new NotImplementedException();
-
-    public Result<Empty> MoveFileItem(
-        string oldPath,
-        string newPath
-    )
-    {
-        return oldPath
-             .ToOption()
-             .MapValue(item =>
-             {
-                 try
-                 {
-                     if (File.Exists(item))
-                     {
-                         if (!string.IsNullOrWhiteSpace(newPath))
-                         {
-                             File.Move(item, newPath);
-                             return Result<Empty>.Success(Empty.Value);
-                         }
-                         return Result<Empty>.Failure(new Exception("O destino do arquivo não pode ser nulo"));
-                     }
-                     return Result<Empty>.Failure(new Exception("O arquivo não existe"));
-                 }
-                 catch (IOException ex)
-                 {
-                     return Result<Empty>.Failure(ex);
-                 }
-             })
-             .Reduce(() => Result<Empty>.Failure(new Exception("A Operação não pode ser concluída")));
-    }
 
 
     public Result<ExplorerItem> DeleteFolderItem(
@@ -63,183 +31,175 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
 
     public Result<IEnumerable<ExplorerItem>> GetAllItems(
         string solutionPath
-    )
-    {
-        return solutionPath
-            .ToOption()
+    ) =>
+        OptionalResult<string>.Optional(solutionPath)
             .Map(path =>
             {
-                return File.GetAttributes(path: solutionPath) switch
+                return File.GetAttributes(solutionPath) switch
                 {
                     FileAttributes.Archive => Path.Combine(
-                path1: Directory.GetParent(path: solutionPath)
-                .ToOption()
-                .Map(item => item.FullName)
-                .Reduce(() => ""),
-                path2: Constants.AppProjectItemsFolderName),
-                    FileAttributes.Directory => Path.Combine(
-                path1: solutionPath,
-                path2: Constants.AppProjectItemsFolderName),
-                    _ => ""
+                        Directory.GetParent(solutionPath)
+                            .ToOption()
+                            .Map(item => item.FullName)
+                            .Reduce(() => ""),
+                        Constants.AppProjectItemsFolderName)
+                    , FileAttributes.Directory => Path.Combine(
+                        solutionPath,
+                        Constants.AppProjectItemsFolderName)
+                    , _ => ""
                 };
             })
             .Map(storageItem =>
             {
                 var items = Enumerable.Empty<ExplorerItem>();
 
-                if (Directory.Exists(path: storageItem))
+                if (Directory.Exists(storageItem))
                 {
                     var folderItem = new FolderItem(Guid.NewGuid())
                     {
-                        Name = Path.GetDirectoryName(path: storageItem).ToOption().Map(it => it).Reduce(() => "Not Found"),
-                        Path = storageItem,
-                        Children = new List<ExplorerItem>()
+                        Name = Path.GetDirectoryName(storageItem)
+                        , Path = storageItem, Children = new List<ExplorerItem>()
                     };
 
                     items = items.Append(folderItem);
 
-                    var directory = Directory.GetFileSystemEntries(path: storageItem);
+                    var directory = Directory.GetFileSystemEntries(storageItem);
 
                     GetDataFromPath(
-                        folder: directory,
-                        list: folderItem.Children);
+                        directory,
+                        folderItem.Children);
                 }
 
                 return items;
             })
-            .MapValue(resultItem =>
-        {
-            if (resultItem.Count() > 0)
-            {
-                return Result<IEnumerable<ExplorerItem>>.Success(resultItem);
-            }
-            return Result<IEnumerable<ExplorerItem>>.Failure(new Exception("Não Há items"));
-        })
-            .Reduce(() => Result<IEnumerable<ExplorerItem>>.Failure(new Exception("Erro Intero em algum dos Processos")));
-    }
+            .Match(resultItem =>
+                {
+                    return resultItem.Any()
+                        ? new Result<IEnumerable<ExplorerItem>>(resultItem)
+                        : new Result<IEnumerable<ExplorerItem>>(new Exception("Não Há items"));
+                },
+                () => new Result<IEnumerable<ExplorerItem>>(new Exception("Erro Intero em algum dos Processos")),
+                error => new Result<IEnumerable<ExplorerItem>>(error));
 
     public async Task<Result<IEnumerable<ExplorerItem>>> GetAllItemsAsync(
         string solutionPath
-    )
-    {
-        return solutionPath
-            .ToOption()
+    ) =>
+        OptionalResult<string>.Optional(solutionPath)
             .Map(path =>
             {
-                return File.GetAttributes(path: solutionPath) switch
+                return File.GetAttributes(solutionPath) switch
                 {
                     FileAttributes.Archive => Path.Combine(
-                path1: Directory.GetParent(path: solutionPath)
-                .ToOption()
-                .Map(item => item.FullName)
-                .Reduce(() => ""),
-                path2: Constants.AppProjectItemsFolderName),
-                    FileAttributes.Directory => Path.Combine(
-                path1: solutionPath,
-                path2: Constants.AppProjectItemsFolderName),
-                    _ => ""
+                        Directory.GetParent(solutionPath)
+                            .ToOption()
+                            .Map(item => item.FullName)
+                            .Reduce(() => ""),
+                        Constants.AppProjectItemsFolderName)
+                    , FileAttributes.Directory => Path.Combine(
+                        solutionPath,
+                        Constants.AppProjectItemsFolderName)
+                    , _ => ""
                 };
             })
             .Map(storageItem =>
             {
                 var items = Enumerable.Empty<ExplorerItem>();
 
-                if (Directory.Exists(path: storageItem))
+                if (Directory.Exists(storageItem))
                 {
                     var folderItem = new FolderItem(Guid.NewGuid())
                     {
-                        Name = Path.GetDirectoryName(path: storageItem).ToOption().Map(it => it).Reduce(() => "Not Found"),
-                        Path = storageItem,
-                        Children = new List<ExplorerItem>()
+                        Name = Path.GetDirectoryName(storageItem)
+                        , Path = storageItem, Children = new List<ExplorerItem>()
                     };
 
                     items = items.Append(folderItem);
 
-                    var directory = Directory.GetFileSystemEntries(path: storageItem);
+                    var directory = Directory.GetFileSystemEntries(storageItem);
 
                     GetDataFromPath(
-                        folder: directory,
-                        list: folderItem.Children);
+                        directory,
+                        folderItem.Children);
                 }
 
                 return items;
             })
-            .MapValue(resultItem =>
-            {
-                if (resultItem.Count() > 0)
+            .Match(resultItem =>
                 {
-                    return Result<IEnumerable<ExplorerItem>>.Success(resultItem);
-                }
-                return Result<IEnumerable<ExplorerItem>>.Failure(new Exception("Não Há items"));
-            })
-            .Reduce(() => Result<IEnumerable<ExplorerItem>>.Failure(new Exception("Erro Intero em algum dos Processos")));
-    }
+                    if (resultItem.Any())
+                    {
+                        return new Result<IEnumerable<ExplorerItem>>(resultItem);
+                    }
+
+                    return new Result<IEnumerable<ExplorerItem>>(new Exception("Não Há items"));
+                },
+                () => new Result<IEnumerable<ExplorerItem>>(new Exception("Erro Intero em algum dos Processos")),
+                error => new Result<IEnumerable<ExplorerItem>>(error));
 
     public Result<ExplorerItem> UpdateExplorerItem(
         ExplorerItem item
-    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => new(new ExplorerItem(Guid.NewGuid()));
 
     public async Task<Result<ExplorerItem>> UpdateExplorerItemAsync(
         ExplorerItem item
-    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => new(new ExplorerItem(Guid.NewGuid()));
 
     public async Task<Result<ExplorerItem>> RenameFileItemAsync(
         ExplorerItem item
-    )
-    {
-        return (await item
-            .ToOption()
-            .MapValue(explorerItem =>
-            {
-                return (itemName: explorerItem.Name, itemPath: explorerItem.Path, exists: File.Exists(explorerItem.Path));
-            })
-            .MapValueAsync(async explorerItem =>
+    ) =>
+        (await OptionalResult<ExplorerItem>.Optional(item)
+            .Map(explorerItem =>
+                (itemName: explorerItem.Name, itemPath: explorerItem.Path
+                    , exists: File.Exists(explorerItem.Path)))
+            .MapAsync(async explorerItem =>
             {
                 return await Task.Run(() =>
                 {
                     try
                     {
-                        if (explorerItem.exists && Directory.GetParent(path: item.Path) is { Exists: true } info)
+                        if (explorerItem.exists && Directory.GetParent(item.Path) is
+                                { Exists: true } info)
                         {
                             File.Move(
-                          sourceFileName: explorerItem.itemPath,
-                          destFileName: Path.Combine(
-                              path1: info!.FullName,
-                              path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+                                explorerItem.itemPath,
+                                Path.Combine(
+                                    info!.FullName,
+                                    $"{item.Name}{Constants.AppProjectItemExtension}"));
 
                             item.Path = explorerItem.itemPath.Replace(
-                            oldValue: Path.GetFileName(path: explorerItem.itemPath),
-                            newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+                                Path.GetFileName(explorerItem.itemPath),
+                                $"{item.Name}{Constants.AppProjectItemExtension}");
 
-                            return Result<ExplorerItem>.Success(item);
+                            return new Result<ExplorerItem>(item);
                         }
 
-                        return Result<ExplorerItem>.Failure(new Exception("Erro na operação!"));
+                        return new Result<ExplorerItem>(new Exception("Erro na operação!"));
                     }
                     catch (IOException ex)
                     {
-                        return Result<ExplorerItem>.Failure(ex);
+                        return new Result<ExplorerItem>(ex);
                     }
                     catch (UnauthorizedAccessException ex)
                     {
-                        return Result<ExplorerItem>.Failure(ex);
+                        return new Result<ExplorerItem>(ex);
                     }
                     catch (ArgumentException ex)
                     {
-                        return Result<ExplorerItem>.Failure(ex);
+                        return new Result<ExplorerItem>(ex);
                     }
                     catch (NotSupportedException ex)
                     {
-                        return Result<ExplorerItem>.Failure(ex);
+                        return new Result<ExplorerItem>(ex);
                     }
                     catch (SecurityException ex)
                     {
-                        return Result<ExplorerItem>.Failure(ex);
+                        return new Result<ExplorerItem>(ex);
                     }
                 });
             }))
-            .Reduce(() => Result<ExplorerItem>.Failure(new Exception("Não foi Possivel finalizar a operação")));
-    }
+        .Match(item => new Result<ExplorerItem>(),
+            () => new Result<ExplorerItem>(new Exception("Erro na operação, valor vazio")),
+            error => new Result<ExplorerItem>(error));
 
 
     public async Task<Result<ExplorerItem>> RenameFolderItemAsync(
@@ -248,29 +208,29 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
     {
         if (item is not null)
         {
-            if (Directory.Exists(path: item.Path))
+            if (Directory.Exists(item.Path))
             {
                 Directory.Move(
-                    sourceDirName: item.Path,
-                    destDirName: Path.Combine(
-                        path1: Directory.GetParent(path: item.Path)
+                    item.Path,
+                    Path.Combine(
+                        Directory.GetParent(item.Path)
                             .FullName,
-                        path2: item.Name));
+                        item.Name));
             }
             else
             {
                 _ = Directory.CreateDirectory(
-                    path: Path.Combine(
-                        path1: item.Path,
-                        path2: item.Name));
+                    Path.Combine(
+                        item.Path,
+                        item.Name));
             }
 
             item.Path = item.Path.Replace(
-                oldValue: Path.GetFileName(path: item.Path),
-                newValue: item.Name);
+                Path.GetFileName(item.Path),
+                item.Name);
         }
 
-        return Result<ExplorerItem>.Success(item);
+        return new Result<ExplorerItem>(item);
     }
 
     public async Task<Result<ExplorerItem>> DeleteFolderItemAsync(
@@ -279,13 +239,14 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
     {
         if (itemPath is not null)
         {
-            if (Directory.Exists(path: itemPath))
+            if (Directory.Exists(itemPath))
             {
-                Directory.Delete(path: itemPath, recursive: true);
-                return Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+                Directory.Delete(itemPath, true);
+                return new Result<ExplorerItem>(new ExplorerItem(Guid.NewGuid()));
             }
         }
-        return Result<ExplorerItem>.Failure(new Exception("Diretório não existe"));
+
+        return new Result<ExplorerItem>(new Exception("Diretório não existe"));
     }
 
     public async Task<Result<ExplorerItem>> DeleteFileItemAsync(
@@ -294,239 +255,264 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
     {
         if (itemPath is not null)
         {
-            if (File.Exists(path: itemPath))
+            if (File.Exists(itemPath))
             {
                 await Task.Run(() =>
                 {
-                    File.Delete(path: itemPath);
+                    File.Delete(itemPath);
                 });
 
-                return Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+                return new Result<ExplorerItem>(new ExplorerItem(Guid.NewGuid()));
             }
         }
 
-        return Result<ExplorerItem>.Failure(new Exception("Erro ao deletar arquivo"));
+        return new Result<ExplorerItem>(new Exception("Erro ao deletar arquivo"));
     }
 
     public Result<ExplorerItem> RenameFolderItem(
         ExplorerItem item
     )
     {
-        var path = Directory.GetParent(path: item.Path)
+        var path = Directory.GetParent(item.Path)
             .FullName;
         if (item is not null)
         {
-            if (File.Exists(path: item.Path))
+            if (File.Exists(item.Path))
             {
                 File.Move(
-                    sourceFileName: item.Path,
-                    destFileName: Path.Combine(
-                        path1: path,
-                        path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+                    item.Path,
+                    Path.Combine(
+                        path,
+                        $"{item.Name}{Constants.AppProjectItemExtension}"));
             }
             else
             {
                 File.Copy(
-                    sourceFileName: item.ReferencedItem,
-                    destFileName: Path.Combine(
-                        path1: path,
-                        path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+                    item.ReferencedItem,
+                    Path.Combine(
+                        path,
+                        $"{item.Name}{Constants.AppProjectItemExtension}"));
             }
 
             item.Path = item.Path.Replace(
-                oldValue: Path.GetFileName(path: item.Path),
-                newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+                Path.GetFileName(item.Path),
+                $"{item.Name}{Constants.AppProjectItemExtension}");
         }
 
-        return Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+        return new Result<ExplorerItem>(new ExplorerItem(Guid.NewGuid()));
     }
 
     public Result<ExplorerItem> DeleteFileItem(
         ExplorerItem item
     )
     {
-        var path = Directory.GetParent(path: item.Path)
+        var path = Directory.GetParent(item.Path)
             .FullName;
         if (item is not null)
         {
-            if (File.Exists(path: item.Path))
+            if (File.Exists(item.Path))
             {
                 File.Move(
-                    sourceFileName: item.Path,
-                    destFileName: Path.Combine(
-                        path1: path,
-                        path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+                    item.Path,
+                    Path.Combine(
+                        path,
+                        $"{item.Name}{Constants.AppProjectItemExtension}"));
             }
             else
             {
                 File.Copy(
-                    sourceFileName: item.ReferencedItem,
-                    destFileName: Path.Combine(
-                        path1: path,
-                        path2: $"{item.Name}{Constants.AppProjectItemExtension}"));
+                    item.ReferencedItem,
+                    Path.Combine(
+                        path,
+                        $"{item.Name}{Constants.AppProjectItemExtension}"));
             }
 
             item.Path = item.Path.Replace(
-                oldValue: Path.GetFileName(path: item.Path),
-                newValue: $"{item.Name}{Constants.AppProjectItemExtension}");
+                Path.GetFileName(item.Path),
+                $"{item.Name}{Constants.AppProjectItemExtension}");
         }
 
-        return Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
-    }
-
-    public Result<Empty> RenameFolderItem(
-        string itemName,
-        string itemPath
-    )
-    {
-        if (!string.IsNullOrWhiteSpace(value: itemName) &&
-            !string.IsNullOrWhiteSpace(value: itemPath))
-        {
-            if (Directory.Exists(path: itemPath))
-            {
-                if (Path.Combine(
-                        path1: Directory.GetParent(path: itemPath)
-                            .FullName,
-                        path2: itemName) !=
-                    itemPath)
-                {
-                    Directory.Move(
-                        sourceDirName: itemPath,
-                        destDirName: Path.Combine(
-                            path1: Directory.GetParent(path: itemPath)
-                                .FullName,
-                            path2: itemName));
-                }
-            }
-            else
-            {
-                _ = Directory.CreateDirectory(path: itemPath);
-            }
-        }
-
-        return Result<Empty>.Success(new Empty());
+        return new Result<ExplorerItem>(new ExplorerItem(Guid.NewGuid()));
     }
 
     public async Task<Result<ExplorerItem>> CreateExplorerItemAsync(
         ExplorerItem item
-    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => new(new ExplorerItem(Guid.NewGuid()));
 
     public async Task<Result<ExplorerItem>> DeleteExplorerItemAsync(
         ExplorerItem item
-    ) => Result<ExplorerItem>.Success(new ExplorerItem(Guid.NewGuid()));
+    ) => new(new ExplorerItem(Guid.NewGuid()));
+
+    public Result<Empty> MoveFileItem(
+        string oldPath
+        , string newPath
+    ) =>
+        OptionalResult<string>.Optional(oldPath)
+            .Match(item =>
+                {
+                    try
+                    {
+                        if (File.Exists(item))
+                        {
+                            if (!string.IsNullOrWhiteSpace(newPath))
+                            {
+                                File.Move(item, newPath);
+                                return new Result<Empty>(Empty.Value);
+                            }
+
+                            return new Result<Empty>(
+                                new Exception("O destino do arquivo não pode ser nulo"));
+                        }
+
+                        return new Result<Empty>(new Exception("O arquivo não existe"));
+                    }
+                    catch (IOException ex)
+                    {
+                        return new Result<Empty>(ex);
+                    }
+                },
+                () => new Result<Empty>(new Exception("A Operação não pode ser concluída")),
+                error => new Result<Empty>(error));
+
+    public Result<Empty> RenameFolderItem(
+        string itemName
+        , string itemPath
+    )
+    {
+        if (!string.IsNullOrWhiteSpace(itemName) &&
+            !string.IsNullOrWhiteSpace(itemPath))
+        {
+            if (Directory.Exists(itemPath))
+            {
+                if (Path.Combine(
+                        Directory.GetParent(itemPath)
+                            .FullName,
+                        itemName) !=
+                    itemPath)
+                {
+                    Directory.Move(
+                        itemPath,
+                        Path.Combine(
+                            Directory.GetParent(itemPath)
+                                .FullName,
+                            itemName));
+                }
+            }
+            else
+            {
+                _ = Directory.CreateDirectory(itemPath);
+            }
+        }
+
+        return new Result<Empty>(new Empty());
+    }
 
     private async Task GetDataFromPathAsync(
-        string[] folder,
-        IList<ExplorerItem> list
+        string[] folder
+        , IList<ExplorerItem> list
     )
     {
         foreach (var item in folder)
         {
-            if (File.GetAttributes(path: item)
-                .HasFlag(flag: FileAttributes.Archive))
+            if (File.GetAttributes(item)
+                .HasFlag(FileAttributes.Archive))
             {
                 var i = new FileItem(Guid.NewGuid())
                 {
-                    Name = Path.GetFileNameWithoutExtension(path: item),
-                    Path = item
+                    Name = Path.GetFileNameWithoutExtension(item), Path = item
                 };
-                list.Add(item: i);
+                list.Add(i);
             }
 
-            if (File.GetAttributes(path: item)
-                .HasFlag(flag: FileAttributes.Directory))
+            if (File.GetAttributes(item)
+                .HasFlag(FileAttributes.Directory))
             {
-                var itens = Directory.GetFiles(path: item);
+                var itens = Directory.GetFiles(item);
 
                 var folderItem = new FolderItem(Guid.NewGuid())
                 {
-                    Name = Path.GetFileNameWithoutExtension(path: item),
-                    Path = item
+                    Name = Path.GetFileNameWithoutExtension(item), Path = item
                 };
 
                 foreach (var fileItem in itens)
                 {
-                    if (File.GetAttributes(path: fileItem)
-                        .HasFlag(flag: FileAttributes.Directory))
+                    if (File.GetAttributes(fileItem)
+                        .HasFlag(FileAttributes.Directory))
                     {
-                        var entries = Directory.GetFileSystemEntries(path: fileItem);
+                        var entries = Directory.GetFileSystemEntries(fileItem);
 
                         await GetDataFromPathAsync(
-                            folder: entries,
-                            list: folderItem.Children);
+                            entries,
+                            folderItem.Children);
                     }
 
-                    if (File.GetAttributes(path: fileItem)
-                        .HasFlag(flag: FileAttributes.Archive))
+                    if (File.GetAttributes(fileItem)
+                        .HasFlag(FileAttributes.Archive))
                     {
                         var i = new FileItem(Guid.NewGuid())
                         {
-                            Name = Path.GetFileNameWithoutExtension(path: fileItem),
-                            Path = fileItem
+                            Name = Path.GetFileNameWithoutExtension(fileItem), Path = fileItem
                         };
-                        folderItem.Children.Add(item: i);
+                        folderItem.Children.Add(i);
                     }
                 }
 
-                list.Add(item: folderItem);
+                list.Add(folderItem);
             }
         }
     }
 
     private void GetDataFromPath(
-        string[] folder,
-        IList<ExplorerItem> list
+        string[] folder
+        , IList<ExplorerItem> list
     )
     {
         foreach (var item in folder)
         {
-            var fileAttributes = File.GetAttributes(path: item);
+            var fileAttributes = File.GetAttributes(item);
 
-            if (File.GetAttributes(path: item)
-                .HasFlag(flag: FileAttributes.Archive))
+            if (File.GetAttributes(item)
+                .HasFlag(FileAttributes.Archive))
             {
                 var i = new FileItem(Guid.NewGuid())
                 {
-                    Name = Path.GetFileNameWithoutExtension(path: item),
-                    Path = item
+                    Name = Path.GetFileNameWithoutExtension(item), Path = item
                 };
-                list.Add(item: i);
+                list.Add(i);
             }
 
-            if (fileAttributes.HasFlag(flag: FileAttributes.Directory))
+            if (fileAttributes.HasFlag(FileAttributes.Directory))
             {
-                var itens = Directory.GetFiles(path: item);
+                var itens = Directory.GetFiles(item);
 
                 var folderItem = new FolderItem(Guid.NewGuid())
                 {
-                    Name = Path.GetDirectoryName(path: item),
-                    Path = item
+                    Name = Path.GetDirectoryName(item), Path = item
                 };
 
                 foreach (var fileItem in itens)
                 {
-                    if (fileAttributes.HasFlag(flag: FileAttributes.Directory))
+                    if (fileAttributes.HasFlag(FileAttributes.Directory))
                     {
-                        var entries = Directory.GetFileSystemEntries(path: fileItem);
+                        var entries = Directory.GetFileSystemEntries(fileItem);
 
                         GetDataFromPath(
-                            folder: entries,
-                            list: folderItem.Children);
+                            entries,
+                            folderItem.Children);
                     }
 
-                    if (File.GetAttributes(path: item)
-                        .HasFlag(flag: FileAttributes.Archive))
+                    if (File.GetAttributes(item)
+                        .HasFlag(FileAttributes.Archive))
                     {
                         var i = new FileItem(Guid.NewGuid())
                         {
-                            Name = Path.GetFileNameWithoutExtension(path: item),
-                            Path = item
+                            Name = Path.GetFileNameWithoutExtension(item), Path = item
                         };
-                        folderItem.Children.Add(item: i);
+                        folderItem.Children.Add(i);
                     }
                 }
 
-                list.Add(item: folderItem);
+                list.Add(folderItem);
             }
         }
     }

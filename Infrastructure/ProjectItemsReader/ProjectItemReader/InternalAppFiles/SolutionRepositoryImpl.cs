@@ -1,13 +1,10 @@
 ﻿using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
-
 using Common;
-using Common.Optional;
-using Common.Result;
-
+using LanguageExt;
+using LanguageExt.Common;
 using ProjectItemReader.InternalAppFiles.DTO;
-
 using ProjetoAcessibilidade.Core.Entities.App;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
@@ -20,17 +17,78 @@ public class SolutionRepositoryImpl : ISolutionRepository
 {
     private static XmlSerializer _serializer;
 
-    private static XmlSerializer CreateSerializer() => _serializer ??= new XmlSerializer(type: typeof(SolutionItemRoot));
+    public async Task SaveSolution(
+        Option<string> solutionPath
+        , Option<ProjectSolutionModel> dataToWrite
+    ) =>
+        solutionPath
+            .Map(
+                path =>
+                {
+                    var serializer = Option<XmlSerializer>.Some(new XmlSerializer(typeof(SolutionItemRoot)));
+
+                    return serializer.Map(
+                        result =>
+                        {
+                            return dataToWrite.Map(
+                                    data =>
+                                    {
+                                        using var writer =
+                                            new StreamWriter(File.Create(path));
+
+                                        result.Serialize(
+                                            writer,
+                                            data.ToItemRoot());
+                                        return true;
+                                    })
+                                .Match(it => it, () => false);
+                        });
+                })
+            .Match(it => it, () => false);
+
+    public async Task SyncSolution(
+        Option<string> solutionPath
+        , Option<ProjectSolutionModel> dataToWrite
+    ) =>
+        solutionPath.Map(
+            path =>
+            {
+                var xml = CreateSolutionStructure(new XmlDocument());
+
+                return dataToWrite.MapAsync(
+                        async data =>
+                        {
+                            var writer = new StreamWriter(
+                                path,
+                                false);
+                            try
+                            {
+                                xml = SetReportData(
+                                    xml,
+                                    data.SolutionReportInfo);
+                                xml = SetItemsGroup(
+                                    xml,
+                                    data.ItemGroups.ToList());
+                                xml.Save(writer);
+
+                                return true;
+                            }
+                            finally
+                            {
+                                writer.Close();
+                                await writer.DisposeAsync();
+                            }
+                        })
+                    .Match(b => b, () => false);
+            });
 
     public async Task<Result<ProjectSolutionModel>> ReadSolution(
-        Optional<string> solutionPath
+        Option<string> solutionPath
     ) =>
-        await Task.Run(
-            () =>
-                solutionPath
-                .MapValue(
-                        path => (itemPath: path, exists: File.Exists(path)))
-            .MapValue(item =>
+        await solutionPath
+            .MapAsync(
+                path => (itemPath: path, exists: File.Exists(path)))
+            .Map(item =>
             {
                 try
                 {
@@ -41,141 +99,78 @@ public class SolutionRepositoryImpl : ISolutionRepository
                         using var reader = new StreamReader(item.itemPath);
                         if (serializer.Deserialize(reader) is { } result)
                         {
-                            return Result<SolutionItemRoot>.Success((SolutionItemRoot)result!);
+                            return new Result<SolutionItemRoot>((SolutionItemRoot)result!);
                         }
-                        return Result<SolutionItemRoot>.Failure(new Exception($"Erro ao Deserializar{item.itemPath}"));
+
+                        return new Result<SolutionItemRoot>(
+                            new Exception($"Erro ao Deserializar{item.itemPath}"));
                     }
-                    return Result<SolutionItemRoot>.Failure(new Exception($"Arquivo não existe no caminho {item.itemPath}"));
+
+                    return new Result<SolutionItemRoot>(
+                        new Exception($"Arquivo não existe no caminho {item.itemPath}"));
                 }
                 catch (Exception ex)
                 {
-                    return Result<SolutionItemRoot>.Failure(ex);
+                    return new Result<SolutionItemRoot>(ex);
                 }
             })
-            .MapValue(item =>
-            {
-                return item.Match(success => Result<ProjectSolutionModel>.Success(success
-                .ToSolutionInfo(solutionPath.Reduce(() => ""))),
-                failure => Result<ProjectSolutionModel>.Failure(failure));
-            })
-             .Reduce(() => new()));
-
-    public async Task SaveSolution(
-        Optional<string> solutionPath,
-        Optional<ProjectSolutionModel> dataToWrite
-    ) =>
-        await Task.Run(
-            () =>
-                solutionPath.MapValue(
-                        path =>
-                        {
-                            var serializer = new XmlSerializer(type: typeof(SolutionItemRoot)).ToOption();
-
-                            return serializer.MapValue(
-                                    result =>
-                                    {
-                                        _ = dataToWrite.MapValue(
-                                                data =>
-                                                {
-                                                    using var writer =
-                                                        new StreamWriter(stream: File.Create(path: path));
-
-                                                    result.Serialize(
-                                                        textWriter: writer,
-                                                        o: data.ToItemRoot());
-                                                    return true;
-                                                })
-                                            .Reduce(() => false);
-
-                                        return true;
-                                    })
-                                .Reduce(() => false);
-                        })
-                    .Reduce(() => false)
-        );
-
-
-    public async Task SyncSolution(
-        Optional<string> solutionPath,
-        Optional<ProjectSolutionModel> dataToWrite
-    ) =>
-        await solutionPath.Map(
-                async path =>
+            .MatchAsync(result => Task.Run(() =>
                 {
-                    var xml = CreateSolutionStructure(document: new XmlDocument());
+                    return solutionPath.Match(path =>
+                            result.Match(success =>
+                                    new Result<ProjectSolutionModel>(success
+                                        .ToSolutionInfo(path)),
+                                failure => new Result<ProjectSolutionModel>(failure)),
+                        () => new Result<ProjectSolutionModel>(new Exception("Impossível de completar leitura")));
+                }),
+                () => new Result<ProjectSolutionModel>(new Exception("Impossível de completar leitura")));
 
-                    return await dataToWrite.Map<Task<bool>>(
-                            async data =>
-                            {
-                                var writer = new StreamWriter(
-                                    path: path,
-                                    append: false);
-                                try
-                                {
-                                    xml = SetReportData(
-                                        xml: xml,
-                                        reportData: data.SolutionReportInfo);
-                                    xml = SetItemsGroup(
-                                        xml: xml,
-                                        itemGroups: data.ItemGroups.ToList());
-                                    xml.Save(writer: writer);
-
-                                    return true;
-                                }
-                                finally
-                                {
-                                    writer.Close();
-                                    await writer.DisposeAsync();
-                                }
-                            })
-                        .Reduce(new Task<bool>(() => false));
-                })
-            .Reduce(() => new Task<bool>(() => false));
+    private static XmlSerializer CreateSerializer() => _serializer ??= new XmlSerializer(typeof(SolutionItemRoot));
 
     private SolutionInfo ReadSolutionInfo(
         XmlDocument document
     )
     {
-        var elements = document.GetElementsByTagName(name: Constants.report);
+        var elements = document.GetElementsByTagName(Constants.report);
 
         if (elements.Count > 0)
         {
             var solutionInfo = new SolutionInfo();
 
-            var children = elements[i: 0]
+            var children = elements[0]
                 .ChildNodes
                 .Cast<XmlNode>();
 
-            var data = children.First(predicate: x => x.Name.Equals(value: Constants.reportItemData))
+            var data = children.First(x => x.Name.Equals(Constants.reportItemData))
                 .InnerXml;
 
             solutionInfo.Data = DateTime.TryParseExact(
-                s: data,
-                format: "dd/MM/yyyy",
-                provider: CultureInfo.InvariantCulture,
-                style: DateTimeStyles.None,
-                result: out var date)
+                data,
+                "dd/MM/yyyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var date)
                 ? date
                 : DateTimeOffset.Now;
 
             solutionInfo.Responsavel =
-                children.First(predicate: x => x.Name.Equals(value: Constants.reportItemResponsavel))
+                children.First(x => x.Name.Equals(Constants.reportItemResponsavel))
                     .InnerXml;
 
             solutionInfo.NomeEmpresa =
-                children.First(predicate: x => x.Name.Equals(value: Constants.reportItemNomeEmpresa))
+                children.First(x => x.Name.Equals(Constants.reportItemNomeEmpresa))
                     .InnerXml;
 
-            solutionInfo.LogoPath = children.First(predicate: x => x.Name.Equals(value: Constants.reportItemLogoPath))
+            solutionInfo.LogoPath = children.First(x => x.Name.Equals(Constants.reportItemLogoPath))
                 .InnerXml;
 
-            solutionInfo.Telefone = children.First(predicate: x => x.Name.Equals(value: Constants.reportItemTelefone))
+            solutionInfo.Telefone = children.First(x => x.Name.Equals(Constants.reportItemTelefone))
                 .InnerXml;
 
-            solutionInfo.Endereco = children.First(predicate: x => x.Name.Equals(value: Constants.reportItemEndereco))
+            solutionInfo.Endereco = children.First(x => x.Name.Equals(Constants.reportItemEndereco))
                 .InnerXml;
 
-            solutionInfo.Email = children.First(predicate: x => x.Name.Equals(value: Constants.reportItemEmail))
+            solutionInfo.Email = children.First(x => x.Name.Equals(Constants.reportItemEmail))
                 .InnerXml;
 
             return solutionInfo;
@@ -185,8 +180,8 @@ public class SolutionRepositoryImpl : ISolutionRepository
     }
 
     private ItemGroupModel ReadItemGroups(
-        XmlNode listItems,
-        string solutionPath
+        XmlNode listItems
+        , string solutionPath
     )
     {
         var items = new ItemGroupModel();
@@ -194,22 +189,22 @@ public class SolutionRepositoryImpl : ISolutionRepository
         items.Name = listItems?.Attributes
             ?.Cast<XmlAttribute>()
             .First(
-                predicate: x =>
-                    x.Name.Equals(value: Constants.items_groupsItemGroupAttributeName))
+                x =>
+                    x.Name.Equals(Constants.items_groupsItemGroupAttributeName))
             .Value;
 
         items.ItemPath = Path.Combine(
-            path1: string.Join(
-                separator: Path.DirectorySeparatorChar,
-                value: solutionPath.Split(separator: Path.DirectorySeparatorChar)[..^1]),
-            path2: Constants.AppProjectItemsFolderName,
-            path3: items?.Name);
+            string.Join(
+                Path.DirectorySeparatorChar,
+                solutionPath.Split(Path.DirectorySeparatorChar)[..^1]),
+            Constants.AppProjectItemsFolderName,
+            items?.Name);
 
         foreach (XmlNode item in listItems?.ChildNodes)
         {
-            var result = ReadItem(listItems: item.ChildNodes.Cast<XmlNode>());
+            var result = ReadItem(item.ChildNodes.Cast<XmlNode>());
 
-            items.Items.Add(item: result);
+            items.Items.Add(result);
         }
 
         return items;
@@ -221,36 +216,36 @@ public class SolutionRepositoryImpl : ISolutionRepository
     {
         var item = new ItemModel();
 
-        item.Id = listItems.First(predicate: x => x.Name.Equals(value: Constants.items_groups_item_id))
+        item.Id = listItems.First(x => x.Name.Equals(Constants.items_groups_item_id))
             .InnerXml;
-        item.Name = listItems.First(predicate: x => x.Name.Equals(value: Constants.items_groups_item_name))
+        item.Name = listItems.First(x => x.Name.Equals(Constants.items_groups_item_name))
             .InnerXml;
         item.TemplateName = listItems
-            .First(predicate: x => x.Name.Equals(value: Constants.items_groups_item_template_name))
+            .First(x => x.Name.Equals(Constants.items_groups_item_template_name))
             .InnerXml;
-        item.ItemPath = listItems.First(predicate: x => x.Name.Equals(value: Constants.items_groups_item_item_path))
+        item.ItemPath = listItems.First(x => x.Name.Equals(Constants.items_groups_item_item_path))
             .InnerXml;
 
         return item;
     }
 
     private List<ItemGroupModel> ReadProjectItems(
-        XmlDocument document,
-        string solutionPath
+        XmlDocument document
+        , string solutionPath
     )
     {
-        var elements = document.GetElementsByTagName(name: Constants.project_items);
+        var elements = document.GetElementsByTagName(Constants.project_items);
 
         var items = new List<ItemGroupModel>();
 
-        foreach (XmlNode result in elements[i: 0]
+        foreach (XmlNode result in elements[0]
                      ?.ChildNodes)
         {
             var itemResult = ReadItemGroups(
-                listItems: result,
-                solutionPath: solutionPath);
+                result,
+                solutionPath);
 
-            items.Add(item: itemResult);
+            items.Add(itemResult);
         }
 
 
@@ -258,52 +253,52 @@ public class SolutionRepositoryImpl : ISolutionRepository
     }
 
     private XmlDocument SetItemsGroup(
-        XmlDocument xml,
-        List<ItemGroupModel> itemGroups
+        XmlDocument xml
+        , List<ItemGroupModel> itemGroups
     )
     {
-        var elements = xml.GetElementsByTagName(name: Constants.project_items);
+        var elements = xml.GetElementsByTagName(Constants.project_items);
         if (elements.Count > 0 &&
             itemGroups.Count > 0)
         {
-            var itemGroupsElement = elements.Item(index: 0);
+            var itemGroupsElement = elements.Item(0);
 
             foreach (var item in itemGroups)
             {
-                var itemGroupItemElement = xml.CreateElement(name: Constants.items_groups);
+                var itemGroupItemElement = xml.CreateElement(Constants.items_groups);
 
-                var attribute = xml.CreateAttribute(name: Constants.items_groupsItemGroupAttributeName);
+                var attribute = xml.CreateAttribute(Constants.items_groupsItemGroupAttributeName);
 
                 attribute.Value = item.Name;
                 attribute.InnerXml = item.Name;
 
-                _ = itemGroupItemElement.SetAttributeNode(newAttr: attribute);
+                _ = itemGroupItemElement.SetAttributeNode(attribute);
 
                 foreach (var subitem in item.Items)
                 {
-                    var subItem = xml.CreateElement(name: Constants.items_groups_item);
+                    var subItem = xml.CreateElement(Constants.items_groups_item);
 
-                    var subItemId = xml.CreateElement(name: Constants.items_groups_item_id);
+                    var subItemId = xml.CreateElement(Constants.items_groups_item_id);
                     subItemId.InnerXml = subitem.Id;
 
-                    var subItemName = xml.CreateElement(name: Constants.items_groups_item_name);
+                    var subItemName = xml.CreateElement(Constants.items_groups_item_name);
                     subItemName.InnerXml = subitem.Name;
 
-                    var subItemItemPath = xml.CreateElement(name: Constants.items_groups_item_item_path);
+                    var subItemItemPath = xml.CreateElement(Constants.items_groups_item_item_path);
                     subItemItemPath.InnerXml = subitem.ItemPath;
 
-                    var subItemTemplateName = xml.CreateElement(name: Constants.items_groups_item_template_name);
+                    var subItemTemplateName = xml.CreateElement(Constants.items_groups_item_template_name);
                     subItemTemplateName.InnerXml = subitem.TemplateName;
 
-                    _ = subItem.AppendChild(newChild: subItemId);
-                    _ = subItem.AppendChild(newChild: subItemName);
-                    _ = subItem.AppendChild(newChild: subItemItemPath);
-                    _ = subItem.AppendChild(newChild: subItemTemplateName);
+                    _ = subItem.AppendChild(subItemId);
+                    _ = subItem.AppendChild(subItemName);
+                    _ = subItem.AppendChild(subItemItemPath);
+                    _ = subItem.AppendChild(subItemTemplateName);
 
-                    _ = itemGroupItemElement.AppendChild(newChild: subItem);
+                    _ = itemGroupItemElement.AppendChild(subItem);
                 }
 
-                _ = (itemGroupsElement?.AppendChild(newChild: itemGroupItemElement));
+                _ = itemGroupsElement?.AppendChild(itemGroupItemElement);
             }
         }
 
@@ -311,50 +306,50 @@ public class SolutionRepositoryImpl : ISolutionRepository
     }
 
     private XmlDocument SetReportData(
-        XmlDocument xml,
-        SolutionInfo reportData
+        XmlDocument xml
+        , SolutionInfo reportData
     )
     {
-        var elements = xml.GetElementsByTagName(name: Constants.report);
+        var elements = xml.GetElementsByTagName(Constants.report);
         if (elements.Count > 0)
         {
-            var element = elements.Item(index: 0);
+            var element = elements.Item(0);
 
-            var email = xml.CreateElement(name: Constants.reportItemEmail);
+            var email = xml.CreateElement(Constants.reportItemEmail);
             email.InnerText = reportData.Email;
 
-            var endereco = xml.CreateElement(name: Constants.reportItemEndereco);
+            var endereco = xml.CreateElement(Constants.reportItemEndereco);
             endereco.InnerXml = $"{reportData.Endereco} - {(reportData.UF ??
                                                             new UFModel(
-                                                                code: "",
-                                                                name: "")).Code}";
+                                                                "",
+                                                                "")).Code}";
 
-            var nomeEmpresa = xml.CreateElement(name: Constants.reportItemNomeEmpresa);
+            var nomeEmpresa = xml.CreateElement(Constants.reportItemNomeEmpresa);
             nomeEmpresa.InnerText = reportData.NomeEmpresa;
 
-            var responsavel = xml.CreateElement(name: Constants.reportItemResponsavel);
+            var responsavel = xml.CreateElement(Constants.reportItemResponsavel);
             responsavel.InnerXml = reportData.Responsavel;
 
-            var telefone = xml.CreateElement(name: Constants.reportItemTelefone);
+            var telefone = xml.CreateElement(Constants.reportItemTelefone);
             telefone.InnerXml = reportData.Telefone;
 
-            var data = xml.CreateElement(name: Constants.reportItemData);
-            data.InnerXml = reportData.Data.ToString(format: "dd/MM/yyyy");
+            var data = xml.CreateElement(Constants.reportItemData);
+            data.InnerXml = reportData.Data.ToString("dd/MM/yyyy");
 
-            var logo = xml.CreateElement(name: Constants.reportItemLogoPath);
+            var logo = xml.CreateElement(Constants.reportItemLogoPath);
             logo.InnerXml = reportData.LogoPath;
 
-            var solutionName = xml.CreateElement(name: Constants.reportItemSolutionName);
+            var solutionName = xml.CreateElement(Constants.reportItemSolutionName);
             solutionName.InnerXml = reportData.SolutionName;
 
-            _ = (element?.AppendChild(newChild: nomeEmpresa));
-            _ = (element?.AppendChild(newChild: responsavel));
-            _ = (element?.AppendChild(newChild: email));
-            _ = (element?.AppendChild(newChild: endereco));
-            _ = (element?.AppendChild(newChild: telefone));
-            _ = (element?.AppendChild(newChild: data));
-            _ = (element?.AppendChild(newChild: logo));
-            _ = (element?.AppendChild(newChild: solutionName));
+            _ = element?.AppendChild(nomeEmpresa);
+            _ = element?.AppendChild(responsavel);
+            _ = element?.AppendChild(email);
+            _ = element?.AppendChild(endereco);
+            _ = element?.AppendChild(telefone);
+            _ = element?.AppendChild(data);
+            _ = element?.AppendChild(logo);
+            _ = element?.AppendChild(solutionName);
         }
 
         return xml;
@@ -364,14 +359,14 @@ public class SolutionRepositoryImpl : ISolutionRepository
         XmlDocument document
     )
     {
-        var root = document.CreateElement(name: Constants.solutionRoot);
-        var report = document.CreateElement(name: Constants.report);
-        var projectItems = document.CreateElement(name: Constants.project_items);
+        var root = document.CreateElement(Constants.solutionRoot);
+        var report = document.CreateElement(Constants.report);
+        var projectItems = document.CreateElement(Constants.project_items);
 
-        _ = root.AppendChild(newChild: report);
-        _ = root.AppendChild(newChild: projectItems);
+        _ = root.AppendChild(report);
+        _ = root.AppendChild(projectItems);
 
-        _ = document.AppendChild(newChild: root);
+        _ = document.AppendChild(root);
 
         return document;
     }
@@ -380,9 +375,9 @@ public class SolutionRepositoryImpl : ISolutionRepository
         string filePath
     )
     {
-        if (Directory.Exists(path: filePath))
+        if (Directory.Exists(filePath))
         {
-            return Directory.GetFiles(path: filePath);
+            return Directory.GetFiles(filePath);
         }
 
         return new string[] { };
@@ -392,9 +387,9 @@ public class SolutionRepositoryImpl : ISolutionRepository
         string filePath
     )
     {
-        if (!Directory.Exists(path: filePath))
+        if (!Directory.Exists(filePath))
         {
-            _ = Directory.CreateDirectory(path: filePath);
+            _ = Directory.CreateDirectory(filePath);
         }
     }
 }

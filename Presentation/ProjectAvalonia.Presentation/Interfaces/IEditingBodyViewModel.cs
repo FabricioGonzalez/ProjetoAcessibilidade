@@ -1,13 +1,12 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Reactive;
-
 using Avalonia.Input;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface IEditingBodyViewModel
+public interface IEditingBodyViewModel : INotifyPropertyChanged
 {
     public ObservableCollection<ILawListViewModel> LawList
     {
@@ -18,10 +17,12 @@ public interface IEditingBodyViewModel
     {
         get;
     }
+
     public KeyGesture Gesture
     {
         get;
     }
+
     public ReactiveCommand<Unit, Unit> SaveItemCommand
     {
         get;

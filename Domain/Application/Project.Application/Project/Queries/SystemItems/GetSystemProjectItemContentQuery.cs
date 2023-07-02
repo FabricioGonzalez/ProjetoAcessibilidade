@@ -1,7 +1,5 @@
-﻿using Common.Result;
-
-using Core.Entities.Solution.Project.AppItem;
-
+﻿using Core.Entities.Solution.Project.AppItem;
+using LanguageExt.Common;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 
@@ -15,16 +13,17 @@ public sealed class GetSystemProjectItemContentQueryHandler
     : IHandler<GetSystemProjectItemContentQuery, Result<AppItemModel>>
 {
     private readonly IProjectItemContentRepository _repository;
-    public GetSystemProjectItemContentQueryHandler(IProjectItemContentRepository repository)
+
+    public GetSystemProjectItemContentQueryHandler(
+        IProjectItemContentRepository repository
+    )
     {
         _repository = repository;
     }
+
     public async Task<Result<AppItemModel>> HandleAsync(
         GetSystemProjectItemContentQuery query
         , CancellationToken cancellation
-    )
-    {
-        return await _repository.GetSystemProjectItemContentSerealizer(filePathToWrite: query.ItemPath);
-
-    }
+    ) =>
+        await _repository.GetSystemProjectItemContentSerealizer(query.ItemPath);
 }

@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Core.Entities.ValidationRules;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.Presentation.States.ValidationRulesState;
 using ProjectAvalonia.ViewModels;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
@@ -20,9 +19,11 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     },
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen)]
-public partial class ItemValidationViewModel : TemplateEditTabViewModelBase, IItemValidationRulesViewModel
+public partial class ItemValidationViewModel
+    : TemplateEditTabViewModelBase
+        , IItemValidationRulesViewModel
 {
-    [AutoNotify] private ValidationRuleContainerState? _validationItemRules;
+    [AutoNotify] private ObservableCollection<IValidationRuleContainerState> _validationItemRules = new();
 
     [AutoNotify] private ObservableCollection<ValidationRule> _validationRules = new()
     {
@@ -32,8 +33,7 @@ public partial class ItemValidationViewModel : TemplateEditTabViewModelBase, IIt
             {
                 new()
                 {
-                    Operation = "Obrigatority",
-                    Conditions = new List<Conditions>
+                    Operation = "Obrigatority", Conditions = new List<Conditions>
                     {
                         new("0", "has", "checked", new List<string> { "Teste", "Teste 2" }, teste =>
                         {
@@ -41,8 +41,8 @@ public partial class ItemValidationViewModel : TemplateEditTabViewModelBase, IIt
                         })
                     }
                 }
-            },
-            Target = new Target()
+            }
+            , Target = new Target()
         }
     };
 

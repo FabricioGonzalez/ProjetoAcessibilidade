@@ -1,6 +1,5 @@
-﻿using Common.Optional;
-using Common.Result;
-
+﻿using LanguageExt;
+using LanguageExt.Common;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 
 namespace ProjetoAcessibilidade.Domain.Solution.Contracts;
@@ -8,16 +7,16 @@ namespace ProjetoAcessibilidade.Domain.Solution.Contracts;
 public interface ISolutionRepository
 {
     public Task<Result<ProjectSolutionModel>> ReadSolution(
-        Optional<string> solutionPath
+        Option<string> solutionPath
     );
 
     public Task SaveSolution(
-        Optional<string> solutionPath,
-        Optional<ProjectSolutionModel> dataToWrite
+        Option<string> solutionPath
+        , Option<ProjectSolutionModel> dataToWrite
     );
 
     public Task SyncSolution(
-        Optional<string> solutionPath,
-        Optional<ProjectSolutionModel> dataToWrite
+        Option<string> solutionPath
+        , Option<ProjectSolutionModel> dataToWrite
     );
 }

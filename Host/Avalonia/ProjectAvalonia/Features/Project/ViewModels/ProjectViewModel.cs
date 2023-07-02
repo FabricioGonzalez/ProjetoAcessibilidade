@@ -5,9 +5,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Avalonia.Threading;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
@@ -17,14 +15,12 @@ using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 using ProjetoAcessibilidade.Domain.Solution.Queries;
-
 using ReactiveUI;
-
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -43,8 +39,8 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_file_regular")]
 public partial class ProjectViewModel
-    : NavBarItemViewModel,
-        IProjectViewModel
+    : NavBarItemViewModel
+        , IProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
@@ -55,18 +51,18 @@ public partial class ProjectViewModel
     public ProjectViewModel()
     {
         SetupCancel(
-            enableCancel: false,
-            enableCancelOnEscape: true,
-            enableCancelOnPressed: true);
+            false,
+            true,
+            true);
 
-        var isSolutionOpen = this.WhenAnyValue(property1: vm => vm.IsSolutionOpen);
+        var isSolutionOpen = this.WhenAnyValue(vm => vm.IsSolutionOpen);
 
-        _ = this.WhenAnyValue(property1: vm => vm.ProjectExplorerViewModel)
-           .Select(selector: x => (x?.Items.Count > 0) || (x?.SolutionState is not null))
-           .ToProperty(
-               source: this,
-               property: x => x.IsSolutionOpen,
-               result: out _isSolutionOpen);
+        _ = this.WhenAnyValue(vm => vm.ProjectExplorerViewModel)
+            .Select(x => x?.Items.Count > 0 || x?.SolutionState is not null)
+            .ToProperty(
+                this,
+                x => x.IsSolutionOpen,
+                out _isSolutionOpen);
 
         ToolBar = new MenuViewModel(CreateMenu(isSolutionOpen).ToImmutable());
 
@@ -74,7 +70,7 @@ public partial class ProjectViewModel
         _ = ProjectInteractions.SyncSolutionInteraction.RegisterHandler(
             context =>
             {
-                _ = (SaveSolutionCommand?.Execute());
+                _ = SaveSolutionCommand?.Execute();
 
                 context.SetOutput(Unit.Default);
             });
@@ -83,13 +79,13 @@ public partial class ProjectViewModel
 
         _mediator ??= Locator.Current.GetService<IMediator>();
 
-        OpenProjectCommand = ReactiveCommand.CreateFromTask(execute: OpenSolution);
+        OpenProjectCommand = ReactiveCommand.CreateFromTask(OpenSolution);
 
-        CreateProjectCommand = ReactiveCommand.CreateFromTask(execute: CreateSolution);
+        CreateProjectCommand = ReactiveCommand.CreateFromTask(CreateSolution);
 
         PrintProjectCommand = ReactiveCommand.Create(
-            execute: PrintSolution,
-            canExecute: isSolutionOpen);
+            PrintSolution,
+            isSolutionOpen);
 
         ProjectEditingViewModel = new ProjectEditingViewModel();
         ProjectPrintPreviewViewModel = new PreviewerViewModel();
@@ -99,71 +95,6 @@ public partial class ProjectViewModel
             CreateProjectCommand);
     }
 
-    private ImmutableList<IMenuItem>.Builder CreateMenu(IObservable<bool> isSolutionOpen)
-    {
-        var listBuilder = ImmutableList.CreateBuilder<IMenuItem>();
-
-        listBuilder.Add(new MenuItemModel(
-            label: "Solution_Open_ToolBarItem".GetLocalized(),
-            command: ReactiveCommand.CreateFromTask(execute: OpenSolution),
-            icon: "file_open_24_rounded".GetIcon(),
-            "Ctrl+Shift+O"));
-
-        listBuilder.Add(new MenuItemModel(
-            label: "Solution_Create_ToolBarItem".GetLocalized(),
-            command: ReactiveCommand.CreateFromTask(execute: CreateSolution),
-            icon: "solution_create_24_rounded".GetIcon(),
-            "Ctrl+Shift+N"));
-
-        listBuilder.Add(new MenuItemSeparatorModel());
-
-        listBuilder.Add(new MenuItemModel(
-           label: "Project_Item_Save_ToolBarItem".GetLocalized(),
-           command: ReactiveCommand.CreateFromTask(
-            execute: SaveReportData,
-            canExecute: isSolutionOpen),
-           icon: "save_data_24_rounded".GetIcon(),
-           "Ctrl+S"));
-
-        listBuilder.Add(new MenuItemSeparatorModel());
-
-        listBuilder.Add(new MenuItemModel(
-          label: "Solution_Print_ToolBarItem".GetLocalized(),
-          command: ReactiveCommand.Create(
-           execute: PrintSolution,
-           canExecute: isSolutionOpen),
-          icon: "print_24_rounded".GetIcon(),
-          "Ctrl+P"));
-
-        listBuilder.Add(new MenuItemSeparatorModel());
-
-        listBuilder.Add(new MenuItemModel(
-         label: "Project_Add_Folder_ToolBarItem".GetLocalized(),
-         command: ReactiveCommand.Create(
-          execute: () =>
-          {
-              _ = (ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe());
-          },
-          canExecute: isSolutionOpen),
-         icon: "add_folder_24_rounded".GetIcon(),
-         "Ctrl+Shift+N"));
-
-
-        /* listBuilder.Add(new MenuItemModel(
-          label: "Add File",
-          command: ReactiveCommand.Create(
-           execute: () =>
-           {
-               ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe();
-           },
-           canExecute: isSolutionOpen),
-          icon: "add_file_24_rounded".GetIcon(),
-          "Ctrl+N"));*/
-
-
-        return listBuilder;
-    }
-
     public override string? LocalizedTitle
     {
         get;
@@ -171,6 +102,11 @@ public partial class ProjectViewModel
     } = null;
 
     public PreviewerViewModel ProjectPrintPreviewViewModel
+    {
+        get;
+    }
+
+    public override MenuViewModel? ToolBar
     {
         get;
     }
@@ -208,33 +144,95 @@ public partial class ProjectViewModel
         get;
     }
 
-    public override MenuViewModel? ToolBar
+    private ImmutableList<IMenuItem>.Builder CreateMenu(
+        IObservable<bool> isSolutionOpen
+    )
     {
-        get;
+        var listBuilder = ImmutableList.CreateBuilder<IMenuItem>();
+
+        listBuilder.Add(new MenuItemModel(
+            "Solution_Open_ToolBarItem".GetLocalized(),
+            ReactiveCommand.CreateFromTask(OpenSolution),
+            "file_open_24_rounded".GetIcon(),
+            "Ctrl+Shift+O"));
+
+        listBuilder.Add(new MenuItemModel(
+            "Solution_Create_ToolBarItem".GetLocalized(),
+            ReactiveCommand.CreateFromTask(CreateSolution),
+            "solution_create_24_rounded".GetIcon(),
+            "Ctrl+Shift+N"));
+
+        listBuilder.Add(new MenuItemSeparatorModel());
+
+        listBuilder.Add(new MenuItemModel(
+            "Project_Item_Save_ToolBarItem".GetLocalized(),
+            ReactiveCommand.CreateFromTask(
+                SaveReportData,
+                isSolutionOpen),
+            "save_data_24_rounded".GetIcon(),
+            "Ctrl+S"));
+
+        listBuilder.Add(new MenuItemSeparatorModel());
+
+        listBuilder.Add(new MenuItemModel(
+            "Solution_Print_ToolBarItem".GetLocalized(),
+            ReactiveCommand.Create(
+                PrintSolution,
+                isSolutionOpen),
+            "print_24_rounded".GetIcon(),
+            "Ctrl+P"));
+
+        listBuilder.Add(new MenuItemSeparatorModel());
+
+        listBuilder.Add(new MenuItemModel(
+            "Project_Add_Folder_ToolBarItem".GetLocalized(),
+            ReactiveCommand.Create(
+                () =>
+                {
+                    _ = ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe();
+                },
+                isSolutionOpen),
+            "add_folder_24_rounded".GetIcon(),
+            "Ctrl+Shift+N"));
+
+
+        /* listBuilder.Add(new MenuItemModel(
+          label: "Add File",
+          command: ReactiveCommand.Create(
+           execute: () =>
+           {
+               ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe();
+           },
+           canExecute: isSolutionOpen),
+          icon: "add_file_24_rounded".GetIcon(),
+          "Ctrl+N"));*/
+
+
+        return listBuilder;
     }
 
     private async Task SaveReportData()
     {
-        if (ProjectEditingViewModel is { SelectedItem: { } })
+        if (ProjectEditingViewModel is { SelectedItem: not null })
         {
             _ = await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
         }
     }
 
     private void PrintSolution() =>
-        Navigate(currentTarget: NavigationTarget.FullScreen)
+        Navigate(NavigationTarget.FullScreen)
             .To(
-                viewmodel: ProjectPrintPreviewViewModel,
-                mode: NavigationMode.Normal,
-                Parameter: ProjectExplorerViewModel.SolutionState);
+                ProjectPrintPreviewViewModel,
+                NavigationMode.Normal,
+                ProjectExplorerViewModel.SolutionState);
 
     private async Task<Unit> OpenSolution()
     {
-        var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Abrir Projeto");
+        var path = await FileDialogHelper.ShowOpenFileDialogAsync("Abrir Projeto");
 
         if (path is { Length: > 0 })
         {
-            await ReadSolutionAndOpen(path: path);
+            await ReadSolutionAndOpen(path);
         }
 
         return Unit.Default;
@@ -245,67 +243,66 @@ public partial class ProjectViewModel
     )
     {
         var result = await _mediator.Send(
-            request: new ReadSolutionProjectQuery(SolutionPath: path),
-            cancellation: CancellationToken.None);
+            new ReadSolutionProjectQuery(path),
+            CancellationToken.None);
 
-        _ = result.IfSucc(success =>
+        result.IfSucc(success =>
         {
             Dispatcher
-            .UIThread
-            .Post(
-             action: () =>
-            {
-                ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                    state: success
-                );
-                this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
-            });
+                .UIThread
+                .Post(
+                    () =>
+                    {
+                        ProjectExplorerViewModel = new ProjectExplorerViewModel(
+                            success
+                        );
+                        this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
+                    });
         });
-
     }
+
     private async Task CreateSolution()
     {
         var dialogResult = await NavigateDialogAsync(
-                dialog: new CreateSolutionViewModel(title: "Criar Solução",
-                ProjectExplorerViewModel?.SolutionState ?? ProjectSolutionModel.Create("", new())
-                )
-                , target: NavigationTarget.CompactDialogScreen);
+            new CreateSolutionViewModel("Criar Solução",
+                ProjectExplorerViewModel?.SolutionState ?? ProjectSolutionModel.Create("", new SolutionInfo())
+            )
+            , NavigationTarget.CompactDialogScreen);
 
         if (dialogResult is { Result: { } dialogData, Kind: DialogResultKind.Normal })
         {
-
-            _ = await _mediator.Send(new CreateSolutionCommand(dialogData.FilePath, dialogData), CancellationToken.None);
+            _ = await _mediator.Send(new CreateSolutionCommand(dialogData.FilePath, dialogData)
+                , CancellationToken.None);
 
             Dispatcher
-                  .UIThread
-                  .Post(
-                      action: () =>
-                      {
-                          ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                              state: dialogData
-                          );
-                          this.RaisePropertyChanged(propertyName: nameof(ProjectExplorerViewModel));
-                      });
+                .UIThread
+                .Post(
+                    () =>
+                    {
+                        ProjectExplorerViewModel = new ProjectExplorerViewModel(
+                            dialogData
+                        );
+                        this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
+                    });
             /* NotificationHelpers.Show(title: "Create", message: "Create Project?", onClick: () =>
              {
                  Logger.LogDebug(message: $"create Project {dialogData.FileName}");
              });*/
         }
-
     }
 
     protected override void OnNavigatedTo(
-        bool isInHistory,
-        CompositeDisposable disposables,
-        object? Parameter = null
+        bool isInHistory
+        , CompositeDisposable disposables
+        , object? Parameter = null
     )
     {
         if (Parameter is string { Length: > 0 } path)
         {
             Dispatcher.UIThread.Post(
-                action: () =>
+                () =>
                 {
-                    _ = Task.WhenAll(ReadSolutionAndOpen(path: path));
+                    _ = Task.WhenAll(ReadSolutionAndOpen(path));
                 });
         }
     }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data.Core;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Common;

@@ -1,6 +1,8 @@
-﻿namespace ProjectAvalonia.Presentation.Interfaces;
+﻿using System.ComponentModel;
 
-public interface ILocalizedViewModel
+namespace ProjectAvalonia.Presentation.Interfaces;
+
+public interface ILocalizedViewModel : INotifyPropertyChanged
 {
     public string Title
     {

@@ -22,7 +22,6 @@ using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
-using ProjectAvalonia.Presentation.States.ValidationRulesState;
 using ProjectAvalonia.ViewModels;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
@@ -53,16 +52,16 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_regular")]
 public partial class TemplateEditViewModel
-    : NavBarItemViewModel,
-        ITemplateEditViewModel
+    : NavBarItemViewModel
+        , ITemplateEditViewModel
 {
     private readonly IMediator _mediator;
     private IEditableItemViewModel _selectedItem;
 
 
     public TemplateEditViewModel(
-        ITemplateEditTabViewModel templateEditTab,
-        ItemValidationViewModel itemValidationTab
+        ITemplateEditTabViewModel templateEditTab
+        , ItemValidationViewModel itemValidationTab
     )
     {
         SetupCancel(
@@ -189,11 +188,7 @@ public partial class TemplateEditViewModel
             {
                 Items?.Add(new EditableItemViewModel(CommitItemCommand)
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    InEditMode = true,
-                    Name = "",
-                    TemplateName = "",
-                    ItemPath = ""
+                    Id = Guid.NewGuid().ToString(), InEditMode = true, Name = "", TemplateName = "", ItemPath = ""
                 });
             }),
             "solution_create_24_rounded".GetIcon(),
@@ -218,74 +213,104 @@ public partial class TemplateEditViewModel
         return listBuilder;
     }
 
-    private async Task LoadItemReport(string path, string itemTemplateName)
+    private async Task LoadItemReport(
+        string path
+        , string itemTemplateName
+    )
     {
         var itemTemplate = _mediator.Send(
             new GetSystemProjectItemContentQuery(path),
             CancellationToken.None);
 
-        var templateRules = LoadValidationRules(Path.Combine(Constants.AppValidationRulesTemplateFolder,
-            $"{itemTemplateName}{Constants.AppProjectValidationTemplateExtension}"));
+        var templateRules =
+            LoadValidationRules(Path.Combine(Constants.AppValidationRulesTemplateFolder,
+                $"{itemTemplateName}{Constants.AppProjectValidationTemplateExtension}"));
 
         await Task.WhenAll(itemTemplate, templateRules);
+        var res = templateRules.Result;
 
-        itemTemplate.Result.Do(success =>
-            {
-                var item = success
-                    ?.ToAppStateFillable();
-
-                item?.FormData.IterateOn(formItem =>
+        itemTemplate
+            .Result
+            .Match(success =>
                 {
-                    if (formItem.Body is CheckboxContainerItemState CheckboxItemContainer)
+                    var item = success
+                        ?.ToAppStateFillable();
+
+                    item?.FormData.IterateOn(formItem =>
                     {
-                        CheckboxItemContainer.Children.IterateOn(child =>
+                        if (formItem.Body is CheckboxContainerItemState CheckboxItemContainer)
                         {
-                            child.ValidationRules = new ObservableCollection<ValidationRuleContainerState>(templateRules
-                                .Result.Where(r => r.TargetContainerId == child.Id));
-                        });
-                    }
+                            CheckboxItemContainer.Children.IterateOn(child =>
+                            {
+                                child.ValidationRules = new ObservableCollection<IValidationRuleContainerState>(
+                                    res.Where(r => r.TargetContainerId == child.Id));
+                            });
+                        }
 
-                    if (formItem.Body is TextItemState textItem)
-                    {
-                        textItem.ValidationRules = new ObservableCollection<ValidationRuleContainerState>(templateRules
-                            .Result.Where(r => r.TargetContainerId == textItem.Id));
-                    }
+                        if (formItem.Body is TextItemState textItem)
+                        {
+                            textItem.ValidationRules = new ObservableCollection<IValidationRuleContainerState>(
+                                res.Where(r => r.TargetContainerId == textItem.Id));
+                        }
+                    });
+
+                    TemplateEditTab.EditingItem = item;
+                    TemplateEditTab.EditingItemRules = res;
+
+                    ItemValidationTab.ValidationItemRules = res;
+
+                    return item;
+                },
+                it =>
+                {
+                    NotificationHelpers.Show(it);
+                    return default;
                 });
-
-                item
-                    .ToOption()
-                    .Map(val => TemplateEditTab.EditingItem = val);
-            },
-            NotificationHelpers.Show);
     }
 
-    private async Task<ObservableCollection<ValidationRuleContainerState>> LoadValidationRules(string path) =>
+    private async Task<ObservableCollection<IValidationRuleContainerState>> LoadValidationRules(
+        string path
+    ) =>
         (await _mediator.Send(
             new GetValidationRulesQuery(path),
             CancellationToken.None))
-        .Match(success => new ObservableCollection<ValidationRuleContainerState>(success.Select(x =>
+        .Match(success =>
             {
-                return new ValidationRuleContainerState
+                var result = success.ToList().Select(x =>
                 {
-                    TargetContainerId = x.Target.Id,
-                    TargetContainerName = "",
-                    ValidaitonRules = new ObservableCollection<ValidationRuleState>(x.Rules.Select(y =>
-                        new ValidationRuleState
-                        {
-                            Type = AppValidation.GetOperationByValue(y.Operation),
-                            ValidationRuleName = "",
-                            Conditions = new ObservableCollection<ConditionState>(y.Conditions.Select(cond =>
-                                new ConditionState
+                    return new ValidationRuleContainerState
+                    {
+                        TargetContainerId = x.Target.Id, TargetContainerName = "", ValidaitonRules =
+                            new ObservableCollection<IValidationRuleState>(x.Rules.Select(y =>
+                                new ValidationRuleState
                                 {
-                                    TargetId = cond.TargetId,
-                                    Result = new ObservableCollection<string>(cond.Result),
-                                    CheckingValue = AppValidation.GetCheckingValueByValue(cond.CheckingValue),
-                                    CheckingOperationType = AppValidation.GetCheckingOperationByValue(cond.Type)
+                                    Type = AppValidation.GetOperationByValue(y.Operation), ValidationRuleName = ""
+                                    , Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
+                                        new ConditionState
+                                        {
+                                            TargetId = cond.TargetId
+                                            , Result = new ObservableCollection<string>(cond.Result)
+                                            , CheckingValue =
+                                                AppValidation.GetCheckingOperationByValue(cond.Type) is IsOperation
+                                                    ? AppValidation.GetCheckingValueByValue(cond.CheckingValue)
+                                                    : new TextType(cond.CheckingValue)
+                                            , CheckingOperationType =
+                                                AppValidation.GetCheckingOperationByValue(cond.Type)
+                                        }))
                                 }))
-                        }))
-                };
-            }))
-            , failure => new ObservableCollection<ValidationRuleContainerState>(Enumerable.Empty<ValidationRuleContainerState>()));
+                    };
+                });
+
+                return new ObservableCollection<IValidationRuleContainerState>(result);
+            }
+            , failure =>
+            {
+                NotificationHelpers.Show("Erro ao ler regras", failure.Message);
+
+                return new ObservableCollection<IValidationRuleContainerState>(Enumerable
+                    .Empty<IValidationRuleContainerState>());
+            }
+        );
 
     private async Task LoadItems() =>
         (await _mediator
@@ -301,10 +326,8 @@ public partial class TemplateEditViewModel
                             {
                                 Id = item.Id ??
                                      Guid.NewGuid()
-                                         .ToString(),
-                                ItemPath = item.ItemPath,
-                                Name = "",
-                                TemplateName = item.Name
+                                         .ToString()
+                                , ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
                             }) ??
                     Enumerable.Empty<EditableItemViewModel>());
 
@@ -315,7 +338,9 @@ public partial class TemplateEditViewModel
             {
             });
 
-    private async Task CreateItem(IEditableItemViewModel item)
+    private async Task CreateItem(
+        IEditableItemViewModel item
+    )
     {
         item.Name = item.TemplateName;
         item.ItemPath = Path.Combine(Constants.AppItemsTemplateFolder,
@@ -328,8 +353,8 @@ public partial class TemplateEditViewModel
 
         itemContent.FormData = new List<IAppFormDataItemContract>
         {
-            new AppFormDataItemImageModel(Guid.NewGuid().ToString(), "Images"),
-            new AppFormDataItemObservationModel("", Guid.NewGuid().ToString(), "Observation")
+            new AppFormDataItemImageModel(Guid.NewGuid().ToString(), "Images")
+            , new AppFormDataItemObservationModel("", Guid.NewGuid().ToString(), "Observation")
         };
         itemContent.Images = Enumerable.Empty<ImagesItem>();
         itemContent.Observations = Enumerable.Empty<ObservationModel>();

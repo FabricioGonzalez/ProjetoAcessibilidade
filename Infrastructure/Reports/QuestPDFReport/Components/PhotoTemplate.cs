@@ -38,14 +38,14 @@ public class PhotoTemplate : IComponent
         container
             .Row(handler: row =>
             {
-                row.RelativeItem(size: 2).AspectRatio(ratio: 4 / 3f).Component<ImagePlaceholder>();
+                row.RelativeItem(size: 2).AspectRatio(ratio: 4 / 3f).Component<ReportImage>();
 
                 row.RelativeItem().PaddingLeft(value: 5).Column(handler: column =>
                 {
                     column.Spacing(value: 7f);
 
-                    column.Item().AspectRatio(ratio: 4 / 3f).Component<ImagePlaceholder>();
-                    column.Item().AspectRatio(ratio: 4 / 3f).Component<ImagePlaceholder>();
+                    column.Item().AspectRatio(ratio: 4 / 3f).Component<ReportImage>();
+                    column.Item().AspectRatio(ratio: 4 / 3f).Component<ReportImage>();
                 });
             });
 

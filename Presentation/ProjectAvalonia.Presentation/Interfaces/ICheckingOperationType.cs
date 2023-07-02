@@ -2,14 +2,14 @@
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface ILawListViewModel : INotifyPropertyChanged
+public interface ICheckingOperationType : INotifyPropertyChanged
 {
-    public string LawId
+    string Value
     {
         get;
     }
 
-    public string LawContent
+    string LocalizationKey
     {
         get;
     }

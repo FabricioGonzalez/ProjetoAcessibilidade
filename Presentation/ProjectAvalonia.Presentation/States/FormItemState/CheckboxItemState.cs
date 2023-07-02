@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
-using ProjectAvalonia.Presentation.States.ValidationRulesState;
+using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
@@ -12,7 +12,7 @@ public class CheckboxItemState : ReactiveObject
     private ObservableCollection<OptionsItemState> _options;
     private ObservableCollection<TextItemState> _textItems;
     private string _topic;
-    private ObservableCollection<ValidationRuleContainerState> _validationRules = new();
+    private ObservableCollection<IValidationRuleContainerState> _validationRules = new();
 
     public CheckboxItemState()
     {
@@ -20,7 +20,7 @@ public class CheckboxItemState : ReactiveObject
         _textItems = new ObservableCollection<TextItemState>();
     }
 
-    public ObservableCollection<ValidationRuleContainerState> ValidationRules
+    public ObservableCollection<IValidationRuleContainerState> ValidationRules
     {
         get => _validationRules;
         set => this.RaiseAndSetIfChanged(ref _validationRules, value);

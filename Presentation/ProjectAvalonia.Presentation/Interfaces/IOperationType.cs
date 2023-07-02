@@ -1,6 +1,8 @@
-﻿namespace ProjectAvalonia.Presentation.Interfaces;
+﻿using System.ComponentModel;
 
-public interface IOperationType
+namespace ProjectAvalonia.Presentation.Interfaces;
+
+public interface IOperationType : INotifyPropertyChanged
 {
     string Value
     {

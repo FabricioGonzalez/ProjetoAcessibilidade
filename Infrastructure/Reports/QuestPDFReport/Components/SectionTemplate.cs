@@ -196,7 +196,7 @@ public class SectionTemplate : IComponent
 
                 _ = models.IterateOn((item) =>
         {
-            var image = new ImagePlaceholder
+            var image = new ReportImage
             {
                 ImagePath = item.ImagePath,
                 Observation = item.Observation

@@ -23,4 +23,8 @@
         <ProjectReference Include="..\..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
+    </ItemGroup>
+
 </Project>

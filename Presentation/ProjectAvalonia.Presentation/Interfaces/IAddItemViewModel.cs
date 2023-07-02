@@ -1,10 +1,11 @@
-﻿using System.Reactive;
+﻿using System.ComponentModel;
+using System.Reactive;
 using ProjectAvalonia.Presentation.States.ProjectItems;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface IAddItemViewModel
+public interface IAddItemViewModel : INotifyPropertyChanged
 {
     ItemState? SelectedItem
     {

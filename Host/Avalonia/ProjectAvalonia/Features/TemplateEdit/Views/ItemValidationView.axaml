@@ -42,10 +42,10 @@
             <ItemsControl
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Items="{Binding ValidationRules}">
+                Items="{Binding ValidationItemRules}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ItemsControl Items="{Binding Rules}">
+                        <ItemsControl Items="{Binding ValidaitonRules}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid RowDefinitions="48 1*">
@@ -69,7 +69,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Center"
                                                     Items="{x:Static validationTypes:AppValidation.operationTypes}"
-                                                    SelectedItem="{Binding Operation}">
+                                                    SelectedItem="{Binding Type}">
                                                     <ComboBox.ItemTemplate>
                                                         <DataTemplate x:CompileBindings="False">
                                                             <TextBlock Text="{Binding LocalizationKey}" />
@@ -127,7 +127,7 @@
                                                                         Padding="4,0"
                                                                         HorizontalAlignment="Stretch"
                                                                         VerticalAlignment="Stretch"
-                                                                        SelectedItem="{Binding Type}">
+                                                                        SelectedItem="{Binding CheckingOperationType}">
                                                                         <ComboBox.ItemTemplate>
                                                                             <DataTemplate x:CompileBindings="False">
                                                                                 <TextBlock
@@ -135,23 +135,55 @@
                                                                             </DataTemplate>
                                                                         </ComboBox.ItemTemplate>
                                                                     </ComboBox>
-                                                                    <TextBox
-                                                                        Grid.Row="0"
-                                                                        IsVisible="{Binding Type, Converter={StaticResource CheckingValueByTypeConverter}}"
-                                                                        Grid.Column="4"
-                                                                        Height="24"
-                                                                        Padding="4,0"
-                                                                        Text="{Binding CheckingValue}" />
-                                                                    <ComboBox Grid.Column="4"
-                                                                              IsVisible="{Binding Type, Converter={StaticResource CheckingValueByTypeConverter}}"
-                                                                              Items="{x:Static validationTypes:AppValidation.checkingValues}">
-                                                                        <ComboBox.ItemTemplate>
-                                                                            <DataTemplate x:CompileBindings="False">
-                                                                                <TextBlock
-                                                                                    Text="{Binding LocalizationKey}" />
+
+                                                                    <ContentControl Grid.Column="4" Grid.Row="0"
+                                                                        DataContext="{Binding   CheckingValue }"
+                                                                        Content="{Binding  }">
+                                                                        <ContentControl.DataTemplates>
+                                                                            <DataTemplate
+                                                                                DataType="validationTypes:CheckedType">
+                                                                                <ComboBox
+                                                                                    HorizontalAlignment="Stretch"
+                                                                                    VerticalAlignment="Center"
+                                                                                    SelectedItem="{Binding }"
+                                                                                    Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                                                                    <ComboBox.ItemTemplate>
+                                                                                        <DataTemplate
+                                                                                            x:CompileBindings="False">
+                                                                                            <TextBlock
+                                                                                                Text="{Binding LocalizationKey}" />
+                                                                                        </DataTemplate>
+                                                                                    </ComboBox.ItemTemplate>
+                                                                                </ComboBox>
                                                                             </DataTemplate>
-                                                                        </ComboBox.ItemTemplate>
-                                                                    </ComboBox>
+
+                                                                            <DataTemplate
+                                                                                DataType="validationTypes:UnCheckedType">
+                                                                                <ComboBox
+                                                                                    SelectedItem="{Binding }"
+                                                                                    HorizontalAlignment="Stretch"
+                                                                                    VerticalAlignment="Center"
+                                                                                    Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                                                                    <ComboBox.ItemTemplate>
+                                                                                        <DataTemplate
+                                                                                            x:CompileBindings="False">
+                                                                                            <TextBlock
+                                                                                                Text="{Binding LocalizationKey}" />
+                                                                                        </DataTemplate>
+                                                                                    </ComboBox.ItemTemplate>
+                                                                                </ComboBox>
+                                                                            </DataTemplate>
+                                                                            <DataTemplate
+                                                                                x:DataType="interfaces:ICheckingValue">
+                                                                                <TextBox
+                                                                                    Height="24"
+                                                                                    Padding="4,0"
+                                                                                    Text="{Binding Value}" />
+                                                                            </DataTemplate>
+                                                                        </ContentControl.DataTemplates>
+                                                                    </ContentControl>
+
+
                                                                     <controls:IconButton
                                                                         Grid.Column="5"
                                                                         Width="18"

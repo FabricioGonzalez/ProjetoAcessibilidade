@@ -20,6 +20,12 @@ public class ReportModel : IReport
         set;
     }
 
+    public string CompanyLogo
+    {
+        get;
+        set;
+    }
+
     public string StandardLaw
     {
         get;
@@ -59,6 +65,12 @@ public class NestedReportModel : IReport
         set;
     }
 
+    public string CompanyLogo
+    {
+        get;
+        set;
+    }
+
     public string StandardLaw
     {
         get;
@@ -81,6 +93,11 @@ public class NestedReportModel : IReport
 public interface IReport
 {
     public string Title
+    {
+        get;
+        set;
+    }
+    public string CompanyLogo
     {
         get;
         set;

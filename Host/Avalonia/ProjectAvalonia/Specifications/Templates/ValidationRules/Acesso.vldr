@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <validation_rules>
   <rule>
-    <targets>
       <target>ItemId</target>
-    </targets>
     <conditions>
       <condition>
         <operation>Obrigatority</operation>

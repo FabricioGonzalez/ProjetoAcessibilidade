@@ -1,12 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
 
-namespace ProjectAvalonia.Presentation.States.ValidationRulesState;
+namespace ProjectAvalonia.Models.ValidationTypes;
 
-public class ValidationRuleState : ReactiveObject
+public class ValidationRuleState
+    : ReactiveObject
+        , IValidationRuleState
 {
-    private ObservableCollection<ConditionState> _conditions = new();
+    private ObservableCollection<IConditionState> _conditions = new();
     private IOperationType _type;
     private string _validationRuleName = "";
 
@@ -23,20 +26,37 @@ public class ValidationRuleState : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _type, value);
     }
 
-    public ObservableCollection<ConditionState> Conditions
+    public ObservableCollection<IConditionState> Conditions
     {
         get => _conditions;
         set => this.RaiseAndSetIfChanged(ref _conditions, value);
     }
 }
 
-public class ConditionState : ReactiveObject
+public class ConditionState
+    : ReactiveObject
+        , IConditionState
 {
     private ICheckingOperationType _checkingOperationType;
     private ICheckingValue _checkingValue;
-    private ObservableCollection<string> _result;
+    private ObservableCollection<string> _result = new();
 
     private string _targetId;
+
+    public ConditionState()
+    {
+        this.WhenAnyValue(it => it.CheckingOperationType)
+            .WhereNotNull()
+            .Subscribe(val =>
+            {
+                ICheckingValue current = val switch
+                {
+                    IsOperation => new CheckedType(), _ => new TextType("")
+                };
+
+                CheckingValue = current;
+            });
+    }
 
     public ICheckingOperationType CheckingOperationType
     {
@@ -60,18 +80,5 @@ public class ConditionState : ReactiveObject
     {
         get => _result;
         set => this.RaiseAndSetIfChanged(ref _result, value);
-    }
-}
-
-public interface ICheckingOperationType
-{
-    string Value
-    {
-        get;
-    }
-
-    string LocalizationKey
-    {
-        get;
     }
 }

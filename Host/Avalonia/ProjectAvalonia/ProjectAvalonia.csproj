@@ -76,6 +76,8 @@
           <DependentUpon>ComboEditBox.axaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <None Remove="Specifications\Templates\Itens\Teste 2.xml" />
+        <None Remove="Specifications\Templates\Itens\TEstes.xml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Assets\avalonia-logo.ico" />
@@ -105,6 +107,7 @@
         <PackageReference Include="Avalonia.Xaml.Interactions.DragAndDrop" Version="0.10.3" />
         <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.19" />
         <PackageReference Include="Dock.Avalonia" Version="0.10.18.1" />
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
         <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />

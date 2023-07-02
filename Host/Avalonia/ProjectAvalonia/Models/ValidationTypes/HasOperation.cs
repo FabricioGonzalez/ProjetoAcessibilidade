@@ -1,10 +1,12 @@
 ﻿using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Presentation.States.ValidationRulesState;
+using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Models.ValidationTypes;
 
-public class HasOperation : ReactiveObject, ICheckingOperationType
+public class HasOperation
+    : ReactiveObject
+        , ICheckingOperationType
 {
     public string Value
     {
