@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using Common.Optional;
 using DynamicData;
 using DynamicData.Binding;
+using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
@@ -85,6 +87,20 @@ public partial class TemplateEditTabViewModel
         get;
         protected set;
     } = null;
+
+    public ReactiveCommand<string, Unit> AddRuleCommand => ReactiveCommand.Create<string>(itemId =>
+    {
+        EditingItemRules
+            .FirstOrDefault(it => it.TargetContainerId == itemId)
+            ?.ValidaitonRules
+            .Add(new ValidationRuleState { ValidationRuleName = itemId });
+    });
+
+
+    ReactiveCommand<IValidationRuleState, Unit> ITemplateEditTabViewModel.EditRuleCommand
+    {
+        get;
+    }
 
     public ReactiveCommand<LawStateItem, Unit> RemoveLawCommand => ReactiveCommand.Create<LawStateItem>(item =>
     {

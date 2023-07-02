@@ -35,4 +35,14 @@ public interface ITemplateEditTabViewModel : INotifyPropertyChanged
     {
         get;
     }
+
+    public ReactiveCommand<string, Unit> AddRuleCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<IValidationRuleState, Unit> EditRuleCommand
+    {
+        get;
+    }
 }

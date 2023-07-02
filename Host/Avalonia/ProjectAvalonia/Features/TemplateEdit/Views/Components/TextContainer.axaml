@@ -2,16 +2,19 @@
     x:Class="ProjectAvalonia.Features.TemplateEdit.Views.Components.TextContainer"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+    xmlns:formItemState="clr-namespace:ProjectAvalonia.Presentation.States.FormItemState;assembly=ProjectAvalonia.Presentation"
+    xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
     HorizontalContentAlignment="Stretch"
     VerticalContentAlignment="Center"
+    x:CompileBindings="True"
+    x:DataType="formItemState:TextItemState"
     d:DesignHeight="60"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid VerticalAlignment="Center" ColumnDefinitions="0.7*, 0.3*">
+    <Grid VerticalAlignment="Center" ColumnDefinitions="0.7*, 0.3*, 40">
         <TextBox
             Grid.Column="0"
             Margin="4,0"
@@ -29,6 +32,7 @@
             Text="{Binding MeasurementUnit, Mode=TwoWay}"
             UseFloatingWatermark="True"
             Watermark="{x:Static p:Resources.TextBoxItemMeasurementUnitLabel}" />
+        <components:RulePreviewerComponent Grid.Column="2" ContainerId="{Binding Id}" />
     </Grid>
 
 </UserControl>

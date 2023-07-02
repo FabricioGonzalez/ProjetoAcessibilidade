@@ -242,15 +242,17 @@ public partial class TemplateEditViewModel
                         {
                             CheckboxItemContainer.Children.IterateOn(child =>
                             {
-                                child.ValidationRules = new ObservableCollection<IValidationRuleContainerState>(
-                                    res.Where(r => r.TargetContainerId == child.Id));
+                                child.ValidationRules = new ObservableCollection<IValidationRuleState>(
+                                    res.FirstOrDefault(r => r.TargetContainerId == child.Id)?.ValidaitonRules ??
+                                    Enumerable.Empty<IValidationRuleState>());
                             });
                         }
 
                         if (formItem.Body is TextItemState textItem)
                         {
-                            textItem.ValidationRules = new ObservableCollection<IValidationRuleContainerState>(
-                                res.Where(r => r.TargetContainerId == textItem.Id));
+                            textItem.ValidationRules = new ObservableCollection<IValidationRuleState>(
+                                res.FirstOrDefault(r => r.TargetContainerId == textItem.Id)?.ValidaitonRules ??
+                                Enumerable.Empty<IValidationRuleState>());
                         }
                     });
 

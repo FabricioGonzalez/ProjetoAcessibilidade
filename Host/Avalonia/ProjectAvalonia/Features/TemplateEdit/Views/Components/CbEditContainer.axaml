@@ -93,7 +93,8 @@
                                             </MenuFlyout>
                                         </c:IconButton.Flyout>
                                     </c:IconButton>
-
+                                    <!--<local:RulePreviewerComponent ContainerId="{Binding Id}"
+                                                                  SourceValidationRules="{Binding ValidationRules }" />-->
                                     <c:IconButton
                                         Width="24"
                                         Height="24"

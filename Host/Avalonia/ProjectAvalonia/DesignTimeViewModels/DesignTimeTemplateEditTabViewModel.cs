@@ -18,6 +18,16 @@ public class DesignTimeTemplateEditTabViewModel
         get;
     }
 
+    public ReactiveCommand<string, Unit> AddRuleCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<IValidationRuleState, Unit> EditRuleCommand
+    {
+        get;
+    }
+
     public AppModelState EditingItem
     {
         get;
