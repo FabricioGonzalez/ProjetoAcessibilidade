@@ -1,0 +1,238 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+             xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+             xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
+             x:CompileBindings="True"
+             x:DataType="viewModels:EditRuleDialogViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProjectAvalonia.Features.TemplateEdit.Views.EditRuleDialogView">
+    <controls:ContentArea
+        EnableCancel="True"
+        CancelContent="{x:Static p:Resources.CancelActionLabel}"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <controls:ContentArea.Title>
+            <TextBlock Text="{Binding LocalizedTitle}" TextAlignment="Center" />
+        </controls:ContentArea.Title>
+        <Grid ColumnDefinitions="0.2* 0.5* 0.3* 0.2*" RowDefinitions="48 1*">
+            <Label
+                Grid.Column="0"
+                Content="{x:Static p:Resources.Validation_Rules_Label}"
+                FontWeight="DemiBold" />
+            <controls:IconButton Grid.Row="0"
+                                 Grid.Column="3"
+                                 Width="16"
+                                 Height="16"
+                                 HorizontalAlignment="Right"
+                                 Icon="{StaticResource add_circle_regular}"
+                                 IconSize="16"
+                                 ToolTip.Tip="{x:Static p:Resources.Add_Rule_ToolTip}" />
+            <ScrollViewer Grid.Column="0"
+                          Grid.Row="1"
+                          Grid.ColumnSpan="4"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch">
+                <Grid RowDefinitions="48 1*">
+                    <Border
+                        BorderBrush="{DynamicResource AppElevationBrush}"
+                        BorderThickness="0.3"
+                        BoxShadow="{DynamicResource AppElevationShadow}"
+                        CornerRadius="4">
+                        <Grid ColumnDefinitions="0.2* 8 0.4* 40">
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="4,0"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.Operation_Label}"
+                                FontWeight="DemiBold" />
+                            <ComboBox
+                                Grid.Column="2"
+                                Height="24"
+                                Margin="4,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Items="{x:Static validationTypes:AppValidation.operationTypes}"
+                                SelectedItem="{Binding ValidationRuleState.Type}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:CompileBindings="False">
+                                        <TextBlock Text="{Binding LocalizationKey}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <controls:IconButton
+                                Grid.Column="3"
+                                Width="18"
+                                Height="18"
+                                HorizontalAlignment="Right"
+                                Icon="{StaticResource cancel_regular}"
+                                IconSize="16"
+                                ToolTip.Tip="{x:Static p:Resources.Exclude_Rule_ToolTip}" />
+                        </Grid>
+                    </Border>
+
+                    <Border
+                        Grid.Row="1"
+                        BorderBrush="{DynamicResource AppElevationBrush}"
+                        BorderThickness="0.3"
+                        BoxShadow="{DynamicResource AppElevationShadow}"
+                        CornerRadius="4">
+                        <Grid ColumnDefinitions="1* 48" RowDefinitions="40 8 1.2*">
+                            <Label Content="{x:Static p:Resources.Conditions_Label}"
+                                   FontWeight="DemiBold" />
+                            <controls:IconButton Grid.Row="0"
+                                                 Grid.Column="1"
+                                                 Width="18"
+                                                 Height="18"
+                                                 HorizontalAlignment="Right"
+                                                 Icon="{StaticResource add_circle_regular}"
+                                                 IconSize="16"
+                                                 ToolTip.Tip="{x:Static p:Resources.Add_Condition_ToolTip}" />
+                            <ItemsControl Grid.Column="0"
+                                          Grid.Row="2"
+                                          Grid.ColumnSpan="2"
+                                          CornerRadius="4"
+                                          Items="{Binding ValidationRuleState.Conditions}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid RowDefinitions="40 8 1.2*">
+
+                                            <Grid
+                                                ColumnDefinitions="0.2* 16 0.15* 16 0.4* 40 40">
+                                                <Label
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Content="{x:Static p:Resources.Add_Condition_ToolTip}"
+                                                    FontWeight="DemiBold" />
+                                                <ComboBox
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Height="24"
+                                                    Items="{x:Static validationTypes:AppValidation.checkingOperationTypes}"
+                                                    Padding="4,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"
+                                                    SelectedItem="{Binding CheckingOperationType}">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate x:CompileBindings="False">
+                                                            <TextBlock
+                                                                Text="{Binding LocalizationKey}" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+
+                                                <ContentControl Grid.Column="4" Grid.Row="0"
+                                                                DataContext="{Binding   CheckingValue }"
+                                                                Content="{Binding  }">
+                                                    <ContentControl.DataTemplates>
+                                                        <DataTemplate
+                                                            DataType="validationTypes:CheckedType">
+                                                            <ComboBox
+                                                                HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                SelectedItem="{Binding }"
+                                                                Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate
+                                                                        x:CompileBindings="False">
+                                                                        <TextBlock
+                                                                            Text="{Binding LocalizationKey}" />
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        </DataTemplate>
+
+                                                        <DataTemplate
+                                                            DataType="validationTypes:UnCheckedType">
+                                                            <ComboBox
+                                                                SelectedItem="{Binding }"
+                                                                HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate
+                                                                        x:CompileBindings="False">
+                                                                        <TextBlock
+                                                                            Text="{Binding LocalizationKey}" />
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        </DataTemplate>
+                                                        <DataTemplate
+                                                            x:DataType="interfaces:ICheckingValue">
+                                                            <TextBox
+                                                                Height="24"
+                                                                Padding="4,0"
+                                                                Text="{Binding Value}" />
+                                                        </DataTemplate>
+                                                    </ContentControl.DataTemplates>
+                                                </ContentControl>
+
+
+                                                <controls:IconButton
+                                                    Grid.Column="5"
+                                                    Width="18"
+                                                    Height="18"
+                                                    HorizontalAlignment="Right"
+                                                    Icon="{StaticResource cancel_regular}"
+                                                    IconSize="16"
+                                                    ToolTip.Tip="{x:Static p:Resources.Exclude_Condition_ToolTip}" />
+                                                <controls:IconButton
+                                                    Grid.Column="6"
+                                                    Width="18"
+                                                    Height="18"
+                                                    HorizontalAlignment="Right"
+                                                    Icon="{StaticResource add_circle_regular}"
+                                                    IconSize="16"
+                                                    ToolTip.Tip="{x:Static p:Resources.Add_Result_ToolTip}" />
+                                            </Grid>
+
+                                            <Grid
+                                                Grid.Row="2"
+                                                ColumnDefinitions="64 1*"
+                                                RowDefinitions="40 1*">
+                                                <Label
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    VerticalAlignment="Center"
+                                                    Content="{x:Static p:Resources.Then_Label}"
+                                                    FontWeight="DemiBold" />
+                                                <ItemsControl Grid.Row="0"
+                                                              Grid.RowSpan="2"
+                                                              Grid.Column="1"
+                                                              Items="{Binding Result}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid ColumnDefinitions="1* 40">
+                                                                <TextBox Margin="0,4,0,0"
+                                                                         Text="{Binding}" />
+                                                                <controls:IconButton
+                                                                    Grid.Column="1"
+                                                                    Width="18"
+                                                                    Height="18"
+                                                                    HorizontalAlignment="Right"
+                                                                    Icon="{StaticResource cancel_regular}"
+                                                                    IconSize="16"
+                                                                    ToolTip.Tip="{x:Static p:Resources.Exclude_Result_ToolTip}" />
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </controls:ContentArea>
+</UserControl>

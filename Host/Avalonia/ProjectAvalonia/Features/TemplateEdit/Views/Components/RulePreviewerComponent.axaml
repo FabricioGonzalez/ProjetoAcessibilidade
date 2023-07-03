@@ -5,8 +5,6 @@
              xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
              xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
              xmlns:p="clr-namespace:ProjectAvalonia.Properties"
-             xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
-             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
              xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
              xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -34,27 +32,17 @@
                                 <Panel>
                                     <TextBlock Text="{Binding ValidationRuleName}" />
                                     <Button
+                                        Click="EditRuleButtonClicked"
                                         HorizontalAlignment="Right"
-                                        Command="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditRuleCommand}"
-                                        Content="{x:Static p:Resources.Edit_Rules_Button}">
-                                        <Button.CommandParameter>
-                                            <MultiBinding x:DataType="interfaces:IValidationRuleState">
-                                                <Binding
-                                                    Path="$parent[components:RulePreviewerComponent].ContainerId" />
-                                                <Binding Path="." />
-                                            </MultiBinding>
-                                        </Button.CommandParameter>
-                                    </Button>
+                                        Content="{x:Static p:Resources.Edit_Rules_Button}" />
                                 </Panel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
                     <Button Grid.Row="1" Grid.Column="0"
-                            Command="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).AddRuleCommand}"
-                            CommandParameter="{Binding $parent[components:RulePreviewerComponent].ContainerId}"
+                            Click="AddRuleButtonClicked"
                             Content="{x:Static p:Resources.Create_Rules_Button}" />
-
                 </Grid>
             </Flyout>
         </FlyoutBase.AttachedFlyout>

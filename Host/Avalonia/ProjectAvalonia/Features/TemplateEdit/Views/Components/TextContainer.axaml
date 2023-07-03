@@ -7,6 +7,8 @@
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:formItemState="clr-namespace:ProjectAvalonia.Presentation.States.FormItemState;assembly=ProjectAvalonia.Presentation"
     xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
+    xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     HorizontalContentAlignment="Stretch"
     VerticalContentAlignment="Center"
     x:CompileBindings="True"
@@ -35,7 +37,7 @@
 
         <components:RulePreviewerComponent Grid.Column="2"
                                            DataContext="{Binding .}"
-                                           SourceValidationRules="{Binding ValidationRules,Mode=TwoWay}"
+                                           SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay }"
                                            ContainerId="{Binding Id,Mode=TwoWay}" />
     </Grid>
 
