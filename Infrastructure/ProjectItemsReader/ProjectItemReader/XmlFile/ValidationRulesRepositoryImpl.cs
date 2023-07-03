@@ -2,6 +2,7 @@
 using Common;
 using Core.Entities.ValidationRules;
 using LanguageExt;
+using LanguageExt.Common;
 using ProjectItemReader.ValidationRulesExpression;
 using ProjectItemReader.XmlFile.ValidationRules;
 using ProjetoAcessibilidade.Domain.AppValidationRules.Contracts;
@@ -32,18 +33,25 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
         Option<string>.Some(validationItemPath)
             .Map(item =>
                 CreateSerealizer()
-                    .Map<Resource<ValidationItemRoot>>(xmlReader =>
+                    .Map<Result<ValidationItemRoot>>(xmlReader =>
                     {
-                        if (File.Exists(item))
+                        try
                         {
-                            using var reader = new StreamReader(item);
+                            if (File.Exists(item))
+                            {
+                                using var reader = new StreamReader(item);
 
-                            var result = (ValidationItemRoot)xmlReader.Deserialize(reader);
+                                var result = (ValidationItemRoot)xmlReader.Deserialize(reader);
 
-                            return new Resource<ValidationItemRoot>.Success(result);
+                                return new Result<ValidationItemRoot>(result);
+                            }
+
+                            return new Result<ValidationItemRoot>(new Exception("Arquivo não Existe"));
                         }
-
-                        return new Resource<ValidationItemRoot>.Error("Arquivo não Existe");
+                        catch (Exception e)
+                        {
+                            return new Result<ValidationItemRoot>(e);
+                        }
                     })
                     .Map(item =>
                     {
@@ -52,10 +60,7 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
                             return Enumerable.Empty<ValidationRule>();
                         }
 
-                        return ((Resource<ValidationItemRoot>.Success)item)
-                            .Data
-                            .Rules
-                            .Select(x => new ValidationRule
+                        return item.Match(success => success.Rules.Select(x => new ValidationRule
                             {
                                 Target = new Target { Id = x.Target.Id }, Rules = x.RuleConditions.Select(x =>
                                 {
@@ -67,7 +72,7 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
                                         var value = res.evaluation.LastOrDefault("");
                                         return new Conditions(
                                             res.target,
-                                            type ,
+                                            type,
                                             value,
                                             x.Results.Select(result => result.Result),
                                             item =>
@@ -87,7 +92,8 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
                                         Operation = x.Operation, Conditions = conditions
                                     };
                                 })
-                            });
+                            }),
+                            exception => Enumerable.Empty<ValidationRule>());
                     })
                     .Match(res => res, Enumerable.Empty<ValidationRule>));
 

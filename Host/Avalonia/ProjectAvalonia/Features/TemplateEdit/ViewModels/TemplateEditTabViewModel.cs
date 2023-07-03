@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -26,8 +27,8 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Category = "Templates",
     Keywords = new[]
     {
-        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close"
-        , "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
+        "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
 public partial class TemplateEditTabViewModel
@@ -36,8 +37,7 @@ public partial class TemplateEditTabViewModel
 {
     private AppModelState _editingItem;
 
-    [AutoNotify]
-    private ObservableCollection<IValidationRuleContainerState> _editingItemRules;
+    [AutoNotify] private ObservableCollection<IValidationRuleContainerState> _editingItemRules;
 
     public TemplateEditTabViewModel()
     {
@@ -76,11 +76,12 @@ public partial class TemplateEditTabViewModel
             EditingItem.RemoveItem(item);
         });
 
-    public ReactiveCommand<FormItemContainer, Unit> EditRuleCommand => ReactiveCommand.Create<FormItemContainer>(
-        item =>
-        {
-            EditingItem.RemoveItem(item);
-        });
+    public ReactiveCommand<(string, IValidationRuleState), Unit> EditRuleCommand =>
+        ReactiveCommand.Create<(string, IValidationRuleState)>(
+            item =>
+            {
+                Debug.WriteLine(item.Item1);
+            });
 
     public override string? LocalizedTitle
     {
@@ -90,14 +91,24 @@ public partial class TemplateEditTabViewModel
 
     public ReactiveCommand<string, Unit> AddRuleCommand => ReactiveCommand.Create<string>(itemId =>
     {
-        EditingItemRules
-            .FirstOrDefault(it => it.TargetContainerId == itemId)
-            ?.ValidaitonRules
-            .Add(new ValidationRuleState { ValidationRuleName = itemId });
+        if (EditingItemRules
+                .FirstOrDefault(it => it.TargetContainerId == itemId) is { } res)
+        {
+            res?.ValidaitonRules
+                .Add(new ValidationRuleState { ValidationRuleName = itemId });
+            return;
+        }
+
+        EditingItemRules.Add(new ValidationRuleContainerState
+        {
+            TargetContainerId = itemId,
+            ValidaitonRules = new ObservableCollection<IValidationRuleState>(new List<IValidationRuleState>
+                { new ValidationRuleState { ValidationRuleName = itemId } })
+        });
     });
 
 
-    ReactiveCommand<IValidationRuleState, Unit> ITemplateEditTabViewModel.EditRuleCommand
+    ReactiveCommand<(string, IValidationRuleState), Unit> ITemplateEditTabViewModel.EditRuleCommand
     {
         get;
     }
@@ -111,8 +122,8 @@ public partial class TemplateEditTabViewModel
     {
         EditingItem.AddFormItem(new FormItemContainer
         {
-            Id = Guid.NewGuid().ToString(), Topic = "", Type = AppFormDataType.Texto
-            , Body = new TextItemState("", "", id: Guid.NewGuid().ToString())
+            Id = Guid.NewGuid().ToString(), Topic = "", Type = AppFormDataType.Texto,
+            Body = new TextItemState("", "", id: Guid.NewGuid().ToString())
         });
     });
 
@@ -135,15 +146,15 @@ public partial class TemplateEditTabViewModel
             .Map(e => container.Type switch
             {
                 AppFormDataType.Texto => container.ChangeItem(AppFormDataType.Texto)
-                    .Reduce(() => new TextItemState(container.Body.Topic, "", id: container.Body.Id))
-                , AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
+                    .Reduce(() => new TextItemState(container.Body.Topic, "", id: container.Body.Id)),
+                AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
                     .Reduce(() => new CheckboxContainerItemState(container.Body.Topic, id: container.Body.Id))
             })
             .Reduce(() => container.Type switch
             {
                 AppFormDataType.Texto => container.ChangeItem(AppFormDataType.Texto)
-                    .Reduce(() => new TextItemState("", "", id: Guid.NewGuid().ToString()))
-                , AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
+                    .Reduce(() => new TextItemState("", "", id: Guid.NewGuid().ToString())),
+                AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
                     .Reduce(() => new CheckboxContainerItemState("", id: Guid.NewGuid().ToString()))
             });
         container.Body = result;

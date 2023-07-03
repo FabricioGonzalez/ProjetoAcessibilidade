@@ -1,54 +1,62 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using ProjectAvalonia.Presentation.Interfaces;
+using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.Views.Components;
 
 public partial class RulePreviewerComponent : UserControl
 {
-    public static readonly DirectProperty<RulePreviewerComponent, string>
+    public static readonly StyledProperty<string>
         ContainerIdProperty =
-            AvaloniaProperty.RegisterDirect<RulePreviewerComponent, string>(
-                nameof(SourceValidationRules)
-                , it => it.ContainerId
-                , (
-                    it
-                    , newValue
-                ) => it.ContainerId = newValue);
+            AvaloniaProperty.Register<RulePreviewerComponent, string>(
+                nameof(ContainerId)
+                , "");
 
 
-    public static readonly DirectProperty<RulePreviewerComponent, ObservableCollection<IValidationRuleState>>
+    public static readonly StyledProperty<ObservableCollection<IValidationRuleContainerState>>
         SourceValidationRulesProperty =
             AvaloniaProperty
-                .RegisterDirect<RulePreviewerComponent, ObservableCollection<IValidationRuleState>>(
-                    nameof(SourceValidationRules)
-                    , it => it.SourceValidationRules
-                    , (
-                        it
-                        , newValue
-                    ) => it.SourceValidationRules = newValue);
-
-    private string _containerId;
-    private ObservableCollection<IValidationRuleState> _sourceValidationRules = new();
+                .Register<RulePreviewerComponent, ObservableCollection<IValidationRuleContainerState>>(
+                    nameof(SourceValidationRules));
 
     public RulePreviewerComponent()
     {
         InitializeComponent();
+
+        this.WhenAnyValue(view => view.SourceValidationRules)
+            .WhereNotNull()
+            .Subscribe(it =>
+            {
+                if (it.FirstOrDefault(rule => rule.TargetContainerId == ContainerId) is { } rules)
+                {
+                    ValidationRules = rules?.ValidaitonRules;
+                }
+            });
     }
+
+    public ObservableCollection<IValidationRuleState> ValidationRules
+    {
+        get;
+        set;
+    } = new();
 
     public string ContainerId
     {
-        get => _containerId;
-        set => SetAndRaise(ContainerIdProperty, ref _containerId, value);
+        get => GetValue(ContainerIdProperty);
+        set => SetValue(ContainerIdProperty, value);
     }
 
-    public ObservableCollection<IValidationRuleState> SourceValidationRules
+    public ObservableCollection<IValidationRuleContainerState> SourceValidationRules
     {
-        get => _sourceValidationRules;
-        set => SetAndRaise(SourceValidationRulesProperty, ref _sourceValidationRules, value);
+        get => GetValue(SourceValidationRulesProperty);
+        set => SetValue(SourceValidationRulesProperty, value);
     }
+
 
     private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 }

@@ -41,7 +41,7 @@ public interface ITemplateEditTabViewModel : INotifyPropertyChanged
         get;
     }
 
-    public ReactiveCommand<IValidationRuleState, Unit> EditRuleCommand
+    public ReactiveCommand<(string, IValidationRuleState), Unit> EditRuleCommand
     {
         get;
     }

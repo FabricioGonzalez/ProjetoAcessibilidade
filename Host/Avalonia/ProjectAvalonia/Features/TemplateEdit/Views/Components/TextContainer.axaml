@@ -32,7 +32,11 @@
             Text="{Binding MeasurementUnit, Mode=TwoWay}"
             UseFloatingWatermark="True"
             Watermark="{x:Static p:Resources.TextBoxItemMeasurementUnitLabel}" />
-        <components:RulePreviewerComponent Grid.Column="2" ContainerId="{Binding Id}" />
+
+        <components:RulePreviewerComponent Grid.Column="2"
+                                           DataContext="{Binding .}"
+                                           SourceValidationRules="{Binding ValidationRules,Mode=TwoWay}"
+                                           ContainerId="{Binding Id,Mode=TwoWay}" />
     </Grid>
 
 </UserControl>

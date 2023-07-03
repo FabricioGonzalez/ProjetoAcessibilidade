@@ -93,8 +93,9 @@
                                             </MenuFlyout>
                                         </c:IconButton.Flyout>
                                     </c:IconButton>
-                                    <!--<local:RulePreviewerComponent ContainerId="{Binding Id}"
-                                                                  SourceValidationRules="{Binding ValidationRules }" />-->
+                                    <local:RulePreviewerComponent DataContext="{Binding .}"
+                                                                  ContainerId="{Binding Id,Mode=TwoWay}"
+                                                                  SourceValidationRules="{Binding ValidationRules,Mode=TwoWay }" />
                                     <c:IconButton
                                         Width="24"
                                         Height="24"

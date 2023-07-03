@@ -23,7 +23,7 @@ public class DesignTimeTemplateEditTabViewModel
         get;
     }
 
-    public ReactiveCommand<IValidationRuleState, Unit> EditRuleCommand
+    public ReactiveCommand<(string, IValidationRuleState), Unit> EditRuleCommand
     {
         get;
     }
@@ -43,8 +43,8 @@ public class DesignTimeTemplateEditTabViewModel
                     id: "",
                     textData: "teste",
                     measurementUnit: "m")
-            }
-            , new()
+            },
+            new()
             {
                 Topic = "Teste 2", Type = AppFormDataType.Checkbox, Body = new CheckboxContainerItemState("Teste")
                 {
@@ -57,24 +57,24 @@ public class DesignTimeTemplateEditTabViewModel
                                 new()
                                 {
                                     Value = "Sim", IsChecked = false
-                                }
-                                , new()
+                                },
+                                new()
                                 {
                                     Value = "Não", IsChecked = false
-                                }
-                                , new()
+                                },
+                                new()
                                 {
                                     Value = "Talvez", IsChecked = false
                                 }
-                            }
-                            , TextItems = new ObservableCollection<TextItemState>
+                            },
+                            TextItems = new ObservableCollection<TextItemState>
                             {
                                 new(
                                     "inner text",
                                     id: "",
                                     textData: "teste",
-                                    measurementUnit: "m")
-                                , new(
+                                    measurementUnit: "m"),
+                                new(
                                     "inner text 2",
                                     id: "",
                                     textData: "teste",
@@ -83,8 +83,8 @@ public class DesignTimeTemplateEditTabViewModel
                         }
                     }
                 }
-            }
-            , new()
+            },
+            new()
             {
                 Topic = "Teste", Type = AppFormDataType.Texto, Body = new TextItemState(
                     "teste item",
@@ -92,8 +92,8 @@ public class DesignTimeTemplateEditTabViewModel
                     textData: "teste2",
                     measurementUnit: "m")
             }
-        }
-        , ItemName = "Teste", ItemTemplate = "Teste Template", LawItems = new ObservableCollection<LawStateItem>()
+        },
+        ItemName = "Teste", ItemTemplate = "Teste Template", LawItems = new ObservableCollection<LawStateItem>()
     };
 
     public ObservableCollection<IValidationRuleContainerState> EditingItemRules

@@ -28,7 +28,7 @@
                     ShowMode="TransientWithDismissOnPointerMoveAway">
                 <Grid RowDefinitions="1* 40" ColumnDefinitions="1* 1*">
                     <ItemsControl Grid.ColumnSpan="2"
-                                  Items="{Binding   $parent[components:RulePreviewerComponent].SourceValidationRules}">
+                                  Items="{Binding   $parent[components:RulePreviewerComponent].ValidationRules,Mode=TwoWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="validationTypes:ValidationRuleState">
                                 <Panel>
@@ -36,7 +36,15 @@
                                     <Button
                                         HorizontalAlignment="Right"
                                         Command="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditRuleCommand}"
-                                        Content="{x:Static p:Resources.Edit_Rules_Button}" />
+                                        Content="{x:Static p:Resources.Edit_Rules_Button}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding x:DataType="interfaces:IValidationRuleState">
+                                                <Binding
+                                                    Path="$parent[components:RulePreviewerComponent].ContainerId" />
+                                                <Binding Path="." />
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
                                 </Panel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -45,7 +53,6 @@
                     <Button Grid.Row="1" Grid.Column="0"
                             Command="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).AddRuleCommand}"
                             CommandParameter="{Binding $parent[components:RulePreviewerComponent].ContainerId}"
-
                             Content="{x:Static p:Resources.Create_Rules_Button}" />
 
                 </Grid>

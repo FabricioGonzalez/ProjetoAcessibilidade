@@ -242,17 +242,13 @@ public partial class TemplateEditViewModel
                         {
                             CheckboxItemContainer.Children.IterateOn(child =>
                             {
-                                child.ValidationRules = new ObservableCollection<IValidationRuleState>(
-                                    res.FirstOrDefault(r => r.TargetContainerId == child.Id)?.ValidaitonRules ??
-                                    Enumerable.Empty<IValidationRuleState>());
+                                child.ValidationRules = templateRules.Result;
                             });
                         }
 
                         if (formItem.Body is TextItemState textItem)
                         {
-                            textItem.ValidationRules = new ObservableCollection<IValidationRuleState>(
-                                res.FirstOrDefault(r => r.TargetContainerId == textItem.Id)?.ValidaitonRules ??
-                                Enumerable.Empty<IValidationRuleState>());
+                            textItem.ValidationRules = templateRules.Result;
                         }
                     });
 
@@ -286,17 +282,16 @@ public partial class TemplateEditViewModel
                             new ObservableCollection<IValidationRuleState>(x.Rules.Select(y =>
                                 new ValidationRuleState
                                 {
-                                    Type = AppValidation.GetOperationByValue(y.Operation), ValidationRuleName = ""
-                                    , Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
+                                    Type = AppValidation.GetOperationByValue(y.Operation), ValidationRuleName = "",
+                                    Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
                                         new ConditionState
                                         {
-                                            TargetId = cond.TargetId
-                                            , Result = new ObservableCollection<string>(cond.Result)
-                                            , CheckingValue =
+                                            TargetId = cond.TargetId,
+                                            Result = new ObservableCollection<string>(cond.Result), CheckingValue =
                                                 AppValidation.GetCheckingOperationByValue(cond.Type) is IsOperation
                                                     ? AppValidation.GetCheckingValueByValue(cond.CheckingValue)
-                                                    : new TextType(cond.CheckingValue)
-                                            , CheckingOperationType =
+                                                    : new TextType(cond.CheckingValue),
+                                            CheckingOperationType =
                                                 AppValidation.GetCheckingOperationByValue(cond.Type)
                                         }))
                                 }))
@@ -328,8 +323,8 @@ public partial class TemplateEditViewModel
                             {
                                 Id = item.Id ??
                                      Guid.NewGuid()
-                                         .ToString()
-                                , ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
+                                         .ToString(),
+                                ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
                             }) ??
                     Enumerable.Empty<EditableItemViewModel>());
 
@@ -355,8 +350,8 @@ public partial class TemplateEditViewModel
 
         itemContent.FormData = new List<IAppFormDataItemContract>
         {
-            new AppFormDataItemImageModel(Guid.NewGuid().ToString(), "Images")
-            , new AppFormDataItemObservationModel("", Guid.NewGuid().ToString(), "Observation")
+            new AppFormDataItemImageModel(Guid.NewGuid().ToString(), "Images"),
+            new AppFormDataItemObservationModel("", Guid.NewGuid().ToString(), "Observation")
         };
         itemContent.Images = Enumerable.Empty<ImagesItem>();
         itemContent.Observations = Enumerable.Empty<ObservationModel>();
