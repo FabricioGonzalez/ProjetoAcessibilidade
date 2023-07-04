@@ -1,12 +1,20 @@
 ﻿using ProjectAvalonia.Presentation.Interfaces;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class ImageViewModel : ReactiveObject, IImageItemViewModel
+public partial class ImageViewModel
+    : ReactiveObject
+        , IImageItemViewModel
 {
-    public ImageViewModel(string imagePath, string imageObservation, string id)
+    [AutoNotify]
+    private string _imageObservation;
+
+    public ImageViewModel(
+        string imagePath
+        , string imageObservation
+        , string id
+    )
     {
         ImagePath = imagePath;
         ImageObservation = imageObservation;
@@ -15,14 +23,10 @@ public class ImageViewModel : ReactiveObject, IImageItemViewModel
 
     public string ImagePath
     {
-        get; set;
-    }
-
-
-    public string ImageObservation
-    {
         get;
+        set;
     }
+
     public string Id
     {
         get;

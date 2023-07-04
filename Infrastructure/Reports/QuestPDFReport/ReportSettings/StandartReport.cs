@@ -38,16 +38,17 @@ public class StandardReport : IDocument
                     .DefaultTextStyle(Typography.Normal);
 
                 page
-                    .MarginVertical(10);
+                    .MarginVertical(5);
 
                 page
-                    .MarginHorizontal(30);
+                    .MarginHorizontal(15);
 
                 page
                     .Size(PageSizes.A4);
 
                 page
                     .Header()
+                    .SkipOnce()
                     .Element(ComposeHeader);
 
                 page
@@ -57,6 +58,7 @@ public class StandardReport : IDocument
                 page
                     .Footer()
                     .AlignCenter()
+                    .SkipOnce()
                     .Text(text =>
                     {
                         text.CurrentPageNumber();
@@ -76,7 +78,6 @@ public class StandardReport : IDocument
                 .Style(Typography.Title);
 
             column.Item()
-                .ShowOnce()
                 .PaddingVertical(15)
                 .Border(1f)
                 .BorderColor(Colors.Grey.Lighten1)
@@ -84,7 +85,6 @@ public class StandardReport : IDocument
 
             column
                 .Item()
-                .ShowOnce()
                 .Border(0.5f)
                 .Grid(grid =>
                 {
@@ -93,11 +93,11 @@ public class StandardReport : IDocument
 
                     foreach (var field in Model.HeaderFields)
                     {
-                        grid.Item().Column(column =>
+                        grid.Item().Column(columnHeader =>
                         {
-                            column.Item().Text(field.Label);
+                            columnHeader.Item().Text(field.Label);
 
-                            column.Item().Text(field.Value);
+                            columnHeader.Item().Text(field.Value);
                         });
                     }
                 });
@@ -128,9 +128,14 @@ public class StandardReport : IDocument
                 .Column(column =>
                 {
                     column.Spacing(20);
-                    column.Item()
+
+                    column
+                        .Item()
+                        .Padding(0)
+                        .ExtendHorizontal()
                         .Component(new CapeComponent(new CapeContainer { CompanyLogo = Model.CompanyLogo }));
 
+                    column.Item().PageBreak();
 
                     column
                         .Item()
@@ -138,7 +143,7 @@ public class StandardReport : IDocument
                             .Sections
                             .Cast<IReportSection>()
                             .ToList()));
-
+                    column.Item().PageBreak();
                     nestedModel.Sections.IterateOn(section =>
                     {
                         column
@@ -171,13 +176,16 @@ internal class CapeComponent : IComponent
     ) =>
         container.Column(column =>
         {
-            column.Item().AlignTop();
-            column.Item().AlignCenter().Component(new CapeImage { ImagePath = Cape.CompanyLogo });
-            column.Item().AlignBottom().Row(row =>
+            column.Spacing(20);
+            column.Item().Height(280).ExtendHorizontal().AlignTop()
+                .Component(new CapeImage { ImagePath = Cape.CompanyLogo });
+            column.Item().AlignCenter().Column(row =>
             {
-                row.RelativeItem(0.2f).Text(DateTime.Now.ToString("ddddd, dd/MM/yyyy"));
-                row.RelativeItem(0.8f).Text(Cape.CompanyName);
+                row.Item().Text(Cape.CompanyName);
+                row.Item().Text("RELATÓRIO DE NÃO  CONFORMIDADE ACESSIBILIDADE");
+                row.Item().Text(DateTime.Now.ToString("ddddd, dd/MM/yyyy"));
             });
+            column.Item().AlignBottom();
         });
 }
 

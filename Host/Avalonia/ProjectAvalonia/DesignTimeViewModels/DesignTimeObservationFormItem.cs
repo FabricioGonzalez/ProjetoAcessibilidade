@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-
+using System.Reactive;
 using Core.Entities.Solution.Project.AppItem;
 
 using ProjectAvalonia.Presentation.Interfaces;
@@ -15,6 +15,12 @@ public class DesignTimeObservationFormItem : ReactiveObject, IObservationFormIte
         get;
 
     }
+
+    public ReactiveCommand<Unit, Unit> AddObservationCommand
+    {
+        get;
+    }
+
     public string Id
     {
         get;

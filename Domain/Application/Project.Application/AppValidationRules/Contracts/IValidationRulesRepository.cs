@@ -6,7 +6,8 @@ namespace ProjetoAcessibilidade.Domain.AppValidationRules.Contracts;
 public interface IValidationRulesRepository
 {
     public Task CreateValidationRule(
-        ValidationRule validationRule
+        IEnumerable<ValidationRule> validationRules
+        , string validationRulePath
     );
 
     public Task<Option<IEnumerable<ValidationRule>>> LoadValidationRule(

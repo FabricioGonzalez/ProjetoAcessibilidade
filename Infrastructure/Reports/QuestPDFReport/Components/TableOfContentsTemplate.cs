@@ -1,8 +1,6 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
-
 using QuestPDFReport.Models;
-
 using SkiaSharp;
 
 namespace QuestPDFReport.Components;
@@ -28,36 +26,37 @@ public class TableOfContentsTemplate : IComponent
         try
         {
             container
-                .Decoration(handler: decoration =>
+                .Decoration(decoration =>
                 {
                     decoration
                         .Before()
-                        .PaddingBottom(value: 5)
-                        .Text(text: "Sumário")
-                        .Style(style: Typography.Headline);
+                        .PaddingBottom(5)
+                        .AlignCenter()
+                        .Text("Sumário")
+                        .Style(Typography.Headline);
 
-                    decoration.Content().Column(handler: column =>
+                    decoration.Content().Column(column =>
                     {
-                        column.Spacing(value: 5);
+                        column.Spacing(5);
 
                         for (var i = 0; i < Sections.Count; i++)
                         {
-                            if (Sections[index: i] is ReportSectionGroup reportSectionGroup)
+                            if (Sections[i] is ReportSectionGroup reportSectionGroup)
                             {
-                                column.Item().Column(handler: colItem =>
+                                column.Item().Column(colItem =>
                                 {
                                     colItem.Item()
-                                        .Element(handler: con => DrawLink(container: con, number: i + 1
-                                            , itemName: reportSectionGroup.Title,
-                                            id: reportSectionGroup.Title));
+                                        .Element(con => DrawLink(con, i + 1
+                                            , reportSectionGroup.Title,
+                                            reportSectionGroup.Title));
 
                                     for (var part = 0; part < reportSectionGroup.Parts.Count; part++)
                                     {
                                         colItem.Item()
                                             .Element(
-                                                handler: c => DrawDeepLink(container: c, parent: i + 1, number: part + 1
-                                                    , itemName: reportSectionGroup.Parts[index: part].Title,
-                                                    nestedItemId: $"{reportSectionGroup.Title} - {reportSectionGroup.Parts[index: part].Title}"));
+                                                c => DrawDeepLink(c, i + 1, part + 1
+                                                    , reportSectionGroup.Parts[part].Title,
+                                                    $"{reportSectionGroup.Title} - {reportSectionGroup.Parts[part].Title}"));
                                     }
                                 });
                             }
@@ -73,22 +72,22 @@ public class TableOfContentsTemplate : IComponent
     private void DrawLink(
         IContainer container
         , int number
-        , string itemName,
-        string id
+        , string itemName
+        , string id
     ) =>
         container
-            .SectionLink(sectionName: id)
-            .Row(handler: row =>
+            .SectionLink(id)
+            .Row(row =>
             {
-                row.ConstantItem(size: 20).Text(text: $"{number}.");
-                row.AutoItem().Text(text: itemName);
+                row.ConstantItem(20).Text($"{number}.");
+                row.AutoItem().Text(itemName);
 
                 row.RelativeItem()
-                    .PaddingHorizontal(value: 2)
+                    .PaddingHorizontal(2)
                     .AlignBottom()
-                    .TranslateY(value: -3)
-                    .Height(value: 1)
-                    .Canvas(handler: (
+                    .TranslateY(-3)
+                    .Height(1)
+                    .Canvas((
                         canvas
                         , space
                     ) =>
@@ -96,18 +95,17 @@ public class TableOfContentsTemplate : IComponent
                         // best to statically cache
                         using var paint = new SKPaint
                         {
-                            StrokeWidth = space.Height,
-                            PathEffect = SKPathEffect.CreateDash(intervals: new float[] { 1, 3 }, phase: 0)
+                            StrokeWidth = space.Height, PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
                         };
 
-                        canvas.DrawLine(x0: 0, y0: 0, x1: space.Width, y1: 0, paint: paint);
+                        canvas.DrawLine(0, 0, space.Width, 0, paint);
                     });
 
-                row.ConstantItem(size: 40).Text(content: text =>
+                row.ConstantItem(40).Text(text =>
                 {
-                    text.BeginPageNumberOfSection(locationName: id);
-                    text.Span(text: " - ");
-                    text.EndPageNumberOfSection(locationName: id);
+                    text.BeginPageNumberOfSection(id);
+                    text.Span(" - ");
+                    text.EndPageNumberOfSection(id);
                 });
             });
 
@@ -115,23 +113,23 @@ public class TableOfContentsTemplate : IComponent
         IContainer container
         , int parent
         , int number
-        , string itemName,
-        string nestedItemId
+        , string itemName
+        , string nestedItemId
     ) =>
         container
-            .PaddingLeft(value: 8)
-            .SectionLink(sectionName: nestedItemId)
-            .Row(handler: row =>
+            .PaddingLeft(8)
+            .SectionLink(nestedItemId)
+            .Row(row =>
             {
-                row.ConstantItem(size: 20).Text(text: $"{parent}.{number}.");
-                row.AutoItem().Text(text: itemName);
+                row.ConstantItem(20).Text($"{parent}.{number}.");
+                row.AutoItem().Text(itemName);
 
                 row.RelativeItem()
-                    .PaddingHorizontal(value: 4)
+                    .PaddingHorizontal(4)
                     .AlignBottom()
-                    .TranslateY(value: -3)
-                    .Height(value: 1)
-                    .Canvas(handler: (
+                    .TranslateY(-3)
+                    .Height(1)
+                    .Canvas((
                         canvas
                         , space
                     ) =>
@@ -139,18 +137,17 @@ public class TableOfContentsTemplate : IComponent
                         // best to statically cache
                         using var paint = new SKPaint
                         {
-                            StrokeWidth = space.Height,
-                            PathEffect = SKPathEffect.CreateDash(intervals: new float[] { 1, 3 }, phase: 0)
+                            StrokeWidth = space.Height, PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
                         };
 
-                        canvas.DrawLine(x0: 0, y0: 0, x1: space.Width, y1: 0, paint: paint);
+                        canvas.DrawLine(0, 0, space.Width, 0, paint);
                     });
 
-                row.ConstantItem(size: 40).Text(content: text =>
+                row.ConstantItem(40).Text(text =>
                 {
-                    text.BeginPageNumberOfSection(locationName: nestedItemId);
-                    text.Span(text: " - ");
-                    text.EndPageNumberOfSection(locationName: nestedItemId);
+                    text.BeginPageNumberOfSection(nestedItemId);
+                    text.Span(" - ");
+                    text.EndPageNumberOfSection(nestedItemId);
                 });
             });
 }

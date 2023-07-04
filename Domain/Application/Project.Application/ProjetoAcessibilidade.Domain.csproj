@@ -14,7 +14,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="AppValidationRules\Commands\" />
         <Folder Include="AppValidationRules\Queries\" />
         <Folder Include="App\Commands\" />
         <Folder Include="Common\" />

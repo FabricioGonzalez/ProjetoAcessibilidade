@@ -6,7 +6,7 @@ using QuestPDF.Previewer;
 using QuestPDFReport;
 using QuestPDFReport.ReportSettings;
 
-var path = "C:\\Users\\Ti\\Pictures\\Teste\\Teste.prja";
+var path = "C:\\Users\\Fabricio\\Documents\\Teste\\Teste.prja";
 
 
 var solutionReader = new SolutionRepositoryImpl();

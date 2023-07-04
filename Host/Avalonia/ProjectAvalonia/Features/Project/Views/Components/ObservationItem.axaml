@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
@@ -21,9 +22,10 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         CornerRadius="8">
-        <StackPanel>
+        <Grid ColumnDefinitions="1* 40" RowDefinitions="40,1*">
             <Label Content="{x:Static p:Resources.Observation_Label}" />
-            <ItemsControl Items="{Binding Observations, Mode=TwoWay}">
+            <controls:IconButton Grid.Column="1" Command="{Binding AddObservationCommand}" />
+            <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" Items="{Binding Observations, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <TextBox
@@ -36,6 +38,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </StackPanel>
+        </Grid>
     </Border>
 </UserControl>

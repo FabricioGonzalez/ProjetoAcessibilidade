@@ -7,6 +7,7 @@ public interface ICheckingValue : INotifyPropertyChanged
     string Value
     {
         get;
+        set;
     }
 
     string LocalizationKey

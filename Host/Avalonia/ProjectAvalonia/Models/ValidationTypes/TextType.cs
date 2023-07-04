@@ -4,18 +4,27 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Models.ValidationTypes;
 
-public class UnCheckedType
+public class TextType
     : ReactiveObject
         , ICheckingValue
 {
+    private string _value;
+
+    public TextType(
+        string textType
+    )
+    {
+        Value = textType;
+    }
+
     public string Value
     {
-        get;
-        set;
-    } = "unchecked";
+        get => _value;
+        set => this.RaiseAndSetIfChanged(ref _value, value);
+    }
 
     public string LocalizationKey
     {
         get;
-    } = "UncheckedValueLabel".GetLocalized();
+    } = "CheckedValueLabel".GetLocalized();
 }

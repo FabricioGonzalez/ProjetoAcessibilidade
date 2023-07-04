@@ -22,9 +22,31 @@ public class ValidationRulesRepositoryImpl : IValidationRulesRepository
     }
 
     public async Task CreateValidationRule(
-        ValidationRule validationRule
+        IEnumerable<ValidationRule> validationRule
+        , string validationRulePath
     )
     {
+        if (string.IsNullOrWhiteSpace(validationRulePath))
+        {
+            return;
+        }
+
+        CreateSerealizer()
+            .IfSome(it =>
+        {
+            if (!File.Exists(validationRulePath))
+            {
+                using var stream = File.Create(validationRulePath);
+
+                it.Serialize(stream, validationRule.MapToValidationRoot(_ruleLexer));
+                
+                return;
+            }
+
+            using var writer = new StreamWriter(validationRulePath);
+            
+            it.Serialize(writer, validationRule.MapToValidationRoot(_ruleLexer));
+        });
     }
 
     public async Task<Option<IEnumerable<ValidationRule>>> LoadValidationRule(

@@ -7,8 +7,11 @@
     xmlns:local="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+    x:DataType="formItemState:CheckboxContainerItemState"
+    x:CompileBindings="True"
     xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+    xmlns:formItemState="clr-namespace:ProjectAvalonia.Presentation.States.FormItemState;assembly=ProjectAvalonia.Presentation"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -83,12 +86,12 @@
                                         <c:IconButton.Flyout>
                                             <MenuFlyout>
                                                 <MenuItem
-                                                    Command="{Binding $parent[local:CbEditContainer].DataContext.AddOption}"
+                                                    Command="{Binding $parent[local:CbEditContainer].((formItemState:CheckboxContainerItemState)DataContext).AddOption}"
                                                     CommandParameter="{Binding}"
                                                     Header="{x:Static p:Resources.Add_Option_ToolTip}"
                                                     Icon="{StaticResource add_regular}" />
                                                 <MenuItem
-                                                    Command="{Binding $parent[local:CbEditContainer].DataContext.AddTextItem}"
+                                                    Command="{Binding $parent[local:CbEditContainer].((formItemState:CheckboxContainerItemState)DataContext).AddTextItem}"
                                                     CommandParameter="{Binding}"
                                                     Header="{x:Static p:Resources.Add_Text_Item_ToolTip}"
                                                     Icon="{StaticResource add_regular}" />
@@ -97,6 +100,7 @@
                                     </c:IconButton>
                                     <local:RulePreviewerComponent
                                         ContainerId="{Binding Id,Mode=TwoWay}"
+                                        Options="{Binding Options}"
                                         SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay }" />
                                     <c:IconButton
                                         Width="24"
@@ -104,7 +108,7 @@
                                         Margin="8,0"
                                         HorizontalAlignment="Right"
                                         Classes="function"
-                                        Command="{Binding $parent[local:CbEditContainer].DataContext.RemoveCheckboxItem}"
+                                        Command="{Binding $parent[local:CbEditContainer].((formItemState:CheckboxContainerItemState)DataContext).RemoveCheckboxItem}"
                                         CommandParameter="{Binding}"
                                         Icon="{StaticResource dismiss_regular}"
                                         IconSize="16"
@@ -138,7 +142,7 @@
                                                                 Margin="8,0"
                                                                 HorizontalAlignment="Right"
                                                                 Classes="function"
-                                                                Command="{Binding #itemBox.DataContext.RemoveOption}"
+                                                                Command="{Binding $parent[ItemsControl;0].((formItemState:CheckboxItemState)DataContext).RemoveOption}"
                                                                 CommandParameter="{Binding}"
                                                                 Icon="{StaticResource dismiss_regular}"
                                                                 IconSize="16"
@@ -172,7 +176,7 @@
                                                             Margin="8,0"
                                                             HorizontalAlignment="Right"
                                                             Classes="function"
-                                                            Command="{Binding #itemBox.DataContext.RemoveTextItem}"
+                                                            Command="{Binding $parent[ItemsControl;0].((formItemState:CheckboxItemState)DataContext).RemoveTextItem}"
                                                             CommandParameter="{Binding}"
                                                             Icon="{StaticResource dismiss_regular}"
                                                             IconSize="16"

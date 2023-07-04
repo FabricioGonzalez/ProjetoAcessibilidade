@@ -12,6 +12,7 @@ using Common.Linq;
 using Common.Optional;
 using Core.Entities.Solution.Project.AppItem;
 using Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using Core.Entities.ValidationRules;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
@@ -28,6 +29,7 @@ using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
 using ProjetoAcessibilidade.Domain.App.Queries.Templates;
+using ProjetoAcessibilidade.Domain.AppValidationRules.Commands;
 using ProjetoAcessibilidade.Domain.AppValidationRules.Queries;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Commands.SystemItems;
@@ -282,16 +284,16 @@ public partial class TemplateEditViewModel
                             new ObservableCollection<IValidationRuleState>(x.Rules.Select(y =>
                                 new ValidationRuleState
                                 {
-                                    Type = AppValidation.GetOperationByValue(y.Operation), ValidationRuleName = "",
-                                    Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
+                                    Type = AppValidation.GetOperationByValue(y.Operation), ValidationRuleName = ""
+                                    , Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
                                         new ConditionState
                                         {
-                                            TargetId = cond.TargetId,
-                                            Result = new ObservableCollection<string>(cond.Result), CheckingValue =
+                                            TargetId = cond.TargetId
+                                            , Result = new ObservableCollection<string>(cond.Result), CheckingValue =
                                                 AppValidation.GetCheckingOperationByValue(cond.Type) is IsOperation
                                                     ? AppValidation.GetCheckingValueByValue(cond.CheckingValue)
-                                                    : new TextType(cond.CheckingValue),
-                                            CheckingOperationType =
+                                                    : new TextType(cond.CheckingValue)
+                                            , CheckingOperationType =
                                                 AppValidation.GetCheckingOperationByValue(cond.Type)
                                         }))
                                 }))
@@ -323,8 +325,8 @@ public partial class TemplateEditViewModel
                             {
                                 Id = item.Id ??
                                      Guid.NewGuid()
-                                         .ToString(),
-                                ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
+                                         .ToString()
+                                , ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
                             }) ??
                     Enumerable.Empty<EditableItemViewModel>());
 
@@ -350,8 +352,8 @@ public partial class TemplateEditViewModel
 
         itemContent.FormData = new List<IAppFormDataItemContract>
         {
-            new AppFormDataItemImageModel(Guid.NewGuid().ToString(), "Images"),
-            new AppFormDataItemObservationModel("", Guid.NewGuid().ToString(), "Observation")
+            new AppFormDataItemImageModel(Guid.NewGuid().ToString(), "Images")
+            , new AppFormDataItemObservationModel("", Guid.NewGuid().ToString(), "Observation")
         };
         itemContent.Images = Enumerable.Empty<ImagesItem>();
         itemContent.Observations = Enumerable.Empty<ObservationModel>();
@@ -365,11 +367,32 @@ public partial class TemplateEditViewModel
 
     private async Task SaveItemData(
         AppModelState item
-    ) =>
-        await _mediator
+    )
+    {
+        var itemSave = _mediator
             .Send(
                 new SaveSystemProjectItemContentCommand(
                     item.ToAppModel(),
                     SelectedItem.ItemPath),
                 CancellationToken.None);
+        var rules = TemplateEditTab.EditingItemRules.Select(it => new ValidationRule
+        {
+            Target = new Target { Id = it.TargetContainerId, Name = it.TargetContainerName }, Rules =
+                it.ValidaitonRules.Select(rule => new RuleSet
+                {
+                    Operation = rule.Type.Value
+                    , Conditions = rule.Conditions.Select(condition => new Conditions(condition.TargetId
+                        , condition.CheckingOperationType.Value, condition.CheckingValue.Value, condition.Result, null))
+                })
+        });
+        var rulesSave = _mediator
+            .Send(
+                new SaveValidationRulesCommand(rules
+                    , Path.Combine(Constants.AppValidationRulesTemplateFolder
+                        , $"{item.ItemTemplate}{Constants.AppProjectValidationTemplateExtension}")),
+                CancellationToken.None)
+            ;
+
+        await Task.WhenAll(itemSave, rulesSave);
+    }
 }

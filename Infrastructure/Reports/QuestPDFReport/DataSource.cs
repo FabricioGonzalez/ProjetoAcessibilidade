@@ -81,7 +81,7 @@ public static class DataSource
                         foreach (var options in checkbox.Children)
                         {
                             var checkboxModels = options.Options.Select(item =>
-                                new CheckboxModel(item.IsChecked, item.Value));
+                                new CheckboxModel(item.IsChecked, item.Value, options.IsValid));
 
                             var reportCheckbox = new ReportSectionCheckbox(options.Topic, options.Id)
                             {

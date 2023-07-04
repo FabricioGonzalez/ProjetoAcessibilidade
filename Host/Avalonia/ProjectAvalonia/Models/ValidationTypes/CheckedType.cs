@@ -11,32 +11,8 @@ public class CheckedType
     public string Value
     {
         get;
+        set;
     } = "checked";
-
-    public string LocalizationKey
-    {
-        get;
-    } = "CheckedValueLabel".GetLocalized();
-}
-
-public class TextType
-    : ReactiveObject
-        , ICheckingValue
-{
-    private string _value;
-
-    public TextType(
-        string textType
-    )
-    {
-        Value = textType;
-    }
-
-    public string Value
-    {
-        get => _value;
-        set => this.RaiseAndSetIfChanged(ref _value, value);
-    }
 
     public string LocalizationKey
     {

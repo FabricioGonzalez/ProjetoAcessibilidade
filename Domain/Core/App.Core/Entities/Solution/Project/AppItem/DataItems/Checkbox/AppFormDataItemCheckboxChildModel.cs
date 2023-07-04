@@ -39,4 +39,10 @@ public class AppFormDataItemCheckboxChildModel
         get;
         set;
     }
+
+    public bool IsValid
+    {
+        get;
+        set;
+    }
 }

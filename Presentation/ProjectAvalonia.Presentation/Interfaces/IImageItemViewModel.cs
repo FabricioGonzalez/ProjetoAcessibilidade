@@ -9,6 +9,7 @@ public interface IImageItemViewModel : INotifyPropertyChanged
         get;
         set;
     }
+
     public string ImagePath
     {
         get;
@@ -17,5 +18,6 @@ public interface IImageItemViewModel : INotifyPropertyChanged
     public string ImageObservation
     {
         get;
+        set;
     }
 }
