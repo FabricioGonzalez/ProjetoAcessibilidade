@@ -119,9 +119,20 @@ public partial class RulePreviewerComponent : UserControl
 
             if (result is { Result: ValidationRuleState, Kind: DialogResultKind.Normal } ok)
             {
+                ValidationRules.ReplaceOrAdd(
+                    ValidationRules.FirstOrDefault(i => i.ValidationRuleName == ok.Result.ValidationRuleName)
+                    , ok.Result);
+
                 if (SourceValidationRules.FirstOrDefault(rule => rule.TargetContainerId == ContainerId) is { } rules)
                 {
                     rules.ValidaitonRules = ValidationRules;
+                }
+                else
+                {
+                    SourceValidationRules.Add(new ValidationRuleContainerState
+                    {
+                        TargetContainerId = ContainerId, ValidaitonRules = ValidationRules
+                    });
                 }
             }
         }

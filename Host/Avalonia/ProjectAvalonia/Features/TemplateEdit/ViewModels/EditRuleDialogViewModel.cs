@@ -12,7 +12,7 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 public partial class EditRuleDialogViewModel : DialogViewModelBase<IValidationRuleState>
 {
     private ObservableCollection<OptionsItemState> _optionsItems = new();
-    private int _selectedCheckboxIndex;
+    [AutoNotify] private OptionsItemState _selectedCheckbox;
     [AutoNotify] private IValidationRuleState _validationRuleState;
 
     public EditRuleDialogViewModel(
@@ -71,12 +71,6 @@ public partial class EditRuleDialogViewModel : DialogViewModelBase<IValidationRu
     {
         get => _optionsItems;
         set => this.RaiseAndSetIfChanged(ref _optionsItems, value);
-    }
-
-    public int SelectedCheckboxIndex
-    {
-        get => _selectedCheckboxIndex;
-        set => this.RaiseAndSetIfChanged(ref _selectedCheckboxIndex, value);
     }
 
     public void SetCheckboxItems(

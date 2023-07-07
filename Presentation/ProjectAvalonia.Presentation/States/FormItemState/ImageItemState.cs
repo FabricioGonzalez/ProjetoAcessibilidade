@@ -1,20 +1,17 @@
-﻿using ReactiveUI;
+﻿using ProjectAvalonia.Presentation.Interfaces;
+using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
 
-public class ImageItemState : ReactiveObject
+public class ImageItemState
+    : ReactiveObject
+        , IIdentifiedItem
 {
     private string _id = "";
 
     private string _imageObservation = "";
 
     private string _imagePath = "";
-
-    public string Id
-    {
-        get => _id;
-        set => this.RaiseAndSetIfChanged(ref _id, value);
-    }
 
     public string ImageObservation
     {
@@ -26,5 +23,11 @@ public class ImageItemState : ReactiveObject
     {
         get => _imagePath;
         set => this.RaiseAndSetIfChanged(ref _imagePath, value);
+    }
+
+    public string Id
+    {
+        get => _id;
+        set => this.RaiseAndSetIfChanged(ref _id, value);
     }
 }

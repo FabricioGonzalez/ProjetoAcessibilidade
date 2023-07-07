@@ -5,12 +5,13 @@
              xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
              xmlns:p="clr-namespace:ProjectAvalonia.Properties"
              xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
-             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
              xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
-             xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
+             xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
              x:CompileBindings="True"
              x:DataType="viewModels:EditRuleDialogViewModel"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
              x:Class="ProjectAvalonia.Features.TemplateEdit.Views.EditRuleDialogView">
     <controls:ContentArea
         FocusNext="True"
@@ -25,6 +26,7 @@
         <Grid ColumnDefinitions="0.2* 0.5* 0.3* 0.2*" RowDefinitions="48 1*">
             <Label
                 Grid.Column="0"
+                Grid.ColumnSpan="2"
                 Content="{x:Static p:Resources.Validation_Rules_Label}"
                 FontWeight="DemiBold" />
             <ScrollViewer Grid.Column="0"
@@ -98,167 +100,7 @@
                                           Items="{Binding ValidationRuleState.Conditions}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid RowDefinitions="40 8 1.2*">
-
-                                            <Grid
-                                                ColumnDefinitions="0.2* 16 0.15* 16 0.4* 40 40">
-                                                <Label
-                                                    Grid.Row="0"
-                                                    Grid.Column="0"
-                                                    Content="{x:Static p:Resources.Add_Condition_ToolTip}"
-                                                    FontWeight="DemiBold" />
-                                                <ComboBox
-                                                    Grid.Row="0"
-                                                    Grid.Column="2"
-                                                    Height="24"
-                                                    Items="{x:Static validationTypes:AppValidation.checkingOperationTypes}"
-                                                    Padding="4,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Stretch"
-                                                    SelectedItem="{Binding CheckingOperationType}">
-                                                    <ComboBox.ItemTemplate>
-                                                        <DataTemplate x:CompileBindings="False">
-                                                            <TextBlock
-                                                                Text="{Binding LocalizationKey}" />
-                                                        </DataTemplate>
-                                                    </ComboBox.ItemTemplate>
-                                                </ComboBox>
-
-                                                <ContentControl Grid.Column="4" Grid.Row="0"
-                                                                DataContext="{Binding   CheckingValue }"
-                                                                Content="{Binding  }">
-                                                    <ContentControl.DataTemplates>
-                                                        <DataTemplate
-                                                            DataType="validationTypes:CheckedType">
-                                                            <Grid ColumnDefinitions="1* 1*">
-                                                                <ComboBox Grid.Column="0"
-                                                                          SelectedIndex="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).SelectedCheckboxIndex}"
-                                                                          HorizontalAlignment="Stretch"
-                                                                          VerticalAlignment="Center"
-                                                                          Items="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}">
-                                                                    <ComboBox.ItemTemplate>
-                                                                        <DataTemplate
-                                                                            x:CompileBindings="False">
-                                                                            <TextBlock
-                                                                                Text="{Binding Value}" />
-                                                                        </DataTemplate>
-                                                                    </ComboBox.ItemTemplate>
-                                                                </ComboBox>
-                                                                <ComboBox Grid.Column="1"
-                                                                          SelectedItem="{Binding }"
-                                                                          HorizontalAlignment="Stretch"
-                                                                          VerticalAlignment="Center"
-                                                                          Items="{x:Static validationTypes:AppValidation.checkingValues}">
-                                                                    <ComboBox.ItemTemplate>
-                                                                        <DataTemplate
-                                                                            x:CompileBindings="False">
-                                                                            <TextBlock
-                                                                                Text="{Binding LocalizationKey}" />
-                                                                        </DataTemplate>
-                                                                    </ComboBox.ItemTemplate>
-                                                                </ComboBox>
-                                                            </Grid>
-                                                        </DataTemplate>
-
-                                                        <DataTemplate
-                                                            DataType="validationTypes:UnCheckedType">
-                                                            <Grid ColumnDefinitions="1* 1*">
-                                                                <ComboBox Grid.Column="0"
-                                                                          SelectedIndex="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).SelectedCheckboxIndex}"
-                                                                          HorizontalAlignment="Stretch"
-                                                                          VerticalAlignment="Center"
-                                                                          Items="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}">
-                                                                    <ComboBox.ItemTemplate>
-                                                                        <DataTemplate
-                                                                            x:CompileBindings="False">
-                                                                            <TextBlock
-                                                                                Text="{Binding Value}" />
-                                                                        </DataTemplate>
-                                                                    </ComboBox.ItemTemplate>
-                                                                </ComboBox>
-                                                                <ComboBox Grid.Column="1"
-                                                                          SelectedItem="{Binding }"
-                                                                          HorizontalAlignment="Stretch"
-                                                                          VerticalAlignment="Center"
-                                                                          Items="{x:Static validationTypes:AppValidation.checkingValues}">
-                                                                    <ComboBox.ItemTemplate>
-                                                                        <DataTemplate
-                                                                            x:CompileBindings="False">
-                                                                            <TextBlock
-                                                                                Text="{Binding LocalizationKey}" />
-                                                                        </DataTemplate>
-                                                                    </ComboBox.ItemTemplate>
-                                                                </ComboBox>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                        <DataTemplate
-                                                            x:DataType="interfaces:ICheckingValue">
-                                                            <TextBox
-                                                                Height="24"
-                                                                Padding="4,0"
-                                                                Text="{Binding Value}" />
-                                                        </DataTemplate>
-                                                    </ContentControl.DataTemplates>
-                                                </ContentControl>
-
-
-                                                <controls:IconButton
-                                                    Grid.Column="5"
-                                                    Width="18"
-                                                    Height="18"
-                                                    HorizontalAlignment="Right"
-                                                    Icon="{StaticResource cancel_regular}"
-                                                    IconSize="16"
-                                                    Command="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).ExcludeConditionCommand}"
-                                                    CommandParameter="{Binding }"
-                                                    ToolTip.Tip="{x:Static p:Resources.Exclude_Condition_ToolTip}" />
-                                                <controls:IconButton
-                                                    Grid.Column="6"
-                                                    Width="18"
-                                                    Height="18"
-                                                    HorizontalAlignment="Right"
-                                                    Icon="{StaticResource add_circle_regular}"
-                                                    IconSize="16"
-                                                    Command="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).AddResultCommand}"
-                                                    CommandParameter="{Binding }"
-                                                    ToolTip.Tip="{x:Static p:Resources.Add_Result_ToolTip}" />
-                                            </Grid>
-
-                                            <Grid
-                                                Grid.Row="2"
-                                                ColumnDefinitions="64 1*"
-                                                RowDefinitions="40 1*">
-                                                <Label
-                                                    Grid.Row="0"
-                                                    Grid.Column="0"
-                                                    VerticalAlignment="Center"
-                                                    Content="{x:Static p:Resources.Then_Label}"
-                                                    FontWeight="DemiBold" />
-                                                <ItemsControl Grid.Row="0"
-                                                              Grid.RowSpan="2"
-                                                              Grid.Column="1"
-                                                              Items="{Binding Result}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Grid ColumnDefinitions="1* 40">
-                                                                <TextBox Margin="0,4,0,0"
-                                                                         Text="{Binding}" />
-                                                                <controls:IconButton
-                                                                    Grid.Column="1"
-                                                                    Width="18"
-                                                                    Height="18"
-                                                                    Command="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).ExcludeResultCommand}"
-                                                                    CommandParameter="{Binding $parent[ItemsControl].((interfaces:IConditionState)DataContext) }"
-                                                                    HorizontalAlignment="Right"
-                                                                    Icon="{StaticResource cancel_regular}"
-                                                                    IconSize="16"
-                                                                    ToolTip.Tip="{x:Static p:Resources.Exclude_Result_ToolTip}" />
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </Grid>
-                                        </Grid>
+                                        <components:ConditionContainer DataContext="{Binding .}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

@@ -288,7 +288,7 @@ public partial class TemplateEditViewModel
                                     , Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
                                         new ConditionState
                                         {
-                                            TargetId = cond.TargetId
+                                            TargetId =  cond.TargetId 
                                             , Result = new ObservableCollection<string>(cond.Result), CheckingValue =
                                                 AppValidation.GetCheckingOperationByValue(cond.Type) is IsOperation
                                                     ? AppValidation.GetCheckingValueByValue(cond.CheckingValue)
@@ -386,11 +386,11 @@ public partial class TemplateEditViewModel
                 })
         });
         var rulesSave = _mediator
-            .Send(
-                new SaveValidationRulesCommand(rules
-                    , Path.Combine(Constants.AppValidationRulesTemplateFolder
-                        , $"{item.ItemTemplate}{Constants.AppProjectValidationTemplateExtension}")),
-                CancellationToken.None)
+                .Send(
+                    new SaveValidationRulesCommand(rules
+                        , Path.Combine(Constants.AppValidationRulesTemplateFolder
+                            , $"{item.ItemTemplate}{Constants.AppProjectValidationTemplateExtension}")),
+                    CancellationToken.None)
             ;
 
         await Task.WhenAll(itemSave, rulesSave);

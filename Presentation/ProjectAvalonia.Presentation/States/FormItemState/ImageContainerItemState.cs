@@ -1,10 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+using ProjectAvalonia.Presentation.Interfaces;
 using ProjetoAcessibilidade.Core.Enuns;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
 
-public class ImageContainerItemState : FormItemStateBase
+public class ImageContainerItemState
+    : FormItemStateBase
+        , IIdentifiedItem
 {
     private ObservableCollection<ImageItemState> _imagesItems = new();
 

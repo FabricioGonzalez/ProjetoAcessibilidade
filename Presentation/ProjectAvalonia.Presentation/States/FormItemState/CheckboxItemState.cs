@@ -5,7 +5,7 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
 
-public class CheckboxItemState : ReactiveObject
+public class CheckboxItemState : ReactiveObject,IIdentifiedItem
 {
     private string _id;
 

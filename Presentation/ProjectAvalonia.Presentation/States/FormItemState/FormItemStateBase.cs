@@ -1,13 +1,12 @@
 ﻿using Common.Optional;
-
 using ProjetoAcessibilidade.Core.Enuns;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
 
 public class FormItemContainer : ReactiveObject
 {
+    private readonly Dictionary<AppFormDataType, FormItemStateBase> History = new();
     private FormItemStateBase _body;
 
     private string _id;
@@ -45,35 +44,25 @@ public class FormItemContainer : ReactiveObject
         }
     }
 
-    private readonly Dictionary<AppFormDataType, FormItemStateBase> History = new();
+    public void ClearHistory() => History.Clear();
 
-    public void ClearHistory()
-    {
-        History.Clear();
-    }
+    public void AddToHistory(
+        FormItemStateBase formItem
+    ) => History.TryAdd(formItem.Type, formItem);
 
-    public void AddToHistory(FormItemStateBase formItem)
-    {
-        History.TryAdd(formItem.Type, formItem);
-    }
-
-    public Optional<FormItemStateBase> ChangeItem(AppFormDataType type)
-    {
-        return History.GetValueOrDefault(type).ToOption();
-    }
+    public Optional<FormItemStateBase> ChangeItem(
+        AppFormDataType type
+    ) => History.GetValueOrDefault(type).ToOption();
 }
 
-public abstract class FormItemStateBase : ReactiveObject
+public abstract class FormItemStateBase
+    : ReactiveObject
 {
     private string _id;
-    public string Topic
-    {
-        get => _topic;
-        set => this.RaiseAndSetIfChanged(ref _topic, value);
-    }
+    private string _topic;
 
     private AppFormDataType _type;
-    private string _topic;
+
     protected FormItemStateBase(
         AppFormDataType type
         , string id
@@ -83,15 +72,21 @@ public abstract class FormItemStateBase : ReactiveObject
         Type = type;
     }
 
-    public string Id
+    public string Topic
     {
-        get => _id;
-        set => this.RaiseAndSetIfChanged(ref _id, value);
+        get => _topic;
+        set => this.RaiseAndSetIfChanged(ref _topic, value);
     }
 
     public AppFormDataType Type
     {
         get => _type;
         set => this.RaiseAndSetIfChanged(ref _type, value);
+    }
+
+    public string Id
+    {
+        get => _id;
+        set => this.RaiseAndSetIfChanged(ref _id, value);
     }
 }

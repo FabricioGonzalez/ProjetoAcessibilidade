@@ -2,7 +2,8 @@
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
 
-public class OptionsItemState : ReactiveObject
+public class OptionsItemState
+    : ReactiveObject
 {
     private string _id;
 

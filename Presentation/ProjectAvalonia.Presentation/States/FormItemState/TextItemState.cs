@@ -5,7 +5,8 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
 
-public class TextItemState : FormItemStateBase
+public class TextItemState
+    : FormItemStateBase
 {
     private string? _measurementUnit;
 
