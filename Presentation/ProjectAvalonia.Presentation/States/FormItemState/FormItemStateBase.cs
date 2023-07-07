@@ -68,7 +68,7 @@ public abstract class FormItemStateBase
         , string id
     )
     {
-        id = id;
+        _id = id;
         Type = type;
     }
 

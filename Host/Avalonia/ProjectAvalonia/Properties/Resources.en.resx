@@ -469,4 +469,7 @@
     <data name="LessOperationLabel" xml:space="preserve">
       <value>Less Than</value>
     </data>
+    <data name="Option_Mark_As_Invalid_MenuItem" xml:space="preserve">
+      <value>Mark as Invalid</value>
+    </data>
 </root>

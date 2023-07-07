@@ -41,6 +41,7 @@
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ObservationItem.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ObservationItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/OptionItem.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/OptionsContainer.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/OptionsContainerItem.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/OptionsItem.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/TextBoxItem.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />

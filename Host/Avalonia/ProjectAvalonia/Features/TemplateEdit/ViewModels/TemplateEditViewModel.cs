@@ -288,8 +288,8 @@ public partial class TemplateEditViewModel
                                     , Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
                                         new ConditionState
                                         {
-                                            TargetId =  cond.TargetId 
-                                            , Result = new ObservableCollection<string>(cond.Result), CheckingValue =
+                                            TargetId = cond.TargetId
+                                            , Result = new ObservableCollection<Result>(cond.Result.Select(it => new Result(){ResultValue = it})), CheckingValue =
                                                 AppValidation.GetCheckingOperationByValue(cond.Type) is IsOperation
                                                     ? AppValidation.GetCheckingValueByValue(cond.CheckingValue)
                                                     : new TextType(cond.CheckingValue)
@@ -382,14 +382,15 @@ public partial class TemplateEditViewModel
                 {
                     Operation = rule.Type.Value
                     , Conditions = rule.Conditions.Select(condition => new Conditions(condition.TargetId
-                        , condition.CheckingOperationType.Value, condition.CheckingValue.Value, condition.Result, null))
+                        , condition.CheckingOperationType.Value, condition.CheckingValue.Value
+                        , condition.Result.Select(result => result.ResultValue).ToList(), null))
                 })
         });
         var rulesSave = _mediator
                 .Send(
                     new SaveValidationRulesCommand(rules
                         , Path.Combine(Constants.AppValidationRulesTemplateFolder
-                            , $"{item.ItemTemplate}{Constants.AppProjectValidationTemplateExtension}")),
+                            , $"{Path.GetFileNameWithoutExtension(SelectedItem.ItemPath)}{Constants.AppProjectValidationTemplateExtension}")),
                     CancellationToken.None)
             ;
 

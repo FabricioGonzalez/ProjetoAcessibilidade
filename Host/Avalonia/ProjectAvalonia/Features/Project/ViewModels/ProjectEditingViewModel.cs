@@ -32,7 +32,9 @@ using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
+public class ProjectEditingViewModel
+    : ViewModelBase
+        , IProjectEditingViewModel
 {
     /*private readonly EditingItemsStore _editingItemsStore;
     private readonly ICommandDispatcher? commandDispatcher;
@@ -185,7 +187,9 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
             .Select(x => x.CloseItemCommand.Select(_ => x))
             .Merge();
 
-    private IObservable<Unit> AddItem(IItemViewModel item) =>
+    private IObservable<Unit> AddItem(
+        IItemViewModel item
+    ) =>
         Observable.Start(action: async () =>
         {
             if (EditingItems.All(x => x.Id != item.Id))
@@ -242,13 +246,17 @@ public class ProjectEditingViewModel : ViewModelBase, IProjectEditingViewModel
 
 public static class Extension
 {
-    public static ObservableCollection<ILawListViewModel> ToViewLawList(this IEnumerable<AppLawModel> lawModels) =>
+    public static ObservableCollection<ILawListViewModel> ToViewLawList(
+        this IEnumerable<AppLawModel> lawModels
+    ) =>
         new(lawModels.Select(item =>
             new LawListViewModel(item.LawId, item.LawTextContent)));
 
     public static ObservableCollection<IFormViewModel> ToViewForm(
-        this IEnumerable<IAppFormDataItemContract> formItems,
-        IEnumerable<ValidationRule> rules, SourceList<ObservationModel> observations) =>
+        this IEnumerable<IAppFormDataItemContract> formItems
+        , IEnumerable<ValidationRule> rules
+        , SourceList<ObservationModel> observations
+    ) =>
         new(formItems
             .Select<IAppFormDataItemContract, IFormViewModel>(item =>
             {
@@ -259,8 +267,8 @@ public static class Extension
                         topic: text.Topic,
                         textData: text.TextData,
                         measurementUnit: text.MeasurementUnit ?? "", observations: observations,
-                        rules: rules.Where(x => x.Target.Id == text.Id)),
-                    AppFormDataItemCheckboxModel checkbox => new CheckboxFormItem(id: checkbox.Id,
+                        rules: rules.Where(x => x.Target.Id == text.Id))
+                    , AppFormDataItemCheckboxModel checkbox => new CheckboxFormItem(id: checkbox.Id,
                         topic: checkbox.Topic,
                         checkboxItems: new ObservableCollection<ICheckboxItemViewModel>(
                             checkbox.Children.Select(
@@ -282,12 +290,14 @@ public static class Extension
                                             child.Options.Select(option =>
                                                 new OptionItemViewModel(id: option.Id,
                                                     value: option.Value,
-                                                    isChecked: option.IsChecked)))))))),
-                    _ => throw new ArgumentOutOfRangeException(nameof(item), item, null)
+                                                    isChecked: option.IsChecked))))))))
+                    , _ => throw new ArgumentOutOfRangeException(nameof(item), item, null)
                 };
             }));
 
-    public static AppItemModel ToAppModel(this IEditingBodyViewModel viewModel)
+    public static AppItemModel ToAppModel(
+        this IEditingBodyViewModel viewModel
+    )
     {
         var appModel = new AppItemModel();
 
@@ -299,26 +309,26 @@ public static class Extension
                 {
                     TextFormItemViewModel text => new AppFormDataItemTextModel(text.Id, text.Topic,
                         textData: text.TextData,
-                        measurementUnit: text.MeasurementUnit ?? ""),
-                    CheckboxFormItem checkbox => new AppFormDataItemCheckboxModel(checkbox.Id, checkbox.Topic)
+                        measurementUnit: text.MeasurementUnit ?? "")
+                    , CheckboxFormItem checkbox => new AppFormDataItemCheckboxModel(checkbox.Id, checkbox.Topic)
                     {
                         Children = checkbox.CheckboxItems.Select(
                             child => new AppFormDataItemCheckboxChildModel(child.Id, child.Topic)
                             {
-                                TextItems = child.TextItems.Select(textItem =>
+                                IsValid = child.IsInvalid, TextItems = child.TextItems.Select(textItem =>
                                     new AppFormDataItemTextModel(
                                         textItem.Id,
                                         textItem.Topic,
                                         textData: textItem.TextData,
-                                        measurementUnit: textItem.MeasurementUnit ?? "")),
-                                Options = child.Options.Options.Select(option =>
+                                        measurementUnit: textItem.MeasurementUnit ?? ""))
+                                , Options = child.Options.Options.Select(option =>
                                     new AppOptionModel(
                                         id: option.Id,
                                         value: option.Value,
                                         isChecked: option.IsChecked))
                             })
-                    },
-                    _ => throw new ArgumentOutOfRangeException(nameof(formData), formData, null)
+                    }
+                    , _ => throw new ArgumentOutOfRangeException(nameof(formData), formData, null)
                 };
             });
 

@@ -295,8 +295,8 @@
     <value>Iniciar juntamente ao Windows</value>
   </data>
     <data name="Operation_Label" xml:space="preserve">
-    <value>Operaçõa</value>
-  </data>
+      <value>Operações</value>
+    </data>
     <data name="Options_Label" xml:space="preserve">
     <value>Opções</value>
   </data>
@@ -467,5 +467,8 @@
     </data>
     <data name="LessOperationLabel" xml:space="preserve">
       <value>Menor que</value>
+    </data>
+    <data name="Option_Mark_As_Invalid_MenuItem" xml:space="preserve">
+      <value>Marcar como Invalido</value>
     </data>
 </root>

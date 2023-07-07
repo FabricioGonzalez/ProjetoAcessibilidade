@@ -6,6 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d"
@@ -23,5 +25,11 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+        <StackPanel.ContextFlyout>
+            <MenuFlyout>
+                <MenuItem Header="{x:Static p:Resources.Option_Mark_As_Invalid_MenuItem}"
+                          Command="{Binding $parent[components:CheckboxItemView].((interfaces:ICheckboxItemViewModel)DataContext).InvalidateItemCommand}" />
+            </MenuFlyout>
+        </StackPanel.ContextFlyout>
     </StackPanel>
 </UserControl>

@@ -29,13 +29,12 @@
                                   Items="{Binding   $parent[components:RulePreviewerComponent].ValidationRules,Mode=TwoWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="validationTypes:ValidationRuleState">
-                                <Panel>
-                                    <TextBlock Text="{Binding ValidationRuleName}" />
-                                    <Button
-                                        Click="EditRuleButtonClicked"
-                                        HorizontalAlignment="Right"
-                                        Content="{x:Static p:Resources.Edit_Rules_Button}" />
-                                </Panel>
+                                <Grid ColumnDefinitions="1* 96">
+                                    <TextBox Text="{Binding ValidationRuleName}" />
+                                    <Button Grid.Column="1"
+                                            Click="EditRuleButtonClicked"
+                                            Content="{x:Static p:Resources.Edit_Rules_Button}" />
+                                </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

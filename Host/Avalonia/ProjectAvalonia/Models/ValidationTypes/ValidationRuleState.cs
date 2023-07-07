@@ -39,7 +39,7 @@ public class ConditionState
 {
     private ICheckingOperationType _checkingOperationType;
     private ICheckingValue _checkingValue;
-    private ObservableCollection<string> _result = new();
+    private ObservableCollection<Result> _result = new();
 
     private string _targetId;
 
@@ -76,7 +76,7 @@ public class ConditionState
         set => this.RaiseAndSetIfChanged(ref _checkingValue, value);
     }
 
-    public ObservableCollection<string> Result
+    public ObservableCollection<Result> Result
     {
         get => _result;
         set => this.RaiseAndSetIfChanged(ref _result, value);

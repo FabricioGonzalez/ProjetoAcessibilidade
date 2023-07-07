@@ -50,11 +50,11 @@
                     <views:TemplateEditTabView CornerRadius="4" DataContext="{Binding TemplateEditTab, Mode=TwoWay}" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:Resources.Validation_Rules_Tab_Header}">
+            <!--<TabItem Header="{x:Static p:Resources.Validation_Rules_Tab_Header}">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <views:ItemValidationView CornerRadius="4" DataContext="{Binding ItemValidationTab, Mode=TwoWay}" />
                 </ScrollViewer>
-            </TabItem>
+            </TabItem>-->
         </TabControl>
     </SplitView>
 </UserControl>

@@ -1,5 +1,7 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
@@ -7,10 +9,10 @@ namespace ProjectAvalonia.Features.Project.Views.Components;
 public partial class OptionItem : UserControl
 {
     public static readonly AttachedProperty<bool> IsCheckedProperty =
-        AvaloniaProperty.RegisterAttached<OptionItem, UserControl, bool>(name: nameof(IsChecked));
+        AvaloniaProperty.RegisterAttached<OptionItem, UserControl, bool>(nameof(IsChecked));
 
     public static readonly AttachedProperty<string> ValueProperty =
-        AvaloniaProperty.RegisterAttached<OptionItem, UserControl, string>(name: nameof(Value));
+        AvaloniaProperty.RegisterAttached<OptionItem, UserControl, string>(nameof(Value));
 
     public OptionItem()
     {
@@ -22,14 +24,14 @@ public partial class OptionItem : UserControl
 
     public bool? IsChecked
     {
-        get => GetValue(property: IsCheckedProperty);
-        set => SetValue(property: IsCheckedProperty, value: value);
+        get => GetValue(IsCheckedProperty);
+        set => SetValue(IsCheckedProperty, value);
     }
 
     public string? Value
     {
-        get => GetValue(property: ValueProperty);
-        set => SetValue(property: ValueProperty, value: value);
+        get => GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
     }
 
     /*private void OptionChecker(
@@ -89,5 +91,11 @@ public partial class OptionItem : UserControl
     }
     */
 
-    private void InitializeComponent() => AvaloniaXamlLoader.Load(obj: this);
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
+
+    private void MenuItem_OnClick(
+        object? sender
+        , RoutedEventArgs e
+    ) =>
+        throw new NotImplementedException();
 }

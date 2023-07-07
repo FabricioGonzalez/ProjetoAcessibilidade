@@ -119,6 +119,14 @@ public partial class RulePreviewerComponent : UserControl
 
             if (result is { Result: ValidationRuleState, Kind: DialogResultKind.Normal } ok)
             {
+                if (!Options.Any())
+                {
+                    foreach (var it in ok.Result.Conditions)
+                    {
+                        it.TargetId = ContainerId;
+                    }
+                }
+
                 ValidationRules.ReplaceOrAdd(
                     ValidationRules.FirstOrDefault(i => i.ValidationRuleName == ok.Result.ValidationRuleName)
                     , ok.Result);

@@ -36,7 +36,12 @@ public class RuleLexer
         var id = Regex.Match(instruction
             , @$"\{KeyWordsDefinition.EvluationValueKey}(.*?)\{KeyWordsDefinition.EvluationValueKey}");
 
-        return id.Value[1..^1];
+        if (id.Value.Length > 0)
+        {
+            return id.Value[1..^1];
+        }
+
+        return "";
     }
 
     public IEnumerable<string> GetEvaluationExpression(

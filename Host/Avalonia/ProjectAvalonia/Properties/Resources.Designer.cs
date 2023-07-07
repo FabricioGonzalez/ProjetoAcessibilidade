@@ -672,6 +672,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mark as Invalid.
+        /// </summary>
+        public static string Option_Mark_As_Invalid_MenuItem {
+            get {
+                return ResourceManager.GetString("Option_Mark_As_Invalid_MenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         public static string Options_Label {

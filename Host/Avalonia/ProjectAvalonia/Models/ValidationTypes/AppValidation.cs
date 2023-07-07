@@ -43,7 +43,7 @@ public static class AppValidation
     public static ICheckingValue GetCheckingValueByValue(
         string value
     ) =>
-        checkingValues.First(it => it.Value == value);
+        checkingValues.First(it => it.Value == value.TrimEnd());
 
 
     public static IOperationType GetOperationByValue(

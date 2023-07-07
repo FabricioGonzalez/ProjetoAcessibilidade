@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
@@ -23,9 +24,20 @@ public interface IConditionState : INotifyPropertyChanged
         set;
     }
 
-    public ObservableCollection<string> Result
+    public ObservableCollection<Result> Result
     {
         get;
         set;
+    }
+}
+
+public class Result : ReactiveObject
+{
+    private string _resultValue = "";
+
+    public string ResultValue
+    {
+        get => _resultValue;
+        set => this.RaiseAndSetIfChanged(ref _resultValue, value);
     }
 }
