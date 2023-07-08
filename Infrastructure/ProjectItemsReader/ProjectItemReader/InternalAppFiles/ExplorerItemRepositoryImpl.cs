@@ -201,6 +201,64 @@ public class ExplorerItemRepositoryImpl : IExplorerItemRepository
             () => new Result<ExplorerItem>(new Exception("Erro na operação, valor vazio")),
             error => new Result<ExplorerItem>(error));
 
+    public async Task<Result<string>> RenameSystemItemAsync(
+        string name
+        , string path
+    ) =>
+        (await OptionalResult<string>.Optional(path)
+            .Map(explorerItem =>
+                (itemName: name, itemPath: path
+                    , exists: File.Exists(path)))
+            .MapAsync(async explorerItem =>
+            {
+                return await Task.Run(() =>
+                {
+                    try
+                    {
+                        if (explorerItem.exists && Directory.GetParent(path) is
+                                { Exists: true } info)
+                        {
+                            File.Move(
+                                explorerItem.itemPath,
+                                Path.Combine(
+                                    info!.FullName,
+                                    $"{name}{Constants.AppProjectItemExtension}"));
+
+                            path = explorerItem.itemPath.Replace(
+                                Path.GetFileName(explorerItem.itemPath),
+                                $"{name}{Constants.AppProjectItemExtension}");
+
+                            return new Result<string>(path);
+                        }
+
+                        return new Result<string>(new Exception("Erro na operação!"));
+                    }
+                    catch (IOException ex)
+                    {
+                        return new Result<string>(ex);
+                    }
+                    catch (UnauthorizedAccessException ex)
+                    {
+                        return new Result<string>(ex);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        return new Result<string>(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        return new Result<string>(ex);
+                    }
+                    catch (SecurityException ex)
+                    {
+                        return new Result<string>(ex);
+                    }
+                });
+            }))
+        .Match(item => new Result<string>(),
+            () => new Result<string>(new Exception("Erro na operação, valor vazio")),
+            error => new Result<string>(error));
+
 
     public async Task<Result<ExplorerItem>> RenameFolderItemAsync(
         ExplorerItem item

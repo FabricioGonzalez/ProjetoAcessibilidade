@@ -472,4 +472,7 @@
     <data name="Option_Mark_As_Invalid_MenuItem" xml:space="preserve">
       <value>Mark as Invalid</value>
     </data>
+    <data name="Remove_Law_Tooltip" xml:space="preserve">
+      <value>Remove Law</value>
+    </data>
 </root>

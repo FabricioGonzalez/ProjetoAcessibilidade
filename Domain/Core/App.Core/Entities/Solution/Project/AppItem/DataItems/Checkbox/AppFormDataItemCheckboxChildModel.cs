@@ -8,12 +8,14 @@ public class AppFormDataItemCheckboxChildModel
     public AppFormDataItemCheckboxChildModel(
         string id
         , string topic
+        , bool isValid
     )
     {
         Id = id;
         Topic = topic;
         Options = new List<AppOptionModel>();
         TextItems = new List<AppFormDataItemTextModel>();
+        IsValid = isValid;
     }
 
     public string Id

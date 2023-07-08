@@ -762,6 +762,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Law.
+        /// </summary>
+        public static string Remove_Law_Tooltip {
+            get {
+                return ResourceManager.GetString("Remove_Law_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename File.
         /// </summary>
         public static string Rename_File_Item_Menu_Header {

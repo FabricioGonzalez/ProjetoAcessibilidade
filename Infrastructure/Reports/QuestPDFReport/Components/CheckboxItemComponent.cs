@@ -8,7 +8,7 @@ namespace QuestPDFReport.Components;
 
 internal class CheckboxItemComponent : IComponent
 {
-    private readonly CheckboxModel item;
+    public readonly CheckboxModel item;
 
     public CheckboxItemComponent(
         CheckboxModel checkbox
@@ -28,7 +28,6 @@ internal class CheckboxItemComponent : IComponent
 
                 row
                     .ConstantItem(16)
-                    .Background(item.IsValid ? Colors.Red.Lighten3 : Colors.White)
                     .Layers(layers =>
                     {
                         layers

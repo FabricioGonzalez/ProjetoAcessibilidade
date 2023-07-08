@@ -67,7 +67,7 @@ public static class DataSource
                     {
                         section.Parts.Add(new ReportSectionText(label: text.Topic,
                             text: $"{text.TextData}",
-                            measurementUnit: text.MeasurementUnit is not null ? text.MeasurementUnit : "",
+                            measurementUnit: text.MeasurementUnit ?? "",
                             id: text.Id));
                     }
 
@@ -80,8 +80,8 @@ public static class DataSource
 
                         foreach (var options in checkbox.Children)
                         {
-                            var checkboxModels = options.Options.Select(item =>
-                                new CheckboxModel(item.IsChecked, item.Value, options.IsValid));
+                            var checkboxModels = options.Options.Select(optionChild =>
+                                new CheckboxModel(optionChild.IsChecked, optionChild.Value, options.IsValid));
 
                             var reportCheckbox = new ReportSectionCheckbox(options.Topic, options.Id)
                             {
@@ -202,7 +202,7 @@ public static class DataSource
                                         label: text.Topic,
                                         text:
                                         $"{text.TextData}",
-                                        measurementUnit: text.MeasurementUnit is not null ? text.MeasurementUnit : "",
+                                        measurementUnit: text.MeasurementUnit ?? "",
                                         id: text.Id));
                             }
 
@@ -221,8 +221,9 @@ public static class DataSource
                                 {
                                     var checkboxModels = options
                                         .Options
-                                        .Select(item =>
-                                            new CheckboxModel(item.IsChecked, item.Value));
+                                        .Select(optionModel =>
+                                            new CheckboxModel(optionModel.IsChecked, optionModel.Value
+                                                , options.IsValid));
 
                                     var reportCheckbox = new ReportSectionCheckbox(
                                         options.Topic,

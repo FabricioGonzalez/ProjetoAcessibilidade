@@ -48,8 +48,8 @@ public class ReportImage : IComponent
                     .BorderColor(Colors.Grey.Medium)
                     .Column(col =>
                     {
-                        col.Item().LabelCell().AlignCenter().Text("Observações");
-                        col.Item().ValueCell().Background(Colors.Grey.Lighten3).Text(Observation);
+                        col.Item().LabelCell().AlignCenter().Text("Comentários");
+                        col.Item().ValueCell().Background(Colors.Grey.Lighten1).Text(Observation);
                     });
             });
         }

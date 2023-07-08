@@ -48,11 +48,11 @@ public static class ValidationRulesExtensions
     ) =>
         rules.Rules.Select(x => new ValidationRule
         {
-            Target = new Target { Id = x.Target.Id }, Rules = x.RuleConditions.Select(x =>
+            Target = new Target { Id = x.Target.Id }, Rules = x.RuleConditions.Select(rule =>
             {
-                var conditions = x.RuleSetItems.Select(x =>
+                var conditions = rule.RuleSetItems.Select(condition =>
                 {
-                    var res = _ruleLexer.GetEvaluation(x.ValueTrigger);
+                    var res = _ruleLexer.GetEvaluation(condition.ValueTrigger);
 
                     var type = res.evaluation.FirstOrDefault("is");
                     var value = res.evaluation.LastOrDefault("");
@@ -60,22 +60,22 @@ public static class ValidationRulesExtensions
                         res.target,
                         type,
                         value,
-                        x.Results.Select(result => result.Result),
+                        condition.Results.Select(result => result.Result),
                         item =>
                         {
                             var expression = _ruleLexer.MountEvaluation(item,
                                 type,
                                 value);
 
-                            return (expression(), x.Results.Select(x => x.Result));
+                            return (expression(), condition.Results.Select(results => results.Result));
                         });
                 });
 
-                var results = x.RuleSetItems.SelectMany(x => x.Results.Select(y => y.Result));
+                var results = rule.RuleSetItems.SelectMany(results => results.Results.Select(y => y.Result));
 
                 return new RuleSet
                 {
-                    Operation = x.Operation, Conditions = conditions
+                    Operation = rule.Operation, Conditions = conditions
                 };
             })
         });

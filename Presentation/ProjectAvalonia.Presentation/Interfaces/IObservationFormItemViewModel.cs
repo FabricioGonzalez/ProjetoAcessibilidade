@@ -17,6 +17,11 @@ public interface IObservationFormItemViewModel : IFormViewModel
         get;
     }
 
+    public ReactiveCommand<ObservationModel, Unit> RemoveObservationCommand
+    {
+        get;
+    }
+
     public string Id
     {
         get;

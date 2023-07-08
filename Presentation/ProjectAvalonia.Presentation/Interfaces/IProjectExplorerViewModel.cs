@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
-
 using Common.Optional;
-
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ReactiveUI;
 
@@ -16,10 +14,21 @@ public interface IProjectExplorerViewModel : INotifyPropertyChanged
         get;
     }
 
-    public void SetCurrentSolution(ProjectSolutionModel state);
     public ProjectSolutionModel SolutionState
     {
         get;
+    }
+
+    public ISolutionGroupViewModel SolutionRootItem
+    {
+        get;
+        set;
+    }
+
+    public IItemViewModel SelectedItem
+    {
+        get;
+        set;
     }
 
     public ObservableCollection<IItemGroupViewModel> Items
@@ -27,4 +36,8 @@ public interface IProjectExplorerViewModel : INotifyPropertyChanged
         get;
         set;
     }
+
+    public void SetCurrentSolution(
+        ProjectSolutionModel state
+    );
 }

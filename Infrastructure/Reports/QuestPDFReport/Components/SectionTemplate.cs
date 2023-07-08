@@ -119,23 +119,33 @@ public class SectionTemplate : IComponent
 
                                                                                                 checkboxRow
                                                                                                     .RelativeItem(0.6f)
-                                                                                                    .Row(checkboxRow =>
-                                                                                                    {
-                                                                                                        checkboxes
-                                                                                                            .Checkboxes
-                                                                                                            .Select(
-                                                                                                                item =>
-                                                                                                                    new
-                                                                                                                        CheckboxItemComponent(
-                                                                                                                            item))
-                                                                                                            .IterateOn(
-                                                                                                                item =>
-                                                                                                                    checkboxRow
-                                                                                                                        .RelativeItem()
-                                                                                                                        .AlignCenter()
-                                                                                                                        .Component(
-                                                                                                                            item));
-                                                                                                    });
+                                                                                                    .Row(
+                                                                                                        innerCheckboxRow =>
+                                                                                                        {
+                                                                                                            checkboxes
+                                                                                                                .Checkboxes
+                                                                                                                .Select(
+                                                                                                                    CheckboxItemComponent =>
+                                                                                                                        new
+                                                                                                                            CheckboxItemComponent(
+                                                                                                                                CheckboxItemComponent))
+                                                                                                                .IterateOn(
+                                                                                                                    CheckboxItemComponent =>
+                                                                                                                        innerCheckboxRow
+                                                                                                                            .RelativeItem()
+                                                                                                                            .AlignCenter()
+                                                                                                                            .Background(
+                                                                                                                                CheckboxItemComponent
+                                                                                                                                    .item
+                                                                                                                                    .IsValid
+                                                                                                                                    ? Colors
+                                                                                                                                        .Red
+                                                                                                                                        .Lighten1
+                                                                                                                                    : Colors
+                                                                                                                                        .White)
+                                                                                                                            .Component(
+                                                                                                                                CheckboxItemComponent));
+                                                                                                        });
                                                                                             });
                                                                                     }
                                                                                 }
@@ -145,21 +155,22 @@ public class SectionTemplate : IComponent
 
                                                             column
                                                                 .Item()
+                                                                .Background(Colors.Yellow.Medium)
                                                                 .Column(items =>
                                                                 {
-                                                                    column
+                                                                    items
                                                                         .Item()
-                                                                        .Background(Colors.Yellow.Lighten2)
                                                                         .Element(x =>
                                                                             ObservationElement(x, item.Observation));
                                                                 });
-                                                            if (item.Images.Count() > 0)
+
+                                                            if (item.Images.Any())
                                                             {
                                                                 column
                                                                     .Item()
                                                                     .Column(items =>
                                                                     {
-                                                                        column
+                                                                        items
                                                                             .Item()
                                                                             .Element(x =>
                                                                                 PhotosElement(x, item.Images));

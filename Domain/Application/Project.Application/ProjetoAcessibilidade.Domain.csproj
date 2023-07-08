@@ -17,7 +17,6 @@
         <Folder Include="AppValidationRules\Queries\" />
         <Folder Include="App\Commands\" />
         <Folder Include="Common\" />
-        <Folder Include="Editing\Commands\" />
         <Folder Include="Editing\Queries\" />
     </ItemGroup>
 

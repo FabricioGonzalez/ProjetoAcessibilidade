@@ -8,6 +8,12 @@ public class RuleSet
         set;
     }
 
+    public string RuleName
+    {
+        get;
+        set;
+    }
+
     public IEnumerable<Conditions> Conditions
     {
         get;
@@ -15,8 +21,10 @@ public class RuleSet
     }
 }
 
-public record Conditions(string TargetId,
-    string Type,
-    string CheckingValue,
-    IEnumerable<string> Result,
-    Func<string, (bool evaluationResult, IEnumerable<string> results)> ConditionsFunctions);
+public record Conditions(
+    string TargetId
+    , string Type
+    , string CheckingValue
+    , IEnumerable<string> Result
+    , Func<string, (bool evaluationResult, IEnumerable<string> results)> ConditionsFunctions
+);

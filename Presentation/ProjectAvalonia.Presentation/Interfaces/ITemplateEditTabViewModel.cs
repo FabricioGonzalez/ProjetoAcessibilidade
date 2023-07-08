@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Reactive;
 using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
 using ReactiveUI;
 
@@ -27,6 +28,11 @@ public interface ITemplateEditTabViewModel : INotifyPropertyChanged
     }
 
     public ReactiveCommand<Unit, Unit> AddLawCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<FormItemContainer, Unit> RemoveItemCommand
     {
         get;
     }

@@ -47,6 +47,11 @@ public interface IExplorerItemRepository
         ExplorerItem item
     );
 
+    public Task<Result<string>> RenameSystemItemAsync(
+        string name
+        , string path
+    );
+
     public Task<Result<ExplorerItem>> RenameFolderItemAsync(
         ExplorerItem item
     );

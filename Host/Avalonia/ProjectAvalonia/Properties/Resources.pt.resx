@@ -471,4 +471,7 @@
     <data name="Option_Mark_As_Invalid_MenuItem" xml:space="preserve">
       <value>Marcar como Invalido</value>
     </data>
+    <data name="Remove_Law_Tooltip" xml:space="preserve">
+      <value>Remover Leis</value>
+    </data>
 </root>

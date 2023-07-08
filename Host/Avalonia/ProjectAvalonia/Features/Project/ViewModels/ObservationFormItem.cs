@@ -31,6 +31,9 @@ public class ObservationFormItem
     public ReactiveCommand<Unit, Unit> AddObservationCommand =>
         ReactiveCommand.Create(() => SourceItems.Add(new ObservationModel()));
 
+    public ReactiveCommand<ObservationModel, Unit> RemoveObservationCommand =>
+        ReactiveCommand.Create<ObservationModel>(it => SourceItems.Remove(it));
+
     public string Id
     {
         get;

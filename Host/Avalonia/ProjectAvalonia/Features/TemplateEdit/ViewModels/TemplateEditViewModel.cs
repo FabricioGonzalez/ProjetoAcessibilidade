@@ -17,6 +17,7 @@ using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
+using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 using ProjectAvalonia.Models;
 using ProjectAvalonia.Models.ValidationTypes;
@@ -32,6 +33,7 @@ using ProjetoAcessibilidade.Domain.App.Queries.Templates;
 using ProjetoAcessibilidade.Domain.AppValidationRules.Commands;
 using ProjetoAcessibilidade.Domain.AppValidationRules.Queries;
 using ProjetoAcessibilidade.Domain.Contracts;
+using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 using ProjetoAcessibilidade.Domain.Project.Commands.SystemItems;
 using ProjetoAcessibilidade.Domain.Project.Queries.SystemItems;
 using ReactiveUI;
@@ -97,13 +99,31 @@ public partial class TemplateEditViewModel
             LoadItems,
             outputScheduler: RxApp.MainThreadScheduler);
 
-        ExcludeItemCommand = ReactiveCommand.Create(
-            () =>
+        ExcludeItemCommand = ReactiveCommand.CreateFromTask(
+            async () =>
             {
+                var dialog = new DeleteDialogViewModel(
+                    "O item seguinte será excluido ao confirmar. Deseja continuar?", "Deletar Item"
+                    , "");
+
+                if ((await NavigateDialogAsync(dialog,
+                        NavigationTarget.CompactDialogScreen)).Result)
+                {
+                    if (SelectedItem is { } item)
+                    {
+                        Items?.Remove(item);
+
+                        await _mediator.Send(new DeleteProjectFileItemCommand(item.ItemPath), CancellationToken.None);
+                    }
+                }
             });
         RenameItemCommand = ReactiveCommand.Create(
             () =>
             {
+                if (SelectedItem is { InEditMode: false } item)
+                {
+                    item.InEditMode = true;
+                }
             });
     }
 
@@ -284,12 +304,15 @@ public partial class TemplateEditViewModel
                             new ObservableCollection<IValidationRuleState>(x.Rules.Select(y =>
                                 new ValidationRuleState
                                 {
-                                    Type = AppValidation.GetOperationByValue(y.Operation), ValidationRuleName = ""
+                                    ValidationRuleName = y.RuleName
+                                    , Type = AppValidation.GetOperationByValue(y.Operation)
                                     , Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
                                         new ConditionState
                                         {
                                             TargetId = cond.TargetId
-                                            , Result = new ObservableCollection<Result>(cond.Result.Select(it => new Result(){ResultValue = it})), CheckingValue =
+                                            , Result = new ObservableCollection<Result>(
+                                                cond.Result.Select(it => new Result { ResultValue = it }))
+                                            , CheckingValue =
                                                 AppValidation.GetCheckingOperationByValue(cond.Type) is IsOperation
                                                     ? AppValidation.GetCheckingValueByValue(cond.CheckingValue)
                                                     : new TextType(cond.CheckingValue)
@@ -380,7 +403,7 @@ public partial class TemplateEditViewModel
             Target = new Target { Id = it.TargetContainerId, Name = it.TargetContainerName }, Rules =
                 it.ValidaitonRules.Select(rule => new RuleSet
                 {
-                    Operation = rule.Type.Value
+                    Operation = rule.Type.Value, RuleName = rule.ValidationRuleName
                     , Conditions = rule.Conditions.Select(condition => new Conditions(condition.TargetId
                         , condition.CheckingOperationType.Value, condition.CheckingValue.Value
                         , condition.Result.Select(result => result.ResultValue).ToList(), null))
@@ -390,7 +413,8 @@ public partial class TemplateEditViewModel
                 .Send(
                     new SaveValidationRulesCommand(rules
                         , Path.Combine(Constants.AppValidationRulesTemplateFolder
-                            , $"{Path.GetFileNameWithoutExtension(SelectedItem.ItemPath)}{Constants.AppProjectValidationTemplateExtension}")),
+                            , $"{Path.GetFileNameWithoutExtension(SelectedItem.ItemPath)}{Constants.AppProjectValidationTemplateExtension}"))
+                    ,
                     CancellationToken.None)
             ;
 

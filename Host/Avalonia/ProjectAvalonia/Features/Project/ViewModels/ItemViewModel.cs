@@ -4,25 +4,30 @@ using System.Linq;
 using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
-
 using ReactiveUI;
-
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class ItemViewModel : ReactiveObject, IItemViewModel
+public class ItemViewModel
+    : ReactiveObject
+        , IItemViewModel
 {
     private readonly IMediator _mediator;
-    public ItemViewModel(string id, string itemPath, string name, string templateName, IItemGroupViewModel parent)
+
+    public ItemViewModel(
+        string id
+        , string itemPath
+        , string name
+        , string templateName
+        , IItemGroupViewModel parent
+    )
     {
         ItemPath = itemPath;
         Id = id;
@@ -32,23 +37,23 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
 
         _mediator = Locator.Current.GetService<IMediator>();
 
-        CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(execute: CommitFile);
-        SelectItemToEditCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(execute: SelectItemToEdit);
+        CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(CommitFile);
+        SelectItemToEditCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(SelectItemToEdit);
         ExcludeFileCommand =
-            ReactiveCommand.Create(execute: () =>
+            ReactiveCommand.Create(() =>
             {
             });
         CanMoveCommand =
-            ReactiveCommand.CreateFromTask<IItemGroupViewModel>(execute: async (parent) =>
+            ReactiveCommand.CreateFromTask<IItemGroupViewModel>(async parent =>
             {
                 var dialog = new DeleteDialogViewModel(
-                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
-                        title: "Deletar Item",
-                        caption: "");
+                    "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                    "Deletar Item",
+                    "");
 
                 if ((await RoutableViewModel.NavigateDialogAsync(
-                        dialog: dialog,
-                        target: NavigationTarget.CompactDialogScreen)).Result)
+                        dialog,
+                        NavigationTarget.CompactDialogScreen)).Result)
                 {
                     await MoveItem(parent);
                 }
@@ -56,30 +61,9 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
 
         _ = ExcludeFileCommand.Subscribe();
 
-        RenameFileCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(execute: RenameFile);
+        RenameFileCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(RenameFile);
     }
 
-    private async Task MoveItem(IItemGroupViewModel parent)
-    {
-        if (parent.Items.Any(x => x.Name == Name))
-        {
-            NotificationHelpers.Show("Erro", "O Item Já Existe");
-
-            return;
-        }
-        _ = Parent.Items.Remove(this);
-        Parent = parent;
-        Parent.Items.Add(this);
-
-        var oldPath = ItemPath;
-
-        ItemPath = Path.Combine(parent.ItemPath, Path.GetFileName(oldPath));
-
-        _ = (await _mediator.Send(new MoveFileItemCommand(oldPath, ItemPath), CancellationToken.None))
-            .IfFail(error => NotificationHelpers.Show("Erro", error.Message));
-
-        _ = Parent.MoveItemCommand.Execute();
-    }
     public string Id
     {
         get;
@@ -87,12 +71,14 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
 
     public IItemGroupViewModel Parent
     {
-        get; private set;
+        get;
+        private set;
     }
 
     public string ItemPath
     {
-        get; private set;
+        get;
+        private set;
     }
 
     public string Name
@@ -119,7 +105,7 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
     {
         get;
         set;
-    } = ReactiveCommand.Create(execute: () =>
+    } = ReactiveCommand.Create(() =>
     {
     });
 
@@ -128,15 +114,54 @@ public class ItemViewModel : ReactiveObject, IItemViewModel
         get;
         set;
     }
+
     public ReactiveCommand<IItemGroupViewModel, Unit> CanMoveCommand
     {
         get;
         set;
     }
 
-    private Task RenameFile(IItemViewModel item, CancellationToken token) => Task.CompletedTask;
+    private async Task MoveItem(
+        IItemGroupViewModel parent
+    )
+    {
+        if (parent.Items.Any(x => x.Name == Name))
+        {
+            NotificationHelpers.Show("Erro", "O Item Já Existe");
 
-    private Task SelectItemToEdit(IItemViewModel item, CancellationToken token) => Task.CompletedTask;
+            return;
+        }
 
-    private Task CommitFile(IItemGroupViewModel item, CancellationToken token) => Task.CompletedTask;
+        _ = Parent.Items.Remove(this);
+        Parent = parent;
+        Parent.Items.Add(this);
+
+        var oldPath = ItemPath;
+
+        ItemPath = Path.Combine(parent.ItemPath, Path.GetFileName(oldPath));
+
+        _ = (await _mediator.Send(new MoveFileItemCommand(oldPath, ItemPath), CancellationToken.None))
+            .IfFail(error => NotificationHelpers.Show("Erro", error.Message));
+
+        _ = Parent.MoveItemCommand.Execute();
+    }
+
+    private Task RenameFile(
+        IItemViewModel item
+        , CancellationToken token
+    ) => Task.CompletedTask;
+
+    private async Task SelectItemToEdit(
+        IItemViewModel item
+        , CancellationToken token
+    ) =>
+        ProjectEditingViewModel
+            .SetEditingItem
+            .Handle(item)
+            .Subscribe();
+
+    private Task CommitFile(
+        IItemGroupViewModel item
+        , CancellationToken token
+    ) => Task.CompletedTask;
 }

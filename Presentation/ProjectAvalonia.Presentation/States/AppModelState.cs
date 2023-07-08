@@ -349,7 +349,8 @@ public static class Extensions
                                                 ? checkboxChild.Id
                                                 : Guid.NewGuid()
                                                     .ToString(),
-                                            checkboxChild.Topic)
+                                            checkboxChild.Topic,
+                                            false)
                                         {
                                             Options = checkboxChild
                                                 .Options

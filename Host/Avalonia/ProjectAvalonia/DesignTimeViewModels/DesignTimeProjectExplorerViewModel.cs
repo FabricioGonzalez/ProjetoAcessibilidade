@@ -1,15 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
-
 using Common.Optional;
-
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 
-public class DesignTimeProjectExplorerViewModel : ReactiveObject, IProjectExplorerViewModel
+public class DesignTimeProjectExplorerViewModel
+    : ReactiveObject
+        , IProjectExplorerViewModel
 {
     public ReactiveCommand<IItemGroupViewModel, Unit> AddItemToProject
     {
@@ -26,6 +26,18 @@ public class DesignTimeProjectExplorerViewModel : ReactiveObject, IProjectExplor
         get;
     }
 
+    public ISolutionGroupViewModel SolutionRootItem
+    {
+        get;
+        set;
+    }
+
+    public IItemViewModel SelectedItem
+    {
+        get;
+        set;
+    }
+
     public ObservableCollection<IItemGroupViewModel> Items
     {
         get;
@@ -35,7 +47,9 @@ public class DesignTimeProjectExplorerViewModel : ReactiveObject, IProjectExplor
         new DesignTimeItemGroupViewModel()
     };
 
-    public void SetCurrentSolution(ProjectSolutionModel state)
+    public void SetCurrentSolution(
+        ProjectSolutionModel state
+    )
     {
     }
 }

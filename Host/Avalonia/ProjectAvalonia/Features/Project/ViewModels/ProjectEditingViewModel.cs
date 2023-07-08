@@ -313,9 +313,9 @@ public static class Extension
                     , CheckboxFormItem checkbox => new AppFormDataItemCheckboxModel(checkbox.Id, checkbox.Topic)
                     {
                         Children = checkbox.CheckboxItems.Select(
-                            child => new AppFormDataItemCheckboxChildModel(child.Id, child.Topic)
+                            child => new AppFormDataItemCheckboxChildModel(child.Id, child.Topic, child.IsInvalid)
                             {
-                                IsValid = child.IsInvalid, TextItems = child.TextItems.Select(textItem =>
+                                TextItems = child.TextItems.Select(textItem =>
                                     new AppFormDataItemTextModel(
                                         textItem.Id,
                                         textItem.Topic,

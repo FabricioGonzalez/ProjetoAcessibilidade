@@ -11,30 +11,39 @@ public class ItemFormDataCheckboxChildModel : ItemFormData
     public ItemFormDataCheckboxChildModel(
         string id
         , string topic
+        , bool isInvalid
     )
-        : base(id: id)
+        : base(id)
     {
         Id = id;
         Topic = topic;
+        IsInvalid = isInvalid;
     }
 
-    [XmlElement(elementName: "topic", IsNullable = true)]
+    [XmlElement("is_valid", IsNullable = true)]
+    public bool? IsInvalid
+    {
+        get;
+        set;
+    }
+
+    [XmlElement("topic", IsNullable = true)]
     public string Topic
     {
         get;
         set;
     }
 
-    [XmlArray(elementName: "options")]
-    [XmlArrayItem(elementName: "option")]
+    [XmlArray("options")]
+    [XmlArrayItem("option")]
     public List<ItemOptionModel> Options
     {
         get;
         set;
     }
 
-    [XmlArray(elementName: "texts")]
-    [XmlArrayItem(elementName: "text_item")]
+    [XmlArray("texts")]
+    [XmlArrayItem("text_item")]
     public List<ItemFormDataTextModel> TextItems
     {
         get;

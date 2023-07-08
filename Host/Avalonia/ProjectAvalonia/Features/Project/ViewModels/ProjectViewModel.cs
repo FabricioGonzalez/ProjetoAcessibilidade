@@ -58,7 +58,7 @@ public partial class ProjectViewModel
         var isSolutionOpen = this.WhenAnyValue(vm => vm.IsSolutionOpen);
 
         _ = this.WhenAnyValue(vm => vm.ProjectExplorerViewModel)
-            .Select(x => x?.Items.Count > 0 || x?.SolutionState is not null)
+            .Select(x => x?.SolutionRootItem.ItemsGroups.Count > 0 || x?.SolutionState is not null)
             .ToProperty(
                 this,
                 x => x.IsSolutionOpen,

@@ -1,4 +1,3 @@
-
 <UserControl
     x:Class="ProjectAvalonia.Features.Project.Views.ProjectExplorerView"
     xmlns="https://github.com/avaloniaui"
@@ -9,6 +8,7 @@
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+    xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="interfaces:IProjectExplorerViewModel"
@@ -39,16 +39,32 @@
             Padding="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Items="{Binding Items, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <TreeView.ItemTemplate>
-                <DataTemplate>
-                    <components:ItemGroupView DataContext="{Binding}" />
-                </DataTemplate>
-            </TreeView.ItemTemplate>
+            <TreeViewItem DataContext="{Binding SolutionRootItem.SolutionItem }" Header="{Binding Name}">
+                <Interaction.Behaviors>
+                    <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding SelectItemToEditCommand}"
+                                                                    CommandParameter="{Binding}" />
+                </Interaction.Behaviors>
+            </TreeViewItem>
+            <TreeViewItem DataContext="{Binding SolutionRootItem.ConclusionItem }" Header="{Binding Name}">
+                <Interaction.Behaviors>
+                    <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding SelectItemToEditCommand}"
+                                                                    CommandParameter="{Binding}" />
+                </Interaction.Behaviors>
+            </TreeViewItem>
+            <TreeViewItem DataContext="{Binding SolutionRootItem }" Header="Itens" Items="{Binding ItemsGroups}">
+                <TreeViewItem.ItemTemplate>
+                    <DataTemplate>
+                        <components:ItemGroupView DataContext="{Binding}" />
+                    </DataTemplate>
+                </TreeViewItem.ItemTemplate>
+            </TreeViewItem>
+
+
             <TreeView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding CreateFolderCommand}" Header="{x:Static p:Resources.Add_Solution_Item_Menu_Item}" />
+                    <MenuItem Command="{Binding CreateFolderCommand}"
+                              Header="{x:Static p:Resources.Add_Solution_Item_Menu_Item}" />
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>
