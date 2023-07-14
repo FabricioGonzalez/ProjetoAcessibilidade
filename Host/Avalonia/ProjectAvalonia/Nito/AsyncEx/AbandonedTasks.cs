@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Common.Logging;
 
 namespace ProjectAvalonia.Nito.AsyncEx;
 
@@ -11,8 +11,15 @@ namespace ProjectAvalonia.Nito.AsyncEx;
 /// </summary>
 public class AbandonedTasks
 {
-    private HashSet<Task> Tasks { get; } = new();
-    private object Lock { get; } = new();
+    private HashSet<Task> Tasks
+    {
+        get;
+    } = new();
+
+    private object Lock
+    {
+        get;
+    } = new();
 
     /// <summary>Gets the number of outstanding tasks.</summary>
     /// <remarks>As a side-effect completed tasks are removed.</remarks>
@@ -37,7 +44,7 @@ public class AbandonedTasks
     {
         lock (Lock)
         {
-            AddNoLock(tasks: tasks);
+            AddNoLock(tasks);
 
             ClearCompletedNoLock();
         }
@@ -58,24 +65,31 @@ public class AbandonedTasks
                 tasks = Tasks.ToArray();
 
                 // 2. If all tasks cleared, then break.
-                if (!tasks.Any()) break;
+                if (!tasks.Any())
+                {
+                    break;
+                }
             }
 
             // Save the task to have AggregatedExceptions.
-            var whenAllTask = Task.WhenAll(tasks: tasks);
+            var whenAllTask = Task.WhenAll(tasks);
 
             // 3. Wait for all tasks to complete.
             try
             {
-                await whenAllTask.ConfigureAwait(continueOnCapturedContext: false);
+                await whenAllTask.ConfigureAwait(false);
             }
             catch (Exception)
             {
                 if (whenAllTask.Exception is { } aggregatedException)
                     // Catch every exception but log only non-cancellation ones.
-                    foreach (var exc in aggregatedException.InnerExceptions.Where(predicate: ex =>
+                {
+                    foreach (var exc in aggregatedException.InnerExceptions.Where(ex =>
                                  ex is not OperationCanceledException))
-                        Logger.LogDebug(exception: exc);
+                    {
+                        Logger.LogDebug(exc);
+                    }
+                }
             }
         } while (true);
     }
@@ -84,17 +98,25 @@ public class AbandonedTasks
         params Task[] tasks
     )
     {
-        foreach (var t in tasks) Tasks.Add(item: t);
+        foreach (var t in tasks)
+        {
+            Tasks.Add(t);
+        }
     }
 
     private void ClearCompletedNoLock()
     {
         foreach (var t in Tasks.ToArray())
+        {
             if (t.IsCompleted)
             {
-                if (t.IsFaulted && t.Exception?.InnerException is { } exc) Logger.LogDebug(exception: exc);
+                if (t.IsFaulted && t.Exception?.InnerException is { } exc)
+                {
+                    Logger.LogDebug(exc);
+                }
 
-                Tasks.Remove(item: t);
+                Tasks.Remove(t);
             }
+        }
     }
 }

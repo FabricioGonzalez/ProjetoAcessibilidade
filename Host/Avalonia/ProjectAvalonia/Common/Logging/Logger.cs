@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using ProjectAvalonia.Common.Helpers;
 
-namespace ProjectAvalonia.Logging;
+namespace ProjectAvalonia.Common.Logging;
 
 /// <summary>
 ///     Logging class.
@@ -104,14 +104,14 @@ public static class Logger
         , LogLevel? logLevel = null
     )
     {
-        SetFilePath(filePath: filePath);
+        SetFilePath(filePath);
 
 #if RELEASE
 			SetMinimumLevel(logLevel ??= LogLevel.Info);
 			SetModes(LogMode.Console, LogMode.File);
 
 #else
-        SetMinimumLevel(level: logLevel ??= LogLevel.Debug);
+        SetMinimumLevel(logLevel ??= LogLevel.Debug);
         SetModes(LogMode.Debug, LogMode.Console, LogMode.File);
 #endif
         MaximumLogFileSize = MinimumLevel == LogLevel.Trace ? 0 : 10_000;
@@ -137,17 +137,17 @@ public static class Logger
 
         foreach (var mode in modes)
         {
-            Modes.Add(item: mode);
+            Modes.Add(mode);
         }
     }
 
     public static void SetFilePath(
         string filePath
-    ) => FilePath = Guard.NotNullOrEmptyOrWhitespace(parameterName: nameof(filePath), value: filePath, trim: true);
+    ) => FilePath = Guard.NotNullOrEmptyOrWhitespace(nameof(filePath), filePath, true);
 
     public static void SetEntrySeparator(
         string entrySeparator
-    ) => EntrySeparator = Guard.NotNull(parameterName: nameof(entrySeparator), value: entrySeparator);
+    ) => EntrySeparator = Guard.NotNull(nameof(entrySeparator), entrySeparator);
 
     /// <summary>
     ///     KB
@@ -160,11 +160,11 @@ public static class Logger
 
     #region Methods
 
-    public static void TurnOff() => Interlocked.Exchange(location1: ref On, value: 0);
+    public static void TurnOff() => Interlocked.Exchange(ref On, 0);
 
-    public static void TurnOn() => Interlocked.Exchange(location1: ref On, value: 1);
+    public static void TurnOn() => Interlocked.Exchange(ref On, 1);
 
-    public static bool IsOn() => Interlocked.Read(location: ref On) == 1;
+    public static bool IsOn() => Interlocked.Read(ref On) == 1;
 
     #endregion Methods
 
@@ -194,36 +194,35 @@ public static class Logger
                 return;
             }
 
-            message = Guard.Correct(str: message);
-            var category = string.IsNullOrWhiteSpace(value: callerFilePath)
+            message = Guard.Correct(message);
+            var category = string.IsNullOrWhiteSpace(callerFilePath)
                 ? ""
-                : $"{EnvironmentHelpers.ExtractFileName(callerFilePath: callerFilePath)}.{callerMemberName} ({callerLineNumber})";
+                : $"{EnvironmentHelpers.ExtractFileName(callerFilePath)}.{callerMemberName} ({callerLineNumber})";
 
             var messageBuilder = new StringBuilder();
             messageBuilder.Append(
-                handler:
                 $"{DateTime.UtcNow.ToLocalTime():yyyy-MM-dd HH:mm:ss.fff} [{Environment.CurrentManagedThreadId}] {level.ToString().ToUpperInvariant()}\t");
 
             if (message.Length == 0)
             {
                 if (category.Length == 0) // If both empty. It probably never happens though.
                 {
-                    messageBuilder.Append(handler: $"{EntrySeparator}");
+                    messageBuilder.Append($"{EntrySeparator}");
                 }
                 else // If only the message is empty.
                 {
-                    messageBuilder.Append(handler: $"{category}{EntrySeparator}");
+                    messageBuilder.Append($"{category}{EntrySeparator}");
                 }
             }
             else
             {
                 if (category.Length == 0) // If only the category is empty.
                 {
-                    messageBuilder.Append(handler: $"{message}{EntrySeparator}");
+                    messageBuilder.Append($"{message}{EntrySeparator}");
                 }
                 else // If none of them empty.
                 {
-                    messageBuilder.Append(handler: $"{category}\t{message}{EntrySeparator}");
+                    messageBuilder.Append($"{category}\t{message}{EntrySeparator}");
                 }
             }
 
@@ -231,7 +230,7 @@ public static class Logger
 
             for (var i = 0; i < additionalEntrySeparators; i++)
             {
-                messageBuilder.Insert(index: 0, value: EntrySeparator);
+                messageBuilder.Insert(0, EntrySeparator);
             }
 
             var finalFileMessage = messageBuilder.ToString();
@@ -242,7 +241,7 @@ public static class Logger
 
             lock (Lock)
             {
-                if (Modes.Contains(item: LogMode.Console))
+                if (Modes.Contains(LogMode.Console))
                 {
                     lock (Console.Out)
                     {
@@ -260,49 +259,49 @@ public static class Logger
                         }
 
                         Console.ForegroundColor = color;
-                        Console.Write(value: finalMessage);
+                        Console.Write(finalMessage);
                         Console.ResetColor();
                     }
                 }
 
-                if (Modes.Contains(item: LogMode.Debug))
+                if (Modes.Contains(LogMode.Debug))
                 {
-                    Debug.Write(message: finalMessage);
+                    Debug.Write(finalMessage);
                 }
 
-                if (!Modes.Contains(item: LogMode.File))
+                if (!Modes.Contains(LogMode.File))
                 {
                     return;
                 }
 
-                IoHelpers.EnsureContainingDirectoryExists(fileNameOrPath: FilePath);
+                IoHelpers.EnsureContainingDirectoryExists(FilePath);
 
                 if (MaximumLogFileSize > 0)
                 {
-                    if (File.Exists(path: FilePath))
+                    if (File.Exists(FilePath))
                     {
-                        var sizeInBytes = new FileInfo(fileName: FilePath).Length;
+                        var sizeInBytes = new FileInfo(FilePath).Length;
                         if (sizeInBytes > 1000 * MaximumLogFileSize)
                         {
-                            File.Delete(path: FilePath);
+                            File.Delete(FilePath);
                         }
                     }
                 }
 
-                File.AppendAllText(path: FilePath, contents: finalFileMessage);
+                File.AppendAllText(FilePath, finalFileMessage);
             }
         }
         catch (Exception ex)
         {
-            if (Interlocked.Increment(location: ref LoggingFailedCount) ==
+            if (Interlocked.Increment(ref LoggingFailedCount) ==
                 1) // If it only failed the first time, try log the failure.
             {
-                LogDebug(message: $"Logging failed: {ex}");
+                LogDebug($"Logging failed: {ex}");
             }
 
             // If logging the failure is successful then clear the failure counter.
             // If it's not the first time the logging failed, then we do not try to log logging failure, so clear the failure counter.
-            Interlocked.Exchange(location1: ref LoggingFailedCount, value: 0);
+            Interlocked.Exchange(ref LoggingFailedCount, 0);
         }
     }
 
@@ -320,7 +319,7 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(level: level, message: $"{message} Exception: {ex}", callerFilePath: callerFilePath
+    ) => Log(level, $"{message} Exception: {ex}", callerFilePath: callerFilePath
         , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
 
     /// <summary>
@@ -332,7 +331,7 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(level: level, message: exception.ToString(), callerFilePath: callerFilePath
+    ) => Log(level, exception.ToString(), callerFilePath: callerFilePath
         , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
 
     #endregion ExceptionLoggingMethods
@@ -353,7 +352,7 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(level: LogLevel.Trace, message: message, callerFilePath: callerFilePath, callerMemberName: callerMemberName
+    ) => Log(LogLevel.Trace, message, callerFilePath: callerFilePath, callerMemberName: callerMemberName
         , callerLineNumber: callerLineNumber);
 
     /// <summary>
@@ -371,8 +370,8 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(exception: exception, level: LogLevel.Trace, callerFilePath: callerFilePath
-        , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+    ) => Log(exception, LogLevel.Trace, callerFilePath
+        , callerMemberName, callerLineNumber);
 
     /// <summary>
     ///     Logs <paramref name="message" /> with <paramref name="exception" /> using <see cref="Exception.ToString()" />
@@ -391,8 +390,8 @@ public static class Logger
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
     )
-        => Log(message: message, ex: exception, level: LogLevel.Trace, callerFilePath: callerFilePath
-            , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+        => Log(message, exception, LogLevel.Trace, callerFilePath
+            , callerMemberName, callerLineNumber);
 
     #endregion TraceLoggingMethods
 
@@ -412,7 +411,7 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(level: LogLevel.Debug, message: message, callerFilePath: callerFilePath, callerMemberName: callerMemberName
+    ) => Log(LogLevel.Debug, message, callerFilePath: callerFilePath, callerMemberName: callerMemberName
         , callerLineNumber: callerLineNumber);
 
     /// <summary>
@@ -430,8 +429,8 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(exception: exception, level: LogLevel.Debug, callerFilePath: callerFilePath
-        , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+    ) => Log(exception, LogLevel.Debug, callerFilePath
+        , callerMemberName, callerLineNumber);
 
     /// <summary>
     ///     Logs <paramref name="message" /> with <paramref name="exception" /> using <see cref="Exception.ToString()" />
@@ -449,8 +448,8 @@ public static class Logger
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
     )
-        => Log(message: message, ex: exception, level: LogLevel.Debug, callerFilePath: callerFilePath
-            , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+        => Log(message, exception, LogLevel.Debug, callerFilePath
+            , callerMemberName, callerLineNumber);
 
     #endregion DebugLoggingMethods
 
@@ -467,9 +466,9 @@ public static class Logger
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
     )
-        => Log(level: LogLevel.Info, message: $"{appName} started ({InstanceGuid}).", additionalEntrySeparators: 3
-            , additionalEntrySeparatorsLogFileOnlyMode: true, callerFilePath: callerFilePath
-            , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+        => Log(LogLevel.Info, $"{appName} started ({InstanceGuid}).", 3
+            , true, callerFilePath
+            , callerMemberName, callerLineNumber);
 
     /// <summary>
     ///     Logs special event: Software has stopped. Add also <see cref="InstanceGuid" /> identifier.
@@ -481,7 +480,7 @@ public static class Logger
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
     )
-        => Log(level: LogLevel.Info, message: $"{appName} stopped gracefully ({InstanceGuid})."
+        => Log(LogLevel.Info, $"{appName} stopped gracefully ({InstanceGuid})."
             , callerFilePath: callerFilePath, callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
 
     /// <summary>
@@ -495,7 +494,7 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(level: LogLevel.Info, message: message, callerFilePath: callerFilePath, callerMemberName: callerMemberName
+    ) => Log(LogLevel.Info, message, callerFilePath: callerFilePath, callerMemberName: callerMemberName
         , callerLineNumber: callerLineNumber);
 
     /// <summary>
@@ -510,8 +509,8 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(exception: exception, level: LogLevel.Info, callerFilePath: callerFilePath
-        , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+    ) => Log(exception, LogLevel.Info, callerFilePath
+        , callerMemberName, callerLineNumber);
 
     /// <summary>
     ///     Logs <paramref name="message" /> with <paramref name="exception" /> using <see cref="Exception.ToString()" />
@@ -527,8 +526,8 @@ public static class Logger
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
     )
-        => Log(message: message, ex: exception, level: LogLevel.Info, callerFilePath: callerFilePath
-            , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+        => Log(message, exception, LogLevel.Info, callerFilePath
+            , callerMemberName, callerLineNumber);
 
     #endregion InfoLoggingMethods
 
@@ -549,7 +548,7 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(level: LogLevel.Warning, message: message, callerFilePath: callerFilePath
+    ) => Log(LogLevel.Warning, message, callerFilePath: callerFilePath
         , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
 
     /// <summary>
@@ -570,8 +569,8 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(exception: exception, level: LogLevel.Warning, callerFilePath: callerFilePath
-        , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+    ) => Log(exception, LogLevel.Warning, callerFilePath
+        , callerMemberName, callerLineNumber);
 
     #endregion WarningLoggingMethods
 
@@ -591,7 +590,7 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(level: LogLevel.Error, message: message, callerFilePath: callerFilePath, callerMemberName: callerMemberName
+    ) => Log(LogLevel.Error, message, callerFilePath: callerFilePath, callerMemberName: callerMemberName
         , callerLineNumber: callerLineNumber);
 
     /// <summary>
@@ -611,8 +610,8 @@ public static class Logger
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
     )
-        => Log(message: message, ex: exception, level: LogLevel.Error, callerFilePath: callerFilePath
-            , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+        => Log(message, exception, LogLevel.Error, callerFilePath
+            , callerMemberName, callerLineNumber);
 
     /// <summary>
     ///     Logs the <paramref name="exception" /> using <see cref="Exception.ToString()" /> at <see cref="LogLevel.Error" />
@@ -629,8 +628,8 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(exception: exception, level: LogLevel.Error, callerFilePath: callerFilePath
-        , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+    ) => Log(exception, LogLevel.Error, callerFilePath
+        , callerMemberName, callerLineNumber);
 
     #endregion ErrorLoggingMethods
 
@@ -646,7 +645,7 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(level: LogLevel.Critical, message: message, callerFilePath: callerFilePath
+    ) => Log(LogLevel.Critical, message, callerFilePath: callerFilePath
         , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
 
     /// <summary>
@@ -660,8 +659,8 @@ public static class Logger
         , [CallerFilePath] string callerFilePath = ""
         , [CallerMemberName] string callerMemberName = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => Log(exception: exception, level: LogLevel.Critical, callerFilePath: callerFilePath
-        , callerMemberName: callerMemberName, callerLineNumber: callerLineNumber);
+    ) => Log(exception, LogLevel.Critical, callerFilePath
+        , callerMemberName, callerLineNumber);
 
     #endregion CriticalLoggingMethods
 

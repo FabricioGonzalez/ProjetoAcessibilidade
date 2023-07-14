@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using ProjectAvalonia.Common.EventHelpers;
 using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Common.Logging;
 
 namespace ProjectAvalonia.Common.Bases;
 
@@ -51,7 +51,7 @@ public abstract class PeriodicRunner : BackgroundService
     /// </remarks>
     public void TriggerRound() =>
         // Note: All members of TaskCompletionSource<TResult> are thread-safe and may be used from multiple threads concurrently.
-        _tcs?.TrySetResult(result: true);
+        _tcs?.TrySetResult(true);
 
     /// <summary>
     ///     Triggers and waits for the action to execute.
@@ -61,19 +61,19 @@ public abstract class PeriodicRunner : BackgroundService
     )
     {
         EventAwaiter<TimeSpan> eventAwaiter = new(
-            subscribe: h => Tick += h,
-            unsubscribe: h => Tick -= h);
+            h => Tick += h,
+            h => Tick -= h);
         TriggerRound();
-        await eventAwaiter.WaitAsync(token: token).ConfigureAwait(continueOnCapturedContext: false);
+        await eventAwaiter.WaitAsync(token).ConfigureAwait(false);
     }
 
     public async Task TriggerAndWaitRoundAsync(
         TimeSpan timeout
     )
     {
-        using CancellationTokenSource cancellationTokenSource = new(delay: timeout);
-        await TriggerAndWaitRoundAsync(token: cancellationTokenSource.Token)
-            .ConfigureAwait(continueOnCapturedContext: false);
+        using CancellationTokenSource cancellationTokenSource = new(timeout);
+        await TriggerAndWaitRoundAsync(cancellationTokenSource.Token)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -97,55 +97,55 @@ public abstract class PeriodicRunner : BackgroundService
             {
                 // Do user action.
                 var before = DateTimeOffset.UtcNow;
-                await ActionAsync(cancel: stoppingToken).ConfigureAwait(continueOnCapturedContext: false);
-                Tick?.Invoke(sender: this, e: DateTimeOffset.UtcNow - before);
+                await ActionAsync(stoppingToken).ConfigureAwait(false);
+                Tick?.Invoke(this, DateTimeOffset.UtcNow - before);
 
                 var info = ExceptionTracker.LastException;
 
                 // Log previous exception if any.
                 if (info is not null)
                 {
-                    Logger.LogInfo(message: $"Exception stopped coming. It came for " +
-                                            $"{(DateTimeOffset.UtcNow - info.FirstAppeared).TotalSeconds} seconds, " +
-                                            $"{info.ExceptionCount} times: {info.Exception.ToTypeMessageString()}");
+                    Logger.LogInfo($"Exception stopped coming. It came for " +
+                                   $"{(DateTimeOffset.UtcNow - info.FirstAppeared).TotalSeconds} seconds, " +
+                                   $"{info.ExceptionCount} times: {info.Exception.ToTypeMessageString()}");
                     ExceptionTracker.Reset();
                 }
             }
             catch (Exception ex) when (ex is OperationCanceledException or TimeoutException)
             {
-                Logger.LogTrace(exception: ex);
+                Logger.LogTrace(ex);
             }
             catch (Exception ex)
             {
                 // Exception encountered, process it.
-                var info = ExceptionTracker.Process(currentException: ex);
+                var info = ExceptionTracker.Process(ex);
                 if (info.IsFirst)
                 {
-                    Logger.LogError(exception: info.Exception);
+                    Logger.LogError(info.Exception);
                 }
             }
 
             // Wait for the next round.
             try
             {
-                using var cts = CancellationTokenSource.CreateLinkedTokenSource(token: stoppingToken);
+                using var cts = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
                 var linkedTcs = _tcs; // Copy reference so it cannot change.
 
                 if (linkedTcs.Task == await Task
-                        .WhenAny(task1: linkedTcs.Task, task2: Task.Delay(delay: Period, cancellationToken: cts.Token))
-                        .ConfigureAwait(continueOnCapturedContext: false))
+                        .WhenAny(linkedTcs.Task, Task.Delay(Period, cts.Token))
+                        .ConfigureAwait(false))
                 {
                     cts.Cancel(); // Ensure that the Task.Delay task is cleaned up.
                 }
                 else
                 {
                     linkedTcs.TrySetCanceled(
-                        cancellationToken: stoppingToken); // Ensure that the tcs.Task is cleaned up.
+                        stoppingToken); // Ensure that the tcs.Task is cleaned up.
                 }
             }
             catch (TaskCanceledException ex)
             {
-                Logger.LogTrace(exception: ex);
+                Logger.LogTrace(ex);
             }
         }
     }

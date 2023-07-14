@@ -9,6 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
+    xmlns:views="clr-namespace:ProjectAvalonia.Features.Project.Views"
+    xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="interfaces:IProjectExplorerViewModel"
@@ -42,14 +44,16 @@
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <TreeViewItem DataContext="{Binding SolutionRootItem.SolutionItem }" Header="{Binding Name}">
                 <Interaction.Behaviors>
-                    <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding SelectItemToEditCommand}"
-                                                                    CommandParameter="{Binding}" />
+                    <behaviors:ExecuteCommandOnDoubleTappedBehavior
+                        Command="{Binding $parent[views:ProjectView].((viewModels:ProjectViewModel)DataContext).ProjectEditingViewModel.AddItemToEdit}"
+                        CommandParameter="{Binding}" />
                 </Interaction.Behaviors>
             </TreeViewItem>
             <TreeViewItem DataContext="{Binding SolutionRootItem.ConclusionItem }" Header="{Binding Name}">
                 <Interaction.Behaviors>
-                    <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding SelectItemToEditCommand}"
-                                                                    CommandParameter="{Binding}" />
+                    <behaviors:ExecuteCommandOnDoubleTappedBehavior
+                        Command="{Binding $parent[views:ProjectView].((viewModels:ProjectViewModel)DataContext).ProjectEditingViewModel.AddItemToEdit}"
+                        CommandParameter="{Binding}" />
                 </Interaction.Behaviors>
             </TreeViewItem>
             <TreeViewItem DataContext="{Binding SolutionRootItem }" Header="Itens" Items="{Binding ItemsGroups}">
@@ -59,8 +63,6 @@
                     </DataTemplate>
                 </TreeViewItem.ItemTemplate>
             </TreeViewItem>
-
-
             <TreeView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Command="{Binding CreateFolderCommand}"

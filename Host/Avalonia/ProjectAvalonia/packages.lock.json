@@ -1081,6 +1081,7 @@
           "Common": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
           "ProjetoAcessibilidade.Core": "[1.0.0, )",
+          "ProjetoAcessibilidade.Domain": "[1.0.0, )",
           "ReactiveUI": "[18.4.26, )"
         }
       },

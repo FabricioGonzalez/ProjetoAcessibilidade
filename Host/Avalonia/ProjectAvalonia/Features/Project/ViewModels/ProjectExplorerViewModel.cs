@@ -45,10 +45,11 @@ public class ProjectExplorerViewModel
 
         SolutionRootItem = new SolutionGroupViewModel();
 
-        SolutionRootItem.SolutionItem = new ItemViewModel("", state.FilePath
-            , Path.GetFileNameWithoutExtension(state.FilePath), "", null);
+        SolutionRootItem.SolutionItem = new SolutionItemViewModel("", state.FilePath
+            , Path.GetFileNameWithoutExtension(state.FilePath), "");
 
-        SolutionRootItem.ConclusionItem = new ItemViewModel(Guid.NewGuid().ToString(), "", "Conclusão", "", null);
+        SolutionRootItem.ConclusionItem = new ConclusionItemViewModel(Guid.NewGuid().ToString()
+            , Path.Combine(Path.GetDirectoryName(state.FilePath), "conclusion.prjc"), "Conclusão", "");
 
         SolutionRootItem.ItemsGroups = new ObservableCollection<IItemGroupViewModel>(SolutionState.ItemGroups
             .Select(
@@ -58,6 +59,9 @@ public class ProjectExplorerViewModel
                         model.Name,
                         model.ItemPath,
                         async () => await SaveSolution());
+
+                    vm.SelectItemToEdit = SetEditingItem;
+
                     vm.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
                     vm.TransformFrom(model.Items);
 
@@ -148,16 +152,18 @@ public class ProjectExplorerViewModel
             .Subscribe();
     }
 
+    public ReactiveCommand<IItemViewModel, Unit> SetEditingItem
+    {
+        get;
+        set;
+    } = ReactiveCommand.Create<IItemViewModel>(it =>
+    {
+    });
+
     public ISolutionGroupViewModel SolutionRootItem
     {
         get => _solutionGroupView;
         set => this.RaiseAndSetIfChanged(ref _solutionGroupView, value);
-    }
-
-    public ObservableCollection<IItemGroupViewModel> Items
-    {
-        get;
-        set;
     }
 
     public IItemViewModel SelectedItem

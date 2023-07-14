@@ -4,11 +4,8 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-
 using Avalonia.Controls;
-
 using Common;
-
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Validation;
 using ProjectAvalonia.Common.ViewModels;
@@ -17,13 +14,11 @@ using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.SearchBar;
-using ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels;
@@ -46,41 +41,40 @@ public partial class MainViewModel : ViewModelBase
 
     /*[AutoNotify] private StatusIconViewModel _statusIcon;*/
     [AutoNotify] private string _title = Constants.AppName;
-    [AutoNotify] private WindowState _windowState;
 
     [AutoNotify] private MenuViewModel? _toolBarMenu;
+    [AutoNotify] private WindowState _windowState;
 
     public MainViewModel()
     {
-
         ApplyUiConfigWindowSate();
 
         ValidatedErrors.RegisterHandler(
-            handler: interaction =>
+            interaction =>
             {
                 ErrorMessage = interaction.Input.Message;
 
-                interaction.SetOutput(output: Unit.Default);
+                interaction.SetOutput(Unit.Default);
             });
 
         this.ValidateProperty(
-            property: vm => vm.ErrorMessage,
-            validateMethod: errors =>
+            vm => vm.ErrorMessage,
+            errors =>
             {
                 errors.Add(
-                    severity: ErrorSeverity.Warning,
-                    error: ErrorMessage ?? "Nothing");
+                    ErrorSeverity.Warning,
+                    ErrorMessage ?? "Nothing");
             });
 
         _dialogScreen = new DialogScreenViewModel();
-        _fullScreen = new DialogScreenViewModel(navigationTarget: NavigationTarget.FullScreen);
-        _compactDialogScreen = new DialogScreenViewModel(navigationTarget: NavigationTarget.CompactDialogScreen);
-        MainScreen = new TargettedNavigationStack(target: NavigationTarget.HomeScreen);
+        _fullScreen = new DialogScreenViewModel(NavigationTarget.FullScreen);
+        _compactDialogScreen = new DialogScreenViewModel(NavigationTarget.CompactDialogScreen);
+        MainScreen = new TargettedNavigationStack(NavigationTarget.HomeScreen);
         NavigationState.Register(
-            homeScreenNavigation: MainScreen,
-            dialogScreenNavigation: DialogScreen,
-            fullScreenNavigation: FullScreen,
-            compactDialogScreenNavigation: CompactDialogScreen);
+            MainScreen,
+            DialogScreen,
+            FullScreen,
+            CompactDialogScreen);
 
         UiServices.Initialize();
 
@@ -90,41 +84,41 @@ public partial class MainViewModel : ViewModelBase
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
 
-        NavigationManager.RegisterType(instance: _navBar);
+        NavigationManager.RegisterType(_navBar);
         RegisterViewModels();
 
-        RxApp.MainThreadScheduler.Schedule(action: async () => await _navBar.InitialiseAsync());
+        RxApp.MainThreadScheduler.Schedule(async () => await _navBar.InitialiseAsync());
 
-        this.WhenAnyValue(property1: x => x.WindowState)
-            .Where(predicate: state => state != WindowState.Minimized)
-            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-            .Subscribe(onNext: state => ServicesConfig.UiConfig.WindowState = state.ToString());
+        this.WhenAnyValue(x => x.WindowState)
+            .Where(state => state != WindowState.Minimized)
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Subscribe(state => ServicesConfig.UiConfig.WindowState = state.ToString());
 
         IsMainContentEnabled = this.WhenAnyValue(
-                property1: x => x.DialogScreen.IsDialogOpen,
-                property2: x => x.FullScreen.IsDialogOpen,
-                property3: x => x.CompactDialogScreen.IsDialogOpen,
-                selector: (
-                    dialogIsOpen,
-                    fullScreenIsOpen,
-                    compactIsOpen
+                x => x.DialogScreen.IsDialogOpen,
+                x => x.FullScreen.IsDialogOpen,
+                x => x.CompactDialogScreen.IsDialogOpen,
+                (
+                    dialogIsOpen
+                    , fullScreenIsOpen
+                    , compactIsOpen
                 ) => !(dialogIsOpen || fullScreenIsOpen || compactIsOpen))
-            .ObserveOn(scheduler: RxApp.MainThreadScheduler);
+            .ObserveOn(RxApp.MainThreadScheduler);
 
         this.WhenAnyValue(
-                property1: x => x.DialogScreen.CurrentPage,
-                property2: x => x.CompactDialogScreen.CurrentPage,
-                property3: x => x.FullScreen.CurrentPage,
-                property4: x => x.MainScreen.CurrentPage,
-                selector: (
-                    dialog,
-                    compactDialog,
-                    fullScreenDialog,
-                    mainScreen
+                x => x.DialogScreen.CurrentPage,
+                x => x.CompactDialogScreen.CurrentPage,
+                x => x.FullScreen.CurrentPage,
+                x => x.MainScreen.CurrentPage,
+                (
+                    dialog
+                    , compactDialog
+                    , fullScreenDialog
+                    , mainScreen
                 ) => compactDialog ?? dialog ?? fullScreenDialog ?? mainScreen)
             .WhereNotNull()
-            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-            .Do(onNext: page =>
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Do(page =>
             {
                 page.SetActive();
 
@@ -182,12 +176,12 @@ public partial class MainViewModel : ViewModelBase
         string projectPath
     ) =>
         Instance.MainScreen.To(
-            viewmodel: _projectPage,
+            _projectPage,
             Parameter: projectPath);
 
     public void PrintProject(
 
-    /*SolutionState solutionState*/
+        /*SolutionState solutionState*/
     )
     {
         /*Instance.FullScreen.To(viewmodel: _previewPrintPage, Parameter: solutionState);
@@ -207,29 +201,29 @@ public partial class MainViewModel : ViewModelBase
 
     private void RegisterViewModels()
     {
-        SettingsPageViewModel.Register(createInstance: _settingsPage);
+        SettingsPageViewModel.Register(_settingsPage);
 
-        TemplateEditViewModel.Register(createInstance: _templatePage);
+        TemplateEditViewModel.Register(_templatePage);
 
-        ProjectViewModel.Register(createInstance: _projectPage);
-        PreviewerViewModel.Register(createInstance: _previewPrintPage);
+        ProjectViewModel.Register(_projectPage);
+        PreviewerViewModel.Register(_previewPrintPage);
 
         GeneralSettingsTabViewModel.RegisterLazy(
-            createInstance: () =>
+            () =>
             {
                 _settingsPage.SelectedTab = 0;
                 return _settingsPage;
             });
 
         AdvancedSettingsTabViewModel.RegisterLazy(
-            createInstance: () =>
+            () =>
             {
                 _settingsPage.SelectedTab = 2;
                 return _settingsPage;
             });
 
         TemplateEditTabViewModel.RegisterLazy(
-            createInstance: () =>
+            () =>
             {
                 /*_templatePage.SelectedTab = 0;*/
 
@@ -239,12 +233,12 @@ public partial class MainViewModel : ViewModelBase
 
     public void ApplyUiConfigWindowSate() => WindowState =
         (WindowState)Enum.Parse(
-            enumType: typeof(WindowState),
-            value: ServicesConfig.UiConfig.WindowState);
+            typeof(WindowState),
+            ServicesConfig.UiConfig.WindowState);
 
     [SuppressMessage(
-        category: "Reliability",
-        checkId: "CA2000:Dispose objects before losing scope",
+        "Reliability",
+        "CA2000:Dispose objects before losing scope",
         Justification = "Same lifecycle as the application. Won't be disposed separately.")]
     private SearchBarViewModel CreateSearchBar()
     {
@@ -252,17 +246,17 @@ public partial class MainViewModel : ViewModelBase
         var filterChanged = new Subject<string>();
 
         var source = new CompositeSearchSource(
-            new ActionsSearchSource(query: filterChanged),
+            new ActionsSearchSource(filterChanged),
             new SettingsSearchSource(
-                settingsPage: _settingsPage,
-                query: filterChanged));
+                _settingsPage,
+                filterChanged));
 
-        var searchBar = new SearchBarViewModel(itemsObservable: source.Changes);
+        var searchBar = new SearchBarViewModel(source.Changes);
 
         searchBar
-            .WhenAnyValue(property1: a => a.SearchText)
+            .WhenAnyValue(a => a.SearchText)
             .WhereNotNull()
-            .Subscribe(observer: filterChanged);
+            .Subscribe(filterChanged);
 
         return searchBar;
     }

@@ -1,7 +1,7 @@
 using System;
 using System.Reactive.Concurrency;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Models;
-using ProjectAvalonia.Logging;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
 
@@ -13,7 +13,7 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
 
     protected SettingsTabViewModelBase()
     {
-        ConfigOnOpen = new Config(filePath: ServicesConfig.Config.FilePath);
+        ConfigOnOpen = new Config(ServicesConfig.Config.FilePath);
         ConfigOnOpen.LoadFile();
     }
 
@@ -37,17 +37,17 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
             return;
         }
 
-        var config = new Config(filePath: ConfigOnOpen.FilePath);
+        var config = new Config(ConfigOnOpen.FilePath);
 
         RxApp.MainThreadScheduler.Schedule(
-            action: () =>
+            () =>
             {
                 try
                 {
                     lock (ConfigLock)
                     {
                         config.LoadFile();
-                        EditConfigOnSave(config: config);
+                        EditConfigOnSave(config);
                         config.ToFile();
 
                         OnConfigSaved();
@@ -55,7 +55,7 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogDebug(exception: ex);
+                    Logger.LogDebug(ex);
                 }
             });
     }
@@ -69,8 +69,8 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
         var isRestartNeeded = CheckIfRestartIsNeeded();
 
         RestartNeeded?.Invoke(
-            sender: typeof(SettingsTabViewModelBase),
-            e: new RestartNeededEventArgs
+            typeof(SettingsTabViewModelBase),
+            new RestartNeededEventArgs
             {
                 IsRestartNeeded = isRestartNeeded
             });
@@ -83,10 +83,10 @@ public abstract class SettingsTabViewModelBase : RoutableViewModel
             return false;
         }
 
-        var currentConfig = new Config(filePath: ConfigOnOpen.FilePath);
+        var currentConfig = new Config(ConfigOnOpen.FilePath);
         currentConfig.LoadFile();
 
-        var isRestartNeeded = !ConfigOnOpen.AreDeepEqual(otherConfig: currentConfig);
+        var isRestartNeeded = !ConfigOnOpen.AreDeepEqual(currentConfig);
 
         return isRestartNeeded;
     }

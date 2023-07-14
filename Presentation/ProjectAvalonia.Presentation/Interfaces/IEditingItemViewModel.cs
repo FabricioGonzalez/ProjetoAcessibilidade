@@ -21,10 +21,11 @@ public interface IEditingItemViewModel : INotifyPropertyChanged
         get;
     }
 
-    public string TemplateName
+    public string ItemPath
     {
         get;
     }
+
 
     public ReactiveCommand<Unit, Unit> CloseItemCommand
     {
@@ -32,12 +33,6 @@ public interface IEditingItemViewModel : INotifyPropertyChanged
     }
 
     public ReactiveCommand<Unit, Unit> SaveItemCommand
-    {
-        get;
-    }
-
-
-    public IEditingBodyViewModel Body
     {
         get;
     }

@@ -1,15 +1,29 @@
 ﻿using System.Reactive;
-
 using Avalonia.Input;
-
 using ProjectAvalonia.Presentation.Interfaces;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 
-public class DesignTimeEditingItemViewModel : ReactiveObject, IEditingItemViewModel
+public class DesignTimeEditingItemViewModel
+    : ReactiveObject
+        , IEditingItemViewModel
 {
+    public KeyGesture Gesture
+    {
+        get;
+    } = new(Key.S, InputModifiers.Control);
+
+    public IEditingBodyViewModel Body
+    {
+        get;
+    } = new DesingTimeEditingBodyViewModel();
+
+    public string TemplateName
+    {
+        get;
+    }
+
     public string ItemName
     {
         get;
@@ -24,25 +38,18 @@ public class DesignTimeEditingItemViewModel : ReactiveObject, IEditingItemViewMo
     {
         get;
     } = true;
-    public KeyGesture Gesture
+
+    public string ItemPath
     {
         get;
-    } = new KeyGesture(Key.S, InputModifiers.Control);
+    }
+
     public ReactiveCommand<Unit, Unit> SaveItemCommand
     {
         get;
     }
+
     public ReactiveCommand<Unit, Unit> CloseItemCommand
-    {
-        get;
-    }
-
-    public IEditingBodyViewModel Body
-    {
-        get;
-    } = new DesingTimeEditingBodyViewModel();
-
-    public string TemplateName
     {
         get;
     }

@@ -1,6 +1,4 @@
-using System.Diagnostics;
-
-namespace ProjectAvalonia.Logging;
+namespace ProjectAvalonia.Common.Logging;
 
 public enum LogMode
 {

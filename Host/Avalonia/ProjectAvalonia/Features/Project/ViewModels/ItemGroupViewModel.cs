@@ -7,38 +7,33 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Common;
-
 using DynamicData;
 using DynamicData.Binding;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
-
 using ReactiveUI;
-
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class ItemGroupViewModel : ReactiveObject,
-    IItemGroupViewModel
+public class ItemGroupViewModel
+    : ReactiveObject
+        , IItemGroupViewModel
 {
     private readonly IMediator _mediator;
 
     public ItemGroupViewModel(
-        string name,
-        string itemPath,
-        Func<Task> SaveSolution
+        string name
+        , string itemPath
+        , Func<Task> SaveSolution
     )
     {
         _mediator = Locator.Current.GetService<IMediator>();
@@ -47,58 +42,55 @@ public class ItemGroupViewModel : ReactiveObject,
         ItemPath = itemPath;
 
         Items = new ObservableCollection<IItemViewModel>();
-        CommitFolderCommand = ReactiveCommand.CreateFromTask(execute: CommitFolder);
-        AddProjectItemCommand = ReactiveCommand.CreateFromTask(execute: AddProjectItem);
-        RenameFolderCommand = ReactiveCommand.CreateFromTask(execute: renameItem);
+        CommitFolderCommand = ReactiveCommand.CreateFromTask(CommitFolder);
+        AddProjectItemCommand = ReactiveCommand.CreateFromTask(AddProjectItem);
+        RenameFolderCommand = ReactiveCommand.CreateFromTask(renameItem);
 
         // Whenever the list of documents change, calculate a new Observable
         // to represent whenever any of the *current* documents have been
         // requested to close, then Switch to that. When we get something
         // to close, remove it from the list.
 
-        _ = Items
-            .ToObservableChangeSet()
-            .AutoRefreshOnObservable(reevaluator: document => document.ExcludeFileCommand.IsExecuting)
-            .Select(selector: x => WhenAnyDocumentClosed())
+        var itemsObservable = Items
+            .ToObservableChangeSet();
+
+        itemsObservable
+            .AutoRefreshOnObservable(document => document.ExcludeFileCommand.IsExecuting)
+            .Select(x => WhenAnyDocumentClosed())
             .Switch()
             .SubscribeAsync(
-                onNextAsync: async x =>
+                async x =>
                 {
                     var dialog = new DeleteDialogViewModel(
-                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
-                        title: "Deletar Item",
-                        caption: "");
+                        "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                        "Deletar Item",
+                        "");
 
                     if ((await RoutableViewModel.NavigateDialogAsync(
-                            dialog: dialog,
-                            target: NavigationTarget.CompactDialogScreen)).Result)
+                            dialog,
+                            NavigationTarget.CompactDialogScreen)).Result)
                     {
-                        _ = Items.Remove(item: x);
+                        _ = Items.Remove(x);
 
                         _ = await _mediator.Send(new DeleteProjectFileItemCommand(x.ItemPath), CancellationToken.None);
                         await SaveSolution();
                     }
                 });
 
-        _ = Items
-            .ToObservableChangeSet()
-            .AutoRefreshOnObservable(reevaluator: document => document.SelectItemToEditCommand.IsExecuting)
-            .Select(selector: x => WhenAnyItemIsSelected())
+        itemsObservable
+            .AutoRefreshOnObservable(document => document.SelectItemToEditCommand.IsExecuting)
+            .Select(x => WhenAnyItemIsSelected())
             .Switch()
-            .SubscribeAsync(
-                onNextAsync: async x =>
-                {
-                    var result = ProjectEditingViewModel
-                    .SetEditingItem
-                    .Handle(input: x)
-                        .Subscribe();
-                });
+            .InvokeCommand(SelectItemToEdit);
     }
 
-    public ReactiveCommand<Unit, Unit> SelectItemToEdit
+    public ReactiveCommand<IItemViewModel, Unit> SelectItemToEdit
     {
         get;
-    }
+        set;
+    } = ReactiveCommand.Create<IItemViewModel>(it =>
+    {
+    });
 
     public ObservableCollection<IItemViewModel> Items
     {
@@ -128,9 +120,10 @@ public class ItemGroupViewModel : ReactiveObject,
 
     public ReactiveCommand<Unit, Unit> MoveItemCommand
     {
-        get; set;
+        get;
+        set;
     }
-    = ReactiveCommand.CreateFromObservable(() => Observable.Return(Unit.Default));
+        = ReactiveCommand.CreateFromObservable(() => Observable.Return(Unit.Default));
 
     public ReactiveCommand<Unit, IItemViewModel> AddProjectItemCommand
     {
@@ -141,7 +134,7 @@ public class ItemGroupViewModel : ReactiveObject,
     {
         get;
     } = ReactiveCommand.Create(
-        execute: () =>
+        () =>
         {
         });
 
@@ -152,13 +145,13 @@ public class ItemGroupViewModel : ReactiveObject,
         foreach (var item in items)
         {
             var itemToAdd = new ItemViewModel(
-                id: item.Id,
-                itemPath: item.ItemPath,
-                name: item.Name,
-                templateName: item.TemplateName,
-                parent: this);
+                item.Id,
+                item.ItemPath,
+                item.Name,
+                item.TemplateName,
+                this);
 
-            Items.Add(item: itemToAdd);
+            Items.Add(itemToAdd);
         }
     }
 
@@ -167,7 +160,7 @@ public class ItemGroupViewModel : ReactiveObject,
         // who return the Document to close when signaled,
         // then flatten them all together.
         Items
-            .Select(selector: x => x.SelectItemToEditCommand.Select(selector: _ => x))
+            .Select(x => x.SelectItemToEditCommand.Select(_ => x))
             .Merge();
 
     private async Task renameItem()
@@ -179,7 +172,7 @@ public class ItemGroupViewModel : ReactiveObject,
         // who return the Document to close when signaled,
         // then flatten them all together.
         Items
-            .Select(selector: x => x.ExcludeFileCommand.Select(selector: _ => x))
+            .Select(x => x.ExcludeFileCommand.Select(_ => x))
             .Merge();
 
     private async Task<IItemViewModel?> AddProjectItem()
@@ -187,32 +180,32 @@ public class ItemGroupViewModel : ReactiveObject,
         var addItemViewModel = new AddItemViewModel(Items);
 
         var dialogResult = await RoutableViewModel.NavigateDialogAsync(
-            dialog: addItemViewModel,
-            target: NavigationTarget.DialogScreen);
+            addItemViewModel,
+            NavigationTarget.DialogScreen);
 
         if (dialogResult.Kind is DialogResultKind.Normal &&
             dialogResult.Result is not null)
         {
             var path = Path.Combine(
-                path1: ItemPath,
-                path2: $"{dialogResult.Result.Name}{Constants.AppProjectItemExtension}");
+                ItemPath,
+                $"{dialogResult.Result.Name}{Constants.AppProjectItemExtension}");
 
             var item = new ItemViewModel(
-                    id: Guid.NewGuid()
-                        .ToString(),
-                    itemPath: path,
-                    name: dialogResult.Result.Name,
-                    templateName: dialogResult.Result.TemplateName,
-                    parent: this);
+                Guid.NewGuid()
+                    .ToString(),
+                path,
+                dialogResult.Result.Name,
+                dialogResult.Result.TemplateName,
+                this);
 
             Items.Add(
-                item: item);
+                item);
 
             _ = (await _mediator.Send(
-                request: new CreateItemCommand(
-                    ItemPath: path,
-                    ItemName: dialogResult.Result.TemplateName),
-                cancellation: CancellationToken.None))
+                    new CreateItemCommand(
+                        path,
+                        dialogResult.Result.TemplateName),
+                    CancellationToken.None))
                 .IfFail(error =>
                 {
                     NotificationHelpers.Show("Erro ao criar item", error.Message);
@@ -220,6 +213,7 @@ public class ItemGroupViewModel : ReactiveObject,
 
             return item;
         }
+
         return null;
     }
 

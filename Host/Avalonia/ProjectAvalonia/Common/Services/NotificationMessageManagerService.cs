@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics;
-using Avalonia.Notification;
 using ProjetoAcessibilidade.Domain.App.Contracts;
 
-namespace ProjectAvalonia.Services;
+namespace ProjectAvalonia.Common.Services;
 
 public class NotificationMessageManagerService : INotificationMessageManagerService
 {
@@ -25,7 +24,7 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
                 */ /*.Dismiss().WithButton("Update now", button => { })
                 .Dismiss().WithButton("Release notes", button => { })
                 .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*/ /*
-                .Queue()*/Debug.WriteLine(message: $"Debug {message}");
+                .Queue()*/Debug.WriteLine($"Debug {message}");
 
     public void ShowError(
         string message
@@ -41,7 +40,7 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
                 */ /*.Dismiss().WithButton("Update now", button => { })
                 .Dismiss().WithButton("Release notes", button => { })
                 .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*/ /*
-                .Queue();*/Debug.WriteLine(message: $"Error {message}");
+                .Queue();*/Debug.WriteLine($"Error {message}");
 
     public void ShowInfo(
         string message
@@ -57,7 +56,7 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
                 */ /*.Dismiss().WithButton("Update now", button => { })
                 .Dismiss().WithButton("Release notes", button => { })
                 .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*/ /*
-                .Queue();*/ Debug.WriteLine(message: $"Info {message}");
+                .Queue();*/ Debug.WriteLine($"Info {message}");
 
     public void ShowWarning(
         string message
@@ -73,5 +72,5 @@ public class NotificationMessageManagerService : INotificationMessageManagerServ
                 */ /*.Dismiss().WithButton("Update now", button => { })
                 .Dismiss().WithButton("Release notes", button => { })
                 .Dismiss().WithDelay(TimeSpan.FromSeconds(5))*/ /*
-                .Queue();*/ Debug.WriteLine(message: $"Warning {message}");
+                .Queue();*/ Debug.WriteLine($"Warning {message}");
 }

@@ -1,48 +1,43 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
 using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 using ReactiveUI;
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class ItemViewModel
+public class ConclusionItemViewModel
     : ReactiveObject
         , IItemViewModel
 {
     private readonly IMediator _mediator;
 
-    public ItemViewModel(
+    public ConclusionItemViewModel(
         string id
         , string itemPath
         , string name
         , string templateName
-        , IItemGroupViewModel parent
     )
     {
         ItemPath = itemPath;
         Id = id;
         Name = name;
         TemplateName = templateName;
-        Parent = parent;
 
         _mediator = Locator.Current.GetService<IMediator>();
 
-        CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(CommitFile);
-        SelectItemToEditCommand = ReactiveCommand.Create<IItemViewModel>(SelectItemToEdit);
+        CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(CommitFile, Observable.Return(false));
+        SelectItemToEditCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(SelectItemToEdit);
         ExcludeFileCommand =
             ReactiveCommand.Create(() =>
             {
-            });
+            }, Observable.Return(false));
         CanMoveCommand =
             ReactiveCommand.CreateFromTask<IItemGroupViewModel>(async parent =>
             {
@@ -55,13 +50,11 @@ public class ItemViewModel
                         dialog,
                         NavigationTarget.CompactDialogScreen)).Result)
                 {
-                    await MoveItem(parent);
+                    /*await MoveItem(parent);*/
                 }
-            });
+            }, Observable.Return(false));
 
-        _ = ExcludeFileCommand.Subscribe();
-
-        RenameFileCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(RenameFile);
+        RenameFileCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(RenameFile, Observable.Return(false));
     }
 
     public string Id
@@ -72,13 +65,11 @@ public class ItemViewModel
     public IItemGroupViewModel Parent
     {
         get;
-        private set;
     }
 
     public string ItemPath
     {
         get;
-        private set;
     }
 
     public string Name
@@ -96,6 +87,11 @@ public class ItemViewModel
         get;
     }
 
+    public ReactiveCommand<IItemGroupViewModel, Unit> CanMoveCommand
+    {
+        get;
+    }
+
     public ReactiveCommand<IItemViewModel, Unit> SelectItemToEditCommand
     {
         get;
@@ -105,45 +101,11 @@ public class ItemViewModel
     {
         get;
         set;
-    } = ReactiveCommand.Create(() =>
-    {
-    });
+    }
 
     public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand
     {
         get;
-        set;
-    }
-
-    public ReactiveCommand<IItemGroupViewModel, Unit> CanMoveCommand
-    {
-        get;
-        set;
-    }
-
-    private async Task MoveItem(
-        IItemGroupViewModel parent
-    )
-    {
-        if (parent.Items.Any(x => x.Name == Name))
-        {
-            NotificationHelpers.Show("Erro", "O Item Já Existe");
-
-            return;
-        }
-
-        _ = Parent.Items.Remove(this);
-        Parent = parent;
-        Parent.Items.Add(this);
-
-        var oldPath = ItemPath;
-
-        ItemPath = Path.Combine(parent.ItemPath, Path.GetFileName(oldPath));
-
-        _ = (await _mediator.Send(new MoveFileItemCommand(oldPath, ItemPath), CancellationToken.None))
-            .IfFail(error => NotificationHelpers.Show("Erro", error.Message));
-
-        _ = Parent.MoveItemCommand.Execute();
     }
 
     private Task RenameFile(
@@ -151,11 +113,14 @@ public class ItemViewModel
         , CancellationToken token
     ) => Task.CompletedTask;
 
-    private void SelectItemToEdit(
+    private async Task SelectItemToEdit(
         IItemViewModel item
-    )
-    {
-    }
+        , CancellationToken token
+    ) =>
+        ProjectEditingViewModel
+            .SetEditingItem
+            .Handle(item)
+            .Subscribe();
 
     private Task CommitFile(
         IItemGroupViewModel item

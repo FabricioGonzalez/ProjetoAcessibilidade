@@ -1,12 +1,12 @@
 using System.ComponentModel;
 
-namespace ProjectAvalonia.Common.Json.Converters.Timing;
+namespace ProjectAvalonia.Common.Json.Converters;
 
 public class DefaultValueTimeSpanAttribute : DefaultValueAttribute
 {
     public DefaultValueTimeSpanAttribute(
         string json
-    ) : base(value: TimeSpanJsonConverter.Parse(stringValue: json))
+    ) : base(TimeSpanJsonConverter.Parse(json))
     {
     }
 }

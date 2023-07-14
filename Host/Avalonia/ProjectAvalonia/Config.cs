@@ -1,11 +1,9 @@
 using System;
 using System.ComponentModel;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 using ProjectAvalonia.Common.Bases;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Common.Logging;
 
 namespace ProjectAvalonia;
 

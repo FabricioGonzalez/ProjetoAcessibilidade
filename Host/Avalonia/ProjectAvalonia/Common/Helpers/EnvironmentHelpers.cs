@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using Common;
 using Microsoft.Win32;
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Microservices;
-using ProjectAvalonia.Logging;
 
 namespace ProjectAvalonia.Common.Helpers;
 
@@ -27,52 +27,52 @@ public static class EnvironmentHelpers
         string appName
     )
     {
-        if (DataDirDict.TryGetValue(key: appName, value: out var dataDir))
+        if (DataDirDict.TryGetValue(appName, out var dataDir))
         {
             return dataDir;
         }
 
         string directory;
 
-        if (!RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            var home = Environment.GetEnvironmentVariable(variable: "HOME");
-            if (!string.IsNullOrEmpty(value: home))
+            var home = Environment.GetEnvironmentVariable("HOME");
+            if (!string.IsNullOrEmpty(home))
             {
-                directory = Path.Combine(path1: home, path2: "." + appName.ToLowerInvariant());
+                directory = Path.Combine(home, "." + appName.ToLowerInvariant());
                 Logger.LogInfo(
-                    message: $"Using HOME environment variable for initializing application data at `{directory}`.");
+                    $"Using HOME environment variable for initializing application data at `{directory}`.");
             }
             else
             {
-                throw new DirectoryNotFoundException(message: "Could not find suitable datadir.");
+                throw new DirectoryNotFoundException("Could not find suitable datadir.");
             }
         }
         else
         {
-            var localAppData = Environment.GetEnvironmentVariable(variable: "APPDATA");
-            if (!string.IsNullOrEmpty(value: localAppData))
+            var localAppData = Environment.GetEnvironmentVariable("APPDATA");
+            if (!string.IsNullOrEmpty(localAppData))
             {
-                directory = Path.Combine(path1: localAppData, path2: appName);
+                directory = Path.Combine(localAppData, appName);
                 Logger.LogInfo(
-                    message: $"Using APPDATA environment variable for initializing application data at `{directory}`.");
+                    $"Using APPDATA environment variable for initializing application data at `{directory}`.");
             }
             else
             {
-                throw new DirectoryNotFoundException(message: "Could not find suitable datadir.");
+                throw new DirectoryNotFoundException("Could not find suitable datadir.");
             }
         }
 
-        if (Directory.Exists(path: directory))
+        if (Directory.Exists(directory))
         {
-            DataDirDict.TryAdd(key: appName, value: directory);
+            DataDirDict.TryAdd(appName, directory);
             return directory;
         }
 
-        Logger.LogInfo(message: $"Creating data directory at `{directory}`.");
-        Directory.CreateDirectory(path: directory);
+        Logger.LogInfo($"Creating data directory at `{directory}`.");
+        Directory.CreateDirectory(directory);
 
-        DataDirDict.TryAdd(key: appName, value: directory);
+        DataDirDict.TryAdd(appName, directory);
         return directory;
     }
 
@@ -89,10 +89,10 @@ public static class EnvironmentHelpers
         string callerFilePath
     )
     {
-        var lastSeparatorIndex = callerFilePath.LastIndexOf(value: "\\");
+        var lastSeparatorIndex = callerFilePath.LastIndexOf("\\");
         if (lastSeparatorIndex == -1)
         {
-            lastSeparatorIndex = callerFilePath.LastIndexOf(value: "/");
+            lastSeparatorIndex = callerFilePath.LastIndexOf("/");
         }
 
         var fileName = callerFilePath;
@@ -104,7 +104,7 @@ public static class EnvironmentHelpers
         }
 
         var fileNameWithoutExtension =
-            fileName.TrimEnd(trimString: ".cs", comparisonType: StringComparison.InvariantCultureIgnoreCase);
+            fileName.TrimEnd(".cs", StringComparison.InvariantCultureIgnoreCase);
         return fileNameWithoutExtension;
     }
 
@@ -117,7 +117,7 @@ public static class EnvironmentHelpers
         , bool waitForExit = true
     )
     {
-        var escapedArgs = cmd.Replace(oldValue: "\"", newValue: "\\\"");
+        var escapedArgs = cmd.Replace("\"", "\\\"");
 
         var startInfo = new ProcessStartInfo
         {
@@ -127,22 +127,21 @@ public static class EnvironmentHelpers
 
         if (waitForExit)
         {
-            using var process = new ProcessAsync(startInfo: startInfo);
+            using var process = new ProcessAsync(startInfo);
             process.Start();
 
-            await process.WaitForExitAsync(cancellationToken: CancellationToken.None)
-                .ConfigureAwait(continueOnCapturedContext: false);
+            await process.WaitForExitAsync(CancellationToken.None)
+                .ConfigureAwait(false);
 
             if (process.ExitCode != 0)
             {
                 Logger.LogError(
-                    message:
                     $"{nameof(ShellExecAsync)} command: {cmd} exited with exit code: {process.ExitCode}, instead of 0.");
             }
         }
         else
         {
-            using var process = Process.Start(startInfo: startInfo);
+            using var process = Process.Start(startInfo);
         }
     }
 
@@ -152,17 +151,17 @@ public static class EnvironmentHelpers
     {
         // Source article: https://edi.wang/post/2019/3/4/read-and-write-windows-registry-in-net-core
 
-        if (!RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            throw new InvalidOperationException(message: "Operation only supported on windows.");
+            throw new InvalidOperationException("Operation only supported on windows.");
         }
 
-        fileExtension = fileExtension.TrimStart(trimChar: '.'); // Remove . if added by the caller.
+        fileExtension = fileExtension.TrimStart('.'); // Remove . if added by the caller.
 
-        using (var key = Registry.ClassesRoot.OpenSubKey(name: $".{fileExtension}"))
+        using (var key = Registry.ClassesRoot.OpenSubKey($".{fileExtension}"))
         {
             // Read the (Default) value.
-            if (key?.GetValue(name: null) is not null)
+            if (key?.GetValue(null) is not null)
             {
                 return true;
             }
@@ -173,13 +172,13 @@ public static class EnvironmentHelpers
 
     public static string GetFullBaseDirectory()
     {
-        var fullBaseDirectory = Path.GetFullPath(path: AppContext.BaseDirectory);
+        var fullBaseDirectory = Path.GetFullPath(AppContext.BaseDirectory);
 
-        if (!RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            if (!fullBaseDirectory.StartsWith(value: '/'))
+            if (!fullBaseDirectory.StartsWith('/'))
             {
-                fullBaseDirectory = fullBaseDirectory.Insert(startIndex: 0, value: "/");
+                fullBaseDirectory = fullBaseDirectory.Insert(0, "/");
             }
         }
 
@@ -189,26 +188,26 @@ public static class EnvironmentHelpers
     public static string GetExecutablePath()
     {
         var fullBaseDir = GetFullBaseDirectory();
-        var executablePath = Path.Combine(path1: fullBaseDir, path2: Constants.ExecutableName);
-        executablePath = RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows)
+        var executablePath = Path.Combine(fullBaseDir, Constants.ExecutableName);
+        executablePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? $"{executablePath}.exe"
             : $"{executablePath}";
-        if (File.Exists(path: executablePath))
+        if (File.Exists(executablePath))
         {
             return executablePath;
         }
 
         var assemblyName = Assembly.GetEntryAssembly()?.GetName().Name ??
-                           throw new NullReferenceException(message: "Assembly or Assembly's Name was null.");
-        var fluentExecutable = Path.Combine(path1: fullBaseDir, path2: assemblyName);
-        return RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows)
+                           throw new NullReferenceException("Assembly or Assembly's Name was null.");
+        var fluentExecutable = Path.Combine(fullBaseDir, assemblyName);
+        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? $"{fluentExecutable}.exe"
             : $"{fluentExecutable}";
     }
 
     public static string GetExecutableVersion()
     {
-        var versInfo = FileVersionInfo.GetVersionInfo(fileName: GetExecutablePath());
+        var versInfo = FileVersionInfo.GetVersionInfo(GetExecutablePath());
 
         return versInfo?.ProductVersion;
     }

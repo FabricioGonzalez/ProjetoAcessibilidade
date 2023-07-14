@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using ProjectAvalonia.Common.Helpers;
 
-namespace Nito.Collections;
+namespace ProjectAvalonia.Nito.Collections;
 
 /// <summary>
 ///     A double-ended queue (deque), which provides O(1) indexed access, O(1) removals from the front and back, amortized
@@ -12,8 +12,8 @@ namespace Nito.Collections;
 ///     slower as the index approaches the middle).
 /// </summary>
 /// <typeparam name="T">The type of elements contained in the deque.</typeparam>
-[DebuggerDisplay(value: "Count = {Count}, Capacity = {Capacity}")]
-[DebuggerTypeProxy(type: typeof(Deque<>.DebugView))]
+[DebuggerDisplay("Count = {Count}, Capacity = {Capacity}")]
+[DebuggerTypeProxy(typeof(Deque<>.DebugView))]
 public sealed class Deque<T>
     : IList<T>
         , IReadOnlyList<T>
@@ -58,10 +58,8 @@ public sealed class Deque<T>
     /// <returns>The buffer index.</returns>
     private int DequeIndexToBufferIndex(
         int index
-    )
-    {
-        return (index + _offset) % Capacity;
-    }
+    ) =>
+        (index + _offset) % Capacity;
 
     /// <summary>
     ///     Gets an element at the specified view index.
@@ -70,10 +68,8 @@ public sealed class Deque<T>
     /// <returns>The element at the specified index.</returns>
     private T DoGetItem(
         int index
-    )
-    {
-        return _buffer[DequeIndexToBufferIndex(index: index)];
-    }
+    ) =>
+        _buffer[DequeIndexToBufferIndex(index)];
 
     /// <summary>
     ///     Sets an element at the specified view index.
@@ -83,10 +79,8 @@ public sealed class Deque<T>
     private void DoSetItem(
         int index
         , T item
-    )
-    {
-        _buffer[DequeIndexToBufferIndex(index: index)] = item;
-    }
+    ) =>
+        _buffer[DequeIndexToBufferIndex(index)] = item;
 
     /// <summary>
     ///     Inserts an element at the specified view index.
@@ -105,17 +99,17 @@ public sealed class Deque<T>
 
         if (index == 0)
         {
-            DoAddToFront(value: item);
+            DoAddToFront(item);
             return;
         }
 
         if (index == Count)
         {
-            DoAddToBack(value: item);
+            DoAddToBack(item);
             return;
         }
 
-        DoInsertRange(index: index, collection: new[] { item });
+        DoInsertRange(index, new[] { item });
     }
 
     /// <summary>
@@ -138,7 +132,7 @@ public sealed class Deque<T>
             return;
         }
 
-        DoRemoveRange(index: index, collectionCount: 1);
+        DoRemoveRange(index, 1);
     }
 
     /// <summary>
@@ -169,7 +163,10 @@ public sealed class Deque<T>
     )
     {
         _offset -= value;
-        if (_offset < 0) _offset += Capacity;
+        if (_offset < 0)
+        {
+            _offset += Capacity;
+        }
 
         return _offset;
     }
@@ -182,7 +179,7 @@ public sealed class Deque<T>
         T value
     )
     {
-        _buffer[DequeIndexToBufferIndex(index: Count)] = value;
+        _buffer[DequeIndexToBufferIndex(Count)] = value;
         ++Count;
     }
 
@@ -194,7 +191,7 @@ public sealed class Deque<T>
         T value
     )
     {
-        _buffer[PreDecrement(value: 1)] = value;
+        _buffer[PreDecrement(1)] = value;
         ++Count;
     }
 
@@ -204,7 +201,7 @@ public sealed class Deque<T>
     /// <returns>The former last element.</returns>
     private T DoRemoveFromBack()
     {
-        var ret = _buffer[DequeIndexToBufferIndex(index: Count - 1)];
+        var ret = _buffer[DequeIndexToBufferIndex(Count - 1)];
         --Count;
         return ret;
     }
@@ -216,7 +213,7 @@ public sealed class Deque<T>
     private T DoRemoveFromFront()
     {
         --Count;
-        return _buffer[PostIncrement(value: 1)];
+        return _buffer[PostIncrement(1)];
     }
 
     /// <summary>
@@ -245,10 +242,12 @@ public sealed class Deque<T>
             var copyCount = index;
             var writeIndex = Capacity - collectionCount;
             for (var j = 0; j != copyCount; ++j)
-                _buffer[DequeIndexToBufferIndex(index: writeIndex + j)] = _buffer[DequeIndexToBufferIndex(index: j)];
+            {
+                _buffer[DequeIndexToBufferIndex(writeIndex + j)] = _buffer[DequeIndexToBufferIndex(j)];
+            }
 
             // Rotate to the new view
-            PreDecrement(value: collectionCount);
+            PreDecrement(collectionCount);
         }
         else
         {
@@ -258,15 +257,17 @@ public sealed class Deque<T>
             var copyCount = Count - index;
             var writeIndex = index + collectionCount;
             for (var j = copyCount - 1; j != -1; --j)
-                _buffer[DequeIndexToBufferIndex(index: writeIndex + j)] =
-                    _buffer[DequeIndexToBufferIndex(index: index + j)];
+            {
+                _buffer[DequeIndexToBufferIndex(writeIndex + j)] =
+                    _buffer[DequeIndexToBufferIndex(index + j)];
+            }
         }
 
         // Copy new items into place
         var i = index;
         foreach (var item in collection)
         {
-            _buffer[DequeIndexToBufferIndex(index: i)] = item;
+            _buffer[DequeIndexToBufferIndex(i)] = item;
             ++i;
         }
 
@@ -290,7 +291,7 @@ public sealed class Deque<T>
         if (index == 0)
         {
             // Removing from the beginning: rotate to the new view
-            PostIncrement(value: collectionCount);
+            PostIncrement(collectionCount);
             Count -= collectionCount;
             return;
         }
@@ -310,10 +311,12 @@ public sealed class Deque<T>
             var copyCount = index;
             var writeIndex = collectionCount;
             for (var j = copyCount - 1; j != -1; --j)
-                _buffer[DequeIndexToBufferIndex(index: writeIndex + j)] = _buffer[DequeIndexToBufferIndex(index: j)];
+            {
+                _buffer[DequeIndexToBufferIndex(writeIndex + j)] = _buffer[DequeIndexToBufferIndex(j)];
+            }
 
             // Rotate to new view
-            PostIncrement(value: collectionCount);
+            PostIncrement(collectionCount);
         }
         else
         {
@@ -323,8 +326,10 @@ public sealed class Deque<T>
             var copyCount = Count - collectionCount - index;
             var readIndex = index + collectionCount;
             for (var j = 0; j != copyCount; ++j)
-                _buffer[DequeIndexToBufferIndex(index: index + j)] =
-                    _buffer[DequeIndexToBufferIndex(index: readIndex + j)];
+            {
+                _buffer[DequeIndexToBufferIndex(index + j)] =
+                    _buffer[DequeIndexToBufferIndex(readIndex + j)];
+            }
         }
 
         // Adjust valid count
@@ -337,7 +342,10 @@ public sealed class Deque<T>
     /// </summary>
     private void EnsureCapacityForOneElement()
     {
-        if (IsFull) Capacity = Capacity == 0 ? 1 : Capacity * 2;
+        if (IsFull)
+        {
+            Capacity = Capacity == 0 ? 1 : Capacity * 2;
+        }
     }
 
     /// <summary>
@@ -349,7 +357,7 @@ public sealed class Deque<T>
     )
     {
         EnsureCapacityForOneElement();
-        DoAddToBack(value: value);
+        DoAddToBack(value);
     }
 
     /// <summary>
@@ -361,7 +369,7 @@ public sealed class Deque<T>
     )
     {
         EnsureCapacityForOneElement();
-        DoAddToFront(value: value);
+        DoAddToFront(value);
     }
 
     /// <summary>
@@ -378,16 +386,22 @@ public sealed class Deque<T>
         , IEnumerable<T> collection
     )
     {
-        CheckNewIndexArgument(sourceLength: Count, index: index);
-        var source = CollectionHelpers.ReifyCollection(source: collection);
+        CheckNewIndexArgument(Count, index);
+        var source = CollectionHelpers.ReifyCollection(collection);
         var collectionCount = source.Count;
 
         // Overflow-safe check for "Count + collectionCount > Capacity"
-        if (collectionCount > Capacity - Count) Capacity = checked(Count + collectionCount);
+        if (collectionCount > Capacity - Count)
+        {
+            Capacity = checked(Count + collectionCount);
+        }
 
-        if (collectionCount == 0) return;
+        if (collectionCount == 0)
+        {
+            return;
+        }
 
-        DoInsertRange(index: index, collection: source);
+        DoInsertRange(index, source);
     }
 
     /// <summary>
@@ -408,11 +422,14 @@ public sealed class Deque<T>
         , int count
     )
     {
-        CheckRangeArguments(sourceLength: Count, offset: offset, count: count);
+        CheckRangeArguments(Count, offset, count);
 
-        if (count == 0) return;
+        if (count == 0)
+        {
+            return;
+        }
 
-        DoRemoveRange(index: offset, collectionCount: count);
+        DoRemoveRange(offset, count);
     }
 
     /// <summary>
@@ -422,7 +439,10 @@ public sealed class Deque<T>
     /// <exception cref="InvalidOperationException">The deque is empty.</exception>
     public T RemoveFromBack()
     {
-        if (IsEmpty) throw new InvalidOperationException(message: "The deque is empty.");
+        if (IsEmpty)
+        {
+            throw new InvalidOperationException("The deque is empty.");
+        }
 
         return DoRemoveFromBack();
     }
@@ -434,7 +454,10 @@ public sealed class Deque<T>
     /// <exception cref="InvalidOperationException">The deque is empty.</exception>
     public T RemoveFromFront()
     {
-        if (IsEmpty) throw new InvalidOperationException(message: "The deque is empty.");
+        if (IsEmpty)
+        {
+            throw new InvalidOperationException("The deque is empty.");
+        }
 
         return DoRemoveFromFront();
     }
@@ -445,7 +468,7 @@ public sealed class Deque<T>
     public T[] ToArray()
     {
         var result = new T[Count];
-        ((ICollection<T>)this).CopyTo(array: result, arrayIndex: 0);
+        ((ICollection<T>)this).CopyTo(result, 0);
         return result;
     }
 
@@ -461,11 +484,8 @@ public sealed class Deque<T>
             _deque = deque;
         }
 
-        [DebuggerBrowsable(state: DebuggerBrowsableState.RootHidden)]
-        public T[] Items
-        {
-            get => _deque.ToArray();
-        }
+        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+        public T[] Items => _deque.ToArray();
     }
 
     #region GenericListImplementations
@@ -474,55 +494,31 @@ public sealed class Deque<T>
     ///     Gets a value indicating whether this list is read-only. This implementation always returns <c>false</c>.
     /// </summary>
     /// <returns>true if this list is read-only; otherwise, false.</returns>
-    bool ICollection<T>.IsReadOnly
-    {
-        get => false;
-    }
+    bool ICollection<T>.IsReadOnly => false;
 
-    bool IList.IsFixedSize
-    {
-        get => false;
-    }
+    bool IList.IsFixedSize => false;
 
-    bool IList.IsReadOnly
-    {
-        get => false;
-    }
+    bool IList.IsReadOnly => false;
 
-    bool ICollection.IsSynchronized
-    {
-        get => false;
-    }
+    bool ICollection.IsSynchronized => false;
 
-    object ICollection.SyncRoot
-    {
-        get => this;
-    }
+    object ICollection.SyncRoot => this;
 
     /// <summary>
     ///     Gets a value indicating whether this instance is empty.
     /// </summary>
-    private bool IsEmpty
-    {
-        get => Count == 0;
-    }
+    private bool IsEmpty => Count == 0;
 
     /// <summary>
     ///     Gets a value indicating whether this instance is at full capacity.
     /// </summary>
-    private bool IsFull
-    {
-        get => Count == Capacity;
-    }
+    private bool IsFull => Count == Capacity;
 
     /// <summary>
     ///     Gets a value indicating whether the buffer is "split" (meaning the beginning of the view is at a later index in
     ///     <see cref="_buffer" /> than the end).
     /// </summary>
-    private bool IsSplit
-    {
-        get => _offset > Capacity - Count; // Overflow-safe version of "(offset + Count) > Capacity"
-    }
+    private bool IsSplit => _offset > Capacity - Count; // Overflow-safe version of "(offset + Count) > Capacity"
 
     /// <summary>
     ///     Gets or sets the capacity for this deque. This value must always be greater than zero, and this property cannot be
@@ -536,14 +532,19 @@ public sealed class Deque<T>
         set
         {
             if (value < Count)
-                throw new ArgumentOutOfRangeException(paramName: nameof(value)
-                    , message: $"{nameof(Capacity)} cannot be set to a value less than {nameof(Count)}.");
+            {
+                throw new ArgumentOutOfRangeException(nameof(value)
+                    , $"{nameof(Capacity)} cannot be set to a value less than {nameof(Count)}.");
+            }
 
-            if (value == _buffer.Length) return;
+            if (value == _buffer.Length)
+            {
+                return;
+            }
 
             // Create the new _buffer and copy our existing range.
             var newBuffer = new T[value];
-            CopyToArray(array: newBuffer);
+            CopyToArray(newBuffer);
 
             // Set up to use the new _buffer.
             _buffer = newBuffer;
@@ -555,7 +556,11 @@ public sealed class Deque<T>
     ///     Gets the number of elements contained in this deque.
     /// </summary>
     /// <returns>The number of elements contained in this deque.</returns>
-    public int Count { get; private set; }
+    public int Count
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     Gets or sets the item at the specified index.
@@ -569,14 +574,14 @@ public sealed class Deque<T>
     {
         get
         {
-            CheckExistingIndexArgument(sourceLength: Count, index: index);
-            return DoGetItem(index: index);
+            CheckExistingIndexArgument(Count, index);
+            return DoGetItem(index);
         }
 
         set
         {
-            CheckExistingIndexArgument(sourceLength: Count, index: index);
-            DoSetItem(index: index, item: value);
+            CheckExistingIndexArgument(Count, index);
+            DoSetItem(index, value);
         }
     }
 
@@ -584,18 +589,22 @@ public sealed class Deque<T>
         int index
     ]
     {
-        get => this[index: index];
+        get => this[index];
 
         set
         {
             if (value is null && default(T) is not null)
-                throw new ArgumentNullException(paramName: nameof(value), message: $"{nameof(value)} cannot be null.");
+            {
+                throw new ArgumentNullException(nameof(value), $"{nameof(value)} cannot be null.");
+            }
 
-            if (!IsT(value: value))
-                throw new ArgumentException(message: $"{nameof(value)} is of incorrect type."
-                    , paramName: nameof(value));
+            if (!IsT(value))
+            {
+                throw new ArgumentException($"{nameof(value)} is of incorrect type."
+                    , nameof(value));
+            }
 
-            this[index: index] = (T)value;
+            this[index] = (T)value;
         }
     }
 
@@ -615,8 +624,8 @@ public sealed class Deque<T>
         , T item
     )
     {
-        CheckNewIndexArgument(sourceLength: Count, index: index);
-        DoInsert(index: index, item: item);
+        CheckNewIndexArgument(Count, index);
+        DoInsert(index, item);
     }
 
     /// <summary>
@@ -633,8 +642,8 @@ public sealed class Deque<T>
         int index
     )
     {
-        CheckExistingIndexArgument(sourceLength: Count, index: index);
-        DoRemoveAt(index: index);
+        CheckExistingIndexArgument(Count, index);
+        DoRemoveAt(index);
     }
 
     /// <summary>
@@ -650,7 +659,10 @@ public sealed class Deque<T>
         var ret = 0;
         foreach (var sourceItem in this)
         {
-            if (comparer.Equals(x: item, y: sourceItem)) return ret;
+            if (comparer.Equals(item, sourceItem))
+            {
+                return ret;
+            }
 
             ++ret;
         }
@@ -667,10 +679,8 @@ public sealed class Deque<T>
     /// </exception>
     void ICollection<T>.Add(
         T item
-    )
-    {
-        DoInsert(index: Count, item: item);
-    }
+    ) =>
+        DoInsert(Count, item);
 
     /// <summary>
     ///     Determines whether this list contains a specific value.
@@ -685,8 +695,13 @@ public sealed class Deque<T>
     {
         var comparer = EqualityComparer<T>.Default;
         foreach (var entry in this)
-            if (comparer.Equals(x: item, y: entry))
+        {
+            if (comparer.Equals(item, entry))
+            {
                 return true;
+            }
+        }
+
         return false;
     }
 
@@ -716,11 +731,11 @@ public sealed class Deque<T>
         , int arrayIndex
     )
     {
-        Guard.NotNull(parameterName: nameof(array), value: array);
+        Guard.NotNull(nameof(array), array);
 
         var count = Count;
-        CheckRangeArguments(sourceLength: array.Length, offset: arrayIndex, count: count);
-        CopyToArray(array: array, arrayIndex: arrayIndex);
+        CheckRangeArguments(array.Length, arrayIndex, count);
+        CopyToArray(array, arrayIndex);
     }
 
     /// <summary>
@@ -733,22 +748,22 @@ public sealed class Deque<T>
         , int arrayIndex = 0
     )
     {
-        Guard.NotNull(parameterName: nameof(array), value: array);
+        Guard.NotNull(nameof(array), array);
 
         if (IsSplit)
         {
             // The existing buffer is split, so we have to copy it in parts
             var length = Capacity - _offset;
-            Array.Copy(sourceArray: _buffer, sourceIndex: _offset, destinationArray: array, destinationIndex: arrayIndex
-                , length: length);
-            Array.Copy(sourceArray: _buffer, sourceIndex: 0, destinationArray: array
-                , destinationIndex: arrayIndex + length, length: Count - length);
+            Array.Copy(_buffer, _offset, array, arrayIndex
+                , length);
+            Array.Copy(_buffer, 0, array
+                , arrayIndex + length, Count - length);
         }
         else
         {
             // The existing buffer is whole
-            Array.Copy(sourceArray: _buffer, sourceIndex: _offset, destinationArray: array, destinationIndex: arrayIndex
-                , length: Count);
+            Array.Copy(_buffer, _offset, array, arrayIndex
+                , Count);
         }
     }
 
@@ -767,10 +782,13 @@ public sealed class Deque<T>
         T item
     )
     {
-        var index = IndexOf(item: item);
-        if (index == -1) return false;
+        var index = IndexOf(item);
+        if (index == -1)
+        {
+            return false;
+        }
 
-        DoRemoveAt(index: index);
+        DoRemoveAt(index);
         return true;
     }
 
@@ -783,7 +801,10 @@ public sealed class Deque<T>
     public IEnumerator<T> GetEnumerator()
     {
         var count = Count;
-        for (var i = 0; i != count; ++i) yield return DoGetItem(index: i);
+        for (var i = 0; i != count; ++i)
+        {
+            yield return DoGetItem(i);
+        }
     }
 
     /// <summary>
@@ -792,10 +813,7 @@ public sealed class Deque<T>
     /// <returns>
     ///     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
     /// </returns>
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     #endregion GenericListImplementations
 
@@ -803,38 +821,36 @@ public sealed class Deque<T>
 
     private static bool IsT(
         object? value
-    )
-    {
-        return value is T || (value is null && default(T) is null);
-    }
+    ) =>
+        value is T || (value is null && default(T) is null);
 
     int IList.Add(
         object? value
     )
     {
         if (value is null && default(T) is not null)
-            throw new ArgumentNullException(paramName: nameof(value), message: $"{nameof(value)} cannot be null.");
+        {
+            throw new ArgumentNullException(nameof(value), $"{nameof(value)} cannot be null.");
+        }
 
-        if (!IsT(value: value))
-            throw new ArgumentException(message: $"{nameof(value)} is of incorrect type.", paramName: nameof(value));
+        if (!IsT(value))
+        {
+            throw new ArgumentException($"{nameof(value)} is of incorrect type.", nameof(value));
+        }
 
-        AddToBack(value: (T)value);
+        AddToBack((T)value);
         return Count - 1;
     }
 
     bool IList.Contains(
         object? value
-    )
-    {
-        return IsT(value: value) && ((ICollection<T>)this).Contains(item: (T)value);
-    }
+    ) =>
+        IsT(value) && ((ICollection<T>)this).Contains((T)value);
 
     int IList.IndexOf(
         object? value
-    )
-    {
-        return IsT(value: value) ? IndexOf(item: (T)value) : -1;
-    }
+    ) =>
+        IsT(value) ? IndexOf((T)value) : -1;
 
     void IList.Insert(
         int index
@@ -842,19 +858,26 @@ public sealed class Deque<T>
     )
     {
         if (value is null && default(T) is not null)
-            throw new ArgumentNullException(paramName: nameof(value), message: $"{nameof(value)} cannot be null.");
+        {
+            throw new ArgumentNullException(nameof(value), $"{nameof(value)} cannot be null.");
+        }
 
-        if (!IsT(value: value))
-            throw new ArgumentException(message: $"{nameof(value)} is of incorrect type.", paramName: nameof(value));
+        if (!IsT(value))
+        {
+            throw new ArgumentException($"{nameof(value)} is of incorrect type.", nameof(value));
+        }
 
-        Insert(index: index, item: (T)value);
+        Insert(index, (T)value);
     }
 
     void IList.Remove(
         object? value
     )
     {
-        if (IsT(value: value)) Remove(item: (T)value);
+        if (IsT(value))
+        {
+            Remove((T)value);
+        }
     }
 
     void ICollection.CopyTo(
@@ -862,23 +885,23 @@ public sealed class Deque<T>
         , int index
     )
     {
-        Guard.NotNull(parameterName: nameof(array), value: array);
+        Guard.NotNull(nameof(array), array);
 
-        CheckRangeArguments(sourceLength: array.Length, offset: index, count: Count);
+        CheckRangeArguments(array.Length, index, Count);
 
         try
         {
-            CopyToArray(array: array, arrayIndex: index);
+            CopyToArray(array, index);
         }
         catch (ArrayTypeMismatchException ex)
         {
-            throw new ArgumentException(message: "Destination array is of incorrect type.", paramName: nameof(array)
-                , innerException: ex);
+            throw new ArgumentException("Destination array is of incorrect type.", nameof(array)
+                , ex);
         }
         catch (RankException ex)
         {
-            throw new ArgumentException(message: "Destination array must be single dimensional."
-                , paramName: nameof(array), innerException: ex);
+            throw new ArgumentException("Destination array must be single dimensional."
+                , nameof(array), ex);
         }
     }
 
@@ -902,8 +925,10 @@ public sealed class Deque<T>
     )
     {
         if (index < 0 || index > sourceLength)
-            throw new ArgumentOutOfRangeException(paramName: nameof(index)
-                , message: $"Invalid new index {index} for source length {sourceLength}.");
+        {
+            throw new ArgumentOutOfRangeException(nameof(index)
+                , $"Invalid new index {index} for source length {sourceLength}.");
+        }
     }
 
     /// <summary>
@@ -922,8 +947,10 @@ public sealed class Deque<T>
     )
     {
         if (index < 0 || index >= sourceLength)
-            throw new ArgumentOutOfRangeException(paramName: nameof(index)
-                , message: $"Invalid existing index {index} for source length {sourceLength}.");
+        {
+            throw new ArgumentOutOfRangeException(nameof(index)
+                , $"Invalid existing index {index} for source length {sourceLength}.");
+        }
     }
 
     /// <summary>
@@ -945,17 +972,22 @@ public sealed class Deque<T>
     )
     {
         if (offset < 0)
-            throw new ArgumentOutOfRangeException(paramName: nameof(offset)
-                , message: $"Invalid {nameof(offset)} {offset}");
+        {
+            throw new ArgumentOutOfRangeException(nameof(offset)
+                , $"Invalid {nameof(offset)} {offset}");
+        }
 
         if (count < 0)
-            throw new ArgumentOutOfRangeException(paramName: nameof(count)
-                , message: $"Invalid {nameof(count)} {count}");
+        {
+            throw new ArgumentOutOfRangeException(nameof(count)
+                , $"Invalid {nameof(count)} {count}");
+        }
 
         if (sourceLength - offset < count)
+        {
             throw new ArgumentException(
-                message:
                 $"Invalid {nameof(offset)} ({offset}) or {nameof(count)} + ({count}) for source length {sourceLength}");
+        }
     }
 
     #endregion GenericListHelpers

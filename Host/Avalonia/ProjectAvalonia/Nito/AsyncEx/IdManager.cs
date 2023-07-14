@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace Nito.AsyncEx;
+namespace ProjectAvalonia.Nito.AsyncEx;
 
 /// <summary>
 ///     Allocates Ids for instances on demand. 0 is an invalid/unassigned Id. Ids may be non-unique in very long-running
@@ -12,10 +12,10 @@ namespace Nito.AsyncEx;
 internal static class IdManager<TTag>
 // ReSharper restore UnusedTypeParameter
 {
-	/// <summary>
-	///     The last id generated for this type. This is 0 if no ids have been generated.
-	/// </summary>
-	// ReSharper disable StaticFieldInGenericType
+    /// <summary>
+    ///     The last id generated for this type. This is 0 if no ids have been generated.
+    /// </summary>
+    // ReSharper disable StaticFieldInGenericType
     private static int LastId;
 
     // ReSharper restore StaticFieldInGenericType
@@ -29,7 +29,10 @@ internal static class IdManager<TTag>
     )
     {
         // If the Id has already been assigned, just use it.
-        if (id != 0) return id;
+        if (id != 0)
+        {
+            return id;
+        }
 
         // Determine the new Id without modifying "id", since other threads may also be determining the new Id at the same time.
         int newId;
@@ -39,11 +42,11 @@ internal static class IdManager<TTag>
         // If there are tons of Id allocations going on, we want to skip over 0 no matter how many times we get it.
         do
         {
-            newId = Interlocked.Increment(location: ref LastId);
+            newId = Interlocked.Increment(ref LastId);
         } while (newId == 0);
 
         // Update the Id unless another thread already updated it.
-        Interlocked.CompareExchange(location1: ref id, value: newId, comparand: 0);
+        Interlocked.CompareExchange(ref id, newId, 0);
 
         // Return the current Id, regardless of whether it's our new Id or a new Id from another thread.
         return id;

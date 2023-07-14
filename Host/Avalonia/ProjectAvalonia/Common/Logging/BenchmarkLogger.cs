@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace ProjectAvalonia.Logging;
+namespace ProjectAvalonia.Common.Logging;
 
 public class BenchmarkLogger : IDisposable
 {
@@ -58,8 +58,8 @@ public class BenchmarkLogger : IDisposable
         , [CallerMemberName] string operationName = ""
         , [CallerFilePath] string callerFilePath = ""
         , [CallerLineNumber] int callerLineNumber = -1
-    ) => new BenchmarkLogger(logLevel: logLevel, operationName: operationName, callerFilePath: callerFilePath
-        , callerLineNumber: callerLineNumber);
+    ) => new BenchmarkLogger(logLevel, operationName, callerFilePath
+        , callerLineNumber);
 
     #region IDisposable Support
 
@@ -89,7 +89,7 @@ public class BenchmarkLogger : IDisposable
                     message = $"{OperationName} finished in {Stopwatch.ElapsedMilliseconds} milliseconds.";
                 }
 
-                Logger.Log(level: LogLevel, message: message, callerFilePath: CallerFilePath
+                Logger.Log(LogLevel, message, callerFilePath: CallerFilePath
                     , callerLineNumber: CallerLineNumber);
             }
 
@@ -100,7 +100,7 @@ public class BenchmarkLogger : IDisposable
     // This code added to correctly implement the disposable pattern.
     public void Dispose() =>
         // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        Dispose(disposing: true);
+        Dispose(true);
 
     #endregion IDisposable Support
 }

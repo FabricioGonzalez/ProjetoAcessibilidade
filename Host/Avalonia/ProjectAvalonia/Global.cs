@@ -3,11 +3,11 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
-using Nito.AsyncEx;
 using ProjectAvalonia.Common.Http;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Nito.AsyncEx;
 using ProjetoAcessibilidade.Domain.App.Contracts;
 
 namespace ProjectAvalonia;
@@ -38,12 +38,12 @@ public class Global
 
         HostedServices = new HostedServices();
 
-        UpdateManager = new UpdateManager(dataDir: DataDir, downloadNewVersion: Config.DownloadNewVersion
-            , httpClient: new ProjectHttpClient(httpClient: new HttpClient()));
+        UpdateManager = new UpdateManager(DataDir, Config.DownloadNewVersion
+            , new ProjectHttpClient(new HttpClient()));
 
-        Cache = new MemoryCache(optionsAccessor: new MemoryCacheOptions
+        Cache = new MemoryCache(new MemoryCacheOptions
         {
-            SizeLimit = 1_000, ExpirationScanFrequency = TimeSpan.FromSeconds(value: 30)
+            SizeLimit = 1_000, ExpirationScanFrequency = TimeSpan.FromSeconds(30)
         });
     }
 
@@ -111,7 +111,7 @@ public class Global
         // StoppingCts may be disposed at this point, so do not forward the cancellation token here.
         using (await InitializationAsyncLock.LockAsync())
         {
-            Logger.LogTrace(message: "Initialization started.");
+            Logger.LogTrace("Initialization started.");
 
             if (_disposeRequested)
             {
@@ -122,30 +122,29 @@ public class Global
 
             try
             {
-                HostedServices.Register<UpdateChecker>(serviceFactory: () =>
-                    new UpdateChecker(period: TimeSpan.FromMinutes(value: 7))
+                HostedServices.Register<UpdateChecker>(() =>
+                    new UpdateChecker(TimeSpan.FromMinutes(7))
                     {
-                        AppClient = new AppClient(httpClient: new ProjectHttpClient(httpClient: new HttpClient()
-                            , baseUriGetter: () =>
+                        AppClient = new AppClient(new ProjectHttpClient(new HttpClient()
+                            , () =>
                             {
                                 return new Uri(
-                                    uriString:
                                     "https://api.github.com/repos/FabricioGonzalez/ProjetoAcessibilidade/releases");
                             }))
-                    }, friendlyName: "Software Update Checker");
+                    }, "Software Update Checker");
                 var updateChecker = HostedServices.Get<UpdateChecker>();
 
 
-                UpdateManager.Initialize(updateChecker: updateChecker, cancelationToken: cancel);
+                UpdateManager.Initialize(updateChecker, cancel);
 
                 cancel.ThrowIfCancellationRequested();
 
 
-                await HostedServices.StartAllAsync(token: cancel).ConfigureAwait(continueOnCapturedContext: false);
+                await HostedServices.StartAllAsync(cancel).ConfigureAwait(false);
             }
             finally
             {
-                Logger.LogTrace(message: "Initialization finished.");
+                Logger.LogTrace("Initialization finished.");
             }
         }
     }
@@ -165,23 +164,23 @@ public class Global
 
         using (await InitializationAsyncLock.LockAsync())
         {
-            Logger.LogWarning(message: "Process is exiting.", callerFilePath: nameof(Global));
+            Logger.LogWarning("Process is exiting.", nameof(Global));
 
             try
             {
                 if (UpdateManager is { } updateManager)
                 {
                     UpdateManager.Dispose();
-                    Logger.LogInfo(message: $"{nameof(UpdateManager)} is stopped.", callerFilePath: nameof(Global));
+                    Logger.LogInfo($"{nameof(UpdateManager)} is stopped.", nameof(Global));
                 }
 
                 if (HostedServices is { } backgroundServices)
                 {
-                    using var cts = new CancellationTokenSource(delay: TimeSpan.FromSeconds(value: 21));
-                    await backgroundServices.StopAllAsync(token: cts.Token)
-                        .ConfigureAwait(continueOnCapturedContext: false);
+                    using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(21));
+                    await backgroundServices.StopAllAsync(cts.Token)
+                        .ConfigureAwait(false);
                     backgroundServices.Dispose();
-                    Logger.LogInfo(message: "Stopped background services.");
+                    Logger.LogInfo("Stopped background services.");
                 }
 
                 /*RoundStateUpdaterCircuit.Dispose();
@@ -190,17 +189,17 @@ public class Global
                 if (Cache is { } cache)
                 {
                     cache.Dispose();
-                    Logger.LogInfo(message: $"{nameof(Cache)} is disposed.");
+                    Logger.LogInfo($"{nameof(Cache)} is disposed.");
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogWarning(exception: ex);
+                Logger.LogWarning(ex);
             }
             finally
             {
                 StoppingCts.Dispose();
-                Logger.LogTrace(message: "Dispose finished.");
+                Logger.LogTrace("Dispose finished.");
             }
         }
     }

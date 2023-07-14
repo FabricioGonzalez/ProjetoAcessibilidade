@@ -13,9 +13,9 @@ using Newtonsoft.Json.Linq;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Http;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Microservices;
 using ProjectAvalonia.Common.Models;
-using ProjectAvalonia.Logging;
 
 namespace ProjectAvalonia.Common.Services;
 
@@ -29,7 +29,7 @@ public class UpdateManager : IDisposable
         , IHttpClient httpClient
     )
     {
-        InstallerDir = Path.Combine(path1: dataDir, path2: "Installer");
+        InstallerDir = Path.Combine(dataDir, "Installer");
         HttpClient = httpClient;
         DownloadNewVersion = downloadNewVersion;
     }
@@ -99,40 +99,40 @@ public class UpdateManager : IDisposable
             return;
         }
 
-        if (DownloadNewVersion && !RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Linux))
+        if (DownloadNewVersion && !RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             do
             {
                 tries++;
                 try
                 {
-                    var (installerPath, newVersion) = await GetInstallerAsync(targetVersion: targetVersion)
-                        .ConfigureAwait(continueOnCapturedContext: false);
+                    var (installerPath, newVersion) = await GetInstallerAsync(targetVersion)
+                        .ConfigureAwait(false);
                     InstallerPath = installerPath;
-                    Logger.LogInfo(message: $"Version {newVersion} downloaded successfuly.");
+                    Logger.LogInfo($"Version {newVersion} downloaded successfuly.");
                     updateStatus.IsReadyToInstall = true;
                     updateStatus.ClientVersion = newVersion;
                     break;
                 }
                 catch (OperationCanceledException ex)
                 {
-                    Logger.LogTrace(message: "Getting new update was canceled.", exception: ex);
+                    Logger.LogTrace("Getting new update was canceled.", ex);
                     break;
                 }
                 catch (InvalidOperationException ex)
                 {
-                    Logger.LogError(message: "Getting new update failed with error.", exception: ex);
+                    Logger.LogError("Getting new update failed with error.", ex);
                     Cleanup();
                     break;
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError(message: "Getting new update failed with error.", exception: ex);
+                    Logger.LogError("Getting new update failed with error.", ex);
                 }
             } while (tries < MaxTries);
         }
 
-        UpdateAvailableToGet?.Invoke(sender: this, e: updateStatus);
+        UpdateAvailableToGet?.Invoke(this, updateStatus);
     }
 
     /// <summary>
@@ -143,34 +143,34 @@ public class UpdateManager : IDisposable
         Version targetVersion
     )
     {
-        var result = await GetLatestReleaseFromGithubAsync(targetVersion: targetVersion)
-            .ConfigureAwait(continueOnCapturedContext: false);
+        var result = await GetLatestReleaseFromGithubAsync(targetVersion)
+            .ConfigureAwait(false);
         /*        var sha256SumsFilePath = Path.Combine(InstallerDir, "SHA256SUMS.asc");*/
 
         // This will throw InvalidOperationException in case of invalid signature.
         /*  await DownloadAndValidateWasabiSignatureAsync(sha256SumsFilePath, result.Sha256SumsUrl, result.WasabiSigUrl).ConfigureAwait(false);*/
 
-        var installerFilePath = Path.Combine(path1: InstallerDir, path2: result.InstallerFileName);
+        var installerFilePath = Path.Combine(InstallerDir, result.InstallerFileName);
 
         try
         {
-            if (!File.Exists(path: installerFilePath))
+            if (!File.Exists(installerFilePath))
             {
                 EnsureToRemoveCorruptedFiles();
 
                 // This should also be done using Tor.
                 // TODO: https://github.com/zkSNACKs/WalletWasabi/issues/8800
-                Logger.LogInfo(message: $"Trying to download new version: {result.LatestVersion}");
+                Logger.LogInfo($"Trying to download new version: {result.LatestVersion}");
                 using HttpClient httpClient = new();
 
                 // Get file stream and copy it to downloads folder to access.
                 using var stream = await httpClient
-                    .GetStreamAsync(requestUri: result.InstallerDownloadUrl, cancellationToken: CancellationToken)
-                    .ConfigureAwait(continueOnCapturedContext: false);
-                Logger.LogInfo(message: "Installer downloaded, copying...");
+                    .GetStreamAsync(result.InstallerDownloadUrl, CancellationToken)
+                    .ConfigureAwait(false);
+                Logger.LogInfo("Installer downloaded, copying...");
 
-                await CopyStreamContentToFileAsync(stream: stream, filePath: installerFilePath)
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                await CopyStreamContentToFileAsync(stream, installerFilePath)
+                    .ConfigureAwait(false);
             }
             /* var expectedHash = await GetHashFromSha256SumsFileAsync(result.InstallerFileName, sha256SumsFilePath).ConfigureAwait(false);
              await VerifyInstallerHashAsync(installerFilePath, expectedHash).ConfigureAwait(false);*/
@@ -207,24 +207,24 @@ public class UpdateManager : IDisposable
         , string filePath
     )
     {
-        if (File.Exists(path: filePath))
+        if (File.Exists(filePath))
         {
             return;
         }
 
         var tmpFilePath = $"{filePath}.tmp";
-        IoHelpers.EnsureContainingDirectoryExists(fileNameOrPath: tmpFilePath);
-        using (var file = File.OpenWrite(path: tmpFilePath))
+        IoHelpers.EnsureContainingDirectoryExists(tmpFilePath);
+        using (var file = File.OpenWrite(tmpFilePath))
         {
-            await stream.CopyToAsync(destination: file, cancellationToken: CancellationToken)
-                .ConfigureAwait(continueOnCapturedContext: false);
+            await stream.CopyToAsync(file, CancellationToken)
+                .ConfigureAwait(false);
 
             // Closing the file to rename.
             file.Close();
         }
 
         ;
-        File.Move(sourceFileName: tmpFilePath, destFileName: filePath);
+        File.Move(tmpFilePath, filePath);
     }
 
     private async Task<(Version LatestVersion, string InstallerDownloadUrl, string
@@ -233,44 +233,43 @@ public class UpdateManager : IDisposable
             Version targetVersion
         )
     {
-        using var message = new HttpRequestMessage(method: HttpMethod.Get, requestUri: AppConstants.ReleaseURL);
-        message.Headers.UserAgent.Add(item: new ProductInfoHeaderValue(productName: "ProjetoAcessibilidade"
-            , productVersion: "2.0"));
-        var response = await HttpClient.SendAsync(request: message, cancellationToken: CancellationToken)
-            .ConfigureAwait(continueOnCapturedContext: false);
+        using var message = new HttpRequestMessage(HttpMethod.Get, AppConstants.ReleaseURL);
+        message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ProjetoAcessibilidade"
+            , "2.0"));
+        var response = await HttpClient.SendAsync(message, CancellationToken)
+            .ConfigureAwait(false);
 
-        var jsonResponse = JObject.Parse(json: await response.Content
-            .ReadAsStringAsync(cancellationToken: CancellationToken).ConfigureAwait(continueOnCapturedContext: false));
+        var jsonResponse = JObject.Parse(await response.Content
+            .ReadAsStringAsync(CancellationToken).ConfigureAwait(false));
 
-        var softwareVersion = jsonResponse[propertyName: "tag_name"]?.ToString() ??
+        var softwareVersion = jsonResponse["tag_name"]?.ToString() ??
                               throw new InvalidDataException(
-                                  message: "Endpoint gave back wrong json data or it's changed.");
+                                  "Endpoint gave back wrong json data or it's changed.");
 
         // "tag_name" will have a 'v' at the beggining, needs to be removed.
-        Version githubVersion = new(version: softwareVersion[1..]);
+        Version githubVersion = new(softwareVersion[1..]);
         Version shortGithubVersion =
-            new(major: githubVersion.Major, minor: githubVersion.Minor, build: githubVersion.Build);
+            new(githubVersion.Major, githubVersion.Minor, githubVersion.Build);
         if (targetVersion != shortGithubVersion)
         {
             throw new InvalidDataException(
-                message:
                 "Target version from backend does not match with the latest GitHub release. This should be impossible.");
         }
 
         // Get all asset names and download urls to find the correct one.
-        var assetsInfos = jsonResponse[propertyName: "assets"]?.Children().ToList() ??
-                          throw new InvalidDataException(message: "Missing assets from response.");
+        var assetsInfos = jsonResponse["assets"]?.Children().ToList() ??
+                          throw new InvalidDataException("Missing assets from response.");
         List<string> assetDownloadUrls = new();
         foreach (var asset in assetsInfos)
         {
-            assetDownloadUrls.Add(item: asset[key: "browser_download_url"]?.ToString() ??
-                                        throw new InvalidDataException(message: "Missing download url from response."));
+            assetDownloadUrls.Add(asset["browser_download_url"]?.ToString() ??
+                                  throw new InvalidDataException("Missing download url from response."));
         }
 
         /*  var sha256SumsUrl = assetDownloadUrls.Where(url => url.Contains("SHA256SUMS.asc")).First();
           var wasabiSigUrl = assetDownloadUrls.Where(url => url.Contains("SHA256SUMS.wasabisig")).First();*/
 
-        var (url, fileName) = GetAssetToDownload(urls: assetDownloadUrls);
+        var (url, fileName) = GetAssetToDownload(assetDownloadUrls);
 
         return (githubVersion, url, fileName /*, sha256SumsUrl, wasabiSigUrl*/);
     }
@@ -281,26 +280,26 @@ public class UpdateManager : IDisposable
         , string wasabiSigUrl
     )
     {
-        var wasabiSigFilePath = Path.Combine(path1: InstallerDir, path2: "SHA256SUMS.wasabisig");
+        var wasabiSigFilePath = Path.Combine(InstallerDir, "SHA256SUMS.wasabisig");
 
         using HttpClient httpClient = new();
 
         try
         {
             using (var stream = await httpClient
-                       .GetStreamAsync(requestUri: sha256SumsUrl, cancellationToken: CancellationToken)
-                       .ConfigureAwait(continueOnCapturedContext: false))
+                       .GetStreamAsync(sha256SumsUrl, CancellationToken)
+                       .ConfigureAwait(false))
             {
-                await CopyStreamContentToFileAsync(stream: stream, filePath: sha256SumsFilePath)
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                await CopyStreamContentToFileAsync(stream, sha256SumsFilePath)
+                    .ConfigureAwait(false);
             }
 
             using (var stream = await httpClient
-                       .GetStreamAsync(requestUri: wasabiSigUrl, cancellationToken: CancellationToken)
-                       .ConfigureAwait(continueOnCapturedContext: false))
+                       .GetStreamAsync(wasabiSigUrl, CancellationToken)
+                       .ConfigureAwait(false))
             {
-                await CopyStreamContentToFileAsync(stream: stream, filePath: wasabiSigFilePath)
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                await CopyStreamContentToFileAsync(stream, wasabiSigFilePath)
+                    .ConfigureAwait(false);
             }
         }
         catch (HttpRequestException exc)
@@ -315,7 +314,7 @@ public class UpdateManager : IDisposable
                 message = "Something went wrong while getting Wasabi signature files.";
             }
 
-            throw new InvalidOperationException(message: message, innerException: exc);
+            throw new InvalidOperationException(message, exc);
         }
         catch (IOException)
         {
@@ -329,44 +328,44 @@ public class UpdateManager : IDisposable
         List<string> urls
     )
     {
-        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            var url = urls.Where(predicate: url => url.Contains(value: ".msi")).First();
-            return (url, url.Split(separator: "/").Last());
+            var url = urls.Where(url => url.Contains(".msi")).First();
+            return (url, url.Split("/").Last());
         }
 
-        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.OSX))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             var cpu = RuntimeInformation.ProcessArchitecture;
             if (cpu.ToString() == "Arm64")
             {
-                var arm64url = urls.Where(predicate: url => url.Contains(value: "arm64.dmg")).First();
-                return (arm64url, arm64url.Split(separator: "/").Last());
+                var arm64url = urls.Where(url => url.Contains("arm64.dmg")).First();
+                return (arm64url, arm64url.Split("/").Last());
             }
 
-            var url = urls.Where(predicate: url => url.Contains(value: ".dmg") && !url.Contains(value: "arm64"))
+            var url = urls.Where(url => url.Contains(".dmg") && !url.Contains("arm64"))
                 .First();
-            return (url, url.Split(separator: "/").Last());
+            return (url, url.Split("/").Last());
         }
 
-        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Linux))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            throw new InvalidOperationException(message: "For Linux, get the correct update manually.");
+            throw new InvalidOperationException("For Linux, get the correct update manually.");
         }
 
-        throw new InvalidOperationException(message: "OS not recognized, download manually.");
+        throw new InvalidOperationException("OS not recognized, download manually.");
     }
 
     private void EnsureToRemoveCorruptedFiles()
     {
-        DirectoryInfo folder = new(path: InstallerDir);
+        DirectoryInfo folder = new(InstallerDir);
         if (folder.Exists)
         {
             var corruptedFiles = folder.GetFileSystemInfos()
-                .Where(predicate: file => file.Extension.Equals(value: ".tmp"));
+                .Where(file => file.Extension.Equals(".tmp"));
             foreach (var file in corruptedFiles)
             {
-                File.Delete(path: file.FullName);
+                File.Delete(file.FullName);
             }
         }
     }
@@ -375,15 +374,15 @@ public class UpdateManager : IDisposable
     {
         try
         {
-            var folder = new DirectoryInfo(path: InstallerDir);
+            var folder = new DirectoryInfo(InstallerDir);
             if (folder.Exists)
             {
-                Directory.Delete(path: InstallerDir, recursive: true);
+                Directory.Delete(InstallerDir, true);
             }
         }
         catch (Exception exc)
         {
-            Logger.LogError(message: "Failed to delete installer directory.", exception: exc);
+            Logger.LogError("Failed to delete installer directory.", exc);
         }
     }
 
@@ -394,14 +393,14 @@ public class UpdateManager : IDisposable
         try
         {
             ProcessStartInfo startInfo;
-            if (!File.Exists(path: InstallerPath))
+            if (!File.Exists(InstallerPath))
             {
-                throw new FileNotFoundException(message: InstallerPath);
+                throw new FileNotFoundException(InstallerPath);
             }
 
-            if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                startInfo = ProcessStartInfoFactory.Make(processPath: InstallerPath, arguments: "", openConsole: true);
+                startInfo = ProcessStartInfoFactory.Make(InstallerPath, "", true);
             }
             else
             {
@@ -411,25 +410,25 @@ public class UpdateManager : IDisposable
                 };
             }
 
-            using var p = Process.Start(startInfo: startInfo);
+            using var p = Process.Start(startInfo);
 
             if (p is null)
             {
-                throw new InvalidOperationException(message: $"Can't start {nameof(p)} {startInfo.FileName}.");
+                throw new InvalidOperationException($"Can't start {nameof(p)} {startInfo.FileName}.");
             }
 
-            if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.OSX))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // For MacOS, you need to start the process twice, first start => permission denied
                 // TODO: find out why and fix.
 
-                p!.WaitForExit(milliseconds: 5000);
+                p!.WaitForExit(5000);
                 p.Start();
             }
         }
         catch (Exception ex)
         {
-            Logger.LogError(message: "Failed to install latest release. File might be corrupted.", exception: ex);
+            Logger.LogError("Failed to install latest release. File might be corrupted.", ex);
         }
     }
 

@@ -7,6 +7,7 @@
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:components1="clr-namespace:ProjectAvalonia.Features.Project.ViewModels.Components"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
@@ -23,6 +24,7 @@
         AutoScrollToSelectedItem="True"
         Background="Transparent"
         Classes="horizontalScroller"
+        SelectedContent="{Binding SelectedItem, Mode=TwoWay}"
         Items="{Binding EditingItems, Mode=OneWay}"
         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
         TabStripPlacement="Top"
@@ -32,10 +34,17 @@
                 <components:EditingTabHeader DataContext="{Binding}" />
             </DataTemplate>
         </TabControl.ItemTemplate>
-        <TabControl.ContentTemplate>
-            <DataTemplate x:CompileBindings="True" x:DataType="interfaces:IEditingItemViewModel">
+        <TabControl.DataTemplates>
+            <DataTemplate x:DataType="components1:SolutionEditItemViewModel">
+                <components:SolutionItemView DataContext="{Binding Body}" />
+            </DataTemplate>
+            <DataTemplate x:DataType="components1:ConclusionEditItemViewModel">
+                <components:ConclusionItemView DataContext="{Binding Body}" />
+            </DataTemplate>
+            <DataTemplate x:DataType="components1:EditingItemViewModel">
                 <components:EditingItemView DataContext="{Binding Body}" />
             </DataTemplate>
-        </TabControl.ContentTemplate>
+        </TabControl.DataTemplates>
+
     </TabControl>
 </UserControl>

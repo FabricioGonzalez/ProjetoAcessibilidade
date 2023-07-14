@@ -6,29 +6,22 @@ using System.Net.Sockets;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
-
 using AppDI;
-
 using Avalonia;
 using Avalonia.OpenGL;
 using Avalonia.ReactiveUI;
 using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactivity;
-
 using Common;
-
 using Microsoft.Extensions.Configuration;
-
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
 using ProjectAvalonia.Desktop.Extensions;
-using ProjectAvalonia.Logging;
 using ProjectAvalonia.ViewModels;
-
 using ProjetoAcessibilidade.Domain.App.Contracts;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Desktop;
@@ -44,15 +37,14 @@ public class Program
         string[] args
     )
     {
-        var runGuiInBackground = args.Any(predicate: arg => arg.Contains(value: StartupHelper.SilentArgument));
+        var runGuiInBackground = args.Any(arg => arg.Contains(StartupHelper.SilentArgument));
 
         // Initialize the logger.
-        var dataDir = EnvironmentHelpers.GetDataDir(appName: Path.Combine(Constants.AppName));
-        SetupLogger(dataDir: dataDir, args: args);
+        var dataDir = EnvironmentHelpers.GetDataDir(Path.Combine(Constants.AppName));
+        SetupLogger(dataDir, args);
 
         Logger.LogDebug(
-            message:
-            $"{Constants.AppName} was started with these argument(s): {(args.Any() ? string.Join(separator: " ", value: args) : "none")}.");
+            $"{Constants.AppName} was started with these argument(s): {(args.Any() ? string.Join(" ", args) : "none")}.");
 
         // Crash reporting must be before the "single instance checking".
         try
@@ -67,11 +59,11 @@ public class Program
         catch (Exception ex)
         {
             // If anything happens here just log it and exit.
-            Logger.LogCritical(exception: ex);
+            Logger.LogCritical(ex);
             return 1;
         }
 
-        var (uiConfig, config) = LoadOrCreateConfigs(dataDir: dataDir);
+        var (uiConfig, config) = LoadOrCreateConfigs(dataDir);
 
         // Start single instance checker that is active over the lifetime of the application.
         /*        using SingleInstanceChecker singleInstanceChecker = new(config.Network);
@@ -98,70 +90,71 @@ public class Program
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
         Exception? exceptionToReport = null;
-        TerminateService terminateService = new(terminateApplicationAsync: TerminateApplicationAsync
-            , terminateApplication: TerminateApplication);
+        TerminateService terminateService = new(TerminateApplicationAsync
+            , TerminateApplication);
 
         try
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile(path: "appsettings.json")
+                .AddJsonFile("appsettings.json")
                 .Build();
 
             var configFile = new LanguagesConfiguration();
 
-            configuration.GetSection(key: "Languages").Bind(instance: configFile);
+            configuration.GetSection("Languages").Bind(configFile);
 
-            Global = CreateGlobal(dataDir: dataDir, uiConfig: uiConfig, config: config,
-                languageManager: new LanguageManager(configuration: configFile));
-            ServicesConfig.Initialize(global: Global);
+            Global = CreateGlobal(dataDir, uiConfig, config,
+                new LanguageManager(configFile));
+            ServicesConfig.Initialize(Global);
 
-            RxApp.DefaultExceptionHandler = Observer.Create<Exception>(onNext: ex =>
+            RxApp.DefaultExceptionHandler = Observer.Create<Exception>(ex =>
             {
                 if (Debugger.IsAttached)
                 {
                     Debugger.Break();
                 }
-                Logger.LogError(exception: ex);
 
-                RxApp.MainThreadScheduler.Schedule(action: () =>
-                    throw new ApplicationException(message: "Exception has been thrown in unobserved ThrownExceptions"
-                        , innerException: ex));
+                Logger.LogError(ex);
+
+                RxApp.MainThreadScheduler.Schedule(() =>
+                    throw new ApplicationException("Exception has been thrown in unobserved ThrownExceptions"
+                        , ex));
             });
 
             GC.KeepAlive(typeof(Interaction).Assembly);
             GC.KeepAlive(typeof(ComparisonConditionType).Assembly);
 
-            Logger.LogSoftwareStarted(appName: "Gestor de Projeto ARPA GUI");
+            Logger.LogSoftwareStarted("Gestor de Projeto ARPA GUI");
             AppBuilder
                 .Configure(
-                    appFactory: () =>
+                    () =>
                         new App(
-                            backendInitialiseAsync: async () =>
-                                await Global.InitializeNoWalletAsync(terminateService: terminateService)
-                            , startInBg: runGuiInBackground))
+                            async () =>
+                                await Global.InitializeNoWalletAsync(terminateService)
+                            , runGuiInBackground))
                 .UseReactiveUI()
                 .StartContainer()
                 .AddMediator(markers: typeof(Program))
                 .SetupAppBuilder()
-                .AfterSetup(callback: _ =>
+                .AfterSetup(_ =>
                 {
                     var glInterface = AvaloniaLocator.CurrentMutable.GetService<IPlatformOpenGlInterface>();
-                    Logger.LogInfo(message: glInterface is not null
+                    Logger.LogInfo(glInterface is not null
                         ? $"Renderer: {glInterface.PrimaryContext.GlInterface.Renderer}"
                         : "Renderer: Avalonia Software");
 
-                    ThemeHelper.ApplyTheme(theme: Global.UiConfig.DarkModeEnabled ? Theme.Dark : Theme.Light);
+                    ThemeHelper.ApplyTheme(Global.UiConfig.DarkModeEnabled ? Theme.Dark : Theme.Light);
                 })
-                .StartWithClassicDesktopLifetime(args: args);
+                .StartWithClassicDesktopLifetime(args);
         }
         catch (OperationCanceledException ex)
         {
-            Logger.LogDebug(exception: ex);
+            Logger.LogDebug(ex);
         }
         catch (Exception ex)
         {
             exceptionToReport = ex;
-            Logger.LogCritical(exception: ex);
+            Logger.LogCritical(ex);
         }
 
         // Start termination/disposal of the application.
@@ -180,7 +173,7 @@ public class Program
         AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
         TaskScheduler.UnobservedTaskException -= TaskScheduler_UnobservedTaskException;
 
-        Logger.LogSoftwareStopped(appName: Constants.AppName);
+        Logger.LogSoftwareStopped(Constants.AppName);
 
         return exceptionToReport is not null ? 1 : 0;
     }
@@ -188,7 +181,7 @@ public class Program
     /// <summary>
     ///     Initializes Wasabi Logger. Sets user-defined log-level, if provided.
     /// </summary>
-    /// <example>Start Wasabi Wallet with <c>./wassabee --LogLevel=trace</c> to set <see cref="Logging.LogLevel.Trace" />.</example>
+    /// <example>Start Wasabi Wallet with <c>./wassabee --LogLevel=trace</c> to set <see cref="LogLevel.Trace" />.</example>
     private static void SetupLogger(
         string dataDir
         , string[] args
@@ -198,11 +191,11 @@ public class Program
 
         foreach (var arg in args)
         {
-            if (arg.StartsWith(value: "--LogLevel="))
+            if (arg.StartsWith("--LogLevel="))
             {
-                var value = arg.Split(separator: '=', count: 2)[1];
+                var value = arg.Split('=', 2)[1];
 
-                if (Enum.TryParse(value: value, ignoreCase: true, result: out LogLevel parsedLevel))
+                if (Enum.TryParse(value, true, out LogLevel parsedLevel))
                 {
                     logLevel = parsedLevel;
                     break;
@@ -210,23 +203,23 @@ public class Program
             }
         }
 
-        Logger.InitializeDefaults(filePath: Path.Combine(path1: Constants.AppLogsSettings, path2: "Logs.txt")
-            , logLevel: logLevel);
+        Logger.InitializeDefaults(Path.Combine(Constants.AppLogsSettings, "Logs.txt")
+            , logLevel);
     }
 
     private static (UiConfig uiConfig, Config config) LoadOrCreateConfigs(
         string dataDir
     )
     {
-        Directory.CreateDirectory(path: dataDir);
-        Directory.CreateDirectory(path: Constants.AppUISettings);
+        Directory.CreateDirectory(dataDir);
+        Directory.CreateDirectory(Constants.AppUISettings);
 
         UiConfig uiConfig =
-            new(filePath: Path.Combine(path1: Constants.AppUISettings, path2: Constants.AppUISettingsFile));
+            new(Path.Combine(Constants.AppUISettings, Constants.AppUISettingsFile));
         uiConfig.LoadOrCreateDefaultFile();
 
         Config config =
-            new(filePath: Path.Combine(path1: Constants.AppSettingsFolder, path2: Constants.AppSettingsFile));
+            new(Path.Combine(Constants.AppSettingsFolder, Constants.AppSettingsFile));
         config.LoadOrCreateDefaultFile();
 
         return (uiConfig, config);
@@ -237,18 +230,18 @@ public class Program
         , UiConfig uiConfig
         , Config config
         , ILanguageManager languageManager
-    ) => new(dataDir: dataDir, config: config, uiConfig: uiConfig, languageManager: languageManager);
+    ) => new(dataDir, config, uiConfig, languageManager);
 
     /// <summary>
     ///     Do not call this method it should only be called by TerminateService.
     /// </summary>
     private static async Task TerminateApplicationAsync()
     {
-        Logger.LogSoftwareStopped(appName: "Gestor de Projeto ARPA GUI");
+        Logger.LogSoftwareStopped("Gestor de Projeto ARPA GUI");
 
         if (Global is { } global)
         {
-            await global.DisposeAsync().ConfigureAwait(continueOnCapturedContext: false);
+            await global.DisposeAsync().ConfigureAwait(false);
         }
     }
 
@@ -262,21 +255,21 @@ public class Program
     {
         var innerExceptions = e.Exception.Flatten().InnerExceptions;
 
-        if (innerExceptions.Count == 1 && innerExceptions[index: 0] is SocketException socketException &&
+        if (innerExceptions.Count == 1 && innerExceptions[0] is SocketException socketException &&
             socketException.SocketErrorCode == SocketError.OperationAborted)
         {
             // Until https://github.com/MetacoSA/NBitcoin/pull/1089 is resolved.
-            Logger.LogTrace(exception: e.Exception);
+            Logger.LogTrace(e.Exception);
         }
-        else if (innerExceptions.Count == 1 && innerExceptions[index: 0] is OperationCanceledException ex &&
+        else if (innerExceptions.Count == 1 && innerExceptions[0] is OperationCanceledException ex &&
                  ex.Message == "The peer has been disconnected")
         {
             // Source of this exception is NBitcoin library.
-            Logger.LogTrace(exception: e.Exception);
+            Logger.LogTrace(e.Exception);
         }
         else
         {
-            Logger.LogDebug(exception: e.Exception);
+            Logger.LogDebug(e.Exception);
         }
     }
 
@@ -287,14 +280,14 @@ public class Program
     {
         if (e.ExceptionObject is Exception ex)
         {
-            Logger.LogWarning(exception: ex);
+            Logger.LogWarning(ex);
         }
     }
 
-    [SuppressMessage(category: "CodeQuality", checkId: "IDE0051:Remove unused private members"
+    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members"
         , Justification = "Required to bootstrap Avalonia's Visual Previewer")]
     private static AppBuilder BuildAvaloniaApp() =>
-        AppBuilder.Configure(appFactory: () => new App()).UseReactiveUI().SetupAppBuilder();
+        AppBuilder.Configure(() => new App()).UseReactiveUI().SetupAppBuilder();
 
     /*    /// <summary>
         /// Sets up and initializes the crash reporting UI.

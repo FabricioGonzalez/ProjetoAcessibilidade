@@ -8,11 +8,9 @@ using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
-using ProjectAvalonia.Features.SearchBar.Sources;
-using ProjectAvalonia.Features.SearchBars.ViewModels.SearchBar.Sources;
 using ProjectAvalonia.ViewModels.Navigation;
 
-namespace ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
+namespace ProjectAvalonia.Features.SearchBar.Sources;
 
 public class ActionsSearchSource : ISearchSource
 {

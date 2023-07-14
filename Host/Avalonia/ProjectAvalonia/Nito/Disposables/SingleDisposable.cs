@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
-using Nito.Disposables.Internals;
+using ProjectAvalonia.Nito.Disposables.Internals;
 
-namespace Nito.Disposables;
+namespace ProjectAvalonia.Nito.Disposables;
 
 /// <summary>
 ///     A base class for disposables that need exactly-once semantics in a threadsafe way. All disposals of this instance
@@ -36,32 +36,23 @@ public abstract class SingleDisposable<T> : IDisposable
         T context
     )
     {
-        _context = new BoundActionField<T>(action: Dispose, context: context);
+        _context = new BoundActionField<T>(Dispose, context);
     }
 
     /// <summary>
     ///     Whether this instance is currently disposing or has been disposed.
     /// </summary>
-    public bool IsDisposeStarted
-    {
-        get => _context.IsEmpty;
-    }
+    public bool IsDisposeStarted => _context.IsEmpty;
 
     /// <summary>
     ///     Whether this instance is disposed (finished disposing).
     /// </summary>
-    public bool IsDisposed
-    {
-        get => _mre.IsSet;
-    }
+    public bool IsDisposed => _mre.IsSet;
 
     /// <summary>
     ///     Whether this instance is currently disposing, but not finished yet.
     /// </summary>
-    public bool IsDisposing
-    {
-        get => IsDisposeStarted && !IsDisposed;
-    }
+    public bool IsDisposing => IsDisposeStarted && !IsDisposed;
 
     /// <summary>
     ///     Disposes this instance.
@@ -109,8 +100,6 @@ public abstract class SingleDisposable<T> : IDisposable
     /// </param>
     protected bool TryUpdateContext(
         Func<T, T> contextUpdater
-    )
-    {
-        return _context.TryUpdateContext(contextUpdater: contextUpdater);
-    }
+    ) =>
+        _context.TryUpdateContext(contextUpdater);
 }

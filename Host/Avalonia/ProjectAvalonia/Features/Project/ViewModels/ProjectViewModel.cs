@@ -57,7 +57,9 @@ public partial class ProjectViewModel
 
         var isSolutionOpen = this.WhenAnyValue(vm => vm.IsSolutionOpen);
 
-        _ = this.WhenAnyValue(vm => vm.ProjectExplorerViewModel)
+        var explorer = this.WhenAnyValue(vm => vm.ProjectExplorerViewModel);
+
+        explorer
             .Select(x => x?.SolutionRootItem.ItemsGroups.Count > 0 || x?.SolutionState is not null)
             .ToProperty(
                 this,
@@ -89,6 +91,7 @@ public partial class ProjectViewModel
 
         ProjectEditingViewModel = new ProjectEditingViewModel();
         ProjectPrintPreviewViewModel = new PreviewerViewModel();
+
 
         EnableAutoBusyOn(
             OpenProjectCommand,
@@ -195,19 +198,6 @@ public partial class ProjectViewModel
             "add_folder_24_rounded".GetIcon(),
             "Ctrl+Shift+N"));
 
-
-        /* listBuilder.Add(new MenuItemModel(
-          label: "Add File",
-          command: ReactiveCommand.Create(
-           execute: () =>
-           {
-               ProjectExplorerViewModel?.CreateFolderCommand?.Execute().Subscribe();
-           },
-           canExecute: isSolutionOpen),
-          icon: "add_file_24_rounded".GetIcon(),
-          "Ctrl+N"));*/
-
-
         return listBuilder;
     }
 
@@ -255,7 +245,12 @@ public partial class ProjectViewModel
                     {
                         ProjectExplorerViewModel = new ProjectExplorerViewModel(
                             success
-                        );
+                        )
+                        {
+                            SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
+                                ((ProjectEditingViewModel)ProjectEditingViewModel).AddItemToEdit.Execute(item)
+                                .Subscribe())
+                        };
                         this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
                     });
         });
@@ -281,7 +276,12 @@ public partial class ProjectViewModel
                     {
                         ProjectExplorerViewModel = new ProjectExplorerViewModel(
                             dialogData
-                        );
+                        )
+                        {
+                            SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
+                                ((ProjectEditingViewModel)ProjectEditingViewModel).AddItemToEdit.Execute(item)
+                                .Subscribe())
+                        };
                         this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
                     });
             /* NotificationHelpers.Show(title: "Create", message: "Create Project?", onClick: () =>

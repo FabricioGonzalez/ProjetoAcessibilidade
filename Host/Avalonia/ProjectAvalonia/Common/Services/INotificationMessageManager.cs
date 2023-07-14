@@ -1,4 +1,4 @@
-﻿namespace ProjectAvalonia.Services;
+﻿namespace ProjectAvalonia.Common.Services;
 
 public interface INotificationMessageManager
 {

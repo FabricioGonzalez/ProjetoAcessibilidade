@@ -6,7 +6,6 @@ using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
 using ProjectAvalonia.Features.SearchBar.Sources;
-using ProjectAvalonia.Features.SearchBars.ViewModels.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
 using ProjectAvalonia.ViewModels.SearchBar.Settings;
 
@@ -23,12 +22,12 @@ public class SettingsSearchSource : ISearchSource
     {
         _settingsPage = settingsPage;
 
-        var filter = query.Select(selector: SearchSource.DefaultFilter);
+        var filter = query.Select(SearchSource.DefaultFilter);
 
         Changes = GetSettingsItems()
             .ToObservable()
-            .ToObservableChangeSet(keySelector: x => x.Key)
-            .Filter(predicateChanged: filter);
+            .ToObservableChangeSet(x => x.Key)
+            .Filter(filter);
     }
 
     public IObservable<IChangeSet<ISearchItem, ComposedKey>> Changes
@@ -39,50 +38,50 @@ public class SettingsSearchSource : ISearchSource
     private IEnumerable<ISearchItem> GetSettingsItems() =>
         new ISearchItem[]
         {
-            new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>(
-                    target: _settingsPage.GeneralSettingsTab,
-                    selector: b => b.DarkModeEnabled), name: "DarkModeLabel".GetLocalized(),
-                category: "AppearanceLabel".GetLocalized(),
-                keywords: new List<string> { "ThemeKeyWords".GetLocalized().Split(separator: ",") },
-                icon: "nav_settings_regular") { IsDefault = false }
-            , new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
-                (target: _settingsPage.GeneralSettingsTab,
-                    selector: b => b.AutoCopy),
-                name: "Auto copy addresses",
-                category: "Settings",
-                keywords: new List<string>(),
-                icon: "nav_settings_regular") { IsDefault = false }
-            , new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
-                    (target: _settingsPage.GeneralSettingsTab,
-                        selector: b => b.AutoPaste),
-                    name: "Auto paste addresses",
-                    category: "Settings",
-                    keywords: new List<string>(),
-                    icon: "nav_settings_regular")
+            new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>(
+                    _settingsPage.GeneralSettingsTab,
+                    b => b.DarkModeEnabled), "DarkModeLabel".GetLocalized(),
+                "AppearanceLabel".GetLocalized(),
+                new List<string> { "ThemeKeyWords".GetLocalized().Split(",") },
+                "nav_settings_regular") { IsDefault = false }
+            , new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>
+                (_settingsPage.GeneralSettingsTab,
+                    b => b.AutoCopy),
+                "Auto copy addresses",
+                "Settings",
+                new List<string>(),
+                "nav_settings_regular") { IsDefault = false }
+            , new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>
+                    (_settingsPage.GeneralSettingsTab,
+                        b => b.AutoPaste),
+                    "Auto paste addresses",
+                    "Settings",
+                    new List<string>(),
+                    "nav_settings_regular")
                 { IsDefault = false }
-            , new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
-                    (target: _settingsPage.GeneralSettingsTab,
-                        selector: b => b.HideOnClose),
-                    name: "Run in background when closed",
-                    category: "Settings",
-                    keywords: new List<string> { "hide", "tray" },
-                    icon: "nav_settings_regular")
+            , new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>
+                    (_settingsPage.GeneralSettingsTab,
+                        b => b.HideOnClose),
+                    "Run in background when closed",
+                    "Settings",
+                    new List<string> { "hide", "tray" },
+                    "nav_settings_regular")
                 { IsDefault = false }
-            , new NonActionableSearchItem(content: new Setting<GeneralSettingsTabViewModel, bool>
-                    (target: _settingsPage.GeneralSettingsTab,
-                        selector: b => b.RunOnSystemStartup),
-                    name: "Run Wasabi when computer starts",
-                    category: "Settings",
-                    keywords: new List<string> { "startup", "boot" },
-                    icon: "nav_settings_regular")
+            , new NonActionableSearchItem(new Setting<GeneralSettingsTabViewModel, bool>
+                    (_settingsPage.GeneralSettingsTab,
+                        b => b.RunOnSystemStartup),
+                    "Run Wasabi when computer starts",
+                    "Settings",
+                    new List<string> { "startup", "boot" },
+                    "nav_settings_regular")
                 { IsDefault = false }
-            , new NonActionableSearchItem(content: new Setting<AdvancedSettingsTabViewModel, bool>
-                    (target: _settingsPage.AdvancedSettingsTab,
-                        selector: b => b.EnableGpu),
-                    name: "Enable GPU",
-                    category: "Settings",
-                    keywords: new List<string>(),
-                    icon: "nav_settings_regular")
+            , new NonActionableSearchItem(new Setting<AdvancedSettingsTabViewModel, bool>
+                    (_settingsPage.AdvancedSettingsTab,
+                        b => b.EnableGpu),
+                    "Enable GPU",
+                    "Settings",
+                    new List<string>(),
+                    "nav_settings_regular")
                 { IsDefault = false }
         };
 }

@@ -9,7 +9,7 @@ using Common;
 using ProjectAvalonia.ViewModels;
 using ReactiveUI;
 
-namespace ProjectAvalonia.Fluent;
+namespace ProjectAvalonia.Common.Helpers;
 
 public class App : Application
 {
@@ -31,7 +31,7 @@ public class App : Application
         _backendInitialiseAsync = backendInitialiseAsync;
     }
 
-    public override void Initialize() => AvaloniaXamlLoader.Load(obj: this);
+    public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
     public override void OnFrameworkInitializationCompleted()
     {
@@ -40,14 +40,14 @@ public class App : Application
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 _applicationStateManager =
-                    new ApplicationStateManager(lifetime: desktop, startInBg: _startInBg);
+                    new ApplicationStateManager(desktop, _startInBg);
 
                 DataContext = _applicationStateManager.ApplicationViewModel;
 
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
                 RxApp.MainThreadScheduler.Schedule(
-                    action: async () =>
+                    async () =>
                     {
                         await _backendInitialiseAsync!(); // Guaranteed not to be null when not in designer.
 

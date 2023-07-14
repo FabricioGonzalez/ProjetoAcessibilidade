@@ -5,23 +5,23 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
-namespace ProjectAvalonia.EventHelpers;
+namespace ProjectAvalonia.Common.EventHelpers;
 
 public class EventHelper
 {
     private static readonly AvaloniaProperty<Handlers> EventHelperHandlers =
-        AvaloniaProperty.RegisterAttached<EventHelper, Interactive, Handlers>(name: "__EventHelperHandlers");
+        AvaloniaProperty.RegisterAttached<EventHelper, Interactive, Handlers>("__EventHelperHandlers");
 
     public static AvaloniaProperty<ICommand> PointerPressedCommandProperty
-        = AvaloniaProperty.RegisterAttached<EventHelper, Interactive, ICommand>(name: "PointerPressedCommand");
+        = AvaloniaProperty.RegisterAttached<EventHelper, Interactive, ICommand>("PointerPressedCommand");
 
 
     static EventHelper()
     {
-        PointerPressedCommandProperty.Changed.Subscribe(onNext: args =>
+        PointerPressedCommandProperty.Changed.Subscribe(args =>
         {
             var sender = (Control)args.Sender;
-            var handlers = GetHandlers(o: sender);
+            var handlers = GetHandlers(sender);
             if (!args.NewValue.HasValue)
             {
                 handlers?.PointerPressedHandler.Dispose();
@@ -30,13 +30,13 @@ public class EventHelper
             else if (args.OldValue == null && args.NewValue.HasValue)
             {
                 handlers.PointerPressedHandler = sender.AddDisposableHandler(
-                    routedEvent: InputElement.PointerPressedEvent, handler: (
+                    InputElement.PointerPressedEvent, (
                         s
                         , a
                     ) =>
                     {
-                        var command = GetPointerPressedCommand(c: (Control)s);
-                        command?.Execute(parameter: null);
+                        var command = GetPointerPressedCommand((Control)s);
+                        command?.Execute(null);
                     });
             }
         });
@@ -46,10 +46,10 @@ public class EventHelper
         AvaloniaObject o
     )
     {
-        var v = o.GetValue(property: EventHelperHandlers) as Handlers;
+        var v = o.GetValue(EventHelperHandlers) as Handlers;
         if (v == null)
         {
-            o.SetValue(property: EventHelperHandlers, value: v = new Handlers());
+            o.SetValue(EventHelperHandlers, v = new Handlers());
         }
 
         return v;
@@ -59,11 +59,11 @@ public class EventHelper
         Control c
         , ICommand command
     ) =>
-        c.SetValue(property: PointerPressedCommandProperty, value: command);
+        c.SetValue(PointerPressedCommandProperty, command);
 
     public static ICommand GetPointerPressedCommand(
         Control c
-    ) => (ICommand)c.GetValue(property: PointerPressedCommandProperty);
+    ) => (ICommand)c.GetValue(PointerPressedCommandProperty);
 
     private class Handlers
     {

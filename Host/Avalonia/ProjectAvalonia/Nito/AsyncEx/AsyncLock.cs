@@ -2,13 +2,13 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Nito.AsyncEx.Synchronous;
-using Nito.Disposables;
+using ProjectAvalonia.Nito.AsyncEx.Synchronous;
+using ProjectAvalonia.Nito.Disposables;
 
 // Written by Stephen Cleary: https://github.com/StephenCleary/AsyncEx/blob/master/src/Nito.AsyncEx.Coordination/AsyncLock.cs
 // Original idea from Stephen Toub: http://blogs.msdn.com/b/pfxteam/archive/2012/02/12/10266988.aspx
 
-namespace Nito.AsyncEx;
+namespace ProjectAvalonia.Nito.AsyncEx;
 
 /// <summary>
 ///     A mutual exclusion lock that is compatible with async. Note that this lock is <b>not</b> recursive!
@@ -70,8 +70,8 @@ namespace Nito.AsyncEx;
 /// }
 /// </code>
 /// </example>
-[DebuggerDisplay(value: "Id = {Id}, Taken = {_taken}")]
-[DebuggerTypeProxy(type: typeof(DebugView))]
+[DebuggerDisplay("Id = {Id}, Taken = {_taken}")]
+[DebuggerTypeProxy(typeof(DebugView))]
 public sealed class AsyncLock
 {
     /// <summary>
@@ -98,7 +98,7 @@ public sealed class AsyncLock
     ///     Creates a new async-compatible mutual exclusion lock.
     /// </summary>
     public AsyncLock()
-        : this(queue: null)
+        : this(null)
     {
     }
 
@@ -117,10 +117,7 @@ public sealed class AsyncLock
     /// <summary>
     ///     Gets a semi-unique identifier for this asynchronous lock.
     /// </summary>
-    public int Id
-    {
-        get => IdManager<AsyncLock>.GetId(id: ref _id);
-    }
+    public int Id => IdManager<AsyncLock>.GetId(ref _id);
 
     /// <summary>
     ///     Asynchronously acquires the lock. Returns a disposable that releases the lock when disposed.
@@ -140,11 +137,11 @@ public sealed class AsyncLock
             {
                 // If the lock is available, take it immediately.
                 _taken = true;
-                return Task.FromResult<IDisposable>(result: new Key(asyncLock: this));
+                return Task.FromResult<IDisposable>(new Key(this));
             }
 
             // Wait for the lock to become available or cancellation.
-            return _queue.Enqueue(mutex: _mutex, token: cancellationToken);
+            return _queue.Enqueue(_mutex, cancellationToken);
         }
     }
 
@@ -158,19 +155,14 @@ public sealed class AsyncLock
     /// <returns>A disposable that releases the lock when disposed.</returns>
     public AwaitableDisposable<IDisposable> LockAsync(
         CancellationToken cancellationToken
-    )
-    {
-        return new AwaitableDisposable<IDisposable>(task: RequestLockAsync(cancellationToken: cancellationToken));
-    }
+    ) =>
+        new(RequestLockAsync(cancellationToken));
 
     /// <summary>
     ///     Asynchronously acquires the lock. Returns a disposable that releases the lock when disposed.
     /// </summary>
     /// <returns>A disposable that releases the lock when disposed.</returns>
-    public AwaitableDisposable<IDisposable> LockAsync()
-    {
-        return LockAsync(cancellationToken: CancellationToken.None);
-    }
+    public AwaitableDisposable<IDisposable> LockAsync() => LockAsync(CancellationToken.None);
 
     /// <summary>
     ///     Synchronously acquires the lock. Returns a disposable that releases the lock when disposed. This method may block
@@ -182,19 +174,14 @@ public sealed class AsyncLock
     /// </param>
     public IDisposable Lock(
         CancellationToken cancellationToken
-    )
-    {
-        return RequestLockAsync(cancellationToken: cancellationToken).WaitAndUnwrapException();
-    }
+    ) =>
+        RequestLockAsync(cancellationToken).WaitAndUnwrapException();
 
     /// <summary>
     ///     Synchronously acquires the lock. Returns a disposable that releases the lock when disposed. This method may block
     ///     the calling thread.
     /// </summary>
-    public IDisposable Lock()
-    {
-        return Lock(cancellationToken: CancellationToken.None);
-    }
+    public IDisposable Lock() => Lock(CancellationToken.None);
 
     /// <summary>
     ///     Releases the lock.
@@ -204,9 +191,13 @@ public sealed class AsyncLock
         lock (_mutex)
         {
             if (_queue.IsEmpty)
+            {
                 _taken = false;
+            }
             else
-                _queue.Dequeue(result: new Key(asyncLock: this));
+            {
+                _queue.Dequeue(new Key(this));
+            }
         }
     }
 
@@ -222,16 +213,14 @@ public sealed class AsyncLock
         public Key(
             AsyncLock asyncLock
         )
-            : base(context: asyncLock)
+            : base(asyncLock)
         {
         }
 
         protected override void Dispose(
             AsyncLock context
-        )
-        {
+        ) =>
             context.ReleaseLock();
-        }
     }
 
     // ReSharper disable UnusedMember.Local
@@ -247,20 +236,11 @@ public sealed class AsyncLock
             _mutex = mutex;
         }
 
-        public int Id
-        {
-            get => _mutex.Id;
-        }
+        public int Id => _mutex.Id;
 
-        public bool Taken
-        {
-            get => _mutex._taken;
-        }
+        public bool Taken => _mutex._taken;
 
-        public IAsyncWaitQueue<IDisposable> WaitQueue
-        {
-            get => _mutex._queue;
-        }
+        public IAsyncWaitQueue<IDisposable> WaitQueue => _mutex._queue;
     }
 
     // ReSharper restore UnusedMember.Local

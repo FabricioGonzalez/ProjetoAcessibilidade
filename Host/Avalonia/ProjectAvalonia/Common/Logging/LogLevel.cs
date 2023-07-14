@@ -1,4 +1,4 @@
-namespace ProjectAvalonia.Logging;
+namespace ProjectAvalonia.Common.Logging;
 
 public enum LogLevel
 {

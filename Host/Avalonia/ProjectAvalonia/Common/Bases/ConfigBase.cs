@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Json;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Common.Logging;
 
 namespace ProjectAvalonia.Common.Bases;
 
@@ -21,7 +21,7 @@ public abstract class ConfigBase
         string filePath
     )
     {
-        SetFilePath(path: filePath);
+        SetFilePath(filePath);
     }
 
     /// <remarks>
@@ -43,10 +43,10 @@ public abstract class ConfigBase
     /// <inheritdoc />
     public void AssertFilePathSet()
     {
-        if (string.IsNullOrWhiteSpace(value: FilePath))
+        if (string.IsNullOrWhiteSpace(FilePath))
         {
             throw new NotSupportedException(
-                message: $"{nameof(FilePath)} is not set. Use {nameof(SetFilePath)} to set it.");
+                $"{nameof(FilePath)} is not set. Use {nameof(SetFilePath)} to set it.");
         }
     }
 
@@ -55,19 +55,19 @@ public abstract class ConfigBase
     {
         AssertFilePathSet();
 
-        if (!File.Exists(path: FilePath))
+        if (!File.Exists(FilePath))
         {
-            throw new FileNotFoundException(message: $"{GetType().Name} file did not exist at path: `{FilePath}`.");
+            throw new FileNotFoundException($"{GetType().Name} file did not exist at path: `{FilePath}`.");
         }
 
         lock (FileLock)
         {
             var jsonString = ReadFileNoLock();
-            var newConfigObject = Activator.CreateInstance(type: GetType())!;
-            JsonConvert.PopulateObject(value: jsonString, target: newConfigObject
-                , settings: JsonSerializationOptions.Default.Settings);
+            var newConfigObject = Activator.CreateInstance(GetType())!;
+            JsonConvert.PopulateObject(jsonString, newConfigObject
+                , JsonSerializationOptions.Default.Settings);
 
-            return !AreDeepEqual(otherConfig: newConfigObject);
+            return !AreDeepEqual(newConfigObject);
         }
     }
 
@@ -78,11 +78,11 @@ public abstract class ConfigBase
 
         lock (FileLock)
         {
-            JsonConvert.PopulateObject(value: "{}", target: this);
+            JsonConvert.PopulateObject("{}", this);
 
-            if (!File.Exists(path: FilePath))
+            if (!File.Exists(FilePath))
             {
-                Logger.LogInfo(message: $"{GetType().Name} file did not exist. Created at path: `{FilePath}`.");
+                Logger.LogInfo($"{GetType().Name} file did not exist. Created at path: `{FilePath}`.");
             }
             else
             {
@@ -93,9 +93,8 @@ public abstract class ConfigBase
                 catch (Exception ex)
                 {
                     Logger.LogInfo(
-                        message:
                         $"{GetType().Name} file has been deleted because it was corrupted. Recreated default version at path: `{FilePath}`.");
-                    Logger.LogWarning(exception: ex);
+                    Logger.LogWarning(ex);
                 }
             }
 
@@ -115,17 +114,17 @@ public abstract class ConfigBase
     /// <inheritdoc />
     public void SetFilePath(
         string path
-    ) => FilePath = Guard.NotNullOrEmptyOrWhitespace(parameterName: nameof(path), value: path, trim: true);
+    ) => FilePath = Guard.NotNullOrEmptyOrWhitespace(nameof(path), path, true);
 
     /// <inheritdoc />
     public bool AreDeepEqual(
         object otherConfig
     )
     {
-        var serializer = JsonSerializer.Create(settings: JsonSerializationOptions.Default.Settings);
-        var currentConfig = JObject.FromObject(o: this, jsonSerializer: serializer);
-        var otherConfigJson = JObject.FromObject(o: otherConfig, jsonSerializer: serializer);
-        return JToken.DeepEquals(t1: otherConfigJson, t2: currentConfig);
+        var serializer = JsonSerializer.Create(JsonSerializationOptions.Default.Settings);
+        var currentConfig = JObject.FromObject(this, serializer);
+        var otherConfigJson = JObject.FromObject(otherConfig, serializer);
+        return JToken.DeepEquals(otherConfigJson, currentConfig);
     }
 
     /// <inheritdoc />
@@ -145,10 +144,10 @@ public abstract class ConfigBase
     {
         var jsonString = ReadFileNoLock();
 
-        JsonConvert.PopulateObject(value: jsonString, target: this
-            , settings: JsonSerializationOptions.Default.Settings);
+        JsonConvert.PopulateObject(jsonString, this
+            , JsonSerializationOptions.Default.Settings);
 
-        if (TryEnsureBackwardsCompatibility(jsonString: jsonString))
+        if (TryEnsureBackwardsCompatibility(jsonString))
         {
             ToFileNoLock();
         }
@@ -158,14 +157,14 @@ public abstract class ConfigBase
     {
         AssertFilePathSet();
 
-        var jsonString = JsonConvert.SerializeObject(value: this, formatting: Formatting.Indented
-            , settings: JsonSerializationOptions.Default.Settings);
-        WriteFileNoLock(contents: jsonString);
+        var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented
+            , JsonSerializationOptions.Default.Settings);
+        WriteFileNoLock(jsonString);
     }
 
     protected void WriteFileNoLock(
         string contents
-    ) => File.WriteAllText(path: FilePath, contents: contents, encoding: Encoding.UTF8);
+    ) => File.WriteAllText(FilePath, contents, Encoding.UTF8);
 
-    protected string ReadFileNoLock() => File.ReadAllText(path: FilePath, encoding: Encoding.UTF8);
+    protected string ReadFileNoLock() => File.ReadAllText(FilePath, Encoding.UTF8);
 }

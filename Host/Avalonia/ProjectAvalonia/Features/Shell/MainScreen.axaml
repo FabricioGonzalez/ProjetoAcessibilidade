@@ -3,11 +3,11 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="using:ProjectAvalonia.Common.Controls"
-    xmlns:commanding="using:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:navbar="using:ProjectAvalonia.Features.NavBar"
     xmlns:shell="clr-namespace:ProjectAvalonia.Features.Shell"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.ViewModels"
+    xmlns:commanding1="clr-namespace:ProjectAvalonia.Common.Controls.Commanding"
     d:DesignHeight="1000"
     d:DesignWidth="1000"
     x:CompileBindings="True"
@@ -16,7 +16,7 @@
     <DockPanel IsEnabled="{Binding IsMainContentEnabled^}">
         <shell:TitleBar DockPanel.Dock="Top" />
         <Border BoxShadow="{DynamicResource InfoBoxShadow}" DockPanel.Dock="Top">
-            <commanding:ToolBar
+            <commanding1:ToolBar
                 Margin="0,2"
                 x:CompileBindings="True"
                 DataContext="{Binding ToolBarMenu, Mode=OneWay}" />

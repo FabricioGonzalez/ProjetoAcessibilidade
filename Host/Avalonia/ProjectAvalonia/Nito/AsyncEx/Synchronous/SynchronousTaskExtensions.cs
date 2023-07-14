@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using ProjectAvalonia.Common.Helpers;
 
-namespace Nito.AsyncEx.Synchronous;
+namespace ProjectAvalonia.Nito.AsyncEx.Synchronous;
 
 /// <summary>
 ///     Provides synchronous extension methods for tasks.
@@ -18,7 +18,7 @@ public static class TaskExtensions
         this Task<TResult> task
     )
     {
-        Guard.NotNull(parameterName: nameof(task), value: task);
+        Guard.NotNull(nameof(task), task);
 
         return task.GetAwaiter().GetResult();
     }

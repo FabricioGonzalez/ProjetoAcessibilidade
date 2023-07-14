@@ -15,9 +15,11 @@ using Core.Entities.ValidationRules;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
+using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
@@ -36,80 +38,6 @@ public class ProjectEditingViewModel
     : ViewModelBase
         , IProjectEditingViewModel
 {
-    /*private readonly EditingItemsStore _editingItemsStore;
-    private readonly ICommandDispatcher? commandDispatcher;
-
-    private readonly IMediator? queryDispatcher;
-
-    [AutoNotify] private int _selectedIndex;
-    [AutoNotify] private ItemState _selectedItem;
-
-    public ProjectEditingViewModel()
-    {
-        queryDispatcher ??= Locator.Current.GetService<IMediator>();
-        commandDispatcher ??= Locator.Current.GetService<ICommandDispatcher>();
-        _editingItemsStore ??= Locator.Current.GetService<EditingItemsStore>();
-
-        this.WhenAnyValue(property1: vm => vm.SelectedItem)
-            .WhereNotNull()
-            .Subscribe(onNext: prop =>
-            {
-                _editingItemsStore.CurrentSelectedItem = prop;
-            });
-
-        SaveItemCommand = ReactiveCommand.CreateFromTask<AppModelState?>(
-            execute: async appModel =>
-            {
-                if (appModel is not null)
-                {
-                    var itemModel = appModel.ToAppModel();
-
-                    await commandDispatcher
-                        .Dispatch<SaveProjectItemContentCommand, Resource<Empty>>(
-                            command: new SaveProjectItemContentCommand(
-                                AppItem: itemModel, ItemPath: _editingItemsStore.CurrentSelectedItem.ItemPath),
-                            cancellation: CancellationToken.None);
-                }
-            });
-
-        /*AddPhotoCommand = ReactiveCommand.Create<ImageContainerItemState>(
-            execute: async imageContainer =>
-            {
-                var file = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Obter Image"
-                    , filterExtTypes: new[] { "Images/*", "png", "jpeg" });
-
-                if (!string.IsNullOrWhiteSpace(value: file))
-                {
-                    imageContainer.ImagesItems.Add(item: new ImageItemState { ImagePath = file });
-                }
-            },
-            canExecute: canSave);#1#
-        CloseItemCommand = ReactiveCommand.Create<ItemState>(execute: item =>
-        {
-            _editingItemsStore.RemoveEditingItem(item: item);
-        });
-    }
-
-    public AppModelState EditingItem => _editingItemsStore?.Item;
-
-    public ReadOnlyObservableCollection<ItemState> Items => _editingItemsStore.SelectedItems;
-
-    public ReactiveCommand<AppModelState, Unit> SaveItemCommand
-    {
-        get;
-    }
-
-    public ICommand CloseItemCommand
-    {
-        get;
-    }
-
-    public ReactiveCommand<ImageContainerItemState, Unit> AddPhotoCommand
-    {
-        get;
-    }*/
-
-
     public static readonly Interaction<IItemViewModel, Unit> SetEditingItem = new();
     private readonly IMediator? _mediator;
 
@@ -119,18 +47,12 @@ public class ProjectEditingViewModel
 
         EditingItems = new ObservableCollection<IEditingItemViewModel>();
 
-        AddItemToEdit = ReactiveCommand.CreateFromObservable<IItemViewModel, Unit>(AddItem);
+        AddItemToEdit = ReactiveCommand.CreateFromTask<IItemViewModel>(AddItem);
 
-        _ = SetEditingItem.RegisterHandler(value =>
-        {
-            _ = AddItemToEdit.Execute(value.Input);
+        var observableItems = EditingItems
+            .ToObservableChangeSet();
 
-            value.SetOutput(Unit.Default);
-        });
-
-        _ = EditingItems
-            .ToObservableChangeSet()
-            .AutoRefreshOnObservable(item => item.CloseItemCommand.IsExecuting)
+        observableItems.AutoRefreshOnObservable(item => item.CloseItemCommand.IsExecuting)
             .Select(x => WhenAnyItemClosed())
             .Switch()
             .SubscribeAsync(async x =>
@@ -152,8 +74,7 @@ public class ProjectEditingViewModel
                 }
             });
 
-        _ = EditingItems
-            .ToObservableChangeSet()
+        observableItems
             .WhereNotNull()
             .OnItemAdded(model =>
             {
@@ -187,25 +108,44 @@ public class ProjectEditingViewModel
             .Select(x => x.CloseItemCommand.Select(_ => x))
             .Merge();
 
-    private IObservable<Unit> AddItem(
+    private async Task AddItem(
         IItemViewModel item
-    ) =>
-        Observable.Start(action: async () =>
+    )
+    {
+        if (!EditingItems.Any(x => x.Id == item.Id))
         {
-            if (EditingItems.All(x => x.Id != item.Id))
+            if (item is SolutionItemViewModel solution)
+            {
+                var solutionItem = new SolutionEditItemViewModel(solution.Name, solution.Id, solution.ItemPath
+                    , new SolutionItemBody { Nome = solution.Name }, false);
+
+                EditingItems.Add(solutionItem);
+            }
+
+            if (item is ConclusionItemViewModel conclusion)
+            {
+                var conclusionItem = new ConclusionEditItemViewModel(conclusion.Name, conclusion.Id, conclusion.ItemPath
+                    , new ConclusionEditingBody(), false);
+
+                EditingItems.Add(conclusionItem);
+
+                Logger.LogDebug(item.ItemPath);
+            }
+
+            if (item is ItemViewModel edit)
             {
                 var getItem = _mediator.Send(
-                    new GetProjectItemContentQuery(item.ItemPath),
+                    new GetProjectItemContentQuery(edit.ItemPath),
                     CancellationToken.None);
 
                 var getRules = _mediator.Send(
                     new GetValidationRulesQuery(Path.Combine(Constants.AppValidationRulesTemplateFolder,
-                        $"{item.TemplateName}{Constants.AppProjectValidationTemplateExtension}")),
+                        $"{edit.TemplateName}{Constants.AppProjectValidationTemplateExtension}")),
                     CancellationToken.None);
 
                 await Task.WhenAll(getItem, getRules);
 
-                _ = getItem.Result.IfSucc(successData =>
+                getItem.Result.IfSucc(successData =>
                 {
                     getRules.Result.IfSucc(rules =>
                     {
@@ -215,9 +155,9 @@ public class ProjectEditingViewModel
                             successData.Observations.Where(it => it.ObservationText.Length > 0));
 
                         IEditingItemViewModel itemToEdit = new EditingItemViewModel(
-                            id: item.Id,
+                            id: edit.Id,
                             itemName: successData.ItemName,
-                            itemPath: item.ItemPath,
+                            itemPath: edit.ItemPath,
                             body: new EditingBodyViewModel(
                                 successData.LawList.ToViewLawList(),
                                 new ObservableCollection<IFormViewModel>(successData.FormData
@@ -232,16 +172,17 @@ public class ProjectEditingViewModel
                     });
                 });
             }
+        }
 
-            else
+        else
+        {
+            if (EditingItems.FirstOrDefault(x => !x.Id.Equals(item.Id)) is { } editingItem)
             {
-                if (EditingItems.FirstOrDefault(x => !x.Id.Equals(item.Id)) is { } editingItem)
-                {
-                    SelectedItem = editingItem;
-                    this.RaisePropertyChanged(nameof(SelectedItem));
-                }
+                SelectedItem = editingItem;
+                this.RaisePropertyChanged(nameof(SelectedItem));
             }
-        });
+        }
+    }
 }
 
 public static class Extension

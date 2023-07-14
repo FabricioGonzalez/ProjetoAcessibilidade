@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reactive;
 using Common.Optional;
 using ProjetoAcessibilidade.Core.Entities.Solution;
@@ -26,12 +25,6 @@ public interface IProjectExplorerViewModel : INotifyPropertyChanged
     }
 
     public IItemViewModel SelectedItem
-    {
-        get;
-        set;
-    }
-
-    public ObservableCollection<IItemGroupViewModel> Items
     {
         get;
         set;

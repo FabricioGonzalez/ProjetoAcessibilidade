@@ -4,7 +4,6 @@ using System.Reactive.Linq;
 using DynamicData;
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
-using ProjectAvalonia.Features.SearchBars.ViewModels.SearchBar.Sources;
 
 namespace ProjectAvalonia.Features.SearchBar.Sources;
 
@@ -20,5 +19,5 @@ public class CompositeSearchSource : ISearchSource
     }
 
     public IObservable<IChangeSet<ISearchItem, ComposedKey>> Changes =>
-        _sources.Select(selector: r => r.Changes).Merge();
+        _sources.Select(r => r.Changes).Merge();
 }

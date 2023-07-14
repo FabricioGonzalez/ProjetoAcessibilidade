@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Common.Logging;
 
 namespace ProjectAvalonia.Common.Helpers;
 
@@ -22,39 +22,39 @@ public static class IoHelpers
         , int millisecondsDelay = 100
     )
     {
-        Guard.NotNull(parameterName: nameof(directory), value: directory);
+        Guard.NotNull(nameof(directory), directory);
 
         if (maxRetries < 1)
         {
-            throw new ArgumentOutOfRangeException(paramName: nameof(maxRetries));
+            throw new ArgumentOutOfRangeException(nameof(maxRetries));
         }
 
         if (millisecondsDelay < 1)
         {
-            throw new ArgumentOutOfRangeException(paramName: nameof(millisecondsDelay));
+            throw new ArgumentOutOfRangeException(nameof(millisecondsDelay));
         }
 
         for (var i = 0; i < maxRetries; ++i)
         {
             try
             {
-                if (Directory.Exists(path: directory))
+                if (Directory.Exists(directory))
                 {
-                    Directory.Delete(path: directory, recursive: true);
+                    Directory.Delete(directory, true);
                 }
 
                 return true;
             }
             catch (DirectoryNotFoundException e)
             {
-                Logger.LogDebug(message: $"Directory was not found: {e}");
+                Logger.LogDebug($"Directory was not found: {e}");
 
                 // Directory does not exist. So the operation is trivially done.
                 return true;
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                await Task.Delay(millisecondsDelay: millisecondsDelay).ConfigureAwait(continueOnCapturedContext: false);
+                await Task.Delay(millisecondsDelay).ConfigureAwait(false);
             }
         }
 
@@ -66,9 +66,9 @@ public static class IoHelpers
     )
     {
         var fullPath =
-            Path.GetFullPath(path: fileNameOrPath); // No matter if relative or absolute path is given to this.
-        var dir = Path.GetDirectoryName(path: fullPath);
-        EnsureDirectoryExists(dir: dir);
+            Path.GetFullPath(fileNameOrPath); // No matter if relative or absolute path is given to this.
+        var dir = Path.GetDirectoryName(fullPath);
+        EnsureDirectoryExists(dir);
     }
 
     /// <summary>
@@ -78,9 +78,9 @@ public static class IoHelpers
         string? dir
     )
     {
-        if (!string.IsNullOrWhiteSpace(value: dir)) // If root is given, then do not worry.
+        if (!string.IsNullOrWhiteSpace(dir)) // If root is given, then do not worry.
         {
-            Directory.CreateDirectory(path: dir); // It does not fail if it exists.
+            Directory.CreateDirectory(dir); // It does not fail if it exists.
         }
     }
 
@@ -88,37 +88,37 @@ public static class IoHelpers
         string filePath
     )
     {
-        if (!File.Exists(path: filePath))
+        if (!File.Exists(filePath))
         {
-            EnsureContainingDirectoryExists(fileNameOrPath: filePath);
+            EnsureContainingDirectoryExists(filePath);
 
-            File.Create(path: filePath)?.Dispose();
+            File.Create(filePath)?.Dispose();
         }
     }
 
     public static bool CheckIfFileExists(
         string filePath
-    ) => File.Exists(path: filePath);
+    ) => File.Exists(filePath);
 
     public static void OpenFolderInFileExplorer(
         string dirPath
     )
     {
-        if (Directory.Exists(path: dirPath))
+        if (Directory.Exists(dirPath))
         {
             // RuntimeInformation.OSDescription on WSL2 reports a string like:
             // 'Linux 5.10.102.1-microsoft-standard-WSL2 #1 SMP Wed Mar 2 00:30:59 UTC 2022'
-            if (!RuntimeInformation.OSDescription.ToString(provider: CultureInfo.InvariantCulture)
-                    .Contains(value: "WSL2"))
+            if (!RuntimeInformation.OSDescription.ToString(CultureInfo.InvariantCulture)
+                    .Contains("WSL2"))
             {
-                using var process = Process.Start(startInfo: new ProcessStartInfo
+                using var process = Process.Start(new ProcessStartInfo
                 {
-                    FileName = RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows)
+                    FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                         ? "explorer.exe"
-                        : RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.OSX)
+                        : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
                             ? "open"
                             : "xdg-open"
-                    , Arguments = RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows)
+                    , Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                         ? $"\"{dirPath}\""
                         : dirPath
                     , CreateNoWindow = true
@@ -131,21 +131,21 @@ public static class IoHelpers
         string url
     )
     {
-        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Linux))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             // If no associated application/json MimeType is found xdg-open opens retrun error
             // but it tries to open it anyway using the console editor (nano, vim, other..)
-            await EnvironmentHelpers.ShellExecAsync(cmd: $"xdg-open {url}", waitForExit: false)
-                .ConfigureAwait(continueOnCapturedContext: false);
+            await EnvironmentHelpers.ShellExecAsync($"xdg-open {url}", false)
+                .ConfigureAwait(false);
         }
         else
         {
-            using var process = Process.Start(startInfo: new ProcessStartInfo
+            using var process = Process.Start(new ProcessStartInfo
             {
-                FileName = RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows) ? url : "open"
-                , Arguments = RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.OSX) ? $"-e {url}" : ""
+                FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? url : "open"
+                , Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? $"-e {url}" : ""
                 , CreateNoWindow = true
-                , UseShellExecute = RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows)
+                , UseShellExecute = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             });
         }
     }
@@ -157,12 +157,12 @@ public static class IoHelpers
     {
         foreach (var dir in source.GetDirectories())
         {
-            CopyFilesRecursively(source: dir, target: target.CreateSubdirectory(path: dir.Name));
+            CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
         }
 
         foreach (var file in source.GetFiles())
         {
-            file.CopyTo(destFileName: Path.Combine(path1: target.FullName, path2: file.Name));
+            file.CopyTo(Path.Combine(target.FullName, file.Name));
         }
     }
 
@@ -170,6 +170,6 @@ public static class IoHelpers
         string path
     )
     {
-        using var _ = File.Create(path: path);
+        using var _ = File.Create(path);
     }
 }

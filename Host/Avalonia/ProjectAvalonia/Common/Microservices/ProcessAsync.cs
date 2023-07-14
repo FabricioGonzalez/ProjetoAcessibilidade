@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Common.Logging;
 
 namespace ProjectAvalonia.Common.Microservices;
 
@@ -21,7 +21,7 @@ public class ProcessAsync : IDisposable
 
     public ProcessAsync(
         ProcessStartInfo startInfo
-    ) : this(process: new Process { StartInfo = startInfo })
+    ) : this(new Process { StartInfo = startInfo })
     {
     }
 
@@ -61,10 +61,10 @@ public class ProcessAsync : IDisposable
     public virtual void Dispose()
     {
         // Dispose of unmanaged resources.
-        Dispose(disposing: true);
+        Dispose(true);
 
         // Suppress finalization.
-        GC.SuppressFinalize(obj: this);
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="Process.Start()" />
@@ -76,17 +76,16 @@ public class ProcessAsync : IDisposable
         }
         catch (Exception ex)
         {
-            Logger.LogError(exception: ex);
+            Logger.LogError(ex);
 
-            Logger.LogInfo(message: $"{nameof(Process.StartInfo.FileName)}: {Process.StartInfo.FileName}.");
-            Logger.LogInfo(message: $"{nameof(Process.StartInfo.Arguments)}: {Process.StartInfo.Arguments}.");
+            Logger.LogInfo($"{nameof(Process.StartInfo.FileName)}: {Process.StartInfo.FileName}.");
+            Logger.LogInfo($"{nameof(Process.StartInfo.Arguments)}: {Process.StartInfo.Arguments}.");
             Logger.LogInfo(
-                message:
                 $"{nameof(Process.StartInfo.RedirectStandardOutput)}: {Process.StartInfo.RedirectStandardOutput}.");
             Logger.LogInfo(
-                message: $"{nameof(Process.StartInfo.UseShellExecute)}: {Process.StartInfo.UseShellExecute}.");
-            Logger.LogInfo(message: $"{nameof(Process.StartInfo.CreateNoWindow)}: {Process.StartInfo.CreateNoWindow}.");
-            Logger.LogInfo(message: $"{nameof(Process.StartInfo.WindowStyle)}: {Process.StartInfo.WindowStyle}.");
+                $"{nameof(Process.StartInfo.UseShellExecute)}: {Process.StartInfo.UseShellExecute}.");
+            Logger.LogInfo($"{nameof(Process.StartInfo.CreateNoWindow)}: {Process.StartInfo.CreateNoWindow}.");
+            Logger.LogInfo($"{nameof(Process.StartInfo.WindowStyle)}: {Process.StartInfo.WindowStyle}.");
             throw;
         }
     }
@@ -94,7 +93,7 @@ public class ProcessAsync : IDisposable
     /// <inheritdoc cref="Process.Kill(bool)" />
     public virtual void Kill(
         bool entireProcessTree = false
-    ) => Process.Kill(entireProcessTree: entireProcessTree);
+    ) => Process.Kill(entireProcessTree);
 
     /// <summary>
     ///     Waits until the process either finishes on its own or when user cancels the action.
@@ -107,23 +106,23 @@ public class ProcessAsync : IDisposable
     {
         if (Process.HasExited)
         {
-            Logger.LogTrace(message: "Process has already exited.");
+            Logger.LogTrace("Process has already exited.");
             return;
         }
 
         try
         {
-            Logger.LogTrace(message: $"Wait for the process to exit: '{Process.Id}'");
-            await Process.WaitForExitAsync(cancellationToken: cancellationToken)
-                .ConfigureAwait(continueOnCapturedContext: false);
+            Logger.LogTrace($"Wait for the process to exit: '{Process.Id}'");
+            await Process.WaitForExitAsync(cancellationToken)
+                .ConfigureAwait(false);
 
-            Logger.LogTrace(message: "Process has exited.");
+            Logger.LogTrace("Process has exited.");
         }
         catch (OperationCanceledException ex)
         {
-            Logger.LogTrace(message: "User canceled waiting for process exit.");
-            throw new TaskCanceledException(message: "Waiting for process exiting was canceled.", innerException: ex
-                , token: cancellationToken);
+            Logger.LogTrace("User canceled waiting for process exit.");
+            throw new TaskCanceledException("Waiting for process exiting was canceled.", ex
+                , cancellationToken);
         }
     }
 
