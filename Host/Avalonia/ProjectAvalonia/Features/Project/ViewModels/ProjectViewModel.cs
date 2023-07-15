@@ -60,7 +60,7 @@ public partial class ProjectViewModel
         var explorer = this.WhenAnyValue(vm => vm.ProjectExplorerViewModel);
 
         explorer
-            .Select(x => x?.SolutionRootItem.ItemsGroups.Count > 0 || x?.SolutionState is not null)
+            .Select(x => x?.SolutionRootItem.LocationItems.Count > 0 || x?.SolutionState is not null)
             .ToProperty(
                 this,
                 x => x.IsSolutionOpen,

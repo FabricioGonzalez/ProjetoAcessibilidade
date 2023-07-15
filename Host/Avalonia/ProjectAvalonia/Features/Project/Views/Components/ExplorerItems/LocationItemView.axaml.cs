@@ -2,11 +2,11 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ProjectAvalonia.Features.Project.Views.Components;
+namespace ProjectAvalonia.Features.Project.Views.Components.ExplorerItems;
 
-public partial class EditingLawView : UserControl
+public partial class LocationItemView : UserControl
 {
-    public EditingLawView()
+    public LocationItemView()
     {
         InitializeComponent();
     }

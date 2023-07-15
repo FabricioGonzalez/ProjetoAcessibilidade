@@ -30,7 +30,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="validationTypes:ValidationRuleState">
                                 <Grid ColumnDefinitions="1* 96">
-                                    <TextBox Text="{Binding ValidationRuleName}" />
+                                    <TextBox Text="{Binding ValidationRuleName,Mode=TwoWay}" />
                                     <Button Grid.Column="1"
                                             Click="EditRuleButtonClicked"
                                             Content="{x:Static p:Resources.Edit_Rules_Button}" />

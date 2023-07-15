@@ -9,7 +9,7 @@
              x:DataType="interfaces:IEditingBodyViewModel"
              x:CompileBindings="True"
              HorizontalAlignment="Stretch"
-             x:Class="ProjectAvalonia.Features.Project.Views.Components.EditingFormView">
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.EditingBody.EditingFormView">
     <Design.DataContext>
         <designTimeViewModels:DesingTimeEditingBodyViewModel />
     </Design.DataContext>
@@ -43,8 +43,8 @@
 
             <DataTemplate x:DataType="interfaces:IObservationFormItemViewModel"
                           DataType="interfaces:IObservationFormItemViewModel">
-              <components:ObservationItem BorderThickness="1"
-                                                BorderBrush="{DynamicResource TileBorderColor}" DataContext="{Binding}" />
+                <components:ObservationItem BorderThickness="1"
+                                            BorderBrush="{DynamicResource TileBorderColor}" DataContext="{Binding}" />
             </DataTemplate>
         </ItemsControl.DataTemplates>
     </ItemsControl>

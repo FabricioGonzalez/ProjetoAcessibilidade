@@ -30,11 +30,18 @@
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/CheckboxGroupView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/CheckboxItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ConclusionItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingBody/ConclusionItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingBody/SolutionItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingFormView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingItem.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingLawView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingTab/EditingTabContent.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingTab/EditingTabHeader.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingTabHeader.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ExplorerItems/ItemGroupView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ExplorerItems/ItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ExplorerItems/LocationItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ImageContainerItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ImageItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ItemGroupView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
@@ -78,10 +85,12 @@
         <entry key="Host/Avalonia/ProjectAvalonia/Icons/Icons.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Styles/AppButton.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Styles/Button.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Styles/ScrollableTabControl.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Styles/Styles.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Styles/Themes/Base.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Styles/Themes/BaseDark.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Styles/Themes/BaseLight.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Styles/TreeDataGrid.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Views/Dialogs/ShowErrorDialogView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Views/Dialogs/ShuttingdownDialogView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Views/MainWindow.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />

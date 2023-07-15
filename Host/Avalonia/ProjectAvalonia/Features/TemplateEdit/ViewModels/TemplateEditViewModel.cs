@@ -246,7 +246,7 @@ public partial class TemplateEditViewModel
 
         var templateRules =
             LoadValidationRules(Path.Combine(Constants.AppValidationRulesTemplateFolder,
-                $"{itemTemplateName}{Constants.AppProjectValidationTemplateExtension}"));
+                $"{Path.GetFileNameWithoutExtension(path)}{Constants.AppProjectValidationTemplateExtension}"));
 
         await Task.WhenAll(itemTemplate, templateRules);
         var res = templateRules.Result;
@@ -300,7 +300,7 @@ public partial class TemplateEditViewModel
                 {
                     return new ValidationRuleContainerState
                     {
-                        TargetContainerId = x.Target.Id, TargetContainerName = "", ValidaitonRules =
+                        TargetContainerId = x.Target.Id, TargetContainerName =  x.Target.Name, ValidaitonRules =
                             new ObservableCollection<IValidationRuleState>(x.Rules.Select(y =>
                                 new ValidationRuleState
                                 {
@@ -392,6 +392,8 @@ public partial class TemplateEditViewModel
         AppModelState item
     )
     {
+        item.ItemName = item.ItemTemplate;
+        
         var itemSave = _mediator
             .Send(
                 new SaveSystemProjectItemContentCommand(

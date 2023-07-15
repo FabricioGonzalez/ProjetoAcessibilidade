@@ -26,6 +26,11 @@ public interface IEditingItemViewModel : INotifyPropertyChanged
         get;
     }
 
+    public IEditingBody Body
+    {
+        get;
+        set;
+    }
 
     public ReactiveCommand<Unit, Unit> CloseItemCommand
     {

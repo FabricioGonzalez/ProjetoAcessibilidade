@@ -474,4 +474,7 @@
     <data name="Remove_Law_Tooltip" xml:space="preserve">
       <value>Remover Leis</value>
     </data>
+    <data name="ConclusionLabel" xml:space="preserve">
+      <value>Conclusão</value>
+    </data>
 </root>

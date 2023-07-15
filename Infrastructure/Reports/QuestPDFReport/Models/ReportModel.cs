@@ -47,7 +47,7 @@ public class ReportModel : IReport
 
 public class NestedReportModel : IReport
 {
-    public List<ReportSectionGroup> Sections
+    public List<ReportLocationGroup> Locations
     {
         get;
         set;

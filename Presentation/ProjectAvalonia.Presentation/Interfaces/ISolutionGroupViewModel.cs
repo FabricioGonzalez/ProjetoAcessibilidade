@@ -5,7 +5,7 @@ namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface ISolutionGroupViewModel : INotifyPropertyChanged
 {
-    public ObservableCollection<IItemGroupViewModel> ItemsGroups
+    public ObservableCollection<ISolutionLocationItem> LocationItems
     {
         get;
         set;

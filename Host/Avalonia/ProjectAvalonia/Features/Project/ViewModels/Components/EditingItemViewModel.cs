@@ -1,6 +1,7 @@
 ﻿using System.Reactive;
 using System.Threading;
 using ProjectAvalonia.Common.ViewModels;
+using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
@@ -38,7 +39,7 @@ public class EditingItemViewModel
             {
                 if (Body is not null)
                 {
-                    var itemModel = Body.ToAppModel();
+                    var itemModel = (Body as EditingBodyViewModel).ToAppModel();
                     itemModel.ItemName = ItemName;
                     itemModel.TemplateName = TemplateName;
 
@@ -54,23 +55,24 @@ public class EditingItemViewModel
         TemplateName = templateName;
     }
 
+    public string TemplateName
+    {
+        get;
+    }
+
     public string ItemPath
     {
         get;
     }
 
 
-    public IEditingBodyViewModel Body
+    public IEditingBody Body
     {
         get;
+        set;
     }
 
     public string ItemName
-    {
-        get;
-    }
-
-    public string TemplateName
     {
         get;
     }

@@ -2,11 +2,11 @@
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface ISolutionEditingBody : INotifyPropertyChanged
+public interface ISolutionEditingBody
+    : IEditingBody
 {
-    public string Nome
-    {
-        get;
-        set;
-    }
+}
+
+public interface IEditingBody : INotifyPropertyChanged
+{
 }

@@ -1,12 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Reactive;
 using Avalonia.Input;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface IEditingBodyViewModel : INotifyPropertyChanged
+public interface IEditingBodyViewModel : IEditingBody
 {
     public ObservableCollection<ILawListViewModel> LawList
     {

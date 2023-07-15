@@ -1,5 +1,4 @@
 ﻿using Common;
-using LanguageExt;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Contracts;
@@ -33,10 +32,10 @@ public sealed class SyncSolutionCommandHandler : IHandler<SyncSolutionCommand, R
                 "Caminho da solução não pode ser vázio");
         }
 
-        await _repository
+        /*await _repository
             .SyncSolution(
                 Option<string>.Some(query.SolutionPath),
-                Option<ProjectSolutionModel>.Some(query.SolutionData));
+                Option<ProjectSolutionModel>.Some(query.SolutionData));*/
 
         /*if (result is null)
         {

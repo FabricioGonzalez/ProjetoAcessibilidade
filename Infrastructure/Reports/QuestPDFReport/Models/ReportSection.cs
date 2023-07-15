@@ -10,18 +10,43 @@ public class ReportSection : IReportSection
 
     public IEnumerable<ImageSectionElement> Images
     {
-
-        get; set;
+        get;
+        set;
     } = Enumerable.Empty<ImageSectionElement>();
+
     public IEnumerable<ObservationSectionElement> Observation
     {
-
-        get; set;
+        get;
+        set;
     } = Enumerable.Empty<ObservationSectionElement>();
+
     public IEnumerable<LawSectionElement> Laws
     {
-        get; set;
+        get;
+        set;
     } = Enumerable.Empty<LawSectionElement>();
+
+    public string Id
+    {
+        get;
+        set;
+    } = Guid.NewGuid().ToString();
+
+    public string Title
+    {
+        get;
+        set;
+    }
+}
+
+public class ReportLocationGroup
+{
+    public List<ReportSectionGroup> Groups
+    {
+        get;
+        set;
+    } = new();
+
     public string Id
     {
         get;

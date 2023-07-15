@@ -46,7 +46,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
                 })
             .Match(it => it, () => false);
 
-    public async Task SyncSolution(
+    /*public async Task SyncSolution(
         Option<string> solutionPath
         , Option<ProjectSolutionModel> dataToWrite
     ) =>
@@ -68,7 +68,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
                                     data.SolutionReportInfo);
                                 xml = SetItemsGroup(
                                     xml,
-                                    data.ItemGroups.ToList());
+                                    data.LocationItems.ToList());
                                 xml.Save(writer);
 
                                 return true;
@@ -80,7 +80,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
                             }
                         })
                     .Match(b => b, () => false);
-            });
+            });*/
 
     public async Task<Result<ProjectSolutionModel>> ReadSolution(
         Option<string> solutionPath
@@ -204,7 +204,7 @@ public class SolutionRepositoryImpl : ISolutionRepository
         {
             var result = ReadItem(item.ChildNodes.Cast<XmlNode>());
 
-            items.Items.Add(result);
+            /*items.Items.Add(result);*/
         }
 
         return items;

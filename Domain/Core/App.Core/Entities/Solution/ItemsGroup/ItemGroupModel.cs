@@ -14,9 +14,30 @@ public class ItemGroupModel
         set;
     }
 
-    public List<ItemModel> Items
+    public IEnumerable<ItemModel> Items
     {
         get;
         set;
-    } = new();
+    } = Enumerable.Empty<ItemModel>();
+}
+
+public class SolutionGroupModel
+{
+    public string Name
+    {
+        get;
+        set;
+    }
+
+    public string ItemPath
+    {
+        get;
+        set;
+    }
+
+    public IEnumerable<ItemGroupModel> Items
+    {
+        get;
+        set;
+    } = Enumerable.Empty<ItemGroupModel>();
 }

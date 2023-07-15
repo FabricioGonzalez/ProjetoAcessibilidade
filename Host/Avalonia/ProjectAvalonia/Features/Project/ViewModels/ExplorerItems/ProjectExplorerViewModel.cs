@@ -4,12 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using Common.Optional;
-using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
@@ -20,7 +18,6 @@ using ProjectAvalonia.ViewModels.Navigation;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Project.Commands.FolderItems;
 using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 using ReactiveUI;
 using Splat;
@@ -51,22 +48,40 @@ public class ProjectExplorerViewModel
         SolutionRootItem.ConclusionItem = new ConclusionItemViewModel(Guid.NewGuid().ToString()
             , Path.Combine(Path.GetDirectoryName(state.FilePath), "conclusion.prjc"), "Conclusão", "");
 
-        SolutionRootItem.ItemsGroups = new ObservableCollection<IItemGroupViewModel>(SolutionState.ItemGroups
+        SolutionRootItem.LocationItems = new ObservableCollection<ISolutionLocationItem>(SolutionState.LocationItems
             .Select(
                 model =>
                 {
-                    var vm = new ItemGroupViewModel(
+                    var solutionLocation = new SolutionLocationItemViewModel(
                         model.Name,
                         model.ItemPath,
-                        async () => await SaveSolution());
+                        async () => await SaveSolution())
+                    {
+                        Items = new ObservableCollection<IItemGroupViewModel>(model.Items.Select(
+                            vm =>
+                            {
+                                var item = new ItemGroupViewModel(
+                                    model.Name,
+                                    model.ItemPath,
+                                    async () => await SaveSolution());
 
-                    vm.SelectItemToEdit = SetEditingItem;
+                                /*vm.SelectItemToEdit = SetEditingItem;*/
 
-                    vm.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
-                    vm.TransformFrom(model.Items);
+                                item.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
 
-                    return vm;
-                }).ToList<IItemGroupViewModel>());
+                                item.TransformFrom(vm.Items.ToList());
+
+                                return item;
+                            }
+                        ))
+                    };
+
+                    /*vm.SelectItemToEdit = SetEditingItem;*/
+
+                    solutionLocation.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
+
+                    return solutionLocation;
+                }));
 
         this.WhenAnyValue(vm => vm.SelectedItem)
             .WhereNotNull()
@@ -75,10 +90,10 @@ public class ProjectExplorerViewModel
                 Debug.WriteLine(it.Name);
             });
 
-        var changeSet = SolutionRootItem.ItemsGroups
+        var changeSet = SolutionRootItem.LocationItems
             .ToObservableChangeSet();
 
-        _ = changeSet.AutoRefreshOnObservable(document => document.AddProjectItemCommand.IsExecuting)
+        /*changeSet.AutoRefreshOnObservable(document => document.AddProjectItemCommand.IsExecuting)
             .Select(x => WhenAnyItemWasAdded())
             .Switch()
             .SubscribeAsync(async item =>
@@ -86,7 +101,7 @@ public class ProjectExplorerViewModel
                 await SaveSolution();
             });
 
-        _ = changeSet
+        changeSet
             .AutoRefreshOnObservable(document => document.ExcludeFolderCommand.IsExecuting)
             .Select(x => WhenAnyFolderIsDeleted())
             .Switch()
@@ -99,7 +114,7 @@ public class ProjectExplorerViewModel
                 if ((await RoutableViewModel.NavigateDialogAsync(dialog,
                         NavigationTarget.CompactDialogScreen)).Result)
                 {
-                    _ = SolutionRootItem.ItemsGroups.Remove(x);
+                    _ = SolutionRootItem.LocationItems.Remove(x);
 
                     _ = await _mediator.Send(new DeleteProjectFolderItemCommand(x.ItemPath), CancellationToken.None);
 
@@ -107,47 +122,52 @@ public class ProjectExplorerViewModel
 
                     await SaveSolution();
                 }
-            });
+            });*/
 
         CreateFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             var dialog = new CreateFolderViewModel(
                 "Defina o nome da pasta", "Criar Pasta"
                 , "",
-                SolutionRootItem.ItemsGroups);
+                SolutionRootItem.LocationItems);
 
             var result = await RoutableViewModel.NavigateDialogAsync(dialog,
                 NavigationTarget.CompactDialogScreen);
 
             if (result.Kind == DialogResultKind.Normal)
             {
-                var item = new ItemGroupViewModel(
+                var item = new SolutionLocationItemViewModel(
                     result.Result,
                     Path.Combine(Directory.GetParent(SolutionState.FilePath).FullName
                         , Constants.AppProjectItemsFolderName, result.Result),
                     async () => await SaveSolution());
 
-                SolutionRootItem.ItemsGroups.Add(item);
+                SolutionRootItem.LocationItems.Add(item);
 
-                SolutionState.AddItemToSolution(new ItemGroupModel
+                SolutionState.AddItemToSolution(new SolutionGroupModel
                 {
-                    Name = result.Result, ItemPath = item.ItemPath, Items = item.Items.Select(x => new ItemModel
+                    Name = result.Result, ItemPath = item.ItemPath, Items = item.Items
+                        .Select(it => new ItemGroupModel
                         {
-                            Id = x.Id, ItemPath = x.ItemPath, Name = x.Name, TemplateName = x.TemplateName
-                        })
-                        .ToList()
+                            Name = it.Name, ItemPath =
+                                it.ItemPath
+                            , Items = it.Items
+                                .Select(x => new ItemModel
+                                {
+                                    Id = x.Id, ItemPath = x.ItemPath, Name = x.Name, TemplateName = x.TemplateName
+                                })
+                                .ToList()
+                        }).ToList()
                 });
-
-                _ = await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath)
+                /*_ = await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath)
                     , CancellationToken.None);
-
-                return Optional<IItemGroupViewModel>.Some(item);
+                return Optional<IItemGroupViewModel>.Some(item);*/
             }
 
             return Optional<IItemGroupViewModel>.None();
         });
 
-        _ = CreateFolderCommand
+        CreateFolderCommand
             .DoAsync(async _ => await SaveSolution())
             .Subscribe();
     }
@@ -187,11 +207,11 @@ public class ProjectExplorerViewModel
         private set;
     }
 
-    private IObservable<IItemViewModel?> WhenAnyItemWasAdded() =>
+    /*private IObservable<IItemViewModel?> WhenAnyItemWasAdded() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,
         // then flatten them all together.
-        SolutionRootItem.ItemsGroups
+        SolutionRootItem.LocationItems
             .Select(x => x.AddProjectItemCommand.Select(s => s))
             .Merge();
 
@@ -199,21 +219,28 @@ public class ProjectExplorerViewModel
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,
         // then flatten them all together.
-        SolutionRootItem.ItemsGroups
+        SolutionRootItem.LocationItems
             .Select(x => x.MoveItemCommand.Select(_ => x))
-            .Merge();
+            .Merge();*/
 
 
     private async Task SaveSolution()
     {
-        SolutionState?.ReloadItem(SolutionRootItem.ItemsGroups
-            .Select(x => new ItemGroupModel
+        SolutionState?.ReloadItem(SolutionRootItem.LocationItems
+            .Select(solutionItem => new SolutionGroupModel
             {
-                Name = x.Name, ItemPath = x.ItemPath, Items = x.Items.Select(x => new ItemModel
+                Name = solutionItem.Name, ItemPath = solutionItem.ItemPath, Items = solutionItem.Items
+                    .Select(it => new ItemGroupModel
                     {
-                        Id = x.Id, ItemPath = x.ItemPath, Name = x.Name, TemplateName = x.TemplateName
-                    })
-                    .ToList()
+                        Name = it.Name, ItemPath =
+                            it.ItemPath
+                        , Items = it.Items
+                            .Select(x => new ItemModel
+                            {
+                                Id = x.Id, ItemPath = x.ItemPath, Name = x.Name, TemplateName = x.TemplateName
+                            })
+                            .ToList()
+                    }).ToList()
             }).ToList());
 
         _ = await _mediator.Send(
@@ -223,11 +250,11 @@ public class ProjectExplorerViewModel
             CancellationToken.None);
     }
 
-    private IObservable<IItemGroupViewModel?> WhenAnyFolderIsDeleted() =>
+    /*private IObservable<IItemGroupViewModel?> WhenAnyFolderIsDeleted() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,
         // then flatten them all together.
-        SolutionRootItem.ItemsGroups
+        SolutionRootItem.LocationItems
             .Select(x => x.ExcludeFolderCommand.Select(_ => x))
-            .Merge();
+            .Merge();*/
 }

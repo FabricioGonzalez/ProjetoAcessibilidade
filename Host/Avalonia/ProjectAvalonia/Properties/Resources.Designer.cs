@@ -294,6 +294,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conclusion.
+        /// </summary>
+        public static string ConclusionLabel {
+            get {
+                return ResourceManager.GetString("ConclusionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conditions.
         /// </summary>
         public static string Conditions_Label {

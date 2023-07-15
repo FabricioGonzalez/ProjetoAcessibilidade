@@ -6,7 +6,7 @@
              xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
              xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ProjectAvalonia.Features.Project.Views.Components.EditingLawView"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.EditingBody.EditingLawView"
              x:DataType="interfaces:IEditingBodyViewModel"
              x:CompileBindings="True">
     <Design.DataContext>

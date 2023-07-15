@@ -1,11 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
-
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -21,8 +19,8 @@ public partial class CreateFolderViewModel
     public CreateFolderViewModel(
         string message
         , string title
-        , string caption,
-         ObservableCollection<IItemGroupViewModel> items
+        , string caption
+        , ObservableCollection<IItemGroupViewModel> items
     )
     {
         Message = message;
@@ -37,7 +35,29 @@ public partial class CreateFolderViewModel
 
         SetupCancel(true, true, true);
     }
+
+    public CreateFolderViewModel(
+        string message
+        , string title
+        , string caption
+        , ObservableCollection<ISolutionLocationItem> items
+    )
+    {
+        Message = message;
+        _title = title;
+        Caption = caption;
+        var canCreate = this.WhenAnyValue(vm => vm.FolderName)
+            .Select(folder => !string.IsNullOrEmpty(folder) && !items.Any(x => x.Name == FolderName));
+
+        NextCommand = ReactiveCommand.Create(() => Close(result: FolderName), canCreate);
+
+        CancelCommand = ReactiveCommand.Create(() => Close(DialogResultKind.Cancel, ""));
+
+        SetupCancel(true, true, true);
+    }
+
     public override MenuViewModel? ToolBar => null;
+
     public string Message
     {
         get;

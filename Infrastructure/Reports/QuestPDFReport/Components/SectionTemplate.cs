@@ -9,13 +9,13 @@ namespace QuestPDFReport.Components;
 public class SectionTemplate : IComponent
 {
     public SectionTemplate(
-        IReportSection model
+        ReportLocationGroup model
     )
     {
         Model = model;
     }
 
-    public IReportSection Model
+    public ReportLocationGroup Model
     {
         get;
         set;
@@ -23,170 +23,188 @@ public class SectionTemplate : IComponent
 
     public void Compose(
         IContainer container
-    )
-    {
-        if (Model is ReportSectionGroup reportSectionGroup)
-        {
-            container
-                .Section(reportSectionGroup.Title)
-                .Decoration(decoration =>
+    ) =>
+        container
+            .Column(root =>
+            {
+                root.Item()
+                    .Section(Model.Title)
+                    .Text(Model.Title);
+                Model.Groups.IterateOn(group =>
                 {
-                    _ = decoration
-                        .Before()
-                        .PaddingBottom(5)
-                        .ShowOnce()
-                        .Text(reportSectionGroup.Title)
-                        .Style(Typography.Headline);
-
-                    decoration
-                        .Content()
-                        .Border(0.75f)
-                        .BorderColor(Colors.Grey.Medium)
-                        .Column(col =>
+                    root.Item()
+                        .Section($"{Model.Title} - {group.Title}")
+                        .Decoration(decoration =>
                         {
-                            _ = reportSectionGroup.Parts.IterateOn(item =>
-                            {
-                                col.Item()
-                                    .Section($"{reportSectionGroup.Title} - {item.Title}")
-                                    .Column(column =>
+                            _ = decoration
+                                .Before()
+                                .PaddingBottom(5)
+                                .ShowOnce()
+                                .Text(group.Title)
+                                .Style(Typography.Headline);
+
+                            decoration
+                                .Content()
+                                .Border(0.75f)
+                                .BorderColor(Colors.Grey.Medium)
+                                .Column(col =>
+                                {
+                                    group.Parts.IterateOn(item =>
                                     {
-                                        column.Item()
-                                            .Decoration(contentDecoration =>
+                                        col.Item()
+                                            .Section($"{Model.Title} - {group.Title} - {item.Title}")
+                                            .Column(column =>
                                             {
-                                                contentDecoration
-                                                    .Before()
-                                                    .ShowOnce()
-                                                    .Column(column =>
+                                                column.Item()
+                                                    .Decoration(contentDecoration =>
                                                     {
-                                                        _ = column
-                                                            .Item()
-                                                            .PaddingLeft(8)
-                                                            .Text(item.Title)
-                                                            .Style(Typography.SubLine);
-                                                    });
-
-                                                contentDecoration
-                                                    .Content()
-                                                    .Column(
-                                                        column =>
-                                                        {
-                                                            column
-                                                                .Item()
-                                                                .Column(items =>
-                                                                {
-                                                                    _ = item.Parts.IterateOn(item =>
-                                                                    {
-                                                                        items
-                                                                            .Item()
-                                                                            .ValueCell()
-                                                                            .Column(partColumn =>
-                                                                            {
-                                                                                if (item is not ReportSectionTitle)
-                                                                                {
-                                                                                    if (item is ReportSectionText text)
-                                                                                    {
-                                                                                        partColumn
-                                                                                            .Item()
-                                                                                            .ValueCell()
-                                                                                            .ExtendHorizontal()
-                                                                                            .Row(row =>
-                                                                                            {
-                                                                                                row.RelativeItem(0.6f)
-                                                                                                    .Text(item.Label);
-
-                                                                                                _ = row.RelativeItem(
-                                                                                                        0.3f)
-                                                                                                    .Text(text.Text);
-                                                                                                _ = row.RelativeItem(
-                                                                                                        0.1f)
-                                                                                                    .AlignRight()
-                                                                                                    .Text(text
-                                                                                                        .MeasurementUnit);
-                                                                                            });
-                                                                                    }
-
-                                                                                    if (item is ReportSectionCheckbox
-                                                                                     checkboxes)
-                                                                                    {
-                                                                                        partColumn
-                                                                                            .Item()
-                                                                                            .ExtendHorizontal()
-                                                                                            .Row(checkboxRow =>
-                                                                                            {
-                                                                                                checkboxRow
-                                                                                                    .RelativeItem(0.4f)
-                                                                                                    .Text(item.Label);
-
-                                                                                                checkboxRow
-                                                                                                    .RelativeItem(0.6f)
-                                                                                                    .Row(
-                                                                                                        innerCheckboxRow =>
-                                                                                                        {
-                                                                                                            checkboxes
-                                                                                                                .Checkboxes
-                                                                                                                .Select(
-                                                                                                                    CheckboxItemComponent =>
-                                                                                                                        new
-                                                                                                                            CheckboxItemComponent(
-                                                                                                                                CheckboxItemComponent))
-                                                                                                                .IterateOn(
-                                                                                                                    CheckboxItemComponent =>
-                                                                                                                        innerCheckboxRow
-                                                                                                                            .RelativeItem()
-                                                                                                                            .AlignCenter()
-                                                                                                                            .Background(
-                                                                                                                                CheckboxItemComponent
-                                                                                                                                    .item
-                                                                                                                                    .IsValid
-                                                                                                                                    ? Colors
-                                                                                                                                        .Red
-                                                                                                                                        .Lighten1
-                                                                                                                                    : Colors
-                                                                                                                                        .White)
-                                                                                                                            .Component(
-                                                                                                                                CheckboxItemComponent));
-                                                                                                        });
-                                                                                            });
-                                                                                    }
-                                                                                }
-                                                                            });
-                                                                    });
-                                                                });
-
-                                                            column
-                                                                .Item()
-                                                                .Background(Colors.Yellow.Medium)
-                                                                .Column(items =>
-                                                                {
-                                                                    items
-                                                                        .Item()
-                                                                        .Element(x =>
-                                                                            ObservationElement(x, item.Observation));
-                                                                });
-
-                                                            if (item.Images.Any())
+                                                        contentDecoration
+                                                            .Before()
+                                                            .ShowOnce()
+                                                            .Column(formBody =>
                                                             {
-                                                                column
+                                                                formBody
                                                                     .Item()
-                                                                    .Column(items =>
+                                                                    .PaddingLeft(8)
+                                                                    .Text(item.Title)
+                                                                    .Style(Typography.SubLine);
+                                                            });
+
+                                                        contentDecoration
+                                                            .Content()
+                                                            .Column(
+                                                                formBody =>
+                                                                {
+                                                                    formBody
+                                                                        .Item()
+                                                                        .Column(items =>
+                                                                        {
+                                                                            _ = item.Parts.IterateOn(item =>
+                                                                            {
+                                                                                items
+                                                                                    .Item()
+                                                                                    .ValueCell()
+                                                                                    .Column(partColumn =>
+                                                                                    {
+                                                                                        if (item is not
+                                                                                         ReportSectionTitle)
+                                                                                        {
+                                                                                            if (item is
+                                                                                             ReportSectionText text)
+                                                                                            {
+                                                                                                partColumn
+                                                                                                    .Item()
+                                                                                                    .ValueCell()
+                                                                                                    .ExtendHorizontal()
+                                                                                                    .Row(row =>
+                                                                                                    {
+                                                                                                        row
+                                                                                                            .RelativeItem(
+                                                                                                                0.6f)
+                                                                                                            .Text(item
+                                                                                                                .Label);
+
+                                                                                                        _ = row
+                                                                                                            .RelativeItem(
+                                                                                                                0.3f)
+                                                                                                            .Text(text
+                                                                                                                .Text);
+                                                                                                        _ = row
+                                                                                                            .RelativeItem(
+                                                                                                                0.1f)
+                                                                                                            .AlignRight()
+                                                                                                            .Text(text
+                                                                                                                .MeasurementUnit);
+                                                                                                    });
+                                                                                            }
+
+                                                                                            if (item is
+                                                                                             ReportSectionCheckbox
+                                                                                             checkboxes)
+                                                                                            {
+                                                                                                partColumn
+                                                                                                    .Item()
+                                                                                                    .ExtendHorizontal()
+                                                                                                    .Row(checkboxRow =>
+                                                                                                    {
+                                                                                                        checkboxRow
+                                                                                                            .RelativeItem(
+                                                                                                                0.4f)
+                                                                                                            .Text(item
+                                                                                                                .Label);
+
+                                                                                                        checkboxRow
+                                                                                                            .RelativeItem(
+                                                                                                                0.6f)
+                                                                                                            .Row(
+                                                                                                                innerCheckboxRow =>
+                                                                                                                {
+                                                                                                                    checkboxes
+                                                                                                                        .Checkboxes
+                                                                                                                        .Select(
+                                                                                                                            CheckboxItemComponent =>
+                                                                                                                                new
+                                                                                                                                    CheckboxItemComponent(
+                                                                                                                                        CheckboxItemComponent))
+                                                                                                                        .IterateOn(
+                                                                                                                            CheckboxItemComponent =>
+                                                                                                                                innerCheckboxRow
+                                                                                                                                    .RelativeItem()
+                                                                                                                                    .AlignCenter()
+                                                                                                                                    .Background(
+                                                                                                                                        CheckboxItemComponent
+                                                                                                                                            .item
+                                                                                                                                            .IsValid
+                                                                                                                                            ? Colors
+                                                                                                                                                .Red
+                                                                                                                                                .Lighten1
+                                                                                                                                            : Colors
+                                                                                                                                                .White)
+                                                                                                                                    .Component(
+                                                                                                                                        CheckboxItemComponent));
+                                                                                                                });
+                                                                                                    });
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                            });
+                                                                        });
+
+                                                                    formBody
+                                                                        .Item()
+                                                                        .Background(Colors.Yellow.Medium)
+                                                                        .Column(items =>
+                                                                        {
+                                                                            items
+                                                                                .Item()
+                                                                                .Element(x =>
+                                                                                    ObservationElement(x
+                                                                                        , item.Observation));
+                                                                        });
+
+                                                                    if (item.Images.Any())
                                                                     {
-                                                                        items
+                                                                        formBody
                                                                             .Item()
-                                                                            .Element(x =>
-                                                                                PhotosElement(x, item.Images));
-                                                                    });
-                                                            }
-                                                        });
+                                                                            .Column(items =>
+                                                                            {
+                                                                                items
+                                                                                    .Item()
+                                                                                    .Element(x =>
+                                                                                        PhotosElement(x, item.Images));
+                                                                            });
+                                                                    }
+                                                                });
+                                                    });
+                                                column
+                                                    .Item()
+                                                    .Element(x => LawItemsElement(x, item.Laws));
                                             });
-                                        column
-                                            .Item()
-                                            .Element(x => LawItemsElement(x, item.Laws));
                                     });
-                            });
+                                });
                         });
                 });
-        }
-    }
+            });
 
     private void ObservationElement(
         IContainer x

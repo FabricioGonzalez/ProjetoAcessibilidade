@@ -2,12 +2,11 @@
     x:Class="ProjectAvalonia.Features.Project.Views.ProjectEditingView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:components1="clr-namespace:ProjectAvalonia.Features.Project.ViewModels.Components"
+    xmlns:editingTab="clr-namespace:ProjectAvalonia.Features.Project.Views.Components.EditingTab"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
@@ -22,29 +21,21 @@
         HorizontalContentAlignment="Stretch"
         VerticalContentAlignment="Stretch"
         AutoScrollToSelectedItem="True"
-        Background="Transparent"
         Classes="horizontalScroller"
-        SelectedContent="{Binding SelectedItem, Mode=TwoWay}"
+        Template="{DynamicResource TabControlControlTemplate1}"
+        Background="Transparent"
         Items="{Binding EditingItems, Mode=OneWay}"
         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-        TabStripPlacement="Top"
-        Template="{DynamicResource TabControlControlTemplate1}">
+        TabStripPlacement="Top">
         <TabControl.ItemTemplate>
             <DataTemplate>
-                <components:EditingTabHeader DataContext="{Binding}" />
+                <editingTab:EditingTabHeader />
             </DataTemplate>
         </TabControl.ItemTemplate>
-        <TabControl.DataTemplates>
-            <DataTemplate x:DataType="components1:SolutionEditItemViewModel">
-                <components:SolutionItemView DataContext="{Binding Body}" />
+        <TabControl.ContentTemplate>
+            <DataTemplate DataType="interfaces:IEditingItemViewModel">
+                <editingTab:EditingTabContent />
             </DataTemplate>
-            <DataTemplate x:DataType="components1:ConclusionEditItemViewModel">
-                <components:ConclusionItemView DataContext="{Binding Body}" />
-            </DataTemplate>
-            <DataTemplate x:DataType="components1:EditingItemViewModel">
-                <components:EditingItemView DataContext="{Binding Body}" />
-            </DataTemplate>
-        </TabControl.DataTemplates>
-
+        </TabControl.ContentTemplate>
     </TabControl>
 </UserControl>

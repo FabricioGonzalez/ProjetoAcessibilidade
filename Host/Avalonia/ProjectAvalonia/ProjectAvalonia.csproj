@@ -61,12 +61,6 @@
             <DependentUpon>IconButton.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Features\Project\Views\Components\ObservationItem.axaml.cs">
-          <DependentUpon>ObservationItem.axaml</DependentUpon>
-        </Compile>
-        <Compile Update="Features\Project\Views\Components\OptionsContainer.axaml.cs">
-          <DependentUpon>OptionsContainer.axaml</DependentUpon>
-        </Compile>
         <EmbeddedResource Update="Properties\Resources.en.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
         </EmbeddedResource>
@@ -78,6 +72,71 @@
         </Compile>
         <None Remove="Specifications\Templates\Itens\Teste 2.xml" />
         <None Remove="Specifications\Templates\Itens\TEstes.xml" />
+        <Compile Update="Features\Project\Views\Components\EditingBody\EditingItemView.axaml.cs">
+          <DependentUpon>EditingItemView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\EditingBody\EditingLawView.axaml.cs">
+          <DependentUpon>EditingLawView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\EditingBody\EditingFormView.axaml.cs">
+          <DependentUpon>EditingFormView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\EditingBody\SolutionItemView.axaml.cs">
+          <DependentUpon>SolutionItemView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\EditingBody\ConclusionItemView.axaml.cs">
+          <DependentUpon>ConclusionItemView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\EditingTab\EditingTabHeader.axaml.cs">
+          <DependentUpon>EditingTabHeader.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\CheckboxItemView.axaml.cs">
+          <DependentUpon>CheckboxItemView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\ImageContainerView.axaml.cs">
+          <DependentUpon>ImageContainerView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\CheckboxGroupView.axaml.cs">
+          <DependentUpon>CheckboxGroupView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\ImageItemView.axaml.cs">
+          <DependentUpon>ImageItemView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\LawItem.axaml.cs">
+          <DependentUpon>LawItem.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\ObservationItem.axaml.cs">
+          <DependentUpon>ObservationItem.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\OptionItem.axaml.cs">
+          <DependentUpon>OptionItem.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\OptionsContainer.axaml.cs">
+          <DependentUpon>OptionsContainer.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\FormBody\TextBoxItem.axaml.cs">
+          <DependentUpon>TextBoxItem.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\ExplorerItems\ItemGroupView.axaml.cs">
+          <DependentUpon>ItemGroupView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <None Remove="Features\Project\Views\Components\ExplorerItems\LocationItemView.axaml~" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Assets\avalonia-logo.ico" />

@@ -4,29 +4,47 @@ namespace ProjectItemReader.InternalAppFiles.DTO;
 
 public class ItemGroup
 {
-    [XmlElement(elementName: "id")]
+    [XmlElement("id")]
     public string Id
     {
         get;
         set;
     }
 
-    [XmlElement(elementName: "name")]
+    [XmlElement("name")]
     public string Name
     {
         get;
         set;
     }
 
-    [XmlElement(elementName: "item_path")]
+    [XmlElement("item_path")]
     public string ItemPath
     {
         get;
         set;
     }
 
-    [XmlElement(elementName: "template_name")]
+    [XmlElement("template_name")]
     public string TemplateName
+    {
+        get;
+        set;
+    }
+}
+
+public class LocationGroup
+{
+    [XmlAttribute("name")]
+    public string Name
+    {
+        get;
+        set;
+    }
+
+    [XmlArray("items")]
+    [XmlArrayItem("item")]
+    public List<ItemGroup> ItemsGroup
     {
         get;
         set;

@@ -2,7 +2,6 @@
     x:Class="ProjectAvalonia.Features.Project.Views.ProjectExplorerView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
@@ -11,6 +10,7 @@
     xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
     xmlns:views="clr-namespace:ProjectAvalonia.Features.Project.Views"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+    xmlns:explorerItems="clr-namespace:ProjectAvalonia.Features.Project.Views.Components.ExplorerItems"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="interfaces:IProjectExplorerViewModel"
@@ -39,7 +39,7 @@
             Grid.Row="4"
             Margin="4,0"
             Padding="0"
-            HorizontalAlignment="Stretch"
+            HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <TreeViewItem DataContext="{Binding SolutionRootItem.SolutionItem }" Header="{Binding Name}">
@@ -56,10 +56,10 @@
                         CommandParameter="{Binding}" />
                 </Interaction.Behaviors>
             </TreeViewItem>
-            <TreeViewItem DataContext="{Binding SolutionRootItem }" Header="Itens" Items="{Binding ItemsGroups}">
+            <TreeViewItem DataContext="{Binding SolutionRootItem}" Header="Itens" Items="{Binding LocationItems}">
                 <TreeViewItem.ItemTemplate>
                     <DataTemplate>
-                        <components:ItemGroupView DataContext="{Binding}" />
+                        <explorerItems:LocationItemView HorizontalAlignment="Left" DataContext="{Binding}" />
                     </DataTemplate>
                 </TreeViewItem.ItemTemplate>
             </TreeViewItem>

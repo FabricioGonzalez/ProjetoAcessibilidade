@@ -4,16 +4,16 @@ namespace ProjectItemReader.InternalAppFiles.DTO;
 
 public class ProjectItems
 {
-    [XmlAttribute(attributeName: "name")]
+    [XmlAttribute("name")]
     public string ItemName
     {
         get;
         set;
     }
 
-    [XmlArray(elementName: "item_groups")]
-    [XmlArrayItem(elementName: "item")]
-    public List<ItemGroup> ItemGroup
+    [XmlArray("location_items")]
+    [XmlArrayItem("location_item")]
+    public List<LocationGroup> LocationGroups
     {
         get;
         set;
