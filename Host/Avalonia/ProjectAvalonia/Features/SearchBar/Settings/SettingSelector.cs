@@ -13,7 +13,7 @@ public class SettingSelector : IDataTemplate
         set;
     } = new();
 
-    public IControl Build(
+    public Control Build(
         object param
     )
     {

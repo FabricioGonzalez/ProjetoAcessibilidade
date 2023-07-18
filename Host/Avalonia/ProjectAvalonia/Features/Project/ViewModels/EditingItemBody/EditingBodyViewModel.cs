@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
-using Avalonia.Input;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
@@ -30,11 +29,6 @@ public class EditingBodyViewModel
     {
         get;
     }
-
-    public KeyGesture Gesture
-    {
-        get;
-    } = new(Key.S, KeyModifiers.Control);
 
     public ReactiveCommand<Unit, Unit> SaveItemCommand
     {

@@ -16,7 +16,7 @@
         <designTimeViewModels:DesignTimeOptionContainerViewModel />
     </Design.DataContext>
     <Panel>
-        <ItemsControl Items="{Binding Options}">
+        <ItemsControl ItemsSource="{Binding Options}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <components:OptionItem DataContext="{Binding}" />

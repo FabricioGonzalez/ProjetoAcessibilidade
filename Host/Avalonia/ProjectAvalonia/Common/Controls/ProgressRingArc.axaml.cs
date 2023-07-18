@@ -151,8 +151,8 @@ public class ProgressRingArc : TemplatedControl
             , value: value);
     }
 
-    protected override void OnPropertyChanged<T>(
-        AvaloniaPropertyChangedEventArgs<T> e
+    protected override void OnPropertyChanged(
+        AvaloniaPropertyChangedEventArgs e
     )
     {
         base.OnPropertyChanged(change: e);

@@ -47,12 +47,12 @@
                     ToolTip.Tip="{x:Static p:Resources.Add_Checkbox_ToolTip}" />
             </StackPanel>
 
-            <ItemsControl
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Items="{Binding Children, Mode=TwoWay}">
+            <ItemsControl Grid.Column="0"
+                          Grid.Row="1"
+                          Grid.ColumnSpan="2"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          ItemsSource="{Binding Children, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border
@@ -70,10 +70,10 @@
                                     Text="{Binding Topic, Mode=TwoWay}"
                                     UseFloatingWatermark="True"
                                     Watermark="{x:Static p:Resources.CheckboxItemTopicLabel}" />
-                                <StackPanel
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    Orientation="Horizontal">
+                                <StackPanel Grid.Row="0"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Orientation="Horizontal">
                                     <c:IconButton
                                         Width="24"
                                         Height="24"
@@ -98,7 +98,7 @@
                                             </MenuFlyout>
                                         </c:IconButton.Flyout>
                                     </c:IconButton>
-                                    <local:RulePreviewerComponent
+                                    <local:RulePreviewer
                                         ContainerId="{Binding Id,Mode=TwoWay}"
                                         Options="{Binding Options}"
                                         SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay }" />
@@ -115,13 +115,13 @@
                                         ToolTip.Tip="{x:Static p:Resources.Remove_Checkbox_ToolTip}" />
                                 </StackPanel>
 
-                                <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
+                                <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
                                     <Grid ColumnDefinitions="0.2* 0.6* 0.2*" RowDefinitions="40 1*">
                                         <Label Content="{x:Static p:Resources.Options_Label}" />
-                                        <ItemsControl
-                                            Grid.Row="1"
-                                            Grid.ColumnSpan="3"
-                                            Items="{Binding Options}">
+                                        <ItemsControl Grid.Column="0"
+                                                      Grid.Row="1"
+                                                      Grid.ColumnSpan="3"
+                                                      ItemsSource="{Binding Options}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Border
@@ -155,16 +155,16 @@
                                     </Grid>
                                 </ScrollViewer>
 
-                                <ScrollViewer
-                                    Grid.Row="2"
-                                    Grid.ColumnSpan="2"
-                                    Margin="0,4">
+                                <ScrollViewer Grid.Column="0"
+                                              Grid.Row="2"
+                                              Grid.ColumnSpan="2"
+                                              Margin="0,4">
                                     <Grid ColumnDefinitions="0.2* 0.6* 0.2*" RowDefinitions="40 1*">
                                         <Label Content="Text Items" />
-                                        <ItemsControl
-                                            Grid.Row="1"
-                                            Grid.ColumnSpan="3"
-                                            Items="{Binding TextItems}">
+                                        <ItemsControl Grid.Column="0"
+                                                      Grid.Row="1"
+                                                      Grid.ColumnSpan="3"
+                                                      ItemsSource="{Binding TextItems}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid ColumnDefinitions="1* 32">

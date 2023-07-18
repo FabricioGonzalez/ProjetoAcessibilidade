@@ -16,7 +16,7 @@
     <ItemsControl
         Padding="16"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch" Items="{Binding Form}">
+        VerticalAlignment="Stretch" ItemsSource="{Binding Form}">
         <ItemsControl.DataTemplates>
             <DataTemplate x:DataType="interfaces:ITextFormItemViewModel"
                           DataType="interfaces:ITextFormItemViewModel">
@@ -43,8 +43,8 @@
 
             <DataTemplate x:DataType="interfaces:IObservationFormItemViewModel"
                           DataType="interfaces:IObservationFormItemViewModel">
-              <components:ObservationItem BorderThickness="1"
-                                                BorderBrush="{DynamicResource TileBorderColor}" DataContext="{Binding}" />
+                <components:ObservationItem BorderThickness="1"
+                                            BorderBrush="{DynamicResource TileBorderColor}" DataContext="{Binding}" />
             </DataTemplate>
         </ItemsControl.DataTemplates>
     </ItemsControl>

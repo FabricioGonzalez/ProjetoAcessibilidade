@@ -24,28 +24,28 @@
             Grid.Column="0"
             Content="{x:Static p:Resources.Validation_Rules_Label}"
             FontWeight="DemiBold" />
-        <controls:IconButton
-            Grid.Column="3"
-            Width="16"
-            Height="16"
-            HorizontalAlignment="Right"
-            Icon="{StaticResource add_circle_regular}"
-            IconSize="16"
-            ToolTip.Tip="{x:Static p:Resources.Add_Rule_ToolTip}" />
-        <ScrollViewer
-            Grid.Row="1"
-            Grid.ColumnSpan="4"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch">
+        <controls:IconButton Grid.Row="0"
+                             Grid.Column="3"
+                             Width="16"
+                             Height="16"
+                             HorizontalAlignment="Right"
+                             Icon="{StaticResource add_circle_regular}"
+                             IconSize="16"
+                             ToolTip.Tip="{x:Static p:Resources.Add_Rule_ToolTip}" />
+        <ScrollViewer Grid.Column="0"
+                      Grid.Row="1"
+                      Grid.ColumnSpan="4"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      VerticalContentAlignment="Stretch">
             <ItemsControl
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Items="{Binding ValidationItemRules}">
+                ItemsSource="{Binding ValidationItemRules}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ItemsControl Items="{Binding ValidaitonRules}">
+                        <ItemsControl ItemsSource="{Binding ValidaitonRules}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid RowDefinitions="48 1*">
@@ -68,7 +68,7 @@
                                                     Margin="4,0"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Center"
-                                                    Items="{x:Static validationTypes:AppValidation.operationTypes}"
+                                                    ItemsSource="{x:Static validationTypes:AppValidation.operationTypes}"
                                                     SelectedItem="{Binding Type}">
                                                     <ComboBox.ItemTemplate>
                                                         <DataTemplate x:CompileBindings="False">
@@ -96,19 +96,19 @@
                                             <Grid ColumnDefinitions="1* 48" RowDefinitions="40 8 1.2*">
                                                 <Label Content="{x:Static p:Resources.Conditions_Label}"
                                                        FontWeight="DemiBold" />
-                                                <controls:IconButton
-                                                    Grid.Column="1"
-                                                    Width="18"
-                                                    Height="18"
-                                                    HorizontalAlignment="Right"
-                                                    Icon="{StaticResource add_circle_regular}"
-                                                    IconSize="16"
-                                                    ToolTip.Tip="{x:Static p:Resources.Add_Condition_ToolTip}" />
-                                                <ItemsControl
-                                                    Grid.Row="2"
-                                                    Grid.ColumnSpan="2"
-                                                    CornerRadius="4"
-                                                    Items="{Binding Conditions}">
+                                                <controls:IconButton Grid.Row="0"
+                                                                     Grid.Column="1"
+                                                                     Width="18"
+                                                                     Height="18"
+                                                                     HorizontalAlignment="Right"
+                                                                     Icon="{StaticResource add_circle_regular}"
+                                                                     IconSize="16"
+                                                                     ToolTip.Tip="{x:Static p:Resources.Add_Condition_ToolTip}" />
+                                                <ItemsControl Grid.Column="0"
+                                                              Grid.Row="2"
+                                                              Grid.ColumnSpan="2"
+                                                              CornerRadius="4"
+                                                              ItemsSource="{Binding Conditions}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <Grid RowDefinitions="40 8 1.2*">
@@ -123,7 +123,7 @@
                                                                         Grid.Row="0"
                                                                         Grid.Column="2"
                                                                         Height="24"
-                                                                        Items="{x:Static validationTypes:AppValidation.checkingOperationTypes}"
+                                                                        ItemsSource="{x:Static validationTypes:AppValidation.checkingOperationTypes}"
                                                                         Padding="4,0"
                                                                         HorizontalAlignment="Stretch"
                                                                         VerticalAlignment="Stretch"
@@ -146,7 +146,7 @@
                                                                                     HorizontalAlignment="Stretch"
                                                                                     VerticalAlignment="Center"
                                                                                     SelectedItem="{Binding }"
-                                                                                    Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                                                                    ItemsSource="{x:Static validationTypes:AppValidation.checkingValues}">
                                                                                     <ComboBox.ItemTemplate>
                                                                                         <DataTemplate
                                                                                             x:CompileBindings="False">
@@ -163,7 +163,7 @@
                                                                                     SelectedItem="{Binding }"
                                                                                     HorizontalAlignment="Stretch"
                                                                                     VerticalAlignment="Center"
-                                                                                    Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                                                                    ItemsSource="{x:Static validationTypes:AppValidation.checkingValues}">
                                                                                     <ComboBox.ItemTemplate>
                                                                                         <DataTemplate
                                                                                             x:CompileBindings="False">
@@ -212,10 +212,10 @@
                                                                         VerticalAlignment="Center"
                                                                         Content="{x:Static p:Resources.Then_Label}"
                                                                         FontWeight="DemiBold" />
-                                                                    <ItemsControl
+                                                                    <ItemsControl Grid.Row="0"
                                                                         Grid.RowSpan="2"
                                                                         Grid.Column="1"
-                                                                        Items="{Binding Result}">
+                                                                        ItemsSource="{Binding Result}">
                                                                         <ItemsControl.ItemTemplate>
                                                                             <DataTemplate>
                                                                                 <Grid ColumnDefinitions="1* 40">

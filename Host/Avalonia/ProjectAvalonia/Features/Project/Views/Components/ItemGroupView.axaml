@@ -22,7 +22,7 @@
     <TreeViewItem
         HorizontalAlignment="Stretch"
         DragDrop.AllowDrop="True"
-        Items="{Binding Items}"
+        ItemsSource="{Binding Items}"
         PointerPressed="InputElement_OnPointerPressed">
         <TreeViewItem.Header>
             <DockPanel

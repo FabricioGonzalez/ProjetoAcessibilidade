@@ -44,8 +44,8 @@ public class NavBarSelectedIndicatorState : IDisposable
     }
 
     private static Matrix GetOffsetFrom(
-        IVisual ancestor
-        , IVisual visual
+        Visual ancestor
+        , Visual visual
     )
     {
         var identity = Matrix.Identity;
@@ -59,12 +59,12 @@ public class NavBarSelectedIndicatorState : IDisposable
                 identity *= Matrix.CreateTranslation(position: topLeft);
             }
 
-            if (visual.VisualParent is null)
+            if (visual.Parent is null)
             {
                 return Matrix.Identity;
             }
 
-            visual = visual.VisualParent;
+            visual = (Visual)visual.Parent;
         }
 
         return identity;
@@ -155,8 +155,7 @@ public class NavBarSelectedIndicatorState : IDisposable
         };
 
         _previousAnimationOngoing = true;
-        await translationAnimation.RunAsync(control: prevIndicator, clock: null
-            , cancellationToken: _currentAnimationCts.Token);
+        await translationAnimation.RunAsync(control: prevIndicator, cancellationToken: _currentAnimationCts.Token);
         _previousAnimationOngoing = false;
 
         prevIndicator.Opacity = 0;

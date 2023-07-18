@@ -9,7 +9,7 @@
              xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:CompileBindings="True"
-             x:Class="ProjectAvalonia.Features.TemplateEdit.Views.Components.RulePreviewerComponent">
+             x:Class="ProjectAvalonia.Features.TemplateEdit.Views.Components.RulePreviewer">
     <controls:IconButton
         Width="24"
         Height="24"
@@ -26,7 +26,7 @@
                     ShowMode="TransientWithDismissOnPointerMoveAway">
                 <Grid RowDefinitions="1* 40" ColumnDefinitions="1* 1*" Width="400" Height="400">
                     <ItemsControl Grid.ColumnSpan="2"
-                                  Items="{Binding   $parent[components:RulePreviewerComponent].ValidationRules,Mode=TwoWay}">
+                                  ItemsSource="{Binding   $parent[components:RulePreviewer].ValidationRules,Mode=TwoWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="validationTypes:ValidationRuleState">
                                 <Grid ColumnDefinitions="1* 96">

@@ -31,7 +31,7 @@
 
     </UserControl.Styles>
     <Grid ColumnDefinitions="0.05* 1* 0.05*">
-        <ItemsControl Grid.Column="1" Items="{Binding Items}">
+        <ItemsControl Grid.Column="1" ItemsSource="{Binding Items}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="1" />

@@ -30,9 +30,7 @@
                         x:Name="PART_HeaderContentPresenter"
                         Margin="{DynamicResource TextBoxTopHeaderMargin}"
                         DockPanel.Dock="Top"
-                        IsVisible="False"
-                        TextBlock.FontWeight="Normal"
-                        TextBlock.Foreground="{DynamicResource TextControlHeaderForeground}" />
+                        IsVisible="False" />
 
                     <DataValidationErrors Margin="0,5,0,0" DockPanel.Dock="Bottom" />
 
@@ -43,7 +41,8 @@
                             Classes="checkMark checkMarkDataValidation"
                             DockPanel.Dock="Right">
                             <i:Interaction.Behaviors>
-                                <behaviors:CheckMarkVisibilityBehavior OwnerTextBox="{Binding ., RelativeSource={RelativeSource TemplatedParent}}" />
+                                <behaviors:CheckMarkVisibilityBehavior
+                                    OwnerTextBox="{Binding ., RelativeSource={RelativeSource TemplatedParent}}" />
                             </i:Interaction.Behaviors>
                         </PathIcon>
                         <PathIcon
@@ -74,7 +73,9 @@
                                             FontSize="{TemplateBinding FontSize}"
                                             Foreground="{DynamicResource SystemAccentColor}"
                                             Text="{TemplateBinding Watermark}" />
-                                        <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                                        <ScrollViewer
+                                            HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                            VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                             <Panel>
                                                 <TextBlock
                                                     Name="PART_Watermark"
@@ -161,7 +162,9 @@
         </Setter>
         <Setter Property="Template">
             <ControlTemplate>
-                <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                <ScrollViewer
+                    HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                    VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                     <TextPresenter
                         Name="PART_TextPresenter"
                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"

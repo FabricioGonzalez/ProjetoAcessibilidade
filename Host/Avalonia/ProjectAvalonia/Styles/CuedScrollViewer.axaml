@@ -55,8 +55,6 @@
                         Grid.ColumnSpan="2"
                         Margin="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
-                        CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
-                        CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}"
                         Content="{TemplateBinding Content}"
                         Extent="{TemplateBinding Extent,
                                                  Mode=TwoWay}"
@@ -123,8 +121,7 @@
                         </ScrollContentPresenter.Styles>
 
                         <ScrollContentPresenter.GestureRecognizers>
-                            <ScrollGestureRecognizer CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
-                                                     CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}" />
+                            <ScrollGestureRecognizer />
                         </ScrollContentPresenter.GestureRecognizers>
                     </ScrollContentPresenter>
 
@@ -137,13 +134,9 @@
                         Classes="cued"
                         Focusable="False"
                         LargeChange="{Binding LargeChange.Width, RelativeSource={RelativeSource TemplatedParent}}"
-                        Maximum="{TemplateBinding HorizontalScrollBarMaximum}"
                         Orientation="Horizontal"
                         SmallChange="{Binding SmallChange.Width, RelativeSource={RelativeSource TemplatedParent}}"
-                        ViewportSize="{TemplateBinding HorizontalScrollBarViewportSize}"
-                        Visibility="{TemplateBinding HorizontalScrollBarVisibility}"
-                        Value="{TemplateBinding HorizontalScrollBarValue,
-                                                Mode=TwoWay}" />
+                        Visibility="{TemplateBinding HorizontalScrollBarVisibility}" />
 
                     <ScrollBar
                         Name="PART_VerticalScrollBar"
@@ -154,13 +147,9 @@
                         Classes="cued"
                         Focusable="False"
                         LargeChange="{Binding LargeChange.Height, RelativeSource={RelativeSource TemplatedParent}}"
-                        Maximum="{TemplateBinding VerticalScrollBarMaximum}"
                         Orientation="Vertical"
                         SmallChange="{Binding SmallChange.Height, RelativeSource={RelativeSource TemplatedParent}}"
-                        ViewportSize="{TemplateBinding VerticalScrollBarViewportSize}"
-                        Visibility="{TemplateBinding VerticalScrollBarVisibility}"
-                        Value="{TemplateBinding VerticalScrollBarValue,
-                                                Mode=TwoWay}" />
+                        Visibility="{TemplateBinding VerticalScrollBarVisibility}" />
 
                     <Panel
                         x:Name="PART_ScrollBarsSeparator"

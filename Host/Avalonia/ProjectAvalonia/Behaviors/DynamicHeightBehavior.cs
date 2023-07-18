@@ -29,7 +29,7 @@ public class DynamicHeightBehavior : DisposingBehavior<Control>
     protected override void OnAttached(
         CompositeDisposable disposables
     ) =>
-        AssociatedObject?.Parent?.WhenAnyValue(property1: x => x.Bounds)
+        AssociatedObject?.Parent?.WhenAnyValue(property1: x => ((Control)x).Bounds)
             .Subscribe(onNext: bounds =>
             {
                 var newHeight = bounds.Height * HeightMultiplier;

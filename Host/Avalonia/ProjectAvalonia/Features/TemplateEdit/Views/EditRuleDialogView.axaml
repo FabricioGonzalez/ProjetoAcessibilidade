@@ -56,7 +56,7 @@
                                 Margin="4,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center"
-                                Items="{x:Static validationTypes:AppValidation.operationTypes}"
+                                ItemsSource="{x:Static validationTypes:AppValidation.operationTypes}"
                                 SelectedItem="{Binding ValidationRuleState.Type}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:CompileBindings="False">
@@ -97,10 +97,10 @@
                                           Grid.Row="2"
                                           Grid.ColumnSpan="2"
                                           CornerRadius="4"
-                                          Items="{Binding ValidationRuleState.Conditions}">
+                                          ItemsSource="{Binding ValidationRuleState.Conditions}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <components:ConditionContainer DataContext="{Binding .}" />
+                                        <components:ConditionDialog DataContext="{Binding .}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

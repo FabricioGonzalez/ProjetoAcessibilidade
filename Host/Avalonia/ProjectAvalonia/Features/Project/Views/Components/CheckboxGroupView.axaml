@@ -26,7 +26,7 @@
             FontWeight="Bold"
             Text="{Binding Topic}"
             TextWrapping="Wrap" />
-        <ItemsControl Items="{Binding CheckboxItems}">
+        <ItemsControl ItemsSource="{Binding CheckboxItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <components:CheckboxItemView

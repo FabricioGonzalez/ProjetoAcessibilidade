@@ -29,7 +29,8 @@
                                  Height="24"
                                  Icon="{StaticResource add_circle_regular}"
                                  IconSize="16" Command="{Binding AddObservationCommand}" />
-            <ItemsControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Items="{Binding Observations, Mode=TwoWay}">
+            <ItemsControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                          ItemsSource="{Binding Observations, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="1* 40">

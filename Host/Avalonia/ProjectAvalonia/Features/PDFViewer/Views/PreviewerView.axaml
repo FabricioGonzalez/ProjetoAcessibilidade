@@ -9,6 +9,7 @@
     xmlns:pdfViewer="clr-namespace:ProjectAvalonia.Features.PDFViewer"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:CompileBindings="True"
     x:DataType="viewModels:PreviewerViewModel"
     mc:Ignorable="d">
     <Panel>

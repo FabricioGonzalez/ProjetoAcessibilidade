@@ -219,20 +219,20 @@ public class Dialog : ContentControl
         }
     }
 
-    protected override void OnPropertyChanged<T>(
-        AvaloniaPropertyChangedEventArgs<T> change
+    protected override void OnPropertyChanged(
+        AvaloniaPropertyChangedEventArgs change
     )
     {
         base.OnPropertyChanged(change: change);
 
         if (change.Property == IsDialogOpenProperty)
         {
-            PseudoClasses.Set(name: ":open", value: change.NewValue.GetValueOrDefault<bool>());
+            PseudoClasses.Set(name: ":open", value: change.GetNewValue<bool>());
         }
 
         if (change.Property == IsBusyProperty)
         {
-            PseudoClasses.Set(name: ":busy", value: change.NewValue.GetValueOrDefault<bool>());
+            PseudoClasses.Set(name: ":busy", value: change.GetNewValue<bool>());
         }
     }
 

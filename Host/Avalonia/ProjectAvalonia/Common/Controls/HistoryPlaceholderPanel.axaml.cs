@@ -38,7 +38,7 @@ public class HistoryPlaceholderPanel : ContentControl
 
         var deltaOpacity = 1d / totalRows;
 
-        _targetItemsControl.Items =
+        _targetItemsControl.ItemsSource =
             Enumerable
                 .Range(start: 1, count: totalRows)
                 .Reverse()

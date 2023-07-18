@@ -19,7 +19,7 @@
         VerticalAlignment="Stretch"
         CornerRadius="8">
         <ItemsControl
-            Items="{Binding LawList, Mode=TwoWay}">
+            ItemsSource="{Binding LawList, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <components:LawItem DataContext="{Binding}" />

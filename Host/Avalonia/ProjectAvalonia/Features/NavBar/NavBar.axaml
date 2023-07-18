@@ -121,7 +121,7 @@
     <DockPanel Margin="0,0,0,5">
 
         <!--  Bottom items  -->
-        <ItemsControl DockPanel.Dock="Bottom" Items="{Binding BottomItems}">
+        <ItemsControl DockPanel.Dock="Bottom" ItemsSource="{Binding BottomItems}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ReversibleStackPanel ReverseOrder="True" />
@@ -138,7 +138,7 @@
         <Separator DockPanel.Dock="Bottom" />
 
         <!--  Bottom items  -->
-        <ItemsControl Items="{Binding TopItems}">
+        <ItemsControl ItemsSource="{Binding TopItems}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ReversibleStackPanel ReverseOrder="True" />

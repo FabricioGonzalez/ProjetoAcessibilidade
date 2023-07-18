@@ -1,4 +1,5 @@
-using System;
+/*using System;
+using System.Globalization;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -15,12 +16,15 @@ public class PrivacyTextPresenter : UserControl
 
     private FormattedText CreateFormattedText() =>
         new(
-            text: "",
+            textToFormat: "",
             typeface: new Typeface(fontFamily: FontFamily, style: FontStyle, weight: FontWeight),
-            fontSize: FontSize,
-            textAlignment: TextAlignment.Left,
-            textWrapping: TextWrapping.NoWrap,
-            constraint: Size.Infinity);
+            emSize: FontSize,
+            culture: CultureInfo.CurrentUICulture,
+            flowDirection: FlowDirection.LeftToRight,
+            foreground: null
+            /*textAlignment: TextAlignment.Left,
+            textWrapping: TextWrapping.NoWrap,#1#
+            /*constraint: Size.Infinity#1#);
 
     private GlyphRun? CreateGlyphRun(
         double width
@@ -28,10 +32,10 @@ public class PrivacyTextPresenter : UserControl
     {
         var privacyChar = '#';
 
-        var glyphTypeface = new Typeface(fontFamily: (FontFamily?)FontFamily).GlyphTypeface;
-        var glyph = glyphTypeface.GetGlyph(codepoint: privacyChar);
+        var glyphTypeface = new Typeface(fontFamily: (FontFamily?)FontFamily);
+        var glyph = glyphTypeface.GlyphTypeface.GetGlyph(codepoint: privacyChar);
 
-        var scale = FontSize / glyphTypeface.DesignEmHeight;
+        var scale = FontSize / glyphTypeface.GlyphTypeface.DesignEmHeight;
         var advance = glyphTypeface.GetGlyphAdvance(glyph: glyph) * scale;
 
         var count = width > 0 && width < advance ? 1 : (int)(width / advance);
@@ -84,4 +88,5 @@ public class PrivacyTextPresenter : UserControl
             context.DrawGlyphRun(foreground: Foreground, glyphRun: _glyphRun);
         }
     }
-}
+}*/
+

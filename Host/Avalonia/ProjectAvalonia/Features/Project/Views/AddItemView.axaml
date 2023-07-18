@@ -32,7 +32,7 @@
         </c:ContentArea.FooterContent>
         <ListBox
             CornerRadius="8"
-            Items="{Binding Items, Mode=OneWay}"
+            ItemsSource="{Binding Items, Mode=OneWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             SelectionMode="Single">
             <ListBox.ItemTemplate>

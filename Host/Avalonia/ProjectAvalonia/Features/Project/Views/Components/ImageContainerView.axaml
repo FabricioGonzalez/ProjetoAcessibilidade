@@ -49,7 +49,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 VerticalScrollBarVisibility="Auto">
-                <ItemsControl HorizontalAlignment="Stretch" Items="{Binding ImageItems, Mode=OneWay}">
+                <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding ImageItems, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="2" />

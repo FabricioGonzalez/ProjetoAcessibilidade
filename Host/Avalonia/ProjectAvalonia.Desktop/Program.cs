@@ -8,9 +8,7 @@ using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using AppDI;
 using Avalonia;
-using Avalonia.OpenGL;
 using Avalonia.ReactiveUI;
-using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactivity;
 using Common;
 using Microsoft.Extensions.Configuration;
@@ -41,10 +39,10 @@ public class Program
 
         // Initialize the logger.
         var dataDir = EnvironmentHelpers.GetDataDir(Path.Combine(Constants.AppName));
-        SetupLogger(dataDir, args);
+        SetupLogger(dataDir: dataDir, args: args);
 
         Logger.LogDebug(
-            $"{Constants.AppName} was started with these argument(s): {(args.Any() ? string.Join(" ", args) : "none")}.");
+            $"{Constants.AppName} was started with these argument(s): {(args.Any() ? string.Join(separator: " ", value: args) : "none")}.");
 
         // Crash reporting must be before the "single instance checking".
         try
@@ -90,8 +88,8 @@ public class Program
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
         Exception? exceptionToReport = null;
-        TerminateService terminateService = new(TerminateApplicationAsync
-            , TerminateApplication);
+        TerminateService terminateService = new(terminateApplicationAsync: TerminateApplicationAsync
+            , terminateApplication: TerminateApplication);
 
         try
         {
@@ -103,8 +101,8 @@ public class Program
 
             configuration.GetSection("Languages").Bind(configFile);
 
-            Global = CreateGlobal(dataDir, uiConfig, config,
-                new LanguageManager(configFile));
+            Global = CreateGlobal(dataDir: dataDir, uiConfig: uiConfig, config: config,
+                languageManager: new LanguageManager(configFile));
             ServicesConfig.Initialize(Global);
 
             RxApp.DefaultExceptionHandler = Observer.Create<Exception>(ex =>
@@ -117,8 +115,8 @@ public class Program
                 Logger.LogError(ex);
 
                 RxApp.MainThreadScheduler.Schedule(() =>
-                    throw new ApplicationException("Exception has been thrown in unobserved ThrownExceptions"
-                        , ex));
+                    throw new ApplicationException(message: "Exception has been thrown in unobserved ThrownExceptions"
+                        , innerException: ex));
             });
 
             GC.KeepAlive(typeof(Interaction).Assembly);
@@ -129,19 +127,18 @@ public class Program
                 .Configure(
                     () =>
                         new App(
-                            async () =>
+                            backendInitialiseAsync: async () =>
                                 await Global.InitializeNoWalletAsync(terminateService)
-                            , runGuiInBackground))
-                .UseReactiveUI()
-                .StartContainer()
+                            , startInBg: runGuiInBackground))
+                .UseReactiveUI().StartContainer()
                 .AddMediator(markers: typeof(Program))
                 .SetupAppBuilder()
                 .AfterSetup(_ =>
                 {
-                    var glInterface = AvaloniaLocator.CurrentMutable.GetService<IPlatformOpenGlInterface>();
+                    /*var glInterface = AvaloniaLocator.CurrentMutable.GetService<IPlatformOpenGlInterface>();
                     Logger.LogInfo(glInterface is not null
                         ? $"Renderer: {glInterface.PrimaryContext.GlInterface.Renderer}"
-                        : "Renderer: Avalonia Software");
+                        : "Renderer: Avalonia Software");*/
 
                     ThemeHelper.ApplyTheme(Global.UiConfig.DarkModeEnabled ? Theme.Dark : Theme.Light);
                 })
@@ -193,9 +190,9 @@ public class Program
         {
             if (arg.StartsWith("--LogLevel="))
             {
-                var value = arg.Split('=', 2)[1];
+                var value = arg.Split(separator: '=', count: 2)[1];
 
-                if (Enum.TryParse(value, true, out LogLevel parsedLevel))
+                if (Enum.TryParse(value: value, ignoreCase: true, result: out LogLevel parsedLevel))
                 {
                     logLevel = parsedLevel;
                     break;
@@ -203,8 +200,8 @@ public class Program
             }
         }
 
-        Logger.InitializeDefaults(Path.Combine(Constants.AppLogsSettings, "Logs.txt")
-            , logLevel);
+        Logger.InitializeDefaults(filePath: Path.Combine(path1: Constants.AppLogsSettings, path2: "Logs.txt")
+            , logLevel: logLevel);
     }
 
     private static (UiConfig uiConfig, Config config) LoadOrCreateConfigs(
@@ -215,11 +212,11 @@ public class Program
         Directory.CreateDirectory(Constants.AppUISettings);
 
         UiConfig uiConfig =
-            new(Path.Combine(Constants.AppUISettings, Constants.AppUISettingsFile));
+            new(Path.Combine(path1: Constants.AppUISettings, path2: Constants.AppUISettingsFile));
         uiConfig.LoadOrCreateDefaultFile();
 
         Config config =
-            new(Path.Combine(Constants.AppSettingsFolder, Constants.AppSettingsFile));
+            new(Path.Combine(path1: Constants.AppSettingsFolder, path2: Constants.AppSettingsFile));
         config.LoadOrCreateDefaultFile();
 
         return (uiConfig, config);
@@ -230,7 +227,7 @@ public class Program
         , UiConfig uiConfig
         , Config config
         , ILanguageManager languageManager
-    ) => new(dataDir, config, uiConfig, languageManager);
+    ) => new(dataDir: dataDir, config: config, uiConfig: uiConfig, languageManager: languageManager);
 
     /// <summary>
     ///     Do not call this method it should only be called by TerminateService.
@@ -284,7 +281,7 @@ public class Program
         }
     }
 
-    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members"
+    [SuppressMessage(category: "CodeQuality", checkId: "IDE0051:Remove unused private members"
         , Justification = "Required to bootstrap Avalonia's Visual Previewer")]
     private static AppBuilder BuildAvaloniaApp() =>
         AppBuilder.Configure(() => new App()).UseReactiveUI().SetupAppBuilder();

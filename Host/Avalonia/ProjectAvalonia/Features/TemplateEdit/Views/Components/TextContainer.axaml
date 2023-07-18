@@ -35,10 +35,10 @@
             UseFloatingWatermark="True"
             Watermark="{x:Static p:Resources.TextBoxItemMeasurementUnitLabel}" />
 
-        <components:RulePreviewerComponent Grid.Column="2"
-                                           DataContext="{Binding .}"
-                                           SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay }"
-                                           ContainerId="{Binding Id,Mode=TwoWay}" />
+        <components:RulePreviewer Grid.Column="2"
+                                  DataContext="{Binding .}"
+                                  SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay }"
+                                  ContainerId="{Binding Id,Mode=TwoWay}" />
     </Grid>
 
 </UserControl>

@@ -20,9 +20,11 @@
             <PathIcon Classes="new size24" />
             <LayoutTransformControl MinHeight="20" MaxHeight="80">
                 <controls:FadeOutTextBlock
+                    Text="{Binding LocalizedTitle}" />
+                <!-- <controls:FadeOutTextBlock
                     Text="{Binding LocalizedTitle}"
                     TextTrimming="CharacterEllipsis"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap" />-->
             </LayoutTransformControl>
         </StackPanel>
     </controls:NavBarItem>

@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -41,7 +40,7 @@ public class NumberBoxBehavior : DisposingBehavior<TextBox>
             {
                 e.Handled = true;
 
-                if (Application.Current is { Clipboard: { } clipboard })
+                if (TopLevel.GetTopLevel(AssociatedObject) is { Clipboard: { } clipboard })
                 {
                     AssociatedObject.Text = CorrectInput(input: await clipboard.GetTextAsync());
                 }

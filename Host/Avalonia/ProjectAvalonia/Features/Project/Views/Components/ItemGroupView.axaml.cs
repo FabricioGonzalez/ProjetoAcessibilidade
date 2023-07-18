@@ -1,42 +1,36 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-using ProjectAvalonia.Behaviors;
 using ProjectAvalonia.Presentation.Interfaces;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
 
 public partial class ItemGroupView : UserControl
 {
+    private const string itemGroupFlag = "itemGroupContext";
+    private const string itemFlag = "itemContext";
+
     public ItemGroupView()
     {
         InitializeComponent();
 
-        AddHandler(DragDrop.DropEvent, Drop);
-        AddHandler(DragDrop.DragOverEvent, DragOver);
+        AddHandler(routedEvent: DragDrop.DropEvent, handler: Drop);
+        AddHandler(routedEvent: DragDrop.DragOverEvent, handler: DragOver);
     }
 
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
-    const string itemGroupFlag = "itemGroupContext";
-    const string itemFlag = "itemContext";
-
-    private async void InputElement_OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    private async void InputElement_OnPointerPressed(
+        object? sender
+        , PointerPressedEventArgs e
+    )
     {
         var dragData = new DataObject();
-        var control = sender as IControl;
+        var control = sender as Control;
         var dc = control?.DataContext;
 
         if (dc == null)
         {
-
             return;
         }
         /*if(control?.DataContext is IItemGroupViewModel groupItem) {
@@ -45,13 +39,17 @@ public partial class ItemGroupView : UserControl
 
         if (e.GetCurrentPoint(this).Properties.IsMiddleButtonPressed && control?.DataContext is IItemViewModel item)
         {
-            dragData.Set(itemFlag, item);
+            dragData.Set(dataFormat: itemFlag, value: item);
 
-            var result = await DragDrop.DoDragDrop(e, dragData, DragDropEffects.Move | DragDropEffects.Link);
+            var result = await DragDrop.DoDragDrop(triggerEvent: e, data: dragData
+                , allowedEffects: DragDropEffects.Move | DragDropEffects.Link);
         }
     }
 
-    public static void DragOver(object sender, DragEventArgs e)
+    public static void DragOver(
+        object sender
+        , DragEventArgs e
+    )
     {
         /*if (GetTasks(e, out var task, out var subItem)) return;*/
 
@@ -61,7 +59,7 @@ public partial class ItemGroupView : UserControl
 
     /*private static bool GetTasks(DragEventArgs e, out TaskItemViewModel? task, out TaskItemViewModel? subItem)
     {
-        var control = e.Source as IControl;
+        var control = e.Source as Control;
         task = control?.FindParentDataContext<TaskWrapperViewModel>()?.TaskItem ??
                control?.FindParentDataContext<TaskItemViewModel>();
 
@@ -82,9 +80,11 @@ public partial class ItemGroupView : UserControl
         return false;
     }*/
 
-    public static void Drop(object sender, DragEventArgs e)
+    public static void Drop(
+        object sender
+        , DragEventArgs e
+    )
     {
-
         /*if (GetTasks(e, out var task, out var subItem)) return;*/
         var item = (IItemViewModel?)e?.Data?.Get(itemFlag);
 
@@ -92,7 +92,7 @@ public partial class ItemGroupView : UserControl
         {
             item.CanMoveCommand.Execute(itemGroup.DataContext as IItemGroupViewModel);
         }
+
         e.Handled = true;
     }
-
 }

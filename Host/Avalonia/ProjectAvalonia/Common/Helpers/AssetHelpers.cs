@@ -1,5 +1,4 @@
 using System;
-using Avalonia;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
@@ -11,12 +10,9 @@ public static class AssetHelpers
         Uri uri
     )
     {
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-        if (assets is not null)
+        if (uri is not null)
         {
-            using var image = assets.Open(uri: uri);
-            return new Bitmap(stream: image);
+            return new Bitmap(stream: AssetLoader.Open(uri: uri));
         }
 
         throw new Exception(message: "Program is not initialised or is in an inconsistent state.");

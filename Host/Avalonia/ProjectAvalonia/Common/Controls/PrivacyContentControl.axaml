@@ -1,13 +1,12 @@
 <Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:ProjectAvalonia.Common.Controls"
-    xmlns:conv="using:ProjectAvalonia.Common.Converters">
+    xmlns:controls="using:ProjectAvalonia.Common.Controls">
     <Design.PreviewWith>
         <controls:PrivacyContentControl />
     </Design.PreviewWith>
 
-    <Style Selector="controls|PrivacyContentControl">
+    <!--<Style Selector="controls|PrivacyContentControl">
         <Setter Property="Template">
             <ControlTemplate TargetType="controls:PrivacyContentControl">
                 <Panel>
@@ -53,7 +52,7 @@
         <Setter Property="FontFamily" Value="{StaticResource MonospacedFont}" />
     </Style>
 
-    <!--  Icon privacy mode  -->
+    ~1~  Icon privacy mode  @1@
     <Style
         Selector="controls|PrivacyContentControl[PrivacyReplacementMode=Icon] /template/ controls|PrivacyTextPresenter#PART_PrivacyText">
         <Setter Property="IsVisible" Value="False" />
@@ -62,7 +61,7 @@
         <Setter Property="IsVisible" Value="True" />
     </Style>
 
-    <!--  Text privacy mode  -->
+    ~1~  Text privacy mode  @1@
     <Style
         Selector="controls|PrivacyContentControl[PrivacyReplacementMode=Text] /template/ controls|PrivacyTextPresenter#PART_PrivacyText">
         <Setter Property="IsVisible" Value="True" />
@@ -71,7 +70,7 @@
         <Setter Property="IsVisible" Value="False" />
     </Style>
 
-    <!--  UseOpacity = true  -->
+    ~1~  UseOpacity = true  @1@
     <Style Selector="controls|PrivacyContentControl[UseOpacity=True] /template/ ContentPresenter#PART_Content">
         <Setter Property="Opacity"
                 Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static conv:BoolOpacityConverters.BoolToOpacity}}" />
@@ -81,9 +80,9 @@
                 Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource TemplatedParent}}" />
     </Style>
 
-    <!--  UseOpacity = false  -->
+    ~1~  UseOpacity = false  @1@
     <Style Selector="controls|PrivacyContentControl[UseOpacity=False] /template/ ContentPresenter#PART_Content">
         <Setter Property="IsVisible"
                 Value="{Binding IsContentRevealed^, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-    </Style>
+    </Style>-->
 </Styles>

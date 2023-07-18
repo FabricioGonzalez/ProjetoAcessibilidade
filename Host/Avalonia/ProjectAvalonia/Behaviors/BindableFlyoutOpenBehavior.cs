@@ -29,7 +29,7 @@ public class BindableFlyoutOpenBehavior : DisposingBehavior<Control>
         }
 
         Observable
-            .FromEventPattern(target: AssociatedObject, eventName: nameof(AssociatedObject.PointerEnter))
+            .FromEventPattern(target: AssociatedObject, eventName: nameof(AssociatedObject.PointerEntered))
             .Subscribe(onNext: _ => IsOpen = true)
             .DisposeWith(compositeDisposable: disposable);
 

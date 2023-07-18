@@ -41,7 +41,7 @@
             FontWeight="Bold"
             Text="{Binding Topic}"
             TextWrapping="Wrap" />
-        <ItemsControl DockPanel.Dock="Bottom" Items="{Binding TextItems}">
+        <ItemsControl DockPanel.Dock="Bottom" ItemsSource="{Binding TextItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <components:TextBoxItem x:CompileBindings="True" DataContext="{Binding}" />

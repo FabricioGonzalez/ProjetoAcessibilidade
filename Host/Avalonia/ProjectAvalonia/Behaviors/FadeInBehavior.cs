@@ -66,6 +66,6 @@ public class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
                 }
             }
         };
-        animation.RunAsync(control: AssociatedObject, clock: null);
+        animation.RunAsync(control: AssociatedObject);
     }
 }

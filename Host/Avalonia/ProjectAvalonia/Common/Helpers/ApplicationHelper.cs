@@ -19,7 +19,7 @@ public static class ApplicationHelper
     ) =>
         Observable.Interval(period: TimeSpan.FromSeconds(value: 0.2), scheduler: scheduler ?? Scheduler.Default)
             .SelectMany(
-                selector: _ => Application.Current?.Clipboard?.GetTextAsync()
+                selector: _ => TopLevel.GetTopLevel(MainWindow)?.Clipboard?.GetTextAsync()
                     .ToObservable() ?? Observable.Return<string?>(value: null)
                     .WhereNotNull())
             .DistinctUntilChanged();

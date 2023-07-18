@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
+using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
-using QuestPDF.Previewer;
 using SkiaSharp;
 using Size = QuestPDF.Infrastructure.Size;
 
@@ -189,7 +189,7 @@ internal class InteractiveCanvas : ICustomDrawOperation
     #region rendering
 
     public void Render(
-        IDrawingContextImpl context
+        ImmediateDrawingContext context
     )
     {
         if (!Pages.Any())
@@ -200,12 +200,12 @@ internal class InteractiveCanvas : ICustomDrawOperation
         LimitScale();
         LimitTranslate();
 
-        /*        // Avalonia 11.0.0 preview feature method
-                var skia = context.GetFeature<ISkiaSharpApiLeaseFeature>();
-                using var lease = skia.Lease();
+        // Avalonia 11.0.0 preview feature method
+        var skia = context.TryGetFeature<ISkiaSharpApiLeaseFeature>();
+        using var lease = skia.Lease();
 
-                SKCanvas canvas = lease.SkCanvas;*/
-        var canvas = (context as ISkiaDrawingContextImpl)?.SkCanvas;
+        var canvas = lease.SkCanvas;
+        /*var canvas = (context as ISkiaDrawingContextImpl)?.SkCanvas;*/
 
         if (canvas == null)
         {

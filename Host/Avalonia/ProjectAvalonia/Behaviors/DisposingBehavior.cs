@@ -5,7 +5,7 @@ using Avalonia.Xaml.Interactivity;
 namespace ProjectAvalonia.Behaviors;
 
 public abstract class DisposingBehavior<T> : Behavior<T>
-    where T : class, IAvaloniaObject
+    where T : AvaloniaObject
 {
     private CompositeDisposable? _disposables;
 

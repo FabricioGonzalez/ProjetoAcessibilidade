@@ -97,27 +97,31 @@ public class SpectrumControl
         // nothing to do.
     }
 
-    bool IDrawOperation.HitTest(
+    public bool HitTest(
         Point p
     ) => Bounds.Contains(p: p);
 
-    void IDrawOperation.Render(
-        IDrawingContextImpl context
+    public void Render(
+        ImmediateDrawingContext context
     )
     {
         var bounds = Bounds;
 
-        if (context is not ISkiaDrawingContextImpl skia)
+        var skia = context.TryGetFeature<ISkiaSharpApiLeaseFeature>();
+
+        var lease = skia?.Lease();
+
+        if (lease is null)
         {
             return;
         }
 
         if (_surface is null)
         {
-            if (skia.GrContext is not null)
+            if (lease.GrContext is { } grContext)
             {
                 _surface =
-                    SKSurface.Create(context: skia.GrContext, budgeted: false
+                    SKSurface.Create(context: grContext, budgeted: false
                         , info: new SKImageInfo(width: (int)TextureWidth, height: (int)TextureHeight));
             }
             else
@@ -135,7 +139,7 @@ public class SpectrumControl
 
         using var snapshot = _surface.Snapshot();
 
-        skia.SkCanvas.DrawImage(
+        lease.SkCanvas.DrawImage(
             image: snapshot,
             source: new SKRect(left: 0, top: 0, right: (float)TextureWidth, bottom: (float)TextureHeight),
             dest: new SKRect(left: 0, top: 0, right: (float)bounds.Width, bottom: (float)bounds.Height), paint: _blur);
@@ -180,8 +184,8 @@ public class SpectrumControl
         }
     }
 
-    protected override void OnPropertyChanged<T>(
-        AvaloniaPropertyChangedEventArgs<T> change
+    protected override void OnPropertyChanged(
+        AvaloniaPropertyChangedEventArgs change
     )
     {
         base.OnPropertyChanged(change: change);
@@ -192,7 +196,7 @@ public class SpectrumControl
         }
         else if (change.Property == IsDockEffectVisibleProperty)
         {
-            if (change.NewValue.GetValueOrDefault<bool>() && !IsActive)
+            if (change.GetNewValue<bool>() && !IsActive)
             {
                 _splashEffectDataSource.Start();
             }

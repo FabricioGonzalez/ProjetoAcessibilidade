@@ -7,9 +7,9 @@ using ProjectAvalonia.Presentation.States.FormItemState;
 
 namespace ProjectAvalonia.Features.TemplateEdit.Views.Components;
 
-public partial class ConditionContainer : UserControl
+public partial class ConditionDialog : UserControl
 {
-    public ConditionContainer()
+    public ConditionDialog()
     {
         InitializeComponent();
     }

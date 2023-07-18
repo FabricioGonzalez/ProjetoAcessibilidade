@@ -1,6 +1,7 @@
 using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using ReactiveUI;
 
@@ -34,7 +35,7 @@ public class ClipboardCopyButton : TemplatedControl
 
     private async Task CopyToClipboardAsync()
     {
-        if (Application.Current is { Clipboard: { } clipboard })
+        if (TopLevel.GetTopLevel(this) is { Clipboard: { } clipboard })
         {
             await clipboard.SetTextAsync(text: Text);
             await Task.Delay(

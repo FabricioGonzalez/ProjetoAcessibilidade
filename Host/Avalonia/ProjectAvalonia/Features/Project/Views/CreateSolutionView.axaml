@@ -42,18 +42,14 @@
                     Watermark="{x:Static p:Resources.Company_Name_Watermark}" />
 
                 <StackPanel Grid.Column="1" Spacing="8">
-                    <DatePicker
+                    <CalendarDatePicker
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        DayVisible="True"
-                        Header="{x:Static p:Resources.Report_Date_Calendar_Header}"
-                        MonthVisible="True"
-                        SelectedDate="{Binding SolutionModel.SolutionReportInfo.Data, StringFormat=dd-MM-yyyy}"
-                        YearVisible="True" />
+                        SelectedDate="{Binding SolutionModel.SolutionReportInfo.Data, StringFormat=dd-MM-yyyy}" />
 
                     <ComboBox
                         HorizontalAlignment="Stretch"
-                        Items="{Binding UfList}"
+                        ItemsSource="{Binding UfList}"
                         PlaceholderText="{x:Static p:Resources.Report_State_Watermark}"
                         SelectedItem="{Binding SelectedUf}">
                         <ComboBox.ItemTemplate>

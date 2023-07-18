@@ -114,7 +114,7 @@ public class ShowAttachedFlyoutWhenFocusedBehavior : AttachedToVisualTreeBehavio
             .Subscribe();
 
     private IDisposable FocusBasedFlyoutOpener(
-        IAvaloniaObject associatedObject
+        AvaloniaObject associatedObject
         , FlyoutBase flyoutBase
     )
     {

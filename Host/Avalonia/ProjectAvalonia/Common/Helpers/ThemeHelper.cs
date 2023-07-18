@@ -1,7 +1,5 @@
-using System;
-using System.Linq;
 using Avalonia;
-using Avalonia.Markup.Xaml.Styling;
+using Avalonia.Styling;
 
 namespace ProjectAvalonia.Common.Helpers;
 
@@ -16,7 +14,6 @@ public static class ThemeHelper
     public static Theme CurrentTheme
     {
         get;
-        private set;
     }
 
     public static void ApplyTheme(
@@ -25,7 +22,12 @@ public static class ThemeHelper
     {
         if (Application.Current is not null)
         {
-            var currentTheme = Application.Current.Styles.Select(selector: x => (StyleInclude)x)
+            var requestedTheme = theme switch
+            {
+                Theme.Light => ThemeVariant.Light, Theme.Dark => ThemeVariant.Dark, _ => ThemeVariant.Default
+            };
+
+            /*var currentTheme = Application.Current.Styles.Select(selector: x => (StyleInclude)x)
                 .FirstOrDefault(predicate: x =>
                     x.Source is not null && x.Source.AbsolutePath.Contains(value: "Themes"));
 
@@ -39,8 +41,7 @@ public static class ThemeHelper
                 };
 
                 CurrentTheme = theme;
-                Application.Current.Styles[index: themeIndex] = newTheme;
-            }
+                Application.Current.Styles[index: themeIndex] = newTheme;*/
         }
     }
 }

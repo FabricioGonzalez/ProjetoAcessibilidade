@@ -20,7 +20,7 @@ public class FlyoutShowController : IDisposable
         _parent = parent;
     }
 
-    public void Dispose() => _flyout.Closing -= RejectClose;
+    public void Dispose() => ((Flyout)_flyout).Closing -= RejectClose;
 
     public void SetIsForcedOpen(
         bool value
@@ -35,12 +35,12 @@ public class FlyoutShowController : IDisposable
 
         if (_isForcedOpen)
         {
-            _flyout.Closing += RejectClose;
+            ((Flyout)_flyout).Closing += RejectClose;
             _flyout.ShowAt(placementTarget: _parent);
         }
         else
         {
-            _flyout.Closing -= RejectClose;
+            ((Flyout)_flyout).Closing -= RejectClose;
             _flyout.Hide();
         }
     }

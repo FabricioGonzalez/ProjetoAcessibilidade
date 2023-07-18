@@ -25,7 +25,7 @@
         Background="Transparent"
         Classes="horizontalScroller"
         SelectedContent="{Binding SelectedItem, Mode=TwoWay}"
-        Items="{Binding EditingItems, Mode=OneWay}"
+        ItemsSource="{Binding EditingItems, Mode=OneWay}"
         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
         TabStripPlacement="Top"
         Template="{DynamicResource TabControlControlTemplate1}">

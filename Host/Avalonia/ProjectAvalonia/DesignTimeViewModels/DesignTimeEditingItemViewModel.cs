@@ -12,7 +12,7 @@ public class DesignTimeEditingItemViewModel
     public KeyGesture Gesture
     {
         get;
-    } = new(Key.S, InputModifiers.Control);
+    } = new(key: Key.S, modifiers: KeyModifiers.Control);
 
     public IEditingBodyViewModel Body
     {

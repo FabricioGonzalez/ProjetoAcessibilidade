@@ -1,17 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
 using Avalonia.Media;
 using Avalonia.Styling;
-using ReactiveUI;
 
 namespace ProjectAvalonia.Common.Controls;
 
 public class LabelsItemsPresenter
-    : ItemsPresenter
+    : ItemsControl
         , IStyleable
 {
     public static readonly StyledProperty<IBrush> ForegroundProperty =
@@ -43,8 +39,8 @@ public class LabelsItemsPresenter
 
     Type IStyleable.StyleKey => typeof(LabelsItemsPresenter);
 
-    protected override void PanelCreated(
-        IPanel panel
+    /*protected override void PanelCreated(
+        Panel panel
     )
     {
         base.PanelCreated(panel: panel);
@@ -64,5 +60,5 @@ public class LabelsItemsPresenter
                     }
                 });
         }
-    }
+    }*/
 }

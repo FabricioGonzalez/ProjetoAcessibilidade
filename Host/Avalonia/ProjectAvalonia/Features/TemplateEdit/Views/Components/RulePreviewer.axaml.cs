@@ -18,29 +18,29 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.Views.Components;
 
-public partial class RulePreviewerComponent : UserControl
+public partial class RulePreviewer : UserControl
 {
     public static readonly StyledProperty<string>
         ContainerIdProperty =
-            AvaloniaProperty.Register<RulePreviewerComponent, string>(
-                nameof(ContainerId)
-                , "");
+            AvaloniaProperty.Register<RulePreviewer, string>(
+                name: nameof(ContainerId)
+                , defaultValue: "");
 
 
     public static readonly StyledProperty<ObservableCollection<IValidationRuleContainerState>>
         SourceValidationRulesProperty =
             AvaloniaProperty
-                .Register<RulePreviewerComponent, ObservableCollection<IValidationRuleContainerState>>(
+                .Register<RulePreviewer, ObservableCollection<IValidationRuleContainerState>>(
                     nameof(SourceValidationRules));
 
     public static readonly StyledProperty<ObservableCollection<OptionsItemState>>
         OptionsProperty =
             AvaloniaProperty
-                .Register<RulePreviewerComponent, ObservableCollection<OptionsItemState>>(
-                    nameof(Options),
-                    new ObservableCollection<OptionsItemState>());
+                .Register<RulePreviewer, ObservableCollection<OptionsItemState>>(
+                    name: nameof(Options),
+                    defaultValue: new ObservableCollection<OptionsItemState>());
 
-    public RulePreviewerComponent()
+    public RulePreviewer()
     {
         InitializeComponent();
 
@@ -72,19 +72,19 @@ public partial class RulePreviewerComponent : UserControl
     public string ContainerId
     {
         get => GetValue(ContainerIdProperty);
-        set => SetValue(ContainerIdProperty, value);
+        set => SetValue(property: ContainerIdProperty, value: value);
     }
 
     public ObservableCollection<OptionsItemState> Options
     {
         get => GetValue(OptionsProperty);
-        set => SetValue(OptionsProperty, value);
+        set => SetValue(property: OptionsProperty, value: value);
     }
 
     public ObservableCollection<IValidationRuleContainerState> SourceValidationRules
     {
         get => GetValue(SourceValidationRulesProperty);
-        set => SetValue(SourceValidationRulesProperty, value);
+        set => SetValue(property: SourceValidationRulesProperty, value: value);
     }
 
 
@@ -113,7 +113,7 @@ public partial class RulePreviewerComponent : UserControl
                 vm.SetCheckboxItems(Options);
             }
 
-            var result = await RoutableViewModel.NavigateDialogAsync(vm, NavigationTarget.DialogScreen);
+            var result = await RoutableViewModel.NavigateDialogAsync(dialog: vm, target: NavigationTarget.DialogScreen);
 
             Debug.WriteLine(result.Kind);
 
@@ -128,8 +128,8 @@ public partial class RulePreviewerComponent : UserControl
                 }
 
                 ValidationRules.ReplaceOrAdd(
-                    ValidationRules.FirstOrDefault(i => i.ValidationRuleName == ok.Result.ValidationRuleName)
-                    , ok.Result);
+                    original: ValidationRules.FirstOrDefault(i => i.ValidationRuleName == ok.Result.ValidationRuleName)
+                    , replaceWith: ok.Result);
 
                 if (SourceValidationRules.FirstOrDefault(rule => rule.TargetContainerId == ContainerId) is { } rules)
                 {

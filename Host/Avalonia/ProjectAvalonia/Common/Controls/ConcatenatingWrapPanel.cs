@@ -96,7 +96,7 @@ public class ConcatenatingWrapPanel
         var orientation = Orientation;
         var children = Children.Concat(second: ConcatenatedChildren).ToList();
         var horiz = orientation == Orientation.Horizontal;
-        var index = Children.IndexOf(item: (IControl)from);
+        var index = Children.IndexOf(item: (Control)from);
 
         switch (direction)
         {

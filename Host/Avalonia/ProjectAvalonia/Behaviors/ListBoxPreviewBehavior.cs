@@ -44,7 +44,7 @@ public class ListBoxPreviewBehavior : DisposingBehavior<ListBox>
             return;
         }
 
-        Observable.FromEventPattern(target: AssociatedObject, eventName: nameof(AssociatedObject.PointerLeave))
+        Observable.FromEventPattern(target: AssociatedObject, eventName: nameof(AssociatedObject.PointerExited))
             .Subscribe(onNext: _ => ClearPreviewItem(delay: 0))
             .DisposeWith(compositeDisposable: disposables);
 

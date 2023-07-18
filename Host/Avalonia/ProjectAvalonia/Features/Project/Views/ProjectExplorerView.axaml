@@ -56,7 +56,7 @@
                         CommandParameter="{Binding}" />
                 </Interaction.Behaviors>
             </TreeViewItem>
-            <TreeViewItem DataContext="{Binding SolutionRootItem }" Header="Itens" Items="{Binding ItemsGroups}">
+            <TreeViewItem DataContext="{Binding SolutionRootItem }" Header="Itens" ItemsSource="{Binding ItemsGroups}">
                 <TreeViewItem.ItemTemplate>
                     <DataTemplate>
                         <components:ItemGroupView DataContext="{Binding}" />

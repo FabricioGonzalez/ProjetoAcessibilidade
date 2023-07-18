@@ -8,7 +8,7 @@ namespace ProjectAvalonia;
 [StaticViewLocator]
 public partial class ViewLocator : IDataTemplate
 {
-    public IControl Build(
+    public Control Build(
         object data
     )
     {

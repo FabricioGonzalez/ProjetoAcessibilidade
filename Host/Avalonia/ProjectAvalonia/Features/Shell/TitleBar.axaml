@@ -50,9 +50,7 @@
                 ClipToBounds="False"
                 IsHitTestVisible="False"
                 Orientation="Horizontal"
-                Spacing="4"
-                TextBlock.FontFamily="{StaticResource WasabiLogoTextFont}"
-                TextBlock.FontWeight="Light">
+                Spacing="4">
                 <TextBlock Foreground="{StaticResource LogoFixedForegroundColor}" Text="Gestor" />
                 <TextBlock Foreground="{StaticResource LogoFixedForegroundColor}" Text="de" />
                 <TextBlock Foreground="{StaticResource LogoFixedForegroundColor}" Text="Projeto" />
@@ -144,11 +142,6 @@
                 <DockPanel Grid.Column="1">
                     <ContentControl ContentTemplate="{StaticResource WasabiLogo}" />
                     <Panel x:Name="TitlePanel">
-                        <Interaction.Behaviors>
-                            <AdaptiveBehavior>
-                                <AdaptiveClassSetter MaxWidth="150" ClassName="minWidth" />
-                            </AdaptiveBehavior>
-                        </Interaction.Behaviors>
                         <ContentControl Margin="16,4,0,0" ContentTemplate="{StaticResource Title}" />
                     </Panel>
                 </DockPanel>

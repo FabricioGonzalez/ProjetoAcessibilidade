@@ -35,6 +35,12 @@ public class LabelsPanel : VirtualizingStackPanel
         set;
     }
 
+    public double Spacing
+    {
+        get;
+        set;
+    }
+
     protected override void OnAttachedToVisualTree(
         VisualTreeAttachmentEventArgs e
     )

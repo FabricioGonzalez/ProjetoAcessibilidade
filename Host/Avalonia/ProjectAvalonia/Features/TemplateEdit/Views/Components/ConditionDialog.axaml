@@ -11,7 +11,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="interfaces:IConditionState"
              x:CompileBindings="True"
-             x:Class="ProjectAvalonia.Features.TemplateEdit.Views.Components.ConditionContainer">
+             x:Class="ProjectAvalonia.Features.TemplateEdit.Views.Components.ConditionDialog">
 
     <Grid RowDefinitions="40 40 8 1.2*">
         <Label Content="{Binding TargetId,FallbackValue=Vazio}" />
@@ -27,7 +27,7 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 Height="24"
-                Items="{x:Static validationTypes:AppValidation.checkingOperationTypes}"
+                ItemsSource="{x:Static validationTypes:AppValidation.checkingOperationTypes}"
                 Padding="4,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -54,7 +54,7 @@
                                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center"
-                                      Items="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}">
+                                      ItemsSource="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate
                                         x:CompileBindings="False">
@@ -68,7 +68,7 @@
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center"
                                       Initialized="StyledElement_OnInitialized"
-                                      Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                      ItemsSource="{x:Static validationTypes:AppValidation.checkingValues}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate
                                         x:CompileBindings="False">
@@ -88,7 +88,7 @@
                                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center"
-                                      Items="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}">
+                                      ItemsSource="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate
                                         x:CompileBindings="False">
@@ -102,7 +102,7 @@
                                       HorizontalAlignment="Stretch"
                                       Initialized="StyledElement_OnInitialized"
                                       VerticalAlignment="Center"
-                                      Items="{x:Static validationTypes:AppValidation.checkingValues}">
+                                      ItemsSource="{x:Static validationTypes:AppValidation.checkingValues}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate
                                         x:CompileBindings="False">
@@ -159,7 +159,7 @@
             <ItemsControl Grid.Row="0"
                           Grid.RowSpan="2"
                           Grid.Column="1"
-                          Items="{Binding Result}">
+                          ItemsSource="{Binding Result}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="1* 40">

@@ -85,7 +85,7 @@ public class TagsBox : TemplatedControl
 
     private AutoCompleteBox? _autoCompleteBox;
     private CompositeDisposable? _compositeDisposable;
-    private IControl? _containerControl;
+    private Control? _containerControl;
     private TextBox? _internalTextBox;
     private bool _isInputEnabled = true;
     private IEnumerable<string>? _items;
@@ -424,19 +424,31 @@ public class TagsBox : TemplatedControl
         }
     }
 
-    protected override void UpdateDataValidation<T>(
-        AvaloniaProperty<T> property
-        , BindingValue<T> value
+    /*protected override void UpdateDataValidation(
+        AvaloniaProperty property
+        , BindingValue value,
+        Exception error
     )
     {
         if (property == ItemsProperty)
         {
             DataValidationErrors.SetError(control: this, error: value.Error);
         }
+    }*/
+    protected override void UpdateDataValidation(
+        AvaloniaProperty property
+        , BindingValueType state
+        , Exception? error
+    )
+    {
+        if (property == ItemsProperty)
+        {
+            DataValidationErrors.SetError(control: this, error: error);
+        }
     }
 
-    protected override void OnPropertyChanged<T>(
-        AvaloniaPropertyChangedEventArgs<T> e
+    protected override void OnPropertyChanged(
+        AvaloniaPropertyChangedEventArgs e
     )
     {
         base.OnPropertyChanged(change: e);

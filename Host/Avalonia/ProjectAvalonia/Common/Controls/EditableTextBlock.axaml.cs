@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Reactive;
 using System.Windows.Input;
-
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -12,49 +11,41 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Metadata;
 using Avalonia.Threading;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Common.Controls;
 
 public class EditableTextBlock : TemplatedControl
 {
-    public static readonly DirectProperty<EditableTextBlock, string> TextProperty =
-        TextBlock.TextProperty.AddOwner<EditableTextBlock>(
-            getter: o => o.Text,
-            setter: (
-                o,
-                v
-            ) => o.Text = v,
-            defaultBindingMode: BindingMode.TwoWay,
-            enableDataValidation: true);
+    public static readonly StyledProperty<string?> TextProperty =
+        TextBlock.TextProperty.AddOwner<EditableTextBlock>();
 
     public static readonly DirectProperty<EditableTextBlock, ICommand?> CommandProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand?>(
             name: nameof(Command),
             getter: component => component.Command,
             setter: (
-                component,
-                value
+                component
+                , value
             ) => component.Command = value);
 
     public static readonly DirectProperty<EditableTextBlock, bool?> HasActionsProperty =
-       AvaloniaProperty.RegisterDirect<EditableTextBlock, bool?>(
-           name: nameof(HasActions),
-           getter: component => component.HasActions,
-           setter: (
-               component,
-               value
-           ) => component.HasActions = value,
-           unsetValue: false);
+        AvaloniaProperty.RegisterDirect<EditableTextBlock, bool?>(
+            name: nameof(HasActions),
+            getter: component => component.HasActions,
+            setter: (
+                component
+                , value
+            ) => component.HasActions = value,
+            unsetValue: false);
 
     public static readonly DirectProperty<EditableTextBlock, IEnumerable?> ActionsProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, IEnumerable?>(
             name: nameof(Actions),
             getter: x => x.Actions,
             setter: (
-                x,
-                v
+                x
+                , v
             ) => x.Actions = v);
 
     public static readonly DirectProperty<EditableTextBlock, object?> CommandParameterProperty =
@@ -62,8 +53,8 @@ public class EditableTextBlock : TemplatedControl
             name: nameof(CommandParameter),
             getter: component => component.CommandParameter,
             setter: (
-                component,
-                value
+                component
+                , value
             ) => component.CommandParameter = value);
 
     public static readonly DirectProperty<EditableTextBlock, string> EditTextProperty =
@@ -71,8 +62,8 @@ public class EditableTextBlock : TemplatedControl
             name: nameof(EditText),
             getter: o => o.EditText,
             setter: (
-                o,
-                v
+                o
+                , v
             ) => o.EditText = v);
 
     public static readonly StyledProperty<bool> InEditModeProperty =
@@ -82,13 +73,13 @@ public class EditableTextBlock : TemplatedControl
 
     private readonly DispatcherTimer _editClickTimer;
     private IEnumerable? _actions;
-    private bool? _hasActions;
 
     private ICommand? _command;
 
 
     private object? _commandParameter;
     private string _editText = string.Empty;
+    private bool? _hasActions;
     private string _text = string.Empty;
     private TextBox _textBox;
 
@@ -103,19 +94,18 @@ public class EditableTextBlock : TemplatedControl
         if (_hasActions.GetValueOrDefault(false))
         {
             _actions = new AvaloniaList<object>
-        {
-            new MenuItem
             {
-                Command = RenameItem,
-                Header = "Renomear"
-            }
-        };
+                new MenuItem
+                {
+                    Command = RenameItem, Header = "Renomear"
+                }
+            };
 
             if (Actions is not null)
             {
                 ContextFlyout = new MenuFlyout
                 {
-                    Items = _actions
+                    ItemsSource = _actions
                 };
             }
         }
@@ -126,8 +116,8 @@ public class EditableTextBlock : TemplatedControl
         };
 
         _editClickTimer.Tick += (
-            _,
             _
+            , _
         ) =>
         {
             _editClickTimer.Stop();
@@ -158,8 +148,8 @@ public class EditableTextBlock : TemplatedControl
         AddHandler(
             routedEvent: PointerPressedEvent,
             handler: (
-                _,
-                e
+                _
+                , e
             ) =>
             {
                 _editClickTimer.Stop();
@@ -206,6 +196,7 @@ public class EditableTextBlock : TemplatedControl
             field: ref _command,
             value: value);
     }
+
     public bool? HasActions
     {
         get => _hasActions;
@@ -232,10 +223,9 @@ public class EditableTextBlock : TemplatedControl
     [Content]
     public string Text
     {
-        get => _text;
-        set => SetAndRaise(
+        get => GetValue(TextProperty) ?? string.Empty;
+        set => SetValue(
             property: TextProperty,
-            field: ref _text,
             value: value);
     }
 
@@ -307,7 +297,7 @@ public class EditableTextBlock : TemplatedControl
         _textBox.SelectionEnd = Text.Length;
 
         Dispatcher.UIThread.InvokeAsync(
-            action: () =>
+            () =>
             {
                 _textBox.Focus();
             });
@@ -343,8 +333,8 @@ public class EditableTextBlock : TemplatedControl
         /*(VisualRoot as IPointer).Capture(null);*/
     }
 
-    protected override void OnPropertyChanged<T>(
-        AvaloniaPropertyChangedEventArgs<T> change
+    protected override void OnPropertyChanged(
+        AvaloniaPropertyChangedEventArgs change
     )
     {
         base.OnPropertyChanged(change: change);
@@ -353,7 +343,7 @@ public class EditableTextBlock : TemplatedControl
         {
             PseudoClasses.Set(
                 name: ":editing",
-                value: change.NewValue.GetValueOrDefault<bool>());
+                value: change.GetNewValue<bool>());
         }
     }
 }

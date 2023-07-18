@@ -1,11 +1,7 @@
 using System;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using Avalonia;
-using Avalonia.Animation;
 using Avalonia.Controls;
-using Avalonia.Controls.Generators;
-using Avalonia.Styling;
 
 namespace ProjectAvalonia.Behaviors;
 
@@ -37,12 +33,11 @@ public class ItemsControlAnimationBehavior : AttachedToVisualTreeBehavior<ItemsC
     {
         if (AssociatedObject is null)
         {
-            return;
         }
 
-        Observable
+        /*Observable
             .FromEventPattern<ItemContainerEventArgs>(target: AssociatedObject.ItemContainerGenerator
-                , eventName: nameof(ItemContainerGenerator.Materialized))
+                , eventName: nameof(ItemsControl.))
             .Select(selector: x => x.EventArgs)
             .Subscribe(onNext: e =>
             {
@@ -83,9 +78,9 @@ public class ItemsControlAnimationBehavior : AttachedToVisualTreeBehavior<ItemsC
                             }
                         }
                     };
-                    animation.RunAsync(control: v, clock: null);
+                    animation.RunAsync(control: v);
                 }
             })
-            .DisposeWith(compositeDisposable: disposable);
+            .DisposeWith(compositeDisposable: disposable);*/
     }
 }

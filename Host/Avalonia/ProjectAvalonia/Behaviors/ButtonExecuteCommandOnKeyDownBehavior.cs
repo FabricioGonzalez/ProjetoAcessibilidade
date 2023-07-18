@@ -2,7 +2,6 @@ using System.Reactive.Disposables;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 
 namespace ProjectAvalonia.Behaviors;
@@ -39,8 +38,10 @@ public class ButtonExecuteCommandOnKeyDownBehavior : AttachedToVisualTreeBehavio
 
         if (button.GetVisualRoot() is IInputElement inputRoot)
         {
-            inputRoot.AddDisposableHandler(routedEvent: InputElement.KeyDownEvent, handler: RootDefaultKeyDown)
-                .DisposeWith(compositeDisposable: disposable);
+            inputRoot.AddHandler(routedEvent: InputElement.KeyDownEvent, handler: RootDefaultKeyDown);
+
+            disposable.Add(Disposable.Create(() =>
+                inputRoot.RemoveHandler(routedEvent: InputElement.KeyDownEvent, handler: RootDefaultKeyDown)));
         }
     }
 

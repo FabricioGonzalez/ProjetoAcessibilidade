@@ -22,7 +22,7 @@ public static class AppBuilderExtension
         else if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Linux))
         {
             appBuilder.UsePlatformDetect()
-                .UseManagedSystemDialogs<AppBuilder, Window>();
+                .UseManagedSystemDialogs<Window>();
         }
         else
         {
@@ -33,14 +33,16 @@ public static class AppBuilderExtension
             .With(options: new SkiaOptions { MaxGpuResourceSizeBytes = 2560 * 1600 * 4 * 12 })
             .With(options: new Win32PlatformOptions
             {
-                AllowEglInitialization = enableGpu, OverlayPopups = true, UseDeferredRendering = true,
+                OverlayPopups = true, /* AllowEglInitialization = enableGpu, UseDeferredRendering = true,
                 UseWindowsUIComposition = true,
-                CompositionBackdropCornerRadius = null
+                CompositionBackdropCornerRadius = null*/ WinUICompositionBackdropCornerRadius = 4
             })
             .With(options: new X11PlatformOptions
-                { UseGpu = enableGpu, OverlayPopups = true, WmClass = "ProjectAvalonia" })
+            {
+                /*UseGpu = enableGpu,*/ OverlayPopups = true, WmClass = "ProjectAvalonia"
+            })
             .With(options: new AvaloniaNativePlatformOptions
-                { OverlayPopups = true, UseDeferredRendering = true, UseGpu = enableGpu })
+                { OverlayPopups = true /* UseDeferredRendering = true, UseGpu = enableGpu*/ })
             .With(options: new MacOSPlatformOptions { ShowInDock = true });
     }
 }
