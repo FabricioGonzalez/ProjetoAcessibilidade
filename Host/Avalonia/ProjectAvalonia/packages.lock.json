@@ -1078,17 +1078,19 @@
       "projectavalonia.presentation": {
         "type": "Project",
         "dependencies": {
-          "Avalonia": "[0.10.21, )",
+          "Avalonia": "[11.0.0, )",
           "Common": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
           "ProjetoAcessibilidade.Core": "[1.0.0, )",
           "ProjetoAcessibilidade.Domain": "[1.0.0, )",
-          "ReactiveUI": "[18.4.26, )"
+          "ReactiveUI": "[19.2.1, )",
+          "System.Reactive": "[6.0.0, )"
         }
       },
       "projectitemreader": {
         "type": "Project",
         "dependencies": {
+          "Common": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
           "ProjetoAcessibilidade.Core": "[1.0.0, )",
           "ProjetoAcessibilidade.Domain": "[1.0.0, )"
@@ -1097,6 +1099,7 @@
       "projetoacessibilidade.core": {
         "type": "Project",
         "dependencies": {
+          "Common": "[1.0.0, )",
           "System.Linq.Expressions": "[4.3.0, )"
         }
       },
@@ -1120,6 +1123,7 @@
       "questpdfreport": {
         "type": "Project",
         "dependencies": {
+          "Common": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
           "ProjectItemReader": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",

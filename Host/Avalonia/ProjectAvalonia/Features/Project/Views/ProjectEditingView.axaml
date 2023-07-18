@@ -24,7 +24,7 @@
         Classes="horizontalScroller"
         Template="{DynamicResource TabControlControlTemplate1}"
         Background="Transparent"
-        Items="{Binding EditingItems, Mode=OneWay}"
+        ItemsSource="{Binding EditingItems, Mode=OneWay}"
         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
         TabStripPlacement="Top">
         <TabControl.ItemTemplate>

@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;

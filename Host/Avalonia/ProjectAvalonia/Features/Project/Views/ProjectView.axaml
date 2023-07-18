@@ -2,7 +2,6 @@
     x:Class="ProjectAvalonia.Features.Project.Views.ProjectView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:designVm="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
@@ -18,17 +17,21 @@
     <Design.DataContext>
         <designVm:DesignTimeProjectViewModel />
     </Design.DataContext>
-    <Grid>
-        <DockPanel IsVisible="{Binding IsSolutionOpen}">
-            <local:ProjectExplorerView
-                Width="350"
-                VerticalAlignment="Stretch"
-                DataContext="{Binding ProjectExplorerViewModel}"
-                DockPanel.Dock="Right" />
-            <local:ProjectEditingView DataContext="{Binding ProjectEditingViewModel}" />
-        </DockPanel>
-        <DockPanel IsVisible="{Binding !IsSolutionOpen}">
-            <Label Content="{x:Static p:Resources.No_Solution_Open_Label}" />
-        </DockPanel>
+    <Grid ColumnDefinitions="4* 4 1*">
+        <local:ProjectEditingView Grid.Column="0"
+                                  IsVisible="{Binding $parent[local:ProjectView].((interfaces:IProjectViewModel)DataContext).IsSolutionOpen}"
+                                  DataContext="{Binding ProjectEditingViewModel}" />
+
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" />
+
+        <local:ProjectExplorerView Grid.Column="2"
+                                   VerticalAlignment="Stretch"
+                                   IsVisible="{Binding $parent[local:ProjectView].((interfaces:IProjectViewModel)DataContext).IsSolutionOpen}"
+                                   DataContext="{Binding ProjectExplorerViewModel}" />
+
+        <Label Grid.Column="0" Grid.ColumnSpan="3"
+               IsVisible="{Binding !$parent[local:ProjectView].((interfaces:IProjectViewModel)DataContext).IsSolutionOpen}"
+               Content="{x:Static p:Resources.No_Solution_Open_Label}" />
+
     </Grid>
 </UserControl>

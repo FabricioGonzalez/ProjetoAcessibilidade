@@ -9,11 +9,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="interfaces:ISolutionLocationItem"
              x:CompileBindings="True"
-             x:Class="ProjectAvalonia.Features.Project.Views.Components.ExplorerItems.LocationItemView">
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.ExplorerItems.LocationItem">
     <TreeViewItem
         HorizontalAlignment="Left"
         DragDrop.AllowDrop="True"
-        Items="{Binding Items}">
+        ItemsSource="{Binding Items}">
         <TreeViewItem.Header>
             <StackPanel
                 HorizontalAlignment="Left"
@@ -36,10 +36,10 @@
                           Header="{x:Static p:Resources.Exclude_Folder_Item_Menu_Header}" />
             </ContextMenu>
         </TreeViewItem.ContextMenu>
-        <TreeViewItem.ItemTemplate>
-            <TreeDataTemplate>
+        <TreeViewItem.DataTemplates>
+            <TreeDataTemplate DataType="interfaces:IItemGroupViewModel">
                 <components:ItemGroupView HorizontalContentAlignment="Left" HorizontalAlignment="Left" />
             </TreeDataTemplate>
-        </TreeViewItem.ItemTemplate>
+        </TreeViewItem.DataTemplates>
     </TreeViewItem>
 </UserControl>

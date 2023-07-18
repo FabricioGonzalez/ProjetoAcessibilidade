@@ -46,10 +46,10 @@ public static class DataSource
             Title = "Sample Report Document", HeaderFields = HeaderFields()
         };
 
-        var res = Path.Combine(Directory.GetParent(path).FullName
-            , Constants.AppProjectItemsFolderName);
+        var res = Path.Combine(path1: Directory.GetParent(path).FullName
+            , path2: Constants.AppProjectItemsFolderName);
 
-        var items = Directory.GetFiles(res, $"*{extension}");
+        var items = Directory.GetFiles(path: res, searchPattern: $"*{extension}");
 
         var repository = new ProjectItemContentRepositoryImpl();
 
@@ -75,15 +75,16 @@ public static class DataSource
                     {
                         if (!string.IsNullOrWhiteSpace(checkbox.Topic))
                         {
-                            section.Parts.Add(new ReportSectionTitle(checkbox.Topic, checkbox.Id));
+                            section.Parts.Add(new ReportSectionTitle(Topic: checkbox.Topic, id: checkbox.Id));
                         }
 
                         foreach (var options in checkbox.Children)
                         {
                             var checkboxModels = options.Options.Select(optionChild =>
-                                new CheckboxModel(optionChild.IsChecked, optionChild.Value, options.IsValid));
+                                new CheckboxModel(isChecked: optionChild.IsChecked, value: optionChild.Value
+                                    , isValid: options.IsValid));
 
-                            var reportCheckbox = new ReportSectionCheckbox(options.Topic, options.Id)
+                            var reportCheckbox = new ReportSectionCheckbox(label: options.Topic, id: options.Id)
                             {
                                 Checkboxes = checkboxModels.ToList()
                             };
@@ -99,7 +100,8 @@ public static class DataSource
                             Label = "Imagens", Photos = imageContainer
                                 .ImagesItems
                                 .Select(x =>
-                                    new ReportSectionPhoto(x.ImageObservation, x.ImagePath, x.Id))
+                                    new ReportSectionPhoto(observation: x.ImageObservation, path: x.ImagePath
+                                        , id: x.Id))
                                 .ToList()
                         };
                         section.Parts.Add(container);
@@ -109,9 +111,9 @@ public static class DataSource
                     {
                         section.Parts.Add(
                             new ReportSectionObservation(
-                                "Observações",
-                                observation.Id,
-                                observation.Observation));
+                                label: "Observações",
+                                id: observation.Id,
+                                observation: observation.Observation));
                     }
                 }
 
@@ -178,9 +180,9 @@ public static class DataSource
 
         await solutionModel.LocationItems.IterateOnAsync(async locationItem =>
         {
-            var Location = new ReportLocationGroup()
+            var Location = new ReportLocationGroup
             {
-                Title = locationItem.Name, Groups = new()
+                Title = locationItem.Name, Groups = new List<ReportSectionGroup>()
             };
 
             await locationItem.Items.IterateOnAsync(async groupItem =>
@@ -199,7 +201,7 @@ public static class DataSource
                             section.Title = itemModel.Name;
                             section.Id = itemModel.Id;
 
-                            _ = data.FormData.IterateOn(formData =>
+                            data.FormData.IterateOn(formData =>
                             {
                                 if (formData is AppFormDataItemTextModel text)
                                 {
@@ -219,8 +221,8 @@ public static class DataSource
                                     {
                                         section.Parts.Add(
                                             new ReportSectionTitle(
-                                                checkbox.Topic,
-                                                checkbox.Id
+                                                Topic: checkbox.Topic,
+                                                id: checkbox.Id
                                             ));
                                     }
 
@@ -229,12 +231,13 @@ public static class DataSource
                                         var checkboxModels = options
                                             .Options
                                             .Select(optionModel =>
-                                                new CheckboxModel(optionModel.IsChecked, optionModel.Value
-                                                    , options.IsValid));
+                                                new CheckboxModel(isChecked: optionModel.IsChecked
+                                                    , value: optionModel.Value
+                                                    , isValid: options.IsValid));
 
                                         var reportCheckbox = new ReportSectionCheckbox(
-                                            options.Topic,
-                                            options.Id)
+                                            label: options.Topic,
+                                            id: options.Id)
                                         {
                                             Checkboxes = checkboxModels.ToList()
                                         };
@@ -285,7 +288,7 @@ public static class DataSource
         return new ReportModel
         {
             Title = "Sample Report Document", HeaderFields = HeaderFields(), LogoData = Helpers.GetImage("Logo.png")
-            , Sections = Enumerable.Range(0, 40).Select(x => GenerateSection()).ToList()
+            , Sections = Enumerable.Range(start: 0, count: 40).Select(x => GenerateSection()).ToList()
             /* Photos = Enumerable.Range(0, 25).Select(x => GetReportPhotos()).ToList()*/
         };
 
@@ -315,12 +318,12 @@ public static class DataSource
         ReportSection GenerateSection()
         {
             var sectionLength = Helpers.Random.NextDouble() > 0.75
-                ? Helpers.Random.Next(20, 40)
-                : Helpers.Random.Next(5, 10);
+                ? Helpers.Random.Next(minValue: 20, maxValue: 40)
+                : Helpers.Random.Next(minValue: 5, maxValue: 10);
 
             return new ReportSection
             {
-                Title = Placeholders.Label(), Parts = Enumerable.Range(0, sectionLength)
+                Title = Placeholders.Label(), Parts = Enumerable.Range(start: 0, count: sectionLength)
                     .Select(x => GetRandomElement())
                     .ToList()
             };
@@ -364,23 +367,24 @@ public static class DataSource
 
         ReportSectionCheckbox GetCheckboxElement()
         {
-            return new ReportSectionCheckbox(Placeholders.Label(), Guid.NewGuid().ToString())
+            return new ReportSectionCheckbox(label: Placeholders.Label(), id: Guid.NewGuid().ToString())
             {
                 Checkboxes = new List<CheckboxModel>
                 {
-                    new(false, Placeholders.Label()), new(true, Placeholders.Label())
+                    new(isChecked: false, value: Placeholders.Label())
+                    , new(isChecked: true, value: Placeholders.Label())
                 }
             };
         }
 
         ReportSectionTitle GetTitleElement()
         {
-            return new ReportSectionTitle(Placeholders.Label(), Guid.NewGuid().ToString());
+            return new ReportSectionTitle(Topic: Placeholders.Label(), id: Guid.NewGuid().ToString());
         }
 
         ReportSectionMap GetMapElement()
         {
-            return new ReportSectionMap("Location", Guid.NewGuid().ToString())
+            return new ReportSectionMap(label: "Location", id: Guid.NewGuid().ToString())
             {
                 Location = Helpers.RandomLocation()
             };

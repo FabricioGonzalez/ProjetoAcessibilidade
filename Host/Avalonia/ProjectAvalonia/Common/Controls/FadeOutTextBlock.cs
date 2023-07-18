@@ -75,19 +75,19 @@ public class FadeOutTextBlock
     {
         get;
         set;
-    }
+    } = FontWeight.Normal;
 
     public FontStyle FontStyle
     {
         get;
         set;
-    }
+    } = FontStyle.Normal;
 
     public FontFamily FontFamily
     {
         get;
         set;
-    }
+    } = FontFamily.Default;
 
     public double LineHeight
     {
@@ -111,7 +111,7 @@ public class FadeOutTextBlock
     {
         get;
         set;
-    }
+    } = 12;
 
     public TextTrimming Trimming
     {

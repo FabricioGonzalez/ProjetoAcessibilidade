@@ -14,7 +14,7 @@
             <editingBody:SolutionItemView DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate DataType="interfaces:IConclusionEditingBody">
-            <editingBody:ConclusionItemView DataContext="{Binding}" />
+            <editingBody:ConclusionItem DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate DataType="interfaces:IEditingBodyViewModel">
             <editingBody:EditingItemView DataContext="{Binding}" />

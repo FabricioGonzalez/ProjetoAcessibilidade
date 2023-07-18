@@ -11,6 +11,13 @@ public struct ValueOption<T> : IEquatable<ValueOption<T>>
 
     public static ValueOption<T> None() => new();
 
+    public async Task<Optional<TResult>> MapValueAsync<TResult>(
+       Func<T, Task<TResult>> mapAsync
+   )
+      where TResult : struct =>
+       _content.HasValue ? Optional<TResult>.Some(await mapAsync(_content.Value)) : Optional<TResult>.None();
+
+
     public Optional<TResult> Map<TResult>(
         Func<T, TResult> map
     )
@@ -38,6 +45,8 @@ public struct ValueOption<T> : IEquatable<ValueOption<T>>
     public T Reduce(
         Func<T> orElse
     ) => _content ?? orElse();
+
+
 
     public ValueOption<T> Where(
         Func<T, bool> predicate

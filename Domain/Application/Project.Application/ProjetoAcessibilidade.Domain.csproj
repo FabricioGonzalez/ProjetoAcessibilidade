@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\Libraries\Common Library\Common.csproj" />
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
         <ProjectReference Include="..\..\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
     </ItemGroup>
 

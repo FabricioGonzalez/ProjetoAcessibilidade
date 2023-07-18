@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ProjectAvalonia.Features.Project.Views.Components.EditingBody;
+namespace ProjectAvalonia.Features.Project.Views.Components.ExplorerItems;
 
-public partial class ConclusionItemView : UserControl
+public partial class LocationItem : UserControl
 {
-    public ConclusionItemView()
+    public LocationItem()
     {
         InitializeComponent();
     }

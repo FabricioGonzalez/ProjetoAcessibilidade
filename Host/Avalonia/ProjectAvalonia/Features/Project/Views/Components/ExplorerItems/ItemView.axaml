@@ -7,6 +7,9 @@
              xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
              xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
              xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             x:DataType="interfaces:IItemViewModel"
+             x:CompileBindings="True"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProjectAvalonia.Features.Project.Views.Components.ExplorerItems.ItemView">
     <StackPanel

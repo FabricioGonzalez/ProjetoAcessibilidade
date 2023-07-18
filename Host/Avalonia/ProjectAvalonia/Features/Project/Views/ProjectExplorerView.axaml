@@ -56,12 +56,12 @@
                         CommandParameter="{Binding}" />
                 </Interaction.Behaviors>
             </TreeViewItem>
-            <TreeViewItem DataContext="{Binding SolutionRootItem}" Header="Itens" Items="{Binding LocationItems}">
-                <TreeViewItem.ItemTemplate>
-                    <DataTemplate>
-                        <explorerItems:LocationItemView HorizontalAlignment="Left" DataContext="{Binding}" />
-                    </DataTemplate>
-                </TreeViewItem.ItemTemplate>
+            <TreeViewItem DataContext="{Binding SolutionRootItem}" Header="Itens" ItemsSource="{Binding LocationItems}">
+                <TreeViewItem.DataTemplates>
+                    <TreeDataTemplate DataType="viewModels:SolutionLocationItemViewModel">
+                        <explorerItems:LocationItem HorizontalAlignment="Left" DataContext="{Binding}" />
+                    </TreeDataTemplate>
+                </TreeViewItem.DataTemplates>
             </TreeViewItem>
             <TreeView.ContextMenu>
                 <ContextMenu>
