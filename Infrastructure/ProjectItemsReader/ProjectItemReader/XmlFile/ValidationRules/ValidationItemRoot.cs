@@ -29,7 +29,7 @@ public static class ValidationRulesExtensions
                 {
                     return new RuleConditionItems
                     {
-                        Operation = x.Operation, RuleSetItems = x.Conditions.Select(condition =>
+                        RuleName = x.RuleName, Operation = x.Operation, RuleSetItems = x.Conditions.Select(condition =>
                         {
                             return new RuleSetItem
                             {
@@ -71,11 +71,9 @@ public static class ValidationRulesExtensions
                         });
                 });
 
-                var results = rule.RuleSetItems.SelectMany(results => results.Results.Select(y => y.Result));
-
                 return new RuleSet
                 {
-                    Operation = rule.Operation, Conditions = conditions
+                    RuleName = rule.RuleName, Operation = rule.Operation, Conditions = conditions
                 };
             })
         });

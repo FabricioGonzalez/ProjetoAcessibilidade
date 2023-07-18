@@ -140,11 +140,12 @@ public class StandardReport : IDocument
                     column
                         .Item()
                         .Component(new TableOfContentsTemplate(nestedModel
-                            .Sections
-                            .Cast<IReportSection>()
+                            .Locations
                             .ToList()));
+                    
                     column.Item().PageBreak();
-                    nestedModel.Sections.IterateOn(section =>
+                    
+                    nestedModel.Locations.IterateOn(section =>
                     {
                         column
                             .Item()

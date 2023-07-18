@@ -10,6 +10,11 @@ public class RuleConditionItems
     {
         get; set;
     }
+    [XmlAttribute(attributeName: "rule_name")]
+    public string RuleName
+    {
+        get; set;
+    }
 
     [XmlArray(elementName: "conditions_to_check")]
     [XmlArrayItem(elementName: "rules_set", type: typeof(RuleSetItem))]

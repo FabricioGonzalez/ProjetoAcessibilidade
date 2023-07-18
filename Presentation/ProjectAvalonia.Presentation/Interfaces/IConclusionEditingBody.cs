@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
+﻿namespace ProjectAvalonia.Presentation.Interfaces;
 
-namespace ProjectAvalonia.Presentation.Interfaces;
-
-public interface IConclusionEditingBody : INotifyPropertyChanged
+public interface IConclusionEditingBody : IEditingBody
 {
+    public string ConclusionBody
+    {
+        get;
+        set;
+    }
 }

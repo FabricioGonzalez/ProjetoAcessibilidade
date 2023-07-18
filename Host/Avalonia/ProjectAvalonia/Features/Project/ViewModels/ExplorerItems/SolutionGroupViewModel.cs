@@ -8,7 +8,7 @@ public class SolutionGroupViewModel
     : ReactiveObject
         , ISolutionGroupViewModel
 {
-    public ObservableCollection<IItemGroupViewModel> ItemsGroups
+    public ObservableCollection<ISolutionLocationItem> LocationItems
     {
         get;
         set;

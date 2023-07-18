@@ -15,8 +15,8 @@ public interface ISolutionRepository
         , Option<ProjectSolutionModel> dataToWrite
     );
 
-    public Task SyncSolution(
+    /*public Task SyncSolution(
         Option<string> solutionPath
         , Option<ProjectSolutionModel> dataToWrite
-    );
+    );*/
 }

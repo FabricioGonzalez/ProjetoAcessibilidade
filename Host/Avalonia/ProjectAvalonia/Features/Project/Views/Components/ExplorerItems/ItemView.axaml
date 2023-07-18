@@ -1,0 +1,41 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
+             xmlns:views="clr-namespace:ProjectAvalonia.Features.Project.Views"
+             xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+             xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.ExplorerItems.ItemView">
+    <StackPanel
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        DragDrop.AllowDrop="True"
+        Spacing="8"
+        Orientation="Horizontal">
+        <Interaction.Behaviors>
+            <behaviors:ExecuteCommandOnDoubleTappedBehavior
+                Command="{Binding $parent[views:ProjectView].((viewModels:ProjectViewModel)DataContext).ProjectEditingViewModel.AddItemToEdit}"
+                CommandParameter="{Binding}" />
+        </Interaction.Behaviors>
+        <PathIcon
+            HorizontalAlignment="Left"
+            Data="{StaticResource document_regular}" />
+        <controls:EditableTextBlock
+            Command="{Binding CommitFileCommand}"
+            CommandParameter="{Binding Parent}"
+            Text="{Binding Name}" />
+        <StackPanel.ContextMenu>
+            <ContextMenu>
+                <MenuItem Command="{Binding ExcludeFileCommand}"
+                          Header="{x:Static p:Resources.Exclude_File_Item_Menu_Header}" />
+                <MenuItem
+                    Command="{Binding RenameFileCommand}"
+                    CommandParameter="{Binding}"
+                    Header="{x:Static p:Resources.Rename_File_Item_Menu_Header}" />
+            </ContextMenu>
+        </StackPanel.ContextMenu>
+    </StackPanel>
+</UserControl>

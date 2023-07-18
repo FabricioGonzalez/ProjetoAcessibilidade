@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
              mc:Ignorable="d" d:DesignWidth="64" d:DesignHeight="32"
              x:DataType="interfaces:IEditingItemViewModel"
-             x:Class="ProjectAvalonia.Features.Project.Views.Components.EditingTabHeader"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.EditingTab.EditingTabHeader"
              x:CompileBindings="True">
     <Design.DataContext>
         <designTimeViewModels:DesignTimeEditingItemViewModel />
@@ -21,8 +21,7 @@
                              Foreground="White"
                              Margin="4,0"
                              Icon="{StaticResource dismiss_regular}"
-                             Command="{Binding CloseItemCommand}"
-                             />
+                             Command="{Binding CloseItemCommand}" />
         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,4,0"
                    Background="Transparent"
                    FontSize="14"

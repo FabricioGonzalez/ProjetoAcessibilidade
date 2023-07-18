@@ -29,6 +29,7 @@ using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Tex
 using ProjetoAcessibilidade.Domain.AppValidationRules.Queries;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
+using ProjetoAcessibilidade.Domain.Solution.Queries;
 using ReactiveUI;
 using Splat;
 
@@ -116,10 +117,17 @@ public class ProjectEditingViewModel
         {
             if (item is SolutionItemViewModel solution)
             {
-                var solutionItem = new SolutionEditItemViewModel(solution.Name, solution.Id, solution.ItemPath
-                    , new SolutionItemBody { Nome = solution.Name }, false);
+                var result = await _mediator.Send(
+                    new ReadSolutionProjectQuery(solution.ItemPath),
+                    CancellationToken.None);
 
-                EditingItems.Add(solutionItem);
+                result.IfSucc(success =>
+                {
+                    var solutionItem = new SolutionEditItemViewModel(solution.Name, solution.Id, solution.ItemPath
+                        , new SolutionItemBody(success), false);
+
+                    EditingItems.Add(solutionItem);
+                });
             }
 
             if (item is ConclusionItemViewModel conclusion)

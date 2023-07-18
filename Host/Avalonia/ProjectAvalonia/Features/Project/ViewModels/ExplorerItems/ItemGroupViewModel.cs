@@ -95,6 +95,7 @@ public class ItemGroupViewModel
     public ObservableCollection<IItemViewModel> Items
     {
         get;
+        init;
     }
 
 

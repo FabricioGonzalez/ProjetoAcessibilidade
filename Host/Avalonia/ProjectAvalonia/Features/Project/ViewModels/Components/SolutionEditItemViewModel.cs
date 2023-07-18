@@ -49,9 +49,10 @@ public class SolutionEditItemViewModel
         Body = body;
     }
 
-    public ISolutionEditingBody Body
+    public IEditingBody Body
     {
         get;
+        set;
     }
 
     public string ItemName

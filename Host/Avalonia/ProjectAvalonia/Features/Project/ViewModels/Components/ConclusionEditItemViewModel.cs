@@ -49,9 +49,10 @@ public class ConclusionEditItemViewModel
         Body = body;
     }
 
-    public IConclusionEditingBody Body
+    public IEditingBody Body
     {
         get;
+        set;
     }
 
     public string ItemName

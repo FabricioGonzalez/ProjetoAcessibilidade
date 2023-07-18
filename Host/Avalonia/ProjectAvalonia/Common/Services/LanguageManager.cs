@@ -30,7 +30,7 @@ public class LanguageManager : ILanguageManager
         get;
     }
 
-    public LanguageModel CurrentLanguage => CreateLanguageModel(Thread.CurrentThread.CurrentUICulture);
+    public LanguageModel CurrentLanguage => CreateLanguageModel(CultureInfo.InstalledUICulture);
 
     public IEnumerable<LanguageModel> AllLanguages => _availableLanguages.Value.Values;
 
@@ -44,7 +44,7 @@ public class LanguageManager : ILanguageManager
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(languageCode);
         }
     }
-
+    
     public void SetLanguage(
         LanguageModel languageModel
     ) => SetLanguage(languageModel.Code);

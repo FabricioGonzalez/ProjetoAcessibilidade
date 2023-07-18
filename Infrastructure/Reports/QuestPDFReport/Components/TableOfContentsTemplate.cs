@@ -1,4 +1,5 @@
-﻿using QuestPDF.Fluent;
+﻿using Common.Linq;
+using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using QuestPDFReport.Models;
 using SkiaSharp;
@@ -8,13 +9,13 @@ namespace QuestPDFReport.Components;
 public class TableOfContentsTemplate : IComponent
 {
     public TableOfContentsTemplate(
-        List<IReportSection>? sections = null
+        List<ReportLocationGroup> sections = null
     )
     {
-        Sections = sections;
+        Locations = sections;
     }
 
-    private List<IReportSection>? Sections
+    private List<ReportLocationGroup>? Locations
     {
         get;
     }
@@ -39,28 +40,38 @@ public class TableOfContentsTemplate : IComponent
                     {
                         column.Spacing(5);
 
-                        for (var i = 0; i < Sections.Count; i++)
+                        Locations.IterateOn(it =>
                         {
-                            if (Sections[i] is ReportSectionGroup reportSectionGroup)
+                            column.Item().Column(colItem =>
                             {
-                                column.Item().Column(colItem =>
-                                {
-                                    colItem.Item()
-                                        .Element(con => DrawLink(con, i + 1
-                                            , reportSectionGroup.Title,
-                                            reportSectionGroup.Title));
+                                var itemIndex = Locations.IndexOf(it) + 1;
+                                colItem.Item()
+                                    .Element(con => DrawLink(con, itemIndex
+                                        , it.Title,
+                                        it.Title));
 
-                                    for (var part = 0; part < reportSectionGroup.Parts.Count; part++)
+                                it.Groups.IterateOn(group =>
+                                {
+                                    var groupIndex = it.Groups.IndexOf(group) + 1;
+
+                                    colItem.Item()
+                                        .Element(
+                                            c => DrawDeepLink(c, $"{itemIndex}.{groupIndex}"
+                                                , group.Title,
+                                                $"{it.Title} - {group.Title}"));
+
+                                    group.Parts.IterateOn(part =>
                                     {
+                                        var partIndex = group.Parts.IndexOf(part) + 1;
                                         colItem.Item()
                                             .Element(
-                                                c => DrawDeepLink(c, i + 1, part + 1
-                                                    , reportSectionGroup.Parts[part].Title,
-                                                    $"{reportSectionGroup.Title} - {reportSectionGroup.Parts[part].Title}"));
-                                    }
+                                                c => DrawDeepLink(c, $"{itemIndex}.{groupIndex}.{partIndex}"
+                                                    , part.Title,
+                                                    $"{it.Title} - {group.Title} - {part.Title}"));
+                                    });
                                 });
-                            }
-                        }
+                            });
+                        });
                     });
                 });
         }
@@ -111,8 +122,7 @@ public class TableOfContentsTemplate : IComponent
 
     private void DrawDeepLink(
         IContainer container
-        , int parent
-        , int number
+        , string pageNumber
         , string itemName
         , string nestedItemId
     ) =>
@@ -121,7 +131,7 @@ public class TableOfContentsTemplate : IComponent
             .SectionLink(nestedItemId)
             .Row(row =>
             {
-                row.ConstantItem(20).Text($"{parent}.{number}.");
+                row.RelativeItem(0.1f).Text($"{pageNumber}.");
                 row.AutoItem().Text(itemName);
 
                 row.RelativeItem()

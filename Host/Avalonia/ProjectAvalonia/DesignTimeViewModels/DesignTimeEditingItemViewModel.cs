@@ -14,15 +14,16 @@ public class DesignTimeEditingItemViewModel
         get;
     } = new(key: Key.S, modifiers: KeyModifiers.Control);
 
-    public IEditingBodyViewModel Body
-    {
-        get;
-    } = new DesingTimeEditingBodyViewModel();
-
     public string TemplateName
     {
         get;
     }
+
+    public IEditingBody Body
+    {
+        get;
+        set;
+    } = new DesingTimeEditingBodyViewModel();
 
     public string ItemName
     {
