@@ -22,7 +22,7 @@
         VerticalContentAlignment="Stretch"
         AutoScrollToSelectedItem="True"
         Classes="horizontalScroller"
-        Template="{DynamicResource TabControlControlTemplate1}"
+
         Background="Transparent"
         ItemsSource="{Binding EditingItems, Mode=OneWay}"
         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"

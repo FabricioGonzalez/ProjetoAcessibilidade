@@ -62,10 +62,6 @@
                         Name="PART_ContentPresenter"
                         Margin="{TemplateBinding Padding}"
                         Content="{TemplateBinding Content}"
-                        Extent="{TemplateBinding Extent,
-                                                 Mode=TwoWay}"
-                        Viewport="{TemplateBinding Viewport,
-                                                   Mode=TwoWay}"
                         Offset="{TemplateBinding Offset,
                                                  Mode=TwoWay}" />
                 </DockPanel>
