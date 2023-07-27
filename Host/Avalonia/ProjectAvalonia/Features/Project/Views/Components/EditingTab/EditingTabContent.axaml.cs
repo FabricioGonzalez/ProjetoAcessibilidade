@@ -1,12 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace ProjectAvalonia.Features.Project.Views.Components.EditingTab;
 
-public partial class EditingTabContent : UserControl
+public partial class EditingContent : UserControl
 {
-    public EditingTabContent()
+    public EditingContent()
     {
         InitializeComponent();
     }

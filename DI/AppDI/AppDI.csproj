@@ -19,6 +19,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Domain\Application\Project.Application\ProjetoAcessibilidade.Domain.csproj" />
+        <ProjectReference Include="..\..\Domain\Project.Application\ProjetoAcessibilidade.Domain.csproj" />
         <ProjectReference Include="..\..\Host\Avalonia\ProjectAvalonia\ProjectAvalonia.csproj" />
     </ItemGroup>
 

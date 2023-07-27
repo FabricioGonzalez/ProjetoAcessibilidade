@@ -1,70 +1,73 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <OutputType>Exe</OutputType>
-        <DebugType>portable</DebugType>
-    </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Exe</OutputType>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <OutputType>WinExe</OutputType>
-        <DebugType>embedded</DebugType>
-    </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputType>WinExe</OutputType>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-        <AnalysisLevel>latest</AnalysisLevel>
-        <LangVersion>latest</LangVersion>
-        <NoWarn>1701;1702;1705;1591;1573;CA1031;CA1822</NoWarn>
-        <Nullable>enable</Nullable>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-        <InvariantGlobalization>false</InvariantGlobalization>
-        <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
-        <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
-        <Version>1.0.2</Version>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>1701;1702;1705;1591;1573;CA1031;CA1822</NoWarn>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
+    <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
+    <Version>1.0.2</Version>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Fabricio Gonzalez</Authors>
+    <Company>Fabricio Gonzalez Dev Ltd</Company>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AssemblyTitle>Project Avalonia</AssemblyTitle>
+    <Description>
+      Open-source, non-custodial, privacy focused Bitcoin wallet for Windows, Linux, and Mac. Built-in Tor, coinjoin, payjoin and coin control features.
+    </Description>
+    <Copyright>MIT</Copyright>
+    <PackageId>Project Avalonia</PackageId>
+    <AssemblyTitle>Project Avalonia</AssemblyTitle>
+    <Company>Fabricio Gonzalez Dev</Company>
+    <PackageTags>project;avalonia</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/zkSNACKs/WalletWasabi/</RepositoryUrl>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+    <PackageIcon>Assets\logo.ico</PackageIcon>
+    <Product>Project Avalonia</Product>
+    <!-- owners is not supported in MSBuild -->
+    <AvaloniaVersion>11.0.0</AvaloniaVersion>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <Authors>Fabricio Gonzalez</Authors>
-        <Company>Fabricio Gonzalez Dev Ltd</Company>
-        <NeutralLanguage>en-US</NeutralLanguage>
-        <AssemblyTitle>Project Avalonia</AssemblyTitle>
-        <Description>
-            Open-source, non-custodial, privacy focused Bitcoin wallet for Windows, Linux, and Mac. Built-in Tor, coinjoin, payjoin and coin control features.
-        </Description>
-        <Copyright>MIT</Copyright>
-        <PackageId>Project Avalonia</PackageId>
-        <AssemblyTitle>Project Avalonia</AssemblyTitle>
-        <Company>Fabricio Gonzalez Dev</Company>
-        <PackageTags>project;avalonia</PackageTags>
-        <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/zkSNACKs/WalletWasabi/</RepositoryUrl>
-        <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-        <PackageIcon>Assets\logo.ico</PackageIcon>
-        <Product>Project Avalonia</Product>
-        <!-- owners is not supported in MSBuild -->
-        <AvaloniaVersion>11.0.0</AvaloniaVersion>
-    </PropertyGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <AvaloniaResource Include="Assets\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="Assets\avalonia-logo.ico" />
-        <None Remove="Assets\logo.ico" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
-        <PackageReference Include="ReactiveUI" Version="19.4.1" />
-        <PackageReference Include="System.Reactive" Version="6.0.0" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\DI\AppDI\AppDI.csproj" />
-        <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\avalonia-logo.ico" />
+    <None Remove="Assets\logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
+    <PackageReference Include="ReactiveUI" Version="19.4.1" />
+    <PackageReference Include="System.Reactive" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\DI\AppDI\AppDI.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+    <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj" />
+  </ItemGroup>
 </Project>

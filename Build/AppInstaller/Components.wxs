@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="ProductComponents">
+
+            <ComponentRef Id="MainAppShortcut"/>
+
+        </ComponentGroup>
+
+        <DirectoryRef Id="INSTALLFOLDER"
+                      FileSource="$(var.ProjectAvalonia.Desktop.ProjectDir)bin\Release\net7.0\win-$(var.Platform)\publish">
+            <Component Id="MainAppShortcut" Guid="{DAE9B942-8B0C-4A4C-B52C-FD24E912109F}">
+                <!--Remove Start Menu Items -->
+
+                <Shortcut Id="MainAppShortcut" Name="!(loc.ProductName_$(var.Platform))"
+                          Target="[INSTALLFOLDER]ProjectAvalonia.Desktop.exe"
+                          Directory="InstallProgramMenuFolder"
+                          WorkingDirectory="INSTALLFOLDER"
+                          Icon="icon.ico"/>
+
+                <RegistryValue Id="RefShortcutKey" Root="HKCU" Key="SOFTWARE\!(loc.ProductNameFolder)" Name="Shortcut"
+                               Value="1" Type="integer" KeyPath="yes"/>
+
+                <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall"/>
+
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+
+</Wix>

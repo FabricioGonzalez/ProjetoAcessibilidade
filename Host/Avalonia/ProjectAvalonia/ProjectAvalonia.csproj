@@ -62,6 +62,9 @@
             <DependentUpon>IconButton.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Features\Project\Views\Components\EditingBody\SolutionItem.axaml.cs">
+          <DependentUpon>SolutionItem.axaml</DependentUpon>
+        </Compile>
         <Compile Update="Features\Project\Views\Components\ObservationItem.axaml.cs">
             <DependentUpon>ObservationItem.axaml</DependentUpon>
         </Compile>
@@ -124,6 +127,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\Domain\Application\Project.Application\ProjetoAcessibilidade.Domain.csproj" />
         <ProjectReference Include="..\..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Project.Application\ProjetoAcessibilidade.Domain.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj" />
         <ProjectReference Include="..\..\..\Presentation\ProjectAvalonia.Presentation\ProjectAvalonia.Presentation.csproj" />

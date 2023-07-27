@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <?if $(var.Platform)=x64?>
+    <?define ProductCode="{E3D6EAEF-7D4D-41D6-8FD2-481C81EA56C1}"?>
+    <?else?>
+    <?define ProductCode="{46B6D418-D80D-4D18-9EEC-280A8895B430}"?>
+    <?endif?>
+
+    <?define UpgradeCode="{71519238-953F-465E-B1D2-6B4AE96E39FF}"?>
+
+    <Product Id="$(var.ProductCode)"
+             Name="!(loc.ProductName_$(var.Platform))"
+             Language="!(loc.Language)"
+             Version="$(var.BuildVersion)"
+             Manufacturer="!(loc.Company)"
+             UpgradeCode="$(var.UpgradeCode)">
+
+        <Package
+                InstallerVersion="200"
+                Compressed="yes"
+                InstallScope="perMachine"
+                Platform="$(var.Platform)"
+                Manufacturer="!(loc.Company)"
+                Description="!(loc.Description)"
+                Keywords="!(loc.Keywords)"
+                Comments="!(loc.Comments)"
+                Languages="!(loc.Language)"
+        />
+
+        <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)"/>
+        <MediaTemplate EmbedCab="yes"/>
+
+        <Icon Id="icon.ico" SourceFile="$(var.ProjectAvalonia.Desktop.ProjectDir)\Assets\logo.ico"/>
+
+        <!-- Use the icon.ico for this installer -->
+        <Property Id="ARPPRODUCTICON" Value="icon.ico"/>
+
+        <Property Id="ARPURLINFOABOUT"
+                  Value="https://github.com/FabricioGonzalez/ProjetoAcessibilidade/blob/master/README.md"/>
+
+        <UIRef Id="WixUI_Minimal"/>
+        <WixVariable Id="WixUILicenseRtf" Overridable="no" Value="$(var.ProjectDir)\Assets\License.rtf"/>
+        <WixVariable Id="WixUIDialogBmp" Overridable="no" Value="$(var.ProjectDir)\Assets\Background.bmp"/>
+        <WixVariable Id="WixUIBannerBmp" Overridable="no" Value="$(var.ProjectDir)\Assets\Banner.bmp"/>
+
+        <Feature Id="ProductFeature" Title="!(loc.ProductName_$(var.Platform))" Level="1">
+            <ComponentGroupRef Id="ProductComponents"/>
+            <ComponentGroupRef Id="PublishedComponents"/>
+        </Feature>
+    </Product>
+    <Fragment>
+    </Fragment>
+</Wix>
