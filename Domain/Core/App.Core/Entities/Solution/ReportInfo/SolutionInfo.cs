@@ -1,4 +1,4 @@
-﻿using ProjetoAcessibilidade.Core.Entities.App;
+﻿using Core.Entities.App;
 
 namespace ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 

@@ -1,7 +1,6 @@
 using System;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -12,7 +11,7 @@ using ReactiveUI;
 
 namespace ProjectAvalonia;
 
-public class App : Application
+public class App : Avalonia.Application
 {
     private readonly Func<Task>? _backendInitialiseAsync;
     private readonly bool _startInBg;

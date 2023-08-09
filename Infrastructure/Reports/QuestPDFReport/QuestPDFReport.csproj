@@ -22,7 +22,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\Host\QuestPDF\QuestPDF\QuestPDF.csproj" />
         <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-        <ProjectReference Include="..\..\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
+        <ProjectReference Include="..\..\ProjectItemsReader\XmlDatasource\XmlDatasource.csproj" />
     </ItemGroup>
 
     <ItemGroup>

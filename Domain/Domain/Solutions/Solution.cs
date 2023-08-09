@@ -1,9 +1,16 @@
 ﻿using Domain.Solutions.LocationItem;
+using Domain.Solutions.Report;
 
 namespace Domain.Solutions;
 
 public sealed class Solution : ISolution
 {
+    public IReport Report
+    {
+        get;
+        set;
+    }
+
     public IEnumerable<ILocationItem> Locations
     {
         get;

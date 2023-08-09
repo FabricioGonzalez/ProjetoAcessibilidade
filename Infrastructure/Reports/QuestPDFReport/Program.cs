@@ -1,5 +1,5 @@
 ﻿using Common;
-using ProjectItemReader.InternalAppFiles;
+using XmlDatasource.InternalAppFiles;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 using QuestPDF.Previewer;

@@ -27,13 +27,13 @@ public static class ThemeHelper
                 Theme.Light => ThemeVariant.Light, Theme.Dark => ThemeVariant.Dark, _ => ThemeVariant.Default
             };
 
-            /*var currentTheme = Application.Current.Styles.Select(selector: x => (StyleInclude)x)
+            /*var currentTheme = Domain.Application.Current.Styles.Select(selector: x => (StyleInclude)x)
                 .FirstOrDefault(predicate: x =>
                     x.Source is not null && x.Source.AbsolutePath.Contains(value: "Themes"));
 
             if (currentTheme is not null)
             {
-                var themeIndex = Application.Current.Styles.IndexOf(item: currentTheme);
+                var themeIndex = Domain.Application.Current.Styles.IndexOf(item: currentTheme);
 
                 var newTheme = new StyleInclude(baseUri: new Uri(uriString: "avares://ProjectAvalonia/App.axaml"))
                 {
@@ -41,7 +41,7 @@ public static class ThemeHelper
                 };
 
                 CurrentTheme = theme;
-                Application.Current.Styles[index: themeIndex] = newTheme;*/
+                Domain.Application.Current.Styles[index: themeIndex] = newTheme;*/
         }
     }
 }

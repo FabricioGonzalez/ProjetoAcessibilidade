@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -8,10 +7,6 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Common;
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using Core.Entities.ValidationRules;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
@@ -22,10 +17,6 @@ using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 using ProjetoAcessibilidade.Domain.AppValidationRules.Queries;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
@@ -65,11 +56,11 @@ public class ProjectEditingViewModel
                 }
 
                 var dialog = new DeleteDialogViewModel(
-                    "O item seguinte será excluido ao confirmar. Deseja continuar?", "Deletar Item"
-                    , "");
+                    message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
+                    , caption: "");
 
-                if ((await RoutableViewModel.NavigateDialogAsync(dialog,
-                        NavigationTarget.CompactDialogScreen)).Result)
+                if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result)
                 {
                     _ = EditingItems.Remove(x);
                 }
@@ -118,13 +109,14 @@ public class ProjectEditingViewModel
             if (item is SolutionItemViewModel solution)
             {
                 var result = await _mediator.Send(
-                    new ReadSolutionProjectQuery(solution.ItemPath),
-                    CancellationToken.None);
+                    request: new ReadSolutionProjectQuery(solution.ItemPath),
+                    cancellation: CancellationToken.None);
 
                 result.IfSucc(success =>
                 {
-                    var solutionItem = new SolutionEditItemViewModel(solution.Name, solution.Id, solution.ItemPath
-                        , new SolutionItemBody(success), false);
+                    var solutionItem = new SolutionEditItemViewModel(itemName: solution.Name, id: solution.Id
+                        , itemPath: solution.ItemPath
+                        , body: new SolutionItemBody(success), isSaved: false);
 
                     EditingItems.Add(solutionItem);
                 });
@@ -132,8 +124,9 @@ public class ProjectEditingViewModel
 
             if (item is ConclusionItemViewModel conclusion)
             {
-                var conclusionItem = new ConclusionEditItemViewModel(conclusion.Name, conclusion.Id, conclusion.ItemPath
-                    , new ConclusionEditingBody(), false);
+                var conclusionItem = new ConclusionEditItemViewModel(itemName: conclusion.Name, id: conclusion.Id
+                    , itemPath: conclusion.ItemPath
+                    , body: new ConclusionEditingBody(), isSaved: false);
 
                 EditingItems.Add(conclusionItem);
 
@@ -143,13 +136,13 @@ public class ProjectEditingViewModel
             if (item is ItemViewModel edit)
             {
                 var getItem = _mediator.Send(
-                    new GetProjectItemContentQuery(edit.ItemPath),
-                    CancellationToken.None);
+                    request: new GetProjectItemContentQuery(edit.ItemPath),
+                    cancellation: CancellationToken.None);
 
                 var getRules = _mediator.Send(
-                    new GetValidationRulesQuery(Path.Combine(Constants.AppValidationRulesTemplateFolder,
-                        $"{edit.TemplateName}{Constants.AppProjectValidationTemplateExtension}")),
-                    CancellationToken.None);
+                    request: new GetValidationRulesQuery(Path.Combine(path1: Constants.AppValidationRulesTemplateFolder,
+                        path2: $"{edit.TemplateName}{Constants.AppProjectValidationTemplateExtension}")),
+                    cancellation: CancellationToken.None);
 
                 await Task.WhenAll(getItem, getRules);
 
@@ -167,15 +160,15 @@ public class ProjectEditingViewModel
                             itemName: successData.ItemName,
                             itemPath: edit.ItemPath,
                             body: new EditingBodyViewModel(
-                                successData.LawList.ToViewLawList(),
-                                new ObservableCollection<IFormViewModel>(successData.FormData
+                                lawList: successData.LawList.ToViewLawList(),
+                                form: new ObservableCollection<IFormViewModel>(successData.FormData
                                     .ToViewForm(rules, observations.SourceItems)
                                     .Append(observations)
                                     .Append(new ImageContainerFormItemViewModel(
-                                        new ObservableCollection<IImageItemViewModel>(
+                                        imageItems: new ObservableCollection<IImageItemViewModel>(
                                             successData.Images
                                                 .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath,
-                                                    imageObservation: x.ImageObservation))), "Imagens")))));
+                                                    imageObservation: x.ImageObservation))), topic: "Imagens")))));
                         EditingItems.Add(itemToEdit);
                     });
                 });
@@ -193,7 +186,7 @@ public class ProjectEditingViewModel
     }
 }
 
-public static class Extension
+/*public static class Extension
 {
     public static ObservableCollection<ILawListViewModel> ToViewLawList(
         this IEnumerable<AppLawModel> lawModels
@@ -299,4 +292,4 @@ public static class Extension
 
         return appModel;
     }
-}
+}*/

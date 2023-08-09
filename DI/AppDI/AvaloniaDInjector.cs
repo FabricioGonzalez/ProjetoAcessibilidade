@@ -1,25 +1,19 @@
 ﻿using System.Reflection;
-
 using Avalonia;
-
 using Common;
-
 using Microsoft.Extensions.Configuration;
-
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
-
-using ProjectItemReader.InternalAppFiles;
-using ProjectItemReader.XmlFile;
-
 using ProjetoAcessibilidade.Domain.App.Contracts;
 using ProjetoAcessibilidade.Domain.AppValidationRules.Contracts;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ProjetoAcessibilidade.Domain.Implementations;
 using ProjetoAcessibilidade.Domain.Project.Contracts;
 using ProjetoAcessibilidade.Domain.Solution.Contracts;
-
 using Splat;
+using XmlDatasource.InternalAppFiles;
+using XmlDatasource.ValidationRulesExpression;
+using XmlDatasource.XmlFile;
 
 namespace AppDI;
 
@@ -150,15 +144,15 @@ public static class AvaloniaDInjector
             factory: () =>
                 new AppTemplateRepositoryImpl());
         service.Register<IValidationRulesRepository>(
-                    factory: () =>
-                        new ValidationRulesRepositoryImpl(new()));
+            factory: () =>
+                new ValidationRulesRepositoryImpl(new RuleLexer()));
 
         return app;
     }
 
     public static AppBuilder AddMediator(
-        this AppBuilder app,
-        params Type[] markers
+        this AppBuilder app
+        , params Type[] markers
     )
     {
         var handlerInfo = new Dictionary<Type, Type>();
@@ -240,8 +234,8 @@ public static class AvaloniaDInjector
 
 
     private static List<Type> ClassesImplementingInterface(
-        Assembly assembly,
-        Type typeToMatch
+        Assembly assembly
+        , Type typeToMatch
     ) =>
         assembly.ExportedTypes.Where(
                 predicate: type =>
@@ -254,10 +248,9 @@ public static class AvaloniaDInjector
                         genericInterfaceTypes.Any(predicate: x => x.GetGenericTypeDefinition() == typeToMatch);
 
                     return type is
-                    {
-                        IsInterface: false,
-                        IsAbstract: false
-                    } &&
+                           {
+                               IsInterface: false, IsAbstract: false
+                           } &&
                            implementRequestType;
                 })
             .ToList();

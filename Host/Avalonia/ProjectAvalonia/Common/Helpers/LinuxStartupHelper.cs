@@ -29,7 +29,7 @@ public static class LinuxStartupHelper
                 separator: "\n",
                 "[Desktop Entry]",
                 $"Name={Constants.AppName}",
-                "Type=Application",
+                "Type=Domain.Application",
                 $"Exec={pathToExecWithArgs}",
                 "Hidden=false",
                 "Terminal=false",

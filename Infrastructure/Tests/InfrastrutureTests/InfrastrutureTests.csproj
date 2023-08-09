@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ProjectItemsReader\ProjectItemReader\ProjectItemReader.csproj" />
+    <ProjectReference Include="..\..\ProjectItemsReader\XmlDatasource\XmlDatasource.csproj" />
   </ItemGroup>
 
 </Project>

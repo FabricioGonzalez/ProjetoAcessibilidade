@@ -23,7 +23,7 @@ public class ExecuteCommandOnActivatedBehavior : DisposingBehavior<Control>
         CompositeDisposable disposables
     )
     {
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
+        if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
         {
             var mainWindow = lifetime.MainWindow;
 

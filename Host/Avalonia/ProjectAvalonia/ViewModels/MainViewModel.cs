@@ -39,13 +39,12 @@ public partial class MainViewModel : ViewModelBase
 
     [AutoNotify] private NavBarViewModel _navBar;
 
-    /*[AutoNotify] private StatusIconViewModel _statusIcon;*/
     [AutoNotify] private string _title = Constants.AppName;
 
     [AutoNotify] private MenuViewModel? _toolBarMenu;
     [AutoNotify] private WindowState _windowState;
 
-    public MainViewModel()
+    protected MainViewModel()
     {
         ApplyUiConfigWindowSate();
 
@@ -58,12 +57,12 @@ public partial class MainViewModel : ViewModelBase
             });
 
         this.ValidateProperty(
-            vm => vm.ErrorMessage,
-            errors =>
+            property: vm => vm.ErrorMessage,
+            validateMethod: errors =>
             {
                 errors.Add(
-                    ErrorSeverity.Warning,
-                    ErrorMessage ?? "Nothing");
+                    severity: ErrorSeverity.Warning,
+                    error: ErrorMessage ?? "Nothing");
             });
 
         _dialogScreen = new DialogScreenViewModel();
@@ -71,15 +70,16 @@ public partial class MainViewModel : ViewModelBase
         _compactDialogScreen = new DialogScreenViewModel(NavigationTarget.CompactDialogScreen);
         MainScreen = new TargettedNavigationStack(NavigationTarget.HomeScreen);
         NavigationState.Register(
-            MainScreen,
-            DialogScreen,
-            FullScreen,
-            CompactDialogScreen);
+            homeScreenNavigation: MainScreen,
+            dialogScreenNavigation: DialogScreen,
+            fullScreenNavigation: FullScreen,
+            compactDialogScreenNavigation: CompactDialogScreen);
 
         UiServices.Initialize();
 
         _settingsPage = new SettingsPageViewModel();
-        _templatePage = new TemplateEditViewModel(new TemplateEditTabViewModel(), new ItemValidationViewModel());
+        _templatePage = new TemplateEditViewModel(templateEditTab: new TemplateEditTabViewModel()
+            , itemValidationTab: new ItemValidationViewModel());
         _projectPage = new ProjectViewModel();
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
@@ -95,10 +95,10 @@ public partial class MainViewModel : ViewModelBase
             .Subscribe(state => ServicesConfig.UiConfig.WindowState = state.ToString());
 
         IsMainContentEnabled = this.WhenAnyValue(
-                x => x.DialogScreen.IsDialogOpen,
-                x => x.FullScreen.IsDialogOpen,
-                x => x.CompactDialogScreen.IsDialogOpen,
-                (
+                property1: x => x.DialogScreen.IsDialogOpen,
+                property2: x => x.FullScreen.IsDialogOpen,
+                property3: x => x.CompactDialogScreen.IsDialogOpen,
+                selector: (
                     dialogIsOpen
                     , fullScreenIsOpen
                     , compactIsOpen
@@ -106,11 +106,11 @@ public partial class MainViewModel : ViewModelBase
             .ObserveOn(RxApp.MainThreadScheduler);
 
         this.WhenAnyValue(
-                x => x.DialogScreen.CurrentPage,
-                x => x.CompactDialogScreen.CurrentPage,
-                x => x.FullScreen.CurrentPage,
-                x => x.MainScreen.CurrentPage,
-                (
+                property1: x => x.DialogScreen.CurrentPage,
+                property2: x => x.CompactDialogScreen.CurrentPage,
+                property3: x => x.FullScreen.CurrentPage,
+                property4: x => x.MainScreen.CurrentPage,
+                selector: (
                     dialog
                     , compactDialog
                     , fullScreenDialog
@@ -135,11 +135,6 @@ public partial class MainViewModel : ViewModelBase
     }
 
     public IObservable<bool> IsMainContentEnabled
-    {
-        get;
-    }
-
-    public string NetworkBadgeName
     {
         get;
     }
@@ -176,7 +171,7 @@ public partial class MainViewModel : ViewModelBase
         string projectPath
     ) =>
         Instance.MainScreen.To(
-            _projectPage,
+            viewmodel: _projectPage,
             Parameter: projectPath);
 
     public void PrintProject(
@@ -233,12 +228,12 @@ public partial class MainViewModel : ViewModelBase
 
     public void ApplyUiConfigWindowSate() => WindowState =
         (WindowState)Enum.Parse(
-            typeof(WindowState),
-            ServicesConfig.UiConfig.WindowState);
+            enumType: typeof(WindowState),
+            value: ServicesConfig.UiConfig.WindowState);
 
     [SuppressMessage(
-        "Reliability",
-        "CA2000:Dispose objects before losing scope",
+        category: "Reliability",
+        checkId: "CA2000:Dispose objects before losing scope",
         Justification = "Same lifecycle as the application. Won't be disposed separately.")]
     private SearchBarViewModel CreateSearchBar()
     {
@@ -248,8 +243,8 @@ public partial class MainViewModel : ViewModelBase
         var source = new CompositeSearchSource(
             new ActionsSearchSource(filterChanged),
             new SettingsSearchSource(
-                _settingsPage,
-                filterChanged));
+                settingsPage: _settingsPage,
+                query: filterChanged));
 
         var searchBar = new SearchBarViewModel(source.Changes);
 

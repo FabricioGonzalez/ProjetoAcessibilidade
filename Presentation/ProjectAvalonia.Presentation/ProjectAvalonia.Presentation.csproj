@@ -7,20 +7,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.0" />
-        <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
-        <PackageReference Include="ReactiveUI" Version="19.2.1" />
-        <PackageReference Include="System.Reactive" Version="6.0.0" />
+        <PackageReference Include="Avalonia" Version="11.0.0"/>
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3"/>
+        <PackageReference Include="ReactiveUI" Version="19.2.1"/>
+        <PackageReference Include="System.Reactive" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Domain\Application\Project.Application\ProjetoAcessibilidade.Domain.csproj" />
-        <ProjectReference Include="..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj" />
-        <ProjectReference Include="..\..\Shared\Common\Common.csproj" />
+        <ProjectReference Include="..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj"/>
+        <ProjectReference Include="..\..\Domain\Domain\Domain.csproj"/>
+        <ProjectReference Include="..\..\Domain\Project.Application\ProjetoAcessibilidade.Domain.csproj"/>
+        <ProjectReference Include="..\..\Shared\Common\Common.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="States\ValidationRulesState\" />
+        <Folder Include="States\ValidationRulesState\"/>
     </ItemGroup>
 
 </Project>

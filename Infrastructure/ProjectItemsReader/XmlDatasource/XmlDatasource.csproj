@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="publicAppFiles\**"/>
+        <EmbeddedResource Remove="publicAppFiles\**"/>
+        <None Remove="publicAppFiles\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Domain\Domain.Application\Domain.Application.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj"/>
+        <ProjectReference Include="..\..\..\Domain\Domain\Domain.csproj"/>
+        <ProjectReference Include="..\..\..\Domain\Project.Application\ProjetoAcessibilidade.Domain.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\Repositories\AppRepositories\AppRepositories.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3"/>
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <Folder Include="XmlFile\ValidationRules\"/>
+    </ItemGroup>
+
+</Project>

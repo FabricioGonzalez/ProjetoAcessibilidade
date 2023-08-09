@@ -1,5 +1,5 @@
 ﻿using System;
-using ProjetoAcessibilidade.Core.Entities.App;
+using Core.Entities.App;
 using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
 
 namespace ProjectAvalonia.Features.Project.States;
@@ -31,10 +31,10 @@ public static class Extensions
         this SolutionInfo solutionInfo
     ) => new()
     {
-        Data = solutionInfo.Data, Email = solutionInfo.Email, LogoPath = solutionInfo.LogoPath,
-        NomeEmpresa = solutionInfo.NomeEmpresa, Responsavel = solutionInfo.Responsavel,
-        Endereco = solutionInfo.Endereco, SolutionName = solutionInfo.SolutionName, Telefone = solutionInfo.Telefone,
-        UF = solutionInfo.UF
+        Data = solutionInfo.Data, Email = solutionInfo.Email, LogoPath = solutionInfo.LogoPath
+        , NomeEmpresa = solutionInfo.NomeEmpresa, Responsavel = solutionInfo.Responsavel
+        , Endereco = solutionInfo.Endereco, SolutionName = solutionInfo.SolutionName, Telefone = solutionInfo.Telefone
+        , UF = solutionInfo.UF
     };
 
     public static SolutionInfo ToReportData(
@@ -42,8 +42,8 @@ public static class Extensions
     ) =>
         new()
         {
-            Data = state.Data, Email = state.Email, LogoPath = state.LogoPath, Responsavel = state.Responsavel,
-            Endereco = state.Endereco, NomeEmpresa = state.NomeEmpresa, SolutionName = state.SolutionName,
-            Telefone = state.Telefone, UF = state.UF
+            Data = state.Data, Email = state.Email, LogoPath = state.LogoPath, Responsavel = state.Responsavel
+            , Endereco = state.Endereco, NomeEmpresa = state.NomeEmpresa, SolutionName = state.SolutionName
+            , Telefone = state.Telefone, UF = new UFModel(code: "", name: "")
         };
 }

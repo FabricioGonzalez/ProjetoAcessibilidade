@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Explorer\Services\"/>
+        <Folder Include="Explorer\Usecases\"/>
+        <Folder Include="FormItem\Services\"/>
+        <Folder Include="FormItem\Usecases\"/>
+        <Folder Include="FormRules\Usecases\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Domain\Domain.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3"/>
+    </ItemGroup>
+
+</Project>

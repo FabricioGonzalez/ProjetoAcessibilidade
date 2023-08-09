@@ -80,7 +80,7 @@ public class PasteButtonFlashBehavior : AttachedToVisualTreeBehavior<AnimatedBut
 
     /* private async Task CheckClipboardForValidAddressAsync(bool forceCheck = false)
      {
-         if (Application.Current is { Clipboard: { } clipboard })
+         if (Domain.Application.Current is { Clipboard: { } clipboard })
          {
              var clipboardValue = (await clipboard.GetTextAsync()) ?? "";
 

@@ -1,39 +1,37 @@
 ﻿using System.Collections.ObjectModel;
-using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
-
 using Avalonia.Threading;
-
-using Common;
-
+using Core.Entities.App;
+using Domain.Solutions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
-
-using ProjetoAcessibilidade.Core.Entities.App;
-using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Domain.App.Queries.UF;
 using ProjetoAcessibilidade.Domain.Contracts;
-
 using ReactiveUI;
-
 using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public partial class CreateSolutionViewModel : DialogViewModelBase<ProjectSolutionModel>
+public partial class CreateSolutionViewModel : DialogViewModelBase<(string local, ISolution solution)>
 {
-    private ProjectSolutionModel _solutionState;
-    private IMediator _mediator;
-    public ProjectSolutionModel SolutionModel => _solutionState;
+    private readonly IMediator _mediator;
+    [AutoNotify] private string _fileName = "";
+    [AutoNotify] private string _filePath = "";
+    [AutoNotify] private string _logoPath = "";
+    [AutoNotify] private UFModel _selectedUf;
+    [AutoNotify] private ReadOnlyObservableCollection<UFModel> _ufList;
 
-    public CreateSolutionViewModel(string title, ProjectSolutionModel solutionState, string caption = "")
+    public CreateSolutionViewModel(
+        string title
+        , string caption = ""
+    )
     {
         Title = title;
 
-        this._solutionState = solutionState;
+        SolutionModel = new Solution();
 
         Title = title;
         Caption = caption;
@@ -42,7 +40,8 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<ProjectSoluti
 
         Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            UfList = new(new((await _mediator.Send(new GetAllUfQuery(), CancellationToken.None))));
+            UfList = new ReadOnlyObservableCollection<UFModel>(new ObservableCollection<UFModel>(
+                await _mediator.Send(request: new GetAllUfQuery(), cancellation: CancellationToken.None)));
         });
 
         SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: false);
@@ -55,7 +54,7 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<ProjectSoluti
         var nextCommandCanExecute = this
             .WhenAnyValue(
                 property1: x => x.IsDialogOpen,
-                property2: x => x._solutionState,
+                property2: x => x.SolutionModel,
                 selector: delegate
                 {
                     // This will fire validations before return canExecute value.
@@ -72,13 +71,17 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<ProjectSoluti
         BackCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Back)
             , canExecute: backCommandCanExecute);
         NextCommand = ReactiveCommand.Create(execute: () =>
-        {
-            _solutionState.SolutionReportInfo.UF = SelectedUf;
-            _solutionState.FilePath = Path.Combine(FilePath, $"{FileName}{Constants.AppProjectSolutionExtension}");
-            _solutionState.FileName = FileName;
+            {
+                SolutionModel.Report.Endereco.UF = SelectedUf.Code;
+                SolutionModel.Report.Endereco.Estado = SelectedUf.Name;
 
-            Close(result: _solutionState);
-        }
+                /*SolutionModel.FilePath = Path.Combine(path1: FilePath
+                    , path2: $"{FileName}{Constants.AppProjectSolutionExtension}");*/
+
+                SolutionModel.Report.SolutionName = FileName;
+
+                Close(result: (FilePath, SolutionModel));
+            }
             , canExecute: nextCommandCanExecute);
         CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel)
             , canExecute: cancelCommandCanExecute);
@@ -100,24 +103,25 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<ProjectSoluti
 
             Dispatcher.UIThread.Post(action: () =>
             {
-
                 LogoPath = path;
-                _solutionState.SolutionReportInfo.LogoPath = path;
+                SolutionModel.Report.LogoPath = path;
             });
         });
     }
-    [AutoNotify] private string _filePath = "";
-    [AutoNotify] private string _fileName = "";
-    [AutoNotify] private string _logoPath = "";
-    [AutoNotify] private ReadOnlyObservableCollection<UFModel> _ufList;
-    [AutoNotify] private UFModel _selectedUf;
+
+    public ISolution SolutionModel
+    {
+        get;
+    }
 
 
     public override MenuViewModel? ToolBar => null;
+
     public ReactiveCommand<Unit, Unit> ChooseSolutionPath
     {
         get;
     }
+
     public ReactiveCommand<Unit, Unit> ChooseLogoPath
     {
         get;

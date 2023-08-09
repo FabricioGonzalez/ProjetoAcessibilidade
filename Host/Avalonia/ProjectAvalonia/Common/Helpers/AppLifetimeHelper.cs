@@ -8,7 +8,7 @@ using ProjectAvalonia.ViewModels;
 namespace ProjectAvalonia.Common.Helpers;
 
 /// <summary>
-///     Helper methods for Application lifetime related functions.
+///     Helper methods for Domain.Application lifetime related functions.
 /// </summary>
 public static class AppLifetimeHelper
 {

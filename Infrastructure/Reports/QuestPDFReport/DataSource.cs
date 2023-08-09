@@ -1,7 +1,7 @@
 ﻿using Common;
 using Common.Linq;
 using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using ProjectItemReader.XmlFile;
+using XmlDatasource.XmlFile;
 using ProjetoAcessibilidade.Core.Entities.Solution;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
 using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;

@@ -1,18 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
 using DynamicData;
-using DynamicData.Binding;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
-using ProjetoAcessibilidade.Core.Enuns;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States;
@@ -39,40 +28,40 @@ public class AppModelState : ReactiveObject
     {
         get => _formData;
         set => this.RaiseAndSetIfChanged(
-            ref _formData,
-            value);
+            backingField: ref _formData,
+            newValue: value);
     }
 
     public string ItemName
     {
         get => _itemName;
         set => this.RaiseAndSetIfChanged(
-            ref _itemName,
-            value);
+            backingField: ref _itemName,
+            newValue: value);
     }
 
     public string ItemTemplate
     {
         get => _itemTemplate;
         set => this.RaiseAndSetIfChanged(
-            ref _itemTemplate,
-            value);
+            backingField: ref _itemTemplate,
+            newValue: value);
     }
 
     public ObservableCollection<LawStateItem> LawItems
     {
         get => _lawItems;
         set => this.RaiseAndSetIfChanged(
-            ref _lawItems,
-            value);
+            backingField: ref _lawItems,
+            newValue: value);
     }
 
     public string Id
     {
         get => _id;
         set => this.RaiseAndSetIfChanged(
-            ref _id,
-            value);
+            backingField: ref _id,
+            newValue: value);
     }
 
     public void AddFormItem(
@@ -99,8 +88,8 @@ public class AppModelState : ReactiveObject
         , FormItemContainer newItem
     ) =>
         formDataAggregate.Replace(
-            formItemToReplace,
-            newItem);
+            original: formItemToReplace,
+            destination: newItem);
 
     public void AddLawItems(
         LawStateItem lawItem
@@ -125,7 +114,7 @@ public class AppModelState : ReactiveObject
     public IObservable<IChangeSet<FormItemContainer>> GetFormDataObservable() => formDataAggregate.Connect();
 }
 
-public static class Extensions
+/*public static class Extensions
 {
     public static AppModelState ToAppStateFillable(
         this AppItemModel item
@@ -446,4 +435,4 @@ public static class Extensions
                             x.LawContent))
                 .ToList()
         };
-}
+}*/

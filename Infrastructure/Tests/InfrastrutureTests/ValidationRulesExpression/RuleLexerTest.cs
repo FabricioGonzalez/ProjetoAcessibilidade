@@ -1,4 +1,4 @@
-﻿using ProjectItemReader.ValidationRulesExpression;
+﻿using XmlDatasource.ValidationRulesExpression;
 
 namespace InfrastrutureTests.ValidationRulesExpression;
 

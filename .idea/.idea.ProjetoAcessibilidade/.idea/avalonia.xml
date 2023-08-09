@@ -35,6 +35,7 @@
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/ConclusionItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingBody/ConclusionItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingBody/EditingItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingBody/SolutionItem.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingBody/SolutionItemView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingFormView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Features/Project/Views/Components/EditingItem.axaml" value="Build/Project.AppInstaller/Project.AppInstaller.csproj" />

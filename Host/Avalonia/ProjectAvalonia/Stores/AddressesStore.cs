@@ -3,8 +3,8 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Entities.App;
 using DynamicData;
-using ProjetoAcessibilidade.Core.Entities.App;
 using ProjetoAcessibilidade.Domain.App.Queries.UF;
 using ProjetoAcessibilidade.Domain.Contracts;
 using ReactiveUI;
@@ -18,7 +18,9 @@ public partial class AddressesStore
 
     [AutoNotify] public ReadOnlyObservableCollection<UFModel> UfList;
 
-    public AddressesStore(IMediator queryDispatcher)
+    public AddressesStore(
+        IMediator queryDispatcher
+    )
     {
         _queryDispatcher = queryDispatcher;
         _ufList = new SourceList<UFModel>();
@@ -28,7 +30,9 @@ public partial class AddressesStore
             .Bind(readOnlyObservableCollection: out UfList);
     }
 
-    public async Task LoadAllUf(CancellationToken token)
+    public async Task LoadAllUf(
+        CancellationToken token
+    )
     {
         foreach (var item in (await _queryDispatcher
                      .Send(request: new GetAllUfQuery()

@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 
@@ -65,9 +63,7 @@ public static class FileDialogHelper
     {
         var sfd = new SaveFileDialog
         {
-            DefaultExtension = filterExtTypes.FirstOrDefault(),
-            Title = title,
-            Directory = directory
+            DefaultExtension = filterExtTypes.FirstOrDefault(), Title = title, Directory = directory
         };
 
         return sfd;
@@ -77,7 +73,7 @@ public static class FileDialogHelper
         OpenFileDialog ofd
     )
     {
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime &&
+        if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime &&
             lifetime.MainWindow is not null)
         {
             var selected = await ofd.ShowAsync(parent: lifetime.MainWindow);
@@ -92,7 +88,7 @@ public static class FileDialogHelper
         OpenFolderDialog ofd
     )
     {
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime &&
+        if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime &&
             lifetime.MainWindow is not null)
         {
             var selected = await ofd.ShowAsync(parent: lifetime.MainWindow);
@@ -107,7 +103,7 @@ public static class FileDialogHelper
         SaveFileDialog sfd
     )
     {
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime &&
+        if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime &&
             lifetime.MainWindow is not null)
         {
             return await sfd.ShowAsync(parent: lifetime.MainWindow);
@@ -123,8 +119,7 @@ public static class FileDialogHelper
     {
         var ofd = new OpenFileDialog
         {
-            AllowMultiple = false,
-            Title = title
+            AllowMultiple = false, Title = title
         };
 
         if (directory is null)
@@ -173,8 +168,7 @@ public static class FileDialogHelper
                 .Select(selector: ext =>
                     new FileDialogFilter
                     {
-                        Name = $"{ext.ToUpper()} files",
-                        Extensions = new List<string> { ext }
+                        Name = $"{ext.ToUpper()} files", Extensions = new List<string> { ext }
                     });
 
         filters.AddRange(collection: generatedFilters);
@@ -183,8 +177,7 @@ public static class FileDialogHelper
         {
             filters.Add(item: new FileDialogFilter
             {
-                Name = "All files",
-                Extensions = new List<string> { "*" }
+                Name = "All files", Extensions = new List<string> { "*" }
             });
         }
 
