@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using ProjectAvalonia.Presentation.Enums;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjetoAcessibilidade.Core.Enuns;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
@@ -19,10 +19,10 @@ public class TextItemState
         string topic
         , string textData
         , string? measurementUnit = null
-        , AppFormDataType type = AppFormDataType.Texto
+        , AppFormDataType type = AppFormDataType.Text
         , string id = ""
     )
-        : base(type, id)
+        : base(type: type, id: id)
     {
         Topic = topic;
         TextData = textData;
@@ -32,24 +32,24 @@ public class TextItemState
     public ObservableCollection<IValidationRuleContainerState> ValidationRules
     {
         get => _validationRules;
-        set => this.RaiseAndSetIfChanged(ref _validationRules, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _validationRules, newValue: value);
     }
 
     public string? MeasurementUnit
     {
         get => _measurementUnit;
-        set => this.RaiseAndSetIfChanged(ref _measurementUnit, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _measurementUnit, newValue: value);
     }
 
     public string TextData
     {
         get => _textData;
-        set => this.RaiseAndSetIfChanged(ref _textData, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _textData, newValue: value);
     }
 
     public string Topic
     {
         get => _topic;
-        set => this.RaiseAndSetIfChanged(ref _topic, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _topic, newValue: value);
     }
 }

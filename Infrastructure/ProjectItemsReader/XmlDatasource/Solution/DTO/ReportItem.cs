@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.InternalAppFiles.DTO;
+namespace XmlDatasource.Solution.DTO;
 
 public class ReportItem
 {
@@ -12,11 +12,11 @@ public class ReportItem
     } = "";
 
     [XmlElement(elementName: "address")]
-    public string Endereco
+    public EnderecoItem Endereco
     {
         get;
         set;
-    } = "";
+    }
 
     [XmlElement(elementName: "company_name")]
     public string NomeEmpresa
@@ -38,13 +38,6 @@ public class ReportItem
         get;
         set;
     } = "";
-
-    [XmlElement(elementName: "report_uf")]
-    public string UF
-    {
-        get;
-        set;
-    }
 
     [XmlElement(elementName: "report_data")]
     public DateTimeOffset Data

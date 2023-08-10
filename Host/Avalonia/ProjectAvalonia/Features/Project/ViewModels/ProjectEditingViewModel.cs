@@ -1,28 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Common;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.ViewModels;
-using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
-using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
-using ProjetoAcessibilidade.Domain.AppValidationRules.Queries;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Project.Queries.ProjectItems;
-using ProjetoAcessibilidade.Domain.Solution.Queries;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -31,11 +20,12 @@ public class ProjectEditingViewModel
         , IProjectEditingViewModel
 {
     public static readonly Interaction<IItemViewModel, Unit> SetEditingItem = new();
-    private readonly IMediator? _mediator;
+    /*private readonly IMediator? _mediator;
+    */
 
     public ProjectEditingViewModel()
     {
-        _mediator = Locator.Current.GetService<IMediator>();
+        /*_mediator = Locator.Current.GetService<IMediator>();*/
 
         EditingItems = new ObservableCollection<IEditingItemViewModel>();
 
@@ -104,7 +94,7 @@ public class ProjectEditingViewModel
         IItemViewModel item
     )
     {
-        if (!EditingItems.Any(x => x.Id == item.Id))
+        /*if (!EditingItems.Any(x => x.Id == item.Id))
         {
             if (item is SolutionItemViewModel solution)
             {
@@ -155,7 +145,7 @@ public class ProjectEditingViewModel
                         observations.SourceItems.AddRange(
                             successData.Observations.Where(it => it.ObservationText.Length > 0));
 
-                        IEditingItemViewModel itemToEdit = new EditingItemViewModel(
+                        /*IEditingItemViewModel itemToEdit = new EditingItemViewModel(
                             id: edit.Id,
                             itemName: successData.ItemName,
                             itemPath: edit.ItemPath,
@@ -169,7 +159,7 @@ public class ProjectEditingViewModel
                                             successData.Images
                                                 .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath,
                                                     imageObservation: x.ImageObservation))), topic: "Imagens")))));
-                        EditingItems.Add(itemToEdit);
+                        EditingItems.Add(itemToEdit);#1#
                     });
                 });
             }
@@ -182,7 +172,7 @@ public class ProjectEditingViewModel
                 SelectedItem = editingItem;
                 this.RaisePropertyChanged(nameof(SelectedItem));
             }
-        }
+        }*/
     }
 }
 

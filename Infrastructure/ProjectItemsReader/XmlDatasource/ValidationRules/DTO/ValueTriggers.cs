@@ -1,11 +1,13 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.ValidationRules;
+namespace XmlDatasource.ValidationRules.DTO;
+
 public class ValueTriggers
 {
     [XmlText]
     public string ValueTrigger
     {
-        get; set;
+        get;
+        set;
     }
 }

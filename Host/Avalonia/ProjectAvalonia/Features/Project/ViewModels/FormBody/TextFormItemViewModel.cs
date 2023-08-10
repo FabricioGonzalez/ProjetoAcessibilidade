@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-
-using Common.Linq;
-
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.ValidationRules;
-
+﻿using System.Collections.Generic;
 using DynamicData;
-using DynamicData.Binding;
-
+using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
-
+using ProjectAvalonia.Presentation.States.FormItemState;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public partial class TextFormItemViewModel : ReactiveObject, ITextFormItemViewModel
+public partial class TextFormItemViewModel
+    : ReactiveObject
+        , ITextFormItemViewModel
 {
-    public TextFormItemViewModel(string topic, string textData, string measurementUnit, string id, SourceList<ObservationModel> observations, IEnumerable<ValidationRule> rules)
+    [AutoNotify] private string _textData;
+
+    public TextFormItemViewModel(
+        string topic
+        , string textData
+        , string measurementUnit
+        , string id
+        , SourceList<ObservationState> observations
+        , IEnumerable<ValidationRuleContainerState> rules
+    )
     {
         Topic = topic;
         TextData = textData;
@@ -27,7 +28,7 @@ public partial class TextFormItemViewModel : ReactiveObject, ITextFormItemViewMo
         Id = id;
         Rules = rules;
 
-        this.WhenPropertyChanged(vm => vm.TextData)
+        /*this.WhenPropertyChanged(vm => vm.TextData)
             .Subscribe(prop =>
             {
                 var rulesToEvaluate = Rules
@@ -62,24 +63,29 @@ public partial class TextFormItemViewModel : ReactiveObject, ITextFormItemViewMo
 
                 });
 
-            });
+            });*/
     }
+
+    public IEnumerable<ValidationRuleContainerState> Rules
+    {
+        get;
+        set;
+    }
+
     public string Id
     {
-        get; set;
+        get;
+        set;
     }
-    public IEnumerable<ValidationRule> Rules
-    {
-        get; set;
-    }
+
     public string Topic
     {
         get;
     }
-    [AutoNotify] private string _textData;
 
     public string MeasurementUnit
     {
-        get; set;
+        get;
+        set;
     }
 }

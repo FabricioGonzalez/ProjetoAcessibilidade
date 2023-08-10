@@ -1,12 +1,13 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.ValidationRules;
+namespace XmlDatasource.ValidationRules.DTO;
 
 public class RuleTargetsItem
 {
     [XmlText]
     public string Id
     {
-        get; set;
+        get;
+        set;
     }
 }

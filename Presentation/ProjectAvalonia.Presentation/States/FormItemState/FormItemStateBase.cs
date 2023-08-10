@@ -1,5 +1,5 @@
 ﻿using Common.Optional;
-using ProjetoAcessibilidade.Core.Enuns;
+using ProjectAvalonia.Presentation.Enums;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
@@ -18,19 +18,19 @@ public class FormItemContainer : ReactiveObject
     public string Id
     {
         get => _id;
-        set => this.RaiseAndSetIfChanged(ref _id, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _id, newValue: value);
     }
 
     public AppFormDataType Type
     {
         get => _type;
-        set => this.RaiseAndSetIfChanged(ref _type, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _type, newValue: value);
     }
 
     public string Topic
     {
         get => _topic;
-        set => this.RaiseAndSetIfChanged(ref _topic, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _topic, newValue: value);
     }
 
     public FormItemStateBase Body
@@ -38,9 +38,9 @@ public class FormItemContainer : ReactiveObject
         get => _body;
         set
         {
-            History.TryAdd(_type, value);
+            History.TryAdd(key: _type, value: value);
 
-            this.RaiseAndSetIfChanged(ref _body, value);
+            this.RaiseAndSetIfChanged(backingField: ref _body, newValue: value);
         }
     }
 
@@ -48,7 +48,7 @@ public class FormItemContainer : ReactiveObject
 
     public void AddToHistory(
         FormItemStateBase formItem
-    ) => History.TryAdd(formItem.Type, formItem);
+    ) => History.TryAdd(key: formItem.Type, value: formItem);
 
     public Optional<FormItemStateBase> ChangeItem(
         AppFormDataType type
@@ -75,18 +75,18 @@ public abstract class FormItemStateBase
     public string Topic
     {
         get => _topic;
-        set => this.RaiseAndSetIfChanged(ref _topic, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _topic, newValue: value);
     }
 
     public AppFormDataType Type
     {
         get => _type;
-        set => this.RaiseAndSetIfChanged(ref _type, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _type, newValue: value);
     }
 
     public string Id
     {
         get => _id;
-        set => this.RaiseAndSetIfChanged(ref _id, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _id, newValue: value);
     }
 }

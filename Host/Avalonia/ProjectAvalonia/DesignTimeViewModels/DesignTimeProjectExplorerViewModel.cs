@@ -2,7 +2,7 @@
 using System.Reactive;
 using Common.Optional;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -16,12 +16,21 @@ public class DesignTimeProjectExplorerViewModel
         get;
     }
 
+    public ObservableCollection<IItemGroupViewModel> Items
+    {
+        get;
+        set;
+    } = new()
+    {
+        new DesignTimeItemGroupViewModel()
+    };
+
     public ReactiveCommand<Unit, Optional<IItemGroupViewModel>> CreateFolderCommand
     {
         get;
     }
 
-    public ProjectSolutionModel SolutionState
+    SolutionState IProjectExplorerViewModel.SolutionState
     {
         get;
     }
@@ -38,17 +47,8 @@ public class DesignTimeProjectExplorerViewModel
         set;
     }
 
-    public ObservableCollection<IItemGroupViewModel> Items
-    {
-        get;
-        set;
-    } = new()
-    {
-        new DesignTimeItemGroupViewModel()
-    };
-
     public void SetCurrentSolution(
-        ProjectSolutionModel state
+        SolutionState state
     )
     {
     }

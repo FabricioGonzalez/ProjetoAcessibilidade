@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Core.Entities.ValidationRules;
+﻿using System.Collections.ObjectModel;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels;
 
@@ -24,27 +21,6 @@ public partial class ItemValidationViewModel
         , IItemValidationRulesViewModel
 {
     [AutoNotify] private ObservableCollection<IValidationRuleContainerState> _validationItemRules = new();
-
-    [AutoNotify] private ObservableCollection<ValidationRule> _validationRules = new()
-    {
-        new ValidationRule
-        {
-            Rules = new List<RuleSet>
-            {
-                new()
-                {
-                    Operation = "Obrigatority", Conditions = new List<Conditions>
-                    {
-                        new("0", "has", "checked", new List<string> { "Teste", "Teste 2" }, teste =>
-                        {
-                            return (false, Enumerable.Empty<string>());
-                        })
-                    }
-                }
-            }
-            , Target = new Target()
-        }
-    };
 
     public override string? LocalizedTitle
     {

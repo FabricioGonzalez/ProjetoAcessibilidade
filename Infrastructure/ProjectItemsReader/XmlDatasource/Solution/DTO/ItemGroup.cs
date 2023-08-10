@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.InternalAppFiles.DTO;
+namespace XmlDatasource.Solution.DTO;
 
 public class ItemGroup
 {
@@ -27,24 +27,6 @@ public class ItemGroup
 
     [XmlElement("template_name")]
     public string TemplateName
-    {
-        get;
-        set;
-    }
-}
-
-public class LocationGroup
-{
-    [XmlAttribute("name")]
-    public string Name
-    {
-        get;
-        set;
-    }
-
-    [XmlArray("items")]
-    [XmlArrayItem("item")]
-    public List<ItemGroup> ItemsGroup
     {
         get;
         set;

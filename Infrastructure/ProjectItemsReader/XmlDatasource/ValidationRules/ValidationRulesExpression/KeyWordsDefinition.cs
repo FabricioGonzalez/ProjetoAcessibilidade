@@ -1,4 +1,5 @@
-﻿namespace XmlDatasource.ValidationRulesExpression;
+﻿namespace XmlDatasource.ValidationRules.ValidationRulesExpression;
+
 public static class KeyWordsDefinition
 {
     public const char EvluationTargetStartKey = '{';
@@ -18,13 +19,9 @@ public static class KeyWordsDefinition
 
     public static Dictionary<string, string> Operations = new()
     {
-        {EvaluationBooleanExpression,"is" },
-        {EvaluationGreatValueExpression,">" },
-        {EvaluationMinorValueExpression,"<" },
-        {EvaluationMatchingExpression,"has" },
-        {$"{EvaluationGreatValueExpression} {EvaluationQuantityEqualityExpression}" ,">=" },
-        {$"{EvaluationMinorValueExpression} {EvaluationQuantityEqualityExpression}" ,"<=" },
+        { EvaluationBooleanExpression, "is" }, { EvaluationGreatValueExpression, ">" }
+        , { EvaluationMinorValueExpression, "<" }, { EvaluationMatchingExpression, "has" }
+        , { $"{EvaluationGreatValueExpression} {EvaluationQuantityEqualityExpression}", ">=" }
+        , { $"{EvaluationMinorValueExpression} {EvaluationQuantityEqualityExpression}", "<=" }
     };
-
 }
-

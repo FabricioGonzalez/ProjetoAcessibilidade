@@ -20,7 +20,7 @@ public class Endereco
         set;
     }
 
-    public string Estado
+    public string Bairro
     {
         get;
         set;

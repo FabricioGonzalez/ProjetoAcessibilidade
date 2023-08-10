@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Reactive;
+using ProjectAvalonia.Presentation.Enums;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
-using ProjetoAcessibilidade.Core.Enuns;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -43,8 +43,8 @@ public class DesignTimeTemplateEditTabViewModel
         {
             new()
             {
-                Topic = "Teste", Type = AppFormDataType.Texto, Body = new TextItemState(
-                    "teste item",
+                Topic = "Teste", Type = AppFormDataType.Text, Body = new TextItemState(
+                    topic: "teste item",
                     id: "",
                     textData: "teste",
                     measurementUnit: "m")
@@ -75,12 +75,12 @@ public class DesignTimeTemplateEditTabViewModel
                             , TextItems = new ObservableCollection<TextItemState>
                             {
                                 new(
-                                    "inner text",
+                                    topic: "inner text",
                                     id: "",
                                     textData: "teste",
                                     measurementUnit: "m")
                                 , new(
-                                    "inner text 2",
+                                    topic: "inner text 2",
                                     id: "",
                                     textData: "teste",
                                     measurementUnit: "m")
@@ -91,8 +91,8 @@ public class DesignTimeTemplateEditTabViewModel
             }
             , new()
             {
-                Topic = "Teste", Type = AppFormDataType.Texto, Body = new TextItemState(
-                    "teste item",
+                Topic = "Teste", Type = AppFormDataType.Text, Body = new TextItemState(
+                    topic: "teste item",
                     id: "",
                     textData: "teste2",
                     measurementUnit: "m")

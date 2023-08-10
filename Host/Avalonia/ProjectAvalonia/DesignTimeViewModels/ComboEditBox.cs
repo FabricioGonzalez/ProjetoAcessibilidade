@@ -1,5 +1,5 @@
-﻿using ProjectAvalonia.Presentation.States.FormItemState;
-using ProjetoAcessibilidade.Core.Enuns;
+﻿using ProjectAvalonia.Presentation.Enums;
+using ProjectAvalonia.Presentation.States.FormItemState;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 

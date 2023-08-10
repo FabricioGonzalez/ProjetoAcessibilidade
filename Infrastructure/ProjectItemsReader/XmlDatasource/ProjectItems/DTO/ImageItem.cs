@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.DTO;
+namespace XmlDatasource.ProjectItems.DTO;
 
 public class ImageItem
 {
@@ -25,6 +25,7 @@ public class ImageItem
         get;
         set;
     }
+
     [XmlElement(elementName: "id")]
     public string Id
     {

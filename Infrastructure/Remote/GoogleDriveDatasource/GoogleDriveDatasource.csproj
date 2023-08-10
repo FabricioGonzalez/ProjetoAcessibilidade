@@ -11,4 +11,11 @@
         <ProjectReference Include="..\..\Repositories\AppRepositories\AppRepositories.csproj"/>
     </ItemGroup>
 
+
+    <ItemGroup>
+        <Folder Include="ProjectItems\Mappers\"/>
+        <Folder Include="Solution\Mappers\"/>
+        <Folder Include="ValidationRules\Mappers\"/>
+    </ItemGroup>
+
 </Project>

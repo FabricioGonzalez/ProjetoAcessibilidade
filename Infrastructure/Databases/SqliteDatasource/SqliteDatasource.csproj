@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="ExplorerItems\"/>
+        <Folder Include="Internals\Uf\"/>
+        <Folder Include="ProjectItems\DTO\"/>
+        <Folder Include="Solution\DTO\"/>
+        <Folder Include="ValidationRules\DTO\"/>
+        <Folder Include="ValidationRules\ValidationRulesExpression\"/>
+    </ItemGroup>
+
+</Project>

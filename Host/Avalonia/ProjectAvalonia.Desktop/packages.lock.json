@@ -396,8 +396,8 @@
       },
       "Microsoft.Extensions.Configuration.Binder": {
         "type": "Transitive",
-        "resolved": "7.0.4",
-        "contentHash": "8+XPvJnHZsYgHOQlcMuQe7QNF5KdVKHH1F/wW3nd8/u81Gk/XFAYMDP0Lpz18h7/AM95M662vvqMorcYxCBB4w==",
+        "resolved": "7.0.3",
+        "contentHash": "1eRFwJBrkkncTpvh6mivB8zg4uBVm6+Y6stEJERrVEqZZc8Hvf+N1iIgj2ySYDUQko4J1Gw1rLf1M8bG83F0eA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0"
         }
@@ -1054,22 +1054,25 @@
           "System.IO.Pipelines": "6.0.0"
         }
       },
-      "appdi": {
+      "apprepositories": {
         "type": "Project",
         "dependencies": {
-          "Avalonia": "[11.0.0, )",
-          "LanguageExt.Core": "[4.4.3, )",
-          "Microsoft.Extensions.Configuration": "[7.0.0, )",
-          "Microsoft.Extensions.Configuration.Abstractions": "[7.0.0, )",
-          "Microsoft.Extensions.Configuration.Binder": "[7.0.4, )",
-          "Microsoft.Extensions.Configuration.Json": "[7.0.0, )",
-          "ProjectAvalonia": "[1.0.0, )",
-          "ProjetoAcessibilidade.Domain": "[1.0.0, )",
-          "Splat": "[14.6.37, )"
+          "Domain.Application": "[1.0.0, )",
+          "LanguageExt.Core": "[4.4.3, )"
         }
       },
       "common": {
         "type": "Project"
+      },
+      "domain": {
+        "type": "Project"
+      },
+      "domain.application": {
+        "type": "Project",
+        "dependencies": {
+          "Domain": "[1.0.0, )",
+          "LanguageExt.Core": "[4.4.3, )"
+        }
       },
       "projectavalonia": {
         "type": "Project",
@@ -1087,6 +1090,8 @@
           "Avalonia.Xaml.Interactivity": "[11.0.0.1, )",
           "Common": "[1.0.0, )",
           "Dock.Avalonia": "[11.0.0, )",
+          "Domain": "[1.0.0, )",
+          "Domain.Application": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
           "MathNet.Numerics": "[5.0.0, )",
           "Microsoft.Extensions.Caching.Memory": "[7.0.0, )",
@@ -1096,14 +1101,12 @@
           "Newtonsoft.Json": "[13.0.3, )",
           "Notification.Avalonia": "[1.1.0, )",
           "ProjectAvalonia.Presentation": "[1.0.0, )",
-          "ProjectItemReader": "[1.0.0, )",
-          "ProjetoAcessibilidade.Core": "[1.0.0, )",
-          "ProjetoAcessibilidade.Domain": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",
           "QuestPDFReport": "[1.0.0, )",
           "ReactiveUI": "[19.4.1, )",
           "ReactiveUI.Validation": "[3.1.7, )",
-          "Splat.Microsoft.Extensions.DependencyInjection": "[14.6.37, )"
+          "Splat.Microsoft.Extensions.DependencyInjection": "[14.6.37, )",
+          "XmlDatasource": "[1.0.0, )"
         }
       },
       "projectavalonia.presentation": {
@@ -1111,36 +1114,10 @@
         "dependencies": {
           "Avalonia": "[11.0.0, )",
           "Common": "[1.0.0, )",
+          "Domain": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
-          "ProjetoAcessibilidade.Core": "[1.0.0, )",
           "ReactiveUI": "[19.2.1, )",
           "System.Reactive": "[6.0.0, )"
-        }
-      },
-      "projectitemreader": {
-        "type": "Project",
-        "dependencies": {
-          "Common": "[1.0.0, )",
-          "LanguageExt.Core": "[4.4.3, )",
-          "ProjetoAcessibilidade.Core": "[1.0.0, )",
-          "ProjetoAcessibilidade.Domain": "[1.0.0, )"
-        }
-      },
-      "projetoacessibilidade.core": {
-        "type": "Project",
-        "dependencies": {
-          "Common": "[1.0.0, )",
-          "System.Linq.Expressions": "[4.3.0, )"
-        }
-      },
-      "projetoacessibilidade.domain": {
-        "type": "Project",
-        "dependencies": {
-          "Avalonia.Controls.TreeDataGrid": "[0.10.18.1, )",
-          "Common": "[1.0.0, )",
-          "LanguageExt.Core": "[4.4.3, )",
-          "ProjetoAcessibilidade.Core": "[1.0.0, )",
-          "Splat": "[14.6.37, )"
         }
       },
       "questpdf": {
@@ -1155,9 +1132,19 @@
         "dependencies": {
           "Common": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
-          "ProjectItemReader": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",
-          "SkiaSharp": "[2.88.3, )"
+          "SkiaSharp": "[2.88.3, )",
+          "XmlDatasource": "[1.0.0, )"
+        }
+      },
+      "xmldatasource": {
+        "type": "Project",
+        "dependencies": {
+          "AppRepositories": "[1.0.0, )",
+          "Common": "[1.0.0, )",
+          "Domain": "[1.0.0, )",
+          "Domain.Application": "[1.0.0, )",
+          "LanguageExt.Core": "[4.4.3, )"
         }
       }
     },

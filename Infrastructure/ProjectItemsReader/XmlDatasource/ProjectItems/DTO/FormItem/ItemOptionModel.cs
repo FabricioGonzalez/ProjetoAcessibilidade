@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.DTO.FormItem;
+namespace XmlDatasource.ProjectItems.DTO.FormItem;
 
 public class ItemOptionModel : ItemFormData
 {
@@ -22,6 +22,13 @@ public class ItemOptionModel : ItemFormData
 
     [XmlElement(elementName: "value")]
     public string Value
+    {
+        get;
+        set;
+    }
+
+    [XmlElement(elementName: "isInvalid")]
+    public bool IsInvalid
     {
         get;
         set;

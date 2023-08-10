@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.InternalAppFiles.DTO;
+namespace XmlDatasource.Solution.DTO;
 
 public class ProjectItems
 {

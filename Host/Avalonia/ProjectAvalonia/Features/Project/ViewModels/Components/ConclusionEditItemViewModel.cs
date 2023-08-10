@@ -1,8 +1,6 @@
 ﻿using System.Reactive;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjetoAcessibilidade.Domain.Contracts;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
 
@@ -10,7 +8,7 @@ public class ConclusionEditItemViewModel
     : ReactiveObject
         , IEditingItemViewModel
 {
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
 
     public ConclusionEditItemViewModel(
         string itemName
@@ -20,7 +18,7 @@ public class ConclusionEditItemViewModel
         , bool isSaved = true
     )
     {
-        _mediator ??= Locator.Current.GetService<IMediator>();
+        /*_mediator ??= Locator.Current.GetService<IMediator>();*/
 
         ItemName = itemName;
         ItemPath = itemPath;

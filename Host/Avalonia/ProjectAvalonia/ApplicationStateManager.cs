@@ -135,7 +135,7 @@ public class ApplicationStateManager : IMainWindowService
 
         if (args.Contains("print="))
         {
-            await ApplicationViewModel.GoToOpenPrint(args.Split("=")[1]);
+            /*await ApplicationViewModel.GoToOpenPrint(args.Split("=")[1]);*/
         }
     }
 

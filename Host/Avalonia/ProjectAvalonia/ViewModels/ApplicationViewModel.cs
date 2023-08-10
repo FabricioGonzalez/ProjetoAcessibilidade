@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
-
 using Avalonia.Controls;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
-
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Solution.Queries;
-
 using ReactiveUI;
-
-using Splat;
 
 namespace ProjectAvalonia.ViewModels;
 
@@ -25,7 +15,7 @@ public partial class ApplicationViewModel
         , ICanShutdownProvider
 {
     private readonly IMainWindowService _mainWindowService;
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
 
     [AutoNotify] private bool _isMainWindowShown = true;
     [AutoNotify] private bool _isShuttingDown;
@@ -34,7 +24,7 @@ public partial class ApplicationViewModel
         IMainWindowService mainWindowService
     )
     {
-        _mediator = Locator.Current.GetService<IMediator>();
+        /*_mediator = Locator.Current.GetService<IMediator>();*/
         _mainWindowService = mainWindowService;
 
         QuitCommand = ReactiveCommand.Create(execute: () => Shutdown(restart: false));
@@ -112,22 +102,21 @@ public partial class ApplicationViewModel
         IsShuttingDown = true;
     }
 
-    internal async Task GoToOpenPrint(
+    /*internal async Task GoToOpenPrint(
         string v
     ) =>
-        (await _mediator.Send(
-            request: new ReadSolutionProjectQuery(SolutionPath: v),
-            cancellation: CancellationToken.None))
-        .IfSucc(sucess =>
-        {/*MainViewModel.Instance.PrintProject(solutionState: result?.Data?.ToSolutionState());*/
+       .IfSucc(sucess =>
+        {
+            /*MainViewModel.Instance.PrintProject(solutionState: result?.Data?.ToSolutionState());#2#
 
             /*  MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
                 , Parameter: result.Data.ToSolutionState());
 
       MainViewModel.Instance.MainScreen.To(
                   await NavigationManager.MaterialiseViewModelAsync(ProjectViewModel.MetaData)
-                 , Parameter: v);*/
-        });
+                 , Parameter: v);
+        });*/
+
     internal void GoToOpenProject(
         string v
     ) => MainViewModel.Instance.OpenProject(projectPath: v);

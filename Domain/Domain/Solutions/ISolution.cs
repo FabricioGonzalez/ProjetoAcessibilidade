@@ -1,11 +1,11 @@
-﻿using Domain.Solutions.LocationItem;
+﻿using Domain.Solutions.ProjectItem;
 using Domain.Solutions.Report;
 
 namespace Domain.Solutions;
 
 public interface ISolution
 {
-    public IEnumerable<ILocationItem> Locations
+    public IEnumerable<IProjectItem> ProjectItems
     {
         get;
         set;
@@ -17,11 +17,11 @@ public interface ISolution
         set;
     }
 
-    public void AddNewLocationItem(
+    /*public void AddNewLocationItem(
         ILocationItem newItem
     );
 
     public void RemoveLocationItem(
         ILocationItem itemToRemove
-    );
+    );*/
 }

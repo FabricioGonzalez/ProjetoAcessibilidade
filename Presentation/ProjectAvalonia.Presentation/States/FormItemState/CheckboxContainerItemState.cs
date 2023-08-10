@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using DynamicData.Binding;
+using ProjectAvalonia.Presentation.Enums;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjetoAcessibilidade.Core.Enuns;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
@@ -20,7 +20,7 @@ public class CheckboxContainerItemState
         , AppFormDataType type = AppFormDataType.Checkbox
         , string id = ""
     )
-        : base(type, id)
+        : base(type: type, id: id)
     {
         Topic = topic;
         Children = new ObservableCollectionExtended<CheckboxItemState>();
@@ -29,13 +29,13 @@ public class CheckboxContainerItemState
     public ObservableCollection<CheckboxItemState> Children
     {
         get => _children;
-        set => this.RaiseAndSetIfChanged(ref _children, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _children, newValue: value);
     }
 
     public string Topic
     {
         get => _topic;
-        set => this.RaiseAndSetIfChanged(ref _topic, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _topic, newValue: value);
     }
 
     public ReactiveCommand<Unit, Unit> AddCheckboxItem => ReactiveCommand.Create(() =>
@@ -50,7 +50,7 @@ public class CheckboxContainerItemState
 
     public ReactiveCommand<CheckboxItemState, Unit> AddTextItem => ReactiveCommand.Create<CheckboxItemState>(item =>
     {
-        item.TextItems.Add(new TextItemState("", "", id: Guid.NewGuid().ToString()));
+        item.TextItems.Add(new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString()));
     });
 
     public ReactiveCommand<CheckboxItemState, Unit> RemoveCheckboxItem => ReactiveCommand.Create<CheckboxItemState>(

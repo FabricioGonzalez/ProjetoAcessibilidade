@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
-using AppDI;
+using Application.Internals.Contracts;
 using Avalonia;
 using Avalonia.ReactiveUI;
 using Avalonia.Xaml.Interactivity;
@@ -19,7 +19,6 @@ using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
 using ProjectAvalonia.Desktop.Extensions;
 using ProjectAvalonia.ViewModels;
-using ProjetoAcessibilidade.Domain.App.Contracts;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Desktop;
@@ -130,8 +129,8 @@ public class Program
                             backendInitialiseAsync: async () =>
                                 await Global.InitializeNoWalletAsync(terminateService)
                             , startInBg: runGuiInBackground))
-                .UseReactiveUI().StartContainer()
-                .AddMediator(markers: typeof(Program))
+                .UseReactiveUI() /*.StartContainer()*/
+                /*.AddMediator(markers: typeof(Program))*/
                 .SetupAppBuilder()
                 .AfterSetup(_ =>
                 {

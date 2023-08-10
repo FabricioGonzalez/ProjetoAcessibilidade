@@ -1,19 +1,10 @@
 ﻿using System.Reflection;
+using Application.Internals.Contracts;
 using Avalonia;
-using Common;
 using Microsoft.Extensions.Configuration;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
-using ProjetoAcessibilidade.Domain.App.Contracts;
-using ProjetoAcessibilidade.Domain.AppValidationRules.Contracts;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Implementations;
-using ProjetoAcessibilidade.Domain.Project.Contracts;
-using ProjetoAcessibilidade.Domain.Solution.Contracts;
 using Splat;
-using XmlDatasource.InternalAppFiles;
-using XmlDatasource.ValidationRulesExpression;
-using XmlDatasource.XmlFile;
 
 namespace AppDI;
 
@@ -122,7 +113,7 @@ public static class AvaloniaDInjector
         return app;
     }*/
 
-    private static AppBuilder AddRepositories(
+    /*private static AppBuilder AddRepositories(
         this AppBuilder app
     )
     {
@@ -148,9 +139,9 @@ public static class AvaloniaDInjector
                 new ValidationRulesRepositoryImpl(new RuleLexer()));
 
         return app;
-    }
+    }*/
 
-    public static AppBuilder AddMediator(
+    /*public static AppBuilder AddMediator(
         this AppBuilder app
         , params Type[] markers
     )
@@ -159,11 +150,11 @@ public static class AvaloniaDInjector
         var notificationHandlerInfo = new Dictionary<Type, Type>();
 
         /*foreach (var marker in markers)
-        {*/
+        {#1#
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()
                      .Where(predicate: x => x.FullName?.Contains(value: Constants.SolutionName) == true))
         {
-            /*var assembly = Assembly.Load(assemblyName);*/
+            /*var assembly = Assembly.Load(assemblyName);#1#
 
             var requests = ClassesImplementingInterface(
                 assembly: assembly,
@@ -204,7 +195,7 @@ public static class AvaloniaDInjector
                         /*factory: () =>
                         {
                             return ;
-                        },*/
+                        },#1#
                         serviceType: handler);
                 });
 
@@ -216,11 +207,11 @@ public static class AvaloniaDInjector
                         /*factory: () =>
                         {
                             return ;
-                        },*/
+                        },#1#
                         serviceType: handler);
                 });
         }
-        /*}*/
+        /*}#1#
 
         Locator.CurrentMutable.RegisterLazySingleton<IMediator>(
             valueFactory: () =>
@@ -230,7 +221,7 @@ public static class AvaloniaDInjector
                     notificationsDetails: notificationHandlerInfo));
 
         return app;
-    }
+    }*/
 
 
     private static List<Type> ClassesImplementingInterface(
@@ -296,7 +287,7 @@ public static class AvaloniaDInjector
         app
             .AddConfiguration()
             .AddServices()
-            .AddRepositories();
+    /*.AddRepositories()*/;
 
     private static object? Instantiate(
         Type type

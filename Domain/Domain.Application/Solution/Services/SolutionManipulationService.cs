@@ -7,6 +7,13 @@ public sealed class SolutionManipulationService : ISolutionService
 {
     private readonly ISolutionRepository _solutionRepository;
 
+    public SolutionManipulationService(
+        ISolutionRepository solutionRepository
+    )
+    {
+        _solutionRepository = solutionRepository;
+    }
+
     public async Task<ISolution> OpenSolution(
         string path
     ) =>

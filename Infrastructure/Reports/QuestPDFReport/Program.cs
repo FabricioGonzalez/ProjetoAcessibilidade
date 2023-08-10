@@ -1,15 +1,7 @@
-﻿using Common;
-using XmlDatasource.InternalAppFiles;
-using ProjetoAcessibilidade.Core.Entities.Solution;
-using ProjetoAcessibilidade.Core.Entities.Solution.ReportInfo;
-using QuestPDF.Previewer;
-using QuestPDFReport;
-using QuestPDFReport.ReportSettings;
-
-var path = "C:\\Users\\Fabricio\\Documents\\Teste\\Teste.prja";
+﻿var path = "C:\\Users\\Fabricio\\Documents\\Teste\\Teste.prja";
 
 
-var solutionReader = new SolutionRepositoryImpl();
+/*var solutionReader = new SolutionRepositoryImpl();
 
 var result = (await solutionReader.ReadSolution(path))
     .Match(success => success, failure => ProjectSolutionModel.Create(
@@ -22,4 +14,4 @@ var model = await DataSource.GetReport(
 
 var report = new StandardReport(model);
 
-await report.ShowInPreviewerAsync();
+await report.ShowInPreviewerAsync();*/

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.DTO;
+namespace XmlDatasource.ProjectItems.DTO;
 
 public class ItemLaw
 {

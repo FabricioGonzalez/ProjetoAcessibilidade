@@ -1,4 +1,4 @@
-﻿using ProjetoAcessibilidade.Core.Enuns;
+﻿using ProjectAvalonia.Presentation.Enums;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
@@ -13,10 +13,10 @@ public class ObservationItemState : FormItemStateBase
     public ObservationItemState(
         string topic
         , string observation
-        , AppFormDataType type = AppFormDataType.Observação
+        , AppFormDataType type
         , string id = ""
     )
-        : base(type, id)
+        : base(type: type, id: id)
     {
         Observation = observation;
         Topic = topic;
@@ -25,12 +25,12 @@ public class ObservationItemState : FormItemStateBase
     public string Observation
     {
         get => _observation;
-        set => this.RaiseAndSetIfChanged(ref _observation, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _observation, newValue: value);
     }
 
     public string Topic
     {
         get => _topic;
-        set => this.RaiseAndSetIfChanged(ref _topic, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _topic, newValue: value);
     }
 }

@@ -1,12 +1,7 @@
 ﻿using System.Reactive;
-using System.Threading;
 using ProjectAvalonia.Common.ViewModels;
-using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
 
@@ -14,7 +9,7 @@ public class EditingItemViewModel
     : ViewModelBase
         , IEditingItemViewModel
 {
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
 
     public EditingItemViewModel(
         string itemName
@@ -25,7 +20,7 @@ public class EditingItemViewModel
         , string templateName = null
     )
     {
-        _mediator ??= Locator.Current.GetService<IMediator>();
+        /*_mediator ??= Locator.Current.GetService<IMediator>();*/
 
         ItemName = itemName;
         ItemPath = itemPath;
@@ -39,7 +34,7 @@ public class EditingItemViewModel
             {
                 if (Body is not null)
                 {
-                    var itemModel = (Body as EditingBodyViewModel).ToAppModel();
+                    /*var itemModel = (Body as EditingBodyViewModel).ToAppModel();
                     itemModel.ItemName = ItemName;
                     itemModel.TemplateName = TemplateName;
 
@@ -47,7 +42,7 @@ public class EditingItemViewModel
                         .Send(
                             new SaveProjectItemContentCommand(
                                 itemModel, ItemPath),
-                            CancellationToken.None);
+                            CancellationToken.None);*/
                 }
             });
 

@@ -38,7 +38,7 @@
                                 Margin="0,8"
                                 AcceptsReturn="True"
                                 AcceptsTab="True"
-                                Text="{Binding ObservationText}"
+                                Text="{Binding Observation}"
                                 UseFloatingWatermark="True"
                                 Watermark="{x:Static p:Resources.Observation_Watermark}" />
                             <controls:IconButton Grid.Row="0" Grid.Column="1" Width="24"

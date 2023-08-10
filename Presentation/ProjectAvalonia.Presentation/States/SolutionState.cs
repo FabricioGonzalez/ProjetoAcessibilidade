@@ -1,90 +1,65 @@
-﻿namespace ProjectAvalonia.Presentation.States;
+﻿using System.Collections.ObjectModel;
+using ProjectAvalonia.Presentation.States.ProjectItems;
+using ReactiveUI;
 
-public class SolutionState
+namespace ProjectAvalonia.Presentation.States;
+
+public class SolutionState : ReactiveObject
 {
-    /*[AutoNotify] private string _fileName = "";
+    private string _fileName = "";
+    private string _filePath = "";
 
-    [AutoNotify] private string _filePath = "";
+    private ObservableCollection<LocationItemState> _locationItems;
 
-    [AutoNotify] private ReadOnlyObservableCollection<ItemGroupState> _itemGroups;
-    private SourceList<ItemGroupState> _itemsCollection;
-    [AutoNotify] private string _logoPath = "";
+    private string _logoPath = "";
 
-    [AutoNotify] private SolutionReportState _reportData;
+    private SolutionReportState _report;
 
-    private SolutionState(string filePath, IList<ItemGroupState> itemsGroups, SolutionReportState reportData)
+    public SolutionReportState Report
     {
-        FilePath = filePath;
-        FileName = Path.GetFileNameWithoutExtension(path: filePath);
-
-        LoadAllItems(items: itemsGroups);
-
-        _itemsCollection
-            .Connect()
-            .ObserveOn(scheduler: RxApp.MainThreadScheduler)
-            .Bind(readOnlyObservableCollection: out _itemGroups)
-            .Subscribe();
-
-        _itemsCollection
-            .Connect()
-            .ActOnEveryObject(onAdd: item =>
-                {
-                    Logger.LogDebug(message: $"item {item.Name} was added");
-                },
-                onRemove: item =>
-                {
-                    Logger.LogDebug(message: $"item {item.Name} was removed");
-                });
-
-        _itemsCollection
-            .Items
-            .SelectMany(selector: x => x.Items)
-            .AsObservableChangeSet()
-            .ActOnEveryObject(onAdd: item =>
-                {
-                    Logger.LogDebug(message: $"project item {item.Name} was added");
-                },
-                onRemove: item =>
-                {
-                    Logger.LogDebug(message: $"project item {item.Name} was removed");
-                });
-
-        ReportData = reportData;
+        get => _report;
+        set => this.RaiseAndSetIfChanged(backingField: ref _report, newValue: value);
     }
 
-    public static SolutionState Create(string filePath, IList<ItemGroupState> itemsGroups,
-        SolutionReportState reportData) => new(filePath: filePath, itemsGroups: itemsGroups, reportData: reportData);
-
-    public void DeleteFolderItem(ItemGroupState item) =>
-        _itemsCollection.Remove(item: item);
-
-    public void DeleteItem(ItemState item)
+    public string LogoPath
     {
-        foreach (var group in _itemsCollection.Items)
-        {
-            if (group.Items.FirstOrDefault(predicate: x => x.ItemPath == item.ItemPath) is { } itemToRemove)
-            {
-                group.Items.Remove(item: itemToRemove);
-            }
-        }
+        get => _logoPath;
+        set => this.RaiseAndSetIfChanged(backingField: ref _logoPath, newValue: value);
     }
 
-    public void AddNewFolderItem(ItemGroupState item) => _itemsCollection.Add(item: item);
-
-    public void AddNewItem(ItemGroupState itemsContainer, ItemState item)
+    public string FilePath
     {
-        if (_itemsCollection.Items.FirstOrDefault(predicate: x => x.Name == itemsContainer.Name) is { } group)
-        {
-            if (group.Items.All(predicate: i => i.Name != item.Name))
-            {
-                group.Items.Add(item: item);
-            }
-        }
+        get => _filePath;
+        set => this.RaiseAndSetIfChanged(backingField: ref _filePath, newValue: value);
     }
 
-    private void LoadAllItems(IList<ItemGroupState> items) =>
-        _itemsCollection =
-            new SourceList<ItemGroupState>(source:
-                new ObservableCollectionExtended<ItemGroupState>(collection: items)
-                    .ToObservableChangeSet());*/
+    public string FileName
+    {
+        get => _fileName;
+        set => this.RaiseAndSetIfChanged(backingField: ref _fileName, newValue: value);
+    }
+
+    public ObservableCollection<LocationItemState> LocationItems
+    {
+        get => _locationItems;
+        set => this.RaiseAndSetIfChanged(backingField: ref _locationItems, newValue: value);
+    }
+}
+
+public class LocationItemState : ReactiveObject
+{
+    private ObservableCollection<ItemGroupState> _itemGroups;
+    private string _name = "";
+
+    public string Name
+    {
+        get => _name;
+        set => this.RaiseAndSetIfChanged(backingField: ref _name, newValue: value);
+    }
+
+    public ObservableCollection<ItemGroupState> ItemGroup
+    {
+        get => _itemGroups;
+        set => this.RaiseAndSetIfChanged(backingField: ref _itemGroups, newValue: value);
+    }
 }

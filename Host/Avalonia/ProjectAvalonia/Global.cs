@@ -2,13 +2,13 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Internals.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using ProjectAvalonia.Common.Http;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
 using ProjectAvalonia.Nito.AsyncEx;
-using ProjetoAcessibilidade.Domain.App.Contracts;
 
 namespace ProjectAvalonia;
 
@@ -38,8 +38,8 @@ public class Global
 
         HostedServices = new HostedServices();
 
-        UpdateManager = new UpdateManager(DataDir, Config.DownloadNewVersion
-            , new ProjectHttpClient(new HttpClient()));
+        UpdateManager = new UpdateManager(dataDir: DataDir, downloadNewVersion: Config.DownloadNewVersion
+            , httpClient: new ProjectHttpClient(new HttpClient()));
 
         Cache = new MemoryCache(new MemoryCacheOptions
         {
@@ -122,20 +122,20 @@ public class Global
 
             try
             {
-                HostedServices.Register<UpdateChecker>(() =>
+                HostedServices.Register<UpdateChecker>(serviceFactory: () =>
                     new UpdateChecker(TimeSpan.FromMinutes(7))
                     {
-                        AppClient = new AppClient(new ProjectHttpClient(new HttpClient()
-                            , () =>
+                        AppClient = new AppClient(new ProjectHttpClient(httpClient: new HttpClient()
+                            , baseUriGetter: () =>
                             {
                                 return new Uri(
                                     "https://api.github.com/repos/FabricioGonzalez/ProjetoAcessibilidade/releases");
                             }))
-                    }, "Software Update Checker");
+                    }, friendlyName: "Software Update Checker");
                 var updateChecker = HostedServices.Get<UpdateChecker>();
 
 
-                UpdateManager.Initialize(updateChecker, cancel);
+                UpdateManager.Initialize(updateChecker: updateChecker, cancelationToken: cancel);
 
                 cancel.ThrowIfCancellationRequested();
 
@@ -164,14 +164,14 @@ public class Global
 
         using (await InitializationAsyncLock.LockAsync())
         {
-            Logger.LogWarning("Process is exiting.", nameof(Global));
+            Logger.LogWarning(message: "Process is exiting.", callerFilePath: nameof(Global));
 
             try
             {
                 if (UpdateManager is { } updateManager)
                 {
                     UpdateManager.Dispose();
-                    Logger.LogInfo($"{nameof(UpdateManager)} is stopped.", nameof(Global));
+                    Logger.LogInfo(message: $"{nameof(UpdateManager)} is stopped.", callerFilePath: nameof(Global));
                 }
 
                 if (HostedServices is { } backgroundServices)

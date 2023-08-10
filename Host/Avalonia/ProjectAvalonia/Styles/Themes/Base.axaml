@@ -110,7 +110,7 @@
 
         <x:String x:Key="LabelsWatermarkText">Person or Company i.e. Alice, Bob, Pizza Inc</x:String>
 
-        <StaticResource x:Key="NotificationCardInformationBackgroundBrush" ResourceKey="SystemAccentColor" />
+        <!--<StaticResource x:Key="NotificationCardInformationBackgroundBrush" ResourceKey="SystemAccentColor" />
         <StaticResource x:Key="TextControlForeground" ResourceKey="SystemBaseHighColor" />
         <StaticResource x:Key="TextForegroundColor" ResourceKey="SystemBaseHighColor" />
         <StaticResource x:Key="DataGridRowSelectedUnfocusedBackgroundColor"
@@ -122,6 +122,7 @@
         <StaticResource x:Key="TextControlBorderBrush" ResourceKey="SystemBaseLowColor" />
         <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="SystemBaseMediumLowColor" />
         <StaticResource x:Key="TextControlBorderBrushFocused" ResourceKey="SystemBaseMediumHighColor" />
+        -->
 
         <BoxShadows x:Key="EmptyBoxShadow">0 0 0 0 #000000</BoxShadows>
 

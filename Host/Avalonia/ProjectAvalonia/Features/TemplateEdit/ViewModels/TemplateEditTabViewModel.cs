@@ -9,12 +9,12 @@ using Common.Optional;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Models.ValidationTypes;
+using ProjectAvalonia.Presentation.Enums;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
 using ProjectAvalonia.ViewModels;
-using ProjetoAcessibilidade.Core.Enuns;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
@@ -27,8 +27,8 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Category = "Templates",
     Keywords = new[]
     {
-        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
-        "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close"
+        , "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
 public partial class TemplateEditTabViewModel
@@ -48,27 +48,21 @@ public partial class TemplateEditTabViewModel
                 .AutoRefresh()
                 .DisposeMany())
             .Switch()
-            .WhenPropertyChanged(prop => prop.Type, false)
-            .Subscribe(prop =>
+            .WhenPropertyChanged(propertyAccessor: prop => prop.Type, notifyOnInitialValue: false)
+            .Subscribe(onNext: prop =>
                 {
                     ChangeBody(prop.Sender);
-                }, error =>
+                }, onError: error =>
                 {
                     Debug.WriteLine(error);
                 },
-                () =>
+                onCompleted: () =>
                 {
                     Debug.WriteLine("Completado");
                 });
     }
 
     public override MenuViewModel? ToolBar => null;
-
-    public ReactiveCommand<FormItemContainer, Unit> RemoveItemCommand => ReactiveCommand.Create<FormItemContainer>(
-        item =>
-        {
-            EditingItem.RemoveItem(item);
-        });
 
     public ReactiveCommand<FormItemContainer, Unit> AddRuleToItemCommand => ReactiveCommand.Create<FormItemContainer>(
         item =>
@@ -89,6 +83,12 @@ public partial class TemplateEditTabViewModel
         protected set;
     } = null;
 
+    public ReactiveCommand<FormItemContainer, Unit> RemoveItemCommand => ReactiveCommand.Create<FormItemContainer>(
+        item =>
+        {
+            EditingItem.RemoveItem(item);
+        });
+
     public ReactiveCommand<string, Unit> AddRuleCommand => ReactiveCommand.Create<string>(itemId =>
     {
         if (EditingItemRules
@@ -101,9 +101,9 @@ public partial class TemplateEditTabViewModel
 
         EditingItemRules.Add(new ValidationRuleContainerState
         {
-            TargetContainerId = itemId,
-            ValidaitonRules = new ObservableCollection<IValidationRuleState>(new List<IValidationRuleState>
-                { new ValidationRuleState { ValidationRuleName = itemId } })
+            TargetContainerId = itemId, ValidaitonRules = new ObservableCollection<IValidationRuleState>(
+                new List<IValidationRuleState>
+                    { new ValidationRuleState { ValidationRuleName = itemId } })
         });
     });
 
@@ -122,8 +122,8 @@ public partial class TemplateEditTabViewModel
     {
         EditingItem.AddFormItem(new FormItemContainer
         {
-            Id = Guid.NewGuid().ToString(), Topic = "", Type = AppFormDataType.Texto,
-            Body = new TextItemState("", "", id: Guid.NewGuid().ToString())
+            Id = Guid.NewGuid().ToString(), Topic = "", Type = AppFormDataType.Text
+            , Body = new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString())
         });
     });
 
@@ -135,7 +135,7 @@ public partial class TemplateEditTabViewModel
     public AppModelState EditingItem
     {
         get => _editingItem;
-        set => this.RaiseAndSetIfChanged(ref _editingItem, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _editingItem, newValue: value);
     }
 
     private void ChangeBody(
@@ -145,17 +145,17 @@ public partial class TemplateEditTabViewModel
         var result = container.Body.ToOption()
             .Map(e => container.Type switch
             {
-                AppFormDataType.Texto => container.ChangeItem(AppFormDataType.Texto)
-                    .Reduce(() => new TextItemState(container.Body.Topic, "", id: container.Body.Id)),
-                AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
-                    .Reduce(() => new CheckboxContainerItemState(container.Body.Topic, id: container.Body.Id))
+                AppFormDataType.Text => container.ChangeItem(AppFormDataType.Text)
+                    .Reduce(() => new TextItemState(topic: container.Body.Topic, textData: "", id: container.Body.Id))
+                , AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
+                    .Reduce(() => new CheckboxContainerItemState(topic: container.Body.Topic, id: container.Body.Id))
             })
             .Reduce(() => container.Type switch
             {
-                AppFormDataType.Texto => container.ChangeItem(AppFormDataType.Texto)
-                    .Reduce(() => new TextItemState("", "", id: Guid.NewGuid().ToString())),
-                AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
-                    .Reduce(() => new CheckboxContainerItemState("", id: Guid.NewGuid().ToString()))
+                AppFormDataType.Text => container.ChangeItem(AppFormDataType.Text)
+                    .Reduce(() => new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString()))
+                , AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
+                    .Reduce(() => new CheckboxContainerItemState(topic: "", id: Guid.NewGuid().ToString()))
             });
         container.Body = result;
 

@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Application.Solution.Contracts;
 using Avalonia.Threading;
+using Domain.Solutions;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Solution.Queries;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -41,22 +43,13 @@ public partial class ProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
 
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
     private readonly ISolutionService _solutionService;
 
     /*private readonly ProjectSolutionModel? projectSolution;*/
 
     public ProjectViewModel()
     {
-    }
-
-    public ProjectViewModel(
-        ISolutionService solutionService
-        , IMediator mediator
-    )
-    {
-        _solutionService = solutionService;
-
         SetupCancel(
             enableCancel: false,
             enableCancelOnEscape: true,
@@ -86,7 +79,7 @@ public partial class ProjectViewModel
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
-        _mediator = mediator;
+        /*_mediator = mediator;*/
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(OpenSolution);
 
@@ -103,6 +96,14 @@ public partial class ProjectViewModel
         EnableAutoBusyOn(
             OpenProjectCommand,
             CreateProjectCommand);
+    }
+
+    public ProjectViewModel(
+        ISolutionService solutionService
+        /*, IMediator mediator*/
+    ) : this()
+    {
+        _solutionService = solutionService;
     }
 
     public override string? LocalizedTitle
@@ -212,7 +213,7 @@ public partial class ProjectViewModel
     {
         if (ProjectEditingViewModel is { SelectedItem: not null })
         {
-            _ = await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
+            await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
         }
     }
 
@@ -223,44 +224,39 @@ public partial class ProjectViewModel
                 mode: NavigationMode.Normal,
                 Parameter: ProjectExplorerViewModel.SolutionState);
 
-    private async Task<Unit> OpenSolution()
-    {
-        var path = await FileDialogHelper.ShowOpenFileDialogAsync("Abrir Projeto");
-
-        if (path is { Length: > 0 })
-        {
-            await ReadSolutionAndOpen(path);
-        }
-
-        return Unit.Default;
-    }
+    private async Task OpenSolution() =>
+        /*var path = await FileDialogHelper.ShowOpenFileDialogAsync("Abrir Projeto");*/
+        await (await FileDialogHelper.GetFileAsync())
+            .Match(Succ: async file =>
+                {
+                    if (file is { Name: { Length: > 0 } })
+                    {
+                        await ReadSolutionAndOpen(file.Path.LocalPath);
+                    }
+                },
+                Fail: error => Task.CompletedTask);
 
     private async Task ReadSolutionAndOpen(
         string path
     )
     {
-        var result = await _mediator.Send(
-            request: new ReadSolutionProjectQuery(path),
-            cancellation: CancellationToken.None);
+        var result = await _solutionService.OpenSolution(path);
 
-        result.IfSucc(success =>
-        {
-            Dispatcher
-                .UIThread
-                .Post(
-                    () =>
+        Dispatcher
+            .UIThread
+            .Post(
+                () =>
+                {
+                    ProjectExplorerViewModel = new ProjectExplorerViewModel(
+                        result.ToSolutionState()
+                    )
                     {
-                        ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                            success
-                        )
-                        {
-                            SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
-                                ((ProjectEditingViewModel)ProjectEditingViewModel).AddItemToEdit.Execute(item)
-                                .Subscribe())
-                        };
-                        this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
-                    });
-        });
+                        SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
+                            ((ProjectEditingViewModel)ProjectEditingViewModel).AddItemToEdit.Execute(item)
+                            .Subscribe())
+                    };
+                    this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
+                });
     }
 
     private async Task CreateSolution()
@@ -275,7 +271,7 @@ public partial class ProjectViewModel
             await _solutionService.SaveSolution(path: result.Result.local, solutionToSave: result.Result.solution);
             Dispatcher.UIThread.Post(() =>
             {
-                ProjectExplorerViewModel = new ProjectExplorerViewModel();
+                /*ProjectExplorerViewModel = new ProjectExplorerViewModel();*/
             });
         }
         /*var dialogResult = await NavigateDialogAsync(
@@ -330,4 +326,23 @@ public partial class ProjectViewModel
 public static class ProjectInteractions
 {
     public static Interaction<Unit, Unit> SyncSolutionInteraction = new();
+}
+
+public static class Mapping
+{
+    public static SolutionState ToSolutionState(
+        this ISolution solution
+    ) =>
+        new()
+        {
+            LocationItems = new ObservableCollection<LocationItemState>(solution.ProjectItems.GroupBy(it => it.Locale)
+                .Select(it => new LocationItemState
+                {
+                    Name = it.Key, ItemGroup = new ObservableCollection<ItemGroupState>(it.GroupBy(it2 => it2.Group)
+                        .Select(it3 => new ItemGroupState
+                        {
+                            Name = it3.Key, ItemStates = it3.Select(it4 => new ItemState { Name = it4.Name })
+                        }))
+                }))
+        };
 }

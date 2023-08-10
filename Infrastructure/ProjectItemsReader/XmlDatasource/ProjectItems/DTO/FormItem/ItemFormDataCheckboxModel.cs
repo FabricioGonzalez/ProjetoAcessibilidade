@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.DTO.FormItem;
+namespace XmlDatasource.ProjectItems.DTO.FormItem;
 
 public class ItemFormDataCheckboxModel : ItemFormDataContainer
 {

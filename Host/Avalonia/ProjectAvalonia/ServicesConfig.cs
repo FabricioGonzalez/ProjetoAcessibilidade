@@ -1,6 +1,6 @@
+using Application.Internals.Contracts;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Services;
-using ProjetoAcessibilidade.Domain.App.Contracts;
 
 namespace ProjectAvalonia;
 

@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Styling;
 
 namespace ProjectAvalonia.Common.Helpers;
@@ -20,13 +19,13 @@ public static class ThemeHelper
         Theme theme
     )
     {
-        if (Application.Current is not null)
+        if (Avalonia.Application.Current is not null)
         {
             var requestedTheme = theme switch
             {
                 Theme.Light => ThemeVariant.Light, Theme.Dark => ThemeVariant.Dark, _ => ThemeVariant.Default
             };
-
+            Avalonia.Application.Current.RequestedThemeVariant = requestedTheme;
             /*var currentTheme = Domain.Application.Current.Styles.Select(selector: x => (StyleInclude)x)
                 .FirstOrDefault(predicate: x =>
                     x.Source is not null && x.Source.AbsolutePath.Contains(value: "Themes"));

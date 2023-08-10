@@ -8,10 +8,7 @@ using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -19,7 +16,7 @@ public class ItemViewModel
     : ReactiveObject
         , IItemViewModel
 {
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
 
     public ItemViewModel(
         string id
@@ -35,7 +32,7 @@ public class ItemViewModel
         TemplateName = templateName;
         Parent = parent;
 
-        _mediator = Locator.Current.GetService<IMediator>();
+        /*_mediator = Locator.Current.GetService<IMediator>();*/
 
         CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(CommitFile);
         SelectItemToEditCommand = ReactiveCommand.Create<IItemViewModel>(SelectItemToEdit);
@@ -47,13 +44,13 @@ public class ItemViewModel
             ReactiveCommand.CreateFromTask<IItemGroupViewModel>(async parent =>
             {
                 var dialog = new DeleteDialogViewModel(
-                    "O item seguinte será excluido ao confirmar. Deseja continuar?",
-                    "Deletar Item",
-                    "");
+                    message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                    title: "Deletar Item",
+                    caption: "");
 
                 if ((await RoutableViewModel.NavigateDialogAsync(
-                        dialog,
-                        NavigationTarget.CompactDialogScreen)).Result)
+                        dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result)
                 {
                     await MoveItem(parent);
                 }
@@ -127,7 +124,7 @@ public class ItemViewModel
     {
         if (parent.Items.Any(x => x.Name == Name))
         {
-            NotificationHelpers.Show("Erro", "O Item Já Existe");
+            NotificationHelpers.Show(title: "Erro", message: "O Item Já Existe");
 
             return;
         }
@@ -138,10 +135,12 @@ public class ItemViewModel
 
         var oldPath = ItemPath;
 
-        ItemPath = Path.Combine(parent.ItemPath, Path.GetFileName(oldPath));
+        ItemPath = Path.Combine(path1: parent.ItemPath, path2: Path.GetFileName(oldPath));
 
+        /*
         _ = (await _mediator.Send(new MoveFileItemCommand(oldPath, ItemPath), CancellationToken.None))
             .IfFail(error => NotificationHelpers.Show("Erro", error.Message));
+            */
 
         _ = Parent.MoveItemCommand.Execute();
     }

@@ -18,14 +18,26 @@
     </Application.DataTemplates>
 
     <Application.Resources>
-        <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
-        <conv:SizePercentageConverter x:Key="SizePercentageConverter" />
-        <conv:CheckingValueByTypeConverter x:Key="CheckingValueByTypeConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
+                    <conv:SizePercentageConverter x:Key="SizePercentageConverter" />
+                    <conv:CheckingValueByTypeConverter x:Key="CheckingValueByTypeConverter" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceInclude x:Key='Default' Source="/Styles/Themes/LightResources.axaml" />
+                <ResourceInclude x:Key='Light' Source="/Styles/Themes/LightResources.axaml" />
+                <ResourceInclude x:Key='Dark' Source="/Styles/Themes/DarkResources.axaml" />
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+
     </Application.Resources>
 
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="avares://ProjectAvalonia/Styles/Themes/BaseDark.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Styles/Themes/Base.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Icons/Icons.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Icons/IconsSmall.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Icons/IconsLarge.axaml" />

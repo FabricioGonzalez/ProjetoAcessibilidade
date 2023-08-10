@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
-using Core.Entities.Solution.Project.AppItem;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States.FormItemState;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -10,7 +10,7 @@ public class DesignTimeObservationFormItem
     : ReactiveObject
         , IObservationFormItemViewModel
 {
-    public ReadOnlyObservableCollection<ObservationModel> Observations
+    public ReadOnlyObservableCollection<ObservationState> Observations
     {
         get;
     }
@@ -20,7 +20,7 @@ public class DesignTimeObservationFormItem
         get;
     }
 
-    public ReactiveCommand<ObservationModel, Unit> RemoveObservationCommand
+    public ReactiveCommand<ObservationState, Unit> RemoveObservationCommand
     {
         get;
     }

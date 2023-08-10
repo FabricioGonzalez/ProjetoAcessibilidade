@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
-using ProjetoAcessibilidade.Domain.Contracts;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -16,7 +14,7 @@ public class SolutionItemViewModel
     : ReactiveObject
         , IItemViewModel
 {
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
 
     public SolutionItemViewModel(
         string id
@@ -30,31 +28,34 @@ public class SolutionItemViewModel
         Name = name;
         TemplateName = templateName;
 
-        _mediator = Locator.Current.GetService<IMediator>();
+        /*_mediator = Locator.Current.GetService<IMediator>();*/
 
-        CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(CommitFile, Observable.Return(false));
+        CommitFileCommand =
+            ReactiveCommand.CreateFromTask<IItemGroupViewModel>(execute: CommitFile
+                , canExecute: Observable.Return(false));
         SelectItemToEditCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(SelectItemToEdit);
         ExcludeFileCommand =
-            ReactiveCommand.Create(() =>
+            ReactiveCommand.Create(execute: () =>
             {
-            }, Observable.Return(false));
+            }, canExecute: Observable.Return(false));
         CanMoveCommand =
-            ReactiveCommand.CreateFromTask<IItemGroupViewModel>(async parent =>
+            ReactiveCommand.CreateFromTask<IItemGroupViewModel>(execute: async parent =>
             {
                 var dialog = new DeleteDialogViewModel(
-                    "O item seguinte será excluido ao confirmar. Deseja continuar?",
-                    "Deletar Item",
-                    "");
+                    message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                    title: "Deletar Item",
+                    caption: "");
 
                 if ((await RoutableViewModel.NavigateDialogAsync(
-                        dialog,
-                        NavigationTarget.CompactDialogScreen)).Result)
+                        dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result)
                 {
                     /*await MoveItem(parent);*/
                 }
-            }, Observable.Return(false));
+            }, canExecute: Observable.Return(false));
 
-        RenameFileCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(RenameFile, Observable.Return(false));
+        RenameFileCommand =
+            ReactiveCommand.CreateFromTask<IItemViewModel>(execute: RenameFile, canExecute: Observable.Return(false));
     }
 
     public string Id

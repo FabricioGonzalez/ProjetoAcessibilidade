@@ -3,10 +3,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using Application.Internals.Contracts;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.ViewModels;
-using ProjetoAcessibilidade.Domain.App.Contracts;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
@@ -94,9 +94,9 @@ public partial class GeneralSettingsTabViewModel : SettingsTabViewModelBase
             {
                 Logger.LogError(ex);
                 RunOnSystemStartup = !RunOnSystemStartup;
-                await ShowErrorAsync(Title
-                    , "Couldn't save your change, please see the logs for further information.",
-                    "Error occurred.");
+                await ShowErrorAsync(title: Title
+                    , message: "Couldn't save your change, please see the logs for further information.",
+                    caption: "Error occurred.");
             }
         });
 

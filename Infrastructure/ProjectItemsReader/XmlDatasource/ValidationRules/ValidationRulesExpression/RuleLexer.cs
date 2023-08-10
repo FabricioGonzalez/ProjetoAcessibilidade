@@ -1,30 +1,30 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using Core.Entities.ValidationRules;
+using XmlDatasource.ValidationRules.DTO;
 
-namespace XmlDatasource.ValidationRulesExpression;
+namespace XmlDatasource.ValidationRules.ValidationRulesExpression;
 
 public class RuleLexer
 {
     public string MountExpressionFrom(
-        Conditions appCondition
-    )
-    {
-        KeyWordsDefinition.Operations.TryGetValue(appCondition.Type, out var op);
+        RuleConditionItem appCondition
+    ) =>
+        /*KeyWordsDefinition.Operations.TryGetValue(key: appCondition.Type, value: out var op);
 
         return appCondition.Type switch
         {
             "has" => $"{{{appCondition.TargetId}}} {appCondition.Type} ${appCondition.CheckingValue}$"
             , _ => $"{{{appCondition.TargetId}}} {appCondition.Type} {appCondition.CheckingValue} "
-        };
-    }
+        };*/
+        "";
 
     public string GetTargetId(
         string instruction
     )
     {
-        var id = Regex.Match(instruction
-            , @$"\{KeyWordsDefinition.EvluationTargetStartKey}(.*)\{KeyWordsDefinition.EvluationTargetEndKey}");
+        var id = Regex.Match(input: instruction
+            , pattern:
+            @$"\{KeyWordsDefinition.EvluationTargetStartKey}(.*)\{KeyWordsDefinition.EvluationTargetEndKey}");
 
         return id.Value[1..^1];
     }
@@ -33,8 +33,8 @@ public class RuleLexer
         string instruction
     )
     {
-        var id = Regex.Match(instruction
-            , @$"\{KeyWordsDefinition.EvluationValueKey}(.*?)\{KeyWordsDefinition.EvluationValueKey}");
+        var id = Regex.Match(input: instruction
+            , pattern: @$"\{KeyWordsDefinition.EvluationValueKey}(.*?)\{KeyWordsDefinition.EvluationValueKey}");
 
         if (id.Value.Length > 0)
         {
@@ -50,10 +50,12 @@ public class RuleLexer
     {
         var items = Regex
             .Split(
-                Regex.Match(instruction
-                        , @$"(({KeyWordsDefinition.EvaluationGreatValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression})|({KeyWordsDefinition.EvaluationMinorValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression})|({KeyWordsDefinition.EvaluationGreatValueExpression})|({KeyWordsDefinition.EvaluationMinorValueExpression})|({KeyWordsDefinition.EvaluationMatchingExpression})|({KeyWordsDefinition.EvaluationBooleanExpression}))\s(.*)")
+                input: Regex.Match(input: instruction
+                        , pattern:
+                        @$"(({KeyWordsDefinition.EvaluationGreatValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression})|({KeyWordsDefinition.EvaluationMinorValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression})|({KeyWordsDefinition.EvaluationGreatValueExpression})|({KeyWordsDefinition.EvaluationMinorValueExpression})|({KeyWordsDefinition.EvaluationMatchingExpression})|({KeyWordsDefinition.EvaluationBooleanExpression}))\s(.*)")
                     .Value
-                , @$"(({KeyWordsDefinition.EvaluationGreatValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression})|({KeyWordsDefinition.EvaluationMinorValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression})|({KeyWordsDefinition.EvaluationGreatValueExpression})|({KeyWordsDefinition.EvaluationMinorValueExpression})|({KeyWordsDefinition.EvaluationMatchingExpression})|({KeyWordsDefinition.EvaluationBooleanExpression}))\s")
+                , pattern:
+                @$"(({KeyWordsDefinition.EvaluationGreatValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression})|({KeyWordsDefinition.EvaluationMinorValueExpression} {KeyWordsDefinition.EvaluationQuantityEqualityExpression})|({KeyWordsDefinition.EvaluationGreatValueExpression})|({KeyWordsDefinition.EvaluationMinorValueExpression})|({KeyWordsDefinition.EvaluationMatchingExpression})|({KeyWordsDefinition.EvaluationBooleanExpression}))\s")
             .Where(x => !string.IsNullOrWhiteSpace(x));
 
         return items;
@@ -71,20 +73,21 @@ public class RuleLexer
     ) =>
         op switch
         {
-            "<" => double.Parse(left, CultureInfo.InvariantCulture) < double.Parse(right, CultureInfo.InvariantCulture)
-            , ">" => double.Parse(left, CultureInfo.InvariantCulture) >
-                     double.Parse(right, CultureInfo.InvariantCulture)
-            , "<=" => double.Parse(left, CultureInfo.InvariantCulture) >=
-                      double.Parse(right, CultureInfo.InvariantCulture)
-            , ">=" => double.Parse(left, CultureInfo.InvariantCulture) <=
-                      double.Parse(right, CultureInfo.InvariantCulture)
-            , "is" => left.Equals(right), "has" => left.Contains(right.Replace("$", "")), _ => false
+            "<" => double.Parse(s: left, provider: CultureInfo.InvariantCulture) <
+                   double.Parse(s: right, provider: CultureInfo.InvariantCulture)
+            , ">" => double.Parse(s: left, provider: CultureInfo.InvariantCulture) >
+                     double.Parse(s: right, provider: CultureInfo.InvariantCulture)
+            , "<=" => double.Parse(s: left, provider: CultureInfo.InvariantCulture) >=
+                      double.Parse(s: right, provider: CultureInfo.InvariantCulture)
+            , ">=" => double.Parse(s: left, provider: CultureInfo.InvariantCulture) <=
+                      double.Parse(s: right, provider: CultureInfo.InvariantCulture)
+            , "is" => left.Equals(right), "has" => left.Contains(right.Replace(oldValue: "$", newValue: "")), _ => false
         };
 
     public Func<bool> MountEvaluation(
         string checkingValue
         , string evaluationType
         , string targetValue
-    ) => () => KeyWordsDefinition.Operations.TryGetValue(evaluationType, out var op) &&
-               Compare(op, checkingValue, targetValue.Trim());
+    ) => () => KeyWordsDefinition.Operations.TryGetValue(key: evaluationType, value: out var op) &&
+               Compare(op: op, left: checkingValue, right: targetValue.Trim());
 }

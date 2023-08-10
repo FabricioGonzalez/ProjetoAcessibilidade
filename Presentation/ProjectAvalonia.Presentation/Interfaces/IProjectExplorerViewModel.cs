@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reactive;
 using Common.Optional;
-using ProjetoAcessibilidade.Core.Entities.Solution;
+using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -13,7 +13,7 @@ public interface IProjectExplorerViewModel : INotifyPropertyChanged
         get;
     }
 
-    public ProjectSolutionModel SolutionState
+    public SolutionState SolutionState
     {
         get;
     }
@@ -31,6 +31,6 @@ public interface IProjectExplorerViewModel : INotifyPropertyChanged
     }
 
     public void SetCurrentSolution(
-        ProjectSolutionModel state
+        SolutionState state
     );
 }

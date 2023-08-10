@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.ValidationRules;
+namespace XmlDatasource.ValidationRules.DTO;
 
 public class ValidationItem
 {
@@ -12,8 +12,8 @@ public class ValidationItem
     }
 
     [XmlArray("conditions")]
-    [XmlArrayItem("condition", typeof(RuleConditionItems))]
-    public List<RuleConditionItems> RuleConditions
+    [XmlArrayItem(elementName: "condition", type: typeof(RuleConditionItem))]
+    public List<RuleConditionItem> RuleConditions
     {
         get;
         set;

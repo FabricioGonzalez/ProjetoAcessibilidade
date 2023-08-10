@@ -8,9 +8,12 @@
 
 
     <ItemGroup>
+        <Folder Include="ExplorerItems\Mappers\"/>
         <Folder Include="ExplorerItems\Services\"/>
-        <Folder Include="Solution\Dto\"/>
+        <Folder Include="ProjectItems\Mappers\"/>
+        <Folder Include="Solution\Mappers\"/>
         <Folder Include="ValidationRules\Dto\"/>
+        <Folder Include="ValidationRules\Mappers\"/>
     </ItemGroup>
 
 
@@ -20,7 +23,7 @@
 
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Domain\Domain.Application\Domain.Application.csproj" />
+        <ProjectReference Include="..\..\..\Domain\Domain.Application\Domain.Application.csproj"/>
     </ItemGroup>
 
 </Project>

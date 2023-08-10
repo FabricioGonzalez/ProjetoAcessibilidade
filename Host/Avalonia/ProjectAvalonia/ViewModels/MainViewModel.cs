@@ -4,6 +4,8 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using Application.Solution.Services;
+using AppRepositories.Solution.Services;
 using Avalonia.Controls;
 using Common;
 using ProjectAvalonia.Common.Models;
@@ -20,6 +22,7 @@ using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
+using XmlDatasource.Solution;
 
 namespace ProjectAvalonia.ViewModels;
 
@@ -28,16 +31,16 @@ public partial class MainViewModel : ViewModelBase
     public static readonly Interaction<Exception, Unit> ValidatedErrors = new();
     private readonly CreateSolutionViewModel _createSolution;
     private readonly EditingItemViewModel _editingItemPage;
-    private readonly PreviewerViewModel _previewPrintPage;
-    private readonly ProjectViewModel _projectPage;
-    private readonly SettingsPageViewModel _settingsPage;
-    private readonly TemplateEditViewModel _templatePage;
     [AutoNotify] private DialogScreenViewModel _compactDialogScreen;
 
     [AutoNotify] private DialogScreenViewModel _dialogScreen;
     [AutoNotify] private DialogScreenViewModel _fullScreen;
 
     [AutoNotify] private NavBarViewModel _navBar;
+    private PreviewerViewModel _previewPrintPage;
+    private ProjectViewModel _projectPage;
+    private SettingsPageViewModel _settingsPage;
+    private TemplateEditViewModel _templatePage;
 
     [AutoNotify] private string _title = Constants.AppName;
 
@@ -77,12 +80,7 @@ public partial class MainViewModel : ViewModelBase
 
         UiServices.Initialize();
 
-        _settingsPage = new SettingsPageViewModel();
-        _templatePage = new TemplateEditViewModel(templateEditTab: new TemplateEditTabViewModel()
-            , itemValidationTab: new ItemValidationViewModel());
-        _projectPage = new ProjectViewModel();
-        _previewPrintPage = new PreviewerViewModel();
-        _navBar = new NavBarViewModel();
+        CreateDI();
 
         NavigationManager.RegisterType(_navBar);
         RegisterViewModels();
@@ -157,6 +155,22 @@ public partial class MainViewModel : ViewModelBase
     public bool IsBusy
     {
         get;
+    }
+
+    private void CreateDI()
+    {
+        var xmlSolutionDatasource = new SolutionDatasourceImpl();
+        var solutionService = new SolutionService(xmlSolutionDatasource);
+
+        var solutionManipulation = new SolutionManipulationService(solutionService);
+
+
+        _settingsPage = new SettingsPageViewModel();
+        _templatePage = new TemplateEditViewModel(templateEditTab: new TemplateEditTabViewModel()
+            , itemValidationTab: new ItemValidationViewModel());
+        _projectPage = new ProjectViewModel(solutionManipulation);
+        _previewPrintPage = new PreviewerViewModel();
+        _navBar = new NavBarViewModel();
     }
 
     public void ClearStacks()

@@ -21,10 +21,10 @@ public class NavBarIconConverter : IValueConverter
         , CultureInfo culture
     )
     {
-        if (Application.Current is not null && value is string iconName)
+        if (Avalonia.Application.Current is not null && value is string iconName)
         {
-            if (Application.Current.Styles.TryGetResource(key: iconName
-                    , theme: Application.Current.RequestedThemeVariant, value: out var resource))
+            if (Avalonia.Application.Current.Styles.TryGetResource(key: iconName
+                    , theme: Avalonia.Application.Current.RequestedThemeVariant, value: out var resource))
             {
                 return resource is not StreamGeometry ? AvaloniaProperty.UnsetValue : resource;
             }

@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Reactive;
-using System.Threading;
 using System.Threading.Tasks;
-using Common;
-using Common.Linq;
 using Common.Optional;
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using Core.Entities.ValidationRules;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
@@ -20,24 +11,10 @@ using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 using ProjectAvalonia.Models;
-using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
-using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.ViewModels;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
-using ProjetoAcessibilidade.Domain.App.Queries.Templates;
-using ProjetoAcessibilidade.Domain.AppValidationRules.Commands;
-using ProjetoAcessibilidade.Domain.AppValidationRules.Queries;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
-using ProjetoAcessibilidade.Domain.Project.Commands.SystemItems;
-using ProjetoAcessibilidade.Domain.Project.Queries.SystemItems;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -59,7 +36,7 @@ public partial class TemplateEditViewModel
     : NavBarItemViewModel
         , ITemplateEditViewModel
 {
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
     private IEditableItemViewModel _selectedItem;
 
 
@@ -69,9 +46,9 @@ public partial class TemplateEditViewModel
     )
     {
         SetupCancel(
-            false,
-            true,
-            true);
+            enableCancel: false,
+            enableCancelOnEscape: true,
+            enableCancelOnPressed: true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
@@ -84,7 +61,7 @@ public partial class TemplateEditViewModel
         TemplateEditTab = templateEditTab;
         ItemValidationTab = itemValidationTab;
 
-        _mediator = Locator.Current.GetService<IMediator>()!;
+        /*_mediator = Locator.Current.GetService<IMediator>()!;*/
 
         _ = this.WhenAnyValue(x => x.SelectedItem)
             .WhereNotNull()
@@ -96,24 +73,25 @@ public partial class TemplateEditViewModel
             {
             });
         LoadAllItems = ReactiveCommand.CreateFromTask(
-            LoadItems,
+            execute: LoadItems,
             outputScheduler: RxApp.MainThreadScheduler);
 
         ExcludeItemCommand = ReactiveCommand.CreateFromTask(
             async () =>
             {
                 var dialog = new DeleteDialogViewModel(
-                    "O item seguinte será excluido ao confirmar. Deseja continuar?", "Deletar Item"
-                    , "");
+                    message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
+                    , caption: "");
 
-                if ((await NavigateDialogAsync(dialog,
-                        NavigationTarget.CompactDialogScreen)).Result)
+                if ((await NavigateDialogAsync(dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result)
                 {
                     if (SelectedItem is { } item)
                     {
                         Items?.Remove(item);
 
-                        await _mediator.Send(new DeleteProjectFileItemCommand(item.ItemPath), CancellationToken.None);
+                        /*await _mediator.Send(request: new DeleteProjectFileItemCommand(item.ItemPath)
+                            , cancellation: CancellationToken.None);*/
                     }
                 }
             });
@@ -136,7 +114,7 @@ public partial class TemplateEditViewModel
     private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem =>
         ReactiveCommand.CreateFromTask<IEditableItemViewModel>(async item =>
         {
-            await LoadItemReport(item.ItemPath, item.TemplateName);
+            await LoadItemReport(path: item.ItemPath, itemTemplateName: item.TemplateName);
         });
 
     public override string? LocalizedTitle
@@ -154,7 +132,7 @@ public partial class TemplateEditViewModel
     public IEditableItemViewModel? SelectedItem
     {
         get => _selectedItem;
-        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _selectedItem, newValue: value);
     }
 
     public ITemplateEditTabViewModel TemplateEditTab
@@ -197,30 +175,30 @@ public partial class TemplateEditViewModel
         var listBuilder = ImmutableList.CreateBuilder<IMenuItem>();
 
         listBuilder.Add(new MenuItemModel(
-            "Template_Edit_Open_ToolBarItem".GetLocalized(),
-            ReactiveCommand.Create(() =>
+            label: "Template_Edit_Open_ToolBarItem".GetLocalized(),
+            command: ReactiveCommand.Create(() =>
             {
             }),
-            "file_open_24_rounded".GetIcon(),
-            "Ctrl+Shift+O"));
+            icon: "file_open_24_rounded".GetIcon(),
+            gesture: "Ctrl+Shift+O"));
 
         listBuilder.Add(new MenuItemModel(
-            "Template_Edit_Create_Item_ToolBarItem".GetLocalized(),
-            ReactiveCommand.Create(() =>
+            label: "Template_Edit_Create_Item_ToolBarItem".GetLocalized(),
+            command: ReactiveCommand.Create(() =>
             {
                 Items?.Add(new EditableItemViewModel(CommitItemCommand)
                 {
                     Id = Guid.NewGuid().ToString(), InEditMode = true, Name = "", TemplateName = "", ItemPath = ""
                 });
             }),
-            "solution_create_24_rounded".GetIcon(),
-            "Ctrl+Shift+N"));
+            icon: "solution_create_24_rounded".GetIcon(),
+            gesture: "Ctrl+Shift+N"));
 
         listBuilder.Add(new MenuItemSeparatorModel());
 
         listBuilder.Add(new MenuItemModel(
-            "Template_Edit_Save_Item_ToolBarItem".GetLocalized(),
-            ReactiveCommand.CreateFromTask(async () =>
+            label: "Template_Edit_Save_Item_ToolBarItem".GetLocalized(),
+            command: ReactiveCommand.CreateFromTask(async () =>
             {
                 await TemplateEditTab.EditingItem.ToOption()
                     .Map(async item =>
@@ -229,8 +207,8 @@ public partial class TemplateEditViewModel
                     })
                     .Reduce(() => Task.CompletedTask);
             }),
-            "save_data_24_rounded".GetIcon(),
-            "Ctrl+S"));
+            icon: "save_data_24_rounded".GetIcon(),
+            gesture: "Ctrl+S"));
 
         return listBuilder;
     }
@@ -240,18 +218,18 @@ public partial class TemplateEditViewModel
         , string itemTemplateName
     )
     {
-        var itemTemplate = _mediator.Send(
-            new GetSystemProjectItemContentQuery(path),
-            CancellationToken.None);
+        /*var itemTemplate = _mediator.Send(
+            request: new GetSystemProjectItemContentQuery(path),
+            cancellation: CancellationToken.None);
 
         var templateRules =
-            LoadValidationRules(Path.Combine(Constants.AppValidationRulesTemplateFolder,
-                $"{Path.GetFileNameWithoutExtension(path)}{Constants.AppProjectValidationTemplateExtension}"));
+            LoadValidationRules(Path.Combine(path1: Constants.AppValidationRulesTemplateFolder,
+                path2: $"{Path.GetFileNameWithoutExtension(path)}{Constants.AppProjectValidationTemplateExtension}"));
 
         await Task.WhenAll(itemTemplate, templateRules);
-        var res = templateRules.Result;
+        var res = templateRules.Result;*/
 
-        itemTemplate
+        /*itemTemplate
             .Result
             .Match(success =>
                 {
@@ -285,88 +263,88 @@ public partial class TemplateEditViewModel
                 {
                     NotificationHelpers.Show(it);
                     return default;
-                });
+                });*/
     }
 
     private async Task<ObservableCollection<IValidationRuleContainerState>> LoadValidationRules(
         string path
-    ) =>
-        (await _mediator.Send(
-            new GetValidationRulesQuery(path),
-            CancellationToken.None))
-        .Match(success =>
+    ) => new();
+    /*(await _mediator.Send(
+        request: new GetValidationRulesQuery(path),
+        cancellation: CancellationToken.None))
+    .Match(Succ: success =>
+        {
+            var result = success.ToList().Select(x =>
             {
-                var result = success.ToList().Select(x =>
+                return new ValidationRuleContainerState
                 {
-                    return new ValidationRuleContainerState
-                    {
-                        TargetContainerId = x.Target.Id, TargetContainerName =  x.Target.Name, ValidaitonRules =
-                            new ObservableCollection<IValidationRuleState>(x.Rules.Select(y =>
-                                new ValidationRuleState
-                                {
-                                    ValidationRuleName = y.RuleName
-                                    , Type = AppValidation.GetOperationByValue(y.Operation)
-                                    , Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
-                                        new ConditionState
-                                        {
-                                            TargetId = cond.TargetId
-                                            , Result = new ObservableCollection<Result>(
-                                                cond.Result.Select(it => new Result { ResultValue = it }))
-                                            , CheckingValue =
-                                                AppValidation.GetCheckingOperationByValue(cond.Type) is IsOperation
-                                                    ? AppValidation.GetCheckingValueByValue(cond.CheckingValue)
-                                                    : new TextType(cond.CheckingValue)
-                                            , CheckingOperationType =
-                                                AppValidation.GetCheckingOperationByValue(cond.Type)
-                                        }))
-                                }))
-                    };
-                });
-
-                return new ObservableCollection<IValidationRuleContainerState>(result);
-            }
-            , failure =>
-            {
-                NotificationHelpers.Show("Erro ao ler regras", failure.Message);
-
-                return new ObservableCollection<IValidationRuleContainerState>(Enumerable
-                    .Empty<IValidationRuleContainerState>());
-            }
-        );
-
-    private async Task LoadItems() =>
-        (await _mediator
-            .Send(
-                new GetAllTemplatesQuery(),
-                CancellationToken.None)).OnSuccess(
-            success =>
-            {
-                Items = new ObservableCollection<IEditableItemViewModel>(
-                    success.Data
-                        ?.Select(
-                            item => new EditableItemViewModel(CommitItemCommand)
+                    TargetContainerId = x.Target.Id, TargetContainerName = x.Target.Name, ValidaitonRules =
+                        new ObservableCollection<IValidationRuleState>(x.Rules.Select(y =>
+                            new ValidationRuleState
                             {
-                                Id = item.Id ??
-                                     Guid.NewGuid()
-                                         .ToString()
-                                , ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
-                            }) ??
-                    Enumerable.Empty<EditableItemViewModel>());
-
-                this.RaisePropertyChanged(nameof(Items));
-            })
-        .OnError(
-            _ =>
-            {
+                                ValidationRuleName = y.RuleName
+                                , Type = AppValidation.GetOperationByValue(y.Operation)
+                                , Conditions = new ObservableCollection<IConditionState>(y.Conditions.Select(cond =>
+                                    new ConditionState
+                                    {
+                                        TargetId = cond.TargetId
+                                        , Result = new ObservableCollection<Result>(
+                                            cond.Result.Select(it => new Result { ResultValue = it }))
+                                        , CheckingValue =
+                                            AppValidation.GetCheckingOperationByValue(cond.Type) is IsOperation
+                                                ? AppValidation.GetCheckingValueByValue(cond.CheckingValue)
+                                                : new TextType(cond.CheckingValue)
+                                        , CheckingOperationType =
+                                            AppValidation.GetCheckingOperationByValue(cond.Type)
+                                    }))
+                            }))
+                };
             });
+
+            return new ObservableCollection<IValidationRuleContainerState>(result);
+        }
+        , Fail: failure =>
+        {
+            NotificationHelpers.Show(title: "Erro ao ler regras", message: failure.Message);
+
+            return new ObservableCollection<IValidationRuleContainerState>(Enumerable
+                .Empty<IValidationRuleContainerState>());
+        }
+    );*/
+
+    private Task LoadItems() => Task.CompletedTask;
+    /*(await _mediator
+        .Send(
+            request: new GetAllTemplatesQuery(),
+            cancellation: CancellationToken.None)).OnSuccess(
+        success =>
+        {
+            Items = new ObservableCollection<IEditableItemViewModel>(
+                success.Data
+                    ?.Select(
+                        item => new EditableItemViewModel(CommitItemCommand)
+                        {
+                            Id = item.Id ??
+                                 Guid.NewGuid()
+                                     .ToString()
+                            , ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
+                        }) ??
+                Enumerable.Empty<EditableItemViewModel>());
+
+            this.RaisePropertyChanged(nameof(Items));
+        })
+    .OnError(
+        _ =>
+        {
+        });*/
 
     private async Task CreateItem(
         IEditableItemViewModel item
     )
     {
-        item.Name = item.TemplateName;
-        item.ItemPath = Path.Combine(Constants.AppItemsTemplateFolder,
-            $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");
+        /*item.Name = item.TemplateName;
+        item.ItemPath = Path.Combine(path1: Constants.AppItemsTemplateFolder,
+            path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");
 
         var itemContent = new AppItemModel();
         itemContent.Id = item.Id;
@@ -375,8 +353,8 @@ public partial class TemplateEditViewModel
 
         itemContent.FormData = new List<IAppFormDataItemContract>
         {
-            new AppFormDataItemImageModel(Guid.NewGuid().ToString(), "Images")
-            , new AppFormDataItemObservationModel("", Guid.NewGuid().ToString(), "Observation")
+            new AppFormDataItemImageModel(id: Guid.NewGuid().ToString(), topic: "Images")
+            , new AppFormDataItemObservationModel(observation: "", id: Guid.NewGuid().ToString(), topic: "Observation")
         };
         itemContent.Images = Enumerable.Empty<ImagesItem>();
         itemContent.Observations = Enumerable.Empty<ObservationModel>();
@@ -385,16 +363,15 @@ public partial class TemplateEditViewModel
 
 
         _ = await _mediator
-            .Send(new SaveSystemProjectItemContentCommand(itemContent, item.ItemPath), CancellationToken.None);
+            .Send(request: new SaveSystemProjectItemContentCommand(AppItem: itemContent, ItemPath: item.ItemPath)
+                , cancellation: CancellationToken.None);*/
     }
 
     private async Task SaveItemData(
         AppModelState item
-    )
-    {
+    ) =>
         item.ItemName = item.ItemTemplate;
-        
-        var itemSave = _mediator
+    /*var itemSave = _mediator
             .Send(
                 new SaveSystemProjectItemContentCommand(
                     item.ToAppModel(),
@@ -420,6 +397,5 @@ public partial class TemplateEditViewModel
                     CancellationToken.None)
             ;
 
-        await Task.WhenAll(itemSave, rulesSave);
-    }
+        await Task.WhenAll(itemSave, rulesSave);*/
 }

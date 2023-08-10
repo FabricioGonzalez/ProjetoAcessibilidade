@@ -1,10 +1,9 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.DTO;
+namespace XmlDatasource.ProjectItems.DTO;
 
 public class ImagesModel
 {
-
     public ImagesModel()
     {
         ImagesItems = new List<ImageItem>();

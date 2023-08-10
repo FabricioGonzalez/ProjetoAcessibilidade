@@ -1,4 +1,4 @@
-﻿using XmlDatasource.ValidationRulesExpression;
+﻿using XmlDatasource.ValidationRules.ValidationRulesExpression;
 
 namespace InfrastrutureTests.ValidationRulesExpression;
 
@@ -11,6 +11,7 @@ public class RuleLexerTest
     public string _evaluation4;
     public string _evaluation5;
     public string _evaluation6;
+
     public RuleLexerTest()
     {
         lexer = new RuleLexer();
@@ -22,7 +23,7 @@ public class RuleLexerTest
         _evaluation6 = "{TargetId} -> #1# less than 1";
     }
 
-    [Fact()]
+    [Fact]
     public void GetTargetIdTest()
     {
         var result = lexer.GetTargetId(_evaluation);
@@ -32,15 +33,15 @@ public class RuleLexerTest
         var result5 = lexer.GetTargetId(_evaluation5);
         var result6 = lexer.GetTargetId(_evaluation6);
 
-        Assert.True(!string.IsNullOrWhiteSpace(result), $"O resultado é invalido {result}");
-        Assert.True(!string.IsNullOrWhiteSpace(result2), $"O resultado é invalido {result2}");
-        Assert.True(!string.IsNullOrWhiteSpace(result3), $"O resultado é invalido {result3}");
-        Assert.True(!string.IsNullOrWhiteSpace(result4), $"O resultado é invalido {result4}");
-        Assert.True(!string.IsNullOrWhiteSpace(result5), $"O resultado é invalido {result5}");
-        Assert.True(!string.IsNullOrWhiteSpace(result6), $"O resultado é invalido {result6}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result), userMessage: $"O resultado é invalido {result}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result2), userMessage: $"O resultado é invalido {result2}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result3), userMessage: $"O resultado é invalido {result3}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result4), userMessage: $"O resultado é invalido {result4}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result5), userMessage: $"O resultado é invalido {result5}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result6), userMessage: $"O resultado é invalido {result6}");
     }
 
-    [Fact()]
+    [Fact]
     public void GetCheckingValueTest()
     {
         var result = lexer.GetCheckingValue(_evaluation);
@@ -50,14 +51,15 @@ public class RuleLexerTest
         var result5 = lexer.GetCheckingValue(_evaluation5);
         var result6 = lexer.GetCheckingValue(_evaluation6);
 
-        Assert.True(!string.IsNullOrWhiteSpace(result), $"O resultado é invalido {result}");
-        Assert.True(!string.IsNullOrWhiteSpace(result2), $"O resultado é invalido {result2}");
-        Assert.True(!string.IsNullOrWhiteSpace(result3), $"O resultado é invalido {result3}");
-        Assert.True(!string.IsNullOrWhiteSpace(result4), $"O resultado é invalido {result4}");
-        Assert.True(!string.IsNullOrWhiteSpace(result5), $"O resultado é invalido {result5}");
-        Assert.True(!string.IsNullOrWhiteSpace(result6), $"O resultado é invalido {result6}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result), userMessage: $"O resultado é invalido {result}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result2), userMessage: $"O resultado é invalido {result2}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result3), userMessage: $"O resultado é invalido {result3}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result4), userMessage: $"O resultado é invalido {result4}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result5), userMessage: $"O resultado é invalido {result5}");
+        Assert.True(condition: !string.IsNullOrWhiteSpace(result6), userMessage: $"O resultado é invalido {result6}");
     }
-    [Fact()]
+
+    [Fact]
     public void GetEvaluationExpressionTest()
     {
         var result = lexer.GetEvaluationExpression(_evaluation);
@@ -67,14 +69,15 @@ public class RuleLexerTest
         var result5 = lexer.GetEvaluationExpression(_evaluation5);
         var result6 = lexer.GetEvaluationExpression(_evaluation6);
 
-        Assert.True(result.Count() > 0, $"O resultado é invalido {result}");
-        Assert.True(result2.Count() > 0, $"O resultado é invalido {result2}");
-        Assert.True(result3.Count() > 0, $"O resultado é invalido {result3}");
-        Assert.True(result4.Count() > 0, $"O resultado é invalido {result4}");
-        Assert.True(result5.Count() > 0, $"O resultado é invalido {result5}");
-        Assert.True(result6.Count() > 0, $"O resultado é invalido {result6}");
+        Assert.True(condition: result.Count() > 0, userMessage: $"O resultado é invalido {result}");
+        Assert.True(condition: result2.Count() > 0, userMessage: $"O resultado é invalido {result2}");
+        Assert.True(condition: result3.Count() > 0, userMessage: $"O resultado é invalido {result3}");
+        Assert.True(condition: result4.Count() > 0, userMessage: $"O resultado é invalido {result4}");
+        Assert.True(condition: result5.Count() > 0, userMessage: $"O resultado é invalido {result5}");
+        Assert.True(condition: result6.Count() > 0, userMessage: $"O resultado é invalido {result6}");
     }
-    [Fact()]
+
+    [Fact]
     public void MountCompareExpression()
     {
         var result = lexer.GetEvaluation(_evaluation);
@@ -84,21 +87,24 @@ public class RuleLexerTest
         var result5 = lexer.GetEvaluation(_evaluation5);
         var result6 = lexer.GetEvaluation(_evaluation6);
 
-        var testResult = lexer.MountEvaluation(result.checkingValue, result.evaluation.First(), result.evaluation.Last())();
-        var testResult2 = lexer.MountEvaluation(result2.checkingValue, result2.evaluation.First(), result2.evaluation.Last())();
-        var testResult3 = lexer.MountEvaluation(result3.checkingValue, result3.evaluation.First(), result3.evaluation.Last())();
-        var testResult4 = lexer.MountEvaluation(result4.checkingValue, result4.evaluation.First(), result4.evaluation.Last())();
-        var testResult5 = lexer.MountEvaluation(result5.checkingValue, result5.evaluation.First(), result5.evaluation.Last())();
-        var testResult6 = lexer.MountEvaluation(result6.checkingValue, result6.evaluation.First(), result6.evaluation.Last())();
+        var testResult = lexer.MountEvaluation(checkingValue: result.checkingValue
+            , evaluationType: result.evaluation.First(), targetValue: result.evaluation.Last())();
+        var testResult2 = lexer.MountEvaluation(checkingValue: result2.checkingValue
+            , evaluationType: result2.evaluation.First(), targetValue: result2.evaluation.Last())();
+        var testResult3 = lexer.MountEvaluation(checkingValue: result3.checkingValue
+            , evaluationType: result3.evaluation.First(), targetValue: result3.evaluation.Last())();
+        var testResult4 = lexer.MountEvaluation(checkingValue: result4.checkingValue
+            , evaluationType: result4.evaluation.First(), targetValue: result4.evaluation.Last())();
+        var testResult5 = lexer.MountEvaluation(checkingValue: result5.checkingValue
+            , evaluationType: result5.evaluation.First(), targetValue: result5.evaluation.Last())();
+        var testResult6 = lexer.MountEvaluation(checkingValue: result6.checkingValue
+            , evaluationType: result6.evaluation.First(), targetValue: result6.evaluation.Last())();
 
-        Assert.True(testResult, "Erro ao Validar a função");
-        Assert.True(testResult2, "Erro ao Validar a função");
-        Assert.True(testResult3, "Erro ao Validar a função");
-        Assert.True(testResult4, "Erro ao Validar a função");
-        Assert.True(testResult5, "Erro ao Validar a função");
-        Assert.True(testResult6, "Erro ao Validar a função");
-
+        Assert.True(condition: testResult, userMessage: "Erro ao Validar a função");
+        Assert.True(condition: testResult2, userMessage: "Erro ao Validar a função");
+        Assert.True(condition: testResult3, userMessage: "Erro ao Validar a função");
+        Assert.True(condition: testResult4, userMessage: "Erro ao Validar a função");
+        Assert.True(condition: testResult5, userMessage: "Erro ao Validar a função");
+        Assert.True(condition: testResult6, userMessage: "Erro ao Validar a função");
     }
-
-
 }

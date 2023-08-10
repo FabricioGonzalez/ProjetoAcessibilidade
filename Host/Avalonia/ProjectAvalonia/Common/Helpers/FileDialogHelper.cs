@@ -1,17 +1,28 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Platform.Storage;
+using LanguageExt.Common;
 
 namespace ProjectAvalonia.Common.Helpers;
 
 public static class FileDialogHelper
 {
-    public static async Task<string?> ShowOpenFileDialogAsync(
+    private static IStorageProvider GetProvider()
+    {
+        if (Avalonia.Application.Current?.ApplicationLifetime is ISingleViewApplicationLifetime app)
+        {
+            return TopLevel.GetTopLevel(app.MainView).StorageProvider;
+        }
+
+        return ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime).MainWindow
+            .StorageProvider;
+    }
+
+    /*public static async Task<string?> ShowOpenFileDialogAsync(
         string title
     )
     {
@@ -197,5 +208,29 @@ public static class FileDialogHelper
         {
             sfd.Directory = Environment.GetFolderPath(folder: Environment.SpecialFolder.Personal);
         }
+    }*/
+    public static async Task<Result<IStorageFolder>> GetFolderAsync()
+    {
+        var folders = await GetProvider().OpenFolderPickerAsync(new FolderPickerOpenOptions { Title = "Abrir pasta" });
+
+        return folders.Any()
+            ? new Result<IStorageFolder>(folders.First())
+            : new Result<IStorageFolder>(new IOException("No folder was Selected"));
+    }
+
+    public static async Task<Result<IStorageFile>> GetFileAsync()
+    {
+        var files = await GetProvider()
+            .OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "Abrir file", FileTypeFilter = new List<FilePickerFileType>
+                {
+                    new("Arquivo de projeto") { Patterns = new[] { "*.prja" } }
+                }
+            });
+
+        return files.Any()
+            ? new Result<IStorageFile>(files.First())
+            : new Result<IStorageFile>(new IOException("No file was Selected"));
     }
 }

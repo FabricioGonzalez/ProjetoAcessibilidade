@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
-
-using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
-
+using ProjectAvalonia.Presentation.States.ProjectItems;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -29,6 +27,7 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
     {
         get;
     }
+
     public ReactiveCommand<Unit, Unit> MoveItemCommand
     {
         get;
@@ -52,5 +51,7 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
 
     /*public void RemoveItem(IItemViewModel item);*/
 
-    public void TransformFrom(List<ItemModel> items);
+    public void TransformFrom(
+        List<ItemState> items
+    );
 }

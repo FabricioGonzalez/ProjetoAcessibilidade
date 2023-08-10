@@ -1,8 +1,6 @@
 ﻿using System.Xml.Serialization;
-using Core.Entities.ValidationRules;
-using XmlDatasource.ValidationRulesExpression;
 
-namespace XmlDatasource.XmlFile.ValidationRules;
+namespace XmlDatasource.ValidationRules.DTO;
 
 [XmlRoot("validation_rules")]
 public class ValidationItemRoot
@@ -15,7 +13,7 @@ public class ValidationItemRoot
     }
 }
 
-public static class ValidationRulesExtensions
+/*public static class ValidationRulesExtensions
 {
     public static ValidationItemRoot MapToValidationRoot(
         this IEnumerable<ValidationRule> rules
@@ -27,7 +25,7 @@ public static class ValidationRulesExtensions
             {
                 Target = new RuleTargetsItem { Id = x.Target.Id }, RuleConditions = x.Rules.Select(x =>
                 {
-                    return new RuleConditionItems
+                    return new RuleConditionItem
                     {
                         RuleName = x.RuleName, Operation = x.Operation, RuleSetItems = x.Conditions.Select(condition =>
                         {
@@ -57,15 +55,15 @@ public static class ValidationRulesExtensions
                     var type = res.evaluation.FirstOrDefault("is");
                     var value = res.evaluation.LastOrDefault("");
                     return new Conditions(
-                        res.target,
-                        type,
-                        value,
-                        condition.Results.Select(result => result.Result),
-                        item =>
+                        TargetId: res.target,
+                        Type: type,
+                        CheckingValue: value,
+                        Result: condition.Results.Select(result => result.Result),
+                        ConditionsFunctions: item =>
                         {
-                            var expression = _ruleLexer.MountEvaluation(item,
-                                type,
-                                value);
+                            var expression = _ruleLexer.MountEvaluation(checkingValue: item,
+                                evaluationType: type,
+                                targetValue: value);
 
                             return (expression(), condition.Results.Select(results => results.Result));
                         });
@@ -77,4 +75,4 @@ public static class ValidationRulesExtensions
                 };
             })
         });
-}
+}*/

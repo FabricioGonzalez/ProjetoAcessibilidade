@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
-using Core.Entities.Solution.Project.AppItem;
 using DynamicData;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States.FormItemState;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -12,7 +12,7 @@ public class ObservationFormItem
     : ReactiveObject
         , IObservationFormItemViewModel
 {
-    public ReadOnlyObservableCollection<ObservationModel> _observations;
+    public ReadOnlyObservableCollection<ObservationState> _observations;
 
     public ObservationFormItem()
     {
@@ -22,17 +22,17 @@ public class ObservationFormItem
             .Subscribe();
     }
 
-    public SourceList<ObservationModel> SourceItems
+    public SourceList<ObservationState> SourceItems
     {
         get;
         set;
     } = new();
 
     public ReactiveCommand<Unit, Unit> AddObservationCommand =>
-        ReactiveCommand.Create(() => SourceItems.Add(new ObservationModel()));
+        ReactiveCommand.Create(() => SourceItems.Add(new ObservationState()));
 
-    public ReactiveCommand<ObservationModel, Unit> RemoveObservationCommand =>
-        ReactiveCommand.Create<ObservationModel>(it => SourceItems.Remove(it));
+    public ReactiveCommand<ObservationState, Unit> RemoveObservationCommand =>
+        ReactiveCommand.Create<ObservationState>(it => SourceItems.Remove(it));
 
     public string Id
     {
@@ -40,5 +40,5 @@ public class ObservationFormItem
         set;
     }
 
-    public ReadOnlyObservableCollection<ObservationModel> Observations => _observations;
+    public ReadOnlyObservableCollection<ObservationState> Observations => _observations;
 }

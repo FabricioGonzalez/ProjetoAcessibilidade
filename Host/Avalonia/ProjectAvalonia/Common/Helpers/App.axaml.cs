@@ -1,7 +1,6 @@
 using System;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -11,7 +10,7 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Common.Helpers;
 
-public class App : Application
+public class App : Avalonia.Application
 {
     private readonly Func<Task>? _backendInitialiseAsync;
     private readonly bool _startInBg;
@@ -40,7 +39,7 @@ public class App : Application
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 _applicationStateManager =
-                    new ApplicationStateManager(desktop, _startInBg);
+                    new ApplicationStateManager(lifetime: desktop, startInBg: _startInBg);
 
                 DataContext = _applicationStateManager.ApplicationViewModel;
 

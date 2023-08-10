@@ -39,7 +39,7 @@ public class PasteButtonFlashBehavior : AttachedToVisualTreeBehavior<AnimatedBut
     {
         /* RxApp.MainThreadScheduler.Schedule(async () => await CheckClipboardForValidAddressAsync());*/
 
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
+        if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
         {
             var mainWindow = lifetime.MainWindow;
 

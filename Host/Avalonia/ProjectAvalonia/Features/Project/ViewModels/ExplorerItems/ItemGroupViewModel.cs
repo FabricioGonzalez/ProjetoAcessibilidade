@@ -5,22 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Project.Commands.ProjectItems;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -28,7 +23,7 @@ public class ItemGroupViewModel
     : ReactiveObject
         , IItemGroupViewModel
 {
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
 
     public ItemGroupViewModel(
         string name
@@ -36,7 +31,7 @@ public class ItemGroupViewModel
         , Func<Task> SaveSolution
     )
     {
-        _mediator = Locator.Current.GetService<IMediator>();
+        /*_mediator = Locator.Current.GetService<IMediator>();*/
 
         Name = name;
         ItemPath = itemPath;
@@ -62,17 +57,17 @@ public class ItemGroupViewModel
                 async x =>
                 {
                     var dialog = new DeleteDialogViewModel(
-                        "O item seguinte será excluido ao confirmar. Deseja continuar?",
-                        "Deletar Item",
-                        "");
+                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                        title: "Deletar Item",
+                        caption: "");
 
                     if ((await RoutableViewModel.NavigateDialogAsync(
-                            dialog,
-                            NavigationTarget.CompactDialogScreen)).Result)
+                            dialog: dialog,
+                            target: NavigationTarget.CompactDialogScreen)).Result)
                     {
                         _ = Items.Remove(x);
 
-                        _ = await _mediator.Send(new DeleteProjectFileItemCommand(x.ItemPath), CancellationToken.None);
+                        /*_ = await _mediator.Send(new DeleteProjectFileItemCommand(x.ItemPath), CancellationToken.None);*/
                         await SaveSolution();
                     }
                 });
@@ -140,17 +135,17 @@ public class ItemGroupViewModel
         });
 
     public void TransformFrom(
-        List<ItemModel> items
+        List<ItemState> items
     )
     {
         foreach (var item in items)
         {
             var itemToAdd = new ItemViewModel(
-                item.Id,
-                item.ItemPath,
-                item.Name,
-                item.TemplateName,
-                this);
+                id: item.Id,
+                itemPath: item.ItemPath,
+                name: item.Name,
+                templateName: item.TemplateName,
+                parent: this);
 
             Items.Add(itemToAdd);
         }
@@ -181,27 +176,28 @@ public class ItemGroupViewModel
         var addItemViewModel = new AddItemViewModel(Items);
 
         var dialogResult = await RoutableViewModel.NavigateDialogAsync(
-            addItemViewModel,
-            NavigationTarget.DialogScreen);
+            dialog: addItemViewModel,
+            target: NavigationTarget.DialogScreen);
 
         if (dialogResult.Kind is DialogResultKind.Normal &&
             dialogResult.Result is not null)
         {
             var path = Path.Combine(
-                ItemPath,
-                $"{dialogResult.Result.Name}{Constants.AppProjectItemExtension}");
+                path1: ItemPath,
+                path2: $"{dialogResult.Result.Name}{Constants.AppProjectItemExtension}");
 
             var item = new ItemViewModel(
-                Guid.NewGuid()
+                id: Guid.NewGuid()
                     .ToString(),
-                path,
-                dialogResult.Result.Name,
-                dialogResult.Result.TemplateName,
-                this);
+                itemPath: path,
+                name: dialogResult.Result.Name,
+                templateName: dialogResult.Result.TemplateName,
+                parent: this);
 
             Items.Add(
                 item);
 
+            /*
             _ = (await _mediator.Send(
                     new CreateItemCommand(
                         path,
@@ -211,6 +207,7 @@ public class ItemGroupViewModel
                 {
                     NotificationHelpers.Show("Erro ao criar item", error.Message);
                 });
+                */
 
             return item;
         }

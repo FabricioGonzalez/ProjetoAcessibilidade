@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Media;
+﻿using Avalonia.Media;
 using Common.Optional;
 
 namespace ProjectAvalonia.Common.Helpers;
@@ -11,7 +10,7 @@ public static class IconExtensions
     )
     {
         /*var icon =*/
-        if (Application.Current?
+        if (Avalonia.Application.Current?
                 .Styles
                 .TryGetResource(key: iconKey
                     , theme: null, value: out var iconOpen) == true)

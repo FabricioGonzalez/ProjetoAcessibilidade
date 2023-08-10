@@ -13,6 +13,7 @@
         <Folder Include="FormItem\Services\"/>
         <Folder Include="FormItem\Usecases\"/>
         <Folder Include="FormRules\Usecases\"/>
+        <Folder Include="Internals\Usecases\"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -2,7 +2,6 @@ using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using ReactiveUI;
@@ -12,7 +11,7 @@ namespace ProjectAvalonia.Common.Helpers;
 public static class ApplicationHelper
 {
     public static Window? MainWindow =>
-        (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        (Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
 
     public static IObservable<string> ClipboardTextChanged(
         IScheduler? scheduler = default

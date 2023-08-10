@@ -25,6 +25,14 @@
 
             </Component>
         </DirectoryRef>
+
+        <DirectoryRef Id="TemplateFilesDirectory"
+                      FileSource="$(var.ProjectAvalonia.ProjectDir)Specifications\Templates\Itens">
+        </DirectoryRef>
+
+        <DirectoryRef Id="RulesFilesDirectory"
+                      FileSource="$(var.ProjectAvalonia.ProjectDir)Specifications\Templates\ValidationRules">
+        </DirectoryRef>
     </Fragment>
 
 </Wix>

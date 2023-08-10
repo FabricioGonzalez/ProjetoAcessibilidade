@@ -1,8 +1,7 @@
 ﻿using System.Xml.Serialization;
-using Core.Entities.Solution.Project.AppItem.DataItems.Images;
-using XmlDatasource.XmlFile.DTO.FormItem;
+using XmlDatasource.ProjectItems.DTO.FormItem;
 
-namespace XmlDatasource.XmlFile.DTO;
+namespace XmlDatasource.ProjectItems.DTO;
 
 [XmlRoot("item")]
 public class ItemRoot
@@ -48,8 +47,8 @@ public class ItemRoot
     }
 
     [XmlArray("images")]
-    [XmlArrayItem("image", Type = typeof(ImagesItem))]
-    public List<ImagesItem> Images
+    [XmlArrayItem("image", Type = typeof(ImagesModel))]
+    public List<ImagesModel> Images
     {
         get;
         set;

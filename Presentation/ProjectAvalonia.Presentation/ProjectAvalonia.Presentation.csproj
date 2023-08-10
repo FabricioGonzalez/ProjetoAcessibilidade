@@ -14,9 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Domain\Core\App.Core\ProjetoAcessibilidade.Core.csproj"/>
         <ProjectReference Include="..\..\Domain\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\..\Domain\Project.Application\ProjetoAcessibilidade.Domain.csproj"/>
         <ProjectReference Include="..\..\Shared\Common\Common.csproj"/>
     </ItemGroup>
 

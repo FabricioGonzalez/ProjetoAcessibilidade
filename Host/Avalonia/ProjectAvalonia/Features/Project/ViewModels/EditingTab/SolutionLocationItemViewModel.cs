@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using DynamicData.Binding;
@@ -11,10 +10,7 @@ using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -22,7 +18,7 @@ public class SolutionLocationItemViewModel
     : ReactiveObject
         , ISolutionLocationItem
 {
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
     private readonly Func<Task> SaveSolution;
 
     public SolutionLocationItemViewModel(
@@ -32,7 +28,7 @@ public class SolutionLocationItemViewModel
     )
     {
         SaveSolution = saveSolution;
-        _mediator = Locator.Current.GetService<IMediator>();
+        /*_mediator = Locator.Current.GetService<IMediator>();*/
 
         Name = name;
         ItemPath = itemPath;
@@ -158,20 +154,20 @@ public class SolutionLocationItemViewModel
     private async Task<IItemGroupViewModel?> AddProjectItem()
     {
         var dialog = new CreateFolderViewModel(
-            "Defina o nome da pasta", "Criar Pasta"
-            , "",
-            Items);
+            message: "Defina o nome da pasta", title: "Criar Pasta"
+            , caption: "",
+            items: Items);
 
-        var result = await RoutableViewModel.NavigateDialogAsync(dialog,
-            NavigationTarget.CompactDialogScreen);
+        var result = await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
+            target: NavigationTarget.CompactDialogScreen);
 
         if (result.Kind == DialogResultKind.Normal)
         {
             var item = new ItemGroupViewModel(
-                result.Result,
-                Path.Combine(ItemPath
-                    , Constants.AppProjectItemsFolderName, result.Result),
-                SaveSolution
+                name: result.Result,
+                itemPath: Path.Combine(path1: ItemPath
+                    , path2: Constants.AppProjectItemsFolderName, path3: result.Result),
+                SaveSolution: SaveSolution
             );
 
             Items.Add(item);
@@ -191,8 +187,8 @@ public class SolutionLocationItemViewModel
                             .ToList()
                     }).ToList()
             });*/
-            _ = await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath)
-                , CancellationToken.None);
+            /*_ = await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath)
+                , CancellationToken.None);*/
 
             return item;
             /*return Optional<IItemGroupViewModel>.Some(item);*/

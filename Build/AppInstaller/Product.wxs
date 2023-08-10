@@ -47,6 +47,8 @@
         <Feature Id="ProductFeature" Title="!(loc.ProductName_$(var.Platform))" Level="1">
             <ComponentGroupRef Id="ProductComponents"/>
             <ComponentGroupRef Id="PublishedComponents"/>
+            <!--<ComponentGroupRef Id="RulesFiles"/>
+            <ComponentGroupRef Id="TemplateFiles"/>-->
         </Feature>
     </Product>
     <Fragment>

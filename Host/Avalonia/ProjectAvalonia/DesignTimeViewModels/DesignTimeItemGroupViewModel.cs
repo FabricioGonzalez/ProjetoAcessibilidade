@@ -1,23 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
-
 using ProjectAvalonia.Presentation.Interfaces;
-
-using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
-
+using ProjectAvalonia.Presentation.States.ProjectItems;
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 
-public class DesignTimeItemGroupViewModel : ReactiveObject, IItemGroupViewModel
+public class DesignTimeItemGroupViewModel
+    : ReactiveObject
+        , IItemGroupViewModel
 {
     public DesignTimeItemGroupViewModel()
     {
         Items = new ObservableCollection<IItemViewModel>
         {
-            new DesignTimeItemViewModel(parent: this),
-            new DesignTimeItemViewModel(parent: this)
+            new DesignTimeItemViewModel(parent: this), new DesignTimeItemViewModel(parent: this)
         };
     }
 
@@ -56,16 +54,20 @@ public class DesignTimeItemGroupViewModel : ReactiveObject, IItemGroupViewModel
         get;
     }
 
+    public void TransformFrom(
+        List<ItemState> items
+    )
+    {
+    }
+
     public ReactiveCommand<Unit, Unit> MoveItemCommand
     {
         get;
     }
 
-    public void TransformFrom(List<ItemModel> items)
-    {
-    }
-
-    public void RemoveItem(IItemViewModel item)
+    public void RemoveItem(
+        IItemViewModel item
+    )
     {
     }
 }

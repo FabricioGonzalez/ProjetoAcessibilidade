@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
-using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using Common.Optional;
@@ -13,14 +12,10 @@ using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-using ProjetoAcessibilidade.Core.Entities.Solution;
-using ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
-using ProjetoAcessibilidade.Domain.Contracts;
-using ProjetoAcessibilidade.Domain.Solution.Commands.SolutionItem;
 using ReactiveUI;
-using Splat;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -28,48 +23,49 @@ public class ProjectExplorerViewModel
     : ViewModelBase
         , IProjectExplorerViewModel
 {
-    private readonly IMediator _mediator;
+    /*private readonly IMediator _mediator;*/
     private IItemViewModel _selectedItem;
     private ISolutionGroupViewModel _solutionGroupView;
 
     public ProjectExplorerViewModel(
-        ProjectSolutionModel state
+        SolutionState state
     )
     {
         SolutionState = state;
 
-        _mediator = Locator.Current.GetService<IMediator>()!;
+        /*_mediator = Locator.Current.GetService<IMediator>()!;*/
 
         SolutionRootItem = new SolutionGroupViewModel();
 
-        SolutionRootItem.SolutionItem = new SolutionItemViewModel("", state.FilePath
-            , Path.GetFileNameWithoutExtension(state.FilePath), "");
+        SolutionRootItem.SolutionItem = new SolutionItemViewModel(id: "", itemPath: state.FilePath
+            , name: Path.GetFileNameWithoutExtension(state.FilePath), templateName: "");
 
-        SolutionRootItem.ConclusionItem = new ConclusionItemViewModel(Guid.NewGuid().ToString()
-            , Path.Combine(Path.GetDirectoryName(state.FilePath), "conclusion.prjc"), "Conclusão", "");
+        SolutionRootItem.ConclusionItem = new ConclusionItemViewModel(id: Guid.NewGuid().ToString()
+            , itemPath: /*Path.Combine(path1: Path.GetDirectoryName(state.FilePath), path2:*/ "conclusion.prjc" /*)*/
+            , name: "Conclusão", templateName: "");
 
         SolutionRootItem.LocationItems = new ObservableCollection<ISolutionLocationItem>(SolutionState.LocationItems
             .Select(
                 model =>
                 {
                     var solutionLocation = new SolutionLocationItemViewModel(
-                        model.Name,
-                        model.ItemPath,
-                        async () => await SaveSolution())
+                        name: model.Name,
+                        itemPath: "",
+                        saveSolution: async () => await SaveSolution())
                     {
-                        Items = new ObservableCollection<IItemGroupViewModel>(model.Items.Select(
+                        Items = new ObservableCollection<IItemGroupViewModel>(model.ItemGroup.Select(
                             vm =>
                             {
                                 var item = new ItemGroupViewModel(
-                                    model.Name,
-                                    model.ItemPath,
-                                    async () => await SaveSolution());
+                                    name: model.Name,
+                                    itemPath: "",
+                                    SaveSolution: async () => await SaveSolution());
 
                                 /*vm.SelectItemToEdit = SetEditingItem;*/
 
                                 item.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
 
-                                item.TransformFrom(vm.Items.ToList());
+                                item.TransformFrom(vm.ItemStates.ToList());
 
                                 return item;
                             }
@@ -127,24 +123,24 @@ public class ProjectExplorerViewModel
         CreateFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             var dialog = new CreateFolderViewModel(
-                "Defina o nome da pasta", "Criar Pasta"
-                , "",
-                SolutionRootItem.LocationItems);
+                message: "Defina o nome da pasta", title: "Criar Pasta"
+                , caption: "",
+                items: SolutionRootItem.LocationItems);
 
-            var result = await RoutableViewModel.NavigateDialogAsync(dialog,
-                NavigationTarget.CompactDialogScreen);
+            var result = await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
+                target: NavigationTarget.CompactDialogScreen);
 
             if (result.Kind == DialogResultKind.Normal)
             {
                 var item = new SolutionLocationItemViewModel(
-                    result.Result,
-                    Path.Combine(Directory.GetParent(SolutionState.FilePath).FullName
-                        , Constants.AppProjectItemsFolderName, result.Result),
-                    async () => await SaveSolution());
+                    name: result.Result,
+                    itemPath: Path.Combine(path1: Directory.GetParent(SolutionState.FilePath).FullName
+                        , path2: Constants.AppProjectItemsFolderName, path3: result.Result),
+                    saveSolution: async () => await SaveSolution());
 
                 SolutionRootItem.LocationItems.Add(item);
 
-                SolutionState.AddItemToSolution(new SolutionGroupModel
+                /*SolutionState.AddItemToSolution(new SolutionGroupModel
                 {
                     Name = result.Result, ItemPath = item.ItemPath, Items = item.Items
                         .Select(it => new ItemGroupModel
@@ -158,7 +154,7 @@ public class ProjectExplorerViewModel
                                 })
                                 .ToList()
                         }).ToList()
-                });
+                });*/
                 /*_ = await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath)
                     , CancellationToken.None);
                 return Optional<IItemGroupViewModel>.Some(item);*/
@@ -183,17 +179,17 @@ public class ProjectExplorerViewModel
     public ISolutionGroupViewModel SolutionRootItem
     {
         get => _solutionGroupView;
-        set => this.RaiseAndSetIfChanged(ref _solutionGroupView, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _solutionGroupView, newValue: value);
     }
 
     public IItemViewModel SelectedItem
     {
         get => _selectedItem;
-        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _selectedItem, newValue: value);
     }
 
     public void SetCurrentSolution(
-        ProjectSolutionModel state
+        SolutionState state
     ) => SolutionState = state;
 
     public ReactiveCommand<Unit, Optional<IItemGroupViewModel>> CreateFolderCommand
@@ -201,7 +197,7 @@ public class ProjectExplorerViewModel
         get;
     }
 
-    public ProjectSolutionModel SolutionState
+    public SolutionState SolutionState
     {
         get;
         private set;
@@ -226,7 +222,7 @@ public class ProjectExplorerViewModel
 
     private async Task SaveSolution()
     {
-        SolutionState?.ReloadItem(SolutionRootItem.LocationItems
+        /*SolutionState?.ReloadItem(SolutionRootItem.LocationItems
             .Select(solutionItem => new SolutionGroupModel
             {
                 Name = solutionItem.Name, ItemPath = solutionItem.ItemPath, Items = solutionItem.Items
@@ -247,7 +243,7 @@ public class ProjectExplorerViewModel
             new CreateSolutionCommand(
                 SolutionState?.FilePath,
                 SolutionState),
-            CancellationToken.None);
+            CancellationToken.None);*/
     }
 
     /*private IObservable<IItemGroupViewModel?> WhenAnyFolderIsDeleted() =>

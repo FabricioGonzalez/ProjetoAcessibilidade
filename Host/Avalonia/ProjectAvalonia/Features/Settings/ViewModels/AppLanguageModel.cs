@@ -1,4 +1,4 @@
-﻿using ProjetoAcessibilidade.Domain.App.Models;
+﻿using Domain.Internals;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
 
@@ -6,12 +6,10 @@ public class AppLanguageModel
 {
     public AppLanguageModel(
         string name
-        , string nativeName
         , string code
     )
     {
         Name = name;
-        NativeName = nativeName;
         Code = code;
     }
 
@@ -20,10 +18,6 @@ public class AppLanguageModel
         get;
     }
 
-    public string NativeName
-    {
-        get;
-    }
 
     public string Code
     {
@@ -34,10 +28,10 @@ public class AppLanguageModel
 public static class Extensions
 {
     public static AppLanguageModel ToAppLanguageModel(
-        this LanguageModel model
-    ) => new(name: model.Name, nativeName: model.NativeName, code: model.Code);
+        this ILanguage model
+    ) => new(name: model.Name, code: model.Code);
 
-    public static LanguageModel ToLanguageModel(
+    public static ILanguage ToLanguageModel(
         this AppLanguageModel model
-    ) => new(name: model.Name, nativeName: model.NativeName, code: model.Code);
+    ) => new Language(name: model.Name, code: model.Code);
 }

@@ -96,9 +96,10 @@ public partial class Stepper : UserControl
     )
     {
         var PrimaryColor =
-            new SolidColorBrush(color: (Color)Application.Current.FindResource(key: "SystemAccentColor"));
+            new SolidColorBrush(color: (Color)Avalonia.Application.Current.FindResource(key: "SystemAccentColor"));
         var DisabledColor =
-            new SolidColorBrush(color: (Color)Application.Current.FindResource(key: "SystemChromeDisabledLowColor"));
+            new SolidColorBrush(
+                color: (Color)Avalonia.Application.Current.FindResource(key: "SystemChromeDisabledLowColor"));
 
         var gridItem = new Grid
         {
@@ -107,15 +108,15 @@ public partial class Stepper : UserControl
 
         var line = new Border
         {
-            CornerRadius = new CornerRadius(uniformRadius: 3),
-            Margin = new Thickness(left: -5, top: 0, right: 23, bottom: 0), Background = DisabledColor, Height = 2,
-            HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center
+            CornerRadius = new CornerRadius(uniformRadius: 3)
+            , Margin = new Thickness(left: -5, top: 0, right: 23, bottom: 0), Background = DisabledColor, Height = 2
+            , HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center
         };
         var line1 = new Border
         {
-            CornerRadius = new CornerRadius(uniformRadius: 3),
-            Margin = new Thickness(left: -5, top: 0, right: 23, bottom: 0), Background = DisabledColor, Height = 2,
-            HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center
+            CornerRadius = new CornerRadius(uniformRadius: 3)
+            , Margin = new Thickness(left: -5, top: 0, right: 23, bottom: 0), Background = DisabledColor, Height = 2
+            , HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center
         };
 
         if (index == 0)

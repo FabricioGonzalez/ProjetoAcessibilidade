@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using ProjectAvalonia.Common.Microservices;
 using ProjectAvalonia.ViewModels;
@@ -56,16 +55,18 @@ public static class AppLifetimeHelper
         {
             case (true, true):
             case (true, false):
-                (Application.Current?.DataContext as ApplicationViewModel)?.Shutdown(restart: restart);
+                (Avalonia.Application.Current?.DataContext as ApplicationViewModel)?.Shutdown(restart: restart);
                 break;
 
             case (false, true):
                 StartAppWithArgs();
-                (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.Shutdown();
+                (Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)
+                    ?.Shutdown();
                 break;
 
             case (false, false):
-                (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.Shutdown();
+                (Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)
+                    ?.Shutdown();
                 break;
         }
     }

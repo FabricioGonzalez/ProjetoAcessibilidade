@@ -4,26 +4,17 @@ using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-
 using Avalonia.Threading;
-
 using Common;
-
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
-
-using ProjetoAcessibilidade.Core.Entities.Solution;
-
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
-using QuestPDF.Previewer;
-
 using QuestPDFReport;
 using QuestPDFReport.ReportSettings;
-
 using ReactiveUI;
-
 using Unit = System.Reactive.Unit;
 
 namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -45,7 +36,7 @@ public partial class PreviewerViewModel : RoutableViewModel
     [AutoNotify] private IDocument? _document;
 
     [AutoNotify] private float _scrollViewportSize;
-    [AutoNotify] private ProjectSolutionModel _solutionModel;
+    [AutoNotify] private SolutionState _solutionModel;
 
     [AutoNotify] private string _solutionPath;
 
@@ -53,15 +44,15 @@ public partial class PreviewerViewModel : RoutableViewModel
 
     public PreviewerViewModel()
     {
-        SetupCancel(false, true, true);
+        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
         this.WhenAnyValue(vm => vm.SolutionPath)
             .Where(prop => !string.IsNullOrWhiteSpace(prop))
             .SubscribeAsync(async prop =>
             {
                 var report = new StandardReport(await DataSource.GetReport(
-                    prop,
-                    Constants.AppProjectItemExtension));
+                    path: prop,
+                    extension: Constants.AppProjectItemExtension));
 
                 Document = report;
             });
@@ -70,11 +61,11 @@ public partial class PreviewerViewModel : RoutableViewModel
             .WhereNotNull()
             .SubscribeAsync(async prop =>
             {
-                var report = new StandardReport(await DataSource.GetReport(
+                /*var report = new StandardReport(await DataSource.GetReport(
                     prop,
                     Constants.AppProjectItemExtension));
 
-                Document = report;
+                Document = report;*/
             });
 
         this.WhenAnyValue(vm => vm.Document)
@@ -99,12 +90,14 @@ public partial class PreviewerViewModel : RoutableViewModel
     {
         get;
     } = new();
+
     public override MenuViewModel? ToolBar => null;
+
     public bool VerticalScrollbarVisible
     {
         get => _verticalScrollbarVisible;
         private set => Dispatcher.UIThread.Post(() =>
-            this.RaiseAndSetIfChanged(ref _verticalScrollbarVisible, value));
+            this.RaiseAndSetIfChanged(backingField: ref _verticalScrollbarVisible, newValue: value));
     }
 
     public ReactiveCommand<Unit, Unit> ShowPdfCommand
@@ -153,12 +146,12 @@ public partial class PreviewerViewModel : RoutableViewModel
             SolutionPath = path;
         }
 
-        if (Parameter is ProjectSolutionModel solution)
+        /*if (Parameter is ProjectSolutionModel solution)
         {
             SolutionModel = null;
 
             SolutionModel = solution;
-        }
+        }*/
     }
 
     protected override void OnNavigatedFrom(
@@ -183,7 +176,7 @@ public partial class PreviewerViewModel : RoutableViewModel
 
     private void ShowPdf()
     {
-        var filePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.pdf");
+        var filePath = Path.Combine(path1: Path.GetTempPath(), path2: $"{Guid.NewGuid():N}.pdf");
 
         try
         {
@@ -205,8 +198,7 @@ public partial class PreviewerViewModel : RoutableViewModel
         {
             StartInfo = new ProcessStartInfo
             {
-                UseShellExecute = true,
-                FileName = path
+                UseShellExecute = true, FileName = path
             }
         };
 

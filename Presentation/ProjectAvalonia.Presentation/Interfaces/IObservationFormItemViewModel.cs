@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
-using Core.Entities.Solution.Project.AppItem;
+using ProjectAvalonia.Presentation.States.FormItemState;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
 public interface IObservationFormItemViewModel : IFormViewModel
 {
-    public ReadOnlyObservableCollection<ObservationModel> Observations
+    public ReadOnlyObservableCollection<ObservationState> Observations
     {
         get;
     }
@@ -17,7 +17,7 @@ public interface IObservationFormItemViewModel : IFormViewModel
         get;
     }
 
-    public ReactiveCommand<ObservationModel, Unit> RemoveObservationCommand
+    public ReactiveCommand<ObservationState, Unit> RemoveObservationCommand
     {
         get;
     }

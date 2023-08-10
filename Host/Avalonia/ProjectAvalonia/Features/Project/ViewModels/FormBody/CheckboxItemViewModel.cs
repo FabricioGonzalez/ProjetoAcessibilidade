@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-
-using Common.Linq;
-
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.ValidationRules;
-
 using DynamicData;
-using DynamicData.Binding;
-
+using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
-
+using ProjectAvalonia.Presentation.States.FormItemState;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public partial class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewModel
+public partial class CheckboxItemViewModel
+    : ReactiveObject
+        , ICheckboxItemViewModel
 {
-    public CheckboxItemViewModel(string topic,
-        IOptionsContainerViewModel options,
-        SourceList<ObservationModel> observations,
-        ObservableCollection<ITextFormItemViewModel> textItems,
-        string id,
-        IEnumerable<ValidationRule> rules)
+    [AutoNotify]
+    private bool _isInvalid;
+
+    public CheckboxItemViewModel(
+        string topic
+        , IOptionsContainerViewModel options
+        , SourceList<ObservationState> observations
+        , ObservableCollection<ITextFormItemViewModel> textItems
+        , string id
+        , IEnumerable<ValidationRuleContainerState> rules
+    )
     {
         Topic = topic;
         Options = options;
@@ -33,14 +30,14 @@ public partial class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewMo
         Id = id;
         Rules = rules;
 
-        this.WhenAnyValue(vm => vm.Options)
+        /*this.WhenAnyValue(vm => vm.Options)
           .Select(op => op.Options)
           .Select(op => op
           .ToObservableChangeSet()
           .AutoRefreshOnObservable(x => x.WhenAnyValue(it => it.IsChecked))
           .DisposeMany())
           .Switch()
-          .WhenPropertyChanged(propertyAccessor: prop => prop.IsChecked/*, notifyOnInitialValue: false*/)
+          .WhenPropertyChanged(propertyAccessor: prop => prop.IsChecked/*, notifyOnInitialValue: false#1#)
           .Do(prop =>
           {
               if (prop.Value == false)
@@ -118,9 +115,13 @@ public partial class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewMo
               });
 
 
-          });
+          });*/
+    }
 
-
+    public IEnumerable<ValidationRuleContainerState> Rules
+    {
+        get;
+        set;
     }
 
     public string Id
@@ -128,17 +129,12 @@ public partial class CheckboxItemViewModel : ReactiveObject, ICheckboxItemViewMo
         get;
         set;
     }
-    public IEnumerable<ValidationRule> Rules
-    {
-        get;
-        set;
-    }
+
     public string Topic
     {
         get;
     }
-    [AutoNotify]
-    private bool _isInvalid = false;
+
     public IOptionsContainerViewModel Options
     {
         get;

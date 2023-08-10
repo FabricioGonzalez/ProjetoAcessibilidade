@@ -1,12 +1,13 @@
 ﻿using System.Xml.Serialization;
 
-namespace XmlDatasource.XmlFile.ValidationRules;
+namespace XmlDatasource.ValidationRules.DTO;
 
 public class Results
 {
     [XmlText]
     public string Result
     {
-        get; set;
+        get;
+        set;
     }
 }

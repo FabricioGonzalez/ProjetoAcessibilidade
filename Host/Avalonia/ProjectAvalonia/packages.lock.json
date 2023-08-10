@@ -1072,44 +1072,35 @@
           "System.IO.Pipelines": "6.0.0"
         }
       },
+      "apprepositories": {
+        "type": "Project",
+        "dependencies": {
+          "Domain.Application": "[1.0.0, )",
+          "LanguageExt.Core": "[4.4.3, )"
+        }
+      },
       "common": {
         "type": "Project"
+      },
+      "domain": {
+        "type": "Project"
+      },
+      "domain.application": {
+        "type": "Project",
+        "dependencies": {
+          "Domain": "[1.0.0, )",
+          "LanguageExt.Core": "[4.4.3, )"
+        }
       },
       "projectavalonia.presentation": {
         "type": "Project",
         "dependencies": {
           "Avalonia": "[11.0.0, )",
           "Common": "[1.0.0, )",
+          "Domain": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
-          "ProjetoAcessibilidade.Core": "[1.0.0, )",
           "ReactiveUI": "[19.2.1, )",
           "System.Reactive": "[6.0.0, )"
-        }
-      },
-      "projectitemreader": {
-        "type": "Project",
-        "dependencies": {
-          "Common": "[1.0.0, )",
-          "LanguageExt.Core": "[4.4.3, )",
-          "ProjetoAcessibilidade.Core": "[1.0.0, )",
-          "ProjetoAcessibilidade.Domain": "[1.0.0, )"
-        }
-      },
-      "projetoacessibilidade.core": {
-        "type": "Project",
-        "dependencies": {
-          "Common": "[1.0.0, )",
-          "System.Linq.Expressions": "[4.3.0, )"
-        }
-      },
-      "projetoacessibilidade.domain": {
-        "type": "Project",
-        "dependencies": {
-          "Avalonia.Controls.TreeDataGrid": "[0.10.18.1, )",
-          "Common": "[1.0.0, )",
-          "LanguageExt.Core": "[4.4.3, )",
-          "ProjetoAcessibilidade.Core": "[1.0.0, )",
-          "Splat": "[14.6.37, )"
         }
       },
       "questpdf": {
@@ -1124,9 +1115,19 @@
         "dependencies": {
           "Common": "[1.0.0, )",
           "LanguageExt.Core": "[4.4.3, )",
-          "ProjectItemReader": "[1.0.0, )",
           "QuestPDF": "[2022.3.1, )",
-          "SkiaSharp": "[2.88.3, )"
+          "SkiaSharp": "[2.88.3, )",
+          "XmlDatasource": "[1.0.0, )"
+        }
+      },
+      "xmldatasource": {
+        "type": "Project",
+        "dependencies": {
+          "AppRepositories": "[1.0.0, )",
+          "Common": "[1.0.0, )",
+          "Domain": "[1.0.0, )",
+          "Domain.Application": "[1.0.0, )",
+          "LanguageExt.Core": "[4.4.3, )"
         }
       }
     },
