@@ -89,6 +89,10 @@
         <Compile Remove="Common\Bases\StateManagement\IStore.cs"/>
         <Compile Remove="Common\Bases\StateManagement\IStateComponent.cs"/>
         <Compile Remove="Common\Bases\StateManagement\IAction.cs"/>
+        <Compile Update="Features\Project\Views\Components\SolutionItemContent.axaml.cs">
+            <DependentUpon>SolutionItemContent.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <Content Include="Assets\avalonia-logo.ico"/>
@@ -132,10 +136,7 @@
         <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.37"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Domain\Domain.Application\Domain.Application.csproj"/>
-        <ProjectReference Include="..\..\..\Domain\Application\Project.Application\ProjetoAcessibilidade.Domain.csproj"/>
-        <ProjectReference Include="..\..\..\Domain\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\..\..\Domain\Project.Application\ProjetoAcessibilidade.Domain.csproj"/>
+        <ProjectReference Include="..\..\..\Infrastructure\Databases\SqliteDatasource\SqliteDatasource.csproj"/>
         <ProjectReference Include="..\..\..\Infrastructure\ProjectItemsReader\XmlDatasource\XmlDatasource.csproj"/>
         <ProjectReference Include="..\..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj"/>
         <ProjectReference Include="..\..\..\Presentation\ProjectAvalonia.Presentation\ProjectAvalonia.Presentation.csproj"/>
@@ -246,7 +247,10 @@
         <Folder Include="Common\Bases\AvaloniaDeps\"/>
         <Folder Include="Common\Bases\StateManagement\"/>
         <Folder Include="Features\PDFViewer\Services\"/>
+        <Folder Include="Features\Project\ProjectExplorer\Services\"/>
         <Folder Include="Features\Project\ProjectExplorer\ViewModels\"/>
+        <Folder Include="Features\Project\States\"/>
+        <Folder Include="Features\Project\Strategies\SolutionDatasourceStrategy\"/>
         <Folder Include="Features\Settings\Services\"/>
         <Folder Include="Features\TemplateEdit\Services\"/>
     </ItemGroup>

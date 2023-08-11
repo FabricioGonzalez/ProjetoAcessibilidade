@@ -20,13 +20,9 @@ public class ProjectEditingViewModel
         , IProjectEditingViewModel
 {
     public static readonly Interaction<IItemViewModel, Unit> SetEditingItem = new();
-    /*private readonly IMediator? _mediator;
-    */
 
     public ProjectEditingViewModel()
     {
-        /*_mediator = Locator.Current.GetService<IMediator>();*/
-
         EditingItems = new ObservableCollection<IEditingItemViewModel>();
 
         AddItemToEdit = ReactiveCommand.CreateFromTask<IItemViewModel>(AddItem);

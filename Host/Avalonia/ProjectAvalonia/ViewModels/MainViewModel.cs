@@ -4,8 +4,6 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using Application.Solution.Services;
-using AppRepositories.Solution.Services;
 using Avalonia.Controls;
 using Common;
 using ProjectAvalonia.Common.Models;
@@ -13,6 +11,7 @@ using ProjectAvalonia.Common.Validation;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.SearchBar;
@@ -22,6 +21,7 @@ using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
+using XmlDatasource.ExplorerItems;
 using XmlDatasource.Solution;
 
 namespace ProjectAvalonia.ViewModels;
@@ -159,16 +159,16 @@ public partial class MainViewModel : ViewModelBase
 
     private void CreateDI()
     {
+        var xmlExplorerItemsDatasource = new XmlExplorerItemDatasourceImpl();
         var xmlSolutionDatasource = new SolutionDatasourceImpl();
-        var solutionService = new SolutionService(xmlSolutionDatasource);
 
-        var solutionManipulation = new SolutionManipulationService(solutionService);
-
+        var solutionManipulation = new SolutionService(xmlSolutionDatasource);
+        var itemsService = new ItemsService(xmlExplorerItemsDatasource);
 
         _settingsPage = new SettingsPageViewModel();
         _templatePage = new TemplateEditViewModel(templateEditTab: new TemplateEditTabViewModel()
             , itemValidationTab: new ItemValidationViewModel());
-        _projectPage = new ProjectViewModel(solutionManipulation);
+        _projectPage = new ProjectViewModel(solutionService: solutionManipulation, itemsService: itemsService);
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
     }

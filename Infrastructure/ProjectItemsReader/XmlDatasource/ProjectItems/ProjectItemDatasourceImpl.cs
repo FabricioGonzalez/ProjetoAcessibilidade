@@ -1,23 +1,20 @@
 ﻿using System.Xml.Serialization;
-using AppRepositories.ProjectItems.Contracts;
-using AppRepositories.ProjectItems.Dto;
-using Domain.FormBody.Exceptions;
 using LanguageExt.Common;
 using XmlDatasource.ProjectItems.DTO;
 
 namespace XmlDatasource.ProjectItems;
 
-public class ProjectItemDatasourceImpl : IProjectItemDatasource
+public class ProjectItemDatasourceImpl
 {
     private readonly XmlSerializer _serializer = new(typeof(ItemRoot));
 
     public Task SaveContentItem(
         string path
-        , RootItem item
+        , ItemRoot item
     ) =>
         Task.CompletedTask;
 
-    public async Task<Result<RootItem>> GetContentItem(
+    public async Task<Result<ItemRoot>> GetContentItem(
         string path
     )
     {
@@ -29,12 +26,12 @@ public class ProjectItemDatasourceImpl : IProjectItemDatasource
             {
             }
 
-            return new Result<RootItem>(FormBodyExceptions.ItemIsNotAFileException);
+            return new Result<ItemRoot>(new InvalidOperationException(""));
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return new Result<RootItem>(e);
+            return new Result<ItemRoot>(e);
         }
     }
 }

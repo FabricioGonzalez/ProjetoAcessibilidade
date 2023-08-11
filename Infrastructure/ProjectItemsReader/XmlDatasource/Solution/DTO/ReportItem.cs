@@ -4,34 +4,48 @@ namespace XmlDatasource.Solution.DTO;
 
 public class ReportItem
 {
-    [XmlElement(elementName: "email")]
-    public string Email
-    {
-        get;
-        set;
-    } = "";
-
-    [XmlElement(elementName: "address")]
-    public EnderecoItem Endereco
+    public CompanyInfoItem CompanyInfo
     {
         get;
         set;
     }
 
-    [XmlElement(elementName: "company_name")]
+    [XmlArray("partners")]
+    [XmlArrayItem("partner")]
+    public List<PartnerItem> Partners
+    {
+        get;
+        set;
+    }
+
+
+    [XmlElement(elementName: "solution_name")]
+    public string SolutionName
+    {
+        get;
+        set;
+    } = "";
+}
+
+public sealed class PartnerItem
+{
+    [XmlElement(elementName: "partner_name")]
     public string NomeEmpresa
     {
         get;
         set;
     } = "";
 
-    [XmlElement(elementName: "responsable")]
-    public string Responsavel
+    [XmlElement(elementName: "partner_logo")]
+    public string PartnerLogo
     {
         get;
         set;
     } = "";
+}
 
+public sealed class CompanyInfoItem
+{
     [XmlElement(elementName: "phone")]
     public string Telefone
     {
@@ -53,8 +67,30 @@ public class ReportItem
         set;
     } = "";
 
-    [XmlElement(elementName: "solution_name")]
-    public string SolutionName
+
+    [XmlElement(elementName: "address")]
+    public EnderecoItem Endereco
+    {
+        get;
+        set;
+    }
+
+    [XmlElement(elementName: "company_name")]
+    public string NomeEmpresa
+    {
+        get;
+        set;
+    } = "";
+
+    [XmlElement(elementName: "email")]
+    public string Email
+    {
+        get;
+        set;
+    } = "";
+
+    [XmlElement(elementName: "responsable")]
+    public string Responsavel
     {
         get;
         set;

@@ -2,13 +2,14 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Internals.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using ProjectAvalonia.Common.Http;
+using ProjectAvalonia.Common.Interfaces;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
 using ProjectAvalonia.Nito.AsyncEx;
+using IHttpClient = ProjectAvalonia.Common.Http.IHttpClient;
 
 namespace ProjectAvalonia;
 

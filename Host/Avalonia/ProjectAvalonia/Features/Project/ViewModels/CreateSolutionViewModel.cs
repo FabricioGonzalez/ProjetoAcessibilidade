@@ -1,23 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.Reactive;
-using System.Reactive.Linq;
-using Domain.Internals;
-using Domain.Solutions;
+﻿using System.Reactive.Linq;
+using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public partial class CreateSolutionViewModel : DialogViewModelBase<(string local, ISolution solution)>
+public class CreateSolutionViewModel : DialogViewModelBase<(string local, SolutionState solution)>
 {
-    /*private readonly IMediator _mediator;*/
-    [AutoNotify] private string _fileName = "";
-    [AutoNotify] private string _filePath = "";
-    [AutoNotify] private string _logoPath = "";
-    [AutoNotify] private IUf _selectedUf;
-    [AutoNotify] private ReadOnlyObservableCollection<IUf> _ufList;
-
     public CreateSolutionViewModel(
         string title
         , string caption = ""
@@ -25,18 +15,10 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<(string local
     {
         Title = title;
 
-        SolutionModel = new Solution();
+        SolutionModel = new SolutionState();
 
         Title = title;
         Caption = caption;
-
-        /*_mediator = Locator.Current.GetService<IMediator>();*/
-
-        /*Dispatcher.UIThread.InvokeAsync(async () =>
-        {
-            UfList = new ReadOnlyObservableCollection<UFModel>(new ObservableCollection<UFModel>(
-                await _mediator.Send(request: new GetAllUfQuery(), cancellation: CancellationToken.None)));
-        });*/
 
         SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: false);
         EnableBack = false;
@@ -66,59 +48,19 @@ public partial class CreateSolutionViewModel : DialogViewModelBase<(string local
             , canExecute: backCommandCanExecute);
         NextCommand = ReactiveCommand.Create(execute: () =>
             {
-                SolutionModel.Report.Endereco.UF = SelectedUf.Code;
-
-                /*SolutionModel.FilePath = Path.Combine(path1: FilePath
-                    , path2: $"{FileName}{Constants.AppProjectSolutionExtension}");*/
-
-                SolutionModel.Report.SolutionName = FileName;
-
-                Close(result: (FilePath, SolutionModel));
+                Close(result: (SolutionModel.FilePath, SolutionModel));
             }
             , canExecute: nextCommandCanExecute);
         CancelCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Cancel)
             , canExecute: cancelCommandCanExecute);
-
-        ChooseSolutionPath = ReactiveCommand.CreateFromTask(execute: async () =>
-        {
-            /*var path = await FileDialogHelper.ShowOpenFolderDialogAsync(title: "Local da Solução");
-
-            Dispatcher.UIThread.Post(action: () =>
-            {
-                FilePath = path;
-            });*/
-        });
-
-        ChooseLogoPath = ReactiveCommand.CreateFromTask(execute: async () =>
-        {
-            /*var path = await FileDialogHelper.ShowOpenFileDialogAsync(title: "Logo da Empresa"
-                , filterExtTypes: new[] { "png" });
-
-            Dispatcher.UIThread.Post(action: () =>
-            {
-                LogoPath = path;
-                SolutionModel.Report.LogoPath = path;
-            });*/
-        });
     }
 
-    public ISolution SolutionModel
+    public SolutionState SolutionModel
     {
         get;
     }
-
 
     public override MenuViewModel? ToolBar => null;
-
-    public ReactiveCommand<Unit, Unit> ChooseSolutionPath
-    {
-        get;
-    }
-
-    public ReactiveCommand<Unit, Unit> ChooseLogoPath
-    {
-        get;
-    }
 
 
     public string Caption

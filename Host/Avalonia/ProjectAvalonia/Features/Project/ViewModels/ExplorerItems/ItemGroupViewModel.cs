@@ -10,6 +10,7 @@ using Common;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
@@ -23,14 +24,16 @@ public class ItemGroupViewModel
     : ReactiveObject
         , IItemGroupViewModel
 {
-    /*private readonly IMediator _mediator;*/
+    private readonly ItemsService _itemsService;
 
     public ItemGroupViewModel(
         string name
         , string itemPath
+        , ItemsService itemsService
         , Func<Task> SaveSolution
     )
     {
+        _itemsService = itemsService;
         /*_mediator = Locator.Current.GetService<IMediator>();*/
 
         Name = name;
@@ -173,7 +176,7 @@ public class ItemGroupViewModel
 
     private async Task<IItemViewModel?> AddProjectItem()
     {
-        var addItemViewModel = new AddItemViewModel(Items);
+        var addItemViewModel = new AddItemViewModel(fileItems: Items, itemsService: _itemsService);
 
         var dialogResult = await RoutableViewModel.NavigateDialogAsync(
             dialog: addItemViewModel,

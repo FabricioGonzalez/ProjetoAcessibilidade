@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using ProjectAvalonia.Presentation.States.ProjectItems;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States;
@@ -9,11 +8,11 @@ public class SolutionState : ReactiveObject
     private string _fileName = "";
     private string _filePath = "";
 
-    private ObservableCollection<LocationItemState> _locationItems;
+    private ObservableCollection<LocationItemState> _locationItems = new();
 
     private string _logoPath = "";
 
-    private SolutionReportState _report;
+    private SolutionReportState _report = new();
 
     public SolutionReportState Report
     {
@@ -43,23 +42,5 @@ public class SolutionState : ReactiveObject
     {
         get => _locationItems;
         set => this.RaiseAndSetIfChanged(backingField: ref _locationItems, newValue: value);
-    }
-}
-
-public class LocationItemState : ReactiveObject
-{
-    private ObservableCollection<ItemGroupState> _itemGroups;
-    private string _name = "";
-
-    public string Name
-    {
-        get => _name;
-        set => this.RaiseAndSetIfChanged(backingField: ref _name, newValue: value);
-    }
-
-    public ObservableCollection<ItemGroupState> ItemGroup
-    {
-        get => _itemGroups;
-        set => this.RaiseAndSetIfChanged(backingField: ref _itemGroups, newValue: value);
     }
 }

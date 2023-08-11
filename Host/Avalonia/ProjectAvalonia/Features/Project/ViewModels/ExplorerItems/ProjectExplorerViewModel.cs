@@ -10,6 +10,7 @@ using Common.Optional;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
@@ -17,23 +18,23 @@ using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
 
-namespace ProjectAvalonia.Features.Project.ViewModels;
+namespace ProjectAvalonia.Features.Project.ViewModels.ExplorerItems;
 
 public class ProjectExplorerViewModel
     : ViewModelBase
         , IProjectExplorerViewModel
 {
-    /*private readonly IMediator _mediator;*/
+    private readonly ItemsService _itemsService;
     private IItemViewModel _selectedItem;
     private ISolutionGroupViewModel _solutionGroupView;
 
     public ProjectExplorerViewModel(
         SolutionState state
+        , ItemsService itemsService
     )
     {
         SolutionState = state;
-
-        /*_mediator = Locator.Current.GetService<IMediator>()!;*/
+        _itemsService = itemsService;
 
         SolutionRootItem = new SolutionGroupViewModel();
 
@@ -41,7 +42,7 @@ public class ProjectExplorerViewModel
             , name: Path.GetFileNameWithoutExtension(state.FilePath), templateName: "");
 
         SolutionRootItem.ConclusionItem = new ConclusionItemViewModel(id: Guid.NewGuid().ToString()
-            , itemPath: /*Path.Combine(path1: Path.GetDirectoryName(state.FilePath), path2:*/ "conclusion.prjc" /*)*/
+            , itemPath: Path.Combine(path1: Path.GetDirectoryName(state.FilePath), path2: "conclusion.prjc")
             , name: "Conclusão", templateName: "");
 
         SolutionRootItem.LocationItems = new ObservableCollection<ISolutionLocationItem>(SolutionState.LocationItems
@@ -51,7 +52,8 @@ public class ProjectExplorerViewModel
                     var solutionLocation = new SolutionLocationItemViewModel(
                         name: model.Name,
                         itemPath: "",
-                        saveSolution: async () => await SaveSolution())
+                        saveSolution: async () => await SaveSolution(),
+                        itemsService: _itemsService)
                     {
                         Items = new ObservableCollection<IItemGroupViewModel>(model.ItemGroup.Select(
                             vm =>
@@ -59,20 +61,17 @@ public class ProjectExplorerViewModel
                                 var item = new ItemGroupViewModel(
                                     name: model.Name,
                                     itemPath: "",
+                                    itemsService: _itemsService,
                                     SaveSolution: async () => await SaveSolution());
-
-                                /*vm.SelectItemToEdit = SetEditingItem;*/
 
                                 item.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
 
-                                item.TransformFrom(vm.ItemStates.ToList());
+                                item.TransformFrom(vm.Items.ToList());
 
                                 return item;
                             }
                         ))
                     };
-
-                    /*vm.SelectItemToEdit = SetEditingItem;*/
 
                     solutionLocation.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
 
@@ -136,7 +135,8 @@ public class ProjectExplorerViewModel
                     name: result.Result,
                     itemPath: Path.Combine(path1: Directory.GetParent(SolutionState.FilePath).FullName
                         , path2: Constants.AppProjectItemsFolderName, path3: result.Result),
-                    saveSolution: async () => await SaveSolution());
+                    saveSolution: async () => await SaveSolution(),
+                    itemsService: _itemsService);
 
                 SolutionRootItem.LocationItems.Add(item);
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
-using Domain.Internals;
+using ProjectAvalonia.Common.Models.App;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
@@ -15,8 +15,8 @@ public partial class SolutionItemBody
     [AutoNotify] private string _fileName = "";
     [AutoNotify] private string _filePath = "";
     [AutoNotify] private string _logoPath = "";
-    [AutoNotify] private IUf _selectedUf;
-    [AutoNotify] private ReadOnlyObservableCollection<IUf> _ufList;
+    [AutoNotify] private Uf _selectedUf;
+    [AutoNotify] private ReadOnlyObservableCollection<Uf> _ufList;
 
     public SolutionItemBody(
         SolutionState solutionState

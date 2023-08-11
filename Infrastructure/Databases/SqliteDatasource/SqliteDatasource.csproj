@@ -8,11 +8,18 @@
 
     <ItemGroup>
         <Folder Include="ExplorerItems\"/>
-        <Folder Include="Internals\Uf\"/>
         <Folder Include="ProjectItems\DTO\"/>
         <Folder Include="Solution\DTO\"/>
         <Folder Include="ValidationRules\DTO\"/>
         <Folder Include="ValidationRules\ValidationRulesExpression\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
     </ItemGroup>
 
 </Project>

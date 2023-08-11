@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
@@ -13,12 +14,12 @@ public static class FileDialogHelper
 {
     private static IStorageProvider GetProvider()
     {
-        if (Avalonia.Application.Current?.ApplicationLifetime is ISingleViewApplicationLifetime app)
+        if (Application.Current?.ApplicationLifetime is ISingleViewApplicationLifetime app)
         {
             return TopLevel.GetTopLevel(app.MainView).StorageProvider;
         }
 
-        return ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime).MainWindow
+        return ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow
             .StorageProvider;
     }
 
@@ -218,7 +219,7 @@ public static class FileDialogHelper
             : new Result<IStorageFolder>(new IOException("No folder was Selected"));
     }
 
-    public static async Task<Result<IStorageFile>> GetFileAsync()
+    public static async Task<Result<IStorageFile>> GetSolutionFilesAsync()
     {
         var files = await GetProvider()
             .OpenFilePickerAsync(new FilePickerOpenOptions
@@ -226,6 +227,22 @@ public static class FileDialogHelper
                 Title = "Abrir file", FileTypeFilter = new List<FilePickerFileType>
                 {
                     new("Arquivo de projeto") { Patterns = new[] { "*.prja" } }
+                }
+            });
+
+        return files.Any()
+            ? new Result<IStorageFile>(files.First())
+            : new Result<IStorageFile>(new IOException("No file was Selected"));
+    }
+
+    public static async Task<Result<IStorageFile>> GetImagesAsync()
+    {
+        var files = await GetProvider()
+            .OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "Abrir file", FileTypeFilter = new List<FilePickerFileType>
+                {
+                    FilePickerFileTypes.ImageAll
                 }
             });
 

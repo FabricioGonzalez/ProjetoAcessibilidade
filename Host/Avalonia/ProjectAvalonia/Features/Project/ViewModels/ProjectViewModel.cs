@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Application.Solution.Contracts;
 using Avalonia.Threading;
-using Domain.Solutions;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
+using ProjectAvalonia.Features.Project.Services;
+using ProjectAvalonia.Features.Project.ViewModels.ExplorerItems;
 using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
-using ProjectAvalonia.Presentation.States;
-using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
@@ -42,11 +38,9 @@ public partial class ProjectViewModel
         , IProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
+    private readonly ItemsService _itemsService;
 
-    /*private readonly IMediator _mediator;*/
-    private readonly ISolutionService _solutionService;
-
-    /*private readonly ProjectSolutionModel? projectSolution;*/
+    private readonly SolutionService _solutionService;
 
     public ProjectViewModel()
     {
@@ -68,7 +62,6 @@ public partial class ProjectViewModel
 
         ToolBar = new MenuViewModel(CreateMenu(isSolutionOpen).ToImmutable());
 
-
         ProjectInteractions.SyncSolutionInteraction.RegisterHandler(
             context =>
             {
@@ -78,8 +71,6 @@ public partial class ProjectViewModel
             });
 
         SelectionMode = NavBarItemSelectionMode.Button;
-
-        /*_mediator = mediator;*/
 
         OpenProjectCommand = ReactiveCommand.CreateFromTask(OpenSolution);
 
@@ -92,18 +83,18 @@ public partial class ProjectViewModel
         ProjectEditingViewModel = new ProjectEditingViewModel();
         ProjectPrintPreviewViewModel = new PreviewerViewModel();
 
-
         EnableAutoBusyOn(
             OpenProjectCommand,
             CreateProjectCommand);
     }
 
     public ProjectViewModel(
-        ISolutionService solutionService
-        /*, IMediator mediator*/
+        SolutionService solutionService
+        , ItemsService itemsService
     ) : this()
     {
         _solutionService = solutionService;
+        _itemsService = itemsService;
     }
 
     public override string? LocalizedTitle
@@ -225,8 +216,7 @@ public partial class ProjectViewModel
                 Parameter: ProjectExplorerViewModel.SolutionState);
 
     private async Task OpenSolution() =>
-        /*var path = await FileDialogHelper.ShowOpenFileDialogAsync("Abrir Projeto");*/
-        await (await FileDialogHelper.GetFileAsync())
+        await (await FileDialogHelper.GetSolutionFilesAsync())
             .Match(Succ: async file =>
                 {
                     if (file is { Name: { Length: > 0 } })
@@ -240,15 +230,18 @@ public partial class ProjectViewModel
         string path
     )
     {
-        var result = await _solutionService.OpenSolution(path);
-
+        var result = _solutionService.GetSolution(path);
         Dispatcher
             .UIThread
             .Post(
                 () =>
                 {
+                    result.FilePath = path;
+                    result.FileName = result.Report.SolutionName;
+
                     ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                        result.ToSolutionState()
+                        state: result,
+                        itemsService: _itemsService
                     )
                     {
                         SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
@@ -266,44 +259,17 @@ public partial class ProjectViewModel
             , target: NavigationTarget.CompactDialogScreen);
 
         if (dialogResult is { Kind: DialogResultKind.Normal } result)
-
         {
-            await _solutionService.SaveSolution(path: result.Result.local, solutionToSave: result.Result.solution);
+            await _solutionService.SaveSolution(
+                path: result.Result.local
+                , solution: result.Result.solution);
             Dispatcher.UIThread.Post(() =>
             {
-                /*ProjectExplorerViewModel = new ProjectExplorerViewModel();*/
+                ProjectExplorerViewModel =
+                    new ProjectExplorerViewModel(state: result.Result.solution, itemsService: _itemsService);
+                this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
             });
         }
-        /*var dialogResult = await NavigateDialogAsync(
-            dialog: new CreateSolutionViewModel(title: "Criar Solução",
-                solutionState: ProjectExplorerViewModel?.SolutionState ??
-                               ProjectSolutionModel.Create("", new SolutionInfo())
-            )
-            , target: NavigationTarget.CompactDialogScreen);
-
-        if (dialogResult is { Result: { } dialogData, Kind: DialogResultKind.Normal })
-        {
-            _ = await _mediator.Send(
-                request: new CreateSolutionCommand(SolutionPath: dialogData.FilePath, SolutionData: dialogData)
-                , cancellation: CancellationToken.None);
-
-            Dispatcher
-                .UIThread
-                .Post(
-                    () =>
-                    {
-                        ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                            dialogData
-                        )
-                        {
-                            SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
-                                ((ProjectEditingViewModel)ProjectEditingViewModel).AddItemToEdit.Execute(item)
-                                .Subscribe())
-                        };
-                        this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
-                    });
-    }
-                    */
     }
 
     protected override void OnNavigatedTo(
@@ -326,23 +292,4 @@ public partial class ProjectViewModel
 public static class ProjectInteractions
 {
     public static Interaction<Unit, Unit> SyncSolutionInteraction = new();
-}
-
-public static class Mapping
-{
-    public static SolutionState ToSolutionState(
-        this ISolution solution
-    ) =>
-        new()
-        {
-            LocationItems = new ObservableCollection<LocationItemState>(solution.ProjectItems.GroupBy(it => it.Locale)
-                .Select(it => new LocationItemState
-                {
-                    Name = it.Key, ItemGroup = new ObservableCollection<ItemGroupState>(it.GroupBy(it2 => it2.Group)
-                        .Select(it3 => new ItemGroupState
-                        {
-                            Name = it3.Key, ItemStates = it3.Select(it4 => new ItemState { Name = it4.Name })
-                        }))
-                }))
-        };
 }

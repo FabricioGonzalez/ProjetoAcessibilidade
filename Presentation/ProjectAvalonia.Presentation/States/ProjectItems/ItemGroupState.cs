@@ -1,29 +1,22 @@
-﻿using DynamicData;
+﻿using System.Collections.ObjectModel;
+using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.ProjectItems;
 
-public class ItemGroupState
+public class ItemGroupState : ReactiveObject
 {
+    private ObservableCollection<ItemState> _items;
+    private string _name = "";
+
     public string Name
     {
-        get;
-        set;
-    } = "";
+        get => _name;
+        set => this.RaiseAndSetIfChanged(backingField: ref _name, newValue: value);
+    }
 
-    public string ItemPath
+    public ObservableCollection<ItemState> Items
     {
-        get;
-        set;
-    } = "";
-
-    public SourceCache<ItemState, string> Items
-    {
-        get;
-    } = new(keySelector: item => item.Id);
-
-    public IEnumerable<ItemState> ItemStates
-    {
-        get => Items.Items.ToList();
-        set => Items.AddOrUpdate(items: value);
+        get => _items;
+        set => this.RaiseAndSetIfChanged(backingField: ref _items, newValue: value);
     }
 }

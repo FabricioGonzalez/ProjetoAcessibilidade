@@ -1,7 +1,5 @@
-﻿using AppRepositories.ValidationRules.Contracts;
+﻿namespace XmlDatasource.ValidationRules;
 
-namespace XmlDatasource.ValidationRules;
-
-public class ValidationRulesDatasourceImpl : IValidationRuleDatasource
+public class ValidationRulesDatasourceImpl
 {
 }

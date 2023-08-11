@@ -12,7 +12,10 @@ public static class Constants
 
     public const string AppUISettingsFile = "UiConfig.json";
 
+    public const string AppDatabaseFileName = "GestorProjetosArpa.db";
+
     public const string AppProjectItemsFolderName = "Itens";
+    public const string AppProjectRulesItemsFolderName = "Rules";
     public const string AppValidationRulesTemplateFolderName = "Validation Templates";
     public const string AppProjectSolutionExtension = ".prja";
     public const string AppProjectValidationTemplateExtension = ".vldr";
@@ -52,6 +55,10 @@ public static class Constants
     public static string AppCacheFolder = Path.Combine(
         path1: AppFolder,
         path2: "CacheData");
+
+    public static string DatabaseFolder = Path.Combine(
+        path1: AppFolder,
+        path2: "Database");
 
     public static string AppHistoryFolder = Path.Combine(
         path1: AppCacheFolder,

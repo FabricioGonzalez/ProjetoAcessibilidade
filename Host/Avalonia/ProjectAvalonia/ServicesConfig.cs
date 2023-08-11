@@ -1,5 +1,5 @@
-using Application.Internals.Contracts;
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.Common.Interfaces;
 using ProjectAvalonia.Common.Services;
 
 namespace ProjectAvalonia;

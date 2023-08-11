@@ -1,4 +1,4 @@
-﻿using Domain.Internals;
+﻿using ProjectAvalonia.Presentation.States.App;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
 
@@ -28,10 +28,10 @@ public class AppLanguageModel
 public static class Extensions
 {
     public static AppLanguageModel ToAppLanguageModel(
-        this ILanguage model
+        this LanguageState model
     ) => new(name: model.Name, code: model.Code);
 
-    public static ILanguage ToLanguageModel(
+    public static LanguageState ToLanguageModel(
         this AppLanguageModel model
-    ) => new Language(name: model.Name, code: model.Code);
+    ) => new LanguageState(name: model.Name, code: model.Code);
 }

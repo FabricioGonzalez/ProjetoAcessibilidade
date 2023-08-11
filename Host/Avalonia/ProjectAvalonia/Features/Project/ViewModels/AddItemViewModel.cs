@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels;
@@ -17,8 +18,7 @@ public partial class AddItemViewModel
     : DialogViewModelBase<ItemState>
         , IAddItemViewModel
 {
-    /*private readonly TemplateItemsStore? _itemsStore;*/
-    /*private readonly IMediator? _mediator;*/
+    private readonly ItemsService _itemsService;
 
     [AutoNotify] private string _itemName = "";
 
@@ -26,12 +26,11 @@ public partial class AddItemViewModel
 
     public AddItemViewModel(
         ObservableCollection<IItemViewModel> fileItems
+        , ItemsService itemsService
     )
     {
+        _itemsService = itemsService;
         SetupCancel(enableCancel: true, enableCancelOnEscape: true, enableCancelOnPressed: true);
-
-        /*_mediator ??= Locator.Current.GetService<IMediator>();*/
-        /*_itemsStore ??= Locator.Current.GetService<TemplateItemsStore>();*/
 
         var canCreateItem = this.WhenAnyValue(vm => vm.ItemName)
             .Select(name => !string.IsNullOrEmpty(name)
@@ -50,28 +49,9 @@ public partial class AddItemViewModel
 
         LoadAllItems = ReactiveCommand.CreateFromTask(execute: async () =>
             {
-                /*(await _mediator?
-                        .Send(
-                            new GetAllTemplatesQuery(),
-                            CancellationToken.None))
-                    ?.OnSuccess(success =>
-                    {
-                        Items = success
-                            ?.Data
-                            ?.Select(item => new ItemState
-                            {
-                                Id = item.Id ?? Guid.NewGuid().ToString(),
-                                ItemPath = item.ItemPath,
-                                Name = ""
-                                ,
-                                TemplateName = item.Name
-                            }) ?? Enumerable.Empty<ItemState>();
+                Items = _itemsService.LoadAllItems();
 
-                        this.RaisePropertyChanged(nameof(Items));
-                    })
-                    ?.OnError(error =>
-                    {
-                    });*/
+                this.RaisePropertyChanged(nameof(Items));
             }
             , outputScheduler: RxApp.MainThreadScheduler);
 
@@ -91,6 +71,7 @@ public partial class AddItemViewModel
     public IEnumerable<ItemState> Items
     {
         get;
+        private set;
     }
 
     public ReactiveCommand<Unit, Unit> LoadAllItems

@@ -1,19 +1,17 @@
 ﻿using System.Xml.Serialization;
-using AppRepositories.Solution.Contracts;
-using AppRepositories.Solution.Dto;
+using Common;
 using LanguageExt.Common;
 using XmlDatasource.Solution.DTO;
-using XmlDatasource.Solution.Mappers;
 
 namespace XmlDatasource.Solution;
 
-public class SolutionDatasourceImpl : ISolutionDatasource
+public class SolutionDatasourceImpl
 {
     private readonly XmlSerializer solutionSerealizer = new(typeof(SolutionItemRoot));
 
     public async Task SaveSolution(
         string solutionPath
-        , SolutionItem dataToWrite
+        , SolutionItemRoot dataToWrite
     ) =>
         await Task.Run(() =>
         {
@@ -58,7 +56,16 @@ public class SolutionDatasourceImpl : ISolutionDatasource
                     .Match(b => b, () => false);
             });*/
 
-    public Result<SolutionItem> ReadSolution(
+    public void CreateFolders(
+        string solutionPath
+    )
+    {
+        Directory.CreateDirectory(Path.Combine(path1: solutionPath, path2: Constants.AppProjectItemsFolderName));
+        Directory.CreateDirectory(Path.Combine(path1: solutionPath
+            , path2: Constants.AppValidationRulesTemplateFolderName));
+    }
+
+    public Result<SolutionItemRoot> ReadSolution(
         string solutionPath
     )
     {
@@ -67,17 +74,15 @@ public class SolutionDatasourceImpl : ISolutionDatasource
             using var reader = new StreamReader(solutionPath);
             if (solutionSerealizer.Deserialize(reader) is { } result)
             {
-                var deserializedData = (SolutionItemRoot)result;
-
-                return new Result<SolutionItem>(deserializedData.ToSolutionItem());
+                return new Result<SolutionItemRoot>((SolutionItemRoot)result);
             }
 
-            return new Result<SolutionItem>(new InvalidOperationException($"Erro ao Deserializar {solutionPath}"));
+            return new Result<SolutionItemRoot>(new InvalidOperationException($"Erro ao Deserializar {solutionPath}"));
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return new Result<SolutionItem>(e);
+            return new Result<SolutionItemRoot>(e);
         }
     }
 }

@@ -8,14 +8,12 @@
 
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Repositories\AppRepositories\AppRepositories.csproj"/>
-    </ItemGroup>
-
-
-    <ItemGroup>
         <Folder Include="ProjectItems\Mappers\"/>
+        <Folder Include="ProjectItems\Services\"/>
         <Folder Include="Solution\Mappers\"/>
+        <Folder Include="Solution\Services\"/>
         <Folder Include="ValidationRules\Mappers\"/>
+        <Folder Include="ValidationRules\Services\"/>
     </ItemGroup>
 
 </Project>
