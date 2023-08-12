@@ -18,17 +18,17 @@ public partial class CheckboxItemViewModel
     public CheckboxItemViewModel(
         string topic
         , IOptionsContainerViewModel options
-        , SourceList<ObservationState> observations
         , ObservableCollection<ITextFormItemViewModel> textItems
         , string id
-        , IEnumerable<ValidationRuleContainerState> rules
+        /*, SourceList<ObservationState> observations
+        , IEnumerable<ValidationRuleContainerState> rules*/
     )
     {
         Topic = topic;
         Options = options;
         TextItems = textItems;
         Id = id;
-        Rules = rules;
+        /*Rules = rules;*/
 
         /*this.WhenAnyValue(vm => vm.Options)
           .Select(op => op.Options)

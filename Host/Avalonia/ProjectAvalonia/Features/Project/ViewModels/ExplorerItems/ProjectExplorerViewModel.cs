@@ -140,6 +140,8 @@ public class ProjectExplorerViewModel
 
                 SolutionRootItem.LocationItems.Add(item);
 
+                _itemsService.SyncSolutionItems(SolutionRootItem);
+
                 /*SolutionState.AddItemToSolution(new SolutionGroupModel
                 {
                     Name = result.Result, ItemPath = item.ItemPath, Items = item.Items
@@ -220,9 +222,8 @@ public class ProjectExplorerViewModel
             .Merge();*/
 
 
-    private async Task SaveSolution()
-    {
-        /*SolutionState?.ReloadItem(SolutionRootItem.LocationItems
+    private async Task SaveSolution() => _itemsService.SyncSolutionItems(SolutionRootItem);
+    /*SolutionState?.ReloadItem(SolutionRootItem.LocationItems
             .Select(solutionItem => new SolutionGroupModel
             {
                 Name = solutionItem.Name, ItemPath = solutionItem.ItemPath, Items = solutionItem.Items
@@ -244,8 +245,6 @@ public class ProjectExplorerViewModel
                 SolutionState?.FilePath,
                 SolutionState),
             CancellationToken.None);*/
-    }
-
     /*private IObservable<IItemGroupViewModel?> WhenAnyFolderIsDeleted() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,

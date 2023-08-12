@@ -4,7 +4,6 @@ using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Common;
 using DynamicData.Binding;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -21,7 +20,6 @@ public class SolutionLocationItemViewModel
 {
     private readonly ItemsService _itemsService;
 
-    /*private readonly IMediator _mediator;*/
     private readonly Func<Task> SaveSolution;
 
     public SolutionLocationItemViewModel(
@@ -33,7 +31,6 @@ public class SolutionLocationItemViewModel
     {
         SaveSolution = saveSolution;
         _itemsService = itemsService;
-        /*_mediator = Locator.Current.GetService<IMediator>();*/
 
         Name = name;
         ItemPath = itemPath;
@@ -171,12 +168,14 @@ public class SolutionLocationItemViewModel
             var item = new ItemGroupViewModel(
                 name: result.Result,
                 itemPath: Path.Combine(path1: ItemPath
-                    , path2: Constants.AppProjectItemsFolderName, path3: result.Result),
+                    , path2: result.Result),
                 itemsService: _itemsService,
                 SaveSolution: SaveSolution
             );
 
             Items.Add(item);
+
+            await SaveSolution();
 
             /*SolutionState.AddItemToSolution(new SolutionGroupModel
             {

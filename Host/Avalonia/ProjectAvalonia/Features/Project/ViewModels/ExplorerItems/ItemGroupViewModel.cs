@@ -25,6 +25,7 @@ public class ItemGroupViewModel
         , IItemGroupViewModel
 {
     private readonly ItemsService _itemsService;
+    private readonly Func<Task> _saveSolution;
 
     public ItemGroupViewModel(
         string name
@@ -34,8 +35,7 @@ public class ItemGroupViewModel
     )
     {
         _itemsService = itemsService;
-        /*_mediator = Locator.Current.GetService<IMediator>();*/
-
+        _saveSolution = SaveSolution;
         Name = name;
         ItemPath = itemPath;
 
@@ -199,7 +199,7 @@ public class ItemGroupViewModel
 
             Items.Add(
                 item);
-
+            await _saveSolution();
             /*
             _ = (await _mediator.Send(
                     new CreateItemCommand(

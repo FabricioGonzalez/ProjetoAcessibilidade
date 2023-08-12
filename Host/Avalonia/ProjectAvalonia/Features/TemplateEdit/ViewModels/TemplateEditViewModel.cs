@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using Common.Optional;
@@ -8,13 +10,16 @@ using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.ViewModels;
 using ReactiveUI;
+using XmlDatasource.ProjectItems.DTO;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -36,6 +41,9 @@ public partial class TemplateEditViewModel
     : NavBarItemViewModel
         , ITemplateEditViewModel
 {
+    private readonly ItemsService _itemsService;
+    private readonly EditableItemService _editableItemService;
+
     /*private readonly IMediator _mediator;*/
     private IEditableItemViewModel _selectedItem;
 
@@ -43,8 +51,12 @@ public partial class TemplateEditViewModel
     public TemplateEditViewModel(
         ITemplateEditTabViewModel templateEditTab
         , ItemValidationViewModel itemValidationTab
+        , ItemsService itemsService,
+        EditableItemService _editableItemService
     )
     {
+        _itemsService = itemsService;
+        this._editableItemService = _editableItemService;
         SetupCancel(
             enableCancel: false,
             enableCancelOnEscape: true,
@@ -61,8 +73,6 @@ public partial class TemplateEditViewModel
         TemplateEditTab = templateEditTab;
         ItemValidationTab = itemValidationTab;
 
-        /*_mediator = Locator.Current.GetService<IMediator>()!;*/
-
         _ = this.WhenAnyValue(x => x.SelectedItem)
             .WhereNotNull()
             .InvokeCommand(LoadSelectedItem);
@@ -72,7 +82,7 @@ public partial class TemplateEditViewModel
             () =>
             {
             });
-        LoadAllItems = ReactiveCommand.CreateFromTask(
+        LoadAllItems = ReactiveCommand.CreateRunInBackground(
             execute: LoadItems,
             outputScheduler: RxApp.MainThreadScheduler);
 
@@ -112,7 +122,7 @@ public partial class TemplateEditViewModel
     }
 
     private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem =>
-        ReactiveCommand.CreateFromTask<IEditableItemViewModel>(async item =>
+        ReactiveCommand.CreateRunInBackground<IEditableItemViewModel>(async item =>
         {
             await LoadItemReport(path: item.ItemPath, itemTemplateName: item.TemplateName);
         });
@@ -218,6 +228,8 @@ public partial class TemplateEditViewModel
         , string itemTemplateName
     )
     {
+        TemplateEditTab.EditingItem = await _editableItemService.GetEditingItem(path);
+
         /*var itemTemplate = _mediator.Send(
             request: new GetSystemProjectItemContentQuery(path),
             cancellation: CancellationToken.None);
@@ -312,59 +324,35 @@ public partial class TemplateEditViewModel
         }
     );*/
 
-    private Task LoadItems() => Task.CompletedTask;
-    /*(await _mediator
-        .Send(
-            request: new GetAllTemplatesQuery(),
-            cancellation: CancellationToken.None)).OnSuccess(
-        success =>
-        {
-            Items = new ObservableCollection<IEditableItemViewModel>(
-                success.Data
-                    ?.Select(
-                        item => new EditableItemViewModel(CommitItemCommand)
-                        {
-                            Id = item.Id ??
-                                 Guid.NewGuid()
-                                     .ToString()
-                            , ItemPath = item.ItemPath, Name = "", TemplateName = item.Name
-                        }) ??
-                Enumerable.Empty<EditableItemViewModel>());
+    private void LoadItems()
+    {
+        Items = new ObservableCollection<IEditableItemViewModel>(_itemsService.LoadAllItems().Select(it =>
+            new EditableItemViewModel(CommitItemCommand)
+            {
+                Id = it.Id, TemplateName = it.TemplateName, ItemPath = it.ItemPath, Name = it.Name
+            }).ToList());
 
-            this.RaisePropertyChanged(nameof(Items));
-        })
-    .OnError(
-        _ =>
-        {
-        });*/
-
+        this.RaisePropertyChanged(nameof(Items));
+    }
+    
     private async Task CreateItem(
         IEditableItemViewModel item
     )
     {
-        /*item.Name = item.TemplateName;
-        item.ItemPath = Path.Combine(path1: Constants.AppItemsTemplateFolder,
-            path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");
+        item.Name = item.TemplateName;
+        /*item.ItemPath = Path.Combine(path1: Constants.AppItemsTemplateFolder,
+            path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");*/
 
-        var itemContent = new AppItemModel();
+        var itemContent = new AppModelState();
         itemContent.Id = item.Id;
         itemContent.ItemName = item.TemplateName;
-        itemContent.TemplateName = item.TemplateName;
+        itemContent.ItemTemplate = item.TemplateName;
 
-        itemContent.FormData = new List<IAppFormDataItemContract>
-        {
-            new AppFormDataItemImageModel(id: Guid.NewGuid().ToString(), topic: "Images")
-            , new AppFormDataItemObservationModel(observation: "", id: Guid.NewGuid().ToString(), topic: "Observation")
-        };
-        itemContent.Images = Enumerable.Empty<ImagesItem>();
-        itemContent.Observations = Enumerable.Empty<ObservationModel>();
+        itemContent.FormData = new ();
+      
+        itemContent.LawItems = new ();
 
-        itemContent.LawList = new List<AppLawModel>();
-
-
-        _ = await _mediator
-            .Send(request: new SaveSystemProjectItemContentCommand(AppItem: itemContent, ItemPath: item.ItemPath)
-                , cancellation: CancellationToken.None);*/
+        _editableItemService.CreateEditingItem(itemContent);
     }
 
     private async Task SaveItemData(

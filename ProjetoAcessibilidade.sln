@@ -57,13 +57,13 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "AppInstaller", "Build\AppIn
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Remote", "Remote", "{B0CCFC89-5758-4C01-8CF0-43B9BEADE9B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleDriveDatasource", "Infrastructure\Remote\GoogleDriveDatasource\GoogleDriveDatasource.csproj", "{0FC2BEF1-2028-4B31-B167-051FA2A18A6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleDriveDatasource", "Infrastructure\Remote\GoogleDriveDatasource\GoogleDriveDatasource.csproj", "{0FC2BEF1-2028-4B31-B167-051FA2A18A6F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{B9E3F03B-0A52-4F2F-A7EA-ECADC7601C4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{A4879C15-86AF-4E2F-A492-9A6953F0A6E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteDatasource", "Infrastructure\Databases\SqliteDatasource\SqliteDatasource.csproj", "{0A0D6300-34C8-443A-A335-D8C859650D88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqliteDatasource", "Infrastructure\Databases\SqliteDatasource\SqliteDatasource.csproj", "{0A0D6300-34C8-443A-A335-D8C859650D88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +93,22 @@ Global
 		{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}.Release|x64.Build.0 = Release|Any CPU
 		{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}.Release|x86.ActiveCfg = Release|Any CPU
 		{BD6286A0-9E8E-4D93-9ED9-2580BAE0C767}.Release|x86.Build.0 = Release|Any CPU
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Debug|Any CPU.ActiveCfg = Debug
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Debug|Any CPU.Build.0 = Debug
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Debug|arm64.ActiveCfg = Debug
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Debug|arm64.Build.0 = Debug
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Debug|x64.ActiveCfg = Debug
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Debug|x64.Build.0 = Debug
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Debug|x86.ActiveCfg = Debug
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Debug|x86.Build.0 = Debug
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Release|Any CPU.ActiveCfg = Release
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Release|Any CPU.Build.0 = Release
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Release|arm64.ActiveCfg = Release
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Release|arm64.Build.0 = Release
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Release|x64.ActiveCfg = Release
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Release|x64.Build.0 = Release
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Release|x86.ActiveCfg = Release
+		{17559D11-872A-4E73-9F86-E9D9D438DDAE}.Release|x86.Build.0 = Release
 		{A28C20D8-45AE-4B54-89FD-3DBF9FEA794D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A28C20D8-45AE-4B54-89FD-3DBF9FEA794D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A28C20D8-45AE-4B54-89FD-3DBF9FEA794D}.Debug|arm64.ActiveCfg = Debug|Any CPU
@@ -237,6 +253,8 @@ Global
 		{B036A90D-A8A2-4248-AE43-E3E9B24436EE}.Release|x64.Build.0 = Release|x64
 		{B036A90D-A8A2-4248-AE43-E3E9B24436EE}.Release|x86.ActiveCfg = Release|Any CPU
 		{B036A90D-A8A2-4248-AE43-E3E9B24436EE}.Release|x86.Build.0 = Release|Any CPU
+		{E05E897E-5B10-44C7-BC79-21E839050097}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{E05E897E-5B10-44C7-BC79-21E839050097}.Debug|Any CPU.Build.0 = Debug|x64
 		{E05E897E-5B10-44C7-BC79-21E839050097}.Debug|arm64.ActiveCfg = Debug|x86
 		{E05E897E-5B10-44C7-BC79-21E839050097}.Debug|arm64.Build.0 = Debug|x86
 		{E05E897E-5B10-44C7-BC79-21E839050097}.Debug|x64.ActiveCfg = Debug|x64
@@ -251,8 +269,6 @@ Global
 		{E05E897E-5B10-44C7-BC79-21E839050097}.Release|x64.Build.0 = Release|x86
 		{E05E897E-5B10-44C7-BC79-21E839050097}.Release|x86.ActiveCfg = Release|x86
 		{E05E897E-5B10-44C7-BC79-21E839050097}.Release|x86.Build.0 = Release|x86
-		{E05E897E-5B10-44C7-BC79-21E839050097}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{E05E897E-5B10-44C7-BC79-21E839050097}.Debug|Any CPU.Build.0 = Debug|x64
 		{0FC2BEF1-2028-4B31-B167-051FA2A18A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0FC2BEF1-2028-4B31-B167-051FA2A18A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FC2BEF1-2028-4B31-B167-051FA2A18A6F}.Debug|arm64.ActiveCfg = Debug|Any CPU

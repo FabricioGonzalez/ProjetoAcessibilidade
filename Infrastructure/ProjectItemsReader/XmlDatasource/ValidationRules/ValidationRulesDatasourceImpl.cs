@@ -1,5 +1,5 @@
 ﻿namespace XmlDatasource.ValidationRules;
 
-public class ValidationRulesDatasourceImpl
+public sealed class ValidationRulesDatasourceImpl
 {
 }

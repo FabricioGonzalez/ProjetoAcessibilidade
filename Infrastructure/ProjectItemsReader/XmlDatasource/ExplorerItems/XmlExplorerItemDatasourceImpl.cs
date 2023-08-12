@@ -4,7 +4,7 @@ using XmlDatasource.ExplorerItems.Dto;
 
 namespace XmlDatasource.ExplorerItems;
 
-public class XmlExplorerItemDatasourceImpl
+public sealed class XmlExplorerItemDatasourceImpl
 {
     public Result<IEnumerable<AppTemplateDto>> GetAllAppTemplates()
     {

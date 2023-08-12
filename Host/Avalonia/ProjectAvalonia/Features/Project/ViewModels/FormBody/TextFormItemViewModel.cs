@@ -18,15 +18,15 @@ public partial class TextFormItemViewModel
         , string textData
         , string measurementUnit
         , string id
-        , SourceList<ObservationState> observations
-        , IEnumerable<ValidationRuleContainerState> rules
+        /*, SourceList<ObservationState> observations
+        , IEnumerable<ValidationRuleContainerState> rules*/
     )
     {
         Topic = topic;
         TextData = textData;
         MeasurementUnit = measurementUnit;
         Id = id;
-        Rules = rules;
+        /*Rules = rules;*/
 
         /*this.WhenPropertyChanged(vm => vm.TextData)
             .Subscribe(prop =>

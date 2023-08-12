@@ -39,6 +39,7 @@ public partial class ProjectViewModel
 {
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
     private readonly ItemsService _itemsService;
+    private readonly EditableItemService _editableItemService;
 
     private readonly SolutionService _solutionService;
 
@@ -79,10 +80,7 @@ public partial class ProjectViewModel
         PrintProjectCommand = ReactiveCommand.Create(
             execute: PrintSolution,
             canExecute: isSolutionOpen);
-
-        ProjectEditingViewModel = new ProjectEditingViewModel();
-        ProjectPrintPreviewViewModel = new PreviewerViewModel();
-
+        
         EnableAutoBusyOn(
             OpenProjectCommand,
             CreateProjectCommand);
@@ -90,11 +88,16 @@ public partial class ProjectViewModel
 
     public ProjectViewModel(
         SolutionService solutionService
-        , ItemsService itemsService
+        , ItemsService itemsService,
+        EditableItemService _editableItemService
     ) : this()
     {
         _solutionService = solutionService;
         _itemsService = itemsService;
+        this._editableItemService = _editableItemService;
+        ProjectEditingViewModel = new ProjectEditingViewModel(_solutionService,this._editableItemService);
+             
+        ProjectPrintPreviewViewModel = new PreviewerViewModel();
     }
 
     public override string? LocalizedTitle

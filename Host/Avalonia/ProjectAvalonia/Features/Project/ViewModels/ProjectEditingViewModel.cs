@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
@@ -7,9 +8,16 @@ using System.Threading.Tasks;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.ViewModels;
+using ProjectAvalonia.Features.Project.Services;
+using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
+using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.FormItemState;
+using ProjectAvalonia.Presentation.States.LawItemState;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
 
@@ -20,9 +28,16 @@ public class ProjectEditingViewModel
         , IProjectEditingViewModel
 {
     public static readonly Interaction<IItemViewModel, Unit> SetEditingItem = new();
+    private readonly EditableItemService _editableItemService;
+    private readonly SolutionService _solutionService;
 
-    public ProjectEditingViewModel()
+    public ProjectEditingViewModel(
+        SolutionService solutionService
+        , EditableItemService _editableItemService
+    )
     {
+        _solutionService = solutionService;
+        this._editableItemService = _editableItemService;
         EditingItems = new ObservableCollection<IEditingItemViewModel>();
 
         AddItemToEdit = ReactiveCommand.CreateFromTask<IItemViewModel>(AddItem);
@@ -90,22 +105,17 @@ public class ProjectEditingViewModel
         IItemViewModel item
     )
     {
-        /*if (!EditingItems.Any(x => x.Id == item.Id))
+        if (!EditingItems.Any(x => x.Id == item.Id))
         {
             if (item is SolutionItemViewModel solution)
             {
-                var result = await _mediator.Send(
-                    request: new ReadSolutionProjectQuery(solution.ItemPath),
-                    cancellation: CancellationToken.None);
+                var result = _solutionService.GetSolution(solution.ItemPath);
 
-                result.IfSucc(success =>
-                {
-                    var solutionItem = new SolutionEditItemViewModel(itemName: solution.Name, id: solution.Id
-                        , itemPath: solution.ItemPath
-                        , body: new SolutionItemBody(success), isSaved: false);
+                var solutionItem = new SolutionEditItemViewModel(itemName: solution.Name, id: solution.Id
+                    , itemPath: solution.ItemPath
+                    , body: new SolutionItemBody(result), isSaved: false);
 
-                    EditingItems.Add(solutionItem);
-                });
+                EditingItems.Add(solutionItem);
             }
 
             if (item is ConclusionItemViewModel conclusion)
@@ -121,7 +131,10 @@ public class ProjectEditingViewModel
 
             if (item is ItemViewModel edit)
             {
-                var getItem = _mediator.Send(
+                var getItem = await _editableItemService.GetEditingItem(edit.ItemPath);
+
+                EditingItems.Add(getItem.ToEditingView(edit.ItemPath));
+                /*var getItem = _mediator.Send(
                     request: new GetProjectItemContentQuery(edit.ItemPath),
                     cancellation: CancellationToken.None);
 
@@ -157,7 +170,7 @@ public class ProjectEditingViewModel
                                                     imageObservation: x.ImageObservation))), topic: "Imagens")))));
                         EditingItems.Add(itemToEdit);#1#
                     });
-                });
+                });*/
             }
         }
 
@@ -168,62 +181,72 @@ public class ProjectEditingViewModel
                 SelectedItem = editingItem;
                 this.RaisePropertyChanged(nameof(SelectedItem));
             }
-        }*/
+        }
     }
 }
 
-/*public static class Extension
+public static class Extension
 {
+    public static IEditingItemViewModel ToEditingView(
+        this AppModelState state
+        , string itemPath
+    ) =>
+        new EditingItemViewModel(itemName: state.ItemName, id: state.Id
+            , itemPath: itemPath,
+            body: new EditingBodyViewModel(lawList: state.LawItems.ToViewLawList()
+                , form: state.FormData.ToViewForm()));
+
     public static ObservableCollection<ILawListViewModel> ToViewLawList(
-        this IEnumerable<AppLawModel> lawModels
+        this IEnumerable<LawStateItem> lawModels
     ) =>
         new(lawModels.Select(item =>
-            new LawListViewModel(item.LawId, item.LawTextContent)));
+            new LawListViewModel(lawId: item.LawId, lawContent: item.LawContent)));
 
     public static ObservableCollection<IFormViewModel> ToViewForm(
-        this IEnumerable<IAppFormDataItemContract> formItems
-        , IEnumerable<ValidationRule> rules
-        , SourceList<ObservationModel> observations
+        this IEnumerable<FormItemContainer> formItems
+        /*, IEnumerable<ValidationRule> rules
+        , SourceList<ObservationModel> observations*/
     ) =>
         new(formItems
-            .Select<IAppFormDataItemContract, IFormViewModel>(item =>
+            .Select<FormItemContainer, IFormViewModel>(item =>
             {
-                return item switch
+                return item.Body switch
                 {
-                    AppFormDataItemTextModel text => new TextFormItemViewModel(
+                    TextItemState text => new TextFormItemViewModel(
                         id: text.Id,
                         topic: text.Topic,
                         textData: text.TextData,
-                        measurementUnit: text.MeasurementUnit ?? "", observations: observations,
-                        rules: rules.Where(x => x.Target.Id == text.Id))
-                    , AppFormDataItemCheckboxModel checkbox => new CheckboxFormItem(id: checkbox.Id,
+                        measurementUnit: text.MeasurementUnit ?? "" /*, observations: observations,
+                        rules: rules.Where(x => x.Target.Id == text.Id)*/)
+                    , CheckboxContainerItemState checkbox => new CheckboxFormItem(id: checkbox.Id,
                         topic: checkbox.Topic,
                         checkboxItems: new ObservableCollection<ICheckboxItemViewModel>(
                             checkbox.Children.Select(
                                 child => new CheckboxItemViewModel(
                                     id: child.Id,
                                     topic: child.Topic,
-                                    observations: observations,
-                                    rules: rules.Where(x => x.Target.Id == child.Id),
+                                    /*observations: observations,
+                                    rules: rules.Where(x => x.Target.Id == child.Id),*/
                                     textItems: new ObservableCollection<ITextFormItemViewModel>(
                                         child.TextItems.Select(textItem =>
                                             new TextFormItemViewModel(id: textItem.Id,
                                                 topic: textItem.Topic,
                                                 textData: textItem.TextData,
-                                                observations: observations,
-                                                measurementUnit: textItem.MeasurementUnit ?? "",
-                                                rules: rules.Where(x => x.Target.Id == child.Id)))),
+                                                measurementUnit: textItem.MeasurementUnit ?? ""
+                                                /*,observations: observations,
+                                                rules: rules.Where(x => x.Target.Id == child.Id))*/))),
                                     options: new OptionContainerViewModel(
                                         new ObservableCollection<IOptionViewModel>(
                                             child.Options.Select(option =>
                                                 new OptionItemViewModel(id: option.Id,
                                                     value: option.Value,
                                                     isChecked: option.IsChecked))))))))
-                    , _ => throw new ArgumentOutOfRangeException(nameof(item), item, null)
+                    , _ => throw new ArgumentOutOfRangeException(paramName: nameof(item), actualValue: item
+                        , message: null)
                 };
             }));
 
-    public static AppItemModel ToAppModel(
+    /*public static AppItemModel ToAppModel(
         this IEditingBodyViewModel viewModel
     )
     {
@@ -277,5 +300,5 @@ public class ProjectEditingViewModel
         appModel.LawList = viewModel.LawList.Select(x => new AppLawModel(x.LawId, x.LawContent));
 
         return appModel;
-    }
-}*/
+    }*/
+}

@@ -31,14 +31,13 @@ public class ItemRoot
     [XmlArrayItem("checkbox_items", Type = typeof(ItemFormDataCheckboxModel))]
     [XmlArrayItem("text_item", Type = typeof(ItemFormDataTextModel))]
 
-
     public List<ItemFormDataContainer> FormData
     {
         get;
         set;
     }
 
-    [XmlArray("observations")]
+    [XmlArray("observations", IsNullable = true)]
     [XmlArrayItem("observation", Type = typeof(ObservationModel))]
     public List<ObservationModel> Observations
     {
@@ -46,7 +45,7 @@ public class ItemRoot
         set;
     }
 
-    [XmlArray("images")]
+    [XmlArray("images", IsNullable = true)]
     [XmlArrayItem("image", Type = typeof(ImagesModel))]
     public List<ImagesModel> Images
     {

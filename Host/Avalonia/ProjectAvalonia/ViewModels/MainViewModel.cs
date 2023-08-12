@@ -22,6 +22,7 @@ using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
 using XmlDatasource.ExplorerItems;
+using XmlDatasource.ProjectItems;
 using XmlDatasource.Solution;
 
 namespace ProjectAvalonia.ViewModels;
@@ -161,14 +162,19 @@ public partial class MainViewModel : ViewModelBase
     {
         var xmlExplorerItemsDatasource = new XmlExplorerItemDatasourceImpl();
         var xmlSolutionDatasource = new SolutionDatasourceImpl();
+        var xmlProjectItemDatasource = new ProjectItemDatasourceImpl();
 
         var solutionManipulation = new SolutionService(xmlSolutionDatasource);
-        var itemsService = new ItemsService(xmlExplorerItemsDatasource);
+        var itemsService = new ItemsService(explorerItems: xmlExplorerItemsDatasource
+            , projectItemDatasource: xmlProjectItemDatasource);
+        var editableItemService = new EditableItemService(xmlProjectItemDatasource);
 
         _settingsPage = new SettingsPageViewModel();
         _templatePage = new TemplateEditViewModel(templateEditTab: new TemplateEditTabViewModel()
-            , itemValidationTab: new ItemValidationViewModel());
-        _projectPage = new ProjectViewModel(solutionService: solutionManipulation, itemsService: itemsService);
+            , itemValidationTab: new ItemValidationViewModel(), itemsService: itemsService
+            , _editableItemService: editableItemService);
+        _projectPage = new ProjectViewModel(solutionService: solutionManipulation, itemsService: itemsService
+            , _editableItemService: editableItemService);
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
     }

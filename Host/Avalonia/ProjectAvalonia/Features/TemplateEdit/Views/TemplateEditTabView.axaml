@@ -75,8 +75,8 @@
                                             HorizontalAlignment="Stretch"
                                             SelectedItem="{Binding Type, Mode=TwoWay}">
                                             <ComboBox.ItemsSource>
-                                                <enums:AppFormDataType>Text</enums:AppFormDataType>
-                                                <enums:AppFormDataType>Checkbox</enums:AppFormDataType>
+                                                <!--<enums:AppFormDataType>Text</enums:AppFormDataType>-->
+                                                <!--<enums:AppFormDataType>Checkbox</enums:AppFormDataType>-->
                                             </ComboBox.ItemsSource>
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate DataType="enums:AppFormDataType">

@@ -5,7 +5,7 @@ using XmlDatasource.Solution.DTO;
 
 namespace XmlDatasource.Solution;
 
-public class SolutionDatasourceImpl
+public sealed class SolutionDatasourceImpl
 {
     private readonly XmlSerializer solutionSerealizer = new(typeof(SolutionItemRoot));
 
