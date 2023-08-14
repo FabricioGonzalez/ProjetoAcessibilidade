@@ -478,4 +478,10 @@
     <data name="ConclusionLabel" xml:space="preserve">
       <value>Conclusion</value>
     </data>
+    <data name="TextItemTypeLabel" xml:space="preserve">
+      <value>Text</value>
+    </data>
+    <data name="CheckboxItemTypeLabel" xml:space="preserve">
+      <value>Checkbox</value>
+    </data>
 </root>

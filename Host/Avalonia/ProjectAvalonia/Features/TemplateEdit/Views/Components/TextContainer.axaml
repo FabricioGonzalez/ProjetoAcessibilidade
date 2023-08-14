@@ -37,7 +37,7 @@
 
         <components:RulePreviewer Grid.Column="2"
                                   DataContext="{Binding .}"
-                                  SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay }"
+                                  SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay}"
                                   ContainerId="{Binding Id,Mode=TwoWay}" />
     </Grid>
 

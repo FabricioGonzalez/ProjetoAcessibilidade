@@ -27,10 +27,10 @@ public partial class RulePreviewer : UserControl
                 , defaultValue: "");
 
 
-    public static readonly StyledProperty<ObservableCollection<IValidationRuleContainerState>>
+    public static readonly StyledProperty<ObservableCollection<IValidationRuleContainerState>?>
         SourceValidationRulesProperty =
             AvaloniaProperty
-                .Register<RulePreviewer, ObservableCollection<IValidationRuleContainerState>>(
+                .Register<RulePreviewer, ObservableCollection<IValidationRuleContainerState>?>(
                     nameof(SourceValidationRules));
 
     public static readonly StyledProperty<ObservableCollection<OptionsItemState>>
@@ -81,7 +81,7 @@ public partial class RulePreviewer : UserControl
         set => SetValue(property: OptionsProperty, value: value);
     }
 
-    public ObservableCollection<IValidationRuleContainerState> SourceValidationRules
+    public ObservableCollection<IValidationRuleContainerState>? SourceValidationRules
     {
         get => GetValue(SourceValidationRulesProperty);
         set => SetValue(property: SourceValidationRulesProperty, value: value);
@@ -127,16 +127,18 @@ public partial class RulePreviewer : UserControl
                     }
                 }
 
-                ValidationRules.ReplaceOrAdd(
+                ValidationRules?.ReplaceOrAdd(
                     original: ValidationRules.FirstOrDefault(i => i.ValidationRuleName == ok.Result.ValidationRuleName)
                     , replaceWith: ok.Result);
 
-                if (SourceValidationRules.FirstOrDefault(rule => rule.TargetContainerId == ContainerId) is { } rules)
+                if (SourceValidationRules?.Any() == true &&
+                    SourceValidationRules.FirstOrDefault(rule => rule.TargetContainerId == ContainerId) is { } rules)
                 {
                     rules.ValidaitonRules = ValidationRules;
                 }
                 else
                 {
+                    SourceValidationRules = new ObservableCollection<IValidationRuleContainerState>();
                     SourceValidationRules.Add(new ValidationRuleContainerState
                     {
                         TargetContainerId = ContainerId, ValidaitonRules = ValidationRules

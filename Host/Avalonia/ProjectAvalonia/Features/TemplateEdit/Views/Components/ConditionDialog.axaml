@@ -42,7 +42,7 @@
 
 
             <ContentControl Grid.Column="4" Grid.Row="0"
-                            DataContext="{Binding   CheckingValue }"
+                            DataContext="{Binding   CheckingValue}"
                             Content="{Binding  }">
                 <ContentControl.DataTemplates>
                     <DataTemplate

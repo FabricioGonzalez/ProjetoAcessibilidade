@@ -24,6 +24,7 @@ using ReactiveUI;
 using XmlDatasource.ExplorerItems;
 using XmlDatasource.ProjectItems;
 using XmlDatasource.Solution;
+using XmlDatasource.ValidationRules;
 
 namespace ProjectAvalonia.ViewModels;
 
@@ -163,16 +164,20 @@ public partial class MainViewModel : ViewModelBase
         var xmlExplorerItemsDatasource = new XmlExplorerItemDatasourceImpl();
         var xmlSolutionDatasource = new SolutionDatasourceImpl();
         var xmlProjectItemDatasource = new ProjectItemDatasourceImpl();
+        var xmlValidationRulesDatasource = new ValidationRulesDatasourceImpl();
 
         var solutionManipulation = new SolutionService(xmlSolutionDatasource);
         var itemsService = new ItemsService(explorerItems: xmlExplorerItemsDatasource
             , projectItemDatasource: xmlProjectItemDatasource);
         var editableItemService = new EditableItemService(xmlProjectItemDatasource);
+        var validationRulesService = new ValidationRulesService(xmlValidationRulesDatasource);
 
+        var itemValidationViewModel = new ItemValidationViewModel();
+        var templateEditTab = new TemplateEditTabViewModel();
         _settingsPage = new SettingsPageViewModel();
-        _templatePage = new TemplateEditViewModel(templateEditTab: new TemplateEditTabViewModel()
-            , itemValidationTab: new ItemValidationViewModel(), itemsService: itemsService
-            , _editableItemService: editableItemService);
+        _templatePage = new TemplateEditViewModel(templateEditTab: templateEditTab
+            , itemValidationTab: itemValidationViewModel, itemsService: itemsService
+            , _editableItemService: editableItemService, validationRulesService: validationRulesService);
         _projectPage = new ProjectViewModel(solutionService: solutionManipulation, itemsService: itemsService
             , _editableItemService: editableItemService);
         _previewPrintPage = new PreviewerViewModel();

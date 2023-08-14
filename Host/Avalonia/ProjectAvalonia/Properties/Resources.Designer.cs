@@ -249,6 +249,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checkbox.
+        /// </summary>
+        public static string CheckboxItemTypeLabel {
+            get {
+                return ResourceManager.GetString("CheckboxItemTypeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
         public static string CheckboxItemValueLabel {
@@ -1047,6 +1056,15 @@ namespace ProjectAvalonia.Properties {
         public static string TextBoxItemTopicLabel {
             get {
                 return ResourceManager.GetString("TextBoxItemTopicLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        public static string TextItemTypeLabel {
+            get {
+                return ResourceManager.GetString("TextItemTypeLabel", resourceCulture);
             }
         }
         

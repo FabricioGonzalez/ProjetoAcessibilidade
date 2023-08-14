@@ -31,7 +31,7 @@ public class SolutionService
         return result.Match(Succ: succ => succ.ToSolutionState(), Fail: fail => new SolutionState());
     }
 
-    public async Task SaveSolution(
+    public async Task CreateSolution(
         string path
         , SolutionState solution
     )
@@ -44,6 +44,13 @@ public class SolutionService
         await _solutionDatasource.SaveSolution(solutionPath: solutionPath, dataToWrite: solution.ToSolutionItemRoot());
         _solutionDatasource.CreateFolders(path);
     }
+
+    public async Task SaveSolution(
+        string path
+        , SolutionState solution
+    ) =>
+        await _solutionDatasource.SaveSolution(solutionPath: path, dataToWrite: solution.ToSolutionItemRoot());
+    /*_solutionDatasource.CreateFolders(path);*/
 }
 
 public static class SolutionRootMapping

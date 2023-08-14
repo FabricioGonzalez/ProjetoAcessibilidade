@@ -14,13 +14,16 @@ public class TextType
         string textType
     )
     {
-        Value = textType;
+        if (textType is { Length: > 0 } value)
+        {
+            Value = value;
+        }
     }
 
     public string Value
     {
         get => _value;
-        set => this.RaiseAndSetIfChanged(ref _value, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _value, newValue: value);
     }
 
     public string LocalizationKey

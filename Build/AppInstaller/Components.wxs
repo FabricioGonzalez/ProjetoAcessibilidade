@@ -4,6 +4,7 @@
         <ComponentGroup Id="ProductComponents">
 
             <ComponentRef Id="MainAppShortcut"/>
+            <ComponentRef Id="StartWith"/>
 
         </ComponentGroup>
 
@@ -13,7 +14,7 @@
                 <!--Remove Start Menu Items -->
 
                 <Shortcut Id="MainAppShortcut" Name="!(loc.ProductName_$(var.Platform))"
-                          Target="[INSTALLFOLDER]ProjectAvalonia.Desktop.exe"
+                          Target="[INSTALLFOLDER]!(loc.InstalledExe)"
                           Directory="InstallProgramMenuFolder"
                           WorkingDirectory="INSTALLFOLDER"
                           Icon="icon.ico"/>
@@ -24,15 +25,75 @@
                 <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall"/>
 
             </Component>
+
+            <Component Id="StartWith" Guid="{6D77CD3D-9179-4A9C-9B88-57668EBCE14E}" KeyPath="no">
+                <Shortcut Id="startmenuShortcut" Directory="ProgramMenuFolder" Name="!(loc.ProductName_$(var.Platform))"
+                          Icon="icon.ico"
+                          IconIndex="0" WorkingDirectory="APPLICATIONFOLDER" Advertise="yes"/>
+
+                <!-- Capabilities keys for Vista/7 "Set Program Access and Defaults" -->
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities"
+                               Name="ApplicationDescription"
+                               Value="!(loc.ApplicationDescription)" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities" Name="ApplicationIcon"
+                               Value="[APPLICATIONFOLDER]!(loc.InstalledExe),0" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities" Name="ApplicationName"
+                               Value="!(loc.ApplicationName)" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities\DefaultIcon"
+                               Value="[APPLICATIONFOLDER]!(loc.InstalledExe),1" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities\FileAssociations"
+                               Name=".!(loc.ProjectExtension)"
+                               Value="!(loc.ProductNameFolder).Document" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities\MIMEAssociations"
+                               Name="application/!(loc.ProjectExtension)"
+                               Value="!(loc.ProductNameFolder).Document" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities\shell\Open\command"
+                               Value="&quot;[APPLICATIONFOLDER]!(loc.InstalledExe)&quot; &quot;%1&quot;" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="!(loc.ProductNameFolder)"
+                               Value="SOFTWARE\MyApp\Capabilities" Type="string"/>
+
+                <!-- App Paths to support Start,Run -> "myapp" -->
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\!(loc.InstalledExe)"
+                               Value="[!(loc.InstalledExe)]" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\!(loc.InstalledExe)"
+                               Name="Path" Value="[APPLICATIONFOLDER]" Type="string"/>
+
+                <!-- Extend to the "open with" list + Win7 jump menu pinning  -->
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\!(loc.InstalledExe)\SupportedTypes"
+                               Name=".!(loc.ProjectExtension)"
+                               Value="" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\!(loc.InstalledExe)\shell\open"
+                               Name="FriendlyAppName" Value="!(loc.ApplicationName)" Type="string"/>
+
+                <!-- MyApp.Document ProgID -->
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\!(loc.ProductNameFolder).Projeto"
+                               Name="FriendlyTypeName"
+                               Value="!(loc.DescXYZ)" Type="string"/>
+                <ProgId Id="!(loc.ProductNameFolder).Document" Description="!(loc.DescXYZ)" Icon="icon.ico"
+                        Advertise="yes">
+                    <Extension Id="!(loc.ProjectExtension)">
+                        <Verb Id="open" Command="!(loc.ExplorerMenuOpenPrja)" Argument="&quot;%1&quot;"/>
+                        <MIME Advertise="yes" ContentType="application/!(loc.ProjectExtension)" Default="yes"/>
+                    </Extension>
+                </ProgId>
+
+                <!-- Optional: add an 'Edit with XYZ' to 'right click' even when not associated -->
+                <RegistryValue Root="HKLM"
+                               Key="SOFTWARE\Classes\SystemFileAssociations\.!(loc.ProjectExtension)\shell\print.!(loc.InstalledExe)"
+                               Value="!(loc.ExplorerMenuPrintPrja)" Type="string"/>
+                <RegistryValue Root="HKLM"
+                               Key="SOFTWARE\Classes\SystemFileAssociations\.!(loc.ProjectExtension)\shell\print.!(loc.InstalledExe)\command"
+                               Value="&quot;[APPLICATIONFOLDER]MyApp.exe&quot; &quot;%1&quot;" Type="string"/>
+            </Component>
         </DirectoryRef>
 
-        <DirectoryRef Id="TemplateFilesDirectory"
+        <!--<DirectoryRef Id="TemplateFilesDirectory"
                       FileSource="$(var.ProjectAvalonia.ProjectDir)Specifications\Templates\Itens">
         </DirectoryRef>
 
         <DirectoryRef Id="RulesFilesDirectory"
                       FileSource="$(var.ProjectAvalonia.ProjectDir)Specifications\Templates\ValidationRules">
-        </DirectoryRef>
+        </DirectoryRef>-->
     </Fragment>
 
 </Wix>

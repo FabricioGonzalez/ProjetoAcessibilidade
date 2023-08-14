@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ProjectAvalonia.Presentation.Enums;
 using ProjectAvalonia.Presentation.Interfaces;
 
 namespace ProjectAvalonia.Models.ValidationTypes;
@@ -22,6 +23,11 @@ public static class AppValidation
         , new LessOperation(), new IsOperation()
     };
 
+    public static readonly IEnumerable<ICheckingRuleTypes> checkingRuleTypes = new List<ICheckingRuleTypes>
+    {
+        new CheckboxItemType(), new TextItemType()
+    };
+
 
     public static ICheckingValue GetCheckingValueLocalized(
         string localized
@@ -40,20 +46,25 @@ public static class AppValidation
     ) =>
         checkingOperationTypes.First(it => it.LocalizationKey == localized);
 
-    public static ICheckingValue GetCheckingValueByValue(
+    public static ICheckingValue? GetCheckingValueByValue(
         string value
     ) =>
-        checkingValues.First(it => it.Value == value.TrimEnd());
+        checkingValues.FirstOrDefault(it => it.Value == value.TrimEnd());
 
 
-    public static IOperationType GetOperationByValue(
+    public static IOperationType? GetOperationByValue(
         string value
     ) =>
-        operationTypes.First(it => it.Value == value);
+        operationTypes.FirstOrDefault(it => it.Value == value);
 
 
-    public static ICheckingOperationType GetCheckingOperationByValue(
+    public static ICheckingOperationType? GetCheckingOperationByValue(
         string value
     ) =>
-        checkingOperationTypes.First(it => it.Value == value);
+        checkingOperationTypes.FirstOrDefault(it => it.Value == value);
+
+    public static ICheckingRuleTypes? GetCheckingRuleTypeByValue(
+        AppFormDataType value
+    ) =>
+        checkingRuleTypes.FirstOrDefault(it => it.Value == value);
 }

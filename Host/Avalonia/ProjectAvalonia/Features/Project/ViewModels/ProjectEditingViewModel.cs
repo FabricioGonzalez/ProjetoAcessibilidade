@@ -20,6 +20,8 @@ using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
+using XmlDatasource.ProjectItems.DTO;
+using XmlDatasource.ProjectItems.DTO.FormItem;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
@@ -246,59 +248,59 @@ public static class Extension
                 };
             }));
 
-    /*public static AppItemModel ToAppModel(
+    public static ItemRoot ToAppModel(
         this IEditingBodyViewModel viewModel
     )
     {
-        var appModel = new AppItemModel();
+        var appModel = new ItemRoot();
 
         appModel.FormData = viewModel.Form
             .Where(x => x is not IImageFormItemViewModel && x is not IObservationFormItemViewModel)
-            .Select<IFormViewModel, IAppFormDataItemContract>(formData =>
+            .Select<IFormViewModel, ItemFormDataContainer>(formData =>
             {
                 return formData switch
                 {
-                    TextFormItemViewModel text => new AppFormDataItemTextModel(text.Id, text.Topic,
+                    TextFormItemViewModel text => new ItemFormDataTextModel(text.Id, text.Topic,
                         textData: text.TextData,
                         measurementUnit: text.MeasurementUnit ?? "")
-                    , CheckboxFormItem checkbox => new AppFormDataItemCheckboxModel(checkbox.Id, checkbox.Topic)
+                    , CheckboxFormItem checkbox => new ItemFormDataCheckboxModel(checkbox.Id, checkbox.Topic)
                     {
                         Children = checkbox.CheckboxItems.Select(
-                            child => new AppFormDataItemCheckboxChildModel(child.Id, child.Topic, child.IsInvalid)
+                            child => new ItemFormDataCheckboxChildModel(child.Id, child.Topic, child.IsInvalid)
                             {
                                 TextItems = child.TextItems.Select(textItem =>
-                                    new AppFormDataItemTextModel(
+                                    new ItemFormDataTextModel(
                                         textItem.Id,
                                         textItem.Topic,
                                         textData: textItem.TextData,
-                                        measurementUnit: textItem.MeasurementUnit ?? ""))
+                                        measurementUnit: textItem.MeasurementUnit ?? "")).ToList()
                                 , Options = child.Options.Options.Select(option =>
-                                    new AppOptionModel(
+                                    new ItemOptionModel(
                                         id: option.Id,
                                         value: option.Value,
-                                        isChecked: option.IsChecked))
-                            })
+                                        isChecked: option.IsChecked)).ToList()
+                            }).ToList()
                     }
                     , _ => throw new ArgumentOutOfRangeException(nameof(formData), formData, null)
                 };
-            });
+            }).ToList();
 
         appModel.Images = viewModel
             .Form
             .Where(x => x is IImageFormItemViewModel)
             .Cast<IImageFormItemViewModel>()
             .SelectMany(x => x.ImageItems)
-            .Select(x => new ImagesItem { Id = x.Id, ImagePath = x.ImagePath, ImageObservation = x.ImageObservation });
+            .Select(x => new ImageItem { Id = x.Id, ImagePath = x.ImagePath, ImageObservation = x.ImageObservation }).ToList();
 
         var result = viewModel
             .Form
             .Where(x => x is IObservationFormItemViewModel)
             .Cast<IObservationFormItemViewModel>();
 
-        appModel.Observations = result.SelectMany(x => x.Observations).Where(it => it.ObservationText.Length > 0);
+        /*appModel.Observations = result.SelectMany(x => x.Observations).Where(it => it.Observation.Length > 0).ToList();*/
 
-        appModel.LawList = viewModel.LawList.Select(x => new AppLawModel(x.LawId, x.LawContent));
+        /*appModel.LawList = viewModel.LawList.Select(x => new AppLawModel(x.LawId, x.LawContent));*/
 
         return appModel;
-    }*/
+    }
 }

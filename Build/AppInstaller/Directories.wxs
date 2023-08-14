@@ -2,48 +2,47 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <Directory Id="TARGETDIR" Name="SourceDir">
-
             <!-- StartMenu -->
             <Directory Id="ProgramMenuFolder">
                 <Directory Id="InstallProgramMenuFolder" Name="!(loc.ProductNameFolder)">
                 </Directory>
             </Directory>
-            <!--<Directory Id="LocalAppDataFolder">
-                <Directory Id="LocalAppDataProductFolder" Name="!(loc.ProductNameFolder)">
-                    <Directory Id="LocalAppDataProductDatabaseFolder" Name="Database">
-                        &lt;!&ndash; <Component Id="db_file" Guid="{F3A8E45D-9771-4482-8698-E5C054500AE2}" Directory="LocalAppDataProductDatabaseFolder">
-                             <File Id="file7774858ec6b84865b3c73debbc39c56f" KeyPath="yes"
-                                   Source="$(var.ProjectAvalonia.Desktop.ProjectDir)GestorProjetosArpa.db"/>
-                         </Component>&ndash;&gt;
-                    </Directory>
+            <!--  <Directory Id="LocalAppDataFolder">
+                  <Directory Id="LocalAppDataProductFolder" Name="!(loc.ProductNameFolder)">
+                      <Directory Id="LocalAppDataProductDatabaseFolder" Name="Database">
+                          &lt;!&ndash; <Component Id="db_file" Guid="{F3A8E45D-9771-4482-8698-E5C054500AE2}" Directory="LocalAppDataProductDatabaseFolder">
+                               <File Id="file7774858ec6b84865b3c73debbc39c56f" KeyPath="yes"
+                                     Source="$(var.ProjectAvalonia.Desktop.ProjectDir)GestorProjetosArpa.db"/>
+                           </Component>&ndash;&gt;
+                      </Directory>
 
-                    <Directory Id="LocalAppDataProductCacheDataFolder" Name="CacheData"/>
+                      <Directory Id="LocalAppDataProductCacheDataFolder" Name="CacheData"/>
 
-                    <Directory Id="LocalAppDataProductSettingsFolder" Name="Settings">
-                        <Directory Id="LocalAppDataProductSettingsLogsFolder" Name="Logs">
-                            &lt;!&ndash; <Component Id="logs_file" Guid="{AFCF8AD7-8CBA-4084-8DC0-8383C92ABC48}">
-                                 <File Id="file7774858ec6b84865b3c73debbc39c49f" KeyPath="yes"
-                                       Source="$(var.ProjectAvalonia.ProjectDir)\Specification\Settings\Logs\Logs.txt"/>
-                             </Component>&ndash;&gt;
-                        </Directory>
-                        <Directory Id="LocalAppDataProductSettingsUiSettingsFolder" Name="UISettings">
-                            &lt;!&ndash; <Component Id="ui_config" Guid="{8932BFDD-DD6E-4A9B-9C4E-687AF06C8A68}">
-                                 <File Id="file7774858ec6b84865b3c73debbc39c48f" KeyPath="yes"
-                                       Source="$(var.ProjectAvalonia.ProjectDir)\Specification\Settings\UISettings\UiConfig.json"/>
-                             </Component>&ndash;&gt;
-                        </Directory>
-                        &lt;!&ndash; <Component Id="baseconfig" Guid="{598F29C9-14B4-4FD4-88AA-27ED918B761D}">
-                             <File Id="file7774858ec6b84865b3c73debbc39c46f" KeyPath="yes"
-                                   Source="$(var.ProjectAvalonia.ProjectDir)\Specification\Settings\Config.json"/>
-                         </Component>&ndash;&gt;
-                    </Directory>
+                      <Directory Id="LocalAppDataProductSettingsFolder" Name="Settings">
+                          <Directory Id="LocalAppDataProductSettingsLogsFolder" Name="Logs">
+                              &lt;!&ndash; <Component Id="logs_file" Guid="{AFCF8AD7-8CBA-4084-8DC0-8383C92ABC48}">
+                                   <File Id="file7774858ec6b84865b3c73debbc39c49f" KeyPath="yes"
+                                         Source="$(var.ProjectAvalonia.ProjectDir)\Specification\Settings\Logs\Logs.txt"/>
+                               </Component>&ndash;&gt;
+                          </Directory>
+                          <Directory Id="LocalAppDataProductSettingsUiSettingsFolder" Name="UISettings">
+                              &lt;!&ndash; <Component Id="ui_config" Guid="{8932BFDD-DD6E-4A9B-9C4E-687AF06C8A68}">
+                                   <File Id="file7774858ec6b84865b3c73debbc39c48f" KeyPath="yes"
+                                         Source="$(var.ProjectAvalonia.ProjectDir)\Specification\Settings\UISettings\UiConfig.json"/>
+                               </Component>&ndash;&gt;
+                          </Directory>
+                          &lt;!&ndash; <Component Id="baseconfig" Guid="{598F29C9-14B4-4FD4-88AA-27ED918B761D}">
+                               <File Id="file7774858ec6b84865b3c73debbc39c46f" KeyPath="yes"
+                                     Source="$(var.ProjectAvalonia.ProjectDir)\Specification\Settings\Config.json"/>
+                           </Component>&ndash;&gt;
+                      </Directory>
 
-                    <Directory Id="LocalAppDataProductTemplatesFolder" Name="Templates">
-                        <Directory Id="TemplateFilesDirectory" Name="Itens"/>
-                        <Directory Id="RulesFilesDirectory" Name="Validation Templates"/>
-                    </Directory>
-                </Directory>
-            </Directory>-->
+                      <Directory Id="LocalAppDataProductTemplatesFolder" Name="Templates">
+                          <Directory Id="TemplateFilesDirectory" Name="Itens"/>
+                          <Directory Id="RulesFilesDirectory" Name="Validation Templates"/>
+                      </Directory>
+                  </Directory>
+              </Directory>-->
 
             <?if $(var.Platform)=x64?>
             <!--Program files (x64) Folder -->
@@ -58,6 +57,7 @@
             <?endif?>
 
         </Directory>
+
     </Fragment>
 
 </Wix>

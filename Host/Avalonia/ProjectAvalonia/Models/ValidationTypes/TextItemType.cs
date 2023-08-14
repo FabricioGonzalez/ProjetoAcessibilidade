@@ -1,20 +1,20 @@
 ﻿using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.Enums;
 using ReactiveUI;
 
 namespace ProjectAvalonia.Models.ValidationTypes;
 
-public class LessThanOperation
+public class TextItemType
     : ReactiveObject
-        , ICheckingOperationType
+        , ICheckingRuleTypes
 {
-    public string Value
+    public AppFormDataType Value
     {
         get;
-    } = "less_equal_than";
+    } = AppFormDataType.Text;
 
     public string LocalizationKey
     {
         get;
-    } = "LessThanOperationLabel".GetLocalized();
+    } = "TextItemTypeLabel".GetLocalized();
 }

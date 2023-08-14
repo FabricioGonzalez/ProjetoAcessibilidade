@@ -14,18 +14,24 @@ public class OptionsItemState
     public bool IsChecked
     {
         get => _isChecked;
-        set => this.RaiseAndSetIfChanged(ref _isChecked, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _isChecked, newValue: value);
     }
 
     public string Value
     {
         get => _value;
-        set => this.RaiseAndSetIfChanged(ref _value, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _value, newValue: value);
     }
 
     public string Id
     {
         get => _id;
-        set => this.RaiseAndSetIfChanged(ref _id, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _id, newValue: value);
+    }
+
+    public bool IsInvalid
+    {
+        get;
+        set;
     }
 }

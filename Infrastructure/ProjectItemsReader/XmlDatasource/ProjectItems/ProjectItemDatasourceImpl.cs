@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Text;
+using System.Xml.Serialization;
 using LanguageExt.Common;
 using XmlDatasource.ProjectItems.DTO;
 
@@ -51,6 +52,18 @@ public sealed class ProjectItemDatasourceImpl
         {
             Console.WriteLine(e);
             return new Result<ItemRoot>(e);
+        }
+    }
+
+    public async Task SaveConclusionItem(
+        string conclusionItemPath
+        , string conclusionBody
+    )
+    {
+        using var writer = new StreamWriter(path: conclusionItemPath, encoding: Encoding.UTF8
+            , options: new FileStreamOptions { Mode = FileMode.Create, Access = FileAccess.Write });
+        {
+            await writer.WriteAsync(conclusionBody);
         }
     }
 }

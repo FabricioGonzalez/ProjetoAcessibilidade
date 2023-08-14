@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
-    xmlns:enums="clr-namespace:ProjectAvalonia.Presentation.Enums;assembly=ProjectAvalonia.Presentation"
+    xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
@@ -73,16 +73,15 @@
                                             Grid.Column="1"
                                             Margin="2,0"
                                             HorizontalAlignment="Stretch"
-                                            SelectedItem="{Binding Type, Mode=TwoWay}">
-                                            <ComboBox.ItemsSource>
-                                                <!--<enums:AppFormDataType>Text</enums:AppFormDataType>-->
-                                                <!--<enums:AppFormDataType>Checkbox</enums:AppFormDataType>-->
-                                            </ComboBox.ItemsSource>
-                                            <ComboBox.ItemTemplate>
+                                            ItemsSource="{x:Static validationTypes:AppValidation.checkingRuleTypes}"
+                                            SelectedValueBinding="{Binding Value}"
+                                            DisplayMemberBinding="{Binding LocalizationKey}"
+                                            SelectedValue="{Binding Type, Mode=TwoWay}">
+                                            <!--<ComboBox.ItemTemplate>
                                                 <DataTemplate DataType="enums:AppFormDataType">
                                                     <TextBlock Text="{Binding}" />
                                                 </DataTemplate>
-                                            </ComboBox.ItemTemplate>
+                                            </ComboBox.ItemTemplate>-->
                                         </ComboBox>
 
                                         <c:IconButton

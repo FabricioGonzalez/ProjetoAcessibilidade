@@ -8,7 +8,7 @@ public class LessOperation
     : ReactiveObject
         , ICheckingOperationType
 {
-    public string Value => "<";
+    public string Value => "lest_than";
 
     public string LocalizationKey
     {

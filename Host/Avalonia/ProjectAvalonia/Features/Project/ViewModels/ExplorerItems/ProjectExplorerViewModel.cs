@@ -14,6 +14,7 @@ using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
 using ReactiveUI;
@@ -25,16 +26,19 @@ public class ProjectExplorerViewModel
         , IProjectExplorerViewModel
 {
     private readonly ItemsService _itemsService;
+    private readonly SolutionService _solutionService;
     private IItemViewModel _selectedItem;
     private ISolutionGroupViewModel _solutionGroupView;
 
     public ProjectExplorerViewModel(
         SolutionState state
         , ItemsService itemsService
+        , SolutionService solutionService
     )
     {
         SolutionState = state;
         _itemsService = itemsService;
+        _solutionService = solutionService;
 
         SolutionRootItem = new SolutionGroupViewModel();
 
@@ -140,7 +144,11 @@ public class ProjectExplorerViewModel
 
                 SolutionRootItem.LocationItems.Add(item);
 
-                _itemsService.SyncSolutionItems(SolutionRootItem);
+                /*_itemsService.SyncSolutionItems(SolutionRootItem);
+
+                await _solutionService.SaveSolution(path: SolutionState.FilePath, solution: SolutionState);*/
+
+                await SaveSolution();
 
                 /*SolutionState.AddItemToSolution(new SolutionGroupModel
                 {
@@ -222,7 +230,29 @@ public class ProjectExplorerViewModel
             .Merge();*/
 
 
-    private async Task SaveSolution() => _itemsService.SyncSolutionItems(SolutionRootItem);
+    private async Task SaveSolution()
+    {
+        SolutionState.LocationItems = new ObservableCollection<LocationItemState>(SolutionRootItem.LocationItems.Select(
+            it => new LocationItemState
+            {
+                Name = it.Name, ItemGroup = new ObservableCollection<ItemGroupState>(
+                    it.Items.Select(itemGroup =>
+                        new ItemGroupState
+                        {
+                            Name = itemGroup.Name, Items = new ObservableCollection<ItemState>(itemGroup.Items.Select(
+                                item =>
+                                    new ItemState
+                                    {
+                                        Name = item.Name, TemplateName = item.TemplateName, ItemPath = item.ItemPath
+                                        , Id = item.Id
+                                    }))
+                        }))
+            }));
+
+        await _solutionService.SaveSolution(path: SolutionState.FilePath, solution: SolutionState);
+
+        _itemsService.SyncSolutionItems(SolutionRootItem);
+    }
     /*SolutionState?.ReloadItem(SolutionRootItem.LocationItems
             .Select(solutionItem => new SolutionGroupModel
             {

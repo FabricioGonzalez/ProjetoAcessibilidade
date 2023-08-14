@@ -8,8 +8,6 @@ public class ConclusionEditItemViewModel
     : ReactiveObject
         , IEditingItemViewModel
 {
-    /*private readonly IMediator _mediator;*/
-
     public ConclusionEditItemViewModel(
         string itemName
         , string id

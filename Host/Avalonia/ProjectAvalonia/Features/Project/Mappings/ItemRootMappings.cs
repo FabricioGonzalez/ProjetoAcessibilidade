@@ -1,42 +1,63 @@
-﻿using System.Linq;
-using DynamicData.Binding;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
-using ProjectAvalonia.Presentation.States.LawItemState;
 using XmlDatasource.ProjectItems.DTO;
 using XmlDatasource.ProjectItems.DTO.FormItem;
 
 namespace ProjectAvalonia.Features.Project.Services;
 
-public  static class ItemRootMappings
+public static class ItemRootMappings
 {
     public static ItemRoot ToItemRoot(
-        this  AppModelState state
+        this AppModelState state
     )
     {
         var toReturn = new ItemRoot
         {
-            Id = state.Id, ItemName = state.ItemName, TemplateName = state.ItemTemplate,
-            FormData = state
+            Id = state.Id, ItemName = state.ItemName, TemplateName = state.ItemTemplate, FormData = state
                 .FormData
                 .Where(it => it.Body is not ImageContainerItemState && it.Body is not ObservationItemState)
-                .Select(it =>
+                .Select<FormItemContainer, ItemFormDataContainer>(it =>
                 {
                     if (it.Body is CheckboxContainerItemState checkbox)
                     {
-                        
+                        return new ItemFormDataCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
+                        {
+                            Children = checkbox.Children.Select(child =>
+                                new ItemFormDataCheckboxChildModel(id: child.Id, topic: child.Topic, isInvalid: false)
+                                {
+                                    TextItems = child.TextItems.Select(
+                                            innerText => new ItemFormDataTextModel(id: innerText.Id
+                                                , topic: innerText.Topic
+                                                , textData: innerText.TextData
+                                                , measurementUnit: innerText.MeasurementUnit))
+                                        .ToList()
+                                    , Options = child.Options.Select(option =>
+                                        new ItemOptionModel(value: option.Value, id: option.Id
+                                            , isChecked: option.IsChecked)
+                                        {
+                                            Id = option.Id, Value = option.Value, IsChecked = option.IsChecked
+                                            , IsInvalid = option.IsInvalid
+                                        }).ToList()
+                                }).ToList()
+                        };
                     }
 
                     if (it.Body is TextItemState text)
                     {
-                        
+                        return new ItemFormDataTextModel(id: text.Id, topic: text.Topic
+                            , textData: text.TextData, measurementUnit: text.MeasurementUnit);
                     }
-                })
-                .ToList(),
-            LawList = ,
-            Images = ,
-            Observations = 
+
+                    return new ItemFormDataEmpty();
+                }).ToList()
+                .ToList()
+            , LawList = state.LawItems.Select(law => new ItemLaw(lawId: law.LawId, lawContent: law.LawContent)).ToList()
+            , Images = new List<ImageItem>(), Observations = new List<ObservationModel>()
         };
+
+        return toReturn;
         /*toReturn.LoadItemData(
             itemRoot
                 ?.FormData
@@ -109,7 +130,7 @@ public  static class ItemRootMappings
             FormData = ,
             ItemName = itemRoot.ItemName,
             ItemTemplate = itemRoot.TemplateName,
-            LawItems = 
+            LawItems =
         }*/
     }
 }

@@ -101,7 +101,7 @@
                                     <local:RulePreviewer
                                         ContainerId="{Binding Id,Mode=TwoWay}"
                                         Options="{Binding Options}"
-                                        SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay }" />
+                                        SourceValidationRules="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).EditingItemRules, Mode=TwoWay}" />
                                     <c:IconButton
                                         Width="24"
                                         Height="24"

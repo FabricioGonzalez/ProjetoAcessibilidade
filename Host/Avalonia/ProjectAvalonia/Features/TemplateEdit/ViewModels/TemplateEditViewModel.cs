@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
+using Common;
 using Common.Optional;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
@@ -17,9 +18,9 @@ using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
+using ProjectAvalonia.Presentation.States.LawItemState;
 using ProjectAvalonia.ViewModels;
 using ReactiveUI;
-using XmlDatasource.ProjectItems.DTO;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -41,22 +42,23 @@ public partial class TemplateEditViewModel
     : NavBarItemViewModel
         , ITemplateEditViewModel
 {
-    private readonly ItemsService _itemsService;
     private readonly EditableItemService _editableItemService;
+    private readonly ItemsService _itemsService;
+    private readonly ValidationRulesService _validationRulesService;
 
-    /*private readonly IMediator _mediator;*/
     private IEditableItemViewModel _selectedItem;
-
 
     public TemplateEditViewModel(
         ITemplateEditTabViewModel templateEditTab
         , ItemValidationViewModel itemValidationTab
-        , ItemsService itemsService,
-        EditableItemService _editableItemService
+        , ItemsService itemsService
+        , EditableItemService _editableItemService
+        , ValidationRulesService validationRulesService
     )
     {
         _itemsService = itemsService;
         this._editableItemService = _editableItemService;
+        _validationRulesService = validationRulesService;
         SetupCancel(
             enableCancel: false,
             enableCancelOnEscape: true,
@@ -76,7 +78,6 @@ public partial class TemplateEditViewModel
         _ = this.WhenAnyValue(x => x.SelectedItem)
             .WhereNotNull()
             .InvokeCommand(LoadSelectedItem);
-
 
         AddNewItemCommand = ReactiveCommand.Create(
             () =>
@@ -184,13 +185,13 @@ public partial class TemplateEditViewModel
     {
         var listBuilder = ImmutableList.CreateBuilder<IMenuItem>();
 
-        listBuilder.Add(new MenuItemModel(
+        /*listBuilder.Add(new MenuItemModel(
             label: "Template_Edit_Open_ToolBarItem".GetLocalized(),
             command: ReactiveCommand.Create(() =>
             {
             }),
             icon: "file_open_24_rounded".GetIcon(),
-            gesture: "Ctrl+Shift+O"));
+            gesture: "Ctrl+Shift+O"));*/
 
         listBuilder.Add(new MenuItemModel(
             label: "Template_Edit_Create_Item_ToolBarItem".GetLocalized(),
@@ -208,7 +209,7 @@ public partial class TemplateEditViewModel
 
         listBuilder.Add(new MenuItemModel(
             label: "Template_Edit_Save_Item_ToolBarItem".GetLocalized(),
-            command: ReactiveCommand.CreateFromTask(async () =>
+            command: ReactiveCommand.CreateRunInBackground(async () =>
             {
                 await TemplateEditTab.EditingItem.ToOption()
                     .Map(async item =>
@@ -229,8 +230,13 @@ public partial class TemplateEditViewModel
     )
     {
         TemplateEditTab.EditingItem = await _editableItemService.GetEditingItem(path);
+        TemplateEditTab.EditingItemRules = new ObservableCollection<IValidationRuleContainerState>(
+            await _validationRulesService.LoadRules(
+                Path.Combine(path1: Constants.AppValidationRulesTemplateFolder
+                    , path2: $"{itemTemplateName}{Constants.AppProjectValidationTemplateExtension}")));
+    }
 
-        /*var itemTemplate = _mediator.Send(
+    /*var itemTemplate = _mediator.Send(
             request: new GetSystemProjectItemContentQuery(path),
             cancellation: CancellationToken.None);
 
@@ -239,9 +245,8 @@ public partial class TemplateEditViewModel
                 path2: $"{Path.GetFileNameWithoutExtension(path)}{Constants.AppProjectValidationTemplateExtension}"));
 
         await Task.WhenAll(itemTemplate, templateRules);
-        var res = templateRules.Result;*/
-
-        /*itemTemplate
+        var res = templateRules.Result;
+    itemTemplate
             .Result
             .Match(success =>
                 {
@@ -275,13 +280,11 @@ public partial class TemplateEditViewModel
                 {
                     NotificationHelpers.Show(it);
                     return default;
-                });*/
-    }
-
+                });
     private async Task<ObservableCollection<IValidationRuleContainerState>> LoadValidationRules(
         string path
     ) => new();
-    /*(await _mediator.Send(
+    (await _mediator.Send(
         request: new GetValidationRulesQuery(path),
         cancellation: CancellationToken.None))
     .Match(Succ: success =>
@@ -322,7 +325,7 @@ public partial class TemplateEditViewModel
             return new ObservableCollection<IValidationRuleContainerState>(Enumerable
                 .Empty<IValidationRuleContainerState>());
         }
-    );*/
+    )*/
 
     private void LoadItems()
     {
@@ -334,7 +337,7 @@ public partial class TemplateEditViewModel
 
         this.RaisePropertyChanged(nameof(Items));
     }
-    
+
     private async Task CreateItem(
         IEditableItemViewModel item
     )
@@ -348,17 +351,23 @@ public partial class TemplateEditViewModel
         itemContent.ItemName = item.TemplateName;
         itemContent.ItemTemplate = item.TemplateName;
 
-        itemContent.FormData = new ();
-      
-        itemContent.LawItems = new ();
+        itemContent.FormData = new ObservableCollection<FormItemContainer>();
 
-        _editableItemService.CreateEditingItem(itemContent);
+        itemContent.LawItems = new ObservableCollection<LawStateItem>();
+
+        await _editableItemService.CreateTemplateEditingItem(itemContent);
     }
 
     private async Task SaveItemData(
         AppModelState item
-    ) =>
+    )
+    {
         item.ItemName = item.ItemTemplate;
+        item.Id = Guid.NewGuid().ToString();
+
+        await _editableItemService.CreateTemplateEditingItem(item);
+        await _validationRulesService.CraeteRules(rules: TemplateEditTab.EditingItemRules, itemName: item.ItemTemplate);
+    }
     /*var itemSave = _mediator
             .Send(
                 new SaveSystemProjectItemContentCommand(

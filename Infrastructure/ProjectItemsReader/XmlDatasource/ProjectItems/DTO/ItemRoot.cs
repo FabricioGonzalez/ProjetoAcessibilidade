@@ -46,8 +46,8 @@ public class ItemRoot
     }
 
     [XmlArray("images", IsNullable = true)]
-    [XmlArrayItem("image", Type = typeof(ImagesModel))]
-    public List<ImagesModel> Images
+    [XmlArrayItem("image", Type = typeof(ImageItem))]
+    public List<ImageItem> Images
     {
         get;
         set;

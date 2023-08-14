@@ -10,6 +10,7 @@ using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.Services;
+using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.Project.ViewModels.ExplorerItems;
 using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
@@ -37,9 +38,9 @@ public partial class ProjectViewModel
     : NavBarItemViewModel
         , IProjectViewModel
 {
+    private readonly EditableItemService _editableItemService;
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
     private readonly ItemsService _itemsService;
-    private readonly EditableItemService _editableItemService;
 
     private readonly SolutionService _solutionService;
 
@@ -80,7 +81,7 @@ public partial class ProjectViewModel
         PrintProjectCommand = ReactiveCommand.Create(
             execute: PrintSolution,
             canExecute: isSolutionOpen);
-        
+
         EnableAutoBusyOn(
             OpenProjectCommand,
             CreateProjectCommand);
@@ -88,15 +89,16 @@ public partial class ProjectViewModel
 
     public ProjectViewModel(
         SolutionService solutionService
-        , ItemsService itemsService,
-        EditableItemService _editableItemService
+        , ItemsService itemsService
+        , EditableItemService _editableItemService
     ) : this()
     {
         _solutionService = solutionService;
         _itemsService = itemsService;
         this._editableItemService = _editableItemService;
-        ProjectEditingViewModel = new ProjectEditingViewModel(_solutionService,this._editableItemService);
-             
+        ProjectEditingViewModel = new ProjectEditingViewModel(solutionService: _solutionService
+            , _editableItemService: this._editableItemService);
+
         ProjectPrintPreviewViewModel = new PreviewerViewModel();
     }
 
@@ -205,8 +207,23 @@ public partial class ProjectViewModel
 
     private async Task SaveReportData()
     {
-        if (ProjectEditingViewModel is { SelectedItem: not null })
+        if (ProjectEditingViewModel is { SelectedItem: { } selected })
         {
+            if (selected is SolutionEditItemViewModel solution)
+            {
+            }
+
+            if (selected is ConclusionEditItemViewModel conclusion)
+            {
+                await _editableItemService.SaveConclusionItem(conclusionItemPath: conclusion.ItemPath
+                    , conclusionBody: (conclusion.Body as IConclusionEditingBody).ConclusionBody);
+            }
+
+            if (selected is EditingItemViewModel edit)
+            {
+                _editableItemService.SaveEditingItem(edit.Body, edit.ItemPath);
+            }
+
             await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
         }
     }
@@ -244,7 +261,8 @@ public partial class ProjectViewModel
 
                     ProjectExplorerViewModel = new ProjectExplorerViewModel(
                         state: result,
-                        itemsService: _itemsService
+                        itemsService: _itemsService,
+                        solutionService: _solutionService
                     )
                     {
                         SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
@@ -263,13 +281,14 @@ public partial class ProjectViewModel
 
         if (dialogResult is { Kind: DialogResultKind.Normal } result)
         {
-            await _solutionService.SaveSolution(
+            await _solutionService.CreateSolution(
                 path: result.Result.local
                 , solution: result.Result.solution);
             Dispatcher.UIThread.Post(() =>
             {
                 ProjectExplorerViewModel =
-                    new ProjectExplorerViewModel(state: result.Result.solution, itemsService: _itemsService);
+                    new ProjectExplorerViewModel(state: result.Result.solution, itemsService: _itemsService
+                        , solutionService: _solutionService);
                 this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
             });
         }

@@ -10,4 +10,10 @@ public class RuleTargetsItem
         get;
         set;
     }
+
+    public string Name
+    {
+        get;
+        set;
+    }
 }

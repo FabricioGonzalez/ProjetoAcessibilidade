@@ -23,11 +23,25 @@ public sealed class EditableItemService
         (await _projectItemsDatasource.GetContentItem(path)).Match(Succ: succ => succ.ToAppModelState()
             , Fail: fail => new AppModelState());
 
-    public void CreateEditingItem(
+    public async Task SaveEditingItem(
         AppModelState itemContent
-    )
-    {
-        _projectItemsDatasource.SaveContentItem(Path.Combine(path1: Constants.AppItemsTemplateFolder,
-            path2: $"{itemContent.ItemTemplate}{Constants.AppProjectTemplateExtension}"), itemContent.ToItemRoot());
-    }
+        , string path
+    ) =>
+        await _projectItemsDatasource.SaveContentItem(path: path
+            , item: itemContent.ToItemRoot());
+
+    public async Task CreateTemplateEditingItem(
+        AppModelState itemContent
+    ) =>
+        await _projectItemsDatasource.SaveContentItem(path: Path.Combine(path1: Constants.AppItemsTemplateFolder,
+                path2: $"{itemContent.ItemTemplate}{Constants.AppProjectTemplateExtension}")
+            , item: itemContent.ToItemRoot());
+
+
+    public async Task SaveConclusionItem(
+        string conclusionItemPath
+        , string conclusionBody
+    ) =>
+        await _projectItemsDatasource.SaveConclusionItem(conclusionItemPath: conclusionItemPath
+            , conclusionBody: conclusionBody);
 }

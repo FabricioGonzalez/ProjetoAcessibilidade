@@ -1,17 +1,21 @@
-﻿var path = "C:\\Users\\Fabricio\\Documents\\Teste\\Teste.prja";
+﻿using QuestPDF.Previewer;
+using QuestPDFReport;
+using QuestPDFReport.ReportSettings;
+using XmlDatasource.Solution;
+using XmlDatasource.Solution.DTO;
+
+var path = "C:\\Users\\Fabricio\\Documents\\Teste\\Teste.prja";
 
 
-/*var solutionReader = new SolutionRepositoryImpl();
+var solutionReader = new SolutionDatasourceImpl();
 
-var result = (await solutionReader.ReadSolution(path))
-    .Match(success => success, failure => ProjectSolutionModel.Create(
-        "",
-        new SolutionInfo()));
+var result = solutionReader.ReadSolution(path)
+    .Match(Succ: success => success, Fail: failure => new SolutionItemRoot());
 
 var model = await DataSource.GetReport(
-    result,
-    Constants.AppProjectTemplateExtension);
+    result /*,
+    Constants.AppProjectTemplateExtension*/);
 
 var report = new StandardReport(model);
 
-await report.ShowInPreviewerAsync();*/
+await report.ShowInPreviewerAsync();

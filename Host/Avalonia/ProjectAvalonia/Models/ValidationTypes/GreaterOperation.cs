@@ -11,7 +11,7 @@ public class GreaterOperation
     public string Value
     {
         get;
-    } = ">";
+    } = "greater_than";
 
     public string LocalizationKey
     {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Avalonia.Threading;
 using Common;
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
@@ -61,11 +62,11 @@ public partial class PreviewerViewModel : RoutableViewModel
             .WhereNotNull()
             .SubscribeAsync(async prop =>
             {
-                /*var report = new StandardReport(await DataSource.GetReport(
-                    prop,
-                    Constants.AppProjectItemExtension));
+                var report = new StandardReport(await DataSource.GetReport(
+                    prop.ToSolutionItemRoot() /*,
+                    Constants.AppProjectItemExtension*/));
 
-                Document = report;*/
+                Document = report;
             });
 
         this.WhenAnyValue(vm => vm.Document)
@@ -146,12 +147,12 @@ public partial class PreviewerViewModel : RoutableViewModel
             SolutionPath = path;
         }
 
-        /*if (Parameter is ProjectSolutionModel solution)
+        if (Parameter is SolutionState solution)
         {
             SolutionModel = null;
 
             SolutionModel = solution;
-        }*/
+        }
     }
 
     protected override void OnNavigatedFrom(
