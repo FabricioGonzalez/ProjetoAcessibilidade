@@ -138,11 +138,22 @@ public partial class RulePreviewer : UserControl
                 }
                 else
                 {
-                    SourceValidationRules = new ObservableCollection<IValidationRuleContainerState>();
-                    SourceValidationRules.Add(new ValidationRuleContainerState
+                    if (SourceValidationRules is { } source)
                     {
-                        TargetContainerId = ContainerId, ValidaitonRules = ValidationRules
-                    });
+                        source.Add(new ValidationRuleContainerState
+                        {
+                            TargetContainerId = ContainerId, ValidaitonRules = ValidationRules
+                        });
+                        return;
+                    }
+
+                    SourceValidationRules = new ObservableCollection<IValidationRuleContainerState>
+                    {
+                        new ValidationRuleContainerState
+                        {
+                            TargetContainerId = ContainerId, ValidaitonRules = ValidationRules
+                        }
+                    };
                 }
             }
         }

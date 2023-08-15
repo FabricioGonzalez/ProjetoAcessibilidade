@@ -11,7 +11,7 @@ public class ImageContainerFormItemViewModel
 {
     public ImageContainerFormItemViewModel(
         ObservableCollection<IImageItemViewModel> imageItems
-        , string topic
+        , string topic = "Imagens"
     )
     {
         ImageItems = imageItems;

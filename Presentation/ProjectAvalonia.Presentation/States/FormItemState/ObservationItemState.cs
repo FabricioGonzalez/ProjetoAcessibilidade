@@ -1,10 +1,10 @@
-﻿using ProjectAvalonia.Presentation.Enums;
-using ReactiveUI;
+﻿using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States.FormItemState;
 
-public class ObservationItemState : FormItemStateBase
+public class ObservationItemState : ReactiveObject
 {
+    private string _id = "";
     private string _observation = "";
 
 
@@ -13,10 +13,7 @@ public class ObservationItemState : FormItemStateBase
     public ObservationItemState(
         string topic
         , string observation
-        , AppFormDataType type
-        , string id = ""
     )
-        : base(type: type, id: id)
     {
         Observation = observation;
         Topic = topic;
@@ -26,6 +23,12 @@ public class ObservationItemState : FormItemStateBase
     {
         get => _observation;
         set => this.RaiseAndSetIfChanged(backingField: ref _observation, newValue: value);
+    }
+
+    public string Id
+    {
+        get => _id;
+        set => this.RaiseAndSetIfChanged(backingField: ref _id, newValue: value);
     }
 
     public string Topic

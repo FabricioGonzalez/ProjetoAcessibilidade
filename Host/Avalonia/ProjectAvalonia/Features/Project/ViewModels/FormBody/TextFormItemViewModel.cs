@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Common.Linq;
 using DynamicData;
+using DynamicData.Binding;
 using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.FormItemState;
@@ -18,55 +22,75 @@ public partial class TextFormItemViewModel
         , string textData
         , string measurementUnit
         , string id
-        /*, SourceList<ObservationState> observations
-        , IEnumerable<ValidationRuleContainerState> rules*/
+        , SourceList<ObservationState> observations
+        , IEnumerable<IValidationRuleContainerState> rules
     )
     {
         Topic = topic;
         TextData = textData;
         MeasurementUnit = measurementUnit;
         Id = id;
-        /*Rules = rules;*/
+        Rules = rules;
 
-        /*this.WhenPropertyChanged(vm => vm.TextData)
+        this.WhenPropertyChanged(vm => vm.TextData)
             .Subscribe(prop =>
             {
                 var rulesToEvaluate = Rules
-             .SelectMany(x =>
-             x.Rules
-             .SelectMany(rule => rule.Conditions
-             .Where(y => y.TargetId == prop.Sender.Id)
-             .Select(z => z.ConditionsFunctions)));
-
-                var ok = rulesToEvaluate.Select(x => x.Invoke(prop.Value ?? ""));
-
-                ok.IterateOn(x =>
-                {
-                    var exsits = (string it) => observations.Items.Any(observation => observation.ObservationText == it);
-
-                    if (x.evaluationResult)
+                    .SelectMany(x =>
+                        x.ValidaitonRules
+                            .SelectMany(rule => rule.Conditions
+                                .Where(y => y.TargetId == prop.Sender.Id)
+                            )).Select(it => new Func<string?, (bool ResultValue, IEnumerable<string>Results)>(value =>
                     {
-                        var item = x.results
-                           .Where(it => !exsits(it));
+                        return (it.CheckingOperationType switch
+                        {
+                            HasOperation => it.CheckingValue.Value.Contains(value ?? "")
+                            , LessOperation => double.TryParse(s: it.CheckingValue.Value, result: out var data)
+                                               && double.TryParse(s: value ?? "0", result: out var dataToEval) &&
+                                               data < dataToEval
+                            , LessThanOperation => double.TryParse(s: it.CheckingValue.Value, result: out var data)
+                                                   && double.TryParse(s: value ?? "0", result: out var dataToEval) &&
+                                                   data <= dataToEval
+                            , GreaterOperation => double.TryParse(s: it.CheckingValue.Value, result: out var data)
+                                                  && double.TryParse(s: value ?? "0", result: out var dataToEval) &&
+                                                  data > dataToEval
+                            , GreaterThanOperation => double.TryParse(s: it.CheckingValue.Value, result: out var data)
+                                                      && double.TryParse(s: value ?? "0", result: out var dataToEval) &&
+                                                      data >= dataToEval
+                            , _ => false
+                        }, it.Result.Select(result => result.ResultValue));
+                    }));
+
+                rulesToEvaluate.IterateOn(x =>
+                {
+                    var evaluationResult = x.Invoke(prop.Sender.TextData);
+
+                    var exsits = (
+                        string it
+                    ) => observations.Items.Any(observation => observation.Observation == it);
+
+                    if (evaluationResult.ResultValue)
+                    {
+                        var item = evaluationResult.Results
+                            .Where(it => !exsits(it));
 
                         observations.AddRange(item
-                            .Select(it => new ObservationModel() { Id = Guid.NewGuid().ToString(), ObservationText = it }));
+                            .Select(it => new ObservationState { Observation = it }));
 
                         this.RaisePropertyChanged();
                     }
                     else
                     {
-                        var itemsToRemove = x.results.Where(it => exsits(it));
-                        observations.RemoveMany(observations.Items.IntersectBy(itemsToRemove, it => it.ObservationText));
+                        var itemsToRemove = evaluationResult.Results.Where(it => exsits(it));
+                        observations.RemoveMany(observations.Items.IntersectBy(second: itemsToRemove
+                            , keySelector: it => it.Observation));
                         this.RaisePropertyChanged();
                     }
-
                 });
-
-            });*/
+            });
     }
 
-    public IEnumerable<ValidationRuleContainerState> Rules
+    public IEnumerable<IValidationRuleContainerState> Rules
     {
         get;
         set;

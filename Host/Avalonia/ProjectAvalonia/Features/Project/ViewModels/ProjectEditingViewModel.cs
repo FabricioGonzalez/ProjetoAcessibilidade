@@ -14,6 +14,7 @@ using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
+using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
@@ -32,14 +33,17 @@ public class ProjectEditingViewModel
     public static readonly Interaction<IItemViewModel, Unit> SetEditingItem = new();
     private readonly EditableItemService _editableItemService;
     private readonly SolutionService _solutionService;
+    private readonly ValidationRulesService _validationRulesService;
 
     public ProjectEditingViewModel(
         SolutionService solutionService
-        , EditableItemService _editableItemService
+        , EditableItemService editableItemService
+        , ValidationRulesService validationRulesService
     )
     {
         _solutionService = solutionService;
-        this._editableItemService = _editableItemService;
+        _editableItemService = editableItemService;
+        _validationRulesService = validationRulesService;
         EditingItems = new ObservableCollection<IEditingItemViewModel>();
 
         AddItemToEdit = ReactiveCommand.CreateFromTask<IItemViewModel>(AddItem);
@@ -134,8 +138,9 @@ public class ProjectEditingViewModel
             if (item is ItemViewModel edit)
             {
                 var getItem = await _editableItemService.GetEditingItem(edit.ItemPath);
-
-                EditingItems.Add(getItem.ToEditingView(edit.ItemPath));
+                var rules = await _validationRulesService.LoadRulesByName(edit.TemplateName);
+                EditingItems.Add(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
+                    , new SourceList<ObservationState>()));
                 /*var getItem = _mediator.Send(
                     request: new GetProjectItemContentQuery(edit.ItemPath),
                     cancellation: CancellationToken.None);
@@ -192,11 +197,23 @@ public static class Extension
     public static IEditingItemViewModel ToEditingView(
         this AppModelState state
         , string itemPath
+        , IEnumerable<IValidationRuleContainerState> rules
+        , SourceList<ObservationState> observations
     ) =>
         new EditingItemViewModel(itemName: state.ItemName, id: state.Id
             , itemPath: itemPath,
+            templateName: state.ItemTemplate,
             body: new EditingBodyViewModel(lawList: state.LawItems.ToViewLawList()
-                , form: state.FormData.ToViewForm()));
+                , form:
+                new(state.FormData.ToViewForm(rules, observations)
+                    .Append(new ImageContainerFormItemViewModel(new(state.ImageContainer
+                        .ImagesItems
+                        .Select(it => new ImageViewModel(it.ImagePath, it.ImageObservation, it.Id))
+                    ))).Append(new ObservationFormItem()
+                    {
+                        SourceItems = observations
+                    })
+                )));
 
     public static ObservableCollection<ILawListViewModel> ToViewLawList(
         this IEnumerable<LawStateItem> lawModels
@@ -206,8 +223,8 @@ public static class Extension
 
     public static ObservableCollection<IFormViewModel> ToViewForm(
         this IEnumerable<FormItemContainer> formItems
-        /*, IEnumerable<ValidationRule> rules
-        , SourceList<ObservationModel> observations*/
+        , IEnumerable<IValidationRuleContainerState> rules
+        , SourceList<ObservationState> observations
     ) =>
         new(formItems
             .Select<FormItemContainer, IFormViewModel>(item =>
@@ -218,8 +235,8 @@ public static class Extension
                         id: text.Id,
                         topic: text.Topic,
                         textData: text.TextData,
-                        measurementUnit: text.MeasurementUnit ?? "" /*, observations: observations,
-                        rules: rules.Where(x => x.Target.Id == text.Id)*/)
+                        measurementUnit: text.MeasurementUnit ?? "", observations: observations,
+                        rules: rules.Where(x => x.TargetContainerId == text.Id))
                     , CheckboxContainerItemState checkbox => new CheckboxFormItem(id: checkbox.Id,
                         topic: checkbox.Topic,
                         checkboxItems: new ObservableCollection<ICheckboxItemViewModel>(
@@ -227,16 +244,16 @@ public static class Extension
                                 child => new CheckboxItemViewModel(
                                     id: child.Id,
                                     topic: child.Topic,
-                                    /*observations: observations,
-                                    rules: rules.Where(x => x.Target.Id == child.Id),*/
+                                    observations: observations,
+                                    rules: rules.Where(x => x.TargetContainerId == child.Id),
                                     textItems: new ObservableCollection<ITextFormItemViewModel>(
                                         child.TextItems.Select(textItem =>
                                             new TextFormItemViewModel(id: textItem.Id,
                                                 topic: textItem.Topic,
                                                 textData: textItem.TextData,
                                                 measurementUnit: textItem.MeasurementUnit ?? ""
-                                                /*,observations: observations,
-                                                rules: rules.Where(x => x.Target.Id == child.Id))*/))),
+                                                , observations: observations,
+                                                rules: rules.Where(x => x.TargetContainerId == child.Id)))),
                                     options: new OptionContainerViewModel(
                                         new ObservableCollection<IOptionViewModel>(
                                             child.Options.Select(option =>
@@ -250,9 +267,16 @@ public static class Extension
 
     public static ItemRoot ToAppModel(
         this IEditingBodyViewModel viewModel
+        , string id
+        , string itemName
+        , string templateName
     )
     {
         var appModel = new ItemRoot();
+
+        appModel.Id = id;
+        appModel.ItemName = itemName;
+        appModel.TemplateName = templateName;
 
         appModel.FormData = viewModel.Form
             .Where(x => x is not IImageFormItemViewModel && x is not IObservationFormItemViewModel)
@@ -260,18 +284,19 @@ public static class Extension
             {
                 return formData switch
                 {
-                    TextFormItemViewModel text => new ItemFormDataTextModel(text.Id, text.Topic,
+                    TextFormItemViewModel text => new ItemFormDataTextModel(id: text.Id, topic: text.Topic,
                         textData: text.TextData,
                         measurementUnit: text.MeasurementUnit ?? "")
-                    , CheckboxFormItem checkbox => new ItemFormDataCheckboxModel(checkbox.Id, checkbox.Topic)
+                    , CheckboxFormItem checkbox => new ItemFormDataCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
                     {
                         Children = checkbox.CheckboxItems.Select(
-                            child => new ItemFormDataCheckboxChildModel(child.Id, child.Topic, child.IsInvalid)
+                            child => new ItemFormDataCheckboxChildModel(id: child.Id, topic: child.Topic
+                                , isInvalid: child.IsInvalid)
                             {
                                 TextItems = child.TextItems.Select(textItem =>
                                     new ItemFormDataTextModel(
-                                        textItem.Id,
-                                        textItem.Topic,
+                                        id: textItem.Id,
+                                        topic: textItem.Topic,
                                         textData: textItem.TextData,
                                         measurementUnit: textItem.MeasurementUnit ?? "")).ToList()
                                 , Options = child.Options.Options.Select(option =>
@@ -281,7 +306,8 @@ public static class Extension
                                         isChecked: option.IsChecked)).ToList()
                             }).ToList()
                     }
-                    , _ => throw new ArgumentOutOfRangeException(nameof(formData), formData, null)
+                    , _ => throw new ArgumentOutOfRangeException(paramName: nameof(formData), actualValue: formData
+                        , message: null)
                 };
             }).ToList();
 
@@ -290,16 +316,22 @@ public static class Extension
             .Where(x => x is IImageFormItemViewModel)
             .Cast<IImageFormItemViewModel>()
             .SelectMany(x => x.ImageItems)
-            .Select(x => new ImageItem { Id = x.Id, ImagePath = x.ImagePath, ImageObservation = x.ImageObservation }).ToList();
+            .Select(x => new ImageItem { Id = x.Id, ImagePath = x.ImagePath, ImageObservation = x.ImageObservation })
+            .ToList();
 
         var result = viewModel
             .Form
             .Where(x => x is IObservationFormItemViewModel)
             .Cast<IObservationFormItemViewModel>();
 
-        /*appModel.Observations = result.SelectMany(x => x.Observations).Where(it => it.Observation.Length > 0).ToList();*/
+        appModel.Observations = result
+            .SelectMany(x => x.Observations)
+            .Where(it => it.Observation.Length > 0)
+            .Select(it => new ObservationModel { Id = Guid.NewGuid().ToString(), Observation = it.Observation })
+            .ToList();
 
-        /*appModel.LawList = viewModel.LawList.Select(x => new AppLawModel(x.LawId, x.LawContent));*/
+        appModel.LawList = viewModel.LawList.Select(x => new ItemLaw { LawId = x.LawId, LawTextContent = x.LawContent })
+            .ToList();
 
         return appModel;
     }

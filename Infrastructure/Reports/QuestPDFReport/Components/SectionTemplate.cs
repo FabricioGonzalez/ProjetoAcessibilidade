@@ -87,10 +87,10 @@ public class SectionTemplate : IComponent
                                                                                     .Column(partColumn =>
                                                                                     {
                                                                                         if (item is not
-                                                                                         ReportSectionTitle)
+                                                                                             ReportSectionTitle)
                                                                                         {
                                                                                             if (item is
-                                                                                             ReportSectionText text)
+                                                                                                 ReportSectionText text)
                                                                                             {
                                                                                                 partColumn
                                                                                                     .Item()
@@ -119,8 +119,8 @@ public class SectionTemplate : IComponent
                                                                                             }
 
                                                                                             if (item is
-                                                                                             ReportSectionCheckbox
-                                                                                             checkboxes)
+                                                                                                 ReportSectionCheckbox
+                                                                                                 checkboxes)
                                                                                             {
                                                                                                 partColumn
                                                                                                     .Item()
@@ -151,15 +151,6 @@ public class SectionTemplate : IComponent
                                                                                                                                 innerCheckboxRow
                                                                                                                                     .RelativeItem()
                                                                                                                                     .AlignCenter()
-                                                                                                                                    .Background(
-                                                                                                                                        CheckboxItemComponent
-                                                                                                                                            .item
-                                                                                                                                            .IsValid
-                                                                                                                                            ? Colors
-                                                                                                                                                .Red
-                                                                                                                                                .Lighten1
-                                                                                                                                            : Colors
-                                                                                                                                                .White)
                                                                                                                                     .Component(
                                                                                                                                         CheckboxItemComponent));
                                                                                                                 });
@@ -178,27 +169,23 @@ public class SectionTemplate : IComponent
                                                                             items
                                                                                 .Item()
                                                                                 .Element(x =>
-                                                                                    ObservationElement(x
-                                                                                        , item.Observation));
+                                                                                    ObservationElement(x: x
+                                                                                        , observation: item
+                                                                                            .Observation));
                                                                         });
-
-                                                                    if (item.Images.Any())
-                                                                    {
-                                                                        formBody
-                                                                            .Item()
-                                                                            .Column(items =>
-                                                                            {
-                                                                                items
-                                                                                    .Item()
-                                                                                    .Element(x =>
-                                                                                        PhotosElement(x, item.Images));
-                                                                            });
-                                                                    }
                                                                 });
                                                     });
                                                 column
                                                     .Item()
-                                                    .Element(x => LawItemsElement(x, item.Laws));
+                                                    .Element(x => LawItemsElement(container: x, models: item.Laws));
+                                                if (item.Images.Any())
+                                                {
+                                                    column
+                                                        .Item()
+                                                        .Element(x =>
+                                                            PhotosElement(container: x
+                                                                , models: item.Images));
+                                                }
                                             });
                                     });
                                 });

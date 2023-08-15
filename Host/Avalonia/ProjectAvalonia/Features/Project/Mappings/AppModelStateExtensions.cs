@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using DynamicData.Binding;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
@@ -76,7 +77,18 @@ public static class AppModelStateExtensions
 
                         return null;
                     }) ?? Enumerable.Empty<FormItemContainer>());
-
+        toReturn.ImageContainer = new ImageContainerItemState
+        {
+            ImagesItems = new ObservableCollection<ImageItemState>(itemRoot.Images.Select(it => new ImageItemState
+            {
+                Id = it.Id, ImageObservation = it.ImageObservation, ImagePath = it.ImagePath
+            }))
+        };
+        toReturn.ObservationContainer = new ObservationContainerItemState
+        {
+            Observations = new ObservableCollection<ObservationItemState>(
+                itemRoot.Observations.Select(it => new ObservationItemState(topic: "", observation: it.Observation)))
+        };
         toReturn.LoadLawItems(
             itemRoot
                 .LawList
@@ -84,13 +96,5 @@ public static class AppModelStateExtensions
                     law =>
                         new LawStateItem { LawId = law.LawId, LawContent = law.LawTextContent }));
         return toReturn;
-        /*return new AppModelState()
-        {
-            Id = itemRoot.Id,
-            FormData = ,
-            ItemName = itemRoot.ItemName,
-            ItemTemplate = itemRoot.TemplateName,
-            LawItems = 
-        }*/
     }
 }

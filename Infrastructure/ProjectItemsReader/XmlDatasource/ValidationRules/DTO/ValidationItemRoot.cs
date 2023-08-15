@@ -5,12 +5,12 @@ namespace XmlDatasource.ValidationRules.DTO;
 [XmlRoot("validation_rules")]
 public class ValidationItemRoot
 {
-    [XmlElement("rule")]
+    [XmlElement("rule", IsNullable = true)]
     public List<ValidationItem> Rules
     {
         get;
         set;
-    }
+    } = new();
 }
 
 /*public static class ValidationRulesExtensions

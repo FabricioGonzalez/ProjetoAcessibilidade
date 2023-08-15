@@ -135,6 +135,15 @@
           "Dock.Model": "11.0.0"
         }
       },
+      "DynamicData": {
+        "type": "Direct",
+        "requested": "[7.14.2, )",
+        "resolved": "7.14.2",
+        "contentHash": "r0QHWrxOuWngobI/QXbhvZvGNuLUjAo9ocDuSEsDftf47e6SulGoY8id6vMW2Oo5ZOi4c78NQlL22N+4CJ1CbA==",
+        "dependencies": {
+          "System.Reactive": "6.0.0"
+        }
+      },
       "LanguageExt.Core": {
         "type": "Direct",
         "requested": "[4.4.3, )",
@@ -353,14 +362,6 @@
         "type": "Transitive",
         "resolved": "11.0.0",
         "contentHash": "pCTX+/j2Cz3QrTac0TaBTBHBu8hDBgN/cmcR/d/2QSWuDL6+rvnyxZ5vI5mZe3lB7B9nRTzYUP4wq2dt2LG8fg=="
-      },
-      "DynamicData": {
-        "type": "Transitive",
-        "resolved": "7.14.2",
-        "contentHash": "r0QHWrxOuWngobI/QXbhvZvGNuLUjAo9ocDuSEsDftf47e6SulGoY8id6vMW2Oo5ZOi4c78NQlL22N+4CJ1CbA==",
-        "dependencies": {
-          "System.Reactive": "6.0.0"
-        }
       },
       "HarfBuzzSharp": {
         "type": "Transitive",

@@ -56,6 +56,11 @@ public class ConclusionEditItemViewModel
         get;
     }
 
+    public string TemplateName
+    {
+        get;
+    }
+
     public string Id
     {
         get;

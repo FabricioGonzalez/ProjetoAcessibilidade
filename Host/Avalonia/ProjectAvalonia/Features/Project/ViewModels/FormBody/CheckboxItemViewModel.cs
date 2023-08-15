@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive.Linq;
+using Common.Linq;
 using DynamicData;
+using DynamicData.Binding;
 using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.FormItemState;
@@ -20,105 +25,123 @@ public partial class CheckboxItemViewModel
         , IOptionsContainerViewModel options
         , ObservableCollection<ITextFormItemViewModel> textItems
         , string id
-        /*, SourceList<ObservationState> observations
-        , IEnumerable<ValidationRuleContainerState> rules*/
+        , SourceList<ObservationState> observations
+        , IEnumerable<IValidationRuleContainerState> rules
     )
     {
         Topic = topic;
         Options = options;
         TextItems = textItems;
         Id = id;
-        /*Rules = rules;*/
+        Rules = rules;
 
-        /*this.WhenAnyValue(vm => vm.Options)
-          .Select(op => op.Options)
-          .Select(op => op
-          .ToObservableChangeSet()
-          .AutoRefreshOnObservable(x => x.WhenAnyValue(it => it.IsChecked))
-          .DisposeMany())
-          .Switch()
-          .WhenPropertyChanged(propertyAccessor: prop => prop.IsChecked/*, notifyOnInitialValue: false#1#)
-          .Do(prop =>
-          {
-              if (prop.Value == false)
-              {
-                  var rulesToEvaluate = Rules
-             .SelectMany(x =>
-             x.Rules
-             .SelectMany(rule => rule.Conditions
-             .Where(y => y.TargetId == prop.Sender.Id)
-            ));
+        this.WhenAnyValue(vm => vm.Options)
+            .Select(op => op.Options)
+            .Select(op => op
+                .ToObservableChangeSet()
+                .AutoRefreshOnObservable(x => x.WhenAnyValue(it => it.IsChecked))
+                .DisposeMany())
+            .Switch()
+            .WhenPropertyChanged(propertyAccessor: prop => prop.IsChecked, notifyOnInitialValue: false)
+            .Do(prop =>
+            {
+                if (prop.Value)
+                {
+                    return;
+                }
 
+                var rulesToEvaluate = Rules
+                    .SelectMany(x =>
+                        x.ValidaitonRules
+                            .SelectMany(rule => rule.Conditions
+                                .Where(y => y.TargetId == prop.Sender.Id)
+                            )).Select(it => new Func<string, (bool ResultValue, IEnumerable<string>Results)>(
+                        value =>
+                        {
+                            return value is "checked" or "unchecked"
+                                ? (it.CheckingValue.Value == value, it.Result.Select(result => result.ResultValue))
+                                : (false, new List<string>());
+                        }));
 
-                  var ok = rulesToEvaluate
-                  .Select(z => z.ConditionsFunctions)
-                  .Select(x => x.Invoke(prop.Value ? "checked" : "unchecked"));
+                rulesToEvaluate.IterateOn(x =>
+                {
+                    var evaluationResult = x.Invoke(prop.Sender.Value);
 
-                  ok.IterateOn(x =>
-                  {
-                      var exsits = (string it) => observations.Items.Any(observation => observation.ObservationText == it);
+                    var exsits = (
+                        string it
+                    ) => observations.Items.Any(observation => observation.Observation == it);
 
-                      var itemsToRemove = x.results.Where(it => exsits(it));
-                      observations.RemoveMany(observations.Items.IntersectBy(itemsToRemove, it => it.ObservationText));
-                      this.RaisePropertyChanged();
+                    if (evaluationResult.ResultValue)
+                    {
+                        var item = evaluationResult.Results
+                            .Where(it => !exsits(it));
 
-                      if (Rules.SelectMany(x => x.Rules.Where(x => x.Operation == "Obrigatority")).Count() > 0)
-                      {
-                          IsInvalid = false;
-                      }
-                  });
-              }
-          })
-          .Where(it => it.Value)
-          .Subscribe(prop =>
-          {
-              var rulesToEvaluate = Rules
-              .SelectMany(x =>
-              x.Rules
-              .SelectMany(rule => rule.Conditions
-              .Where(y => y.TargetId == prop.Sender.Id)
-             ));
+                        observations.AddRange(item
+                            .Select(it => new ObservationState { Observation = it }));
+                    }
 
-              var ok = rulesToEvaluate
-              .Select(z => z.ConditionsFunctions)
-              .Select(x => x.Invoke(prop.Value ? "checked" : "unchecked"));
+                    if (Rules.SelectMany(ruleSet => ruleSet.ValidaitonRules.Where(rule =>
+                            rule.Type == AppValidation.GetOperationByValue("Obrigatority"))).Any())
+                    {
+                        IsInvalid = false;
+                    }
+                });
+            })
+            .Where(it => it.Value)
+            .Subscribe(prop =>
+            {
+                var rulesToEvaluate = Rules
+                    .SelectMany(x =>
+                        x.ValidaitonRules
+                            .SelectMany(rule => rule.Conditions
+                                .Where(y => y.TargetId == prop.Sender.Id)
+                            )).Select(it => new Func<string, (bool ResultValue, IEnumerable<string>Results)>(value =>
+                    {
+                        return value is "checked" or "unchecked"
+                            ? (it.CheckingValue.Value == value, it.Result.Select(result => result.ResultValue))
+                            : (false, new List<string>());
+                    }));
 
-              ok.IterateOn(x =>
-              {
-                  var exsits = (string it) => observations.Items.Any(observation => observation.ObservationText == it);
+                rulesToEvaluate.IterateOn(x =>
+                {
+                    var evaluationResult = x.Invoke(prop.Sender.Value);
 
-                  if (x.evaluationResult)
-                  {
-                      var item = x.results
-                         .Where(it => !exsits(it));
+                    var exsits = (
+                        string it
+                    ) => observations.Items.Any(observation => observation.Observation == it);
 
-                      observations.AddRange(item
-                          .Select(it => new ObservationModel() { Id = Guid.NewGuid().ToString(), ObservationText = it }));
-                  }
-                  if (Rules.SelectMany(x => x.Rules.Where(x => x.Operation == "Obrigatority")).Count() > 0)
-                  {
-                      IsInvalid = true;
-                  }
+                    if (evaluationResult.ResultValue)
+                    {
+                        var item = evaluationResult.Results
+                            .Where(it => !exsits(it));
 
-              });
+                        observations.AddRange(item
+                            .Select(it => new ObservationState { Observation = it }));
+                    }
 
-              Options
-              .Options
-              .Chunk(2)
-              .SelectMany(item => item.Where((i) => item.Any(x => x.Id == prop.Sender.Id)))
-              .IterateOn(item =>
-              {
-                  if (item.Id != prop.Sender.Id)
-                  {
-                      item.IsChecked = false;
-                  }
-              });
+                    if (Rules.SelectMany(ruleSet =>
+                            ruleSet.ValidaitonRules.Where(rule =>
+                                rule.Type == AppValidation.GetOperationByValue("Obrigatority"))).Any())
+                    {
+                        IsInvalid = true;
+                    }
+                });
 
-
-          });*/
+                Options
+                    .Options
+                    .Chunk(2)
+                    .SelectMany(item => item.Where(i => item.Any(x => x.Id == prop.Sender.Id)))
+                    .IterateOn(item =>
+                    {
+                        if (item.Id != prop.Sender.Id)
+                        {
+                            item.IsChecked = false;
+                        }
+                    });
+            });
     }
 
-    public IEnumerable<ValidationRuleContainerState> Rules
+    public IEnumerable<IValidationRuleContainerState> Rules
     {
         get;
         set;

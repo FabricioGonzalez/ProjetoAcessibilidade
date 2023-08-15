@@ -13,10 +13,12 @@ public class AppModelState : ReactiveObject
 
     private ObservableCollection<FormItemContainer> _formData;
     private string _id;
+    private ImageContainerItemState _imageContainer;
 
     private string _itemName;
     private string _itemTemplate;
     private ObservableCollection<LawStateItem> _lawItems;
+    private ObservationContainerItemState _observationContainer;
 
     public AppModelState()
     {
@@ -29,6 +31,22 @@ public class AppModelState : ReactiveObject
         get => _formData;
         set => this.RaiseAndSetIfChanged(
             backingField: ref _formData,
+            newValue: value);
+    }
+
+    public ImageContainerItemState ImageContainer
+    {
+        get => _imageContainer;
+        set => this.RaiseAndSetIfChanged(
+            backingField: ref _imageContainer,
+            newValue: value);
+    }
+
+    public ObservationContainerItemState ObservationContainer
+    {
+        get => _observationContainer;
+        set => this.RaiseAndSetIfChanged(
+            backingField: ref _observationContainer,
             newValue: value);
     }
 

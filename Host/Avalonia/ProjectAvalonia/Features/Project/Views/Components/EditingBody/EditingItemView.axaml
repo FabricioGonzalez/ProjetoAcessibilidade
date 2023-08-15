@@ -30,7 +30,6 @@
                 DockPanel.Dock="Bottom" />
 
             <editingBody:EditingFormView HorizontalAlignment="Stretch" DataContext="{Binding}" />
-
         </DockPanel>
     </ScrollViewer>
 </UserControl>

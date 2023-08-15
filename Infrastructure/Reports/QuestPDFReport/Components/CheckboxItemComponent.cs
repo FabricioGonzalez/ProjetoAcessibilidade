@@ -32,19 +32,25 @@ internal class CheckboxItemComponent : IComponent
                     {
                         layers
                             .PrimaryLayer()
+                            .Background(
+                                item.IsChecked
+                                    ? Colors.Red
+                                        .Lighten1
+                                    : Colors
+                                        .White)
                             .Canvas((
                                 canvas
                                 , size
                             ) =>
                             {
-                                DrawRoundedRectangle(Colors.White, false);
-                                DrawRoundedRectangle(Colors.Black, true);
+                                DrawRoundedRectangle(color: Colors.White, isStroke: false);
+                                DrawRoundedRectangle(color: Colors.Black, isStroke: true);
 
                                 if (item.IsChecked)
                                 {
-                                    DrawLine(Colors.Black, true, 6, 4, 10, 12);
-                                    DrawLine(Colors.Black, true, 9.80f, 12.0f, 15.5f
-                                        , -1f);
+                                    DrawLine(color: Colors.Black, isStroke: true, fromX: 6, fromY: 4, toX: 10, toY: 12);
+                                    DrawLine(color: Colors.Black, isStroke: true, fromX: 9.80f, fromY: 12.0f, toX: 15.5f
+                                        , toY: -1f);
                                 }
 
 
@@ -63,8 +69,8 @@ internal class CheckboxItemComponent : IComponent
                                         , IsAntialias = true
                                     };
 
-                                    canvas.DrawLine(new SKPoint(fromX, fromY), new SKPoint(toX, toY)
-                                        , paint);
+                                    canvas.DrawLine(p0: new SKPoint(x: fromX, y: fromY), p1: new SKPoint(x: toX, y: toY)
+                                        , paint: paint);
                                 }
 
                                 void DrawRoundedRectangle(
@@ -78,7 +84,7 @@ internal class CheckboxItemComponent : IComponent
                                         , IsAntialias = true
                                     };
 
-                                    canvas.DrawRoundRect(4, 2, 12, 12, 2, 4, paint);
+                                    canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: paint);
                                 }
                             });
                     });

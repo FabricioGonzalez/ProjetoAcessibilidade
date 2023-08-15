@@ -17,19 +17,19 @@ public class ValidationRuleState
     public string ValidationRuleName
     {
         get => _validationRuleName;
-        set => this.RaiseAndSetIfChanged(ref _validationRuleName, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _validationRuleName, newValue: value);
     }
 
     public IOperationType Type
     {
         get => _type;
-        set => this.RaiseAndSetIfChanged(ref _type, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _type, newValue: value);
     }
 
     public ObservableCollection<IConditionState> Conditions
     {
         get => _conditions;
-        set => this.RaiseAndSetIfChanged(ref _conditions, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _conditions, newValue: value);
     }
 }
 
@@ -49,9 +49,11 @@ public class ConditionState
             .WhereNotNull()
             .Subscribe(val =>
             {
-                ICheckingValue current = val switch
+                var currentItemValue = val.Value;
+                ICheckingValue current = val.Value switch
                 {
-                    IsOperation => new CheckedType(), _ => new TextType("")
+                    "checked" => new CheckedType(), "unchecked" => new UnCheckedType()
+                    , _ => new TextType(currentItemValue)
                 };
 
                 CheckingValue = current;
@@ -61,24 +63,24 @@ public class ConditionState
     public ICheckingOperationType CheckingOperationType
     {
         get => _checkingOperationType;
-        set => this.RaiseAndSetIfChanged(ref _checkingOperationType, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _checkingOperationType, newValue: value);
     }
 
     public string TargetId
     {
         get => _targetId;
-        set => this.RaiseAndSetIfChanged(ref _targetId, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _targetId, newValue: value);
     }
 
     public ICheckingValue CheckingValue
     {
         get => _checkingValue;
-        set => this.RaiseAndSetIfChanged(ref _checkingValue, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _checkingValue, newValue: value);
     }
 
     public ObservableCollection<Result> Result
     {
         get => _result;
-        set => this.RaiseAndSetIfChanged(ref _result, value);
+        set => this.RaiseAndSetIfChanged(backingField: ref _result, newValue: value);
     }
 }

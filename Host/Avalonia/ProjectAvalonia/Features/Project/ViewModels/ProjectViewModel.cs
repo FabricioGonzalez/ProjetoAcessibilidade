@@ -11,6 +11,7 @@ using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.PDFViewer.ViewModels;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
+using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
 using ProjectAvalonia.Features.Project.ViewModels.ExplorerItems;
 using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
@@ -90,14 +91,15 @@ public partial class ProjectViewModel
     public ProjectViewModel(
         SolutionService solutionService
         , ItemsService itemsService
-        , EditableItemService _editableItemService
+        , EditableItemService editableItemService
+        , ValidationRulesService validationRulesService
     ) : this()
     {
         _solutionService = solutionService;
         _itemsService = itemsService;
-        this._editableItemService = _editableItemService;
+        _editableItemService = editableItemService;
         ProjectEditingViewModel = new ProjectEditingViewModel(solutionService: _solutionService
-            , _editableItemService: this._editableItemService);
+            , editableItemService: editableItemService, validationRulesService: validationRulesService);
 
         ProjectPrintPreviewViewModel = new PreviewerViewModel();
     }
@@ -211,6 +213,25 @@ public partial class ProjectViewModel
         {
             if (selected is SolutionEditItemViewModel solution)
             {
+                var editedSolution = ((SolutionItemBody)solution.Body).SolutionModel;
+
+                ProjectExplorerViewModel.SolutionState.Report.SolutionName = editedSolution.Report.SolutionName;
+                ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Data = editedSolution.Report.CompanyInfo.Data;
+                ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Email =
+                    editedSolution.Report.CompanyInfo.Email;
+                ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Logo = editedSolution.Report.CompanyInfo.Logo;
+                ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Responsavel =
+                    editedSolution.Report.CompanyInfo.Responsavel;
+                ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Endereco =
+                    editedSolution.Report.CompanyInfo.Endereco;
+                ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Telefone =
+                    editedSolution.Report.CompanyInfo.Telefone;
+                ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.NomeEmpresa =
+                    editedSolution.Report.CompanyInfo.NomeEmpresa;
+                ProjectExplorerViewModel.SolutionState.Report.Partners = editedSolution.Report.Partners;
+
+                await _solutionService.SaveSolution(path: ProjectExplorerViewModel.SolutionState.FilePath
+                    , solution: ProjectExplorerViewModel.SolutionState);
             }
 
             if (selected is ConclusionEditItemViewModel conclusion)
@@ -221,10 +242,11 @@ public partial class ProjectViewModel
 
             if (selected is EditingItemViewModel edit)
             {
-                _editableItemService.SaveEditingItem(edit.Body, edit.ItemPath);
+                await _editableItemService.SaveEditingItem(itemContent: edit.ToItemRoot().ToAppModelState()
+                    , path: edit.ItemPath);
             }
 
-            await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();
+            /*await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();*/
         }
     }
 

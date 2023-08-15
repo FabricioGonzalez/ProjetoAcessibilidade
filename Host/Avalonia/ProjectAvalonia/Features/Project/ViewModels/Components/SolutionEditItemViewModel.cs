@@ -58,6 +58,11 @@ public class SolutionEditItemViewModel
         get;
     }
 
+    public string TemplateName
+    {
+        get;
+    }
+
     public string Id
     {
         get;

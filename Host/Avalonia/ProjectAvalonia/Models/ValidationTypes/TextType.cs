@@ -14,10 +14,7 @@ public class TextType
         string textType
     )
     {
-        if (textType is { Length: > 0 } value)
-        {
-            Value = value;
-        }
+        Value = textType;
     }
 
     public string Value

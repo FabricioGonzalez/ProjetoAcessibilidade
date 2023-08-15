@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
-using Common;
 using Common.Optional;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
@@ -231,9 +229,7 @@ public partial class TemplateEditViewModel
     {
         TemplateEditTab.EditingItem = await _editableItemService.GetEditingItem(path);
         TemplateEditTab.EditingItemRules = new ObservableCollection<IValidationRuleContainerState>(
-            await _validationRulesService.LoadRules(
-                Path.Combine(path1: Constants.AppValidationRulesTemplateFolder
-                    , path2: $"{itemTemplateName}{Constants.AppProjectValidationTemplateExtension}")));
+            await _validationRulesService.LoadRulesByName(itemTemplateName));
     }
 
     /*var itemTemplate = _mediator.Send(
@@ -343,8 +339,6 @@ public partial class TemplateEditViewModel
     )
     {
         item.Name = item.TemplateName;
-        /*item.ItemPath = Path.Combine(path1: Constants.AppItemsTemplateFolder,
-            path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");*/
 
         var itemContent = new AppModelState();
         itemContent.Id = item.Id;
@@ -368,31 +362,4 @@ public partial class TemplateEditViewModel
         await _editableItemService.CreateTemplateEditingItem(item);
         await _validationRulesService.CraeteRules(rules: TemplateEditTab.EditingItemRules, itemName: item.ItemTemplate);
     }
-    /*var itemSave = _mediator
-            .Send(
-                new SaveSystemProjectItemContentCommand(
-                    item.ToAppModel(),
-                    SelectedItem.ItemPath),
-                CancellationToken.None);
-        var rules = TemplateEditTab.EditingItemRules.Select(it => new ValidationRule
-        {
-            Target = new Target { Id = it.TargetContainerId, Name = it.TargetContainerName }, Rules =
-                it.ValidaitonRules.Select(rule => new RuleSet
-                {
-                    Operation = rule.Type.Value, RuleName = rule.ValidationRuleName
-                    , Conditions = rule.Conditions.Select(condition => new Conditions(condition.TargetId
-                        , condition.CheckingOperationType.Value, condition.CheckingValue.Value
-                        , condition.Result.Select(result => result.ResultValue).ToList(), null))
-                })
-        });
-        var rulesSave = _mediator
-                .Send(
-                    new SaveValidationRulesCommand(rules
-                        , Path.Combine(Constants.AppValidationRulesTemplateFolder
-                            , $"{Path.GetFileNameWithoutExtension(SelectedItem.ItemPath)}{Constants.AppProjectValidationTemplateExtension}"))
-                    ,
-                    CancellationToken.None)
-            ;
-
-        await Task.WhenAll(itemSave, rulesSave);*/
 }

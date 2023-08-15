@@ -1170,6 +1170,7 @@
           "Avalonia.Xaml.Interactivity": "[11.0.0.1, )",
           "Common": "[1.0.0, )",
           "Dock.Avalonia": "[11.0.0, )",
+          "DynamicData": "[7.14.2, )",
           "LanguageExt.Core": "[4.4.3, )",
           "MathNet.Numerics": "[5.0.0, )",
           "Microsoft.Extensions.Caching.Memory": "[7.0.0, )",

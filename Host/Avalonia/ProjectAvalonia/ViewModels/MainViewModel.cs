@@ -179,7 +179,7 @@ public partial class MainViewModel : ViewModelBase
             , itemValidationTab: itemValidationViewModel, itemsService: itemsService
             , _editableItemService: editableItemService, validationRulesService: validationRulesService);
         _projectPage = new ProjectViewModel(solutionService: solutionManipulation, itemsService: itemsService
-            , _editableItemService: editableItemService);
+            , editableItemService: editableItemService, validationRulesService: validationRulesService);
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
     }

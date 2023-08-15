@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using Common;
 using Common.Optional;
-using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.Services;
@@ -53,9 +51,10 @@ public class ProjectExplorerViewModel
             .Select(
                 model =>
                 {
+                    var location = Path.GetDirectoryName(state.FilePath);
                     var solutionLocation = new SolutionLocationItemViewModel(
                         name: model.Name,
-                        itemPath: "",
+                        itemPath: Path.Combine(path1: location, path2: model.Name),
                         saveSolution: async () => await SaveSolution(),
                         itemsService: _itemsService)
                     {
@@ -63,8 +62,8 @@ public class ProjectExplorerViewModel
                             vm =>
                             {
                                 var item = new ItemGroupViewModel(
-                                    name: model.Name,
-                                    itemPath: "",
+                                    name: vm.Name,
+                                    itemPath: Path.Combine(path1: location, path2: model.Name, path3: vm.Name),
                                     itemsService: _itemsService,
                                     SaveSolution: async () => await SaveSolution());
 
@@ -81,18 +80,11 @@ public class ProjectExplorerViewModel
 
                     return solutionLocation;
                 }));
-
-        this.WhenAnyValue(vm => vm.SelectedItem)
-            .WhereNotNull()
-            .Subscribe(it =>
-            {
-                Debug.WriteLine(it.Name);
-            });
-
-        var changeSet = SolutionRootItem.LocationItems
+        /*
+         var changeSet = SolutionRootItem.LocationItems
             .ToObservableChangeSet();
 
-        /*changeSet.AutoRefreshOnObservable(document => document.AddProjectItemCommand.IsExecuting)
+         changeSet.AutoRefreshOnObservable(document => document.AddProjectItemCommand.IsExecuting)
             .Select(x => WhenAnyItemWasAdded())
             .Switch()
             .SubscribeAsync(async item =>
@@ -144,30 +136,7 @@ public class ProjectExplorerViewModel
 
                 SolutionRootItem.LocationItems.Add(item);
 
-                /*_itemsService.SyncSolutionItems(SolutionRootItem);
-
-                await _solutionService.SaveSolution(path: SolutionState.FilePath, solution: SolutionState);*/
-
                 await SaveSolution();
-
-                /*SolutionState.AddItemToSolution(new SolutionGroupModel
-                {
-                    Name = result.Result, ItemPath = item.ItemPath, Items = item.Items
-                        .Select(it => new ItemGroupModel
-                        {
-                            Name = it.Name, ItemPath =
-                                it.ItemPath
-                            , Items = it.Items
-                                .Select(x => new ItemModel
-                                {
-                                    Id = x.Id, ItemPath = x.ItemPath, Name = x.Name, TemplateName = x.TemplateName
-                                })
-                                .ToList()
-                        }).ToList()
-                });*/
-                /*_ = await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath)
-                    , CancellationToken.None);
-                return Optional<IItemGroupViewModel>.Some(item);*/
             }
 
             return Optional<IItemGroupViewModel>.None();

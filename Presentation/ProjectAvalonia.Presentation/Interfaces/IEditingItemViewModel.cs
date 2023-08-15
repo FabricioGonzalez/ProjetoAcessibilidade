@@ -11,6 +11,11 @@ public interface IEditingItemViewModel : INotifyPropertyChanged
         get;
     }
 
+    public string TemplateName
+    {
+        get;
+    }
+
     public string Id
     {
         get;

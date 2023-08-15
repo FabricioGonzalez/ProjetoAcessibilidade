@@ -31,10 +31,18 @@ public sealed class ValidationRulesService
             }, path: Path.Combine(path1: Constants.AppValidationRulesTemplateFolder, path2: $"{itemName}{Constants.AppProjectValidationTemplateExtension}")
         );
 
-    public async Task<IEnumerable<IValidationRuleContainerState>> LoadRules(
-        string path
+    public async Task<IEnumerable<IValidationRuleContainerState>> LoadRulesByPath(
+        string? path
     ) =>
         (await _validationRulesDatasource.LoadRules(path))
+        .Match(Succ: succ => succ.Rules.Select(it => it.ToValidationRuleContainerState())
+            , Fail: fail => Enumerable.Empty<IValidationRuleContainerState>());
+
+    public async Task<IEnumerable<IValidationRuleContainerState>> LoadRulesByName(
+        string name
+    ) =>
+        (await _validationRulesDatasource.LoadRules(Path.Combine(path1: Constants.AppValidationRulesTemplateFolder
+            , path2: $"{name}{Constants.AppProjectValidationTemplateExtension}")))
         .Match(Succ: succ => succ.Rules.Select(it => it.ToValidationRuleContainerState())
             , Fail: fail => Enumerable.Empty<IValidationRuleContainerState>());
 }

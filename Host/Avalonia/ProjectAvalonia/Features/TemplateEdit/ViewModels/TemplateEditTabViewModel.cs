@@ -64,19 +64,6 @@ public partial class TemplateEditTabViewModel
 
     public override MenuViewModel? ToolBar => null;
 
-    public ReactiveCommand<FormItemContainer, Unit> AddRuleToItemCommand => ReactiveCommand.Create<FormItemContainer>(
-        item =>
-        {
-            EditingItem.RemoveItem(item);
-        });
-
-    public ReactiveCommand<(string, IValidationRuleState), Unit> EditRuleCommand =>
-        ReactiveCommand.Create<(string, IValidationRuleState)>(
-            item =>
-            {
-                Debug.WriteLine(item.Item1);
-            });
-
     public override string? LocalizedTitle
     {
         get;
@@ -96,6 +83,9 @@ public partial class TemplateEditTabViewModel
         {
             res?.ValidaitonRules
                 .Add(new ValidationRuleState { ValidationRuleName = itemId });
+
+            EditingItemRules.ReplaceOrAdd(original: EditingItemRules
+                .FirstOrDefault(it => it.TargetContainerId == itemId), replaceWith: res);
             return;
         }
 

@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using ProjectAvalonia.Features.Project.ViewModels;
+using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using XmlDatasource.ProjectItems.DTO;
@@ -17,7 +18,6 @@ public static class ItemRootMappings
         {
             Id = state.Id, ItemName = state.ItemName, TemplateName = state.ItemTemplate, FormData = state
                 .FormData
-                .Where(it => it.Body is not ImageContainerItemState && it.Body is not ObservationItemState)
                 .Select<FormItemContainer, ItemFormDataContainer>(it =>
                 {
                     if (it.Body is CheckboxContainerItemState checkbox)
@@ -54,83 +54,18 @@ public static class ItemRootMappings
                 }).ToList()
                 .ToList()
             , LawList = state.LawItems.Select(law => new ItemLaw(lawId: law.LawId, lawContent: law.LawContent)).ToList()
-            , Images = new List<ImageItem>(), Observations = new List<ObservationModel>()
+            , Images = state.ImageContainer.ImagesItems.Select(it =>
+                new ImageItem(id: it.Id, imagePath: it.ImagePath, imageObservation: it.ImageObservation)).ToList()
+            , Observations = state.ObservationContainer.Observations
+                .Select(it => new ObservationModel(observation: it.Observation, id: it.Id)).ToList()
         };
 
         return toReturn;
-        /*toReturn.LoadItemData(
-            itemRoot
-                ?.FormData
-                ?.Select(
-                    item =>
-                    {
-                        if (item is ItemFormDataCheckboxModel checkbox)
-                        {
-                            return new FormItemContainer
-                            {
-                                Topic = checkbox.Topic, Body = new CheckboxContainerItemState(checkbox.Topic)
-                                {
-                                    Id = checkbox.Id, Children = new ObservableCollectionExtended<CheckboxItemState>(
-                                        checkbox.Children
-                                            .Select(
-                                                checkboxItem =>
-                                                {
-                                                    return new CheckboxItemState
-                                                    {
-                                                        Id = checkboxItem.Id, Topic = checkboxItem.Topic, TextItems =
-                                                            new ObservableCollectionExtended<TextItemState>(
-                                                                checkboxItem.TextItems.Select(
-                                                                    textItem =>
-                                                                    {
-                                                                        return new TextItemState(
-                                                                            id: textItem.Id,
-                                                                            topic: textItem.Topic,
-                                                                            textData: textItem.TextData,
-                                                                            measurementUnit: textItem.MeasurementUnit);
-                                                                    }))
-                                                        , Options = new ObservableCollectionExtended<OptionsItemState>(
-                                                            checkboxItem.Options
-                                                                .Select(
-                                                                    opt => new OptionsItemState
-                                                                    {
-                                                                        Id = opt.Id, IsChecked = opt.IsChecked
-                                                                        , Value = opt.Value
-                                                                    }))
-                                                    };
-                                                }))
-                                }
-                            };
-                        }
-
-                        if (item is ItemFormDataTextModel text)
-                        {
-                            return new FormItemContainer
-                            {
-                                Topic = text.Topic, Body = new TextItemState(
-                                    id: text.Id,
-                                    topic: text.Topic,
-                                    textData: text.TextData,
-                                    measurementUnit: text.MeasurementUnit)
-                            };
-                        }
-
-                        return null;
-                    }) ?? Enumerable.Empty<FormItemContainer>());
-
-        toReturn.LoadLawItems(
-            itemRoot
-                .LawList
-                .Select(
-                    law =>
-                        new LawStateItem { LawId = law.LawId, LawContent = law.LawTextContent }));
-        return toReturn;*/
-        /*return new AppModelState()
-        {
-            Id = itemRoot.Id,
-            FormData = ,
-            ItemName = itemRoot.ItemName,
-            ItemTemplate = itemRoot.TemplateName,
-            LawItems =
-        }*/
     }
+
+    public static ItemRoot ToItemRoot(
+        this IEditingItemViewModel state
+    ) =>
+        ((IEditingBodyViewModel)state.Body).ToAppModel(id: state.Id, itemName: state.ItemName
+            , templateName: state.TemplateName);
 }
