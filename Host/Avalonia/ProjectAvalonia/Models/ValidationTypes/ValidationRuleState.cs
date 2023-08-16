@@ -49,8 +49,9 @@ public class ConditionState
             .WhereNotNull()
             .Subscribe(val =>
             {
-                var currentItemValue = val.Value;
-                ICheckingValue current = val.Value switch
+                var currentItemValue = _checkingValue?.Value ?? val.Value;
+
+                ICheckingValue current = currentItemValue switch
                 {
                     "checked" => new CheckedType(), "unchecked" => new UnCheckedType()
                     , _ => new TextType(currentItemValue)

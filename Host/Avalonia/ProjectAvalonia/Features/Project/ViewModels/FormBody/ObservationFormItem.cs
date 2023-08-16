@@ -14,8 +14,12 @@ public class ObservationFormItem
 {
     public ReadOnlyObservableCollection<ObservationState> _observations;
 
-    public ObservationFormItem()
+    public ObservationFormItem(
+        SourceList<ObservationState> sourceItems
+    )
     {
+        SourceItems = sourceItems;
+
         SourceItems
             .Connect()
             .Bind(out _observations)
@@ -26,7 +30,7 @@ public class ObservationFormItem
     {
         get;
         set;
-    } = new();
+    }
 
     public ReactiveCommand<Unit, Unit> AddObservationCommand =>
         ReactiveCommand.Create(() => SourceItems.Add(new ObservationState()));

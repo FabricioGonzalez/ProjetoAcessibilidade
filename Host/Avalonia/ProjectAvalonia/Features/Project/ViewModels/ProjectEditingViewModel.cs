@@ -209,10 +209,7 @@ public static class Extension
                     .Append(new ImageContainerFormItemViewModel(new(state.ImageContainer
                         .ImagesItems
                         .Select(it => new ImageViewModel(it.ImagePath, it.ImageObservation, it.Id))
-                    ))).Append(new ObservationFormItem()
-                    {
-                        SourceItems = observations
-                    })
+                    ))).Append(new ObservationFormItem(observations))
                 )));
 
     public static ObservableCollection<ILawListViewModel> ToViewLawList(
@@ -253,7 +250,7 @@ public static class Extension
                                                 textData: textItem.TextData,
                                                 measurementUnit: textItem.MeasurementUnit ?? ""
                                                 , observations: observations,
-                                                rules: rules.Where(x => x.TargetContainerId == child.Id)))),
+                                                rules: rules.Where(x => x.TargetContainerId == textItem.Id)))),
                                     options: new OptionContainerViewModel(
                                         new ObservableCollection<IOptionViewModel>(
                                             child.Options.Select(option =>

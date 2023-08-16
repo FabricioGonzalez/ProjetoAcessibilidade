@@ -31,14 +31,8 @@
                 Padding="4,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                SelectedItem="{Binding CheckingOperationType}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:CompileBindings="False">
-                        <TextBlock
-                            Text="{Binding LocalizationKey}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                DisplayMemberBinding="{Binding LocalizationKey}"
+                SelectedItem="{Binding CheckingOperationType}" />
 
 
             <ContentControl Grid.Column="4" Grid.Row="0"
@@ -54,29 +48,15 @@
                                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center"
-                                      ItemsSource="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate
-                                        x:CompileBindings="False">
-                                        <TextBlock
-                                            Text="{Binding Value}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                                      DisplayMemberBinding="{Binding Value}"
+                                      ItemsSource="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}" />
                             <ComboBox Grid.Column="2"
                                       SelectedItem="{Binding   .,Mode=TwoWay}"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center"
                                       Initialized="StyledElement_OnInitialized"
-                                      ItemsSource="{x:Static validationTypes:AppValidation.checkingValues}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate
-                                        x:CompileBindings="False">
-                                        <TextBlock
-                                            Text="{Binding LocalizationKey}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                                      DisplayMemberBinding="{Binding LocalizationKey}"
+                                      ItemsSource="{x:Static validationTypes:AppValidation.checkingValues}" />
                         </Grid>
                     </DataTemplate>
 
@@ -88,29 +68,15 @@
                                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center"
-                                      ItemsSource="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate
-                                        x:CompileBindings="False">
-                                        <TextBlock
-                                            Text="{Binding Value}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                                      DisplayMemberBinding="{Binding Value}"
+                                      ItemsSource="{Binding $parent[views:EditRuleDialogView].((viewModels:EditRuleDialogViewModel)DataContext).Options}" />
                             <ComboBox Grid.Column="2"
                                       SelectedItem="{Binding   .,Mode=TwoWay}"
                                       HorizontalAlignment="Stretch"
                                       Initialized="StyledElement_OnInitialized"
                                       VerticalAlignment="Center"
-                                      ItemsSource="{x:Static validationTypes:AppValidation.checkingValues}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate
-                                        x:CompileBindings="False">
-                                        <TextBlock
-                                            Text="{Binding LocalizationKey}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                                      DisplayMemberBinding="{Binding LocalizationKey}"
+                                      ItemsSource="{x:Static validationTypes:AppValidation.checkingValues}" />
                         </Grid>
                     </DataTemplate>
                     <DataTemplate

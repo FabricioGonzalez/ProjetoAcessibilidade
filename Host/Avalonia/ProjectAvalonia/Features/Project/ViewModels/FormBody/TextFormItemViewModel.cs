@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Common.Linq;
 using DynamicData;
@@ -42,21 +43,21 @@ public partial class TextFormItemViewModel
                                 .Where(y => y.TargetId == prop.Sender.Id)
                             )).Select(it => new Func<string?, (bool ResultValue, IEnumerable<string>Results)>(value =>
                     {
+                        double.TryParse(s: it.CheckingValue.Value, provider: CultureInfo.CurrentUICulture
+                            , result: out var data);
+                        double.TryParse(s: value ?? "0", provider: CultureInfo.CurrentUICulture
+                            , result: out var dataToEval);
+
                         return (it.CheckingOperationType switch
                         {
                             HasOperation => it.CheckingValue.Value.Contains(value ?? "")
-                            , LessOperation => double.TryParse(s: it.CheckingValue.Value, result: out var data)
-                                               && double.TryParse(s: value ?? "0", result: out var dataToEval) &&
-                                               data < dataToEval
-                            , LessThanOperation => double.TryParse(s: it.CheckingValue.Value, result: out var data)
-                                                   && double.TryParse(s: value ?? "0", result: out var dataToEval) &&
-                                                   data <= dataToEval
-                            , GreaterOperation => double.TryParse(s: it.CheckingValue.Value, result: out var data)
-                                                  && double.TryParse(s: value ?? "0", result: out var dataToEval) &&
-                                                  data > dataToEval
-                            , GreaterThanOperation => double.TryParse(s: it.CheckingValue.Value, result: out var data)
-                                                      && double.TryParse(s: value ?? "0", result: out var dataToEval) &&
-                                                      data >= dataToEval
+                            , LessOperation => dataToEval < data
+                            , LessThanOperation =>
+                                dataToEval <= data
+                            , GreaterOperation =>
+                                dataToEval > data
+                            , GreaterThanOperation =>
+                                dataToEval >= data
                             , _ => false
                         }, it.Result.Select(result => result.ResultValue));
                     }));
@@ -77,14 +78,14 @@ public partial class TextFormItemViewModel
                         observations.AddRange(item
                             .Select(it => new ObservationState { Observation = it }));
 
-                        this.RaisePropertyChanged();
+                        this.RaisePropertyChanged("Observation");
                     }
                     else
                     {
                         var itemsToRemove = evaluationResult.Results.Where(it => exsits(it));
                         observations.RemoveMany(observations.Items.IntersectBy(second: itemsToRemove
                             , keySelector: it => it.Observation));
-                        this.RaisePropertyChanged();
+                        this.RaisePropertyChanged("Observation");
                     }
                 });
             });

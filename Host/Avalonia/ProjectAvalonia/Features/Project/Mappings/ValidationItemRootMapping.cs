@@ -48,7 +48,7 @@ public static class ValidationItemRootMapping
                                 , CheckingValue =
                                     AppValidation.GetCheckingOperationByValue(cond.ValueTrigger.Operation) is
                                         IsOperation
-                                        ? AppValidation.GetCheckingValueByValue(cond.ValueTrigger.Operation)
+                                        ? AppValidation.GetCheckingValueByValue(cond.ValueTrigger.TargetValue)
                                         : new TextType(cond.ValueTrigger.TargetValue)
                                 , CheckingOperationType =
                                     AppValidation.GetCheckingOperationByValue(cond.ValueTrigger.Operation)
