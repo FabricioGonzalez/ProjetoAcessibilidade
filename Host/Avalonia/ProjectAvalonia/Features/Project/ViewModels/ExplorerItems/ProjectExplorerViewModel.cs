@@ -54,7 +54,8 @@ public class ProjectExplorerViewModel
                     var location = Path.GetDirectoryName(state.FilePath);
                     var solutionLocation = new SolutionLocationItemViewModel(
                         name: model.Name,
-                        itemPath: Path.Combine(path1: location, path2: model.Name),
+                        itemPath: Path.Combine(path1: location, path2: Constants.AppProjectRulesItemsFolderName
+                            , path3: model.Name),
                         saveSolution: async () => await SaveSolution(),
                         itemsService: _itemsService)
                     {
@@ -63,7 +64,9 @@ public class ProjectExplorerViewModel
                             {
                                 var item = new ItemGroupViewModel(
                                     name: vm.Name,
-                                    itemPath: Path.Combine(path1: location, path2: model.Name, path3: vm.Name),
+                                    itemPath: Path.Combine(path1: location
+                                        , path2: Constants.AppProjectRulesItemsFolderName
+                                        , path3: model.Name, path4: vm.Name),
                                     itemsService: _itemsService,
                                     SaveSolution: async () => await SaveSolution());
 

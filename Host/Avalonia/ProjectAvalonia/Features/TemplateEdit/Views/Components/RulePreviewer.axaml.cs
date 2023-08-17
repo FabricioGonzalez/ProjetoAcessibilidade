@@ -158,4 +158,10 @@ public partial class RulePreviewer : UserControl
             }
         }
     }
+
+    private void RemoveRuleButtonClicked(
+        object? sender
+        , RoutedEventArgs e
+    ) =>
+        throw new NotImplementedException();
 }
