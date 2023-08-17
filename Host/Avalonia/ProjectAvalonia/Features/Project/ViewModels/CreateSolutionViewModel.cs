@@ -1,4 +1,5 @@
 ﻿using System.Reactive.Linq;
+using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
@@ -10,12 +11,13 @@ public class CreateSolutionViewModel : DialogViewModelBase<(string local, Soluti
 {
     public CreateSolutionViewModel(
         string title
+        , ILocationService _locationService
         , string caption = ""
     )
     {
         Title = title;
 
-        SolutionModel = new SolutionState();
+        SolutionModel = new SolutionState(_locationService);
 
         Title = title;
         Caption = caption;

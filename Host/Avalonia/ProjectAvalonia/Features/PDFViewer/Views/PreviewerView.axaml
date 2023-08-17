@@ -41,9 +41,36 @@
                 Grid.Column="0"
                 DisplayMode="Inline"
                 IsPaneOpen="True"
-                PaneBackground="{StaticResource SystemBaseLowColor}">
+                PaneBackground="{DynamicResource AppDarkBackgroundBrush}">
                 <SplitView.Pane>
-                    <StackPanel
+                    <DockPanel Margin="0 4">
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*" RowDefinitions="auto 4 1*" Margin="4,0"
+                              HorizontalAlignment="Stretch">
+                            <TextBlock Text="Impressoras" Grid.Row="0" />
+                            <ComboBox Grid.Row="2" SelectedValue="{Binding SelectedPrinter}"
+                                      ItemsSource="{Binding AvailablePrinters}"
+                                      DisplayMemberBinding="{Binding Name}" HorizontalAlignment="Stretch" />
+                        </Grid>
+
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*" RowDefinitions="auto 4 1*" Margin="4,0"
+                              HorizontalAlignment="Stretch">
+                            <TextBlock Text="Cópias" Grid.Row="0" />
+                            <NumericUpDown Grid.Row="2" ShowButtonSpinner="True" FormatString="0" Value="0"
+                                           ParsingNumberStyle="Integer"
+                                           Minimum="1"
+                                           HorizontalAlignment="Stretch"
+                                           HorizontalContentAlignment="Right" />
+                        </Grid>
+                        <Grid ColumnDefinitions="1* 8 1*" Margin="8,0" HorizontalAlignment="Stretch"
+                              VerticalAlignment="Bottom">
+                            <Button Grid.Column="0" Content="Imprimir" HorizontalAlignment="Stretch"
+                                    Classes="action" Command="{Binding PrintDocumentCommand}" />
+                            <Button Grid.Column="2" Content="Cancelar" HorizontalAlignment="Stretch"
+                                    VerticalContentAlignment="Center"
+                                    Classes="outlined" />
+                        </Grid>
+                    </DockPanel>
+                    <!--<StackPanel
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="32"
@@ -74,7 +101,7 @@
                                 <PathIcon Data="{StaticResource printer_regular}" />
                             </Viewbox>
                         </Button>
-                    </StackPanel>
+                    </StackPanel>-->
                 </SplitView.Pane>
                 <SplitView.Content>
                     <pdfViewer:PreviewerControl

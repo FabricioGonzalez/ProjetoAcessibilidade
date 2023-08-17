@@ -9,12 +9,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Common;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using ProjectAvalonia.ViewModels;
 using ReactiveUI;
-using Splat;
-using Splat.Microsoft.Extensions.DependencyInjection;
 
 namespace ProjectAvalonia;
 
@@ -41,14 +37,13 @@ public class App : Application
     public IServiceProvider Container
     {
         get;
-        private set;
     }
 
-    public IHost host
+    /*public IHost host
     {
         get;
         set;
-    }
+    }*/
 
     public override void Initialize()
     {
@@ -56,9 +51,8 @@ public class App : Application
         Init();
     }
 
-    public void Init()
-    {
-        host = Host
+    public void Init() =>
+        /*host = Host
             .CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
@@ -88,19 +82,17 @@ public class App : Application
                   foreach (var el in eventLoggers)
                     loggingBuilder.Services.Remove(el);
                 }
-                #1#
+                #2#
 
                 loggingBuilder.AddSplat();
-            })*/
+            })#1#
             .UseEnvironment(Environments.Development)
             .Build();
 
         // Since MS DI container is a different type,
         // we need to re-register the built container with Splat again
         Container = host.Services;
-        Container.UseMicrosoftDependencyResolver();
-
-
+        Container.UseMicrosoftDependencyResolver();*/
         RxApp.DefaultExceptionHandler = Observer.Create<Exception>(
             ex =>
             {
@@ -116,13 +108,12 @@ public class App : Application
                         message: "Exception has been thrown in unobserved ThrownExceptions",
                         innerException: ex));
             });
-    }
 
-    private void ConfigureServices(
+    /*private void ConfigureServices(
         IServiceCollection services
     )
     {
-    }
+    }*/
 
     public override void OnFrameworkInitializationCompleted()
     {

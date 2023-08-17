@@ -118,6 +118,7 @@
         <entry key="Host/Avalonia/ProjectAvalonia/Views/Dialogs/ShowErrorDialogView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Views/Dialogs/ShuttingdownDialogView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Views/MainWindow.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/QuestPDF/QuestPDF.Previewer/PreviewerApp.axaml" value="Host/QuestPDF/QuestPDF.Previewer/QuestPDF.Previewer.csproj" />
       </map>
     </option>
   </component>

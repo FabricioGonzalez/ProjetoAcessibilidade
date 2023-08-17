@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Common;
+using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.ProjectItems;
 using XmlDatasource.Solution;
@@ -13,13 +14,16 @@ namespace ProjectAvalonia.Features.Project.Services;
 
 public class SolutionService
 {
+    private readonly ILocationService _locationService;
     private readonly SolutionDatasourceImpl _solutionDatasource;
 
     public SolutionService(
         SolutionDatasourceImpl datasourceImpl
+        , ILocationService locationService
     )
     {
         _solutionDatasource = datasourceImpl;
+        _locationService = locationService;
     }
 
     public SolutionState GetSolution(
@@ -28,7 +32,8 @@ public class SolutionService
     {
         var result = _solutionDatasource.ReadSolution(path);
 
-        return result.Match(Succ: succ => succ.ToSolutionState(), Fail: fail => new SolutionState());
+        return result.Match(Succ: succ => succ.ToSolutionState(_locationService)
+            , Fail: fail => new SolutionState(_locationService));
     }
 
     public async Task CreateSolution(
@@ -131,8 +136,9 @@ public static class SolutionStateMapping
 {
     public static SolutionState ToSolutionState(
         this SolutionItemRoot root
+        , ILocationService locationService
     ) =>
-        new()
+        new(locationService)
         {
             Report = root.Report.ToSolutionReportState()
             , LocationItems =

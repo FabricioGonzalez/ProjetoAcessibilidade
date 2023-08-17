@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace QuestPDF.Previewer;
 
-internal class PreviewerWindow : Window
+internal partial class PreviewerWindow : Window
 {
     public PreviewerWindow()
     {

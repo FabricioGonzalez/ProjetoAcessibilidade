@@ -13,21 +13,21 @@
     mc:Ignorable="d">
     <ScrollViewer>
         <StackPanel Spacing="4">
-            <SelectableTextBlock Margin="8,0" Text="Informações do Projeto" FontWeight="DemiBold" />
+            <SelectableTextBlock Margin="8,0" Text="Informações do Projeto" Focusable="False" FontWeight="DemiBold" />
             <Grid ColumnDefinitions="*" Margin="24,0">
                 <StackPanel Spacing="4">
-                    <SelectableTextBlock Text="Nome da Empresa" />
+                    <SelectableTextBlock Text="Nome da Empresa" Focusable="False" />
                     <TextBox Text="{Binding Report.CompanyInfo.NomeEmpresa}" />
                 </StackPanel>
             </Grid>
 
             <Grid ColumnDefinitions="1* 8 1*" Margin="24,0">
                 <StackPanel Spacing="4">
-                    <SelectableTextBlock Text="Responsável pela Vistoria" />
+                    <SelectableTextBlock Text="Responsável pela Vistoria" Focusable="False" />
                     <TextBox Text="{Binding Report.CompanyInfo.Responsavel}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Spacing="4">
-                    <SelectableTextBlock Text="Data do Relatório" />
+                    <SelectableTextBlock Text="Data do Relatório" Focusable="False" />
                     <CalendarDatePicker HorizontalAlignment="Stretch" IsTodayHighlighted="True"
                                         BorderBrush="Transparent"
                                         BorderThickness="0"
@@ -38,56 +38,60 @@
 
             <Grid ColumnDefinitions="1* 8 1*" Margin="24,0">
                 <StackPanel Spacing="4">
-                    <SelectableTextBlock Text="Telefone para Contato" />
+                    <SelectableTextBlock Text="Telefone para Contato" Focusable="False" />
                     <TextBox Text="{Binding Report.CompanyInfo.Telefone}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Spacing="4">
-                    <SelectableTextBlock Text="Email para Contato" />
+                    <SelectableTextBlock Text="Email para Contato" Focusable="False" />
                     <TextBox Text="{Binding Report.CompanyInfo.Email}" />
                 </StackPanel>
             </Grid>
 
             <Grid ColumnDefinitions="1*" Margin="24,0" RowDefinitions="32,1*">
-                <SelectableTextBlock Margin="8,0" Text="Endereço" FontWeight="DemiBold" />
+                <SelectableTextBlock Margin="8,0" Focusable="False" Text="Endereço" FontWeight="DemiBold" />
                 <StackPanel Grid.Row="1" Margin="24,0">
                     <Grid ColumnDefinitions="0.8* 4 0.3* 4 0.6*">
                         <StackPanel Spacing="4">
-                            <SelectableTextBlock Text="Logradouro" />
+                            <SelectableTextBlock Text="Logradouro" Focusable="False" />
                             <TextBox Text="{Binding Report.CompanyInfo.Endereco.Logradouro}" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="4">
-                            <SelectableTextBlock Text="Número" />
+                            <SelectableTextBlock Text="Número" Focusable="False" />
                             <TextBox Text="{Binding Report.CompanyInfo.Endereco.Numero}" />
                         </StackPanel>
                         <StackPanel Grid.Column="4" Spacing="4">
-                            <SelectableTextBlock Text="Bairro" />
+                            <SelectableTextBlock Text="Bairro" Focusable="False" />
                             <TextBox Text="{Binding Report.CompanyInfo.Endereco.Bairro}" />
                         </StackPanel>
                     </Grid>
                     <Grid ColumnDefinitions="1* 8 0.4* 8 1*">
                         <StackPanel Spacing="4">
-                            <SelectableTextBlock Text="Estado" />
+                            <SelectableTextBlock Text="Estado" Focusable="False" />
                             <ComboBox HorizontalAlignment="Stretch"
                                       Name="StateContainer"
                                       BorderBrush="Transparent"
-                                      x:CompileBindings="False"
+                                      IsTextSearchEnabled="True"
+                                      ItemsSource="{Binding SearchSolutionTexts.UFs}"
+                                      TextSearch.Text="{Binding SearchSolutionTexts.SearchUf}"
                                       DisplayMemberBinding="{Binding Name}"
                                       SelectedValue="{Binding Report.CompanyInfo.Endereco.Uf}"
                                       SelectedValueBinding="{Binding ShortName}"
                                       BorderThickness="0" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="4">
-                            <SelectableTextBlock Text="CEP" />
+                            <SelectableTextBlock Text="CEP" Focusable="False" />
                             <TextBox HorizontalAlignment="Stretch"
                                      Text="{Binding Report.CompanyInfo.Endereco.Cep}" />
                         </StackPanel>
                         <StackPanel Grid.Column="4" Spacing="4">
-                            <SelectableTextBlock Text="Cidade" />
+                            <SelectableTextBlock Text="Cidade" Focusable="False" />
                             <ComboBox HorizontalAlignment="Stretch"
+                                      IsTextSearchEnabled="True"
+                                      TextSearch.Text="{Binding SearchSolutionTexts.SearchCidade}"
                                       Name="CityContainer"
                                       BorderBrush="Transparent"
                                       BorderThickness="0"
-                                      x:CompileBindings="False"
+                                      ItemsSource="{Binding SearchSolutionTexts.Cidades}"
                                       DisplayMemberBinding="{Binding Nome}"
                                       SelectedValue="{Binding Report.CompanyInfo.Endereco.Cidade}"
                                       SelectedValueBinding="{Binding Nome}" />
@@ -95,14 +99,14 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-            <SelectableTextBlock Margin="8,0" Text="Informações da Solução" FontWeight="DemiBold" />
+            <SelectableTextBlock Margin="8,0" Text="Informações da Solução" Focusable="False" FontWeight="DemiBold" />
             <StackPanel Spacing="4">
-                <SelectableTextBlock Text="Nome da Solução" />
+                <SelectableTextBlock Text="Nome da Solução" Focusable="False" />
                 <TextBox Text="{Binding FileName}" />
             </StackPanel>
             <Grid ColumnDefinitions="1* 64">
                 <StackPanel Spacing="4" Grid.Column="0">
-                    <SelectableTextBlock Text="Local da Solução" />
+                    <SelectableTextBlock Text="Local da Solução" Focusable="False" />
                     <TextBox Text="{Binding FilePath}" IsReadOnly="True" />
                 </StackPanel>
                 <controls:IconButton Grid.Column="1" Click="SolutionItemPathSelector_OnClick"
@@ -112,7 +116,7 @@
             </Grid>
             <Grid ColumnDefinitions="1* 64">
                 <StackPanel Spacing="4" Grid.Column="0">
-                    <SelectableTextBlock Text="Logo da Responsável" />
+                    <SelectableTextBlock Text="Logo da Responsável" Focusable="False" />
                     <TextBox Text="{Binding Report.CompanyInfo.Logo}" />
                 </StackPanel>
                 <controls:IconButton Grid.Column="1" Click="CompanyLogoPathSelector_OnClick"
@@ -125,7 +129,7 @@
                                      Command="{Binding Report.AddItemToPartnerCommand}" IconSize="12"
                                      Width="12" Height="12"
                                      DockPanel.Dock="Right" />
-                <SelectableTextBlock Text="Parceiros" FontWeight="DemiBold" />
+                <SelectableTextBlock Text="Parceiros" FontWeight="DemiBold" Focusable="False" />
             </DockPanel>
 
             <ItemsControl ItemsSource="{Binding Report.Partners,Mode=OneWay}">
@@ -133,7 +137,7 @@
                     <DataTemplate>
                         <Grid ColumnDefinitions="1* 8 0.6* 8 0.2*" Margin="0,2,0,2">
                             <StackPanel Spacing="4">
-                                <SelectableTextBlock Text="Nome do Parceiro" />
+                                <SelectableTextBlock Text="Nome do Parceiro" Focusable="False" />
                                 <TextBox Text="{Binding Name}" />
                             </StackPanel>
                             <TextBlock Grid.Column="2" Text="{Binding Logo}" VerticalAlignment="Center" />

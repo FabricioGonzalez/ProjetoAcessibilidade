@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
-using ProjectAvalonia.Common.Models.App;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.Models;
 using ProjectAvalonia.Presentation.States;
 using ReactiveUI;
 

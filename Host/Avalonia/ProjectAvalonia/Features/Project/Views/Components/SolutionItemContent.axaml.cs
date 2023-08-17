@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Avalonia;
+﻿using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using ProjectAvalonia.Common.Controls;
 using ProjectAvalonia.Common.Helpers;
-using ProjectAvalonia.Common.Models.App;
-using ProjectAvalonia.Common.Services.LocationService;
 using ProjectAvalonia.Presentation.States;
-using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.Views.Components;
 
 public partial class SolutionItemContent : UserControl
 {
-    public static readonly DirectProperty<SolutionItemContent, IEnumerable<Cidade>?> CidadesProperty =
+    /*public static readonly DirectProperty<SolutionItemContent, IEnumerable<Cidade>?> CidadesProperty =
         AvaloniaProperty.RegisterDirect<SolutionItemContent, IEnumerable<Cidade>?>(name: nameof(Cidades)
             , getter: o => o.Cidades, setter: (
                 content
@@ -34,22 +28,22 @@ public partial class SolutionItemContent : UserControl
 
     private IEnumerable<Cidade>? _cidades;
 
-    private IEnumerable<Uf>? _ufs;
+    private IEnumerable<Uf>? _ufs;*/
 
     public SolutionItemContent()
     {
         InitializeComponent();
 
-        StateContainer.WhenAnyValue(it => it.SelectedItem)
+        /*StateContainer.WhenAnyValue(it => it.SelectedItem)
             .WhereNotNull()
             .Subscribe(it =>
             {
                 Cidades = _location.GetCidades(((Uf)it).Code);
                 CityContainer.ItemsSource = Cidades;
-            });
+            });*/
     }
 
-    public IEnumerable<Cidade>? Cidades
+    /*public IEnumerable<Cidade>? Cidades
     {
         get => _cidades;
         set => SetAndRaise(property: CidadesProperty, field: ref _cidades, value: value);
@@ -59,16 +53,7 @@ public partial class SolutionItemContent : UserControl
     {
         get => _ufs;
         set => SetAndRaise(property: UfProperty, field: ref _ufs, value: value);
-    }
-
-    protected override void OnInitialized()
-    {
-        Ufs = _location.GetAllUfs();
-
-        StateContainer.ItemsSource = Ufs;
-
-        base.OnInitialized();
-    }
+    }*/
 
     private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 

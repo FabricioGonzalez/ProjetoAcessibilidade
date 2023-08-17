@@ -15,6 +15,7 @@ using ProjectAvalonia.Features.Project.ViewModels.EditingItemBody;
 using ProjectAvalonia.Features.Project.ViewModels.ExplorerItems;
 using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
@@ -44,8 +45,9 @@ public partial class ProjectViewModel
     private readonly ItemsService _itemsService;
 
     private readonly SolutionService _solutionService;
+    private ILocationService _locationService;
 
-    public ProjectViewModel()
+    public ProjectViewModel(    )
     {
         SetupCancel(
             enableCancel: false,
@@ -93,11 +95,13 @@ public partial class ProjectViewModel
         , ItemsService itemsService
         , EditableItemService editableItemService
         , ValidationRulesService validationRulesService
+        , ILocationService locationService
     ) : this()
     {
         _solutionService = solutionService;
         _itemsService = itemsService;
         _editableItemService = editableItemService;
+        _locationService = locationService;
         ProjectEditingViewModel = new ProjectEditingViewModel(solutionService: _solutionService
             , editableItemService: editableItemService, validationRulesService: validationRulesService);
 
@@ -298,7 +302,7 @@ public partial class ProjectViewModel
     private async Task CreateSolution()
     {
         var dialogResult = await NavigateDialogAsync(
-            dialog: new CreateSolutionViewModel(title: "Criar Solução")
+            dialog: new CreateSolutionViewModel(title: "Criar Solução",_locationService)
             , target: NavigationTarget.CompactDialogScreen);
 
         if (dialogResult is { Kind: DialogResultKind.Normal } result)

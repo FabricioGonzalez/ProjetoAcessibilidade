@@ -7,6 +7,7 @@ using System.Reactive.Subjects;
 using Avalonia.Controls;
 using Common;
 using ProjectAvalonia.Common.Models;
+using ProjectAvalonia.Common.Services.LocationService;
 using ProjectAvalonia.Common.Validation;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.NavBar;
@@ -165,8 +166,10 @@ public partial class MainViewModel : ViewModelBase
         var xmlSolutionDatasource = new SolutionDatasourceImpl();
         var xmlProjectItemDatasource = new ProjectItemDatasourceImpl();
         var xmlValidationRulesDatasource = new ValidationRulesDatasourceImpl();
+        var locationService = new LocationService();
 
-        var solutionManipulation = new SolutionService(xmlSolutionDatasource);
+        var solutionManipulation =
+            new SolutionService(datasourceImpl: xmlSolutionDatasource, locationService: locationService);
         var itemsService = new ItemsService(explorerItems: xmlExplorerItemsDatasource
             , projectItemDatasource: xmlProjectItemDatasource);
         var editableItemService = new EditableItemService(xmlProjectItemDatasource);
@@ -179,7 +182,8 @@ public partial class MainViewModel : ViewModelBase
             , itemValidationTab: itemValidationViewModel, itemsService: itemsService
             , _editableItemService: editableItemService, validationRulesService: validationRulesService);
         _projectPage = new ProjectViewModel(solutionService: solutionManipulation, itemsService: itemsService
-            , editableItemService: editableItemService, validationRulesService: validationRulesService);
+            , editableItemService: editableItemService, validationRulesService: validationRulesService
+            , locationService: locationService);
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
     }

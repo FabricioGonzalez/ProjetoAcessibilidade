@@ -70,6 +70,9 @@
 
         <Color x:Key="TileRegionColor">#21252D</Color>
         <Color x:Key="TileBorderColor">#66757575</Color>
+
+        <SolidColorBrush x:Key="AppDarkBackgroundBrush">#AC222222</SolidColorBrush>
+
         <Color x:Key="AcrylicTrimForeground">White</Color>
         <Color x:Key="AcrylicTrimBackground">#A0202020</Color>
 

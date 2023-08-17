@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -7,6 +10,8 @@ using System.Threading.Tasks;
 using Avalonia.Threading;
 using Common;
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Logging;
+using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
@@ -16,6 +21,7 @@ using QuestPDF.Infrastructure;
 using QuestPDFReport;
 using QuestPDFReport.ReportSettings;
 using ReactiveUI;
+using SkiaSharp;
 using Unit = System.Reactive.Unit;
 
 namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -32,20 +38,36 @@ namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
     NavigationTarget = NavigationTarget.FullScreen)]
 public partial class PreviewerViewModel : RoutableViewModel
 {
+    private ObservableCollection<Printer> _availablePrinters = new();
     [AutoNotify] private float _currentScroll;
 
     [AutoNotify] private IDocument? _document;
 
     [AutoNotify] private float _scrollViewportSize;
+
+    [AutoNotify] private Printer? _selectedPrinter;
     [AutoNotify] private SolutionState _solutionModel;
 
     [AutoNotify] private string _solutionPath;
 
     private bool _verticalScrollbarVisible;
 
+    private int PageCounter;
+
     public PreviewerViewModel()
     {
         SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+
+        AvailablePrinters.Clear();
+
+        foreach (var item in PrinterSettings.InstalledPrinters)
+        {
+            AvailablePrinters.Add(new Printer
+            {
+                Name = item.ToString()
+            });
+        }
+
 
         this.WhenAnyValue(vm => vm.SolutionPath)
             .Where(prop => !string.IsNullOrWhiteSpace(prop))
@@ -87,6 +109,12 @@ public partial class PreviewerViewModel : RoutableViewModel
         PrintCommand = ReactiveCommand.Create(() => OpenLink("https://github.com/sponsors/QuestPDF"));
     }
 
+    public ObservableCollection<Printer> AvailablePrinters
+    {
+        get => _availablePrinters;
+        set => this.RaiseAndSetIfChanged(backingField: ref _availablePrinters, newValue: value);
+    }
+
     public DocumentRenderer DocumentRenderer
     {
         get;
@@ -125,6 +153,79 @@ public partial class PreviewerViewModel : RoutableViewModel
     {
         get;
         protected set;
+    }
+
+    public ReactiveCommand<Unit, Unit> PrintDocumentCommand => ReactiveCommand.CreateRunInBackground(execute: () =>
+    {
+        PrintDocument();
+    }, canExecute: this.WhenAnyValue(vm => vm.SelectedPrinter).Select(it => it is not null));
+
+    private void PrintDocument()
+    {
+        try
+        {
+            if (SelectedPrinter is { } printer)
+            {
+                var document = new PrintDocument();
+
+                document.PrinterSettings = new PrinterSettings
+                {
+                    PrinterName = printer.Name
+                };
+
+                document.BeginPrint += pd_BeginPrint;
+                document.PrintPage += pd_PrintPage;
+
+                document.Print();
+
+                document.Dispose();
+
+                document.BeginPrint -= pd_BeginPrint;
+                document.PrintPage -= pd_PrintPage;
+            }
+        }
+
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private void pd_BeginPrint(
+        object sender
+        , PrintEventArgs ev
+    ) =>
+        PageCounter = 0;
+
+    private void pd_PrintPage(
+        object sender
+        , PrintPageEventArgs ev
+    )
+    {
+        try
+        {
+            var image = DocumentRenderer.Pages[PageCounter];
+
+            var imageConverted = SKImage.FromPicture(picture: image.Picture
+                , dimensions: new SKSizeI(width: Convert.ToInt32(image.Size.Width)
+                    , height: Convert.ToInt32(image.Size.Height)));
+
+            SKData encoded = imageConverted.Encode();
+            // get a stream over the encoded data
+            Stream stream = encoded.AsStream();
+
+            var bitmap = Image.FromStream(stream);
+
+            ev.Graphics.DrawImage(image: bitmap, x: 0, y: 0);
+            PageCounter++;
+            ev.HasMorePages = PageCounter != DocumentRenderer.Pages.Count;
+        }
+        catch (Exception exp)
+        {
+            Logger.LogError(exp);
+            /*MessageBox.Show("An error occurred whiling printing: " + exp.Message);*/
+        }
     }
 
     public PreviewerViewModel SetSolutionPath(

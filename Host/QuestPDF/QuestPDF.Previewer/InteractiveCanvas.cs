@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
@@ -134,7 +135,7 @@ internal class InteractiveCanvas : ICustomDrawOperation
     #region rendering
 
     public void Render(
-        IDrawingContextImpl context
+        ImmediateDrawingContext context
     )
     {
         if (Pages.Count <= 0)
@@ -145,7 +146,7 @@ internal class InteractiveCanvas : ICustomDrawOperation
         LimitScale();
         LimitTranslate();
 
-        var skia = context.GetFeature<ISkiaSharpApiLeaseFeature>();
+        var skia = context.TryGetFeature<ISkiaSharpApiLeaseFeature>();
         using var lease = skia.Lease();
 
         var canvas = lease.SkCanvas;

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ProjectAvalonia.Common.Models.App;
+using ProjectAvalonia.Presentation.Interfaces.Services;
+using ProjectAvalonia.Presentation.Models;
 using SqliteDatasource.Internals;
 
 namespace ProjectAvalonia.Common.Services.LocationService;
 
-public class LocationService
+public class LocationService : ILocationService
 {
     private readonly LocationRepository _repository;
 
