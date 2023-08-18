@@ -69,7 +69,7 @@ public class ItemViewModel
     public IItemGroupViewModel Parent
     {
         get;
-        private set;
+        set;
     }
 
     public string ItemPath

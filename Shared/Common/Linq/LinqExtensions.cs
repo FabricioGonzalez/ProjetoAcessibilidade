@@ -22,7 +22,10 @@ public static class LinqExtensions
         target.IterateOn(item =>
         {
             var exists = items.Any(predicate);
-            if (!exists) items = items.Append(item);
+            if (!exists)
+            {
+                items = items.Append(item);
+            }
         });
         return items;
     }
@@ -32,8 +35,27 @@ public static class LinqExtensions
         , Action<T> iterator
     )
     {
-        foreach (var item in items) iterator(item);
+        foreach (var item in items)
+        {
+            iterator(item);
+        }
+
         return items;
+    }
+
+    public static IEnumerable<T> IterateIndexedOn<T>(
+        this IEnumerable<T> items
+        , Action<T, int> iterator
+    )
+    {
+        var iterateIndexedOn = items.ToList();
+
+        for (var i = 0; i < iterateIndexedOn.Count; i++)
+        {
+            iterator(arg1: iterateIndexedOn.ElementAt(i), arg2: i);
+        }
+
+        return iterateIndexedOn;
     }
 
     public static async Task<IEnumerable<T>> IterateOnAsync<T>(
@@ -41,7 +63,11 @@ public static class LinqExtensions
         , Func<T, Task> iterator
     )
     {
-        foreach (var item in items) await iterator(item);
+        foreach (var item in items)
+        {
+            await iterator(item);
+        }
+
         return items;
     }
 }

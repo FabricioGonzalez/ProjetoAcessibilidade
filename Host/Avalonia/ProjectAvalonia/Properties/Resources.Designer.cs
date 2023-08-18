@@ -60,7 +60,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add New Checkbox.
+        ///   Looks up a localized string similar to Adicionar Checkbox.
         /// </summary>
         public static string Add_Checkbox_ToolTip {
             get {
@@ -69,7 +69,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Condition.
+        ///   Looks up a localized string similar to Adicionar Condição.
         /// </summary>
         public static string Add_Condition_ToolTip {
             get {
@@ -78,7 +78,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Item.
+        ///   Looks up a localized string similar to Adicionar Item.
         /// </summary>
         public static string Add_Folder_Item_Menu_Header {
             get {
@@ -87,7 +87,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select an Item to Add to Project.
+        ///   Looks up a localized string similar to Selecione um item para adicionar ao projeto.
         /// </summary>
         public static string Add_Item_Dialog_Caption {
             get {
@@ -96,7 +96,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add New Report Item.
+        ///   Looks up a localized string similar to Adicionar item de Relatório.
         /// </summary>
         public static string Add_Item_ToolTip {
             get {
@@ -105,7 +105,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add New Law.
+        ///   Looks up a localized string similar to Adicionar Lei.
         /// </summary>
         public static string Add_Law_ToolTip {
             get {
@@ -114,7 +114,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add New Option.
+        ///   Looks up a localized string similar to Adicionar uma nova opção.
         /// </summary>
         public static string Add_Option_ToolTip {
             get {
@@ -123,7 +123,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Options.
+        ///   Looks up a localized string similar to Adicionar Opções.
         /// </summary>
         public static string Add_Options_ToolTip {
             get {
@@ -132,7 +132,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Result.
+        ///   Looks up a localized string similar to Adicionar um Resultado.
         /// </summary>
         public static string Add_Result_ToolTip {
             get {
@@ -141,7 +141,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Rule.
+        ///   Looks up a localized string similar to Adicionar Regra.
         /// </summary>
         public static string Add_Rule_ToolTip {
             get {
@@ -150,7 +150,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Solution Item.
+        ///   Looks up a localized string similar to Adicionar item de Relatório.
         /// </summary>
         public static string Add_Solution_Item_Menu_Item {
             get {
@@ -159,7 +159,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add New Text Item.
+        ///   Looks up a localized string similar to Adicionar Item de Texto.
         /// </summary>
         public static string Add_Text_Item_ToolTip {
             get {
@@ -168,7 +168,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Item name.
+        ///   Looks up a localized string similar to Nome do Item.
         /// </summary>
         public static string AddItemNameLabel {
             get {
@@ -177,7 +177,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advanced Settings.
+        ///   Looks up a localized string similar to Configurações Avançadas.
         /// </summary>
         public static string AdvancedSettingsViewNavLabel {
             get {
@@ -186,7 +186,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Appearence.
+        ///   Looks up a localized string similar to Aparência.
         /// </summary>
         public static string AppearanceLabel {
             get {
@@ -195,7 +195,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto copy.
+        ///   Looks up a localized string similar to Auto Copiar.
         /// </summary>
         public static string AutoCopyBehaviorLabel {
             get {
@@ -204,7 +204,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download latest version automatically.
+        ///   Looks up a localized string similar to Baixar as últimas atualizações automaticamente.
         /// </summary>
         public static string AutoDownloadLabel {
             get {
@@ -213,7 +213,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto paste.
+        ///   Looks up a localized string similar to Auto Colar.
         /// </summary>
         public static string AutoPasteBehaviorLabel {
             get {
@@ -222,7 +222,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to Cancelar.
         /// </summary>
         public static string CancelActionLabel {
             get {
@@ -231,7 +231,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Topic.
+        ///   Looks up a localized string similar to Tópico.
         /// </summary>
         public static string CheckboxContainerTopicLabel {
             get {
@@ -240,7 +240,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Topic.
+        ///   Looks up a localized string similar to Tópico.
         /// </summary>
         public static string CheckboxItemTopicLabel {
             get {
@@ -258,7 +258,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value.
+        ///   Looks up a localized string similar to Valor.
         /// </summary>
         public static string CheckboxItemValueLabel {
             get {
@@ -267,7 +267,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Checked.
+        ///   Looks up a localized string similar to Marcado.
         /// </summary>
         public static string CheckedValueLabel {
             get {
@@ -276,7 +276,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Company Address.
+        ///   Looks up a localized string similar to Endereço da empresa.
         /// </summary>
         public static string Company_Address_Watermark {
             get {
@@ -285,7 +285,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Company Logo Path.
+        ///   Looks up a localized string similar to Logo da empresa.
         /// </summary>
         public static string Company_Logo_FilePath_Watermark {
             get {
@@ -294,7 +294,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Company Name.
+        ///   Looks up a localized string similar to Nome da empresa.
         /// </summary>
         public static string Company_Name_Watermark {
             get {
@@ -303,7 +303,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Conclusion.
+        ///   Looks up a localized string similar to Conclusão.
         /// </summary>
         public static string ConclusionLabel {
             get {
@@ -312,7 +312,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Conditions.
+        ///   Looks up a localized string similar to Condições.
         /// </summary>
         public static string Conditions_Label {
             get {
@@ -321,7 +321,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Confirm.
+        ///   Looks up a localized string similar to Confirmar.
         /// </summary>
         public static string ConfirmActionLabel {
             get {
@@ -330,7 +330,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Continue.
+        ///   Looks up a localized string similar to Continuar.
         /// </summary>
         public static string ContinueActionLabel {
             get {
@@ -339,7 +339,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create New Rule.
+        ///   Looks up a localized string similar to Criar nova Regra.
         /// </summary>
         public static string Create_Rules_Button {
             get {
@@ -348,7 +348,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dark Mode.
+        ///   Looks up a localized string similar to Modo Noturno.
         /// </summary>
         public static string DarkModeLabel {
             get {
@@ -357,7 +357,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Night Mode.
+        ///   Looks up a localized string similar to Modo Noturno.
         /// </summary>
         public static string DarkThemeLabel {
             get {
@@ -366,7 +366,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete Image.
+        ///   Looks up a localized string similar to Deletar imagem.
         /// </summary>
         public static string Delete_Image_Item_Menu_Header {
             get {
@@ -375,7 +375,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Rules.
+        ///   Looks up a localized string similar to Editar Regra.
         /// </summary>
         public static string Edit_Rules_Button {
             get {
@@ -384,7 +384,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turn on GPU Acceleration.
+        ///   Looks up a localized string similar to Ativar a Aceleração por GPU..
         /// </summary>
         public static string EnabledGPULabel {
             get {
@@ -393,7 +393,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the GPU Acceleration is enabled to render the UI. Using the GPU instead of CPU may improve performance..
+        ///   Looks up a localized string similar to Indica quando a Aceleração por GPU está ativa para renderizar a tela. Usar a GPU ao invés do CPU pode levar à ganhos de performance..
         /// </summary>
         public static string EnabledGPUTooltip {
             get {
@@ -402,7 +402,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exclude Condition.
+        ///   Looks up a localized string similar to Excluir Condição.
         /// </summary>
         public static string Exclude_Condition_ToolTip {
             get {
@@ -411,7 +411,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exclude File.
+        ///   Looks up a localized string similar to Excluir.
         /// </summary>
         public static string Exclude_File_Item_Menu_Header {
             get {
@@ -420,7 +420,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exclude Folder.
+        ///   Looks up a localized string similar to Excluir Pasta.
         /// </summary>
         public static string Exclude_Folder_Item_Menu_Header {
             get {
@@ -429,7 +429,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exclude Result.
+        ///   Looks up a localized string similar to Excluir Resultado.
         /// </summary>
         public static string Exclude_Result_ToolTip {
             get {
@@ -438,7 +438,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exclude Rule.
+        ///   Looks up a localized string similar to Excluir Regra.
         /// </summary>
         public static string Exclude_Rule_ToolTip {
             get {
@@ -447,7 +447,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Folder Name.
+        ///   Looks up a localized string similar to Nome da Pasta.
         /// </summary>
         public static string Folder_Name_Watermark {
             get {
@@ -456,7 +456,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to General Settings.
+        ///   Looks up a localized string similar to Configurações Gerais.
         /// </summary>
         public static string GeneralSettingsViewNavLabel {
             get {
@@ -465,7 +465,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Generate PDF.
+        ///   Looks up a localized string similar to Gerar PDF.
         /// </summary>
         public static string Generate_Document_ToolTip {
             get {
@@ -474,7 +474,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Greater Than.
+        ///   Looks up a localized string similar to Maior que.
         /// </summary>
         public static string GreaterOperationLabel {
             get {
@@ -483,7 +483,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equal or Greater Than.
+        ///   Looks up a localized string similar to Igual ou maior que.
         /// </summary>
         public static string GreaterThanOperationLabel {
             get {
@@ -492,7 +492,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Has.
+        ///   Looks up a localized string similar to Contém.
         /// </summary>
         public static string HasOperationLabel {
             get {
@@ -501,7 +501,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is.
+        ///   Looks up a localized string similar to Está.
         /// </summary>
         public static string IsOperationLabel {
             get {
@@ -510,7 +510,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Report Items.
+        ///   Looks up a localized string similar to Itens de Relatório.
         /// </summary>
         public static string ItemFormDataLabel {
             get {
@@ -519,7 +519,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Law Content.
+        ///   Looks up a localized string similar to Conteúdo da Lei.
         /// </summary>
         public static string ItemLawItemContentLabel {
             get {
@@ -528,7 +528,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Law ID.
+        ///   Looks up a localized string similar to Identificador da Lei.
         /// </summary>
         public static string ItemLawItemIdLabel {
             get {
@@ -537,7 +537,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Laws.
+        ///   Looks up a localized string similar to Leis.
         /// </summary>
         public static string ItemLawItemsLabel {
             get {
@@ -546,7 +546,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Item Name.
+        ///   Looks up a localized string similar to Nome do Item.
         /// </summary>
         public static string ItemNameLabel {
             get {
@@ -555,7 +555,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Report Items.
+        ///   Looks up a localized string similar to Itens.
         /// </summary>
         public static string Items_Label {
             get {
@@ -564,7 +564,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select a Language.
+        ///   Looks up a localized string similar to Selecione o idioma.
         /// </summary>
         public static string LanguageSelectorLabel {
             get {
@@ -573,7 +573,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Law Content.
+        ///   Looks up a localized string similar to Conteúdo da Lei.
         /// </summary>
         public static string Law_Body_Watermark {
             get {
@@ -582,7 +582,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Law Id.
+        ///   Looks up a localized string similar to Identificador de Lei.
         /// </summary>
         public static string Law_Id_Watermark {
             get {
@@ -591,7 +591,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Laws.
+        ///   Looks up a localized string similar to Leis.
         /// </summary>
         public static string Laws_Label {
             get {
@@ -600,7 +600,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Less Than.
+        ///   Looks up a localized string similar to Menor que.
         /// </summary>
         public static string LessOperationLabel {
             get {
@@ -609,7 +609,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equal or Less Than.
+        ///   Looks up a localized string similar to Igual ou Menor que.
         /// </summary>
         public static string LessThanOperationLabel {
             get {
@@ -618,7 +618,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next.
+        ///   Looks up a localized string similar to Próximo.
         /// </summary>
         public static string NextActionLabel {
             get {
@@ -627,7 +627,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No Solution Open.
+        ///   Looks up a localized string similar to Nenhuma Solução Aberta.
         /// </summary>
         public static string No_Solution_Open_Label {
             get {
@@ -636,7 +636,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Obrigatory.
+        ///   Looks up a localized string similar to Obrigatório.
         /// </summary>
         public static string ObrigatorityLabel {
             get {
@@ -645,7 +645,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Observations.
+        ///   Looks up a localized string similar to Observações.
         /// </summary>
         public static string Observation_Label {
             get {
@@ -654,7 +654,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Observations.
+        ///   Looks up a localized string similar to Observações.
         /// </summary>
         public static string Observation_Watermark {
             get {
@@ -663,7 +663,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keep running the app on background.
+        ///   Looks up a localized string similar to Manter o processo rodando em segundo plano.
         /// </summary>
         public static string onClosedBehaviorLabel {
             get {
@@ -672,7 +672,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start app with windows.
+        ///   Looks up a localized string similar to Iniciar juntamente ao Windows.
         /// </summary>
         public static string onStartupBehaviorLabel {
             get {
@@ -681,7 +681,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operation.
+        ///   Looks up a localized string similar to Operações.
         /// </summary>
         public static string Operation_Label {
             get {
@@ -690,7 +690,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mark as Invalid.
+        ///   Looks up a localized string similar to Marcar como Invalido.
         /// </summary>
         public static string Option_Mark_As_Invalid_MenuItem {
             get {
@@ -699,7 +699,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Options.
+        ///   Looks up a localized string similar to Opções.
         /// </summary>
         public static string Options_Label {
             get {
@@ -708,7 +708,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print.
+        ///   Looks up a localized string similar to Imprimir.
         /// </summary>
         public static string Print_Document_ToolTip {
             get {
@@ -717,7 +717,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print Document.
+        ///   Looks up a localized string similar to Imprimir Documento.
         /// </summary>
         public static string Print_Page_Title {
             get {
@@ -726,7 +726,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Folder.
+        ///   Looks up a localized string similar to Adicionar Nova Pasta à Solução.
         /// </summary>
         public static string Project_Add_Folder_ToolBarItem {
             get {
@@ -735,7 +735,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save Current Item.
+        ///   Looks up a localized string similar to Salvar Item de Relatório Atual.
         /// </summary>
         public static string Project_Item_Save_ToolBarItem {
             get {
@@ -744,7 +744,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project Responsable.
+        ///   Looks up a localized string similar to Responsável pelo Projeto.
         /// </summary>
         public static string Project_Responsable_Watermark {
             get {
@@ -753,7 +753,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project.
+        ///   Looks up a localized string similar to Projeto.
         /// </summary>
         public static string ProjectViewNavLabel {
             get {
@@ -762,7 +762,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Checkbox.
+        ///   Looks up a localized string similar to Remover Checkbox.
         /// </summary>
         public static string Remove_Checkbox_ToolTip {
             get {
@@ -771,7 +771,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Group.
+        ///   Looks up a localized string similar to Remover Grupo.
         /// </summary>
         public static string Remove_Group_ToolTip {
             get {
@@ -780,7 +780,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Law.
+        ///   Looks up a localized string similar to Remove LawRemover Leis.
         /// </summary>
         public static string Remove_Law_Tooltip {
             get {
@@ -789,7 +789,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rename File.
+        ///   Looks up a localized string similar to Renomear.
         /// </summary>
         public static string Rename_File_Item_Menu_Header {
             get {
@@ -798,7 +798,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rename Folder.
+        ///   Looks up a localized string similar to Renomer Item.
         /// </summary>
         public static string Rename_Folder_Item_Menu_Header {
             get {
@@ -807,7 +807,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Report Date.
+        ///   Looks up a localized string similar to Data do Relatório.
         /// </summary>
         public static string Report_Date_Calendar_Header {
             get {
@@ -816,7 +816,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to State Code.
+        ///   Looks up a localized string similar to UF.
         /// </summary>
         public static string Report_State_Watermark {
             get {
@@ -825,7 +825,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Responsable Email Address.
+        ///   Looks up a localized string similar to Email do Responsável.
         /// </summary>
         public static string Responsable_Mail_Address_Watermark {
             get {
@@ -834,7 +834,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Responsable Phone Number.
+        ///   Looks up a localized string similar to Telefone do Responsável.
         /// </summary>
         public static string Responsable_Phone_Number_Watermark {
             get {
@@ -843,7 +843,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restart App.
+        ///   Looks up a localized string similar to Reiniciar a Aplicação.
         /// </summary>
         public static string RestartAppLabel {
             get {
@@ -852,7 +852,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The changes will be commited after restarting the application..
+        ///   Looks up a localized string similar to As Alterações serão aplicadas após reiniciar a aplicação.
         /// </summary>
         public static string RestartNotificationLabel {
             get {
@@ -861,7 +861,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search Solution Item.
+        ///   Looks up a localized string similar to Pesquisar itens.
         /// </summary>
         public static string Search_Solution_Items_Watermark {
             get {
@@ -870,8 +870,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search settings / advanced features
-        ///.
+        ///   Looks up a localized string similar to Procurar por Configurações / Funcionalidades Avançadas.
         /// </summary>
         public static string SearchBoxLabel {
             get {
@@ -880,7 +879,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manages appearence, and other settings.
+        ///   Looks up a localized string similar to Gerencia a aparência e outras configurações.
         /// </summary>
         public static string SettingsPageCaption {
             get {
@@ -889,7 +888,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings.
+        ///   Looks up a localized string similar to Configurações.
         /// </summary>
         public static string SettingsPageLabel {
             get {
@@ -898,7 +897,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings.
+        ///   Looks up a localized string similar to Configurações.
         /// </summary>
         public static string SettingsViewNavLabel {
             get {
@@ -907,7 +906,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to App is shutting down.
+        ///   Looks up a localized string similar to A aplicação está desligando.
         /// </summary>
         public static string ShutdownDialogTitleLabel {
             get {
@@ -916,7 +915,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Setting everything down to finished the application..
+        ///   Looks up a localized string similar to Preparando-se para desligar.
         /// </summary>
         public static string ShutdownMessagePart1 {
             get {
@@ -925,7 +924,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It may take some time to be finished. Please, wait....
+        ///   Looks up a localized string similar to Isso pode demorar a finalizar... Por favor, aguarde....
         /// </summary>
         public static string ShutdownMessagePart2 {
             get {
@@ -934,7 +933,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Skip.
+        ///   Looks up a localized string similar to Pular.
         /// </summary>
         public static string SkipActionLabel {
             get {
@@ -943,7 +942,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create Solution.
+        ///   Looks up a localized string similar to Criar Solução.
         /// </summary>
         public static string Solution_Create_ToolBarItem {
             get {
@@ -952,7 +951,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Solution Explorer.
+        ///   Looks up a localized string similar to Explorador de Solução.
         /// </summary>
         public static string Solution_Explorer_Label {
             get {
@@ -961,7 +960,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Solution Location.
+        ///   Looks up a localized string similar to Local da Solução.
         /// </summary>
         public static string Solution_Folder_Watermark {
             get {
@@ -970,7 +969,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Solution Name.
+        ///   Looks up a localized string similar to Nome da Solução.
         /// </summary>
         public static string Solution_Name_Watermark {
             get {
@@ -979,7 +978,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open Solution.
+        ///   Looks up a localized string similar to Abrir Solução.
         /// </summary>
         public static string Solution_Open_ToolBarItem {
             get {
@@ -988,7 +987,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print Solution.
+        ///   Looks up a localized string similar to Imprimir Solução.
         /// </summary>
         public static string Solution_Print_ToolBarItem {
             get {
@@ -997,7 +996,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create New Report Template.
+        ///   Looks up a localized string similar to Criar Template de Relatório.
         /// </summary>
         public static string Template_Edit_Create_Item_ToolBarItem {
             get {
@@ -1006,7 +1005,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open Report Template.
+        ///   Looks up a localized string similar to Abrir Template de Relatório.
         /// </summary>
         public static string Template_Edit_Open_ToolBarItem {
             get {
@@ -1015,7 +1014,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save Report Template.
+        ///   Looks up a localized string similar to Salvar Template de Relatório.
         /// </summary>
         public static string Template_Edit_Save_Item_ToolBarItem {
             get {
@@ -1033,7 +1032,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Template Edit.
+        ///   Looks up a localized string similar to Edição de Template.
         /// </summary>
         public static string TemplateEditViewNavLabel {
             get {
@@ -1042,7 +1041,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Measurement unit.
+        ///   Looks up a localized string similar to Unidade de Medida.
         /// </summary>
         public static string TextBoxItemMeasurementUnitLabel {
             get {
@@ -1051,7 +1050,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Topic.
+        ///   Looks up a localized string similar to Tópico.
         /// </summary>
         public static string TextBoxItemTopicLabel {
             get {
@@ -1060,7 +1059,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Text.
+        ///   Looks up a localized string similar to Texto.
         /// </summary>
         public static string TextItemTypeLabel {
             get {
@@ -1069,7 +1068,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Theme is changing... Please Wait....
+        ///   Looks up a localized string similar to O Tema está sendo alterado... Por favor, aguarde.
         /// </summary>
         public static string ThemeChangingLabel {
             get {
@@ -1078,7 +1077,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dark, Light, Theme.
+        ///   Looks up a localized string similar to Escuro, Claro, Tema.
         /// </summary>
         public static string ThemeKeyWords {
             get {
@@ -1087,7 +1086,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Then.
+        ///   Looks up a localized string similar to Então.
         /// </summary>
         public static string Then_Label {
             get {
@@ -1096,7 +1095,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unckecked.
+        ///   Looks up a localized string similar to Desmarcado.
         /// </summary>
         public static string UncheckedValueLabel {
             get {
@@ -1105,7 +1104,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Validation Rules.
+        ///   Looks up a localized string similar to Regras de Validação.
         /// </summary>
         public static string Validation_Rules_Label {
             get {
@@ -1114,7 +1113,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Validation Rules.
+        ///   Looks up a localized string similar to Regras de Validação.
         /// </summary>
         public static string Validation_Rules_Tab_Header {
             get {
@@ -1123,7 +1122,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value Check.
+        ///   Looks up a localized string similar to Checagem de valor.
         /// </summary>
         public static string ValueCheckLabel {
             get {
@@ -1132,7 +1131,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When.
+        ///   Looks up a localized string similar to Quando.
         /// </summary>
         public static string When_Label {
             get {

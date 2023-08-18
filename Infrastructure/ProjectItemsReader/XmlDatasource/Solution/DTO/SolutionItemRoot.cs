@@ -5,6 +5,13 @@ namespace XmlDatasource.Solution.DTO;
 [XmlRoot("solution")]
 public sealed class SolutionItemRoot
 {
+    [XmlIgnore]
+    public string SolutionPath
+    {
+        get;
+        set;
+    }
+
     [XmlElement("report")]
     public ReportItem Report
     {

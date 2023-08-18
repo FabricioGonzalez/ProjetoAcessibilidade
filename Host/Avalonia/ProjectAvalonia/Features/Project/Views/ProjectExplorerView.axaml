@@ -11,10 +11,37 @@
     xmlns:views="clr-namespace:ProjectAvalonia.Features.Project.Views"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
     xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+    xmlns:behaviors1="clr-namespace:ProjectAvalonia.Features.Project.Behaviors"
+
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="interfaces:IProjectExplorerViewModel"
     mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="TreeView.NodesDragAndDrop">
+            <Style.Resources>
+                <behaviors1:ProjectExplorerItemDNDBehavior x:Key="ProjectExplorerItemDNDBehavior" />
+            </Style.Resources>
+            <Setter Property="(Interaction.Behaviors)">
+                <BehaviorCollectionTemplate>
+                    <BehaviorCollection>
+                        <ContextDropBehavior Handler="{StaticResource ProjectExplorerItemDNDBehavior}" />
+                    </BehaviorCollection>
+                </BehaviorCollectionTemplate>
+            </Setter>
+        </Style>
+
+        <Style Selector="TreeView.NodesDragAndDrop TreeViewItem">
+            <Setter Property="IsExpanded" Value="True" />
+            <Setter Property="(Interaction.Behaviors)">
+                <BehaviorCollectionTemplate>
+                    <BehaviorCollection>
+                        <ContextDragBehavior />
+                    </BehaviorCollection>
+                </BehaviorCollectionTemplate>
+            </Setter>
+        </Style>
+    </UserControl.Styles>
     <Design.DataContext>
         <designTimeViewModels:DesignTimeProjectExplorerViewModel />
     </Design.DataContext>
@@ -39,6 +66,7 @@
             Grid.Row="4"
             Margin="4,0"
             Padding="0"
+            Classes="NodesDragAndDrop"
             VerticalAlignment="Stretch"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <TreeViewItem DataContext="{Binding SolutionRootItem.SolutionItem }" Header="{Binding Name}">
@@ -98,10 +126,10 @@
                     </TreeDataTemplate>
 
                     <DataTemplate DataType="viewModels:ItemViewModel">
-                        <StackPanel
-                            DragDrop.AllowDrop="True"
-                            Spacing="8"
-                            Orientation="Horizontal">
+                        <StackPanel Classes="ItemsDragAndDrop"
+                                    DragDrop.AllowDrop="True"
+                                    Spacing="8"
+                                    Orientation="Horizontal">
                             <Interaction.Behaviors>
                                 <behaviors:ExecuteCommandOnDoubleTappedBehavior
                                     Command="{Binding $parent[views:ProjectView].((viewModels:ProjectViewModel)DataContext).ProjectEditingViewModel.AddItemToEdit}"

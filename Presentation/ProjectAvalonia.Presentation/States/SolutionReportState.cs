@@ -7,6 +7,7 @@ namespace ProjectAvalonia.Presentation.States;
 public sealed class SolutionReportState : ReactiveObject
 {
     private CompanyInfoState _companyInfo = new();
+    private ManagementCompanyInfoState _managerInfo = new();
 
     private ObservableCollection<PartnerLogoState> _partners = new();
 
@@ -22,6 +23,12 @@ public sealed class SolutionReportState : ReactiveObject
     {
         get => _companyInfo;
         set => this.RaiseAndSetIfChanged(backingField: ref _companyInfo, newValue: value);
+    }
+
+    public ManagementCompanyInfoState ManagerInfo
+    {
+        get => _managerInfo;
+        set => this.RaiseAndSetIfChanged(backingField: ref _managerInfo, newValue: value);
     }
 
     public ObservableCollection<PartnerLogoState> Partners

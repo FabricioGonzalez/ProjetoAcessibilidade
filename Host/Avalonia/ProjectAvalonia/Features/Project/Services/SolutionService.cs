@@ -68,6 +68,7 @@ public static class SolutionRootMapping
             Report = state.Report.ToSolutionReportItem()
             , ProjectItems =
                 new List<ProjectItems>(state.LocationItems.Select(it => it.ToProjectItem()))
+            , SolutionPath = state.FilePath
         };
 
     public static ReportItem ToSolutionReportItem(
@@ -75,7 +76,7 @@ public static class SolutionRootMapping
     ) =>
         new()
         {
-            SolutionName = report.SolutionName
+            SolutionName = report.SolutionName, Manager = report.ManagerInfo.ToManagerInfoItem()
             , Partners =
                 new List<PartnerItem>(report.Partners.Select(it => it.ToPartnerLogoItem()))
             , CompanyInfo = report.CompanyInfo.ToCompanyInfoItem()
@@ -113,7 +114,16 @@ public static class SolutionRootMapping
         {
             NomeEmpresa = companyInfo.NomeEmpresa, Data = companyInfo.Data.Value, Email = companyInfo.Email
             , LogoPath = companyInfo.Logo, Endereco = companyInfo.Endereco.ToEnderecoItem()
-            , Responsavel = companyInfo.Responsavel, Telefone = companyInfo.Telefone
+        };
+
+    public static ManagementCompanyInfo ToManagerInfoItem(
+        this ManagementCompanyInfoState managerInfo
+    ) =>
+        new()
+        {
+            NomeEmpresa = managerInfo.NomeEmpresa, LogoPath = managerInfo.LogoPath
+            , Responsavel = managerInfo.Responsavel, Telefone = managerInfo.Telefone, Email = managerInfo.Email
+            , WebSite = managerInfo.WebSite
         };
 
 
@@ -129,7 +139,7 @@ public static class SolutionRootMapping
     public static PartnerItem ToPartnerLogoItem(
         this PartnerLogoState partner
     ) =>
-        new() { PartnerLogo = partner.Logo, NomeEmpresa = partner.Name };
+        new() { PartnerLogo = partner.Logo, NomeEmpresa = partner.Name, WebSite = partner.Website };
 }
 
 public static class SolutionStateMapping
@@ -140,7 +150,7 @@ public static class SolutionStateMapping
     ) =>
         new(locationService)
         {
-            Report = root.Report.ToSolutionReportState()
+            Report = root.Report.ToSolutionReportState(), FilePath = root.SolutionPath
             , LocationItems =
                 new ObservableCollection<LocationItemState>(root.ProjectItems.Select(it => it.ToLocationItem()))
         };
@@ -150,7 +160,7 @@ public static class SolutionStateMapping
     ) =>
         new()
         {
-            SolutionName = report.SolutionName
+            SolutionName = report.SolutionName, ManagerInfo = report.Manager.ToManagerInfoState()
             , Partners =
                 new ObservableCollection<PartnerLogoState>(report.Partners.Select(it => it.ToPartnerLogoState()))
             , CompanyInfo = report.CompanyInfo.ToCompanyInfoState()
@@ -188,7 +198,16 @@ public static class SolutionStateMapping
         {
             NomeEmpresa = companyInfo.NomeEmpresa, Data = companyInfo.Data.DateTime, Email = companyInfo.Email
             , Logo = companyInfo.LogoPath, Endereco = companyInfo.Endereco.ToEnderecoState()
-            , Responsavel = companyInfo.Responsavel, Telefone = companyInfo.Telefone
+        };
+
+    public static ManagementCompanyInfoState ToManagerInfoState(
+        this ManagementCompanyInfo managerInfo
+    ) =>
+        new()
+        {
+            NomeEmpresa = managerInfo.NomeEmpresa, LogoPath = managerInfo.LogoPath
+            , Responsavel = managerInfo.Responsavel, Telefone = managerInfo.Telefone, Email = managerInfo.Email
+            , WebSite = managerInfo.WebSite
         };
 
 

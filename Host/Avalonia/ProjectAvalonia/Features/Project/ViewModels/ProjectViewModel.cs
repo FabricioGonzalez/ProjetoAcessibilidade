@@ -43,11 +43,11 @@ public partial class ProjectViewModel
     private readonly EditableItemService _editableItemService;
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
     private readonly ItemsService _itemsService;
+    private readonly ILocationService _locationService;
 
     private readonly SolutionService _solutionService;
-    private ILocationService _locationService;
 
-    public ProjectViewModel(    )
+    public ProjectViewModel()
     {
         SetupCancel(
             enableCancel: false,
@@ -302,7 +302,7 @@ public partial class ProjectViewModel
     private async Task CreateSolution()
     {
         var dialogResult = await NavigateDialogAsync(
-            dialog: new CreateSolutionViewModel(title: "Criar Solução",_locationService)
+            dialog: new CreateSolutionViewModel(title: "Criar Solução", _locationService: _locationService)
             , target: NavigationTarget.CompactDialogScreen);
 
         if (dialogResult is { Kind: DialogResultKind.Normal } result)
@@ -320,7 +320,7 @@ public partial class ProjectViewModel
         }
     }
 
-    protected override void OnNavigatedTo(
+    protected async override void OnNavigatedTo(
         bool isInHistory
         , CompositeDisposable disposables
         , object? Parameter = null
@@ -328,11 +328,7 @@ public partial class ProjectViewModel
     {
         if (Parameter is string { Length: > 0 } path)
         {
-            Dispatcher.UIThread.InvokeAsync(
-                async () =>
-                {
-                    await ReadSolutionAndOpen(path);
-                });
+            await ReadSolutionAndOpen(path);
         }
     }
 }

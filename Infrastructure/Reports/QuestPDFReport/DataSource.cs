@@ -40,7 +40,7 @@ public static class DataSource
 
         var report = new ReportModel
         {
-            Title = "Sample Report Document", HeaderFields = HeaderFields()
+            Title = "Sample Report Document", HeaderFields = new FieldsContainer()
         };
 
         var res = Path.Combine(path1: Directory.GetParent(path).FullName
@@ -126,54 +126,55 @@ public static class DataSource
         /*, string extension*/
     )
     {
-        List<ReportHeaderField> HeaderFields()
+        var report = new NestedReportModel
         {
-            return new List<ReportHeaderField>
+            Title = "RELATÓRIO DE ACESSIBILIDADE", HeaderFields = new FieldsContainer
             {
-                new()
+                Local = new ReportHeaderField
                 {
                     Label = "Local"
                     , Value =
                         $"{solutionModel.Report.CompanyInfo.Endereco.Logradouro},{solutionModel.Report.CompanyInfo.Endereco.Numero},{solutionModel.Report.CompanyInfo.Endereco.Bairro},{solutionModel.Report.CompanyInfo.Endereco.Cidade}"
                 }
-                , new()
+                , Revisao = new ReportHeaderField
+                {
+                    Label = "Revisão"
+                    , Value = solutionModel.Report.Revisao.ToString()
+                }
+                , Uf = new ReportHeaderField
                 {
                     Label = "UF", Value = $"{solutionModel.Report.CompanyInfo.Endereco.UF}"
                 }
-                , new()
+                , Data = new ReportHeaderField
                 {
-                    Label = "Data", Value = solutionModel.Report.CompanyInfo.Data.ToString("dd.MM.yyyy")
+                    Label = "Data da Vistoria", Value = solutionModel.Report.CompanyInfo.Data.ToString("dd.MM.yyyy")
                 }
-                , new()
+                , Empresa = new ReportHeaderField
                 {
                     Label = "Empresa", Value = solutionModel.Report.CompanyInfo.NomeEmpresa
                 }
-                , new()
+                , Responsavel = new ReportHeaderField
                 {
-                    Label = "Responsável pelo levantamento", Value = solutionModel.Report.CompanyInfo.Responsavel
+                    Label = "Responsável pelo levantamento", Value = solutionModel.Report.Manager.Responsavel
                 }
-                , new()
+                , Email = new ReportHeaderField
                 {
                     Label = "E-mail", Value = solutionModel.Report.CompanyInfo.Email
                 }
-                , new()
+                , Telefone = new ReportHeaderField
                 {
-                    Label = "Telefone", Value = solutionModel.Report.CompanyInfo.Telefone
+                    Label = "Telefone", Value = solutionModel.Report.Manager.Telefone
                 }
-                , new()
+                , Gerenciadora = new ReportHeaderField
                 {
-                    Label = "Gerenciadora", Value = "solutionModel.StandartInfo.Gerenciadora;"
+                    Label = "Gerenciadora", Value = solutionModel.Report.Manager.NomeEmpresa
                 }
-            };
-        }
-
-        var report = new NestedReportModel
-        {
-            Title = "RELATÓRIO DE ACESSIBILIDADE", HeaderFields = HeaderFields(), StandardLaw =
+            }
+            , StandardLaw =
                 "Legislação Vigente: NBR 9.050/15, NBR 16.537/16, Decreto Nº 5296 de 02.12.2004 e Lei Federal 13.146/16"
+            , Partners = solutionModel.Report.Partners, CompanyInfo = solutionModel.Report.CompanyInfo
+            , ManagerInfo = solutionModel.Report.Manager
         };
-
-        /* var res = Path.Combine(Directory.GetParent(solutionModel.FilePath).FullName, Constants.AppProjectItemsFolderName);*/
 
         var repository = new ProjectItemDatasourceImpl();
 
@@ -279,6 +280,10 @@ public static class DataSource
             report.Locations.Add(Location);
         });
 
+        report.Conclusion =
+            File.ReadAllText(Path.Combine(path1: Directory.GetParent(solutionModel.SolutionPath).FullName
+                , path2: "conclusion.prjc"));
+
         return report;
     }
 
@@ -286,7 +291,8 @@ public static class DataSource
     {
         return new ReportModel
         {
-            Title = "Sample Report Document", HeaderFields = HeaderFields(), LogoData = Helpers.GetImage("Logo.png")
+            Title = "Sample Report Document", HeaderFields = new FieldsContainer()
+            , LogoData = Helpers.GetImage("Logo.png")
             , Sections = Enumerable.Range(start: 0, count: 40).Select(x => GenerateSection()).ToList()
             /* Photos = Enumerable.Range(0, 25).Select(x => GetReportPhotos()).ToList()*/
         };

@@ -25,23 +25,30 @@ public class SectionTemplate : IComponent
         IContainer container
     ) =>
         container
-            .Column(root =>
+            .Table(root =>
             {
-                root.Item()
-                    .Section(Model.Title)
-                    .Text(Model.Title);
+                root.ColumnsDefinition(columns =>
+                {
+                    columns.RelativeColumn();
+                });
                 Model.Groups.IterateOn(group =>
                 {
-                    root.Item()
+                    root.Cell()
+                        .Border(0.6f)
+                        .BorderColor(Colors.Grey.Darken1)
                         .Section($"{Model.Title} - {group.Title}")
                         .Decoration(decoration =>
                         {
-                            _ = decoration
+                            decoration
                                 .Before()
                                 .PaddingBottom(5)
+                                .PaddingHorizontal(2)
+                                .Border(0.1f)
+                                .BorderColor(Colors.Grey.Lighten1)
                                 .ShowOnce()
                                 .Text(group.Title)
-                                .Style(Typography.Headline);
+                                .Style(Typography.Headline)
+                                .FontColor(Colors.Red.Medium);
 
                             decoration
                                 .Content()
@@ -67,7 +74,9 @@ public class SectionTemplate : IComponent
                                                                     .Item()
                                                                     .PaddingLeft(8)
                                                                     .Text(item.Title)
-                                                                    .Style(Typography.SubLine);
+                                                                    .Style(Typography.SubLine)
+                                                                    .FontColor(Colors.Black);
+                                                                ;
                                                             });
 
                                                         contentDecoration
@@ -87,10 +96,10 @@ public class SectionTemplate : IComponent
                                                                                     .Column(partColumn =>
                                                                                     {
                                                                                         if (item is not
-                                                                                             ReportSectionTitle)
+                                                                                         ReportSectionTitle)
                                                                                         {
                                                                                             if (item is
-                                                                                                 ReportSectionText text)
+                                                                                             ReportSectionText text)
                                                                                             {
                                                                                                 partColumn
                                                                                                     .Item()
@@ -104,23 +113,31 @@ public class SectionTemplate : IComponent
                                                                                                             .Text(item
                                                                                                                 .Label);
 
-                                                                                                        _ = row
-                                                                                                            .RelativeItem(
-                                                                                                                0.3f)
+                                                                                                        row
+                                                                                                            .AutoItem()
+                                                                                                            .PaddingRight(
+                                                                                                                4)
                                                                                                             .Text(text
                                                                                                                 .Text);
-                                                                                                        _ = row
-                                                                                                            .RelativeItem(
-                                                                                                                0.1f)
+                                                                                                        row
+                                                                                                            .AutoItem()
                                                                                                             .AlignRight()
                                                                                                             .Text(text
-                                                                                                                .MeasurementUnit);
+                                                                                                                .MeasurementUnit)
+                                                                                                            .Style(
+                                                                                                                Typography
+                                                                                                                    .SubLine)
+                                                                                                            .FontSize(
+                                                                                                                10)
+                                                                                                            .FontColor(
+                                                                                                                Colors
+                                                                                                                    .Black);
                                                                                                     });
                                                                                             }
 
                                                                                             if (item is
-                                                                                                 ReportSectionCheckbox
-                                                                                                 checkboxes)
+                                                                                             ReportSectionCheckbox
+                                                                                             checkboxes)
                                                                                             {
                                                                                                 partColumn
                                                                                                     .Item()

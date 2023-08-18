@@ -15,6 +15,8 @@ public sealed class SolutionDatasourceImpl
     ) =>
         await Task.Run(() =>
         {
+            dataToWrite.Report.Partners = dataToWrite.Report.Partners.Take(1..).ToList();
+
             using var writer =
                 new StreamWriter(File.Create(solutionPath));
             solutionSerealizer.Serialize(textWriter: writer, o: dataToWrite);
@@ -74,7 +76,17 @@ public sealed class SolutionDatasourceImpl
             using var reader = new StreamReader(solutionPath);
             if (solutionSerealizer.Deserialize(reader) is { } result)
             {
-                return new Result<SolutionItemRoot>((SolutionItemRoot)result);
+                var sol = (SolutionItemRoot)result;
+
+                sol.SolutionPath = solutionPath;
+
+                sol.Report.Partners = sol.Report.Partners.Prepend(new PartnerItem
+                {
+                    PartnerLogo = sol.Report.CompanyInfo.LogoPath, NomeEmpresa = sol.Report.CompanyInfo.NomeEmpresa
+                    , WebSite = sol.Report.Manager.WebSite
+                }).ToList();
+
+                return new Result<SolutionItemRoot>(sol);
             }
 
             return new Result<SolutionItemRoot>(new InvalidOperationException($"Erro ao Deserializar {solutionPath}"));

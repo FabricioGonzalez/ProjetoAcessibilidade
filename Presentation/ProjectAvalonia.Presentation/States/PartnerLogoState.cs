@@ -6,6 +6,7 @@ public sealed class PartnerLogoState : ReactiveObject
 {
     private string _partnerLogo = "";
     private string _partnerName = "";
+    private string _website = "";
 
     public string Name
     {
@@ -17,5 +18,11 @@ public sealed class PartnerLogoState : ReactiveObject
     {
         get => _partnerLogo;
         set => this.RaiseAndSetIfChanged(backingField: ref _partnerLogo, newValue: value);
+    }
+
+    public string Website
+    {
+        get => _website;
+        set => this.RaiseAndSetIfChanged(backingField: ref _website, newValue: value);
     }
 }

@@ -31,16 +31,15 @@ public class ReportImage : IComponent
         if (!string.IsNullOrWhiteSpace(ImagePath))
         {
             var s = ImagePath;
-            using var stream = new FileStream(s, FileMode.Open);
-            container.Decoration(decoration =>
+            using var stream = new FileStream(path: s, mode: FileMode.Open);
+            container.Height(value: 1, unit: Unit.Inch).Decoration(decoration =>
             {
                 decoration
                     .Before()
-                    .Height(2f, Unit.Inch)
                     .Border(0.25f)
                     .BorderColor(Colors.Grey.Medium)
-                    .ScaleToFit()
-                    .Image(stream, ImageScaling.FitArea);
+                    .ExtendHorizontal()
+                    .Image(fileStream: stream, scaling: ImageScaling.FitArea);
 
                 decoration
                     .Content()
@@ -51,54 +50,6 @@ public class ReportImage : IComponent
                         col.Item().LabelCell().AlignCenter().Text("Comentários");
                         col.Item().ValueCell().Background(Colors.Grey.Lighten1).Text(Observation);
                     });
-            });
-        }
-        else
-        {
-            if (Solid)
-            {
-                container.Background(Placeholders.Color());
-            }
-
-            else
-            {
-                container.Image(Placeholders.Image);
-            }
-        }
-    }
-}
-
-public class CapeImage : IComponent
-{
-    public static bool Solid
-    {
-        get;
-        set;
-    } = false;
-
-    public string ImagePath
-    {
-        get;
-        set;
-    }
-
-    public void Compose(
-        IContainer container
-    )
-    {
-        if (!string.IsNullOrWhiteSpace(ImagePath))
-        {
-            var s = ImagePath;
-            using var stream = new FileStream(s, FileMode.Open);
-            container.Decoration(decoration =>
-            {
-                decoration
-                    .Before()
-                    .Height(2f, Unit.Inch)
-                    .Border(0.25f)
-                    .BorderColor(Colors.Grey.Medium)
-                    .ScaleToFit()
-                    .Image(stream, ImageScaling.FitArea);
             });
         }
         else
