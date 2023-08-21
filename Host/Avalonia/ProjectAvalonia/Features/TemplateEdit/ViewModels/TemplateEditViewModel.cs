@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
+using Common;
 using Common.Optional;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
@@ -93,14 +95,14 @@ public partial class TemplateEditViewModel
                     , caption: "");
 
                 if ((await NavigateDialogAsync(dialog: dialog,
-                        target: NavigationTarget.CompactDialogScreen)).Result)
+                        target: NavigationTarget.CompactDialogScreen)).Result.Item2)
                 {
                     if (SelectedItem is { } item)
                     {
                         Items?.Remove(item);
 
-                        /*await _mediator.Send(request: new DeleteProjectFileItemCommand(item.ItemPath)
-                            , cancellation: CancellationToken.None);*/
+                        _itemsService.ExcludeFile(Path.Combine(path1: Constants.AppItemsTemplateFolder
+                            , path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}"));
                     }
                 }
             });
@@ -343,11 +345,18 @@ public partial class TemplateEditViewModel
         var itemContent = new AppModelState();
         itemContent.Id = item.Id;
         itemContent.ItemName = item.TemplateName;
-        itemContent.ItemTemplate = item.TemplateName;
 
         itemContent.FormData = new ObservableCollection<FormItemContainer>();
 
         itemContent.LawItems = new ObservableCollection<LawStateItem>();
+
+        _itemsService.RenameFile(
+            oldPath: Path.Combine(path1: Constants.AppItemsTemplateFolder
+                , path2: $"{itemContent.ItemTemplate}{Constants.AppProjectTemplateExtension}"),
+            newPath: Path.Combine(path1: Constants.AppItemsTemplateFolder
+                , path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}")
+        );
+        itemContent.ItemTemplate = item.TemplateName;
 
         await _editableItemService.CreateTemplateEditingItem(itemContent);
     }

@@ -44,7 +44,7 @@
                 PaneBackground="{DynamicResource AppDarkBackgroundBrush}">
                 <SplitView.Pane>
                     <DockPanel Margin="0 4">
-                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*" RowDefinitions="auto 4 1*" Margin="4,0"
+                        <!--<Grid DockPanel.Dock="Top" ColumnDefinitions="*" RowDefinitions="auto 4 1*" Margin="4,0"
                               HorizontalAlignment="Stretch">
                             <TextBlock Text="Impressoras" Grid.Row="0" />
                             <ComboBox Grid.Row="2" SelectedValue="{Binding SelectedPrinter}"
@@ -60,12 +60,14 @@
                                            Minimum="1"
                                            HorizontalAlignment="Stretch"
                                            HorizontalContentAlignment="Right" />
-                        </Grid>
+                        </Grid>-->
+
                         <Grid ColumnDefinitions="1* 8 1*" Margin="8,0" HorizontalAlignment="Stretch"
                               VerticalAlignment="Bottom">
                             <Button Grid.Column="0" Content="Imprimir" HorizontalAlignment="Stretch"
                                     Classes="action" Command="{Binding PrintDocumentCommand}" />
-                            <Button Grid.Column="2" Content="Cancelar" HorizontalAlignment="Stretch"
+                            <Button Grid.Column="2" Content="Cancelar" Command="{Binding CancelCommand}"
+                                    HorizontalAlignment="Stretch"
                                     VerticalContentAlignment="Center"
                                     Classes="outlined" />
                         </Grid>

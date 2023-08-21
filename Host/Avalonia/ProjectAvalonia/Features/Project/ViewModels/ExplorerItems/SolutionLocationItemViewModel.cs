@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Common.Linq;
+using DynamicData;
 using DynamicData.Binding;
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
@@ -22,6 +26,15 @@ public class SolutionLocationItemViewModel
 
     private readonly Func<Task> SaveSolution;
 
+    /*private IObservable<IItemViewModel?> WhenAnyItemIsSelected() =>
+        // Select the documents into a list of Observables
+        // who return the Document to close when signaled,
+        // then flatten them all together.
+        Items
+            .Select(x => x.SelectItemToEditCommand.Select(_ => x))
+            .Merge();*/
+    private bool _isEditing;
+
     public SolutionLocationItemViewModel(
         string name
         , string itemPath
@@ -38,7 +51,7 @@ public class SolutionLocationItemViewModel
         Items = new ObservableCollection<IItemGroupViewModel>();
         CommitFolderCommand = ReactiveCommand.CreateFromTask(CommitFolder);
         AddProjectItemCommand = ReactiveCommand.CreateFromTask(AddProjectItem);
-        RenameFolderCommand = ReactiveCommand.CreateFromTask(renameItem);
+        RenameFolderCommand = ReactiveCommand.Create(() => RenameFile());
 
         // Whenever the list of documents change, calculate a new Observable
         // to represent whenever any of the *current* documents have been
@@ -48,34 +61,30 @@ public class SolutionLocationItemViewModel
         var itemsObservable = Items
             .ToObservableChangeSet();
 
-        /*itemsObservable
-            .AutoRefreshOnObservable(document => document.ExcludeFileCommand.IsExecuting)
+        itemsObservable
+            .AutoRefreshOnObservable(document => document.ExcludeFolderCommand.IsExecuting)
             .Select(x => WhenAnyDocumentClosed())
             .Switch()
             .SubscribeAsync(
                 async x =>
                 {
                     var dialog = new DeleteDialogViewModel(
-                        "O item seguinte será excluido ao confirmar. Deseja continuar?",
-                        "Deletar Item",
-                        "");
-
-                    if ((await RoutableViewModel.NavigateDialogAsync(
-                            dialog,
-                            NavigationTarget.CompactDialogScreen)).Result)
+                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                        title: "Deletar Item",
+                        caption: "");
+                    var result = (await RoutableViewModel.NavigateDialogAsync(
+                        dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result;
+                    if (result.Item2)
                     {
-                        _ = Items.Remove(x);
+                        if (result.Item1)
+                        {
+                            _itemsService.ExcludeFolder(x.ItemPath);
+                        }
 
-                        _ = await _mediator.Send(new DeleteProjectFileItemCommand(x.ItemPath), CancellationToken.None);
                         await SaveSolution();
                     }
                 });
-
-        itemsObservable
-            .AutoRefreshOnObservable(document => document.SelectItemToEditCommand.IsExecuting)
-            .Select(x => WhenAnyItemIsSelected())
-            .Switch()
-            .InvokeCommand(SelectItemToEdit);*/
     }
 
     public ReactiveCommand<IItemViewModel, Unit> SelectItemToEdit
@@ -86,12 +95,22 @@ public class SolutionLocationItemViewModel
     {
     });
 
+    public ReactiveCommand<Unit, IItemGroupViewModel> AddExistingItemCommand
+    {
+        get;
+    }
+
+    public bool InEditing
+    {
+        get => _isEditing;
+        set => this.RaiseAndSetIfChanged(backingField: ref _isEditing, newValue: value);
+    }
+
     public ObservableCollection<IItemGroupViewModel> Items
     {
         get;
         init;
     }
-
 
     public string Name
     {
@@ -101,6 +120,7 @@ public class SolutionLocationItemViewModel
     public string ItemPath
     {
         get;
+        private set;
     }
 
     public ReactiveCommand<Unit, Unit> CommitFolderCommand
@@ -128,30 +148,21 @@ public class SolutionLocationItemViewModel
     public ReactiveCommand<Unit, Unit> ExcludeFolderCommand
     {
         get;
+        init;
     } = ReactiveCommand.Create(
         () =>
         {
         });
 
-    /*private IObservable<IItemViewModel?> WhenAnyItemIsSelected() =>
+    private void RenameFile() => InEditing = true;
+
+    private IObservable<IItemGroupViewModel?> WhenAnyDocumentClosed() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,
         // then flatten them all together.
         Items
-            .Select(x => x.SelectItemToEditCommand.Select(_ => x))
-            .Merge();*/
-
-    private async Task renameItem()
-    {
-    }
-
-    /*private IObservable<IItemViewModel?> WhenAnyDocumentClosed() =>
-        // Select the documents into a list of Observables
-        // who return the Document to close when signaled,
-        // then flatten them all together.
-        Items
-            .Select(x => x.ExcludeFileCommand.Select(_ => x))
-            .Merge();*/
+            .Select(x => x.ExcludeFolderCommand.Select(_ => x))
+            .Merge();
 
     private async Task<IItemGroupViewModel?> AddProjectItem()
     {
@@ -177,26 +188,7 @@ public class SolutionLocationItemViewModel
 
             await SaveSolution();
 
-            /*SolutionState.AddItemToSolution(new SolutionGroupModel
-            {
-                Name = result.Result, ItemPath = item.ItemPath, Items = item.Items
-                    .Select(it => new ItemGroupModel
-                    {
-                        Name = it.Name, ItemPath =
-                            it.ItemPath
-                        , Items = it.Items
-                            .Select(x => new ItemModel
-                            {
-                                Id = x.Id, ItemPath = x.ItemPath, Name = x.Name, TemplateName = x.TemplateName
-                            })
-                            .ToList()
-                    }).ToList()
-            });*/
-            /*_ = await _mediator.Send(new CreateSolutionItemFolderCommand(item.Name, item.ItemPath)
-                , CancellationToken.None);*/
-
             return item;
-            /*return Optional<IItemGroupViewModel>.Some(item);*/
         }
 
         return null;
@@ -205,5 +197,28 @@ public class SolutionLocationItemViewModel
 
     private async Task CommitFolder()
     {
+        if (ItemPath is { Length: > 0 } path)
+        {
+            var result = path.Split(Path.DirectorySeparatorChar)[..^1];
+
+            var newPath = string.Join(separator: Path.DirectorySeparatorChar
+                , values: result.Append(Name));
+
+            if (Items.Any())
+            {
+                Items.IterateOn(it =>
+                {
+                    var childPath = it.ItemPath.Split(Path.DirectorySeparatorChar)[^1];
+
+                    it.ItemPath = Path.Combine(path1: newPath, path2: childPath);
+                });
+            }
+
+            _itemsService.RenameFolder(oldPath: ItemPath, newPath: newPath);
+
+            ItemPath = newPath;
+
+            await SaveSolution();
+        }
     }
 }

@@ -97,7 +97,7 @@ public sealed class ItemsService
         {
             if (!Directory.Exists(it.ItemPath))
             {
-                Directory.CreateDirectory(it.ItemPath);
+                Directory.CreateDirectory(it.ItemPath.TrimEnd());
             }
 
             SyncItemsGroup(it.Items);
@@ -110,7 +110,7 @@ public sealed class ItemsService
         {
             if (!Directory.Exists(it.ItemPath))
             {
-                Directory.CreateDirectory(it.ItemPath);
+                Directory.CreateDirectory(it.ItemPath.TrimEnd());
             }
 
             SyncItems(it.Items);
@@ -133,6 +133,48 @@ public sealed class ItemsService
                 });
             }
         });
+
+    public void ExcludeFolder(
+        string argItemPath
+    )
+    {
+        if (Directory.Exists(argItemPath))
+        {
+            Directory.Delete(path: argItemPath, recursive: true);
+        }
+    }
+
+    public void ExcludeFile(
+        string argItemPath
+    )
+    {
+        if (File.Exists(argItemPath))
+        {
+            File.Delete(argItemPath);
+        }
+    }
+
+    public void RenameFile(
+        string oldPath
+        , string newPath
+    )
+    {
+        if (File.Exists(oldPath))
+        {
+            File.Move(sourceFileName: oldPath, destFileName: newPath);
+        }
+    }
+
+    public void RenameFolder(
+        string oldPath
+        , string newPath
+    )
+    {
+        if (Directory.Exists(oldPath))
+        {
+            Directory.Move(sourceDirName: oldPath, destDirName: newPath);
+        }
+    }
 }
 
 public class ExplorerEntry

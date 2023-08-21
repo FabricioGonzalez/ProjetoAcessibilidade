@@ -27,11 +27,12 @@ public class DesignTimeItemGroupViewModel
     public string Name
     {
         get;
+        set;
     } = "solucao";
 
     public string ItemPath
     {
-        get;
+        get; set;
     } = @"D:\PC-TI\Projetos\Desktop\ProjetoAcessibilidade\item.prja";
 
     public ReactiveCommand<Unit, Unit> CommitFolderCommand
@@ -52,6 +53,12 @@ public class DesignTimeItemGroupViewModel
     public ReactiveCommand<Unit, Unit> ExcludeFolderCommand
     {
         get;
+    }
+
+    public bool InEditing
+    {
+        get;
+        set;
     }
 
     public void TransformFrom(

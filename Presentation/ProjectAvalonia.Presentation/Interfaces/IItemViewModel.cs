@@ -19,11 +19,13 @@ public interface IItemViewModel : INotifyPropertyChanged
     public string ItemPath
     {
         get;
+        set;
     }
 
     public string Name
     {
         get;
+        set;
     }
 
     public string TemplateName
@@ -35,6 +37,7 @@ public interface IItemViewModel : INotifyPropertyChanged
     {
         get;
     }
+
     public ReactiveCommand<IItemGroupViewModel, Unit> CanMoveCommand
     {
         get;
@@ -45,13 +48,19 @@ public interface IItemViewModel : INotifyPropertyChanged
         get;
     }
 
+    public bool InEditing
+    {
+        get;
+        set;
+    }
+
     public ReactiveCommand<Unit, Unit> ExcludeFileCommand
     {
         get;
         set;
     }
 
-    public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand
+    public ReactiveCommand<Unit, Unit> RenameFileCommand
     {
         get;
     }

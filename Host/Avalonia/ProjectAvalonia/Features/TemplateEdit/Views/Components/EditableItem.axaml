@@ -21,7 +21,8 @@
         Command="{Binding $parent[views:TemplateEditView].((interfaces:ITemplateEditViewModel)DataContext).CommitItemCommand}"
         CommandParameter="{Binding}"
         InEditMode="{Binding InEditMode, Mode=TwoWay}"
-        Text="{Binding TemplateName, Mode=TwoWay}" />
+        Text="{Binding TemplateName, Mode=TwoWay}"
+        EditText="{Binding TemplateName, Mode=TwoWay}" />
     <UserControl.ContextFlyout>
         <MenuFlyout>
             <MenuItem

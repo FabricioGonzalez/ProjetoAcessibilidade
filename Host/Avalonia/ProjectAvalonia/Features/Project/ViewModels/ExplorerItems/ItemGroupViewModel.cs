@@ -7,6 +7,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Common;
+using Common.Linq;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
@@ -27,6 +28,8 @@ public class ItemGroupViewModel
     private readonly ItemsService _itemsService;
     private readonly Func<Task> _saveSolution;
 
+    private bool _inEditing;
+
     public ItemGroupViewModel(
         string name
         , string itemPath
@@ -42,7 +45,7 @@ public class ItemGroupViewModel
         Items = new ObservableCollection<IItemViewModel>();
         CommitFolderCommand = ReactiveCommand.CreateFromTask(CommitFolder);
         AddProjectItemCommand = ReactiveCommand.CreateFromTask(AddProjectItem);
-        RenameFolderCommand = ReactiveCommand.CreateFromTask(renameItem);
+        RenameFolderCommand = ReactiveCommand.Create(() => RenameItem());
 
         // Whenever the list of documents change, calculate a new Observable
         // to represent whenever any of the *current* documents have been
@@ -63,23 +66,27 @@ public class ItemGroupViewModel
                         message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
                         title: "Deletar Item",
                         caption: "");
-
-                    if ((await RoutableViewModel.NavigateDialogAsync(
-                            dialog: dialog,
-                            target: NavigationTarget.CompactDialogScreen)).Result)
+                    var result = (await RoutableViewModel.NavigateDialogAsync(
+                        dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result;
+                    if (result.Item2)
                     {
-                        _ = Items.Remove(x);
+                        Items.Remove(x);
 
-                        /*_ = await _mediator.Send(new DeleteProjectFileItemCommand(x.ItemPath), CancellationToken.None);*/
                         await SaveSolution();
+
+                        if (result.Item1)
+                        {
+                            itemsService.ExcludeFile(x.ItemPath);
+                        }
                     }
                 });
 
-        itemsObservable
+        /*itemsObservable
             .AutoRefreshOnObservable(document => document.SelectItemToEditCommand.IsExecuting)
             .Select(x => WhenAnyItemIsSelected())
             .Switch()
-            .InvokeCommand(SelectItemToEdit);
+            .InvokeCommand(SelectItemToEdit);*/
     }
 
     public ReactiveCommand<IItemViewModel, Unit> SelectItemToEdit
@@ -87,6 +94,13 @@ public class ItemGroupViewModel
         get;
         set;
     } = ReactiveCommand.Create<IItemViewModel>(it =>
+    {
+    });
+
+    public ReactiveCommand<Unit, Unit> AddExistingItemCommand
+    {
+        get;
+    } = ReactiveCommand.CreateFromTask(async () =>
     {
     });
 
@@ -100,11 +114,13 @@ public class ItemGroupViewModel
     public string Name
     {
         get;
+        set;
     }
 
     public string ItemPath
     {
         get;
+        set;
     }
 
     public ReactiveCommand<Unit, Unit> CommitFolderCommand
@@ -132,10 +148,17 @@ public class ItemGroupViewModel
     public ReactiveCommand<Unit, Unit> ExcludeFolderCommand
     {
         get;
+        init;
     } = ReactiveCommand.Create(
         () =>
         {
         });
+
+    public bool InEditing
+    {
+        get => _inEditing;
+        set => this.RaiseAndSetIfChanged(backingField: ref _inEditing, newValue: value);
+    }
 
     public void TransformFrom(
         List<ItemState> items
@@ -148,7 +171,8 @@ public class ItemGroupViewModel
                 itemPath: item.ItemPath,
                 name: item.Name,
                 templateName: item.TemplateName,
-                parent: this);
+                parent: this,
+                itemsService: _itemsService, saveSolution: _saveSolution);
 
             Items.Add(itemToAdd);
         }
@@ -162,9 +186,7 @@ public class ItemGroupViewModel
             .Select(x => x.SelectItemToEditCommand.Select(_ => x))
             .Merge();
 
-    private async Task renameItem()
-    {
-    }
+    private void RenameItem() => InEditing = true;
 
     private IObservable<IItemViewModel?> WhenAnyDocumentClosed() =>
         // Select the documents into a list of Observables
@@ -195,7 +217,8 @@ public class ItemGroupViewModel
                 itemPath: path,
                 name: dialogResult.Result.Name,
                 templateName: dialogResult.Result.TemplateName,
-                parent: this);
+                parent: this,
+                itemsService: _itemsService, saveSolution: _saveSolution);
 
             Items.Add(
                 item);
@@ -220,5 +243,28 @@ public class ItemGroupViewModel
 
     private async Task CommitFolder()
     {
+        if (ItemPath is { Length: > 0 } path)
+        {
+            var result = path.Split(Path.DirectorySeparatorChar)[..^1];
+
+            var newPath = string.Join(separator: Path.DirectorySeparatorChar
+                , values: result.Append(Name));
+
+            if (Items.Any())
+            {
+                Items.IterateOn(it =>
+                {
+                    var childPath = it.ItemPath.Split(Path.DirectorySeparatorChar)[^1];
+
+                    it.ItemPath = Path.Combine(path1: newPath, path2: childPath);
+                });
+            }
+
+            _itemsService.RenameFolder(oldPath: ItemPath, newPath: newPath);
+
+            ItemPath = newPath;
+
+            await _saveSolution();
+        }
     }
 }

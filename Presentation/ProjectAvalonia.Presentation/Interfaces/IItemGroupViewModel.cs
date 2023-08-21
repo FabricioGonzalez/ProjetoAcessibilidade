@@ -11,11 +11,13 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
     public string Name
     {
         get;
+        set;
     }
 
     public string ItemPath
     {
         get;
+        set;
     }
 
     public ObservableCollection<IItemViewModel> Items
@@ -48,6 +50,11 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
         get;
     }
 
+    public bool InEditing
+    {
+        get;
+        set;
+    }
 
     /*public void RemoveItem(IItemViewModel item);*/
 

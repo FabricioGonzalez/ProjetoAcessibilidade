@@ -32,25 +32,27 @@ public class ReportImage : IComponent
         {
             var s = ImagePath;
             using var stream = new FileStream(path: s, mode: FileMode.Open);
-            container.Height(value: 1, unit: Unit.Inch).Decoration(decoration =>
-            {
-                decoration
-                    .Before()
-                    .Border(0.25f)
-                    .BorderColor(Colors.Grey.Medium)
-                    .ExtendHorizontal()
-                    .Image(fileStream: stream, scaling: ImageScaling.FitArea);
+            container
+                /*.Height(value: 1, unit: Unit.Inch)*/
+                .Decoration(decoration =>
+                {
+                    decoration
+                        .Before()
+                        .Border(0.25f)
+                        .BorderColor(Colors.Grey.Medium)
+                        .ExtendHorizontal()
+                        .Image(fileStream: stream, scaling: ImageScaling.FitArea);
 
-                decoration
-                    .Content()
-                    .Border(0.25f)
-                    .BorderColor(Colors.Grey.Medium)
-                    .Column(col =>
-                    {
-                        col.Item().LabelCell().AlignCenter().Text("Comentários");
-                        col.Item().ValueCell().Background(Colors.Grey.Lighten1).Text(Observation);
-                    });
-            });
+                    decoration
+                        .Content()
+                        .Border(0.25f)
+                        .BorderColor(Colors.Grey.Medium)
+                        .Column(col =>
+                        {
+                            col.Item().LabelCell().AlignCenter().Text("Comentários");
+                            col.Item().ValueCell().Background(Colors.Grey.Lighten1).Text(Observation);
+                        });
+                });
         }
         else
         {

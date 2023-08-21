@@ -347,270 +347,261 @@ public class StandardReport : IDocument
                         column.Item()
                             .Section(section.Title)
                             .ExtendHorizontal()
-                            .Decoration(dcor =>
+                            .Column(dcor =>
                             {
-                                dcor.Before(before =>
-                                {
-                                    before.Column(header =>
+                                dcor.Item()
+                                    .Border(0.5f)
+                                    .ExtendHorizontal()
+                                    .Table(table =>
                                     {
-                                        header
-                                            .Item()
-                                            .Border(0.5f)
-                                            .ExtendHorizontal()
-                                            .Table(table =>
-                                            {
-                                                table.ColumnsDefinition(columns =>
-                                                {
-                                                    columns.RelativeColumn();
-                                                    columns.RelativeColumn();
-                                                    columns.RelativeColumn();
-                                                    columns.RelativeColumn();
-                                                    columns.RelativeColumn();
-                                                    columns.RelativeColumn();
-                                                    columns.RelativeColumn();
-                                                });
+                                        table.ColumnsDefinition(columns =>
+                                        {
+                                            columns.RelativeColumn();
+                                            columns.RelativeColumn();
+                                            columns.RelativeColumn();
+                                            columns.RelativeColumn();
+                                            columns.RelativeColumn();
+                                            columns.RelativeColumn();
+                                            columns.RelativeColumn();
+                                        });
 
-                                                table.Header(header =>
-                                                {
-                                                    header
-                                                        .Cell()
-                                                        .ColumnSpan(6)
-                                                        .AlignCenter()
-                                                        .Text(Model.Title)
-                                                        .Style(Typography.SubLine).FontColor(Colors.Black).FontSize(14);
-                                                });
-                                                table.Cell().LabelCell().Text("");
+                                        table.Header(header =>
+                                        {
+                                            header
+                                                .Cell()
+                                                .ColumnSpan(6)
+                                                .AlignCenter()
+                                                .Text(Model.Title)
+                                                .Style(Typography.SubLine).FontColor(Colors.Black).FontSize(14);
+                                        });
+                                        table.Cell().LabelCell().Text("");
 
-                                                table.Cell().ValueCell().Text("");
+                                        table.Cell().ValueCell().Text("");
 
-                                                table
-                                                    .Cell()
-                                                    .Row(1)
-                                                    .Column(2)
-                                                    .ColumnSpan(3)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Local.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(1)
+                                            .Column(2)
+                                            .ColumnSpan(3)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Local.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(2)
-                                                    .Column(2)
-                                                    .ColumnSpan(3)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Local.Value)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(2)
+                                            .Column(2)
+                                            .ColumnSpan(3)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Local.Value)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(1)
-                                                    .Column(5)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Uf.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(1)
+                                            .Column(5)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Uf.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(2)
-                                                    .Column(5)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Uf.Value)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(2)
+                                            .Column(5)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Uf.Value)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(1)
-                                                    .Column(6)
-                                                    .ColumnSpan(2)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Data.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(1)
+                                            .Column(6)
+                                            .ColumnSpan(2)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Data.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(2)
-                                                    .Column(6)
-                                                    .ColumnSpan(2)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Data.Value)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(2)
+                                            .Column(6)
+                                            .ColumnSpan(2)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Data.Value)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(3)
-                                                    .Column(1)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Revisao.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(3)
+                                            .Column(1)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Revisao.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(4)
-                                                    .Column(1)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Revisao.Value)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(4)
+                                            .Column(1)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Revisao.Value)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(3)
-                                                    .Column(2)
-                                                    .ColumnSpan(4)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Empresa.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(3)
+                                            .Column(2)
+                                            .ColumnSpan(4)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Empresa.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(4)
-                                                    .Column(2)
-                                                    .ColumnSpan(4)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Empresa.Value)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(4)
+                                            .Column(2)
+                                            .ColumnSpan(4)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Empresa.Value)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(3)
-                                                    .Column(6)
-                                                    .ColumnSpan(2)
-                                                    .LabelCell()
-                                                    .Text("Edifício")
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(3)
+                                            .Column(6)
+                                            .ColumnSpan(2)
+                                            .LabelCell()
+                                            .Text("Edifício")
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(4)
-                                                    .Column(6)
-                                                    .ColumnSpan(2)
-                                                    .ValueCell()
-                                                    .Text(section.Title)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(4)
+                                            .Column(6)
+                                            .ColumnSpan(2)
+                                            .ValueCell()
+                                            .Text(section.Title)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(5)
-                                                    .ColumnSpan(7)
-                                                    .Text("");
+                                        table
+                                            .Cell()
+                                            .Row(5)
+                                            .ColumnSpan(7)
+                                            .Text("");
 
-                                                table
-                                                    .Cell()
-                                                    .Row(6)
-                                                    .Column(1)
-                                                    .ColumnSpan(3)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Responsavel.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(6)
+                                            .Column(1)
+                                            .ColumnSpan(3)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Responsavel.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(7)
-                                                    .Column(1)
-                                                    .ColumnSpan(3)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Empresa.Value)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(7)
+                                            .Column(1)
+                                            .ColumnSpan(3)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Empresa.Value)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(6)
-                                                    .Column(4)
-                                                    .ColumnSpan(2)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Email.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(6)
+                                            .Column(4)
+                                            .ColumnSpan(2)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Email.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(7)
-                                                    .Column(4)
-                                                    .ColumnSpan(2)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Email.Value)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(7)
+                                            .Column(4)
+                                            .ColumnSpan(2)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Email.Value)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(6)
-                                                    .Column(6)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Telefone.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(6)
+                                            .Column(6)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Telefone.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(7)
-                                                    .Column(6)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Telefone.Value)
-                                                    .FontSize(8);
+                                        table
+                                            .Cell()
+                                            .Row(7)
+                                            .Column(6)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Telefone.Value)
+                                            .FontSize(8);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(6)
-                                                    .Column(7)
-                                                    .LabelCell()
-                                                    .Text(Model.HeaderFields.Gerenciadora.Label)
-                                                    .Style(Typography.SubLine)
-                                                    .FontColor(Colors.Black)
-                                                    .FontSize(10);
+                                        table
+                                            .Cell()
+                                            .Row(6)
+                                            .Column(7)
+                                            .LabelCell()
+                                            .Text(Model.HeaderFields.Gerenciadora.Label)
+                                            .Style(Typography.SubLine)
+                                            .FontColor(Colors.Black)
+                                            .FontSize(10);
 
-                                                table
-                                                    .Cell()
-                                                    .Row(7)
-                                                    .Column(7)
-                                                    .ValueCell()
-                                                    .Text(Model.HeaderFields.Gerenciadora.Value)
-                                                    .FontSize(8);
-                                            });
-
-                                        header
-                                            .Item()
-                                            .PaddingVertical(1);
-
-                                        header
-                                            .Item()
-                                            .Container()
-                                            .Background(Colors.LightBlue.Lighten2)
-                                            .Border(0.5f)
-                                            .BorderColor(Colors.Grey.Medium)
-                                            .Padding(4)
-                                            .Text(Model.StandardLaw)
-                                            .Style(Typography.Headline)
-                                            .FontColor(Colors.Grey.Darken4);
+                                        table
+                                            .Cell()
+                                            .Row(7)
+                                            .Column(7)
+                                            .ValueCell()
+                                            .Text(Model.HeaderFields.Gerenciadora.Value)
+                                            .FontSize(8);
                                     });
-                                });
 
-                                dcor.Content(content =>
-                                {
-                                    content
-                                        .Element(it =>
-                                            it.Component(new SectionTemplate(section)));
-                                });
+                                dcor
+                                    .Item()
+                                    .PaddingVertical(1);
+
+                                dcor
+                                    .Item()
+                                    .Container()
+                                    .Background(Colors.LightBlue.Lighten2)
+                                    .Border(0.5f)
+                                    .BorderColor(Colors.Grey.Medium)
+                                    .Padding(4)
+                                    .Text(Model.StandardLaw)
+                                    .Style(Typography.Headline)
+                                    .FontColor(Colors.Grey.Darken4);
                             });
+
+                        column.Item()
+                            .Element(it =>
+                                it.Component(new SectionTemplate(section)));
                     });
 
-                    column.Item().Section("conclusao").LabelCell().Text("Conclusão");
-                    column.Item().ValueCell().Text(nestedModel.Conclusion);
-                });
-        }
+            column.Item().Section("conclusao").LabelCell().Text("Conclusão");
+            column.Item().ValueCell().Text(nestedModel.Conclusion);
+        });
     }
+}
+
 }

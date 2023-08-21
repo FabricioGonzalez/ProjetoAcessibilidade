@@ -108,4 +108,19 @@ public partial class SolutionItemContent : UserControl
         {
             return false;
         });
+
+    private async void ManagerLogoPathSelector_OnClick(
+        object? sender
+        , RoutedEventArgs e
+    ) =>
+        (await FileDialogHelper.GetImagesAsync())
+        .Match(Succ: s =>
+        {
+            ((SolutionState)DataContext).Report.ManagerInfo.LogoPath = s.Path.LocalPath;
+
+            return true;
+        }, Fail: f =>
+        {
+            return false;
+        });
 }

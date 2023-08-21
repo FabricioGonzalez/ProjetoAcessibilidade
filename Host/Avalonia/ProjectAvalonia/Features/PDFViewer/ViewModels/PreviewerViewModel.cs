@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -7,9 +8,11 @@ using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Common;
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Features.Project.Services;
@@ -158,13 +161,13 @@ public partial class PreviewerViewModel : RoutableViewModel
     public ReactiveCommand<Unit, Unit> PrintDocumentCommand => ReactiveCommand.CreateRunInBackground(execute: () =>
     {
         PrintDocument();
-    }, canExecute: this.WhenAnyValue(vm => vm.SelectedPrinter).Select(it => it is not null));
+    } /*, canExecute: this.WhenAnyValue(vm => vm.SelectedPrinter).Select(it => it is not null)*/);
 
-    private void PrintDocument()
+    private async Task PrintDocument()
     {
         try
         {
-            if (SelectedPrinter is { } printer)
+            /*if (SelectedPrinter is { } printer)
             {
                 var document = new PrintDocument();
 
@@ -182,7 +185,17 @@ public partial class PreviewerViewModel : RoutableViewModel
 
                 document.BeginPrint -= pd_BeginPrint;
                 document.PrintPage -= pd_PrintPage;
-            }
+            }*/
+
+            (await FileDialogHelper.SaveFile(suggestedName: $"{SolutionModel.FileName} - relatorio"
+                , fileTypes: new List<FilePickerFileType>
+                {
+                    FilePickerFileTypes.Pdf
+                }
+            )).IfSucc(succ =>
+            {
+                Document?.GeneratePdf(succ.Path.LocalPath);
+            });
         }
 
         catch (Exception e)
@@ -211,9 +224,9 @@ public partial class PreviewerViewModel : RoutableViewModel
                 , dimensions: new SKSizeI(width: Convert.ToInt32(image.Size.Width)
                     , height: Convert.ToInt32(image.Size.Height)));
 
-            SKData encoded = imageConverted.Encode();
+            var encoded = imageConverted.Encode();
             // get a stream over the encoded data
-            Stream stream = encoded.AsStream();
+            var stream = encoded.AsStream();
 
             var bitmap = Image.FromStream(stream);
 

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
+using Common;
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
@@ -12,11 +14,16 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
 
-public class ItemViewModel
+public partial class ItemViewModel
     : ReactiveObject
         , IItemViewModel
 {
-    /*private readonly IMediator _mediator;*/
+    private readonly ItemsService _itemsService;
+    private readonly Func<Task> _saveSolution;
+    private bool _isEditing;
+
+    [AutoNotify]
+    private string _name;
 
     public ItemViewModel(
         string id
@@ -24,6 +31,8 @@ public class ItemViewModel
         , string name
         , string templateName
         , IItemGroupViewModel parent
+        , ItemsService itemsService
+        , Func<Task> saveSolution
     )
     {
         ItemPath = itemPath;
@@ -31,9 +40,8 @@ public class ItemViewModel
         Name = name;
         TemplateName = templateName;
         Parent = parent;
-
-        /*_mediator = Locator.Current.GetService<IMediator>();*/
-
+        _itemsService = itemsService;
+        _saveSolution = saveSolution;
         CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(CommitFile);
         SelectItemToEditCommand = ReactiveCommand.Create<IItemViewModel>(SelectItemToEdit);
         ExcludeFileCommand =
@@ -50,7 +58,7 @@ public class ItemViewModel
 
                 if ((await RoutableViewModel.NavigateDialogAsync(
                         dialog: dialog,
-                        target: NavigationTarget.CompactDialogScreen)).Result)
+                        target: NavigationTarget.CompactDialogScreen)).Result.Item2)
                 {
                     await MoveItem(parent);
                 }
@@ -58,7 +66,7 @@ public class ItemViewModel
 
         _ = ExcludeFileCommand.Subscribe();
 
-        RenameFileCommand = ReactiveCommand.CreateFromTask<IItemViewModel>(RenameFile);
+        RenameFileCommand = ReactiveCommand.Create(() => RenameFile());
     }
 
     public string Id
@@ -75,12 +83,7 @@ public class ItemViewModel
     public string ItemPath
     {
         get;
-        private set;
-    }
-
-    public string Name
-    {
-        get;
+        set;
     }
 
     public string TemplateName
@@ -98,6 +101,12 @@ public class ItemViewModel
         get;
     }
 
+    public bool InEditing
+    {
+        get => _isEditing;
+        set => this.RaiseAndSetIfChanged(backingField: ref _isEditing, newValue: value);
+    }
+
     public ReactiveCommand<Unit, Unit> ExcludeFileCommand
     {
         get;
@@ -106,7 +115,7 @@ public class ItemViewModel
     {
     });
 
-    public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand
+    public ReactiveCommand<Unit, Unit> RenameFileCommand
     {
         get;
         set;
@@ -145,10 +154,7 @@ public class ItemViewModel
         _ = Parent.MoveItemCommand.Execute();
     }
 
-    private Task RenameFile(
-        IItemViewModel item
-        , CancellationToken token
-    ) => Task.CompletedTask;
+    private void RenameFile() => InEditing = true;
 
     private void SelectItemToEdit(
         IItemViewModel item
@@ -156,8 +162,24 @@ public class ItemViewModel
     {
     }
 
-    private Task CommitFile(
+    private async Task CommitFile(
         IItemGroupViewModel item
         , CancellationToken token
-    ) => Task.CompletedTask;
+    )
+    {
+        if (ItemPath is { Length: > 0 } path)
+        {
+            var result = path.Split(Path.DirectorySeparatorChar)[..^1];
+
+            var newPath = string.Join(separator: Path.DirectorySeparatorChar
+                , values: result.Append($"{Name}{Constants.AppProjectItemExtension}"));
+
+            _itemsService.RenameFile(oldPath: ItemPath, newPath: newPath);
+
+            ItemPath = newPath;
+
+
+            await _saveSolution();
+        }
+    }
 }

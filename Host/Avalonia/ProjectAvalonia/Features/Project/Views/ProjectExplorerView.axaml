@@ -91,11 +91,18 @@
                             Orientation="Horizontal">
                             <PathIcon
                                 Data="{StaticResource folder_regular}" />
-                            <controls:EditableTextBlock Command="{Binding CommitFolderCommand}" Text="{Binding Name}" />
+                            <controls:EditableTextBlock
+                                CommitCommand="{Binding CommitFolderCommand}"
+                                Command="{Binding RenameFolderCommand}"
+                                Text="{Binding Name,Mode=OneWay}"
+                                EditText="{Binding Name,Mode=TwoWay}"
+                                InEditMode="{Binding InEditing}" />
                             <StackPanel.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Command="{Binding AddProjectItemCommand}"
                                               Header="{x:Static p:Resources.Add_Folder_Item_Menu_Header}" />
+                                    <MenuItem Command="{Binding AddExistingItemCommand}"
+                                              Header="{x:Static p:Resources.Add_Existing_Folder_Item_Menu_Header}" />
                                     <MenuItem Command="{Binding RenameFolderCommand}"
                                               Header="{x:Static p:Resources.Rename_Folder_Item_Menu_Header}" />
                                     <MenuItem Command="{Binding ExcludeFolderCommand}"
@@ -111,11 +118,17 @@
                             <PathIcon
                                 Data="{StaticResource folder_regular}"
                                 DockPanel.Dock="Left" />
-                            <controls:EditableTextBlock Command="{Binding CommitFolderCommand}" Text="{Binding Name}" />
+                            <controls:EditableTextBlock CommitCommand="{Binding CommitFolderCommand}"
+                                                        Command="{Binding RenameFolderCommand}"
+                                                        Text="{Binding Name,Mode=OneWay}"
+                                                        EditText="{Binding Name,Mode=TwoWay}"
+                                                        InEditMode="{Binding InEditing}" />
                             <StackPanel.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Command="{Binding AddProjectItemCommand}"
                                               Header="{x:Static p:Resources.Add_Folder_Item_Menu_Header}" />
+                                    <MenuItem Command="{Binding AddExistingItemCommand}"
+                                              Header="{x:Static p:Resources.Add_Existing_Folder_Item_Menu_Header}" />
                                     <MenuItem Command="{Binding RenameFolderCommand}"
                                               Header="{x:Static p:Resources.Rename_Folder_Item_Menu_Header}" />
                                     <MenuItem Command="{Binding ExcludeFolderCommand}"
@@ -139,16 +152,18 @@
                                 HorizontalAlignment="Left"
                                 Data="{StaticResource document_regular}" />
                             <controls:EditableTextBlock
-                                Command="{Binding CommitFileCommand}"
+                                CommitCommand="{Binding CommitFileCommand}"
+                                Command="{Binding RenameFileCommand}"
                                 CommandParameter="{Binding Parent}"
-                                Text="{Binding Name}" />
+                                InEditMode="{Binding InEditing}"
+                                Text="{Binding Name,Mode=OneWay}"
+                                EditText="{Binding Name,Mode=TwoWay}" />
                             <StackPanel.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Command="{Binding ExcludeFileCommand}"
                                               Header="{x:Static p:Resources.Exclude_File_Item_Menu_Header}" />
                                     <MenuItem
                                         Command="{Binding RenameFileCommand}"
-                                        CommandParameter="{Binding}"
                                         Header="{x:Static p:Resources.Rename_File_Item_Menu_Header}" />
                                 </ContextMenu>
                             </StackPanel.ContextMenu>

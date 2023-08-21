@@ -6,6 +6,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using Common;
 using Common.Optional;
+using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.Services;
@@ -52,23 +53,69 @@ public class ProjectExplorerViewModel
                 model =>
                 {
                     var location = Path.GetDirectoryName(state.FilePath);
-                    var solutionLocation = new SolutionLocationItemViewModel(
+                    SolutionLocationItemViewModel solutionLocation = null;
+
+                    solutionLocation = new SolutionLocationItemViewModel(
                         name: model.Name,
-                        itemPath: Path.Combine(path1: location, path2: Constants.AppProjectRulesItemsFolderName
+                        itemPath: Path.Combine(path1: location, path2: Constants.AppProjectItemsFolderName
                             , path3: model.Name),
                         saveSolution: async () => await SaveSolution(),
                         itemsService: _itemsService)
                     {
-                        Items = new ObservableCollection<IItemGroupViewModel>(model.ItemGroup.Select(
+                        ExcludeFolderCommand = ReactiveCommand.CreateFromTask(async () =>
+                        {
+                            var dialog = new DeleteDialogViewModel(
+                                message: "O item seguinte será excluido ao confirmar. Deseja continuar?"
+                                , title: "Deletar Item"
+                                , caption: "");
+                            var result =
+                                (await RoutableViewModel.NavigateDialogAsync(dialog: dialog
+                                    , target: NavigationTarget.CompactDialogScreen)).Result;
+                            if (result.Item2)
+                            {
+                                SolutionRootItem.LocationItems.Remove(solutionLocation);
+                                if (result.Item1)
+                                {
+                                    _itemsService.ExcludeFolder(solutionLocation.ItemPath);
+                                }
+
+                                await SaveSolution();
+                            }
+                        })
+                        , Items = new ObservableCollection<IItemGroupViewModel>(model.ItemGroup.Select(
                             vm =>
                             {
-                                var item = new ItemGroupViewModel(
+                                ItemGroupViewModel item = null;
+
+                                item = new ItemGroupViewModel(
                                     name: vm.Name,
                                     itemPath: Path.Combine(path1: location
-                                        , path2: Constants.AppProjectRulesItemsFolderName
+                                        , path2: Constants.AppProjectItemsFolderName
                                         , path3: model.Name, path4: vm.Name),
                                     itemsService: _itemsService,
-                                    SaveSolution: async () => await SaveSolution());
+                                    SaveSolution: async () => await SaveSolution())
+                                {
+                                    ExcludeFolderCommand = ReactiveCommand.CreateFromTask(async () =>
+                                    {
+                                        var dialog = new DeleteDialogViewModel(
+                                            message: "O item seguinte será excluido ao confirmar. Deseja continuar?"
+                                            , title: "Deletar Item"
+                                            , caption: "");
+                                        var result = (await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
+                                            target: NavigationTarget.CompactDialogScreen)).Result;
+                                        if (result.Item2)
+                                        {
+                                            solutionLocation.Items.Remove(item);
+
+                                            if (result.Item1)
+                                            {
+                                                _itemsService.ExcludeFolder(item.ItemPath);
+                                            }
+
+                                            await SaveSolution();
+                                        }
+                                    })
+                                };
 
                                 item.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
 
@@ -83,40 +130,19 @@ public class ProjectExplorerViewModel
 
                     return solutionLocation;
                 }));
-        /*
-         var changeSet = SolutionRootItem.LocationItems
+
+        var changeSet = SolutionRootItem.LocationItems
             .ToObservableChangeSet();
 
-         changeSet.AutoRefreshOnObservable(document => document.AddProjectItemCommand.IsExecuting)
+        /*changeSet
+            .AutoRefreshOnObservable(document => document.AddProjectItemCommand.IsExecuting)
             .Select(x => WhenAnyItemWasAdded())
             .Switch()
             .SubscribeAsync(async item =>
             {
                 await SaveSolution();
-            });
-
-        changeSet
-            .AutoRefreshOnObservable(document => document.ExcludeFolderCommand.IsExecuting)
-            .Select(x => WhenAnyFolderIsDeleted())
-            .Switch()
-            .SubscribeAsync(async x =>
-            {
-                var dialog = new DeleteDialogViewModel(
-                    "O item seguinte será excluido ao confirmar. Deseja continuar?", "Deletar Item"
-                    , "");
-
-                if ((await RoutableViewModel.NavigateDialogAsync(dialog,
-                        NavigationTarget.CompactDialogScreen)).Result)
-                {
-                    _ = SolutionRootItem.LocationItems.Remove(x);
-
-                    _ = await _mediator.Send(new DeleteProjectFolderItemCommand(x.ItemPath), CancellationToken.None);
-
-                    SolutionState.RemoveFromSolution(i => i.Name == x.Name);
-
-                    await SaveSolution();
-                }
             });*/
+
 
         CreateFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -191,9 +217,8 @@ public class ProjectExplorerViewModel
         // then flatten them all together.
         SolutionRootItem.LocationItems
             .Select(x => x.AddProjectItemCommand.Select(s => s))
-            .Merge();
-
-    private IObservable<IItemGroupViewModel?> WhenAnyItemWasMoved() =>
+            .Merge();*/
+    /*private IObservable<IItemGroupViewModel?> WhenAnyItemWasMoved() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,
         // then flatten them all together.
@@ -225,6 +250,7 @@ public class ProjectExplorerViewModel
 
         _itemsService.SyncSolutionItems(SolutionRootItem);
     }
+
     /*SolutionState?.ReloadItem(SolutionRootItem.LocationItems
             .Select(solutionItem => new SolutionGroupModel
             {
@@ -247,11 +273,12 @@ public class ProjectExplorerViewModel
                 SolutionState?.FilePath,
                 SolutionState),
             CancellationToken.None);*/
-    /*private IObservable<IItemGroupViewModel?> WhenAnyFolderIsDeleted() =>
+    /*private IObservable<ISolutionLocationItem?> WhenAnyFolderIsDeleted() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,
         // then flatten them all together.
-        SolutionRootItem.LocationItems
+        SolutionRootItem
+            .LocationItems
             .Select(x => x.ExcludeFolderCommand.Select(_ => x))
             .Merge();*/
 }

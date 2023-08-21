@@ -78,6 +78,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adicionar Item Existente.
+        /// </summary>
+        public static string Add_Existing_Folder_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Add_Existing_Folder_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adicionar Item.
         /// </summary>
         public static string Add_Folder_Item_Menu_Header {

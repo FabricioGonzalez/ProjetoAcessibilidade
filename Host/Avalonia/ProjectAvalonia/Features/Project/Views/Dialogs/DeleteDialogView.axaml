@@ -27,6 +27,8 @@
                 Text="{Binding Message}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
+            <CheckBox IsChecked="{Binding DeleteForever}" Content="Excluir arquivos indefinidamente"
+                      DockPanel.Dock="Bottom" />
             <Viewbox MaxHeight="150" Margin="40">
                 <PathIcon Data="{StaticResource warning_regular}" />
             </Viewbox>

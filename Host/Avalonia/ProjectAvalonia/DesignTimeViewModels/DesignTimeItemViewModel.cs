@@ -5,11 +5,20 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
 
-public class DesignTimeItemViewModel : ReactiveObject, IItemViewModel
+public class DesignTimeItemViewModel
+    : ReactiveObject
+        , IItemViewModel
 {
-    public DesignTimeItemViewModel(IItemGroupViewModel parent)
+    public DesignTimeItemViewModel(
+        IItemGroupViewModel parent
+    )
     {
         Parent = parent;
+    }
+
+    public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand
+    {
+        get;
     }
 
     public IItemGroupViewModel Parent
@@ -24,12 +33,13 @@ public class DesignTimeItemViewModel : ReactiveObject, IItemViewModel
 
     public string ItemPath
     {
-        get;
+        get; set;
     } = @"D:\PC-TI\Projetos\Desktop\ProjetoAcessibilidade\item.prjd";
 
     public string Name
     {
         get;
+        set;
     } = "Teste";
 
     public string TemplateName
@@ -47,13 +57,19 @@ public class DesignTimeItemViewModel : ReactiveObject, IItemViewModel
         get;
     }
 
+    public bool InEditing
+    {
+        get;
+        set;
+    }
+
     public ReactiveCommand<Unit, Unit> ExcludeFileCommand
     {
         get;
         set;
     }
 
-    public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand
+    ReactiveCommand<Unit, Unit> IItemViewModel.RenameFileCommand
     {
         get;
     }

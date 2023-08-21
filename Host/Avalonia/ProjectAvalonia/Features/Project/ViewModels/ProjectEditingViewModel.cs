@@ -67,9 +67,9 @@ public class ProjectEditingViewModel
                     , caption: "");
 
                 if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
-                        target: NavigationTarget.CompactDialogScreen)).Result)
+                        target: NavigationTarget.CompactDialogScreen)).Result.Item2)
                 {
-                    _ = EditingItems.Remove(x);
+                    EditingItems.Remove(x);
                 }
             });
 
@@ -108,10 +108,10 @@ public class ProjectEditingViewModel
             .Merge();
 
     private async Task AddItem(
-        IItemViewModel item
+        IItemViewModel? editing
     )
     {
-        if (!EditingItems.Any(x => x.Id == item.Id))
+        if (editing is { } item && !EditingItems.Any(x => x.Id == item.Id))
         {
             if (item is SolutionItemViewModel solution)
             {
@@ -139,51 +139,20 @@ public class ProjectEditingViewModel
             {
                 var getItem = await _editableItemService.GetEditingItem(edit.ItemPath);
                 var rules = await _validationRulesService.LoadRulesByName(edit.TemplateName);
-                EditingItems.Add(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
-                    , new SourceList<ObservationState>()));
-                /*var getItem = _mediator.Send(
-                    request: new GetProjectItemContentQuery(edit.ItemPath),
-                    cancellation: CancellationToken.None);
 
-                var getRules = _mediator.Send(
-                    request: new GetValidationRulesQuery(Path.Combine(path1: Constants.AppValidationRulesTemplateFolder,
-                        path2: $"{edit.TemplateName}{Constants.AppProjectValidationTemplateExtension}")),
-                    cancellation: CancellationToken.None);
-
-                await Task.WhenAll(getItem, getRules);
-
-                getItem.Result.IfSucc(successData =>
+                if (!string.IsNullOrWhiteSpace(getItem.ItemName) && getItem.FormData is not null)
                 {
-                    getRules.Result.IfSucc(rules =>
-                    {
-                        var observations = new ObservationFormItem();
+                    EditingItems.Add(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
+                        , new SourceList<ObservationState>()));
 
-                        observations.SourceItems.AddRange(
-                            successData.Observations.Where(it => it.ObservationText.Length > 0));
+                }
 
-                        /*IEditingItemViewModel itemToEdit = new EditingItemViewModel(
-                            id: edit.Id,
-                            itemName: successData.ItemName,
-                            itemPath: edit.ItemPath,
-                            body: new EditingBodyViewModel(
-                                lawList: successData.LawList.ToViewLawList(),
-                                form: new ObservableCollection<IFormViewModel>(successData.FormData
-                                    .ToViewForm(rules, observations.SourceItems)
-                                    .Append(observations)
-                                    .Append(new ImageContainerFormItemViewModel(
-                                        imageItems: new ObservableCollection<IImageItemViewModel>(
-                                            successData.Images
-                                                .Select(x => new ImageViewModel(id: x.Id, imagePath: x.ImagePath,
-                                                    imageObservation: x.ImageObservation))), topic: "Imagens")))));
-                        EditingItems.Add(itemToEdit);#1#
-                    });
-                });*/
             }
         }
 
         else
         {
-            if (EditingItems.FirstOrDefault(x => !x.Id.Equals(item.Id)) is { } editingItem)
+            if (EditingItems.FirstOrDefault(x => !x.Id.Equals(editing.Id)) is { } editingItem)
             {
                 SelectedItem = editingItem;
                 this.RaisePropertyChanged(nameof(SelectedItem));

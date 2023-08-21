@@ -24,7 +24,7 @@
             <Grid ColumnDefinitions="1* 8 1*" Margin="24,0">
                 <StackPanel Spacing="4">
                     <SelectableTextBlock Text="Responsável pela Vistoria" Focusable="False" />
-                    <TextBox Text="{Binding Report.CompanyInfo.Responsavel}" />
+                    <TextBox Text="{Binding Report.ManagerInfo.Responsavel}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Spacing="4">
                     <SelectableTextBlock Text="Data do Relatório" Focusable="False" />
@@ -39,11 +39,22 @@
             <Grid ColumnDefinitions="1* 8 1*" Margin="24,0">
                 <StackPanel Spacing="4">
                     <SelectableTextBlock Text="Telefone para Contato" Focusable="False" />
-                    <TextBox Text="{Binding Report.CompanyInfo.Telefone}" />
+                    <TextBox Text="{Binding Report.ManagerInfo.Telefone}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Spacing="4">
                     <SelectableTextBlock Text="Email para Contato" Focusable="False" />
                     <TextBox Text="{Binding Report.CompanyInfo.Email}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid ColumnDefinitions="1* 8 1*" Margin="24,0">
+                <StackPanel Spacing="4">
+                    <SelectableTextBlock Text="Gerenciadora" Focusable="False" />
+                    <TextBox Text="{Binding Report.ManagerInfo.NomeEmpresa}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Spacing="4">
+                    <SelectableTextBlock Text="Site da Gerenciadora" Focusable="False" />
+                    <TextBox Text="{Binding Report.ManagerInfo.WebSite}" />
                 </StackPanel>
             </Grid>
 
@@ -124,6 +135,16 @@
                                      IconSize="18" Width="18"
                                      Height="18" />
             </Grid>
+            <Grid ColumnDefinitions="1* 64">
+                <StackPanel Spacing="4" Grid.Column="0">
+                    <SelectableTextBlock Text="Logo da Gerenciadora" Focusable="False" />
+                    <TextBox Text="{Binding Report.ManagerInfo.LogoPath}" />
+                </StackPanel>
+                <controls:IconButton Grid.Column="1" Click="ManagerLogoPathSelector_OnClick"
+                                     Icon="{StaticResource file_open_24_rounded}"
+                                     IconSize="18" Width="18"
+                                     Height="18" />
+            </Grid>
             <DockPanel Margin="8,0">
                 <controls:IconButton Margin="16,0" Icon="{StaticResource add_circle_regular}"
                                      Command="{Binding Report.AddItemToPartnerCommand}" IconSize="12"
@@ -135,11 +156,16 @@
             <ItemsControl ItemsSource="{Binding Report.Partners,Mode=OneWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="1* 8 0.6* 8 0.2*" Margin="0,2,0,2">
+                        <Grid ColumnDefinitions="1* 8 0.3* 4 0.6* 8 0.2*" Margin="0,2,0,2">
                             <StackPanel Spacing="4">
                                 <SelectableTextBlock Text="Nome do Parceiro" Focusable="False" />
                                 <TextBox Text="{Binding Name}" />
                             </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="4">
+                                <SelectableTextBlock Text="Site do Parceiro" Focusable="False" />
+                                <TextBox Text="{Binding Website}" />
+                            </StackPanel>
+
                             <TextBlock Grid.Column="2" Text="{Binding Logo}" VerticalAlignment="Center" />
                             <controls:IconButton Grid.Column="4" Click="PartnerLogoItemPathSelector_OnClick"
                                                  Icon="{StaticResource file_open_24_rounded}"

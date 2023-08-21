@@ -29,6 +29,15 @@ public class EditableTextBlock : TemplatedControl
                 , value
             ) => component.Command = value);
 
+    public static readonly DirectProperty<EditableTextBlock, ICommand?> CommitCommandProperty =
+        AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand?>(
+            name: nameof(CommitCommand),
+            getter: component => component.CommitCommand,
+            setter: (
+                component
+                , value
+            ) => component.CommitCommand = value);
+
     public static readonly DirectProperty<EditableTextBlock, bool?> HasActionsProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, bool?>(
             name: nameof(HasActions),
@@ -78,6 +87,7 @@ public class EditableTextBlock : TemplatedControl
 
 
     private object? _commandParameter;
+    private ICommand? _commitCommand;
     private string _editText = string.Empty;
     private bool? _hasActions;
     private string _text = string.Empty;
@@ -197,6 +207,15 @@ public class EditableTextBlock : TemplatedControl
             value: value);
     }
 
+    public ICommand? CommitCommand
+    {
+        get => _commitCommand;
+        set => SetAndRaise(
+            property: CommandProperty,
+            field: ref _commitCommand,
+            value: value);
+    }
+
     public bool? HasActions
     {
         get => _hasActions;
@@ -204,11 +223,6 @@ public class EditableTextBlock : TemplatedControl
             property: HasActionsProperty,
             field: ref _hasActions,
             value: value);
-    }
-
-    private ReactiveCommand<Unit, Unit>? CommitCommand
-    {
-        get;
     }
 
     public object? CommandParameter
@@ -314,15 +328,15 @@ public class EditableTextBlock : TemplatedControl
         else
         {
             Text = EditText;
-            if (Command is not null)
+            if (CommitCommand is not null)
             {
                 if (CommandParameter is not null)
                 {
-                    Command.Execute(parameter: CommandParameter);
+                    CommitCommand.Execute(parameter: CommandParameter);
                 }
                 else
                 {
-                    Command.Execute(parameter: null);
+                    CommitCommand.Execute(parameter: null);
                 }
             }
         }

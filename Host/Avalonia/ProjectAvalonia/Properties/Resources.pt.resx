@@ -483,4 +483,7 @@
     <data name="CheckboxItemTypeLabel" xml:space="preserve">
       <value>Checkbox</value>
     </data>
+    <data name="Add_Existing_Folder_Item_Menu_Header" xml:space="preserve">
+      <value>Adicionar Item Existente</value>
+    </data>
 </root>

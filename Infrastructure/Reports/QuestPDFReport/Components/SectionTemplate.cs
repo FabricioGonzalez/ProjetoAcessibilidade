@@ -96,10 +96,10 @@ public class SectionTemplate : IComponent
                                                                                     .Column(partColumn =>
                                                                                     {
                                                                                         if (item is not
-                                                                                         ReportSectionTitle)
+                                                                                             ReportSectionTitle)
                                                                                         {
                                                                                             if (item is
-                                                                                             ReportSectionText text)
+                                                                                                 ReportSectionText text)
                                                                                             {
                                                                                                 partColumn
                                                                                                     .Item()
@@ -136,8 +136,8 @@ public class SectionTemplate : IComponent
                                                                                             }
 
                                                                                             if (item is
-                                                                                             ReportSectionCheckbox
-                                                                                             checkboxes)
+                                                                                                 ReportSectionCheckbox
+                                                                                                 checkboxes)
                                                                                             {
                                                                                                 partColumn
                                                                                                     .Item()
@@ -195,13 +195,31 @@ public class SectionTemplate : IComponent
                                                 column
                                                     .Item()
                                                     .Element(x => LawItemsElement(container: x, models: item.Laws));
+
                                                 if (item.Images.Any())
                                                 {
                                                     column
                                                         .Item()
-                                                        .Element(x =>
-                                                            PhotosElement(container: x
-                                                                , models: item.Images));
+                                                        .ExtendHorizontal()
+                                                        .MaxHeight(120)
+                                                        .Grid(grid =>
+                                                        {
+                                                            grid.Spacing(5);
+                                                            grid.Columns(2);
+
+                                                            item.Images.IterateOn(item =>
+                                                            {
+                                                                var image = new ReportImage
+                                                                {
+                                                                    ImagePath = item.ImagePath
+                                                                    , Observation = item.Observation
+                                                                };
+                                                                grid
+                                                                    .Item()
+                                                                    .AlignCenter()
+                                                                    .Element(it => it.Component(image));
+                                                            });
+                                                        });
                                                 }
                                             });
                                     });

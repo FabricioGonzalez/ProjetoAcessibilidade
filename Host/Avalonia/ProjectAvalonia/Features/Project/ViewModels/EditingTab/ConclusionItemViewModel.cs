@@ -14,7 +14,7 @@ public class ConclusionItemViewModel
     : ReactiveObject
         , IItemViewModel
 {
-    /*private readonly IMediator _mediator;*/
+    private bool _isEditing;
 
     public ConclusionItemViewModel(
         string id
@@ -27,8 +27,6 @@ public class ConclusionItemViewModel
         Id = id;
         Name = name;
         TemplateName = templateName;
-
-        /*_mediator = Locator.Current.GetService<IMediator>();*/
 
         CommitFileCommand =
             ReactiveCommand.CreateFromTask<IItemGroupViewModel>(execute: CommitFile
@@ -48,14 +46,20 @@ public class ConclusionItemViewModel
 
                 if ((await RoutableViewModel.NavigateDialogAsync(
                         dialog: dialog,
-                        target: NavigationTarget.CompactDialogScreen)).Result)
+                        target: NavigationTarget.CompactDialogScreen)).Result.Item2)
                 {
                     /*await MoveItem(parent);*/
                 }
             }, canExecute: Observable.Return(false));
 
         RenameFileCommand =
-            ReactiveCommand.CreateFromTask<IItemViewModel>(execute: RenameFile, canExecute: Observable.Return(false));
+            ReactiveCommand.Create(execute: () => RenameFile(), canExecute: Observable.Return(false));
+    }
+
+    public bool InEditing
+    {
+        get => _isEditing;
+        set => this.RaiseAndSetIfChanged(backingField: ref _isEditing, newValue: value);
     }
 
     public string Id
@@ -71,11 +75,13 @@ public class ConclusionItemViewModel
     public string ItemPath
     {
         get;
+        set;
     }
 
     public string Name
     {
         get;
+        set;
     }
 
     public string TemplateName
@@ -104,15 +110,15 @@ public class ConclusionItemViewModel
         set;
     }
 
-    public ReactiveCommand<IItemViewModel, Unit> RenameFileCommand
+    public ReactiveCommand<Unit, Unit> RenameFileCommand
     {
         get;
     }
 
-    private Task RenameFile(
-        IItemViewModel item
-        , CancellationToken token
-    ) => Task.CompletedTask;
+    private void RenameFile(
+    )
+    {
+    }
 
     private async Task SelectItemToEdit(
         IItemViewModel item

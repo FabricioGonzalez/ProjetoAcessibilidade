@@ -22,6 +22,12 @@ public interface ISolutionLocationItem : INotifyPropertyChanged
         get;
     }
 
+    public bool InEditing
+    {
+        get;
+        set;
+    }
+
     public ReactiveCommand<Unit, Unit> CommitFolderCommand
     {
         get;

@@ -250,4 +250,22 @@ public static class FileDialogHelper
             ? new Result<IStorageFile>(files.First())
             : new Result<IStorageFile>(new IOException("No file was Selected"));
     }
+
+    public static async Task<Result<IStorageFile>> SaveFile(
+        string suggestedName
+        , List<FilePickerFileType> fileTypes
+        , string title = "Salvar Arquivo"
+        , bool showOverwritePrompt = true
+    )
+    {
+        var files = await GetProvider().SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = title, ShowOverwritePrompt = showOverwritePrompt, FileTypeChoices = fileTypes
+            , SuggestedFileName = suggestedName
+        });
+
+        return files is { } file
+            ? new Result<IStorageFile>(file)
+            : new Result<IStorageFile>(new IOException("Nenhum arquivo criado"));
+    }
 }
