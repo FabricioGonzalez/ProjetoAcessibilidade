@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using DynamicData;
 using DynamicData.Binding;
 using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Components;
@@ -132,7 +131,7 @@ public class ProjectEditingViewModel
 
                 EditingItems.Add(conclusionItem);
 
-                Logger.LogDebug(item.ItemPath);
+                /*Logger.LogDebug(item.ItemPath);*/
             }
 
             if (item is ItemViewModel edit)
@@ -144,9 +143,7 @@ public class ProjectEditingViewModel
                 {
                     EditingItems.Add(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
                         , new SourceList<ObservationState>()));
-
                 }
-
             }
         }
 

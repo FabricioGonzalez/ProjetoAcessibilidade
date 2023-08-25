@@ -596,12 +596,13 @@ public class StandardReport : IDocument
                         column.Item()
                             .Element(it =>
                                 it.Component(new SectionTemplate(section)));
+
+                        column.Item().PageBreak();
                     });
 
-            column.Item().Section("conclusao").LabelCell().Text("Conclusão");
-            column.Item().ValueCell().Text(nestedModel.Conclusion);
-        });
+                    column.Item().Section("conclusao").LabelCell().Text("Conclusão");
+                    column.Item().ValueCell().Text(nestedModel.Conclusion);
+                });
+        }
     }
-}
-
 }

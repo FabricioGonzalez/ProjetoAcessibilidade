@@ -34,7 +34,6 @@
                 DisplayMemberBinding="{Binding LocalizationKey}"
                 SelectedItem="{Binding CheckingOperationType}" />
 
-
             <ContentControl Grid.Column="4" Grid.Row="0"
                             DataContext="{Binding   CheckingValue}"
                             Content="{Binding  }">

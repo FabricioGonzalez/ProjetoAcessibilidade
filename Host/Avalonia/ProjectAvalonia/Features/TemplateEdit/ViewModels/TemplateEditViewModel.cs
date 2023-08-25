@@ -75,7 +75,7 @@ public partial class TemplateEditViewModel
         TemplateEditTab = templateEditTab;
         ItemValidationTab = itemValidationTab;
 
-        _ = this.WhenAnyValue(x => x.SelectedItem)
+        this.WhenAnyValue(x => x.SelectedItem)
             .WhereNotNull()
             .InvokeCommand(LoadSelectedItem);
 
@@ -101,8 +101,10 @@ public partial class TemplateEditViewModel
                     {
                         Items?.Remove(item);
 
-                        _itemsService.ExcludeFile(Path.Combine(path1: Constants.AppItemsTemplateFolder
-                            , path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}"));
+                        var path = Path.Combine(path1: Constants.AppItemsTemplateFolder
+                            , path2: $"{item?.TemplateName ?? item.Name}{Constants.AppProjectTemplateExtension}");
+
+                        _itemsService.ExcludeFile(path);
                     }
                 }
             });
@@ -125,6 +127,12 @@ public partial class TemplateEditViewModel
     private ReactiveCommand<IEditableItemViewModel, Unit> LoadSelectedItem =>
         ReactiveCommand.CreateRunInBackground<IEditableItemViewModel>(async item =>
         {
+            if (item.ItemPath is { Length: <= 0 })
+            {
+                item.ItemPath = Path.Combine(path1: Constants.AppItemsTemplateFolder
+                    , path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");
+            }
+
             await LoadItemReport(path: item.ItemPath, itemTemplateName: item.TemplateName);
         });
 
@@ -209,6 +217,36 @@ public partial class TemplateEditViewModel
 
         listBuilder.Add(new MenuItemModel(
             label: "Template_Edit_Save_Item_ToolBarItem".GetLocalized(),
+            command: ReactiveCommand.CreateRunInBackground(async () =>
+            {
+                await TemplateEditTab.EditingItem.ToOption()
+                    .Map(async item =>
+                    {
+                        await SaveItemData(item);
+                    })
+                    .Reduce(() => Task.CompletedTask);
+            }),
+            icon: "save_data_24_rounded".GetIcon(),
+            gesture: "Ctrl+S"));
+
+        listBuilder.Add(new MenuItemSeparatorModel());
+
+        listBuilder.Add(new MenuItemModel(
+            label: "Template_Edit_Imports_Item_ToolBarItem".GetLocalized(),
+            command: ReactiveCommand.CreateRunInBackground(async () =>
+            {
+                await TemplateEditTab.EditingItem.ToOption()
+                    .Map(async item =>
+                    {
+                        await SaveItemData(item);
+                    })
+                    .Reduce(() => Task.CompletedTask);
+            }),
+            icon: "save_data_24_rounded".GetIcon(),
+            gesture: "Ctrl+S"));
+
+        listBuilder.Add(new MenuItemModel(
+            label: "Template_Edit_Export_Items_ToolBarItem".GetLocalized(),
             command: ReactiveCommand.CreateRunInBackground(async () =>
             {
                 await TemplateEditTab.EditingItem.ToOption()
@@ -359,6 +397,7 @@ public partial class TemplateEditViewModel
         itemContent.ItemTemplate = item.TemplateName;
 
         await _editableItemService.CreateTemplateEditingItem(itemContent);
+        await _validationRulesService.CraeteRules(rules: TemplateEditTab.EditingItemRules, itemName: item.TemplateName);
     }
 
     private async Task SaveItemData(

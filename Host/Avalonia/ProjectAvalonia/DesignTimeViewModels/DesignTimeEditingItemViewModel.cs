@@ -14,6 +14,11 @@ public class DesignTimeEditingItemViewModel
         get;
     } = new(key: Key.S, modifiers: KeyModifiers.Control);
 
+    public string DisplayName
+    {
+        get;
+    }
+
     public string TemplateName
     {
         get;

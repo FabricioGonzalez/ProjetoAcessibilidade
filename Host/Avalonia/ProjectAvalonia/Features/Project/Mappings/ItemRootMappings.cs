@@ -54,10 +54,14 @@ public static class ItemRootMappings
                 }).ToList()
                 .ToList()
             , LawList = state.LawItems.Select(law => new ItemLaw(lawId: law.LawId, lawContent: law.LawContent)).ToList()
-            , Images = state.ImageContainer.ImagesItems.Select(it =>
-                new ImageItem(id: it.Id, imagePath: it.ImagePath, imageObservation: it.ImageObservation)).ToList()
-            , Observations = state.ObservationContainer.Observations
-                .Select(it => new ObservationModel(observation: it.Observation, id: it.Id)).ToList()
+            , Images = state.ImageContainer is { } img
+                ? img.ImagesItems.Select(it =>
+                    new ImageItem(id: it.Id, imagePath: it.ImagePath, imageObservation: it.ImageObservation)).ToList()
+                : null
+            , Observations = state.ObservationContainer is { } obs
+                ? obs.Observations
+                    .Select(it => new ObservationModel(observation: it.Observation, id: it.Id)).ToList()
+                : null
         };
 
         return toReturn;

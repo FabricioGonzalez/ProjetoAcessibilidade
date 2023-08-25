@@ -20,6 +20,7 @@ public class ConclusionEditItemViewModel
 
         ItemName = itemName;
         ItemPath = itemPath;
+        DisplayName = itemName;
         Id = id;
         IsSaved = isSaved;
         CloseItemCommand = ReactiveCommand.Create(() =>
@@ -52,6 +53,11 @@ public class ConclusionEditItemViewModel
     }
 
     public string ItemName
+    {
+        get;
+    }
+
+    public string DisplayName
     {
         get;
     }

@@ -24,7 +24,7 @@
                              Command="{Binding CloseItemCommand}" />
         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,4,0"
                    Background="Transparent"
-                   FontSize="14"
-                   Text="{Binding ItemName, Mode=OneWay}" />
+                   FontSize="12"
+                   Text="{Binding DisplayName, Mode=OneWay}" />
     </DockPanel>
 </UserControl>

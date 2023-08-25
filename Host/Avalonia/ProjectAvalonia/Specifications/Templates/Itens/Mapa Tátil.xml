@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <id>0e902ebb-3e3a-4b97-a663-2e87a7220d17</id>
-  <name>Mapa Tátil</name>
-  <table>
-    <checkbox_items>
-      <id>9fac8848-1445-49bb-b481-4c3a46075afa</id>
-      <topic xsi:nil="true" />
-      <type>checkbox</type>
-      <checkboxes>
-        <checkbox_item>
-          <id>94ed45c7-26da-4786-8f59-0659a38a6327</id>
-          <topic>Possui?</topic>
-          <options>
-            <option>
-              <id>b83294c3-b334-4dba-bccd-8e7445a2c889</id>
-              <value>Sim</value>
-              <is_checked>false</is_checked>
-            </option>
-            <option>
-              <id>5ab90288-4f03-47c1-809d-7b1a26fba02b</id>
-              <value>Não</value>
-              <is_checked>false</is_checked>
-            </option>
-          </options>
-        </checkbox_item>
-      </checkboxes>
-    </checkbox_items>
-  </table>
-	<observations>
-		<observation>
-			<id></id>
-			<text></text>
-		</observation>
-	</observations>
-	<images>
-		<image>
-			<id></id>
-			<path></path>
-			<observation></observation>
-		</image>
-	</images>
-  <law />
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <id>0e902ebb-3e3a-4b97-a663-2e87a7220d17</id>
+    <name>Mapa Tátil</name>
+    <template_name>Mapa Tátil</template_name>
+    <table>
+        <checkbox_items>
+            <id>9fac8848-1445-49bb-b481-4c3a46075afa</id>
+            <topic xsi:nil="true"/>
+            <type>checkbox</type>
+            <checkboxes>
+                <checkbox_item>
+                    <id>94ed45c7-26da-4786-8f59-0659a38a6327</id>
+                    <topic>Possui?</topic>
+                    <options>
+                        <option>
+                            <id>b83294c3-b334-4dba-bccd-8e7445a2c889</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>5ab90288-4f03-47c1-809d-7b1a26fba02b</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+            </checkboxes>
+        </checkbox_items>
+    </table>
+    <observations>
+        <observation>
+            <id></id>
+            <text></text>
+        </observation>
+    </observations>
+    <images>
+        <image>
+            <id></id>
+            <path></path>
+            <observation></observation>
+        </image>
+    </images>
+    <law/>
 </item>

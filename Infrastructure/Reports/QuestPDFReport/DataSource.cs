@@ -280,6 +280,13 @@ public static class DataSource
             report.Locations.Add(Location);
         });
 
+        if (!File.Exists(Path.Combine(path1: Directory.GetParent(solutionModel.SolutionPath).FullName
+                , path2: "conclusion.prjc")))
+        {
+            File.Create(Path.Combine(path1: Directory.GetParent(solutionModel.SolutionPath).FullName
+                , path2: "conclusion.prjc")).Close();
+        }
+
         report.Conclusion =
             File.ReadAllText(Path.Combine(path1: Directory.GetParent(solutionModel.SolutionPath).FullName
                 , path2: "conclusion.prjc"));

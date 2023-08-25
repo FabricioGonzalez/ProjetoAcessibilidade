@@ -14,10 +14,13 @@ public sealed class ValidationRulesDatasourceImpl
     {
         try
         {
-            using var reader = new StreamReader(path);
-            if (validationItemsSerealizer.Deserialize(reader) is { } result)
+            if (File.Exists(path))
             {
-                return new Result<ValidationItemRoot>((ValidationItemRoot)result);
+                using var reader = new StreamReader(path);
+                if (validationItemsSerealizer.Deserialize(reader) is { } result)
+                {
+                    return new Result<ValidationItemRoot>((ValidationItemRoot)result);
+                }
             }
 
             return new Result<ValidationItemRoot>(new InvalidOperationException($"Erro ao Deserializar {path}"));

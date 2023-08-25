@@ -51,13 +51,19 @@ public class ConditionState
             {
                 var currentItemValue = _checkingValue?.Value ?? val.Value;
 
-                ICheckingValue current = currentItemValue switch
+                if (val is IsOperation)
                 {
-                    "checked" => new CheckedType(), "unchecked" => new UnCheckedType()
-                    , _ => new TextType(currentItemValue)
-                };
-
-                CheckingValue = current;
+                    CheckingValue = currentItemValue switch
+                    {
+                        "checked" => new CheckedType(), "unchecked" => new UnCheckedType()
+                        , _ => new UnCheckedType()
+                    };
+                }
+                else
+                {
+                    CheckingValue = new TextType(currentItemValue);
+                    ;
+                }
             });
     }
 

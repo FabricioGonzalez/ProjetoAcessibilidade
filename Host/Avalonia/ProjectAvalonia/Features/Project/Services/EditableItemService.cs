@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using Common;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Presentation.States;
 using XmlDatasource.ProjectItems;
 
@@ -21,7 +22,12 @@ public sealed class EditableItemService
         string path
     ) =>
         (await _projectItemsDatasource.GetContentItem(path)).Match(Succ: succ => succ.ToAppModelState()
-            , Fail: fail => new AppModelState());
+            , Fail: fail =>
+            {
+                Logger.LogError(fail);
+
+                return new AppModelState();
+            });
 
     public async Task SaveEditingItem(
         AppModelState itemContent

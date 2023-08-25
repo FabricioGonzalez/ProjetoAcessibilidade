@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <id>8ae1d5bd-c375-430b-bca0-124414c2e794</id>
-  <name>Piso Tátil</name>
-  <table>
-    <checkbox_items>
-      <id>d6e55a4e-8b0c-451d-9c33-8b9122a3ca5c</id>
-      <topic xsi:nil="true" />
-      <type>checkbox</type>
-      <checkboxes>
-        <checkbox_item>
-          <id>0eebae93-4c6f-4371-9ba6-8c092c68f5f3</id>
-          <topic>Possui piso tátil no atendimento da recepção?</topic>
-          <options>
-            <option>
-              <id>6af620e6-f93e-4088-aac1-573acf5110ad</id>
-              <value>Sim</value>
-              <is_checked>false</is_checked>
-            </option>
-            <option>
-              <id>f51e5072-43c8-456a-9368-fe647f4b5a61</id>
-              <value>Não</value>
-              <is_checked>false</is_checked>
-            </option>
-          </options>
-        </checkbox_item>
-      </checkboxes>
-    </checkbox_items>
-  </table>
-	<observations>
-		<observation>
-			<id></id>
-			<text></text>
-		</observation>
-	</observations>
-	<images>
-		<image>
-			<id></id>
-			<path></path>
-			<observation></observation>
-		</image>
-	</images>
-  <law />
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <id>8ae1d5bd-c375-430b-bca0-124414c2e794</id>
+    <name>Piso Tátil</name>
+    <template_name>Piso Tátil</template_name>
+    <table>
+        <checkbox_items>
+            <id>d6e55a4e-8b0c-451d-9c33-8b9122a3ca5c</id>
+            <topic xsi:nil="true"/>
+            <type>checkbox</type>
+            <checkboxes>
+                <checkbox_item>
+                    <id>0eebae93-4c6f-4371-9ba6-8c092c68f5f3</id>
+                    <topic>Possui piso tátil no atendimento da recepção?</topic>
+                    <options>
+                        <option>
+                            <id>6af620e6-f93e-4088-aac1-573acf5110ad</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>f51e5072-43c8-456a-9368-fe647f4b5a61</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+            </checkboxes>
+        </checkbox_items>
+    </table>
+    <observations>
+        <observation>
+            <id></id>
+            <text></text>
+        </observation>
+    </observations>
+    <images>
+        <image>
+            <id></id>
+            <path></path>
+            <observation></observation>
+        </image>
+    </images>
+    <law/>
 </item>

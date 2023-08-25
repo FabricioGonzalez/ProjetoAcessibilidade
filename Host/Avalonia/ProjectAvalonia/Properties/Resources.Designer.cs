@@ -1014,6 +1014,24 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exportar Dados.
+        /// </summary>
+        public static string Template_Edit_Export_Items_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Export_Items_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importar Dadaos.
+        /// </summary>
+        public static string Template_Edit_Imports_Item_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Imports_Item_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Abrir Template de Relatório.
         /// </summary>
         public static string Template_Edit_Open_ToolBarItem {

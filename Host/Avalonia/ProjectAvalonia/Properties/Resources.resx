@@ -486,4 +486,10 @@
     <data name="Add_Existing_Folder_Item_Menu_Header" xml:space="preserve">
       <value>Adicionar Item Existente</value>
     </data>
+    <data name="Template_Edit_Imports_Item_ToolBarItem" xml:space="preserve">
+      <value>Importar Dadaos</value>
+    </data>
+    <data name="Template_Edit_Export_Items_ToolBarItem" xml:space="preserve">
+      <value>Exportar Dados</value>
+    </data>
 </root>

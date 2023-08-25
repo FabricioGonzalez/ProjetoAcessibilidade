@@ -162,7 +162,10 @@ public sealed class ItemsService
         if (File.Exists(oldPath))
         {
             File.Move(sourceFileName: oldPath, destFileName: newPath);
+            return;
         }
+
+        File.Create(newPath);
     }
 
     public void RenameFolder(

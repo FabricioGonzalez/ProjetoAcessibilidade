@@ -1,4 +1,6 @@
-﻿using System.Reactive;
+﻿using System.IO;
+using System.Linq;
+using System.Reactive;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
 using ReactiveUI;
@@ -24,6 +26,10 @@ public class EditingItemViewModel
 
         ItemName = itemName;
         ItemPath = itemPath;
+        DisplayName = string.Join(separator: Path.DirectorySeparatorChar,
+            value: ItemPath.Split(Path.DirectorySeparatorChar)[^3 ..^1]
+                .Append(Path.GetFileNameWithoutExtension(itemPath)).ToArray());
+
         Id = id;
         IsSaved = isSaved;
         CloseItemCommand = ReactiveCommand.Create(() =>
@@ -48,6 +54,11 @@ public class EditingItemViewModel
 
         Body = body;
         TemplateName = templateName;
+    }
+
+    public string DisplayName
+    {
+        get;
     }
 
     public string TemplateName

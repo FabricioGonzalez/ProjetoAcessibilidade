@@ -1,69 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <id>9d11e924-7f07-4036-8f7c-7b33c6eecba5</id>
-  <name>Acesso à Equipamentos</name>
-  <table>
-    <checkbox_items>
-      <id>36953962-025d-4f1f-a3a4-52935503f6b9</id>
-      <topic />
-      <type>checkbox</type>
-      <checkboxes>
-        <checkbox_item>
-          <id>3cb3302a-785b-463c-b14f-eab9a55ebee7</id>
-          <topic>Possui obstáculo de acesso aos comandos?</topic>
-          <options>
-            <option>
-              <id>1715d593-d9b7-49fe-820f-8cbbacd56ce4</id>
-              <value>Sim</value>
-              <is_checked>false</is_checked>
-            </option>
-            <option>
-              <id>8e4ac6b1-f60c-4143-ba7e-1056f188c421</id>
-              <value>Não</value>
-              <is_checked>false</is_checked>
-            </option>
-          </options>
-        </checkbox_item>
-        <checkbox_item>
-          <id>fc8ac56a-a0f8-46a5-b3d5-dcc221192e06</id>
-          <topic>Possuí altura máxima de 1,20m?</topic>
-          <options>
-            <option>
-              <id>07c5f792-67c4-4a15-aad9-784c96f0937e</id>
-              <value>Sim</value>
-              <is_checked>false</is_checked>
-            </option>
-            <option>
-              <id>59461d0b-fa45-4ae9-b657-cb8d5220342f</id>
-              <value>Não</value>
-              <is_checked>false</is_checked>
-            </option>
-          </options>
-        </checkbox_item>
-      </checkboxes>
-    </checkbox_items>
-  </table>
-  <observations>
-    <observation>
-      <id></id>
-      <text></text>
-    </observation>
-  </observations>
-  <images>
-    <image>
-      <id></id>
-      <path></path>
-      <observation></observation>
-    </image>
-  </images>
-  <law>
-    <law_item>
-      <id>NBR9050/20</id>
-      <content>
+<item>
+    <id>9d11e924-7f07-4036-8f7c-7b33c6eecba5</id>
+    <name>Acesso à Equipamentos</name>
+    <template_name>Acesso a Equipamentos</template_name>
+    <table>
+        <checkbox_items>
+            <id>36953962-025d-4f1f-a3a4-52935503f6b9</id>
+            <topic/>
+            <type>checkbox</type>
+            <checkboxes>
+                <checkbox_item>
+                    <id>3cb3302a-785b-463c-b14f-eab9a55ebee7</id>
+                    <topic>Possui obstáculo de acesso aos comandos?</topic>
+                    <options>
+                        <option>
+                            <id>1715d593-d9b7-49fe-820f-8cbbacd56ce4</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>8e4ac6b1-f60c-4143-ba7e-1056f188c421</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>fc8ac56a-a0f8-46a5-b3d5-dcc221192e06</id>
+                    <topic>Possuí altura máxima de 1,20m?</topic>
+                    <options>
+                        <option>
+                            <id>07c5f792-67c4-4a15-aad9-784c96f0937e</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>59461d0b-fa45-4ae9-b657-cb8d5220342f</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+            </checkboxes>
+        </checkbox_items>
+    </table>
+    <observations>
+        <observation>
+            <id></id>
+            <text></text>
+        </observation>
+    </observations>
+    <images>
+        <image>
+            <id></id>
+            <path></path>
+            <observation></observation>
+        </image>
+    </images>
+    <law>
+        <law_item>
+            <id>NBR9050/20</id>
+            <content>
                 4.6.9 Altura para comandos e controles.
                 A Figura 26 mostra as alturas recomendadas para o
                 posicionamento de diferentes tipos de comandos e controles.
             </content>
-    </law_item>
-  </law>
+        </law_item>
+    </law>
 </item>
