@@ -23,7 +23,7 @@
         <InvariantGlobalization>false</InvariantGlobalization>
         <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
         <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
     </PropertyGroup>
     <PropertyGroup>
         <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
@@ -31,7 +31,7 @@
     <PropertyGroup>
         <Authors>Fabricio Gonzalez</Authors>
         <Company>Fabricio Gonzalez Dev Ltd</Company>
-        <NeutralLanguage>en-US</NeutralLanguage>
+        <NeutralLanguage>pt-BR</NeutralLanguage>
         <AssemblyTitle>Project Avalonia</AssemblyTitle>
         <Description>
             Open-source, non-custodial, privacy focused Bitcoin wallet for Windows, Linux, and Mac. Built-in Tor, coinjoin, payjoin and coin control features.
@@ -42,12 +42,14 @@
         <Company>Fabricio Gonzalez Dev</Company>
         <PackageTags>project;avalonia</PackageTags>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/zkSNACKs/WalletWasabi/</RepositoryUrl>
+        <RepositoryUrl>https://github.com/FabricioGonzalez/ProjetoAcessibilidade</RepositoryUrl>
         <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
         <PackageIcon>Assets\logo.ico</PackageIcon>
         <Product>Project Avalonia</Product>
         <!-- owners is not supported in MSBuild -->
         <AvaloniaVersion>11.0.3</AvaloniaVersion>
+        <PackageProjectUrl>https://github.com/FabricioGonzalez/ProjetoAcessibilidade</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -76,5 +78,11 @@
             <Link>GestorProjetosArpa.db</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="..\..\..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
     </ItemGroup>
 </Project>

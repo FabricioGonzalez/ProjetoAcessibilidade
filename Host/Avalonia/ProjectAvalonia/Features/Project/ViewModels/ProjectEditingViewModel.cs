@@ -5,8 +5,10 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.Services;
@@ -19,7 +21,9 @@ using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
+
 using XmlDatasource.ProjectItems.DTO;
 using XmlDatasource.ProjectItems.DTO.FormItem;
 
@@ -131,7 +135,6 @@ public class ProjectEditingViewModel
 
                 EditingItems.Add(conclusionItem);
 
-                /*Logger.LogDebug(item.ItemPath);*/
             }
 
             if (item is ItemViewModel edit)
@@ -141,8 +144,10 @@ public class ProjectEditingViewModel
 
                 if (!string.IsNullOrWhiteSpace(getItem.ItemName) && getItem.FormData is not null)
                 {
+                    var observations = new SourceList<ObservationState>();
+
                     EditingItems.Add(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
-                        , new SourceList<ObservationState>()));
+                        , observations));
                 }
             }
         }
@@ -200,7 +205,8 @@ public static class Extension
                         textData: text.TextData,
                         measurementUnit: text.MeasurementUnit ?? "", observations: observations,
                         rules: rules.Where(x => x.TargetContainerId == text.Id))
-                    , CheckboxContainerItemState checkbox => new CheckboxFormItem(id: checkbox.Id,
+                    ,
+                    CheckboxContainerItemState checkbox => new CheckboxFormItem(id: checkbox.Id,
                         topic: checkbox.Topic,
                         checkboxItems: new ObservableCollection<ICheckboxItemViewModel>(
                             checkbox.Children.Select(
@@ -221,9 +227,11 @@ public static class Extension
                                         new ObservableCollection<IOptionViewModel>(
                                             child.Options.Select(option =>
                                                 new OptionItemViewModel(id: option.Id,
-                                                    value: option.Value,
+                                                    value: option.Value
+                                                    , isInvalid: option.IsInvalid,
                                                     isChecked: option.IsChecked))))))))
-                    , _ => throw new ArgumentOutOfRangeException(paramName: nameof(item), actualValue: item
+                    ,
+                    _ => throw new ArgumentOutOfRangeException(paramName: nameof(item), actualValue: item
                         , message: null)
                 };
             }));
@@ -250,7 +258,8 @@ public static class Extension
                     TextFormItemViewModel text => new ItemFormDataTextModel(id: text.Id, topic: text.Topic,
                         textData: text.TextData,
                         measurementUnit: text.MeasurementUnit ?? "")
-                    , CheckboxFormItem checkbox => new ItemFormDataCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
+                    ,
+                    CheckboxFormItem checkbox => new ItemFormDataCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
                     {
                         Children = checkbox.CheckboxItems.Select(
                             child => new ItemFormDataCheckboxChildModel(id: child.Id, topic: child.Topic
@@ -262,14 +271,19 @@ public static class Extension
                                         topic: textItem.Topic,
                                         textData: textItem.TextData,
                                         measurementUnit: textItem.MeasurementUnit ?? "")).ToList()
-                                , Options = child.Options.Options.Select(option =>
+                                ,
+                                Options = child.Options.Options.Select(option =>
                                     new ItemOptionModel(
                                         id: option.Id,
                                         value: option.Value,
-                                        isChecked: option.IsChecked)).ToList()
+                                        isChecked: option.IsChecked)
+                                    {
+                                        IsInvalid = option.IsInvalid
+                                    }).ToList()
                             }).ToList()
                     }
-                    , _ => throw new ArgumentOutOfRangeException(paramName: nameof(formData), actualValue: formData
+                    ,
+                    _ => throw new ArgumentOutOfRangeException(paramName: nameof(formData), actualValue: formData
                         , message: null)
                 };
             }).ToList();

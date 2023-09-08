@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
+
 using Common.Linq;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.FormItemState;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -55,28 +59,29 @@ public partial class CheckboxItemViewModel
                         x.ValidaitonRules
                             .SelectMany(rule => rule.Conditions
                                 .Where(y => y.TargetId == prop.Sender.Id)
-                            )).Select(it => new Func<string, (bool ResultValue, IEnumerable<string>Results)>(
+                            ))
+                    .Select(it => new Func<string, (bool ResultValue, IEnumerable<string> Results)>(
                         value =>
                         {
                             return value is "checked" or "unchecked"
-                                ? (it.CheckingValue.Value == value, it.Result.Select(result => result.ResultValue))
+                                ? (it.CheckingValue.Value != value, it.Result.Select(result => result.ResultValue))
                                 : (false, new List<string>());
                         }));
 
                 rulesToEvaluate.IterateOn(x =>
                 {
-                    var evaluationResult = x.Invoke(prop.Sender.Value);
+                    var evaluationResult = x.Invoke(prop.Sender.IsChecked ? "checked" : "unchecked");
 
                     var exsits = (
                         string it
                     ) => observations.Items.Any(observation => observation.Observation == it);
 
-                    if (evaluationResult.ResultValue)
+                    if (!evaluationResult.ResultValue)
                     {
                         var item = evaluationResult.Results
                             .Where(it => !exsits(it));
 
-                        observations.AddRange(item
+                        observations.RemoveMany(item
                             .Select(it => new ObservationState { Observation = it }));
                     }
 
@@ -95,7 +100,7 @@ public partial class CheckboxItemViewModel
                         x.ValidaitonRules
                             .SelectMany(rule => rule.Conditions
                                 .Where(y => y.TargetId == prop.Sender.Id)
-                            )).Select(it => new Func<string, (bool ResultValue, IEnumerable<string>Results)>(value =>
+                            )).Select(it => new Func<string, (bool ResultValue, IEnumerable<string> Results)>(value =>
                     {
                         return value is "checked" or "unchecked"
                             ? (it.CheckingValue.Value == value, it.Result.Select(result => result.ResultValue))
@@ -104,7 +109,7 @@ public partial class CheckboxItemViewModel
 
                 rulesToEvaluate.IterateOn(x =>
                 {
-                    var evaluationResult = x.Invoke(prop.Sender.Value);
+                    var evaluationResult = x.Invoke(prop.Sender.IsChecked ? "checked" : "unchecked");
 
                     var exsits = (
                         string it

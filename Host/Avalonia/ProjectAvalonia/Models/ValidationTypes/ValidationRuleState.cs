@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Models.ValidationTypes;
@@ -55,14 +57,15 @@ public class ConditionState
                 {
                     CheckingValue = currentItemValue switch
                     {
-                        "checked" => new CheckedType(), "unchecked" => new UnCheckedType()
-                        , _ => new UnCheckedType()
+                        "checked" => new CheckedType(),
+                        "unchecked" => new UnCheckedType()
+                        ,
+                        _ => new UnCheckedType()
                     };
                 }
                 else
                 {
                     CheckingValue = new TextType(currentItemValue);
-                    ;
                 }
             });
     }

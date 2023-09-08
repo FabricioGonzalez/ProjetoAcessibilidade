@@ -13,51 +13,51 @@
     x:CompileBindings="True"
     x:DataType="viewModels:MainViewModel">
 
-    <DockPanel IsEnabled="{Binding IsMainContentEnabled^}">
-        <shell:TitleBar DockPanel.Dock="Top" />
-        <Border BoxShadow="{DynamicResource InfoBoxShadow}" DockPanel.Dock="Top">
-            <commanding1:ToolBar
-                Margin="0,2"
-                x:CompileBindings="True"
-                DataContext="{Binding ToolBarMenu, Mode=OneWay}" />
-        </Border>
-        <DockPanel>
-            <navbar:NavBar DataContext="{Binding NavBar}" DockPanel.Dock="Left" />
-            <Border
-                x:Name="ContentPart"
-                BorderBrush="{DynamicResource TileBorderColor}"
-                BorderThickness="1,1,0,0"
-                ClipToBounds="True"
-                CornerRadius="10 0 0 0">
-                <Panel>
-                    <Border
-                        Background="{DynamicResource RegionColor}"
-                        ClipToBounds="True"
-                        CornerRadius="10 0 0 0"
-                        IsHitTestVisible="False" />
-                    <Panel Height="30" VerticalAlignment="Bottom">
-                        <TextBlock Text="{Binding ErrorMessage, Mode=TwoWay}" />
-                    </Panel>
-                    <DockPanel>
-                        <DockPanel.Styles>
-                            <Style Selector="ContentControl c|ContentArea /template/ Panel#PART_ButtonArea">
-                                <Setter Property="IsVisible" Value="False" />
-                            </Style>
+  <DockPanel IsEnabled="{Binding IsMainContentEnabled^}">
+    <shell:TitleBar DockPanel.Dock="Top"/>
 
-                            <Style Selector="c|ContentArea /template/ StackPanel#PART_Header">
-                                <Setter Property="Margin" Value="31 26 31 0" />
-                            </Style>
-                        </DockPanel.Styles>
-                        <ContentControl ClipToBounds="False" Content="{Binding MainScreen.CurrentPage}" />
-                    </DockPanel>
-                    <Border
-                        Margin="0,0,-5,-5"
-                        BoxShadow="inset 0 0 5 0 #000000"
-                        ClipToBounds="True"
-                        CornerRadius="10 0 0 0"
-                        IsHitTestVisible="False" />
-                </Panel>
-            </Border>
-        </DockPanel>
+    <commanding1:ToolBar
+        Margin="0,2"
+         DockPanel.Dock="Top"
+        x:CompileBindings="True"
+        DataContext="{Binding ToolBarMenu, Mode=OneWay}" />
+    <DockPanel>
+      <navbar:NavBar DataContext="{Binding NavBar}" DockPanel.Dock="Left" />
+      <Border
+          x:Name="ContentPart"
+          BorderBrush="{DynamicResource TileBorderColor}"
+          BorderThickness="1,1,0,0"
+          ClipToBounds="True"
+          CornerRadius="10 0 0 0">
+        <Panel>
+          <Border
+              Background="{DynamicResource RegionColor}"
+              ClipToBounds="True"
+              CornerRadius="10 0 0 0"
+              IsHitTestVisible="False" />
+          <Panel Height="30" VerticalAlignment="Bottom">
+            <TextBlock Text="{Binding ErrorMessage, Mode=TwoWay}" />
+          </Panel>
+          <DockPanel>
+            <DockPanel.Styles>
+              <Style Selector="ContentControl c|ContentArea /template/ Panel#PART_ButtonArea">
+                <Setter Property="IsVisible" Value="False" />
+              </Style>
+
+              <Style Selector="c|ContentArea /template/ StackPanel#PART_Header">
+                <Setter Property="Margin" Value="31 26 31 0" />
+              </Style>
+            </DockPanel.Styles>
+            <ContentControl ClipToBounds="False" Content="{Binding MainScreen.CurrentPage}" />
+          </DockPanel>
+          <Border
+              Margin="0,0,-5,-5"
+              BoxShadow="inset 0 0 5 0 #000000"
+              ClipToBounds="True"
+              CornerRadius="10 0 0 0"
+              IsHitTestVisible="False" />
+        </Panel>
+      </Border>
     </DockPanel>
+  </DockPanel>
 </UserControl>

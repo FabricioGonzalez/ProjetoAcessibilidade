@@ -17,6 +17,11 @@ public interface IOptionViewModel : INotifyPropertyChanged
     {
         get; set;
     }
+    public bool IsInvalid
+
+    {
+        get; set;
+    }
     public bool ShouldBeUnchecked
     {
         get; set;

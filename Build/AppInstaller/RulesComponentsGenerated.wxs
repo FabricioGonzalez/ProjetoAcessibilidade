@@ -2,43 +2,43 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="RulesFilesDirectory">
-            <Component Id="cmp743C4D4ED9FBE34203030FCEF43CF480" Guid="{77F76BF8-F8CF-428D-8C08-78A244D04036}">
+            <Component Id="cmp743C4D4ED9FBE34203030FCEF43CF480" Guid="{325CF623-CB33-4DA2-B8EA-72529A013E26}">
                 <File Id="fil833F731ACF09F3D8293B7DFB79B6816E" KeyPath="yes" Source="$(var.RulesPath)\Acesso a Equipamentos.vldr" />
             </Component>
-            <Component Id="cmpDFFFCDAD5BB3AB761204E1B656DF90A3" Guid="{F693B286-77FB-47BF-8334-66D3FD9EA3FE}">
+            <Component Id="cmpDFFFCDAD5BB3AB761204E1B656DF90A3" Guid="{93048B35-F1ED-40A9-B184-08AC9E762DA8}">
                 <File Id="filBA22B87BAD033D5B5BD6327D8DBA5B04" KeyPath="yes" Source="$(var.RulesPath)\Acesso.vldr" />
             </Component>
-            <Component Id="cmpF840F8552DE1FA7720AC2A111F4B0621" Guid="{4B6F345D-0A84-45EF-8913-4F89ACF1562F}">
+            <Component Id="cmpF840F8552DE1FA7720AC2A111F4B0621" Guid="{9DAC16D8-2D45-4DCA-B2C5-9DC41879D79B}">
                 <File Id="filF9EDADA2120CB7CCA16155DF6F0EA238" KeyPath="yes" Source="$(var.RulesPath)\Balcão de Atendimento Recepção.vldr" />
             </Component>
-            <Component Id="cmp5ECFA3B59403C996324742DACB058389" Guid="{D5800981-CCDB-416D-99DD-E036B7AA1518}">
+            <Component Id="cmp5ECFA3B59403C996324742DACB058389" Guid="{3AD7DA35-CFF3-4B57-8167-21015F57CF1B}">
                 <File Id="filA5F5A8E8A9BE14045EDCFC506D3EFC8E" KeyPath="yes" Source="$(var.RulesPath)\Circulação Horizontal.vldr" />
             </Component>
-            <Component Id="cmp574C801D15D26A48FA5CDC53517762A1" Guid="{5BE87699-7140-412E-9C58-7006652A6F98}">
+            <Component Id="cmp574C801D15D26A48FA5CDC53517762A1" Guid="{51F82D8E-341F-4933-A2F4-DAC91567C840}">
                 <File Id="fil584D58581F20851539AF39E2616F606F" KeyPath="yes" Source="$(var.RulesPath)\Circulação Vertical.vldr" />
             </Component>
-            <Component Id="cmpDC731129BBAD52E3ED3B8ED22D5037BE" Guid="{1686ADC2-E3D3-4B7B-8947-B707C8FB9254}">
+            <Component Id="cmpDC731129BBAD52E3ED3B8ED22D5037BE" Guid="{684ED52E-2DF8-4162-85AE-C5805261FC35}">
                 <File Id="filE963EF18A4ED575DAB13CB911B88A524" KeyPath="yes" Source="$(var.RulesPath)\Entradas Portas Externo.vldr" />
             </Component>
-            <Component Id="cmpA76A2FB76D627D8C5D3D084B790BF40C" Guid="{D848DB80-75C1-4CA4-8046-3BE33D0DF2AE}">
+            <Component Id="cmpA76A2FB76D627D8C5D3D084B790BF40C" Guid="{406B670F-7E4F-41DC-8F0E-56B9189DA710}">
                 <File Id="filDE02451F05ABC2A90439444ABC24D217" KeyPath="yes" Source="$(var.RulesPath)\Entradas Portas Interno.vldr" />
             </Component>
-            <Component Id="cmpD86130D2197A7BAE43695E37427C8F66" Guid="{31B3D478-ADCC-48E6-99A6-60967A2CCDD0}">
+            <Component Id="cmpD86130D2197A7BAE43695E37427C8F66" Guid="{917A6B44-F3D1-46E6-BCA3-CC0911BDE539}">
                 <File Id="filEBF89B461552E1F0CE5240FFDE593F14" KeyPath="yes" Source="$(var.RulesPath)\Mapa Tátil.vldr" />
             </Component>
-            <Component Id="cmp7DEC6AD482F32807F1CF7921FFF20649" Guid="{9A9395DF-B687-4D34-86BF-F1ADC1769B85}">
+            <Component Id="cmp7DEC6AD482F32807F1CF7921FFF20649" Guid="{D3F74B8A-D861-4EFB-8913-B638EB43387D}">
                 <File Id="fil98891EFDF72D125934F0B2233B5F9E7A" KeyPath="yes" Source="$(var.RulesPath)\Mesas.vldr" />
             </Component>
-            <Component Id="cmp9AC62A296006C8E5704CA8A87A771A3F" Guid="{18CDEBAE-BDEC-484D-B58D-4FFFC2D33112}">
+            <Component Id="cmp9AC62A296006C8E5704CA8A87A771A3F" Guid="{31EF1258-94AD-4C4D-B024-5D8B9D9E1FDA}">
                 <File Id="fil9FAD964FD14B7E14C5147A0D8EE77A52" KeyPath="yes" Source="$(var.RulesPath)\Piso Tátil.vldr" />
             </Component>
-            <Component Id="cmpAD9FC29305C7FA31957C6F4AFD7F635B" Guid="{5BFCA1B2-F894-45E5-B341-0830CD1D1D5C}">
+            <Component Id="cmpAD9FC29305C7FA31957C6F4AFD7F635B" Guid="{870F3FC0-8C57-4600-8DAB-E5857232B75B}">
                 <File Id="fil19A98D1BA63EFED9253A79A6415980C0" KeyPath="yes" Source="$(var.RulesPath)\Portas de Emergência.vldr" />
             </Component>
-            <Component Id="cmp5DAB22C390011E669BC94B6D748618E7" Guid="{FA63CD9A-13DE-4BCE-8E84-0B0B895BDB9B}">
+            <Component Id="cmp5DAB22C390011E669BC94B6D748618E7" Guid="{EC644D8D-6C84-4D4F-8606-E609F1171497}">
                 <File Id="filFEA420AB929D0F92875B1A5DD3B215CF" KeyPath="yes" Source="$(var.RulesPath)\Sanitários Comuns.vldr" />
             </Component>
-            <Component Id="cmpD074EFF8ADDAB5782B3541E90F92FA29" Guid="{DF4829BA-8F5E-4D47-B653-F6C8F7C9338A}">
+            <Component Id="cmpD074EFF8ADDAB5782B3541E90F92FA29" Guid="{30F00B27-9EC5-4533-B360-6C50D9A84B2D}">
                 <File Id="fil20C41EDB44D08CBDAD439A020D4D900E" KeyPath="yes" Source="$(var.RulesPath)\Sánitario Acessível.vldr" />
             </Component>
         </DirectoryRef>

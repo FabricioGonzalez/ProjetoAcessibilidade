@@ -9,7 +9,9 @@ using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Newtonsoft.Json.Linq;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Http;
@@ -112,6 +114,7 @@ public class UpdateManager : IDisposable
                     Logger.LogInfo($"Version {newVersion} downloaded successfuly.");
                     updateStatus.IsReadyToInstall = true;
                     updateStatus.ClientVersion = newVersion;
+                    /*ServicesConfig.Config.AppVersion = newVersion;*/
                     break;
                 }
                 catch (OperationCanceledException ex)
@@ -406,7 +409,9 @@ public class UpdateManager : IDisposable
             {
                 startInfo = new ProcessStartInfo
                 {
-                    FileName = InstallerPath, UseShellExecute = true, WindowStyle = ProcessWindowStyle.Normal
+                    FileName = InstallerPath,
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Normal
                 };
             }
 

@@ -26,6 +26,11 @@ public class DesignTimeOptionCheckedItemViewModel : ReactiveObject, IOptionViewM
         get;
         set;
     }
+    public bool IsInvalid
+    {
+        get;
+        set;
+    }
 }
 
 public class DesignTimeOptionUnCheckedItemViewModel : ReactiveObject, IOptionViewModel
@@ -34,7 +39,11 @@ public class DesignTimeOptionUnCheckedItemViewModel : ReactiveObject, IOptionVie
     {
         get;
     } = "Não";
-
+    public bool IsInvalid
+    {
+        get;
+        set;
+    }
     public bool IsChecked
     {
         get; set;

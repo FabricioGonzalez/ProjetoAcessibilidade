@@ -10,6 +10,7 @@ using Avalonia.Controls;
 
 using Common;
 
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services.LocationService;
 using ProjectAvalonia.Common.Validation;
@@ -56,6 +57,8 @@ public partial class MainViewModel : ViewModelBase
     [AutoNotify] private MenuViewModel? _toolBarMenu;
     [AutoNotify] private WindowState _windowState;
 
+    [AutoNotify] private string _version;
+
     protected MainViewModel()
     {
         ApplyUiConfigWindowSate();
@@ -76,6 +79,8 @@ public partial class MainViewModel : ViewModelBase
                     severity: ErrorSeverity.Warning,
                     error: ErrorMessage ?? "Nothing");
             });
+
+        Version = EnvironmentHelpers.GetExecutableVersion();
 
         _dialogScreen = new DialogScreenViewModel();
         _fullScreen = new DialogScreenViewModel(NavigationTarget.FullScreen);

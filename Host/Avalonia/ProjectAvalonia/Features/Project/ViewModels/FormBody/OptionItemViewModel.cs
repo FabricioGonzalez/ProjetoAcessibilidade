@@ -6,11 +6,12 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public partial class OptionItemViewModel : ReactiveObject, IOptionViewModel
 {
-    public OptionItemViewModel(string value, bool isChecked, string id)
+    public OptionItemViewModel(string value, bool isChecked, string id, bool isInvalid)
     {
         Value = value;
         IsChecked = isChecked;
         Id = id;
+        IsInvalid = isInvalid;
     }
 
     public string Value
@@ -19,6 +20,8 @@ public partial class OptionItemViewModel : ReactiveObject, IOptionViewModel
     }
     [AutoNotify]
     private bool _isChecked = false;
+    [AutoNotify]
+    private bool _isInvalid = false;
 
     [AutoNotify]
     private bool _shouldBeUnchecked = false;
