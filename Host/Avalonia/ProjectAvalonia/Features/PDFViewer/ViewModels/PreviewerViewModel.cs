@@ -8,9 +8,12 @@ using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+
 using Common;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Logging;
@@ -19,12 +22,17 @@ using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport;
 using QuestPDFReport.ReportSettings;
+
 using ReactiveUI;
+
 using SkiaSharp;
+
 using Unit = System.Reactive.Unit;
 
 namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
@@ -88,7 +96,7 @@ public partial class PreviewerViewModel : RoutableViewModel
             .SubscribeAsync(async prop =>
             {
                 var report = new StandardReport(await DataSource.GetReport(
-                    prop.ToSolutionItemRoot() /*,
+                    prop.ToSolutionItemRoot(), ServicesConfig.UiConfig.DefaultLawContent /*,
                     Constants.AppProjectItemExtension*/));
 
                 Document = report;
@@ -313,7 +321,8 @@ public partial class PreviewerViewModel : RoutableViewModel
         {
             StartInfo = new ProcessStartInfo
             {
-                UseShellExecute = true, FileName = path
+                UseShellExecute = true,
+                FileName = path
             }
         };
 

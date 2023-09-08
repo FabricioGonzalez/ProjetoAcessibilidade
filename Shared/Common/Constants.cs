@@ -3,11 +3,11 @@
 public static class Constants
 {
     public const string SolutionName = "ProjetoAcessibilidade";
-    public const string AppName = "Gestor de Projeto ARPA";
+    public const string AppName = "Gestor de Projetos ARPA";
 
     public const string ShuttingDownLabel = "O Sistema está desligando...";
 
-    public const string ExecutableName = "Gestor de Projeto ARPA";
+    public const string ExecutableName = "Gestor de Projetos ARPA";
     public const string AppSettingsFile = "Config.json";
 
     public const string AppUISettingsFile = "UiConfig.json";

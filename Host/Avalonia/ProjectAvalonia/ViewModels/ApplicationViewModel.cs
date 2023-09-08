@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+
 using Avalonia.Controls;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Providers;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels;
@@ -102,20 +106,12 @@ public partial class ApplicationViewModel
         IsShuttingDown = true;
     }
 
-    /*internal async Task GoToOpenPrint(
+    internal async Task GoToOpenPrint(
         string v
-    ) =>
-       .IfSucc(sucess =>
-        {
-            /*MainViewModel.Instance.PrintProject(solutionState: result?.Data?.ToSolutionState());#2#
-
-            /*  MainViewModel.Instance.FullScreen.To(await NavigationManager.MaterialiseViewModelAsync(PreviewerViewModel.MetaData)
-                , Parameter: result.Data.ToSolutionState());
-
-      MainViewModel.Instance.MainScreen.To(
-                  await NavigationManager.MaterialiseViewModelAsync(ProjectViewModel.MetaData)
-                 , Parameter: v);
-        });*/
+    )
+    {
+        MainViewModel.Instance.PrintProject(v);
+    }
 
     internal void GoToOpenProject(
         string v

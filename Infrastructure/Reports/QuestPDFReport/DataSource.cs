@@ -1,7 +1,10 @@
 ﻿using Common;
 using Common.Linq;
+
 using QuestPDF.Helpers;
+
 using QuestPDFReport.Models;
+
 using XmlDatasource.ProjectItems;
 using XmlDatasource.ProjectItems.DTO.FormItem;
 using XmlDatasource.Solution.DTO;
@@ -40,7 +43,8 @@ public static class DataSource
 
         var report = new ReportModel
         {
-            Title = "Sample Report Document", HeaderFields = new FieldsContainer()
+            Title = "Sample Report Document",
+            HeaderFields = new FieldsContainer()
         };
 
         var res = Path.Combine(path1: Directory.GetParent(path).FullName
@@ -122,58 +126,81 @@ public static class DataSource
     }
 
     public static async Task<IReport> GetReport(
-        SolutionItemRoot solutionModel
-        /*, string extension*/
+        SolutionItemRoot solutionModel,
+        string standardLaw
+    /*, string extension*/
     )
     {
         var report = new NestedReportModel
         {
-            Title = "RELATÓRIO DE ACESSIBILIDADE", HeaderFields = new FieldsContainer
+            Title = "RELATÓRIO DE ACESSIBILIDADE",
+            HeaderFields = new FieldsContainer
             {
                 Local = new ReportHeaderField
                 {
                     Label = "Local"
-                    , Value =
+                    ,
+                    Value =
                         $"{solutionModel.Report.CompanyInfo.Endereco.Logradouro},{solutionModel.Report.CompanyInfo.Endereco.Numero},{solutionModel.Report.CompanyInfo.Endereco.Bairro},{solutionModel.Report.CompanyInfo.Endereco.Cidade}"
                 }
-                , Revisao = new ReportHeaderField
+                ,
+                Revisao = new ReportHeaderField
                 {
                     Label = "Revisão"
-                    , Value = solutionModel.Report.Revisao.ToString()
+                    ,
+                    Value = solutionModel.Report.Revisao.ToString()
                 }
-                , Uf = new ReportHeaderField
+                ,
+                Uf = new ReportHeaderField
                 {
-                    Label = "UF", Value = $"{solutionModel.Report.CompanyInfo.Endereco.UF}"
+                    Label = "UF",
+                    Value = $"{solutionModel.Report.CompanyInfo.Endereco.UF}"
                 }
-                , Data = new ReportHeaderField
+                ,
+                Data = new ReportHeaderField
                 {
-                    Label = "Data da Vistoria", Value = solutionModel.Report.CompanyInfo.Data.ToString("dd.MM.yyyy")
+                    Label = "Data da Vistoria",
+                    Value = solutionModel.Report.CompanyInfo.Data.ToString("dd.MM.yyyy")
                 }
-                , Empresa = new ReportHeaderField
+                ,
+                Empresa = new ReportHeaderField
                 {
-                    Label = "Empresa", Value = solutionModel.Report.CompanyInfo.NomeEmpresa
+                    Label = "Empresa",
+                    Value = solutionModel.Report.CompanyInfo.NomeEmpresa
                 }
-                , Responsavel = new ReportHeaderField
+                ,
+                Responsavel = new ReportHeaderField
                 {
-                    Label = "Responsável pelo levantamento", Value = solutionModel.Report.Manager.Responsavel
+                    Label = "Responsável pelo levantamento",
+                    Value = solutionModel.Report.Manager.Responsavel
                 }
-                , Email = new ReportHeaderField
+                ,
+                Email = new ReportHeaderField
                 {
-                    Label = "E-mail", Value = solutionModel.Report.CompanyInfo.Email
+                    Label = "E-mail",
+                    Value = solutionModel.Report.CompanyInfo.Email
                 }
-                , Telefone = new ReportHeaderField
+                ,
+                Telefone = new ReportHeaderField
                 {
-                    Label = "Telefone", Value = solutionModel.Report.Manager.Telefone
+                    Label = "Telefone",
+                    Value = solutionModel.Report.Manager.Telefone
                 }
-                , Gerenciadora = new ReportHeaderField
+                ,
+                Gerenciadora = new ReportHeaderField
                 {
-                    Label = "Gerenciadora", Value = solutionModel.Report.Manager.NomeEmpresa
+                    Label = "Gerenciadora",
+                    Value = solutionModel.Report.Manager.NomeEmpresa
                 }
             }
-            , StandardLaw =
-                "Legislação Vigente: NBR 9.050/15, NBR 16.537/16, Decreto Nº 5296 de 02.12.2004 e Lei Federal 13.146/16"
-            , Partners = solutionModel.Report.Partners, CompanyInfo = solutionModel.Report.CompanyInfo
-            , ManagerInfo = solutionModel.Report.Manager
+            ,
+            StandardLaw =
+              standardLaw
+            ,
+            Partners = solutionModel.Report.Partners,
+            CompanyInfo = solutionModel.Report.CompanyInfo
+            ,
+            ManagerInfo = solutionModel.Report.Manager
         };
 
         var repository = new ProjectItemDatasourceImpl();
@@ -182,7 +209,8 @@ public static class DataSource
         {
             var Location = new ReportLocationGroup
             {
-                Title = locationItem.ItemName, Groups = new List<ReportSectionGroup>()
+                Title = locationItem.ItemName,
+                Groups = new List<ReportSectionGroup>()
             };
 
             await locationItem.LocationGroups.IterateOnAsync(async groupItem =>
@@ -251,7 +279,8 @@ public static class DataSource
                             {
                                 section.Images = section.Images.Append(new ImageSectionElement
                                 {
-                                    ImagePath = image.ImagePath, Observation = image.ImageObservation
+                                    ImagePath = image.ImagePath,
+                                    Observation = image.ImageObservation
                                 });
                             });
 
@@ -267,7 +296,8 @@ public static class DataSource
                             {
                                 section.Laws = section.Laws.Append(new LawSectionElement
                                 {
-                                    LawContent = law.LawTextContent, LawId = law.LawId
+                                    LawContent = law.LawTextContent,
+                                    LawId = law.LawId
                                 });
                             });
 
@@ -298,9 +328,12 @@ public static class DataSource
     {
         return new ReportModel
         {
-            Title = "Sample Report Document", HeaderFields = new FieldsContainer()
-            , LogoData = Helpers.GetImage("Logo.png")
-            , Sections = Enumerable.Range(start: 0, count: 40).Select(x => GenerateSection()).ToList()
+            Title = "Sample Report Document",
+            HeaderFields = new FieldsContainer()
+            ,
+            LogoData = Helpers.GetImage("Logo.png")
+            ,
+            Sections = Enumerable.Range(start: 0, count: 40).Select(x => GenerateSection()).ToList()
             /* Photos = Enumerable.Range(0, 25).Select(x => GetReportPhotos()).ToList()*/
         };
 
@@ -335,7 +368,8 @@ public static class DataSource
 
             return new ReportSection
             {
-                Title = Placeholders.Label(), Parts = Enumerable.Range(start: 0, count: sectionLength)
+                Title = Placeholders.Label(),
+                Parts = Enumerable.Range(start: 0, count: sectionLength)
                     .Select(x => GetRandomElement())
                     .ToList()
             };
@@ -406,7 +440,8 @@ public static class DataSource
         {
             return new ReportSectionPhotoContainer
             {
-                Label = "Photos", Photos = new List<ReportSectionPhoto>()
+                Label = "Photos",
+                Photos = new List<ReportSectionPhoto>()
             };
         }
 
@@ -415,8 +450,10 @@ public static class DataSource
             return new ReportPhoto
             {
                 Comments = Placeholders.Sentence()
-                , Date = DateTime.Now - TimeSpan.FromDays(Helpers.Random.NextDouble() * 100)
-                , Location = Helpers.RandomLocation()
+                ,
+                Date = DateTime.Now - TimeSpan.FromDays(Helpers.Random.NextDouble() * 100)
+                ,
+                Location = Helpers.RandomLocation()
             };
         }
     }

@@ -2,9 +2,12 @@ using System;
 using System.ComponentModel;
 using System.Reactive;
 using System.Reactive.Linq;
+
 using Newtonsoft.Json;
+
 using ProjectAvalonia.Common.Bases;
 using ProjectAvalonia.Common.Converters;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia;
@@ -26,6 +29,7 @@ public class UiConfig : ConfigBase
     private bool _sendAmountConversionReversed;
     private double? _windowHeight;
     private string _windowState = "Normal";
+    private string _defaultLawContent = "";
     private double? _windowWidth;
 
     public UiConfig()
@@ -74,6 +78,12 @@ public class UiConfig : ConfigBase
             .ObserveOn(scheduler: RxApp.MainThreadScheduler)
             .Subscribe(onNext: _ => ToFile());
 
+        this.WhenAnyValue(property1: x => x.DefaultLawContent)
+           .Throttle(dueTime: TimeSpan.FromMilliseconds(value: 500))
+           .Skip(count: 1) // Won't save on UiConfig creation.
+           .ObserveOn(scheduler: RxApp.MainThreadScheduler)
+           .Subscribe(onNext: _ => ToFile());
+
         this.WhenAnyValue(
                 property1: x => x.WindowWidth,
                 property2: x => x.WindowHeight)
@@ -97,6 +107,13 @@ public class UiConfig : ConfigBase
     {
         get => _windowState;
         internal set => RaiseAndSetIfChanged(field: ref _windowState, value: value);
+    }
+    [JsonProperty(PropertyName = "DefaultLawContent", DefaultValueHandling = DefaultValueHandling.Populate)]
+    [DefaultValue(value: "Legislação Vigente: NBR 9.050/15, NBR 16.537/16, Decreto Nº 5296 de 02.12.2004 e Lei Federal 13.146/16")]
+    public string DefaultLawContent
+    {
+        get => _defaultLawContent;
+        internal set => RaiseAndSetIfChanged(field: ref _defaultLawContent, value: value);
     }
 
     [DefaultValue(value: 2)]
@@ -171,7 +188,7 @@ public class UiConfig : ConfigBase
         set => RaiseAndSetIfChanged(field: ref _runOnSystemStartup, value: value);
     }
 
-    [DefaultValue(value: true)]
+    [DefaultValue(value: false)]
     [JsonProperty(PropertyName = "HideOnClose", DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool HideOnClose
     {

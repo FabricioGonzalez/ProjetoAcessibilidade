@@ -4,8 +4,12 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
+
 using Avalonia.Controls;
+
 using Common;
+
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services.LocationService;
 using ProjectAvalonia.Common.Validation;
@@ -21,7 +25,9 @@ using ProjectAvalonia.Features.Settings.ViewModels;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
+
 using XmlDatasource.ExplorerItems;
 using XmlDatasource.ProjectItems;
 using XmlDatasource.Solution;
@@ -196,21 +202,21 @@ public partial class MainViewModel : ViewModelBase
         CompactDialogScreen.Clear();
     }
 
-    public void OpenProject(
+    public async Task OpenProject(
         string projectPath
     ) =>
         Instance.MainScreen.To(
             viewmodel: _projectPage,
             Parameter: projectPath);
 
-    public void PrintProject(
-
-        /*SolutionState solutionState*/
+    public async Task PrintProject(
+string path
     )
     {
-        /*Instance.FullScreen.To(viewmodel: _previewPrintPage, Parameter: solutionState);
+        await OpenProject(projectPath: path);
 
-        OpenProject(projectPath: solutionState.FilePath);*/
+        await _projectPage.PrintProjectCommand.Execute();
+
     }
 
     public void Initialize()

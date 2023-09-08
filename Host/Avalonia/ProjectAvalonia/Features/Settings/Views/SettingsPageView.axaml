@@ -65,6 +65,12 @@
                     </ScrollViewer>
                 </TabItem>
 
+              <TabItem Header="{Binding ReportSettingsTab.LocalizedTitle}">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                  <v:ReportSettingsTabView DataContext="{Binding ReportSettingsTab}" />
+                </ScrollViewer>
+              </TabItem>
+
             </TabControl>
         </DockPanel>
     </c:ContentArea>

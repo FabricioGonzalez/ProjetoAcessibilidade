@@ -38,6 +38,7 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
 
         GeneralSettingsTab = new GeneralSettingsTabViewModel();
         AdvancedSettingsTab = new AdvancedSettingsTabViewModel();
+        ReportSettingsTab = new ReportSettingsViewModel();
 
         RestartCommand = ReactiveCommand.Create(() =>
             AppLifetimeHelper.Shutdown(true, true));
@@ -55,6 +56,10 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
     }
 
     public AdvancedSettingsTabViewModel AdvancedSettingsTab
+    {
+        get;
+    }
+    public ReportSettingsViewModel ReportSettingsTab
     {
         get;
     }

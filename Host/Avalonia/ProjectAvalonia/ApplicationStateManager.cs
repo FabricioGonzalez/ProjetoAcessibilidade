@@ -4,14 +4,17 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Providers;
 using ProjectAvalonia.State;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.Views;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia;
@@ -135,7 +138,7 @@ public class ApplicationStateManager : IMainWindowService
 
         if (args.Contains("print="))
         {
-            /*await ApplicationViewModel.GoToOpenPrint(args.Split("=")[1]);*/
+            await ApplicationViewModel.GoToOpenPrint(args.Split("=")[1]);
         }
     }
 

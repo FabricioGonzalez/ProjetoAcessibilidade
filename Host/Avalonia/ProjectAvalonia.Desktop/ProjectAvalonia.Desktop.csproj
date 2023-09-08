@@ -23,7 +23,7 @@
         <InvariantGlobalization>false</InvariantGlobalization>
         <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
         <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
     </PropertyGroup>
     <PropertyGroup>
         <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
@@ -51,25 +51,25 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Assets\avalonia-logo.ico"/>
-        <None Remove="Assets\logo.ico"/>
+        <None Remove="Assets\avalonia-logo.ico" />
+        <None Remove="Assets\logo.ico" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.3"/>
-        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)"/>
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.3"/>
-        <PackageReference Include="Avalonia.Skia" Version="11.0.3"/>
-        <PackageReference Include="LanguageExt.Core" Version="4.4.3"/>
-        <PackageReference Include="ReactiveUI" Version="19.4.1"/>
-        <PackageReference Include="System.Reactive" Version="6.0.0"/>
+        <PackageReference Include="Avalonia" Version="11.0.3" />
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.3" />
+        <PackageReference Include="Avalonia.Skia" Version="11.0.3" />
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
+        <PackageReference Include="ReactiveUI" Version="19.4.1" />
+        <PackageReference Include="System.Reactive" Version="6.0.0" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
-        <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+        <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="..\..\..\Data\Database\GestorProjetosArpa.db">

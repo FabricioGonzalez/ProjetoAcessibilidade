@@ -4,7 +4,9 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using Avalonia.Threading;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
@@ -19,6 +21,7 @@ using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -81,7 +84,7 @@ public partial class ProjectViewModel
 
         CreateProjectCommand = ReactiveCommand.CreateFromTask(CreateSolution);
 
-        PrintProjectCommand = ReactiveCommand.Create(
+        PrintProjectCommand = ReactiveCommand.CreateFromTask(
             execute: PrintSolution,
             canExecute: isSolutionOpen);
 
@@ -254,7 +257,7 @@ public partial class ProjectViewModel
         }
     }
 
-    private void PrintSolution() =>
+    private async Task PrintSolution() =>
         Navigate(NavigationTarget.FullScreen)
             .To(
                 viewmodel: ProjectPrintPreviewViewModel,
@@ -277,26 +280,31 @@ public partial class ProjectViewModel
     )
     {
         var result = _solutionService.GetSolution(path);
-        Dispatcher
-            .UIThread
-            .Post(
-                () =>
-                {
-                    result.FilePath = path;
-                    result.FileName = result.Report.SolutionName;
 
-                    ProjectExplorerViewModel = new ProjectExplorerViewModel(
-                        state: result,
-                        itemsService: _itemsService,
-                        solutionService: _solutionService
-                    )
-                    {
-                        SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
-                            ((ProjectEditingViewModel)ProjectEditingViewModel).AddItemToEdit.Execute(item)
-                            .Subscribe())
-                    };
-                    this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
-                });
+        result.FilePath = path;
+        result.FileName = result.Report.SolutionName;
+
+        var data = new ProjectExplorerViewModel(
+                         state: result,
+                         itemsService: _itemsService,
+                         solutionService: _solutionService
+                     )
+        {
+            SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
+                ((ProjectEditingViewModel)ProjectEditingViewModel).AddItemToEdit.Execute(item)
+                .Subscribe())
+        };
+        ProjectExplorerViewModel = data;
+
+        await Dispatcher
+             .UIThread
+             .InvokeAsync(
+                 () =>
+                 {
+
+
+                     this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
+                 });
     }
 
     private async Task CreateSolution()
