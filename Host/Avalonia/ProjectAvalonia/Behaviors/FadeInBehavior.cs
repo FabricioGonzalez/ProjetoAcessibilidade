@@ -1,6 +1,5 @@
 using System;
 using System.Reactive.Disposables;
-
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Styling;
@@ -10,24 +9,28 @@ namespace ProjectAvalonia.Behaviors;
 public class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
 {
     public static readonly StyledProperty<TimeSpan> InitialDelayProperty =
-        AvaloniaProperty.Register<ItemsControlAnimationBehavior, TimeSpan>(nameof(InitialDelay), TimeSpan.FromMilliseconds(500));
+        AvaloniaProperty.Register<ItemsControlAnimationBehavior, TimeSpan>(name: nameof(InitialDelay)
+            , defaultValue: TimeSpan.FromMilliseconds(value: 500));
 
     public static readonly StyledProperty<TimeSpan> DurationProperty =
-        AvaloniaProperty.Register<ItemsControlAnimationBehavior, TimeSpan>(nameof(Duration), TimeSpan.FromMilliseconds(250));
+        AvaloniaProperty.Register<ItemsControlAnimationBehavior, TimeSpan>(name: nameof(Duration)
+            , defaultValue: TimeSpan.FromMilliseconds(value: 250));
 
     public TimeSpan InitialDelay
     {
-        get => GetValue(InitialDelayProperty);
-        set => SetValue(InitialDelayProperty, value);
+        get => GetValue(property: InitialDelayProperty);
+        set => SetValue(property: InitialDelayProperty, value: value);
     }
 
     public TimeSpan Duration
     {
-        get => GetValue(DurationProperty);
-        set => SetValue(DurationProperty, value);
+        get => GetValue(property: DurationProperty);
+        set => SetValue(property: DurationProperty, value: value);
     }
 
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override void OnAttachedToVisualTree(
+        CompositeDisposable disposable
+    )
     {
         if (AssociatedObject is null)
         {
@@ -38,35 +41,31 @@ public class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
 
         var animation = new Animation
         {
-            Duration = totalDuration,
-            Children =
+            Duration = totalDuration, Children =
             {
                 new KeyFrame
                 {
-                    KeyTime = TimeSpan.Zero,
-                    Setters =
+                    KeyTime = TimeSpan.Zero, Setters =
                     {
-                        new Setter(Visual.OpacityProperty, 0d),
+                        new Setter(property: Visual.OpacityProperty, value: 0d)
                     }
-                },
-                new KeyFrame
+                }
+                , new KeyFrame
                 {
-                    KeyTime = InitialDelay,
-                    Setters =
+                    KeyTime = InitialDelay, Setters =
                     {
-                        new Setter(Visual.OpacityProperty, 0d),
+                        new Setter(property: Visual.OpacityProperty, value: 0d)
                     }
-                },
-                new KeyFrame
+                }
+                , new KeyFrame
                 {
-                    KeyTime = Duration,
-                    Setters =
+                    KeyTime = Duration, Setters =
                     {
-                        new Setter(Visual.OpacityProperty, 1d),
+                        new Setter(property: Visual.OpacityProperty, value: 1d)
                     }
                 }
             }
         };
-        animation.RunAsync(AssociatedObject, null);
+        animation.RunAsync(control: AssociatedObject);
     }
 }

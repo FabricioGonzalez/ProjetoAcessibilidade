@@ -3,30 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-
 using DynamicData;
-using DynamicData.PLinq;
-
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.SearchBar.Patterns;
 using ProjectAvalonia.Features.SearchBar.SearchItems;
-using ProjectAvalonia.Features.SearchBar.Sources;
-using ProjectAvalonia.Features.SearchBars.ViewModels.SearchBar.Sources;
-using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
 
-namespace ProjectAvalonia.Features.SearchBar.SearchBar.Sources;
+namespace ProjectAvalonia.Features.SearchBar.Sources;
 
 public class ActionsSearchSource : ISearchSource
 {
-    public ActionsSearchSource(IObservable<string> query)
+    public ActionsSearchSource(
+        IObservable<string> query
+    )
     {
-        var filter = query.Select(selector: SearchSource.DefaultFilter);
+        var filter = query.Select(SearchSource.DefaultFilter);
 
         Changes = GetItemsFromMetadata()
             .ToObservable()
-            .ToObservableChangeSet(keySelector: x => x.Key)
-            .Filter(predicateChanged: filter);
+            .ToObservableChangeSet(x => x.Key)
+            .Filter(filter);
     }
 
     public IObservable<IChangeSet<ISearchItem, ComposedKey>> Changes
@@ -34,51 +31,48 @@ public class ActionsSearchSource : ISearchSource
         get;
     }
 
-    private static IEnumerable<ISearchItem> GetItemsFromMetadata()
-    {
-        return NavigationManager.MetaData
-            .Where(predicate: m => m.Searchable)
-            .Select(selector: m =>
+    private static IEnumerable<ISearchItem> GetItemsFromMetadata() =>
+        NavigationManager.MetaData
+            .Where(m => m.Searchable)
+            .Select(m =>
             {
-                var onActivate = CreateOnActivateFunction(navigationMetaData: m);
-                var searchItem = new ActionableItem(name: m.Title,
-                                                    description: m.Caption,
-                                                    onExecution: onActivate,
-                                                    category: m.Category ?? "No category",
-                                                    keywords: m.Keywords)
+                var onActivate = CreateOnActivateFunction(m);
+                var searchItem = new ActionableItem(m.Title,
+                    m.Caption,
+                    onActivate,
+                    m.Category ?? "No category",
+                    m.Keywords)
                 {
-                    Icon = m.IconName,
-                    IsDefault = true,
+                    Icon = m.IconName, IsDefault = true
                 };
                 return searchItem;
             });
-    }
 
-    private static Func<Task> CreateOnActivateFunction(NavigationMetaData navigationMetaData)
-    {
-        return async () =>
+    private static Func<Task> CreateOnActivateFunction(
+        NavigationMetaData navigationMetaData
+    ) =>
+        async () =>
         {
-            var vm = await NavigationManager.MaterialiseViewModelAsync(metaData: navigationMetaData);
+            var vm = await NavigationManager.MaterialiseViewModelAsync(navigationMetaData);
             if (vm is null)
             {
                 return;
             }
 
-            if (vm is NavBarItemViewModel item && item.OpenCommand.CanExecute(parameter: default))
+            if (vm is NavBarItemViewModel item && item.OpenCommand.CanExecute.Wait())
             {
-                item.OpenCommand.Execute(parameter: default);
+                item.OpenCommand.Execute(default);
             }
             else if (vm is TriggerCommandViewModel triggerCommandViewModel
-            && triggerCommandViewModel.TargetCommand.CanExecute(parameter: default))
+                     && triggerCommandViewModel.TargetCommand.CanExecute(default))
             {
-                triggerCommandViewModel.TargetCommand.Execute(parameter: default);
+                triggerCommandViewModel.TargetCommand.Execute(default);
             }
             else
             {
                 RoutableViewModel
-                .Navigate(currentTarget: vm.DefaultTarget)
-                .To(viewmodel: vm);
+                    .Navigate(vm.DefaultTarget)
+                    .To(vm);
             }
         };
-    }
 }

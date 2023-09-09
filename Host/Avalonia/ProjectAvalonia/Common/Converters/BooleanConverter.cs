@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-
 using Avalonia;
 using Avalonia.Data.Converters;
 
@@ -10,15 +9,22 @@ public class BooleanConverter : IValueConverter
 {
     public object? TrueValue
     {
-        get; set;
+        get;
+        set;
     }
 
     public object? FalseValue
     {
-        get; set;
+        get;
+        set;
     }
 
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object? Convert(
+        object? value
+        , Type targetType
+        , object? parameter
+        , CultureInfo culture
+    )
     {
         if (value is bool isTrue)
         {
@@ -33,8 +39,10 @@ public class BooleanConverter : IValueConverter
         return AvaloniaProperty.UnsetValue;
     }
 
-    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
+    public object ConvertBack(
+        object? value
+        , Type targetType
+        , object? parameter
+        , CultureInfo culture
+    ) => throw new NotSupportedException();
 }

@@ -13,11 +13,11 @@
     x:DataType="dialog:ShuttingDownViewModel"
     mc:Ignorable="d">
     <c:ContentArea
-        EnableNext="True"
-        NextContent="{x:Static p:Resources.CancelActionLabel}"
+        EnableCancel="True"
+        CancelContent="{x:Static p:Resources.CancelActionLabel}"
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <c:ContentArea.Title>
-            <TextBlock Text="{Binding Title}" TextAlignment="Center" />
+            <TextBlock Text="{Binding LocalizedTitle}" TextAlignment="Center" />
         </c:ContentArea.Title>
         <DockPanel VerticalAlignment="Center">
             <StackPanel

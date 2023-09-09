@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "ProjectAvalonia.Desktop": {
+      "commandName": "Project"
+    },
+    "Debug OpenProject": {
+      "commandName": "Project",
+      "commandLineArgs": "open=\"D:\\PC\\Documents\\Teste 3\\Teste 3.prja\""
+    },
+    "Debug PrintProject": {
+      "commandName": "Project",
+      "commandLineArgs": "print=\"D:\\PC\\Documents\\Teste 3\\Teste 3.prja\""
+    }
+  }
+}

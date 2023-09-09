@@ -1,43 +1,46 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-
 using Common;
 
 namespace ProjectAvalonia.Common.Helpers;
 
 public static class LinuxStartupHelper
 {
-    public static async Task AddOrRemoveDesktopFileAsync(bool runOnSystemStartup)
+    public static async Task AddOrRemoveDesktopFileAsync(
+        bool runOnSystemStartup
+    )
     {
-        string pathToDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config", "autostart");
-        string pathToDesktopFile = Path.Combine(pathToDir, $"{Constants.AppName}.desktop");
+        var pathToDir = Path.Combine(path1: Environment.GetFolderPath(folder: Environment.SpecialFolder.UserProfile)
+            , path2: ".config", path3: "autostart");
+        var pathToDesktopFile = Path.Combine(path1: pathToDir, path2: $"{Constants.AppName}.desktop");
 
-        IoHelpers.EnsureContainingDirectoryExists(pathToDesktopFile);
+        IoHelpers.EnsureContainingDirectoryExists(fileNameOrPath: pathToDesktopFile);
 
         if (runOnSystemStartup)
         {
-            string pathToExec = EnvironmentHelpers.GetExecutablePath();
+            var pathToExec = EnvironmentHelpers.GetExecutablePath();
 
-            string pathToExecWithArgs = $"{pathToExec} {StartupHelper.SilentArgument}";
+            var pathToExecWithArgs = $"{pathToExec} {StartupHelper.SilentArgument}";
 
-            IoHelpers.EnsureFileExists(pathToExec);
+            IoHelpers.EnsureFileExists(filePath: pathToExec);
 
-            string fileContents = string.Join(
-                "\n",
+            var fileContents = string.Join(
+                separator: "\n",
                 "[Desktop Entry]",
                 $"Name={Constants.AppName}",
-                "Type=Application",
+                "Type=Domain.Application",
                 $"Exec={pathToExecWithArgs}",
                 "Hidden=false",
                 "Terminal=false",
                 "X-GNOME-Autostart-enabled=true");
 
-            await File.WriteAllTextAsync(pathToDesktopFile, fileContents).ConfigureAwait(false);
+            await File.WriteAllTextAsync(path: pathToDesktopFile, contents: fileContents)
+                .ConfigureAwait(continueOnCapturedContext: false);
         }
         else
         {
-            File.Delete(pathToDesktopFile);
+            File.Delete(path: pathToDesktopFile);
         }
     }
 }

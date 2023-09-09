@@ -7,94 +7,98 @@ namespace ProjectAvalonia.Common.Controls;
 
 public enum HighlightedButton
 {
-	None,
-	YesButton,
-	NoButton
+    None
+    , YesButton
+    , NoButton
 }
 
 public class QuestionControl : ContentControl
 {
-	public static readonly StyledProperty<ICommand> YesCommandProperty =
-		AvaloniaProperty.Register<QuestionControl, ICommand>(nameof(YesCommand));
+    public static readonly StyledProperty<ICommand> YesCommandProperty =
+        AvaloniaProperty.Register<QuestionControl, ICommand>(name: nameof(YesCommand));
 
-	public static readonly StyledProperty<ICommand> NoCommandProperty =
-		AvaloniaProperty.Register<QuestionControl, ICommand>(nameof(NoCommand));
+    public static readonly StyledProperty<ICommand> NoCommandProperty =
+        AvaloniaProperty.Register<QuestionControl, ICommand>(name: nameof(NoCommand));
 
-	public static readonly StyledProperty<IImage> ImageIconProperty =
-		AvaloniaProperty.Register<QuestionControl, IImage>(nameof(ImageIcon));
+    public static readonly StyledProperty<IImage> ImageIconProperty =
+        AvaloniaProperty.Register<QuestionControl, IImage>(name: nameof(ImageIcon));
 
-	public static readonly StyledProperty<object?> IconContentProperty =
-		AvaloniaProperty.Register<QuestionControl, object?>(nameof(IconContent));
+    public static readonly StyledProperty<object?> IconContentProperty =
+        AvaloniaProperty.Register<QuestionControl, object?>(name: nameof(IconContent));
 
-	public static readonly StyledProperty<HighlightedButton> HighlightButtonProperty =
-		AvaloniaProperty.Register<QuestionControl, HighlightedButton>(nameof(HighlightButton));
+    public static readonly StyledProperty<HighlightedButton> HighlightButtonProperty =
+        AvaloniaProperty.Register<QuestionControl, HighlightedButton>(name: nameof(HighlightButton));
 
-	public static readonly StyledProperty<bool> IsYesButtonProperty =
-		AvaloniaProperty.Register<QuestionControl, bool>(nameof(IsYesButton));
+    public static readonly StyledProperty<bool> IsYesButtonProperty =
+        AvaloniaProperty.Register<QuestionControl, bool>(name: nameof(IsYesButton));
 
-	public static readonly StyledProperty<bool> IsNoButtonProperty =
-		AvaloniaProperty.Register<QuestionControl, bool>(nameof(IsNoButton));
+    public static readonly StyledProperty<bool> IsNoButtonProperty =
+        AvaloniaProperty.Register<QuestionControl, bool>(name: nameof(IsNoButton));
 
-	public ICommand YesCommand
-	{
-		get => GetValue(YesCommandProperty);
-		set => SetValue(YesCommandProperty, value);
-	}
+    public QuestionControl()
+    {
+        UpdateHighlightedButton(highlightedButton: HighlightButton);
+    }
 
-	public ICommand NoCommand
-	{
-		get => GetValue(NoCommandProperty);
-		set => SetValue(NoCommandProperty, value);
-	}
+    public ICommand YesCommand
+    {
+        get => GetValue(property: YesCommandProperty);
+        set => SetValue(property: YesCommandProperty, value: value);
+    }
 
-	public IImage ImageIcon
-	{
-		get => GetValue(ImageIconProperty);
-		set => SetValue(ImageIconProperty, value);
-	}
+    public ICommand NoCommand
+    {
+        get => GetValue(property: NoCommandProperty);
+        set => SetValue(property: NoCommandProperty, value: value);
+    }
 
-	public bool IsYesButton
-	{
-		get => GetValue(IsYesButtonProperty);
-		set => SetValue(IsYesButtonProperty, value);
-	}
+    public IImage ImageIcon
+    {
+        get => GetValue(property: ImageIconProperty);
+        set => SetValue(property: ImageIconProperty, value: value);
+    }
 
-	public bool IsNoButton
-	{
-		get => GetValue(IsNoButtonProperty);
-		set => SetValue(IsNoButtonProperty, value);
-	}
+    public bool IsYesButton
+    {
+        get => GetValue(property: IsYesButtonProperty);
+        set => SetValue(property: IsYesButtonProperty, value: value);
+    }
 
-	public object? IconContent
-	{
-		get => GetValue(IconContentProperty);
-		set => SetValue(IconContentProperty, value);
-	}
+    public bool IsNoButton
+    {
+        get => GetValue(property: IsNoButtonProperty);
+        set => SetValue(property: IsNoButtonProperty, value: value);
+    }
 
-	public HighlightedButton HighlightButton
-	{
-		get => GetValue(HighlightButtonProperty);
-		set => SetValue(HighlightButtonProperty, value);
-	}
+    public object? IconContent
+    {
+        get => GetValue(property: IconContentProperty);
+        set => SetValue(property: IconContentProperty, value: value);
+    }
 
-	public QuestionControl()
-	{
-		UpdateHighlightedButton(HighlightButton);
-	}
+    public HighlightedButton HighlightButton
+    {
+        get => GetValue(property: HighlightButtonProperty);
+        set => SetValue(property: HighlightButtonProperty, value: value);
+    }
 
-	protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
-	{
-		base.OnPropertyChanged(change);
+    protected override void OnPropertyChanged(
+        AvaloniaPropertyChangedEventArgs change
+    )
+    {
+        base.OnPropertyChanged(change: change);
 
-		if (change.Property == HighlightButtonProperty)
-		{
-			UpdateHighlightedButton(change.NewValue.GetValueOrDefault<HighlightedButton>());
-		}
-	}
+        if (change.Property == HighlightButtonProperty)
+        {
+            UpdateHighlightedButton(highlightedButton: change.GetNewValue<HighlightedButton>());
+        }
+    }
 
-	private void UpdateHighlightedButton(HighlightedButton highlightedButton)
-	{
-		IsYesButton = highlightedButton == HighlightedButton.YesButton;
-		IsNoButton = highlightedButton == HighlightedButton.NoButton;
-	}
+    private void UpdateHighlightedButton(
+        HighlightedButton highlightedButton
+    )
+    {
+        IsYesButton = highlightedButton == HighlightedButton.YesButton;
+        IsNoButton = highlightedButton == HighlightedButton.NoButton;
+    }
 }

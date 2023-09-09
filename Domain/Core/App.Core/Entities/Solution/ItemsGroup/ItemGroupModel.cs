@@ -1,4 +1,5 @@
-﻿namespace Core.Entities.Solution.ItemsGroup;
+﻿namespace ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
+
 public class ItemGroupModel
 {
     public string Name
@@ -6,9 +7,37 @@ public class ItemGroupModel
         get;
         set;
     }
-    public List<ItemModel> Items
+
+    public string ItemPath
     {
         get;
         set;
-    } = new();
+    }
+
+    public IEnumerable<ItemModel> Items
+    {
+        get;
+        set;
+    } = Enumerable.Empty<ItemModel>();
+}
+
+public class SolutionGroupModel
+{
+    public string Name
+    {
+        get;
+        set;
+    }
+
+    public string ItemPath
+    {
+        get;
+        set;
+    }
+
+    public IEnumerable<ItemGroupModel> Items
+    {
+        get;
+        set;
+    } = Enumerable.Empty<ItemGroupModel>();
 }

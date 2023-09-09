@@ -2,21 +2,20 @@ using System.Collections.Generic;
 
 namespace ProjectAvalonia.Common.Models;
 
-public class ErrorDescriptors : List<ErrorDescriptor>, IValidationErrors
+public class ErrorDescriptors
+    : List<ErrorDescriptor>
+        , IValidationErrors
 {
     public static ErrorDescriptors Empty = Create();
 
-    private ErrorDescriptors() : base()
+    private ErrorDescriptors()
     {
     }
 
-    public static ErrorDescriptors Create()
-    {
-        return new ErrorDescriptors();
-    }
+    void IValidationErrors.Add(
+        ErrorSeverity severity
+        , string error
+    ) => Add(item: new ErrorDescriptor(severity: severity, message: error));
 
-    void IValidationErrors.Add(ErrorSeverity severity, string error)
-    {
-        Add(new ErrorDescriptor(severity, error));
-    }
+    public static ErrorDescriptors Create() => new();
 }

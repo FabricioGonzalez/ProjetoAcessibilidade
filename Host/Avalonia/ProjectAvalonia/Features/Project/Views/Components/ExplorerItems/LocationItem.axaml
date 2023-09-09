@@ -1,0 +1,35 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+             xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Views.Components"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="interfaces:ISolutionLocationItem"
+             x:CompileBindings="True"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.ExplorerItems.LocationItem">
+    <TreeViewItem
+        HorizontalAlignment="Left"
+        DragDrop.AllowDrop="True"
+        ItemsSource="{Binding Items}">
+        <TreeViewItem.Header>
+
+        </TreeViewItem.Header>
+        <TreeViewItem.ContextMenu>
+            <ContextMenu>
+                <MenuItem Command="{Binding AddProjectItemCommand}"
+                          Header="{x:Static p:Resources.Add_Folder_Item_Menu_Header}" />
+                <MenuItem Command="{Binding RenameFolderCommand}"
+                          Header="{x:Static p:Resources.Rename_Folder_Item_Menu_Header}" />
+                <MenuItem Command="{Binding ExcludeFolderCommand}"
+                          Header="{x:Static p:Resources.Exclude_Folder_Item_Menu_Header}" />
+            </ContextMenu>
+        </TreeViewItem.ContextMenu>
+        <TreeViewItem.DataTemplates>
+            <TreeDataTemplate DataType="interfaces:IItemGroupViewModel">
+                <components:ItemGroupView HorizontalContentAlignment="Left" HorizontalAlignment="Left" />
+            </TreeDataTemplate>
+        </TreeViewItem.DataTemplates>
+    </TreeViewItem>
+</UserControl>

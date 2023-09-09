@@ -11,63 +11,87 @@ namespace QuestPDF.Drawing.Proxy
 {
     public class DebuggingState
     {
-        private DebugStackItem Root { get; set; }
-        private Stack<DebugStackItem> Stack { get; set; }
-
         public DebuggingState()
         {
             Reset();
         }
-        
+
+        private DebugStackItem Root
+        {
+            get;
+            set;
+        }
+
+        private Stack<DebugStackItem> Stack
+        {
+            get;
+            set;
+        }
+
         public void Reset()
         {
             Root = null;
             Stack = new Stack<DebugStackItem>();
         }
-        
-        public void RegisterMeasure(IElement element, Size availableSpace)
+
+        public void RegisterMeasure(
+            IElement element
+            , Size availableSpace
+        )
         {
             if (element.GetType() == typeof(Container))
+            {
                 return;
-            
+            }
+
             var item = new DebugStackItem
             {
-                Element = element,
-                AvailableSpace = availableSpace
+                Element = element, AvailableSpace = availableSpace
             };
 
             Root ??= item;
-            
-            if (Stack.Any())
-                Stack.Peek().Stack.Add(item);
 
-            Stack.Push(item);
+            if (Stack.Any())
+            {
+                Stack.Peek().Stack.Add(item: item);
+            }
+
+            Stack.Push(item: item);
         }
 
-        public void RegisterMeasureResult(IElement element, SpacePlan spacePlan)
+        public void RegisterMeasureResult(
+            IElement element
+            , SpacePlan spacePlan
+        )
         {
             if (element.GetType() == typeof(Container))
+            {
                 return;
-            
+            }
+
             var item = Stack.Pop();
 
             if (item.Element != element)
+            {
                 throw new Exception();
-            
+            }
+
             item.SpacePlan = spacePlan;
         }
-        
+
         public string BuildTrace()
         {
             var builder = new StringBuilder();
             var nestingLevel = 0;
 
-            Traverse(Root);
+            Traverse(item: Root);
             return builder.ToString();
 
-            void Traverse(DebugStackItem item)
+            void Traverse(
+                DebugStackItem item
+            )
             {
-                var indent = new string(' ', nestingLevel * 4);
+                var indent = new string(c: ' ', count: nestingLevel * 4);
                 var title = item.Element.GetType().Name;
 
                 if (item.Element is DebugPointer debugPointer)
@@ -75,54 +99,65 @@ namespace QuestPDF.Drawing.Proxy
                     title = debugPointer.Target;
                     title += debugPointer.Highlight ? " 🌟" : string.Empty;
                 }
-                
-                if (item.SpacePlan.Type != SpacePlanType.FullRender)
-                    title = "🔥 " + title;
 
-                builder.AppendLine(indent + title);
-                builder.AppendLine(indent + new string('-', title.Length));
-                
-                builder.AppendLine(indent + "Available space: " + item.AvailableSpace);
-                builder.AppendLine(indent + "Requested space: " + item.SpacePlan);
-                
-                foreach (var configuration in GetElementConfiguration(item.Element))
-                    builder.AppendLine(indent + configuration);
+                if (item.SpacePlan.Type != SpacePlanType.FullRender)
+                {
+                    title = "🔥 " + title;
+                }
+
+                builder.AppendLine(value: indent + title);
+                builder.AppendLine(value: indent + new string(c: '-', count: title.Length));
+
+                builder.AppendLine(value: indent + "Available space: " + item.AvailableSpace);
+                builder.AppendLine(value: indent + "Requested space: " + item.SpacePlan);
+
+                foreach (var configuration in GetElementConfiguration(element: item.Element))
+                {
+                    builder.AppendLine(value: indent + configuration);
+                }
 
                 builder.AppendLine();
-                
+
                 nestingLevel++;
-                item.Stack.ToList().ForEach(Traverse);
+                item.Stack.ToList().ForEach(action: Traverse);
                 nestingLevel--;
             }
 
-            static IEnumerable<string> GetElementConfiguration(IElement element)
+            static IEnumerable<string> GetElementConfiguration(
+                IElement element
+            )
             {
                 if (element is DebugPointer)
+                {
                     return Enumerable.Empty<string>();
-                
+                }
+
                 return element
                     .GetType()
                     .GetProperties()
-                    .Select(x => new
+                    .Select(selector: x => new
                     {
-                        Property = x.Name.PrettifyName(),
-                        Value = x.GetValue(element)
+                        Property = x.Name.PrettifyName(), Value = x.GetValue(obj: element)
                     })
-                    .Where(x => !(x.Value is IElement))
-                    .Where(x => x.Value is string || !(x.Value is IEnumerable))
-                    .Where(x => !(x.Value is TextStyle))
-                    .Select(x => $"{x.Property}: {FormatValue(x.Value)}");
+                    .Where(predicate: x => !(x.Value is IElement))
+                    .Where(predicate: x => x.Value is string || !(x.Value is IEnumerable))
+                    .Where(predicate: x => !(x.Value is TextStyle))
+                    .Select(selector: x => $"{x.Property}: {FormatValue(value: x.Value)}");
 
-                string FormatValue(object value)
+                string FormatValue(
+                    object value
+                )
                 {
                     const int maxLength = 100;
-                    
+
                     var text = value?.ToString() ?? "-";
 
                     if (text.Length < maxLength)
+                    {
                         return text;
+                    }
 
-                    return text.AsSpan(0, maxLength).ToString() + "...";
+                    return text.AsSpan(start: 0, length: maxLength).ToString() + "...";
                 }
             }
         }

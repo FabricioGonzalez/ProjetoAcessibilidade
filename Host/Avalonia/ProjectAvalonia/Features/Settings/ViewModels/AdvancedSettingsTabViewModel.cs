@@ -1,18 +1,21 @@
 using System;
 using System.Reactive.Linq;
 
+using ProjectAvalonia.ViewModels;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
 
 [NavigationMetaData(
-    Title = "Opções Avançadas",
-    Caption = "Gerenciamento de Opções Avançadas",
+    Title = "OpÃ§Ãµes AvanÃ§adas",
+    Caption = "Gerenciamento de OpÃ§Ãµes AvanÃ§adas",
     Order = 2,
-    Category = "Opções",
+    LocalizedTitle = "AdvancedSettingsViewNavLabel",
+    Category = "OpÃ§Ãµes",
     Keywords = new[]
     {
-            "Settings", "Advanced", "Enable", "GPU"
+        "Settings", "Advanced", "Enable", "GPU"
     },
     IconName = "settings_general_regular")]
 public partial class AdvancedSettingsTabViewModel : SettingsTabViewModelBase
@@ -21,6 +24,7 @@ public partial class AdvancedSettingsTabViewModel : SettingsTabViewModelBase
 
     public AdvancedSettingsTabViewModel()
     {
+        SetTitle("AdvancedSettingsViewNavLabel");
         _enableGpu = ServicesConfig.Config.EnableGpu;
 
         this.WhenAnyValue(x => x.EnableGpu)
@@ -29,9 +33,14 @@ public partial class AdvancedSettingsTabViewModel : SettingsTabViewModelBase
             .Skip(1)
             .Subscribe(_ => Save());
     }
-
-    protected override void EditConfigOnSave(Config config)
+    public override MenuViewModel? ToolBar => null;
+    public override string? LocalizedTitle
     {
-        config.EnableGpu = EnableGpu;
-    }
+        get;
+        protected set;
+    } = null;
+
+    protected override void EditConfigOnSave(
+        Config config
+    ) => config.EnableGpu = EnableGpu;
 }

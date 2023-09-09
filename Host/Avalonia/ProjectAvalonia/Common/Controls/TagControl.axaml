@@ -110,7 +110,8 @@
         <Setter Property="RenderTransform" Value="scale(0.8,0.8)" />
     </Style>
 
-    <Style Selector="c|TagsBox:not(:readonly) c|TagControl /template/ Panel#PART_TagPanel:pointerover Button#PART_DeleteButton">
+    <Style
+        Selector="c|TagsBox:not(:readonly) c|TagControl /template/ Panel#PART_TagPanel:pointerover Button#PART_DeleteButton">
         <Setter Property="Opacity" Value="1" />
         <Setter Property="RenderTransform" Value="scale(1,1)" />
     </Style>

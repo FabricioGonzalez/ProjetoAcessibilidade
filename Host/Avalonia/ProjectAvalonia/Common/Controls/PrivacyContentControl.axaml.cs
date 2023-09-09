@@ -1,32 +1,29 @@
 using System;
 using System.Reactive.Linq;
-
 using Avalonia;
 using Avalonia.Controls;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Common.Controls;
 
 public enum ReplacementMode
 {
-    Text,
-    Icon
+    Text
+    , Icon
 }
 
 public class PrivacyContentControl : ContentControl
 {
     public static readonly StyledProperty<ReplacementMode> PrivacyReplacementModeProperty =
-        AvaloniaProperty.Register<PrivacyContentControl, ReplacementMode>(nameof(PrivacyReplacementMode));
+        AvaloniaProperty.Register<PrivacyContentControl, ReplacementMode>(name: nameof(PrivacyReplacementMode));
 
     public static readonly StyledProperty<bool> ForceShowProperty =
-        AvaloniaProperty.Register<PrivacyContentControl, bool>(nameof(ForceShow));
+        AvaloniaProperty.Register<PrivacyContentControl, bool>(name: nameof(ForceShow));
 
     public static readonly StyledProperty<bool> UseOpacityProperty =
-        AvaloniaProperty.Register<PrivacyContentControl, bool>(nameof(UseOpacity), defaultValue: true);
+        AvaloniaProperty.Register<PrivacyContentControl, bool>(name: nameof(UseOpacity), defaultValue: true);
 
     public PrivacyContentControl()
     {
@@ -36,31 +33,34 @@ public class PrivacyContentControl : ContentControl
         }
 
         var displayContent = PrivacyModeHelper.DelayedRevealAndHide(
-            this.WhenAnyValue(x => x.IsPointerOver),
-            ServicesConfig.UiConfig.WhenAnyValue(x => x.PrivacyMode),
-            this.WhenAnyValue(x => x.ForceShow));
+            isPointerOver: this.WhenAnyValue(property1: x => x.IsPointerOver),
+            isPrivacyModeEnabled: ServicesConfig.UiConfig.WhenAnyValue(property1: x => x.PrivacyMode),
+            isVisibilityForced: this.WhenAnyValue(property1: x => x.ForceShow));
 
         IsContentRevealed = displayContent
             .ReplayLastActive();
     }
 
-    private IObservable<bool> IsContentRevealed { get; } = Observable.Empty<bool>();
+    private IObservable<bool> IsContentRevealed
+    {
+        get;
+    } = Observable.Empty<bool>();
 
     public ReplacementMode PrivacyReplacementMode
     {
-        get => GetValue(PrivacyReplacementModeProperty);
-        set => SetValue(PrivacyReplacementModeProperty, value);
+        get => GetValue(property: PrivacyReplacementModeProperty);
+        set => SetValue(property: PrivacyReplacementModeProperty, value: value);
     }
 
     public bool ForceShow
     {
-        get => GetValue(ForceShowProperty);
-        set => SetValue(ForceShowProperty, value);
+        get => GetValue(property: ForceShowProperty);
+        set => SetValue(property: ForceShowProperty, value: value);
     }
 
     public bool UseOpacity
     {
-        get => GetValue(UseOpacityProperty);
-        set => SetValue(UseOpacityProperty, value);
+        get => GetValue(property: UseOpacityProperty);
+        set => SetValue(property: UseOpacityProperty, value: value);
     }
 }

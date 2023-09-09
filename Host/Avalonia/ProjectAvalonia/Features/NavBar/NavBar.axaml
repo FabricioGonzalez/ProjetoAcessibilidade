@@ -79,7 +79,8 @@
         </Style>
 
         <Style x:CompileBindings="False" Selector="c|NavBarItem:selected PathIcon">
-            <Setter Property="Data" Value="{Binding IconNameFocused, Converter={x:Static conv:NavBarIconConverter.Instance}}" />
+            <Setter Property="Data"
+                    Value="{Binding IconNameFocused, Converter={x:Static conv:NavBarIconConverter.Instance}}" />
         </Style>
 
         <Style Selector="c|NavBarItem Ellipse">
@@ -120,7 +121,7 @@
     <DockPanel Margin="0,0,0,5">
 
         <!--  Bottom items  -->
-        <ItemsControl DockPanel.Dock="Bottom" Items="{Binding BottomItems}">
+        <ItemsControl DockPanel.Dock="Bottom" ItemsSource="{Binding BottomItems}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ReversibleStackPanel ReverseOrder="True" />
@@ -128,14 +129,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.DataTemplates>
                 <DataTemplate DataType="vm:NavBarItemViewModel">
-                    <c:NavBarItem>
-                        <StackPanel>
-                            <PathIcon Classes="new size24" />
-                            <LayoutTransformControl>
-                                <c:FadeOutTextBlock Text="{Binding Title}" />
-                            </LayoutTransformControl>
-                        </StackPanel>
-                    </c:NavBarItem>
+                    <vm:NavBarItemContainer DataContext="{Binding}" />
                 </DataTemplate>
             </ItemsControl.DataTemplates>
         </ItemsControl>
@@ -144,7 +138,7 @@
         <Separator DockPanel.Dock="Bottom" />
 
         <!--  Bottom items  -->
-        <ItemsControl Items="{Binding TopItems}">
+        <ItemsControl ItemsSource="{Binding TopItems}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ReversibleStackPanel ReverseOrder="True" />
@@ -152,14 +146,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.DataTemplates>
                 <DataTemplate DataType="vm:NavBarItemViewModel">
-                    <c:NavBarItem>
-                        <StackPanel>
-                            <PathIcon Classes="new size24" />
-                            <LayoutTransformControl>
-                                <c:FadeOutTextBlock Text="{Binding Title}" />
-                            </LayoutTransformControl>
-                        </StackPanel>
-                    </c:NavBarItem>
+                    <vm:NavBarItemContainer DataContext="{Binding}" />
                 </DataTemplate>
             </ItemsControl.DataTemplates>
         </ItemsControl>

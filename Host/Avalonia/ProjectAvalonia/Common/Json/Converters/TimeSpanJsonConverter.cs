@@ -1,5 +1,4 @@
 using System;
-
 using Newtonsoft.Json;
 
 namespace ProjectAvalonia.Common.Json.Converters;
@@ -7,36 +6,46 @@ namespace ProjectAvalonia.Common.Json.Converters;
 public class TimeSpanJsonConverter : JsonConverter<TimeSpan>
 {
     /// <inheritdoc />
-    public override TimeSpan ReadJson(JsonReader reader, Type objectType, TimeSpan existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override TimeSpan ReadJson(
+        JsonReader reader
+        , Type objectType
+        , TimeSpan existingValue
+        , bool hasExistingValue
+        , JsonSerializer serializer
+    )
     {
         var stringValue = reader.Value as string;
-        return Parse(stringValue);
+        return Parse(stringValue: stringValue);
     }
 
-    public static TimeSpan Parse(string? stringValue)
+    public static TimeSpan Parse(
+        string? stringValue
+    )
     {
-        if (string.IsNullOrWhiteSpace(stringValue))
+        if (string.IsNullOrWhiteSpace(value: stringValue))
         {
             return default;
         }
-        else
-        {
-            var daysParts = stringValue.Split('d');
-            var days = int.Parse(daysParts[0].Trim());
-            var hoursParts = daysParts[1].Split('h');
-            var hours = int.Parse(hoursParts[0].Trim());
-            var minutesParts = hoursParts[1].Split('m');
-            var minutes = int.Parse(minutesParts[0].Trim());
-            var secondsParts = minutesParts[1].Split('s');
-            var seconds = int.Parse(secondsParts[0].Trim());
-            return new TimeSpan(days, hours, minutes, seconds);
-        }
+
+        var daysParts = stringValue.Split(separator: 'd');
+        var days = int.Parse(s: daysParts[0].Trim());
+        var hoursParts = daysParts[1].Split(separator: 'h');
+        var hours = int.Parse(s: hoursParts[0].Trim());
+        var minutesParts = hoursParts[1].Split(separator: 'm');
+        var minutes = int.Parse(s: minutesParts[0].Trim());
+        var secondsParts = minutesParts[1].Split(separator: 's');
+        var seconds = int.Parse(s: secondsParts[0].Trim());
+        return new TimeSpan(days: days, hours: hours, minutes: minutes, seconds: seconds);
     }
 
     /// <inheritdoc />
-    public override void WriteJson(JsonWriter writer, TimeSpan value, JsonSerializer serializer)
+    public override void WriteJson(
+        JsonWriter writer
+        , TimeSpan value
+        , JsonSerializer serializer
+    )
     {
         var ts = value;
-        writer.WriteValue($"{ts.Days}d {ts.Hours}h {ts.Minutes}m {ts.Seconds}s");
+        writer.WriteValue(value: $"{ts.Days}d {ts.Hours}h {ts.Minutes}m {ts.Seconds}s");
     }
 }

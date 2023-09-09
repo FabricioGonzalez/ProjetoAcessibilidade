@@ -22,7 +22,8 @@
                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                         Background="Transparent"
                         ClipToBounds="False">
-                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
                         <controls:ClipboardCopyButton
                             x:Name="CopyButton"
                             Margin="0,0,-24,0"

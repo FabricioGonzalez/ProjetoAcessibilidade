@@ -3,11 +3,38 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:editingTab="clr-namespace:ProjectAvalonia.Features.Project.Views.Components.EditingTab"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:ProjectAvalonia.Features.Project.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="viewModels:ProjectEditingViewModel"
+    x:CompileBindings="True"
+    x:DataType="interfaces:IProjectEditingViewModel"
     mc:Ignorable="d">
-    Welcome to Avalonia!
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeProjectEditingViewModel />
+    </Design.DataContext>
+    <TabControl
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch"
+        AutoScrollToSelectedItem="True"
+        Background="Transparent"
+        Classes="horizontalScroller"
+        ItemsSource="{Binding EditingItems, Mode=OneWay}"
+        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+        TabStripPlacement="Top">
+        <TabControl.ItemTemplate>
+            <DataTemplate>
+                <editingTab:EditingTabHeader />
+            </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+            <DataTemplate DataType="interfaces:IEditingItemViewModel">
+                <editingTab:EditingContent />
+            </DataTemplate>
+        </TabControl.ContentTemplate>
+    </TabControl>
 </UserControl>

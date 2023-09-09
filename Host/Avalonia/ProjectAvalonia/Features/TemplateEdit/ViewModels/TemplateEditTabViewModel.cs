@@ -1,26 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Common;
-
-using Core.Entities.Solution.Project.AppItem;
-using Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
-using Core.Entities.Solution.Project.AppItem.DataItems.Text;
-using Core.Enuns;
-
-using Project.Application.Contracts;
-using Project.Application.Project.Queries.GetProjectItemContent;
-
-using ProjectAvalonia.Common.Models.FileItems;
-using ProjectAvalonia.Logging;
-
+using Common.Optional;
+using DynamicData;
+using DynamicData.Binding;
+using ProjectAvalonia.Models.ValidationTypes;
+using ProjectAvalonia.Presentation.Enums;
+using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.States;
+using ProjectAvalonia.Presentation.States.FormItemState;
+using ProjectAvalonia.Presentation.States.LawItemState;
+using ProjectAvalonia.ViewModels;
 using ReactiveUI;
-
-using Splat;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
 
@@ -32,60 +27,128 @@ namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
     Category = "Templates",
     Keywords = new[]
     {
-            "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close",
-            "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
+        "Settings", "General", "Bitcoin", "Dark", "Mode", "Run", "Computer", "System", "Start", "Background", "Close"
+        , "Auto", "Copy", "Paste", "Addresses", "Custom", "Change", "Address", "Fee", "Display", "Format", "BTC", "sats"
     },
     IconName = "settings_general_regular")]
-
-public partial class TemplateEditTabViewModel : TemplateEditTabViewModelBase
+public partial class TemplateEditTabViewModel
+    : TemplateEditTabViewModelBase
+        , ITemplateEditTabViewModel
 {
-    [AutoNotify] private FileItem _selectedItem;
-    [AutoNotify] private AppItemModel _editingItem;
+    private AppModelState _editingItem;
 
-    public ObservableCollection<AppFormDataType> Types => new(
-           Enum
-           .GetValues<AppFormDataType>());
-
-    private readonly IQueryDispatcher queryDispatcher;
+    [AutoNotify] private ObservableCollection<IValidationRuleContainerState> _editingItemRules;
 
     public TemplateEditTabViewModel()
     {
-        queryDispatcher ??= Locator.Current.GetService<IQueryDispatcher>();
-
-        this.WhenAnyValue(vm => vm.SelectedItem)
+        var observable = this.WhenAnyValue(vm => vm.EditingItem)
             .WhereNotNull()
-            .Subscribe(async (prop) =>
-            {
-                await LoadItemData(prop.FilePath);
-                Logger.LogDebug(prop.Name);
-            });
+            .Select(x => x.FormData
+                .ToObservableChangeSet()
+                .AutoRefresh()
+                .DisposeMany())
+            .Switch()
+            .WhenPropertyChanged(propertyAccessor: prop => prop.Type, notifyOnInitialValue: false)
+            .Subscribe(onNext: prop =>
+                {
+                    ChangeBody(prop.Sender);
+                }, onError: error =>
+                {
+                    Debug.WriteLine(error);
+                },
+                onCompleted: () =>
+                {
+                    Debug.WriteLine("Completado");
+                });
     }
 
-    private async Task LoadItemData(string path)
+    public override MenuViewModel? ToolBar => null;
+
+    public override string? LocalizedTitle
     {
-        (await queryDispatcher
-            .Dispatch<GetProjectItemContentQuery, Resource<AppItemModel>>(
-            query: new(path),
-            cancellation: CancellationToken.None))
-        .OnLoadingStarted(isLoading =>
-        {
+        get;
+        protected set;
+    } = null;
 
-        })
-        .OnSuccess(success =>
+    public ReactiveCommand<FormItemContainer, Unit> RemoveItemCommand => ReactiveCommand.Create<FormItemContainer>(
+        item =>
         {
-            success.Data.FormData.Where(item =>
-            {
-                return item is AppFormDataItemCheckboxModel || item is AppFormDataItemTextModel;
-            });
-
-            EditingItem = success.Data;
-        })
-        .OnError(error =>
-        {
-
+            EditingItem.RemoveItem(item);
         });
 
+    public ReactiveCommand<string, Unit> AddRuleCommand => ReactiveCommand.Create<string>(itemId =>
+    {
+        if (EditingItemRules
+                .FirstOrDefault(it => it.TargetContainerId == itemId) is { } res)
+        {
+            res?.ValidaitonRules
+                .Add(new ValidationRuleState { ValidationRuleName = itemId });
 
+            EditingItemRules.ReplaceOrAdd(original: EditingItemRules
+                .FirstOrDefault(it => it.TargetContainerId == itemId), replaceWith: res);
+            return;
+        }
+
+        EditingItemRules.Add(new ValidationRuleContainerState
+        {
+            TargetContainerId = itemId, ValidaitonRules = new ObservableCollection<IValidationRuleState>(
+                new List<IValidationRuleState>
+                    { new ValidationRuleState { ValidationRuleName = itemId } })
+        });
+    });
+
+
+    ReactiveCommand<(string, IValidationRuleState), Unit> ITemplateEditTabViewModel.EditRuleCommand
+    {
+        get;
     }
 
+    public ReactiveCommand<LawStateItem, Unit> RemoveLawCommand => ReactiveCommand.Create<LawStateItem>(item =>
+    {
+        EditingItem.RemoveLawItem(item);
+    });
+
+    public ReactiveCommand<Unit, Unit> AddItemCommand => ReactiveCommand.Create(() =>
+    {
+        EditingItem.AddFormItem(new FormItemContainer
+        {
+            Id = Guid.NewGuid().ToString(), Topic = "", Type = AppFormDataType.Text
+            , Body = new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString())
+        });
+    });
+
+    public ReactiveCommand<Unit, Unit> AddLawCommand => ReactiveCommand.Create(() =>
+    {
+        EditingItem.AddLawItems(new LawStateItem());
+    });
+
+    public AppModelState EditingItem
+    {
+        get => _editingItem;
+        set => this.RaiseAndSetIfChanged(backingField: ref _editingItem, newValue: value);
+    }
+
+    private void ChangeBody(
+        FormItemContainer container
+    )
+    {
+        var result = container.Body.ToOption()
+            .Map(e => container.Type switch
+            {
+                AppFormDataType.Text => container.ChangeItem(AppFormDataType.Text)
+                    .Reduce(() => new TextItemState(topic: container.Body.Topic, textData: "", id: container.Body.Id))
+                , AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
+                    .Reduce(() => new CheckboxContainerItemState(topic: container.Body.Topic, id: container.Body.Id))
+            })
+            .Reduce(() => container.Type switch
+            {
+                AppFormDataType.Text => container.ChangeItem(AppFormDataType.Text)
+                    .Reduce(() => new TextItemState(topic: "", textData: "", id: Guid.NewGuid().ToString()))
+                , AppFormDataType.Checkbox => container.ChangeItem(AppFormDataType.Checkbox)
+                    .Reduce(() => new CheckboxContainerItemState(topic: "", id: Guid.NewGuid().ToString()))
+            });
+        container.Body = result;
+
+        container.AddToHistory(result);
+    }
 }

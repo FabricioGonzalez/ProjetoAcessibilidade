@@ -5,28 +5,37 @@ namespace ProjectAvalonia.Nito.AsyncEx;
 
 public class RunningTasks : IDisposable
 {
-	public RunningTasks(AbandonedTasks taskCollection)
-	{
-		taskCollection.AddAndClearCompleted(Completion.Task);
-	}
+    public RunningTasks(
+        AbandonedTasks taskCollection
+    )
+    {
+        taskCollection.AddAndClearCompleted(Completion.Task);
+    }
 
-	private bool DisposedValue { get; set; } = false;
-	private TaskCompletionSource Completion { get; } = new();
+    private bool DisposedValue { get; set; }
+    private TaskCompletionSource Completion { get; } = new();
 
-	public static IDisposable RememberWith(AbandonedTasks taskCollection) => new RunningTasks(taskCollection);
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+    }
 
-	protected virtual void Dispose(bool disposing)
-	{
-		if (!DisposedValue)
-		{
-			if (disposing)
-			{
-				Completion.TrySetResult();
-			}
+    public static IDisposable RememberWith(
+        AbandonedTasks taskCollection
+    )
+    {
+        return new RunningTasks(taskCollection: taskCollection);
+    }
 
-			DisposedValue = true;
-		}
-	}
+    protected virtual void Dispose(
+        bool disposing
+    )
+    {
+        if (!DisposedValue)
+        {
+            if (disposing) Completion.TrySetResult();
 
-	public void Dispose() => Dispose(true);
+            DisposedValue = true;
+        }
+    }
 }

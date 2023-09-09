@@ -1,23 +1,30 @@
 ﻿using System;
 using System.ComponentModel;
-
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 
 namespace ProjectAvalonia.Common.Helpers;
+
 public class FlyoutShowController : IDisposable
 {
     private readonly FlyoutBase _flyout;
     private readonly Control _parent;
     private bool _isForcedOpen;
 
-    public FlyoutShowController(Control parent, FlyoutBase flyout)
+    public FlyoutShowController(
+        Control parent
+        , FlyoutBase flyout
+    )
     {
         _flyout = flyout;
         _parent = parent;
     }
 
-    public void SetIsForcedOpen(bool value)
+    public void Dispose() => ((Flyout)_flyout).Closing -= RejectClose;
+
+    public void SetIsForcedOpen(
+        bool value
+    )
     {
         if (_isForcedOpen == value)
         {
@@ -28,23 +35,18 @@ public class FlyoutShowController : IDisposable
 
         if (_isForcedOpen)
         {
-            _flyout.Closing += RejectClose;
-            _flyout.ShowAt(_parent);
+            ((Flyout)_flyout).Closing += RejectClose;
+            _flyout.ShowAt(placementTarget: _parent);
         }
         else
         {
-            _flyout.Closing -= RejectClose;
+            ((Flyout)_flyout).Closing -= RejectClose;
             _flyout.Hide();
         }
     }
 
-    private static void RejectClose(object? sender, CancelEventArgs e)
-    {
-        e.Cancel = true;
-    }
-
-    public void Dispose()
-    {
-        _flyout.Closing -= RejectClose;
-    }
+    private static void RejectClose(
+        object? sender
+        , CancelEventArgs e
+    ) => e.Cancel = true;
 }

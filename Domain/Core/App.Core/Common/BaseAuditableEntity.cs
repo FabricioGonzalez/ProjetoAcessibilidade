@@ -1,23 +1,34 @@
-﻿namespace Core.Common;
+﻿namespace ProjetoAcessibilidade.Core.Common;
+
 public abstract class BaseAuditableEntity : BaseEntity
 {
+    protected BaseAuditableEntity(
+        Guid id
+    ) : base(id)
+    {
+    }
+
     public DateTime Created
     {
-        get; set;
+        get;
+        set;
     }
 
     public string? CreatedBy
     {
-        get; set;
+        get;
+        set;
     }
 
     public DateTime? LastModified
     {
-        get; set;
+        get;
+        set;
     }
 
     public string? LastModifiedBy
     {
-        get; set;
+        get;
+        set;
     }
 }

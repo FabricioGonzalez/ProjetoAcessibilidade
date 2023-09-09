@@ -6,7 +6,8 @@
     xmlns:i="using:Avalonia.Xaml.Interactivity"
     xmlns:p="using:ProjectAvalonia.Properties">
     <Design.PreviewWith>
-        <Panel Background="{DynamicResource RegionColor}">
+        <Panel Width="600"
+               Height="500" Background="{DynamicResource TileRegionColor}">
             <c:ContentArea
                 Title="Add a Wallet"
                 Width="500"
@@ -16,6 +17,7 @@
                 EnableBack="True"
                 EnableCancel="True"
                 EnableNext="True"
+                EnableSkip="True"
                 FocusCancel="False"
                 FocusNext="True"
                 IsBusy="False"
@@ -27,8 +29,12 @@
     <Styles.Resources />
     <Style Selector="c|ContentArea">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
+                Value="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" />
         <Setter Property="IsHitTestVisible" Value="{Binding IsActive}" />
+        <Setter Property="HorizontalAlignment" Value="{TemplateBinding HorizontalAlignment}" />
+        <Setter Property="VerticalAlignment" Value="{TemplateBinding VerticalAlignment}" />
+        <Setter Property="Padding" Value="{TemplateBinding Padding}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -38,21 +44,22 @@
                         IsIndeterminate="True"
                         IsVisible="{TemplateBinding IsBusy}" />
                     <DockPanel Name="MainDockPanel" IsVisible="{Binding !#LoadingRing.IsVisible}">
-
-                        <Panel x:Name="PART_ButtonArea" DockPanel.Dock="Bottom">
+                        <DockPanel x:Name="PART_ButtonArea" DockPanel.Dock="Bottom">
                             <Button
                                 Name="PART_CancelButton"
-                                HorizontalAlignment="Left"
                                 Classes="invisible"
                                 Command="{Binding CancelCommand}"
                                 Content="{TemplateBinding CancelContent}"
+                                DockPanel.Dock="Left"
                                 IsVisible="{TemplateBinding EnableCancel}">
                                 <i:Interaction.Behaviors>
-                                    <behaviors:FocusOnAttachedBehavior IsEnabled="{Binding FocusCancel, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <behaviors:FocusOnAttachedBehavior
+                                        IsEnabled="{Binding FocusCancel, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </i:Interaction.Behaviors>
                             </Button>
+
                             <StackPanel
-                                HorizontalAlignment="Right"
+                                DockPanel.Dock="Right"
                                 Orientation="Horizontal"
                                 Spacing="30">
                                 <Button
@@ -70,11 +77,17 @@
                                     IsDefault="{Binding IsActive}"
                                     IsVisible="{TemplateBinding EnableNext}">
                                     <i:Interaction.Behaviors>
-                                        <behaviors:FocusOnAttachedBehavior IsEnabled="{Binding FocusNext, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <behaviors:FocusOnAttachedBehavior
+                                            IsEnabled="{Binding FocusNext, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </i:Interaction.Behaviors>
                                 </Button>
                             </StackPanel>
-                        </Panel>
+
+                            <Border
+                                Margin="4,4"
+                                VerticalAlignment="Bottom"
+                                Child="{TemplateBinding FooterContent}" />
+                        </DockPanel>
 
                         <Panel DockPanel.Dock="Top">
                             <Panel Background="{TemplateBinding HeaderBackground}" IsHitTestVisible="False" />
@@ -87,7 +100,8 @@
                                         Command="{Binding BackCommand}"
                                         IsVisible="{TemplateBinding EnableBack}">
                                         <i:Interaction.Behaviors>
-                                            <behaviors:ButtonExecuteCommandOnKeyDownBehavior Key="Back" IsEnabled="{Binding IsActive}" />
+                                            <behaviors:ButtonExecuteCommandOnKeyDownBehavior Key="Back"
+                                                IsEnabled="{Binding IsActive}" />
                                         </i:Interaction.Behaviors>
                                         <PathIcon Width="16" Data="{StaticResource arrow_left_regular}" />
                                     </Button>
@@ -99,13 +113,15 @@
                         </Panel>
 
                         <ScrollViewer
+							Margin="2,4,2,8"
                             x:Name="PART_ScrollViewer"
                             ClipToBounds="{TemplateBinding ClipToBounds}"
                             HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                             VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                             <ScrollViewer.Styles>
                                 <Style Selector="ScrollViewer /template/ ScrollContentPresenter">
-                                    <Setter Property="ClipToBounds" Value="{Binding $parent[ScrollViewer].ClipToBounds}" />
+                                    <Setter Property="ClipToBounds"
+                                            Value="{Binding $parent[ScrollViewer].ClipToBounds}" />
                                 </Style>
                             </ScrollViewer.Styles>
                             <ContentControl
@@ -125,13 +141,9 @@
         </Setter>
     </Style>
 
-    <Style Selector="c|ContentArea /template/ StackPanel#PART_Header">
-        <Setter Property="Margin" Value="31 0 31 0" />
-    </Style>
-
-    <Style Selector="c|ContentArea /template/ ScrollViewer#PART_ScrollViewer">
-        <Setter Property="Margin" Value="31 11 31 21" />
-    </Style>
+    <!--<Style Selector="c|ContentArea /template/ StackPanel#PART_Header">
+        <Setter Property="Margin" Value="31 0 24 0" />
+    </Style>-->
 
     <Style Selector="c|ContentArea /template/ Panel#PART_ButtonArea">
         <Setter Property="Margin" Value="31,10" />

@@ -1,13 +1,37 @@
 namespace QuestPDF.Elements.Table
 {
-    public class TableCell : Container, ITableCellContainer
+    public class TableCell
+        : Container
+            , ITableCellContainer
     {
-        public int Row { get; set; } = 0;
-        public int RowSpan { get; set; } = 1;
+        public int Row
+        {
+            get;
+            set;
+        } = 0;
 
-        public int Column { get; set; } = 0;
-        public int ColumnSpan { get; set; } = 1;
-        
-        public bool IsRendered { get; set; }
+        public int RowSpan
+        {
+            get;
+            set;
+        } = 1;
+
+        public int Column
+        {
+            get;
+            set;
+        } = 0;
+
+        public int ColumnSpan
+        {
+            get;
+            set;
+        } = 1;
+
+        public bool IsRendered
+        {
+            get;
+            set;
+        }
     }
 }

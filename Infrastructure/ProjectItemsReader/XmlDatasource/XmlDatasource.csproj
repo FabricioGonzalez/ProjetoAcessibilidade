@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="publicAppFiles\**"/>
+        <EmbeddedResource Remove="publicAppFiles\**"/>
+        <None Remove="publicAppFiles\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3"/>
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <Folder Include="ExplorerItems\Mappers\"/>
+        <Folder Include="ProjectItems\Mappers\"/>
+        <Folder Include="ValidationRules\Mappers\"/>
+    </ItemGroup>
+
+</Project>

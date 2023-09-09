@@ -1,11 +1,9 @@
 using System;
 using System.ComponentModel;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 using ProjectAvalonia.Common.Bases;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Common.Logging;
 
 namespace ProjectAvalonia;
 
@@ -13,33 +11,58 @@ namespace ProjectAvalonia;
 public class Config : ConfigBase
 {
     /// <summary>
-    /// Constructor for config population using Newtonsoft.JSON.
+    ///     Constructor for config population using Newtonsoft.JSON.
     /// </summary>
-    public Config() : base()
+    public Config()
     {
         /*  ServiceConfiguration = null!;*/
     }
 
-    public Config(string filePath) : base(filePath)
+    public Config(
+        string filePath
+    ) : base(filePath)
     {
         /*   ServiceConfiguration = new ServiceConfiguration(GetBitcoinP2pEndPoint(), DustThreshold);*/
     }
+
     [JsonProperty(PropertyName = "EnableGpu")]
-    public bool EnableGpu { get; internal set; } = true;
+    public bool EnableGpu
+    {
+        get;
+        internal set;
+    } = true;
 
     [DefaultValue(true)]
     [JsonProperty(PropertyName = "DownloadNewVersion", DefaultValueHandling = DefaultValueHandling.Populate)]
-    public bool DownloadNewVersion { get; internal set; } = true;
+    public bool DownloadNewVersion
+    {
+        get;
+        internal set;
+    } = true;
+
+
+    [JsonProperty(PropertyName = "AppVersion", DefaultValueHandling = DefaultValueHandling.Populate)]
+    public string AppVersion
+    {
+        get;
+        internal set;
+    } = "1.0.0";
+
+    [DefaultValue("en")]
+    [JsonProperty(PropertyName = "AppLanguage", DefaultValueHandling = DefaultValueHandling.Populate)]
+    public string AppLanguage
+    {
+        get;
+        internal set;
+    } = "en";
 
     /// <inheritdoc />
-    public override void LoadFile()
-    {
-        base.LoadFile();
+    public override void LoadFile() => base.LoadFile();
 
-        /* ServiceConfiguration = new ServiceConfiguration(GetBitcoinP2pEndPoint(), DustThreshold);*/
-    }
-
-    protected override bool TryEnsureBackwardsCompatibility(string jsonString)
+    /* ServiceConfiguration = new ServiceConfiguration(GetBitcoinP2pEndPoint(), DustThreshold);*/
+    protected override bool TryEnsureBackwardsCompatibility(
+        string jsonString
+    )
     {
         try
         {
@@ -51,7 +74,7 @@ public class Config : ConfigBase
                 return false;
             }
 
-            bool saveIt = false;
+            var saveIt = false;
 
             return saveIt;
         }

@@ -1,17 +1,14 @@
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-using DynamicData;
-
-using ProjectAvalonia.ViewModels;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;
 
 namespace ProjectAvalonia.Features.NavBar;
 
 /// <summary>
-/// The ViewModel that represents the structure of the sidebar.
+///     The ViewModel that represents the structure of the sidebar.
 /// </summary>
 public class NavBarViewModel : ViewModelBase
 {
@@ -21,7 +18,6 @@ public class NavBarViewModel : ViewModelBase
         BottomItems = new ObservableCollection<NavBarItemViewModel>();
 
         SetDefaultSelection();
-
     }
 
     public ObservableCollection<NavBarItemViewModel> TopItems
@@ -36,7 +32,6 @@ public class NavBarViewModel : ViewModelBase
 
     private void SetDefaultSelection()
     {
-
     }
 
     public async Task InitialiseAsync()
@@ -49,6 +44,8 @@ public class NavBarViewModel : ViewModelBase
         {
             var viewModel = await NavigationManager.MaterialiseViewModelAsync(item);
 
+            viewModel?.SetTitle(item.LocalizedTitle);
+
             if (viewModel is NavBarItemViewModel navBarItem)
             {
                 TopItems.Add(navBarItem);
@@ -58,6 +55,8 @@ public class NavBarViewModel : ViewModelBase
         foreach (var item in bottomItems)
         {
             var viewModel = await NavigationManager.MaterialiseViewModelAsync(item);
+
+            viewModel?.SetTitle(item.LocalizedTitle);
 
             if (viewModel is NavBarItemViewModel navBarItem)
             {

@@ -1,13 +1,31 @@
-﻿using Core.Enuns;
+﻿using ProjetoAcessibilidade.Core.Enuns;
 
-namespace Core.Entities.Solution.Project.AppItem.DataItems.Text;
+namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
+
 public class AppFormDataItemTextModel : IAppFormDataItemContract
 {
-    public string Topic { get; set; } = "";
-    public AppFormDataType Type { get; set; } = AppFormDataType.Texto;
-    public string TextData { get; set; } = "";
+    public AppFormDataItemTextModel(
+        string id
+        , string topic
+        , AppFormDataType type = AppFormDataType.Texto
+        , string textData = ""
+        , string? measurementUnit = null
+    )
+        : base(id: id, topic: topic, type: type)
+    {
+        TextData = textData;
+        MeasurementUnit = measurementUnit;
+    }
 
-#nullable enable
-    public string? MeasurementUnit { get; set; } = null;
-#nullable disable
+    public string TextData
+    {
+        get;
+        set;
+    } = "";
+
+    public string? MeasurementUnit
+    {
+        get;
+        set;
+    }
 }

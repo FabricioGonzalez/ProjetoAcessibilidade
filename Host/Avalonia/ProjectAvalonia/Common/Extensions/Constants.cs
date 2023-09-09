@@ -1,4 +1,3 @@
-
 using System;
 
 namespace ProjectAvalonia.Common.Extensions;
@@ -9,9 +8,13 @@ public static class AppConstants
     public const string ClientSupportBackendVersionMax = "4";
     public const string BackendMajorVersion = "4";
 
+    public const string ReleaseURL =
+        "https://api.github.com/repos/FabricioGonzalez/ProjetoAcessibilidade/releases/latest";
+
     /// <summary>
-    /// By changing this, we can force to start over the transactions file, so old incorrect transactions would be cleared.
-    /// It is also important to force the KeyManagers to be reindexed when this is changed by renaming the BlockState Height related property.
+    ///     By changing this, we can force to start over the transactions file, so old incorrect transactions would be cleared.
+    ///     It is also important to force the KeyManagers to be reindexed when this is changed by renaming the BlockState
+    ///     Height related property.
     /// </summary>
     public const string ConfirmedTransactionsVersion = "2";
 
@@ -28,7 +31,7 @@ public static class AppConstants
     public const int P2trOutputVirtualSize = 43;
 
     /// <summary>
-    /// OBSOLATED, USE SPECIFIC TYPE
+    ///     OBSOLATED, USE SPECIFIC TYPE
     /// </summary>
     public const int OutputSizeInBytes = 33;
 
@@ -52,30 +55,38 @@ public static class AppConstants
     public const string AlphaNumericCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     public const string CapitalAlphaNumericCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-    public static readonly Version ClientVersion = new(2, 0, 2, 1);
+    public static readonly Version ClientVersion = new(major: 2, minor: 0, build: 2, revision: 1);
 
-    public static readonly Version HwiVersion = new("2.1.1");
-    public static readonly Version BitcoinCoreVersion = new("21.2");
-    public static readonly Version Ww1LegalDocumentsVersion = new(3, 0);
-    public static readonly Version Ww2LegalDocumentsVersion = new(1, 0);
+    public static readonly Version HwiVersion = new(version: "2.1.1");
+    public static readonly Version BitcoinCoreVersion = new(version: "21.2");
+    public static readonly Version Ww1LegalDocumentsVersion = new(major: 3, minor: 0);
+    public static readonly Version Ww2LegalDocumentsVersion = new(major: 1, minor: 0);
 
     // Defined in hours. Do not modify these values or the order!
-    public static readonly int[] CoinJoinFeeRateMedianTimeFrames = new[] { 24, 168, 720 };
+    public static readonly int[] CoinJoinFeeRateMedianTimeFrames = { 24, 168, 720 };
 
-    public static readonly int[] ConfirmationTargets = new[]
+    public static readonly int[] ConfirmationTargets =
     {
         2, // Twenty Minutes
-		3, // Thirty Minutes
-		6, // One Hour
-		18, // Three Hours
-		36, // Six Hours
-		72, // Twelve Hours
-		144, // One Day
-		432, // Three Days
-		1008, // Seven Days
-	};
+        3
+        , // Thirty Minutes
+        6
+        , // One Hour
+        18
+        , // Three Hours
+        36
+        , // Six Hours
+        72
+        , // Twelve Hours
+        144
+        , // One Day
+        432
+        , // Three Days
+        1008 // Seven Days
+    };
 
-    public static string ClientSupportBackendVersionText => ClientSupportBackendVersionMin == ClientSupportBackendVersionMax
-        ? ClientSupportBackendVersionMin
-        : $"{ClientSupportBackendVersionMin} - {ClientSupportBackendVersionMax}";
+    public static string ClientSupportBackendVersionText =>
+        ClientSupportBackendVersionMin == ClientSupportBackendVersionMax
+            ? ClientSupportBackendVersionMin
+            : $"{ClientSupportBackendVersionMin} - {ClientSupportBackendVersionMax}";
 }

@@ -2,38 +2,181 @@
     x:Class="ProjectAvalonia.Features.Project.Views.ProjectExplorerView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+    xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+    xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:ProjectAvalonia.Features.Project.ViewModels"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+    xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
+    xmlns:views="clr-namespace:ProjectAvalonia.Features.Project.Views"
+    xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+    xmlns:behaviors1="clr-namespace:ProjectAvalonia.Features.Project.Behaviors"
+
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="viewModels:ProjectExplorerViewModel"
+    x:DataType="interfaces:IProjectExplorerViewModel"
     mc:Ignorable="d">
-    <Grid Name="ExplorerRoot" RowDefinitions="1*">
-        <TreeView
-            x:Name="explorerTreeView"
-            Grid.Row="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            CornerRadius="8"
-            Items="{Binding SolutionModel.ItemGroups}"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-            SelectionMode="Toggle">
-            <TreeView.ItemTemplate>
-                <DataTemplate>
-                    <TreeViewItem Header="{Binding Name}" Items="{Binding Items}">
-                        <TreeViewItem.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </TreeViewItem.ItemTemplate>
+    <UserControl.Styles>
+        <Style Selector="TreeView.NodesDragAndDrop">
+            <Style.Resources>
+                <behaviors1:ProjectExplorerItemDNDBehavior x:Key="ProjectExplorerItemDNDBehavior" />
+            </Style.Resources>
+            <Setter Property="(Interaction.Behaviors)">
+                <BehaviorCollectionTemplate>
+                    <BehaviorCollection>
+                        <ContextDropBehavior Handler="{StaticResource ProjectExplorerItemDNDBehavior}" />
+                    </BehaviorCollection>
+                </BehaviorCollectionTemplate>
+            </Setter>
+        </Style>
 
-                    </TreeViewItem>
-                </DataTemplate>
-            </TreeView.ItemTemplate>
+        <Style Selector="TreeView.NodesDragAndDrop TreeViewItem">
+            <Setter Property="IsExpanded" Value="True" />
+            <Setter Property="(Interaction.Behaviors)">
+                <BehaviorCollectionTemplate>
+                    <BehaviorCollection>
+                        <ContextDragBehavior />
+                    </BehaviorCollection>
+                </BehaviorCollectionTemplate>
+            </Setter>
+        </Style>
+    </UserControl.Styles>
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeProjectExplorerViewModel />
+    </Design.DataContext>
+    <Grid Background="{DynamicResource AcrylicTrimBackground}" RowDefinitions="24,16,32,16,1*">
+        <TextBlock
+            Grid.Row="0"
+            Margin="4,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{x:Static p:Resources.Solution_Explorer_Label}" />
+        <Separator Grid.Row="1" />
+        <TextBox
+            Grid.Row="2"
+            Margin="4,0"
+            Watermark="{x:Static p:Resources.Search_Solution_Items_Watermark}">
+            <TextBox.InnerRightContent>
+                <PathIcon Margin="0,0,4,0" Data="{StaticResource search_regular}" />
+            </TextBox.InnerRightContent>
+        </TextBox>
+        <Separator Grid.Row="3" />
+        <TreeView
+            Grid.Row="4"
+            Margin="4,0"
+            Padding="0"
+            Classes="NodesDragAndDrop"
+            VerticalAlignment="Stretch"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <TreeViewItem DataContext="{Binding SolutionRootItem.SolutionItem }" Header="{Binding Name}">
+                <Interaction.Behaviors>
+                    <behaviors:ExecuteCommandOnDoubleTappedBehavior
+                        Command="{Binding $parent[views:ProjectView].((viewModels:ProjectViewModel)DataContext).ProjectEditingViewModel.AddItemToEdit}"
+                        CommandParameter="{Binding}" />
+                </Interaction.Behaviors>
+            </TreeViewItem>
+            <TreeViewItem DataContext="{Binding SolutionRootItem.ConclusionItem}" Header="{Binding Name}">
+                <Interaction.Behaviors>
+                    <behaviors:ExecuteCommandOnDoubleTappedBehavior
+                        Command="{Binding $parent[views:ProjectView].((viewModels:ProjectViewModel)DataContext).ProjectEditingViewModel.AddItemToEdit}"
+                        CommandParameter="{Binding}" />
+                </Interaction.Behaviors>
+            </TreeViewItem>
+            <TreeViewItem DataContext="{Binding SolutionRootItem}" Header="Itens" ItemsSource="{Binding LocationItems}">
+                <TreeViewItem.DataTemplates>
+                    <TreeDataTemplate DataType="viewModels:SolutionLocationItemViewModel" ItemsSource="{Binding Items}">
+                        <StackPanel
+                            Spacing="2"
+                            Orientation="Horizontal">
+                            <PathIcon
+                                Data="{StaticResource folder_regular}" />
+                            <controls:EditableTextBlock
+                                CommitCommand="{Binding CommitFolderCommand}"
+                                Command="{Binding RenameFolderCommand}"
+                                Text="{Binding Name,Mode=OneWay}"
+                                EditText="{Binding Name,Mode=TwoWay}"
+                                InEditMode="{Binding InEditing}" />
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding AddProjectItemCommand}"
+                                              Header="{x:Static p:Resources.Add_Folder_Item_Menu_Header}" />
+                                    <MenuItem Command="{Binding AddExistingItemCommand}"
+                                              Header="{x:Static p:Resources.Add_Existing_Folder_Item_Menu_Header}" />
+                                    <MenuItem Command="{Binding RenameFolderCommand}"
+                                              Header="{x:Static p:Resources.Rename_Folder_Item_Menu_Header}" />
+                                    <MenuItem Command="{Binding ExcludeFolderCommand}"
+                                              Header="{x:Static p:Resources.Exclude_Folder_Item_Menu_Header}" />
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
+                        </StackPanel>
+                    </TreeDataTemplate>
+
+                    <TreeDataTemplate DataType="viewModels:ItemGroupViewModel" ItemsSource="{Binding Items}">
+                        <StackPanel Spacing="2"
+                                    Orientation="Horizontal">
+                            <PathIcon
+                                Data="{StaticResource folder_regular}"
+                                DockPanel.Dock="Left" />
+                            <controls:EditableTextBlock CommitCommand="{Binding CommitFolderCommand}"
+                                                        Command="{Binding RenameFolderCommand}"
+                                                        Text="{Binding Name,Mode=OneWay}"
+                                                        EditText="{Binding Name,Mode=TwoWay}"
+                                                        InEditMode="{Binding InEditing}" />
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding AddProjectItemCommand}"
+                                              Header="{x:Static p:Resources.Add_Folder_Item_Menu_Header}" />
+                                    <MenuItem Command="{Binding AddExistingItemCommand}"
+                                              Header="{x:Static p:Resources.Add_Existing_Folder_Item_Menu_Header}" />
+                                    <MenuItem Command="{Binding RenameFolderCommand}"
+                                              Header="{x:Static p:Resources.Rename_Folder_Item_Menu_Header}" />
+                                    <MenuItem Command="{Binding ExcludeFolderCommand}"
+                                              Header="{x:Static p:Resources.Exclude_Folder_Item_Menu_Header}" />
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
+                        </StackPanel>
+                    </TreeDataTemplate>
+
+                    <DataTemplate DataType="viewModels:ItemViewModel">
+                        <StackPanel Classes="ItemsDragAndDrop"
+                                    DragDrop.AllowDrop="True"
+                                    Spacing="8"
+                                    Orientation="Horizontal">
+                            <Interaction.Behaviors>
+                                <behaviors:ExecuteCommandOnDoubleTappedBehavior
+                                    Command="{Binding $parent[views:ProjectView].((viewModels:ProjectViewModel)DataContext).ProjectEditingViewModel.AddItemToEdit}"
+                                    CommandParameter="{Binding}" />
+                            </Interaction.Behaviors>
+                            <PathIcon
+                                HorizontalAlignment="Left"
+                                Data="{StaticResource document_regular}" />
+                            <controls:EditableTextBlock
+                                CommitCommand="{Binding CommitFileCommand}"
+                                Command="{Binding RenameFileCommand}"
+                                CommandParameter="{Binding Parent}"
+                                InEditMode="{Binding InEditing}"
+                                Text="{Binding Name,Mode=OneWay}"
+                                EditText="{Binding Name,Mode=TwoWay}" />
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding ExcludeFileCommand}"
+                                              Header="{x:Static p:Resources.Exclude_File_Item_Menu_Header}" />
+                                    <MenuItem
+                                        Command="{Binding RenameFileCommand}"
+                                        Header="{x:Static p:Resources.Rename_File_Item_Menu_Header}" />
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeViewItem.DataTemplates>
+            </TreeViewItem>
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding CreateFolderCommand}"
+                              Header="{x:Static p:Resources.Add_Solution_Item_Menu_Item}" />
+                </ContextMenu>
+            </TreeView.ContextMenu>
         </TreeView>
     </Grid>
 </UserControl>

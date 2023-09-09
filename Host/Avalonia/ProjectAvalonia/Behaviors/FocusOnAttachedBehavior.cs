@@ -7,20 +7,22 @@ namespace ProjectAvalonia.Behaviors;
 
 public class FocusOnAttachedBehavior : AttachedToVisualTreeBehavior<Control>
 {
-	public static readonly StyledProperty<bool> IsEnabledProperty =
-		AvaloniaProperty.Register<FocusOnAttachedBehavior, bool>(nameof(IsEnabled), true);
+    public static readonly StyledProperty<bool> IsEnabledProperty =
+        AvaloniaProperty.Register<FocusOnAttachedBehavior, bool>(name: nameof(IsEnabled), defaultValue: true);
 
-	public bool IsEnabled
-	{
-		get => GetValue(IsEnabledProperty);
-		set => SetValue(IsEnabledProperty, value);
-	}
+    public bool IsEnabled
+    {
+        get => GetValue(property: IsEnabledProperty);
+        set => SetValue(property: IsEnabledProperty, value: value);
+    }
 
-	protected override void OnAttachedToVisualTree(CompositeDisposable disposables)
-	{
-		if (IsEnabled)
-		{
-			Dispatcher.UIThread.Post(() => AssociatedObject?.Focus());
-		}
-	}
+    protected override void OnAttachedToVisualTree(
+        CompositeDisposable disposables
+    )
+    {
+        if (IsEnabled)
+        {
+            Dispatcher.UIThread.Post(action: () => AssociatedObject?.Focus());
+        }
+    }
 }

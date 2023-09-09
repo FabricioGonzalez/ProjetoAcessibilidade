@@ -1,41 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using QuestPDF.Elements;
 using QuestPDF.Elements.Text;
 using QuestPDF.Elements.Text.Items;
 using QuestPDF.Infrastructure;
-
 using static System.String;
 
 namespace QuestPDF.Fluent
 {
     public class TextSpanDescriptor
     {
+        public TextSpanDescriptor(
+            TextStyle textStyle
+        )
+        {
+            TextStyle = textStyle;
+        }
+
         public TextStyle TextStyle
         {
             get;
         }
-
-        public TextSpanDescriptor(TextStyle textStyle)
-        {
-            TextStyle = textStyle;
-        }
     }
 
-    public delegate string PageNumberFormatter(int? pageNumber);
+    public delegate string PageNumberFormatter(
+        int? pageNumber
+    );
 
     public class TextPageNumberDescriptor : TextSpanDescriptor
     {
-        public PageNumberFormatter FormatFunction { get; private set; } = x => x?.ToString() ?? string.Empty;
-
-        public TextPageNumberDescriptor(TextStyle textStyle) : base(textStyle)
+        public TextPageNumberDescriptor(
+            TextStyle textStyle
+        ) : base(textStyle)
         {
-
         }
 
-        public TextPageNumberDescriptor Format(PageNumberFormatter formatter)
+        public PageNumberFormatter FormatFunction
+        {
+            get;
+            private set;
+        } = x => x?.ToString() ?? string.Empty;
+
+        public TextPageNumberDescriptor Format(
+            PageNumberFormatter formatter
+        )
         {
             FormatFunction = formatter ?? FormatFunction;
             return this;
@@ -44,17 +53,39 @@ namespace QuestPDF.Fluent
 
     public class TextDescriptor
     {
-        private ICollection<TextBlock> TextBlocks { get; } = new List<TextBlock>();
-        private TextStyle DefaultStyle { get; set; } = TextStyle.Default;
-        public HorizontalAlignment Alignment { get; set; } = HorizontalAlignment.Left;
-        private float Spacing { get; set; } = 0f;
+        private ICollection<TextBlock> TextBlocks
+        {
+            get;
+        } = new List<TextBlock>();
 
-        public void DefaultTextStyle(TextStyle style)
+        private TextStyle DefaultStyle
+        {
+            get;
+            set;
+        } = TextStyle.Default;
+
+        public HorizontalAlignment Alignment
+        {
+            get;
+            set;
+        } = HorizontalAlignment.Left;
+
+        private float Spacing
+        {
+            get;
+            set;
+        } = 0f;
+
+        public void DefaultTextStyle(
+            TextStyle style
+        )
         {
             DefaultStyle = style;
         }
 
-        public void DefaultTextStyle(Func<TextStyle, TextStyle> style)
+        public void DefaultTextStyle(
+            Func<TextStyle, TextStyle> style
+        )
         {
             DefaultStyle = style(TextStyle.Default);
         }
@@ -74,12 +105,17 @@ namespace QuestPDF.Fluent
             Alignment = HorizontalAlignment.Right;
         }
 
-        public void ParagraphSpacing(float value, Unit unit = Unit.Point)
+        public void ParagraphSpacing(
+            float value
+            , Unit unit = Unit.Point
+        )
         {
             Spacing = value.ToPoints(unit);
         }
 
-        private void AddItemToLastTextBlock(ITextBlockItem item)
+        private void AddItemToLastTextBlock(
+            ITextBlockItem item
+        )
         {
             if (!TextBlocks.Any())
                 TextBlocks.Add(new TextBlock());
@@ -87,13 +123,19 @@ namespace QuestPDF.Fluent
             TextBlocks.Last().Items.Add(item);
         }
 
-        [Obsolete("This element has been renamed since version 2022.3. Please use the overload that returns a TextSpanDescriptor object which allows to specify text style.")]
-        public void Span(string? text, TextStyle style)
+        [Obsolete(
+            "This element has been renamed since version 2022.3. Please use the overload that returns a TextSpanDescriptor object which allows to specify text style.")]
+        public void Span(
+            string? text
+            , TextStyle style
+        )
         {
             Span(text).Style(style);
         }
 
-        public TextSpanDescriptor Span(string? text)
+        public TextSpanDescriptor Span(
+            string? text
+        )
         {
             var style = DefaultStyle.Clone();
             var descriptor = new TextSpanDescriptor(style);
@@ -106,8 +148,7 @@ namespace QuestPDF.Fluent
                 .Split(new[] { '\n' }, StringSplitOptions.None)
                 .Select(x => new TextBlockSpan
                 {
-                    Text = x,
-                    Style = style
+                    Text = x, Style = style
                 })
                 .ToList();
 
@@ -125,7 +166,9 @@ namespace QuestPDF.Fluent
             return descriptor;
         }
 
-        public TextSpanDescriptor Line(string? text)
+        public TextSpanDescriptor Line(
+            string? text
+        )
         {
             text ??= string.Empty;
             return Span(text + Environment.NewLine);
@@ -136,15 +179,16 @@ namespace QuestPDF.Fluent
             return Span(Environment.NewLine);
         }
 
-        private TextPageNumberDescriptor PageNumber(Func<IPageContext, int?> pageNumber)
+        private TextPageNumberDescriptor PageNumber(
+            Func<IPageContext, int?> pageNumber
+        )
         {
             var style = DefaultStyle.Clone();
             var descriptor = new TextPageNumberDescriptor(DefaultStyle);
 
             AddItemToLastTextBlock(new TextBlockPageNumber
             {
-                Source = context => descriptor.FormatFunction(pageNumber(context)),
-                Style = style
+                Source = context => descriptor.FormatFunction(pageNumber(context)), Style = style
             });
 
             return descriptor;
@@ -160,44 +204,66 @@ namespace QuestPDF.Fluent
             return PageNumber(x => x.GetLocation(PageContext.DocumentLocation)?.Length);
         }
 
-        [Obsolete("This element has been renamed since version 2022.3. Please use the BeginPageNumberOfSection method.")]
-        public void PageNumberOfLocation(string locationName, TextStyle? style = null)
+        [Obsolete(
+            "This element has been renamed since version 2022.3. Please use the BeginPageNumberOfSection method.")]
+        public void PageNumberOfLocation(
+            string locationName
+            , TextStyle? style = null
+        )
         {
-
             BeginPageNumberOfSection(locationName).Style(style);
         }
 
-        public TextPageNumberDescriptor BeginPageNumberOfSection(string locationName)
+        public TextPageNumberDescriptor BeginPageNumberOfSection(
+            string locationName
+        )
         {
             var result =
-                PageNumber(x => x.GetLocation(locationName)?.PageStart);
+                PageNumber(x =>
+                {
+                    var result = x.GetLocation(locationName)?.PageStart;
+
+                    return result;
+                });
             return result;
         }
 
-        public TextPageNumberDescriptor EndPageNumberOfSection(string locationName)
+        public TextPageNumberDescriptor EndPageNumberOfSection(
+            string locationName
+        )
         {
             var result =
+                PageNumber(x =>
+                {
+                    var result = x.GetLocation(locationName)?.PageEnd;
 
-                PageNumber(x => x.GetLocation(locationName)?.PageEnd);
+                    return result;
+                });
             return result;
         }
 
-        public TextPageNumberDescriptor PageNumberWithinSection(string locationName)
+        public TextPageNumberDescriptor PageNumberWithinSection(
+            string locationName
+        )
         {
             var result =
-
                 PageNumber(x => x.CurrentPage + 1 - x.GetLocation(locationName)?.PageEnd);
             return result;
         }
 
-        public TextPageNumberDescriptor TotalPagesWithinSection(string locationName)
+        public TextPageNumberDescriptor TotalPagesWithinSection(
+            string locationName
+        )
         {
             var result = PageNumber(x => x.GetLocation(locationName)?.Length);
 
             return result;
         }
 
-        public TextSpanDescriptor SectionLink(string? text, string sectionName)
+        public TextSpanDescriptor SectionLink(
+            string? text
+            , string sectionName
+        )
         {
             if (IsNullOrEmpty(sectionName))
                 throw new ArgumentException(nameof(sectionName));
@@ -210,21 +276,26 @@ namespace QuestPDF.Fluent
 
             AddItemToLastTextBlock(new TextBlockSectionlLink
             {
-                Style = style,
-                Text = text,
-                SectionName = sectionName
+                Style = style, Text = text, SectionName = sectionName
             });
 
             return descriptor;
         }
 
         [Obsolete("This element has been renamed since version 2022.3. Please use the SectionLink method.")]
-        public void publicLocation(string? text, string locationName, TextStyle? style = null)
+        public void publicLocation(
+            string? text
+            , string locationName
+            , TextStyle? style = null
+        )
         {
             SectionLink(text, locationName).Style(style);
         }
 
-        public TextSpanDescriptor Hyperlink(string? text, string url)
+        public TextSpanDescriptor Hyperlink(
+            string? text
+            , string url
+        )
         {
             if (IsNullOrEmpty(url))
                 throw new ArgumentException(nameof(url));
@@ -237,16 +308,18 @@ namespace QuestPDF.Fluent
 
             AddItemToLastTextBlock(new TextBlockHyperlink
             {
-                Style = style,
-                Text = text,
-                Url = url
+                Style = style, Text = text, Url = url
             });
 
             return descriptor;
         }
 
         [Obsolete("This element has been renamed since version 2022.3. Please use the Hyperlink method.")]
-        public void ExternalLocation(string? text, string url, TextStyle? style = null)
+        public void ExternalLocation(
+            string? text
+            , string url
+            , TextStyle? style = null
+        )
         {
             Hyperlink(text, url).Style(style);
         }
@@ -263,7 +336,9 @@ namespace QuestPDF.Fluent
             return container.AlignBottom().MinimalBox();
         }
 
-        public void Compose(IContainer container)
+        public void Compose(
+            IContainer container
+        )
         {
             TextBlocks.ToList().ForEach(x => x.Alignment = Alignment);
 
@@ -279,7 +354,10 @@ namespace QuestPDF.Fluent
 
     public static class TextExtensions
     {
-        public static void Text(this IContainer element, Action<TextDescriptor> content)
+        public static void Text(
+            this IContainer element
+            , Action<TextDescriptor> content
+        )
         {
             var descriptor = new TextDescriptor();
 
@@ -290,13 +368,21 @@ namespace QuestPDF.Fluent
             descriptor.Compose(element);
         }
 
-        [Obsolete("This element has been renamed since version 2022.3. Please use the overload that returns a TextSpanDescriptor object which allows to specify text style.")]
-        public static void Text(this IContainer element, object? text, TextStyle style)
+        [Obsolete(
+            "This element has been renamed since version 2022.3. Please use the overload that returns a TextSpanDescriptor object which allows to specify text style.")]
+        public static void Text(
+            this IContainer element
+            , object? text
+            , TextStyle style
+        )
         {
             element.Text(text).Style(style);
         }
 
-        public static TextSpanDescriptor Text(this IContainer element, object? text)
+        public static TextSpanDescriptor Text(
+            this IContainer element
+            , object? text
+        )
         {
             var descriptor = (TextSpanDescriptor)null;
             element.Text(x => descriptor = x.Span(text?.ToString()));

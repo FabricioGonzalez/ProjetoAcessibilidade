@@ -1,8 +1,7 @@
 using System.Windows.Input;
-
 using ProjectAvalonia.ViewModels.Navigation;
 
-namespace ProjectAvalonia.ViewModels;
+namespace ProjectAvalonia.Common.ViewModels;
 
 public abstract class TriggerCommandViewModel : RoutableViewModel
 {

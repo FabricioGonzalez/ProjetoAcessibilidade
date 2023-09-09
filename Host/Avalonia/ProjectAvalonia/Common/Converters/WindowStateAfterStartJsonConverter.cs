@@ -1,7 +1,5 @@
 using System;
-
 using Avalonia.Controls;
-
 using Newtonsoft.Json;
 
 namespace ProjectAvalonia.Common.Converters;
@@ -9,14 +7,20 @@ namespace ProjectAvalonia.Common.Converters;
 public class WindowStateAfterStartJsonConverter : JsonConverter<string>
 {
     /// <inheritdoc />
-    public override string ReadJson(JsonReader reader, Type objectType, string? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override string ReadJson(
+        JsonReader reader
+        , Type objectType
+        , string? existingValue
+        , bool hasExistingValue
+        , JsonSerializer serializer
+    )
     {
         try
         {
             var value = reader.Value as string;
 
             // If minimized, then go with Maximized, because at start it shouldn't run with minimized.
-            if (Enum.TryParse(value, out WindowState ws) && ws != WindowState.Minimized)
+            if (Enum.TryParse(value: value, result: out WindowState ws) && ws != WindowState.Minimized)
             {
                 return ws.ToString();
             }
@@ -30,8 +34,9 @@ public class WindowStateAfterStartJsonConverter : JsonConverter<string>
     }
 
     /// <inheritdoc />
-    public override void WriteJson(JsonWriter writer, string? value, JsonSerializer serializer)
-    {
-        writer.WriteValue(value);
-    }
+    public override void WriteJson(
+        JsonWriter writer
+        , string? value
+        , JsonSerializer serializer
+    ) => writer.WriteValue(value: value);
 }

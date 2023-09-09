@@ -4,13 +4,10 @@ using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Common;
-
 using Microsoft.Win32;
-
 using ProjectAvalonia.Common.Extensions;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Common.Logging;
 
 namespace ProjectAvalonia.Common.Services.Terminate;
 
@@ -19,11 +16,14 @@ public class TerminateService
     private const long TerminateStatusNotStarted = 0;
     private const long TerminateStatusInProgress = 1;
     private const long TerminateStatusFinished = 2;
-    private readonly Func<Task> _terminateApplicationAsync;
     private readonly Action _terminateApplication;
+    private readonly Func<Task> _terminateApplicationAsync;
     private long _terminateStatus;
 
-    public TerminateService(Func<Task> terminateApplicationAsync, Action terminateApplication)
+    public TerminateService(
+        Func<Task> terminateApplicationAsync
+        , Action terminateApplication
+    )
     {
         _terminateApplicationAsync = terminateApplicationAsync;
         _terminateApplication = terminateApplication;
@@ -46,19 +46,27 @@ public class TerminateService
         get;
     }
 
-    private void CurrentDomain_DomainUnload(object? sender, EventArgs e)
+    private void CurrentDomain_DomainUnload(
+        object? sender
+        , EventArgs e
+    )
     {
-        Logger.LogInfo($"Process domain unloading requested by the OS.");
+        Logger.LogInfo("Process domain unloading requested by the OS.");
         Terminate();
     }
 
-    private void Default_Unloading(AssemblyLoadContext obj)
+    private void Default_Unloading(
+        AssemblyLoadContext obj
+    )
     {
-        Logger.LogInfo($"Process context unloading requested by the OS.");
+        Logger.LogInfo("Process context unloading requested by the OS.");
         Terminate();
     }
 
-    private void Windows_SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
+    private void Windows_SystemEvents_SessionEnding(
+        object sender
+        , SessionEndingEventArgs e
+    )
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -72,7 +80,10 @@ public class TerminateService
         Terminate();
     }
 
-    private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
+    private void CurrentDomain_ProcessExit(
+        object? sender
+        , EventArgs e
+    )
     {
         Logger.LogDebug("ProcessExit was called.");
 
@@ -80,7 +91,10 @@ public class TerminateService
         Terminate();
     }
 
-    private void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
+    private void Console_CancelKeyPress(
+        object? sender
+        , ConsoleCancelEventArgs e
+    )
     {
         Logger.LogWarning($"Process termination was requested using '{e.SpecialKey}' keyboard shortcut.");
 
@@ -90,12 +104,13 @@ public class TerminateService
     }
 
     /// <summary>
-    /// Terminates the application.
+    ///     Terminates the application.
     /// </summary>
     /// <remark>This is a blocking method.</remark>
     public void Terminate()
     {
-        var prevValue = Interlocked.CompareExchange(ref _terminateStatus, TerminateStatusInProgress, TerminateStatusNotStarted);
+        var prevValue = Interlocked.CompareExchange(ref _terminateStatus, TerminateStatusInProgress
+            , TerminateStatusNotStarted);
         Logger.LogTrace($"Terminate was called from ThreadId: {Environment.CurrentManagedThreadId}");
         if (prevValue != TerminateStatusNotStarted)
         {
@@ -104,6 +119,7 @@ public class TerminateService
             {
                 Thread.Sleep(50);
             }
+
             return;
         }
 

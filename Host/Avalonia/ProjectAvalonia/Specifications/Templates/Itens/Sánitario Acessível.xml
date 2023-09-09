@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<item>
+    <id>c651ac64-c0ed-4d18-94ac-01d82d731dc2</id>
+    <name>Sanitário Acessivel</name>
+    <template_name>Sanitário Acessivel</template_name>
+    <table>
+        <checkbox_items>
+            <id>e7064dcf-6a93-4d16-ba1a-ef64da754c84</id>
+            <topic>Detalhes do(s) sanitário(s) adaptado(s)</topic>
+            <type>checkbox</type>
+            <checkboxes>
+                <checkbox_item>
+                    <id>95abe37a-1240-4c60-83ef-f47cc03036d4</id>
+                    <topic>Possui sinalização nas portas?</topic>
+                    <options>
+                        <option>
+                            <id>99d5181e-9c12-4720-9b70-cbe6aba03278</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>3e103678-af31-42ca-8021-8c9d26626064</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>432919bc-26b4-4d10-bb5a-5f8690d1f8b9</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>0e65dfd7-cb8e-4e04-98c3-9b5c65255064</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>0e9c37d8-c4fb-4f7b-b314-6ef01aac6919</id>
+                    <topic>Possui sinalização de parede com Braile</topic>
+                    <options>
+                        <option>
+                            <id>c58d8c2d-a1fc-4130-a453-12842c02e9cd</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>d2d86621-f13d-4ff4-b645-22003dfa8f12</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>eaef1c19-ca54-42d8-b27f-9e493f7d8795</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>80b3a528-cc49-4eab-ac97-f1e5a72c183d</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>04ee8fd5-8e7d-443f-a723-b9a2c9512241</id>
+                    <topic>Possui maçaneta type alavanca?</topic>
+                    <options>
+                        <option>
+                            <id>094bc1a3-0b23-436e-bb3c-40b2a18df29d</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>6d1438cf-2e48-48d4-a6d5-208e9adc232a</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>166abb72-1f68-49cb-920f-697ba59c3809</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>c35f4b74-2011-4e06-ba64-48891b41b506</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>8b3d439b-82a3-4c64-8519-81cf5c3990eb</id>
+                    <topic>Possui torneira alavanca?</topic>
+                    <options>
+                        <option>
+                            <id>9e300ef3-ddce-4966-984c-148c3cd49df6</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>379c8537-9f32-4ce6-9a56-29b6ae194a34</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>ae0c837e-a8dc-41a1-a3a4-a33072c8e4c5</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>0dc9c2e8-abf3-4603-a5a3-0d404505e272</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>5bbf4cca-2b3e-4625-a9bc-0028f54607c3</id>
+                    <topic>Possui chapa anti-impacto na porta?</topic>
+                    <options>
+                        <option>
+                            <id>965379b0-0436-4d50-bbaf-a4f242e6d92e</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>525cd696-e5f0-4aad-bb9c-ca59bbcf714c</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>5d06a423-9ccf-4df8-ba9c-2e7951d1aff9</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>dc0b2555-76ec-40bb-8afa-ea635cfd8bd5</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>290b2cef-6941-458e-8a65-5ac1bb3dcc76</id>
+                    <topic>Possui 1 barra de segurança na porta?</topic>
+                    <options>
+                        <option>
+                            <id>41f128c0-6d17-4f56-bc37-78bc12773218</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>7d5a75cf-2e14-4ff5-abb2-e91f39c3ad89</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>a4f66dd9-9c7e-4d68-adf0-f087aedbe074</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>26166250-6816-449d-8add-1e5860886f57</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>2f9aca68-24b0-4445-b0d3-0499b64a263f</id>
+                    <topic>Possui 2 barras de segurança no lavatório?</topic>
+                    <options>
+                        <option>
+                            <id>48c89649-6267-4bba-8abc-034d84b4e867</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>30727d61-ae37-4dbb-a537-af311fdc16b3</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>082e5654-02d5-4e74-b4f1-294115a5913b</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>eea85d56-2116-4107-aec5-2d904a459d71</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>4fe16c25-3698-4d7d-8e5e-909ead23072f</id>
+                    <topic>Possui 2 barras horizontais 80cm de segurança na bacia sanitária?</topic>
+                    <options>
+                        <option>
+                            <id>9bd7fbd3-8270-41e3-a6ec-555fd914e075</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>e267f16a-0ab8-450e-97ab-cfc50bf83e6d</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>e3571ab6-ad67-4b93-a59b-e94ae1fdc7e4</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>ae61fd6e-b002-4b66-86b6-f779ad96cbab</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>1aced880-823c-4851-b98d-3733e82d551d</id>
+                    <topic>Possui 1 barra vertical 70cm de segurança na bacia snitária?</topic>
+                    <options>
+                        <option>
+                            <id>441b62a5-d04b-4973-aa23-47525f0724eb</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>aee1ce49-e5c7-451a-8541-f63bbb862be7</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>8ebda344-b64a-4a1b-b608-92c553bbe167</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>b0e363c1-dd62-49ec-a9aa-1881c6a07652</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>272e4bac-325e-4490-95ba-4f2f9a2f3089</id>
+                    <topic>Possui lavatório?</topic>
+                    <options>
+                        <option>
+                            <id>3fb55e5d-3e73-410c-96f8-c7eac28af0c5</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>468b4c4f-45e7-4508-921c-192aac6a6e25</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>c4b071dc-391d-4bd7-a073-1eca4cda3924</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>94b89f1d-6801-4ef3-8eca-6b6f6e74e75e</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>79e9f9cc-d3e4-40a6-8ea0-c724a24fc029</id>
+                    <topic>Possui bacia sanitária?</topic>
+                    <options>
+                        <option>
+                            <id>7a6a61e7-b2ee-4e24-bf35-944d00a5abe6</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>a17a99cc-0c71-4c66-b9ee-a41a2adcdd5a</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>07031adb-546c-49a5-aed0-dc2735af9011</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>fded5b2a-8ebb-4958-b595-34d4cbb2b0de</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>ad5cec71-8178-4a79-8cff-49435997092e</id>
+                    <topic>Possui alarme de emergência?</topic>
+                    <options>
+                        <option>
+                            <id>c39454ba-a1b4-4389-9d92-9e90bc1f7ded</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>5e5b1ff2-4efe-4504-adac-90c7a4823483</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>50593426-b094-47bd-ad37-52541da637ba</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>521e6623-3d1a-4727-92fd-8c56d0f7bb7d</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>e07b3e90-c97c-4eae-a9a9-6e9af60e7140</id>
+                    <topic>Possui válvula de descarga atendendo à altura de 1m?</topic>
+                    <options>
+                        <option>
+                            <id>5189b023-8043-4381-b489-8ed440122e18</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>77a17a6e-6ae1-4e9b-920f-2368ca588d60</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>72373f49-efc4-422d-9e45-ec8239fd6440</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>304bf496-2aea-43da-a81a-d8090a3300df</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>80195059-160a-479b-a340-18d2dc8176ff</id>
+                    <topic>Possui espelho com base a partir de 90cm de altura?</topic>
+                    <options>
+                        <option>
+                            <id>f6399d77-9148-48fb-93df-19c9f290787d</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>c499187e-4c8f-4ed3-b71f-b6a4b214ca24</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>265117e0-051d-47cc-b8c6-57cbe6225a81</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>31ecaa9d-90b8-401f-9763-87020f94e863</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>b5c06de4-ff52-4a2a-a428-5be0628e1bc8</id>
+                    <topic>Possui acessórios fixados conforme a Norma?</topic>
+                    <options>
+                        <option>
+                            <id>864a9d5b-7490-42ff-86d7-ada41339e11e</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>29d36b55-b560-45c5-8711-f8fefc285b8c</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>4a397c3d-1e0e-422d-996c-5ab00f431ee2</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>7b259b88-2e2d-4aeb-b351-e3e8d0586bfe</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+            </checkboxes>
+        </checkbox_items>
+    </table>
+    <observations>
+        <observation>
+            <id></id>
+            <text></text>
+        </observation>
+    </observations>
+    <images>
+        <image>
+            <id></id>
+            <path></path>
+            <observation></observation>
+        </image>
+    </images>
+    <law>
+        <law_item>
+            <id>DECRETO FEDERAL 5296/04</id>
+            <content>
+                Art. 22. A construção, ampliação ou reforma de edificações
+                de uso público ou de uso coletivo devem dispor de sanitários acessíveis
+                destinados ao uso por pessoa portadora de deficiência ou com mobilidade
+                reduzida.
+                § 4o Nas edificações de uso coletivo já existentes, onde
+                haja banheiros destinados ao uso público, os sanitários preparados para o uso
+                por
+                pessoa portadora de deficiência ou com mobilidade reduzida
+                deverão estar localizados nos pavimentos acessíveis, ter entrada independente
+                dos
+                demais sanitários, se houver, e obedecer as normas técnicas
+                de acessibilidade da ABNT
+            </content>
+        </law_item>
+        <law_item>
+            <id>NBR9050/20</id>
+            <content>7.7.2.2.1 Junto à bacia sanitária, quando houver parede lateral, devem ser
+                instaladas barras para apoio e transferência. Uma barra reta horizontal com
+                comprimento mínimo de 0,80 m, posicionada horizontalmente, a 0,75 m de altura do
+                piso acabado (medidos pelos eixos de fixação) a um distância de 0,40 m entre o eixo
+                da bacia e a face da barra e deve estar posicionada a uma distância de 0,50 m da
+                borda frontal da bacia. Também deve ser instalada uma barra reta com comprimento
+                mínimo de 0,70 m, posicionada verticalmente, a 0,10 m acima da barra horizontal e
+                0,30 m da borda frontal da bacia sanitária, conforme Figuras 106 a 108.
+
+                7.7.2.2.2
+                Junto à bacia sanitária, na parede do fundo, deve ser instalada uma barra reta com
+                comprimento mínimo de 0,80 m, posicionada horizontalmente, a 0,75 m de altura do
+                piso acabado (medido pelos eixos de fixação), com uma distância máxima de 0,11 m da
+                sua face externa à parede e estendendo-se 0,30 m além do eixo da bacia em direção à
+                parede lateral, conforme Figuras 106,107 e 109.
+
+                7.7.2.2.3 Para bacias sanitárias com
+                caixa acoplada, que possuam altura que não permita a instalação da barra descrita em
+                7.7.2.2.2, esta pode ser
+                instalada a uma altura de até 0,89m do piso acabado
+                (medido pelos eixos de fixação), devendo ter uma distância máxima de 0,11 m da sua
+                face externa à parede, distância mínima de 0,04 m da
+                superfície superior da tampa da caixa acoplada e 0,30 m além do eixo da bacia em
+                direção à parede lateral, conforme Figuras 108 e 110.
+                A barra reta na parede do fundo pode ser substituída por uma barra lateral
+                articulada, desde que a extremidade da barra esteja a no mínimo 0,10 m da borda
+                frontal da bacia,
+                conforme Figura 111.
+
+                O acionamento da válvula de descarga deve estar a uma
+                altura máxima de 1,00 m, conforme Figura 112, e ser preferencialmente acionado por
+                sensores eletrônicos ou dispositivos
+                equivalentes. A força
+                de acionamento deve ser inferior a 23 N. Admite-se outra localização para o
+                acionamento com alcance manual, conforme Seção 4.
+                7.8.1 As barras de apoio dos
+                lavatórios podem ser
+                horizontais e verticais. Quando instaladas, devem ter uma barra de cada lado
+                conforme
+                exemplos ilustrados nas
+                Figuras 114, 115 e garantir as seguintes condições:
+                a) ter um
+                espaçamento entre a barra e a parede ou de qualquer outro objeto de no mínimo 0,04
+                m, para ser utilizada com conforto;
+
+                b) ser instaladas até no máximo 0,20 m, medido da borda frontal do lavatório até o
+                eixo da barra para
+                permitir o alcance;
+
+                c) garantir o alcance
+                manual da torneira de no máximo 0,50
+                m, medido da borda frontal do lavatório até
+                o eixo da torneira, conforme Figura 99 e 114;
+
+                d) as barras horizontais devem ser instaladas a uma altura
+                0,78 m a 0,80 m, medido a partir do piso acabado
+                até a face superior da barra, acompanhando a altura
+                do lavatório;
+
+                e) as barras verticais
+                devem ser instaladas a uma altura
+                de 0,90 m do piso e com comprimento mínimo
+                de 0,40 m, garantindo a condição da alínea
+
+                f) ter uma distância máxima de 0,50 m do eixo do lavatório
+                ou cuba até o eixo da barra vertical instalada
+                na parede lateral ou na parede de fundo para
+                garantir o alcance.
+            </content>
+        </law_item>
+    </law>
+</item>

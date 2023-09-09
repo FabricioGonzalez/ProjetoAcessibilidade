@@ -1,0 +1,9 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="GestorProjetoArpa.Wix4" Manufacturer="TODO Manufacturer" Version="1.0.0.0" UpgradeCode="61eacd98-ec11-45cd-93ea-0629671b2229">
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+    <Feature Id="Main">
+      <ComponentGroupRef Id="ExampleComponents" />
+    </Feature>
+  </Package>
+</Wix>

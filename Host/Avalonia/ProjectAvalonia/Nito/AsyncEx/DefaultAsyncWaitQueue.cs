@@ -1,74 +1,80 @@
-using Nito.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using ProjectAvalonia.Nito.Collections;
 
-namespace Nito.AsyncEx;
+namespace ProjectAvalonia.Nito.AsyncEx;
 
 /// <summary>
-/// The default wait queue implementation, which uses a double-ended queue.
+///     The default wait queue implementation, which uses a double-ended queue.
 /// </summary>
-/// <typeparam name="T">The type of the results. If this is not needed, use <see cref="object"/>.</typeparam>
+/// <typeparam name="T">The type of the results. If this is not needed, use <see cref="object" />.</typeparam>
 [DebuggerDisplay("Count = {Count}")]
 [DebuggerTypeProxy(typeof(DefaultAsyncWaitQueue<>.DebugView))]
 public sealed class DefaultAsyncWaitQueue<T> : IAsyncWaitQueue<T>
 {
-	private readonly Deque<TaskCompletionSource<T>> _queue = new();
+    private readonly Deque<TaskCompletionSource<T>> _queue = new();
 
-	private int Count => _queue.Count;
+    private int Count => _queue.Count;
 
-	bool IAsyncWaitQueue<T>.IsEmpty => Count == 0;
+    bool IAsyncWaitQueue<T>.IsEmpty => Count == 0;
 
-	Task<T> IAsyncWaitQueue<T>.Enqueue()
-	{
-		var tcs = TaskCompletionSourceExtensions.CreateAsyncTaskSource<T>();
-		_queue.AddToBack(tcs);
-		return tcs.Task;
-	}
+    Task<T> IAsyncWaitQueue<T>.Enqueue()
+    {
+        var tcs = TaskCompletionSourceExtensions.CreateAsyncTaskSource<T>();
+        _queue.AddToBack(tcs);
+        return tcs.Task;
+    }
 
-	void IAsyncWaitQueue<T>.Dequeue(T result)
-	{
-		_queue.RemoveFromFront().TrySetResult(result);
-	}
+    void IAsyncWaitQueue<T>.Dequeue(
+        T result
+    ) =>
+        _queue.RemoveFromFront().TrySetResult(result);
 
-	bool IAsyncWaitQueue<T>.TryCancel(Task task, CancellationToken cancellationToken)
-	{
-		for (int i = 0; i != _queue.Count; ++i)
-		{
-			if (_queue[i].Task == task)
-			{
-				_queue[i].TrySetCanceled(cancellationToken);
-				_queue.RemoveAt(i);
-				return true;
-			}
-		}
-		return false;
-	}
+    bool IAsyncWaitQueue<T>.TryCancel(
+        Task task
+        , CancellationToken cancellationToken
+    )
+    {
+        for (var i = 0; i != _queue.Count; ++i)
+        {
+            if (_queue[i].Task == task)
+            {
+                _queue[i].TrySetCanceled(cancellationToken);
+                _queue.RemoveAt(i);
+                return true;
+            }
+        }
 
-	[DebuggerNonUserCode]
-	internal sealed class DebugView
-	{
-		private readonly DefaultAsyncWaitQueue<T> _queue;
+        return false;
+    }
 
-		public DebugView(DefaultAsyncWaitQueue<T> queue)
-		{
-			_queue = queue;
-		}
+    [DebuggerNonUserCode]
+    internal sealed class DebugView
+    {
+        private readonly DefaultAsyncWaitQueue<T> _queue;
 
-		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		public Task<T>[] Tasks
-		{
-			get
-			{
-				var result = new List<Task<T>>(_queue._queue.Count);
-				foreach (var entry in _queue._queue)
-				{
-					result.Add(entry.Task);
-				}
+        public DebugView(
+            DefaultAsyncWaitQueue<T> queue
+        )
+        {
+            _queue = queue;
+        }
 
-				return result.ToArray();
-			}
-		}
-	}
+        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+        public Task<T>[] Tasks
+        {
+            get
+            {
+                var result = new List<Task<T>>(_queue._queue.Count);
+                foreach (var entry in _queue._queue)
+                {
+                    result.Add(entry.Task);
+                }
+
+                return result.ToArray();
+            }
+        }
+    }
 }

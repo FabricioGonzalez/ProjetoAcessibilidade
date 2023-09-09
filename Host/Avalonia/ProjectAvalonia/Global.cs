@@ -1,15 +1,15 @@
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Microsoft.Extensions.Caching.Memory;
-
-using Nito.AsyncEx;
-
 using ProjectAvalonia.Common.Http;
+using ProjectAvalonia.Common.Interfaces;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.Terminate;
-using ProjectAvalonia.Logging;
+using ProjectAvalonia.Nito.AsyncEx;
+using IHttpClient = ProjectAvalonia.Common.Http.IHttpClient;
 
 namespace ProjectAvalonia;
 
@@ -18,6 +18,36 @@ public class Global
     public const string ThemeBackgroundBrushResourceKey = "ThemeBackgroundBrush";
     public const string ApplicationAccentForegroundBrushResourceKey = "ApplicationAccentForegroundBrush";
 
+    /// <remarks>
+    ///     Use this variable as a guard to prevent touching <see cref="StoppingCts" /> that might have already been
+    ///     disposed.
+    /// </remarks>
+    private volatile bool _disposeRequested;
+
+    public Global(
+        string dataDir
+        , Config config
+        , UiConfig uiConfig
+        , ILanguageManager languageManager
+    )
+    {
+        DataDir = dataDir;
+        Config = config;
+        UiConfig = uiConfig;
+
+        LanguageManager = languageManager;
+
+        HostedServices = new HostedServices();
+
+        UpdateManager = new UpdateManager(dataDir: DataDir, downloadNewVersion: Config.DownloadNewVersion
+            , httpClient: new ProjectHttpClient(new HttpClient()));
+
+        Cache = new MemoryCache(new MemoryCacheOptions
+        {
+            SizeLimit = 1_000, ExpirationScanFrequency = TimeSpan.FromSeconds(30)
+        });
+    }
+
     public string DataDir
     {
         get;
@@ -25,23 +55,27 @@ public class Global
 
 
     /// <summary>HTTP client factory for sending HTTP requests.</summary>
-	public IHttpClient HttpClientFactory
+    public IHttpClient HttpClientFactory
     {
         get;
     }
+
     public Config Config
     {
         get;
     }
+
     public UpdateManager UpdateManager
     {
-        get; set;
+        get;
+        set;
     }
 
     public HostedServices HostedServices
     {
         get;
     }
+
     public UiConfig UiConfig
     {
         get;
@@ -49,36 +83,31 @@ public class Global
 
     public MemoryCache Cache
     {
-        get; private set;
+        get;
+        private set;
     }
-
-    public Global(string dataDir, Config config, UiConfig uiConfig)
-    {
-        DataDir = dataDir;
-        Config = config;
-        UiConfig = uiConfig;
-
-        HostedServices = new HostedServices();
-
-        UpdateManager = new(DataDir, Config.DownloadNewVersion, new ProjectHttpClient(new System.Net.Http.HttpClient()));
-
-        Cache = new MemoryCache(new MemoryCacheOptions
-        {
-            SizeLimit = 1_000,
-            ExpirationScanFrequency = TimeSpan.FromSeconds(30)
-        });
-    }
-
-    /// <remarks>Use this variable as a guard to prevent touching <see cref="StoppingCts"/> that might have already been disposed.</remarks>
-    private volatile bool _disposeRequested;
 
     /// <summary>Lock that makes sure the application initialization and dispose methods do not run concurrently.</summary>
-    private AsyncLock InitializationAsyncLock { get; } = new();
+    private AsyncLock InitializationAsyncLock
+    {
+        get;
+    } = new();
 
-    /// <summary>Cancellation token to cancel <see cref="InitializeNoWalletAsync(TerminateService)"/> processing.</summary>
-    private CancellationTokenSource StoppingCts { get; } = new();
+    /// <summary>Cancellation token to cancel <see cref="InitializeNoWalletAsync(TerminateService)" /> processing.</summary>
+    private CancellationTokenSource StoppingCts
+    {
+        get;
+    } = new();
 
-    public async Task InitializeNoWalletAsync(TerminateService terminateService)
+    public ILanguageManager LanguageManager
+    {
+        get;
+        set;
+    }
+
+    public async Task InitializeNoWalletAsync(
+        TerminateService terminateService
+    )
     {
         // StoppingCts may be disposed at this point, so do not forward the cancellation token here.
         using (await InitializationAsyncLock.LockAsync())
@@ -90,14 +119,24 @@ public class Global
                 return;
             }
 
-            CancellationToken cancel = StoppingCts.Token;
+            var cancel = StoppingCts.Token;
 
             try
             {
-                HostedServices.Register<UpdateChecker>(() => new UpdateChecker(TimeSpan.FromMinutes(7)), "Software Update Checker");
+                HostedServices.Register<UpdateChecker>(serviceFactory: () =>
+                    new UpdateChecker(TimeSpan.FromMinutes(7))
+                    {
+                        AppClient = new AppClient(new ProjectHttpClient(httpClient: new HttpClient()
+                            , baseUriGetter: () =>
+                            {
+                                return new Uri(
+                                    "https://api.github.com/repos/FabricioGonzalez/ProjetoAcessibilidade/releases");
+                            }))
+                    }, friendlyName: "Software Update Checker");
                 var updateChecker = HostedServices.Get<UpdateChecker>();
 
-                UpdateManager.Initialize(updateChecker, cancel);
+
+                UpdateManager.Initialize(updateChecker: updateChecker, cancelationToken: cancel);
 
                 cancel.ThrowIfCancellationRequested();
 
@@ -126,20 +165,21 @@ public class Global
 
         using (await InitializationAsyncLock.LockAsync())
         {
-            Logger.LogWarning("Process is exiting.", nameof(Global));
+            Logger.LogWarning(message: "Process is exiting.", callerFilePath: nameof(Global));
 
             try
             {
                 if (UpdateManager is { } updateManager)
                 {
                     UpdateManager.Dispose();
-                    Logger.LogInfo($"{nameof(UpdateManager)} is stopped.", nameof(Global));
+                    Logger.LogInfo(message: $"{nameof(UpdateManager)} is stopped.", callerFilePath: nameof(Global));
                 }
 
                 if (HostedServices is { } backgroundServices)
                 {
                     using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(21));
-                    await backgroundServices.StopAllAsync(cts.Token).ConfigureAwait(false);
+                    await backgroundServices.StopAllAsync(cts.Token)
+                        .ConfigureAwait(false);
                     backgroundServices.Dispose();
                     Logger.LogInfo("Stopped background services.");
                 }

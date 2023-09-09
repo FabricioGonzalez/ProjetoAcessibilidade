@@ -5,10 +5,10 @@
     <tabela>
         <itemtabela item="1">
             <tipo>checkbox</tipo>
-            <topico></topico>
+            <topic></topic>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui porta de emergência?</topico>
+                    <topic>Possui porta de emergência?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -21,7 +21,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>A porta de emergência possui barras antipânico?</topico>
+                    <topic>A porta de emergência possui barras antipânico?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -41,7 +41,7 @@
         </itemtabela>
         <itemtabela item="3">
             <tipo>images</tipo>
-            <images />
+            <images/>
         </itemtabela>
     </tabela>
     <lei></lei>

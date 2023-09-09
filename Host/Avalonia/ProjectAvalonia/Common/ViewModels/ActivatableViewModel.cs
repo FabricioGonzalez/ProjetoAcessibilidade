@@ -1,15 +1,16 @@
 using System.Reactive.Disposables;
 
-namespace ProjectAvalonia.ViewModels;
+namespace ProjectAvalonia.Common.ViewModels;
 
 public class ActivatableViewModel : ViewModelBase
 {
-    protected virtual void OnActivated(CompositeDisposable disposables)
+    protected virtual void OnActivated(
+        CompositeDisposable disposables
+    )
     {
     }
 
-    public void Activate(CompositeDisposable disposables)
-    {
-        OnActivated(disposables);
-    }
+    public void Activate(
+        CompositeDisposable disposables
+    ) => OnActivated(disposables: disposables);
 }

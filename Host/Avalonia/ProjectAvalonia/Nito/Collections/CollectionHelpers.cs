@@ -1,14 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using ProjectAvalonia.Common.Helpers;
 
-namespace Nito.Collections;
+namespace ProjectAvalonia.Nito.Collections;
 
 internal static class CollectionHelpers
 {
-    public static IReadOnlyCollection<T> ReifyCollection<T>(IEnumerable<T> source)
+    public static IReadOnlyCollection<T> ReifyCollection<T>(
+        IEnumerable<T> source
+    )
     {
         Guard.NotNull(nameof(source), source);
 
@@ -34,7 +35,9 @@ internal static class CollectionHelpers
     {
         private readonly ICollection _collection;
 
-        public NongenericCollectionWrapper(ICollection collection)
+        public NongenericCollectionWrapper(
+            ICollection collection
+        )
         {
             _collection = collection ?? throw new ArgumentNullException(nameof(collection));
         }
@@ -49,31 +52,24 @@ internal static class CollectionHelpers
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _collection.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _collection.GetEnumerator();
     }
 
     private sealed class CollectionWrapper<T> : IReadOnlyCollection<T>
     {
         private readonly ICollection<T> _collection;
 
-        public CollectionWrapper(ICollection<T> collection)
+        public CollectionWrapper(
+            ICollection<T> collection
+        )
         {
             _collection = collection ?? throw new ArgumentNullException(nameof(collection));
         }
 
         public int Count => _collection.Count;
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _collection.GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => _collection.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _collection.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _collection.GetEnumerator();
     }
 }

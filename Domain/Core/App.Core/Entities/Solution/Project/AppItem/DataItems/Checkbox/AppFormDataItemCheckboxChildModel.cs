@@ -1,18 +1,50 @@
-﻿using Core.Entities.Solution.Project.AppItem.DataItems.Text;
+﻿using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+using ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Text;
 
 namespace Core.Entities.Solution.Project.AppItem.DataItems.Checkbox;
+
 public class AppFormDataItemCheckboxChildModel
 {
+    public AppFormDataItemCheckboxChildModel(
+        string id
+        , string topic
+        , bool isValid
+    )
+    {
+        Id = id;
+        Topic = topic;
+        Options = new List<AppOptionModel>();
+        TextItems = new List<AppFormDataItemTextModel>();
+        IsValid = isValid;
+    }
+
+    public string Id
+    {
+        get;
+        set;
+    }
+
     public string Topic
     {
-        get; set;
+        get;
+        set;
     }
-    public IList<AppOptionModel> Options
+
+    public IEnumerable<AppOptionModel> Options
     {
-        get; set;
+        get;
+        set;
     }
-    public IList<AppFormDataItemTextModel> TextItems
+
+    public IEnumerable<AppFormDataItemTextModel> TextItems
     {
-        get; set;
+        get;
+        set;
+    }
+
+    public bool IsValid
+    {
+        get;
+        set;
     }
 }

@@ -6,26 +6,32 @@ namespace ProjectAvalonia.Common.Helpers;
 
 public class AdornerHelper
 {
-    public static void AddAdorner(Visual visual, Control adorner)
+    public static void AddAdorner(
+        Visual visual
+        , Control adorner
+    )
     {
-        var layer = AdornerLayer.GetAdornerLayer(visual);
+        var layer = AdornerLayer.GetAdornerLayer(visual: visual);
 
-        if (layer is { } && !layer.Children.Contains(adorner))
+        if (layer is not null && !layer.Children.Contains(item: adorner))
         {
-            AdornerLayer.SetAdornedElement(adorner, visual);
-            ((ISetLogicalParent)adorner).SetParent(visual);
-            layer.Children.Add(adorner);
+            AdornerLayer.SetAdornedElement(adorner: adorner, adorned: visual);
+            ((ISetLogicalParent)adorner).SetParent(parent: visual);
+            layer.Children.Add(item: adorner);
         }
     }
 
-    public static void RemoveAdorner(Visual visual, Control adorner)
+    public static void RemoveAdorner(
+        Visual visual
+        , Control adorner
+    )
     {
-        var layer = AdornerLayer.GetAdornerLayer(visual);
+        var layer = AdornerLayer.GetAdornerLayer(visual: visual);
 
-        if (layer is { } && layer.Children.Contains(adorner))
+        if (layer is not null && layer.Children.Contains(item: adorner))
         {
-            layer.Children.Remove(adorner);
-            ((ISetLogicalParent)adorner).SetParent(null);
+            layer.Children.Remove(item: adorner);
+            ((ISetLogicalParent)adorner).SetParent(parent: null);
         }
     }
 }

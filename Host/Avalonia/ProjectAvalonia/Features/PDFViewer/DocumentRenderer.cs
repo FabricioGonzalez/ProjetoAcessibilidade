@@ -1,69 +1,77 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-
 using Avalonia.Threading;
-
 using QuestPDF.Drawing;
 using QuestPDF.Infrastructure;
+using QuestPDF.Previewer;
 
-namespace QuestPDF.Previewer
+namespace ProjectAvalonia.Features.PDFViewer;
+
+public class DocumentRenderer : INotifyPropertyChanged
 {
-    public class DocumentRenderer : INotifyPropertyChanged
+    private ObservableCollection<PreviewPage> _pages = new();
+
+    public IDocument? Document
     {
-        public IDocument? Document
-        {
-            get; private set;
-        }
+        get;
+        private set;
+    }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private ObservableCollection<PreviewPage> _pages = new();
-        public ObservableCollection<PreviewPage> Pages
+    public ObservableCollection<PreviewPage> Pages
+    {
+        get => _pages;
+        set
         {
-            get => _pages;
-            set
+            if (_pages != value)
             {
-                if (_pages != value)
-                {
-                    _pages = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Pages)));
-                }
+                _pages = value;
+                PropertyChanged?.Invoke(sender: this, e: new PropertyChangedEventArgs(propertyName: nameof(Pages)));
             }
         }
+    }
 
-        public void UpdateDocument(IDocument? document)
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public void UpdateDocument(
+        IDocument? document
+    )
+    {
+        Document = document;
+
+        if (document == null)
         {
-            Document = document;
-
-            if (document == null)
-                return;
-
-            try
-            {
-                RenderDocument(document);
-            }
-            catch (Exception exception)
-            {
-                var exceptionDocument = new ExceptionDocument(exception);
-                RenderDocument(exceptionDocument);
-            }
+            return;
         }
 
-        private void RenderDocument(IDocument document)
+        try
         {
-            var canvas = new PreviewerCanvas();
-
-            DocumentGenerator.RenderDocument(canvas, document);
-
-            foreach (var pages in Pages)
-                pages?.Picture?.Dispose();
-
-            Dispatcher.UIThread.Post(() =>
-            {
-                Pages.Clear();
-                Pages = new ObservableCollection<PreviewPage>(canvas.Pictures);
-            });
+            RenderDocument(document: document);
         }
+        catch (Exception exception)
+        {
+            var exceptionDocument = new ExceptionDocument(exception: exception);
+            RenderDocument(document: exceptionDocument);
+        }
+    }
+
+    private void RenderDocument(
+        IDocument document
+    )
+    {
+        var canvas = new PreviewerCanvas();
+
+        DocumentGenerator.RenderDocument(canvas: canvas, document: document);
+
+        foreach (var pages in Pages)
+        {
+            pages?.Picture?.Dispose();
+        }
+
+        Dispatcher.UIThread.Post(action: () =>
+        {
+            Pages.Clear();
+            Pages = new ObservableCollection<PreviewPage>(collection: canvas.Pictures);
+        });
     }
 }

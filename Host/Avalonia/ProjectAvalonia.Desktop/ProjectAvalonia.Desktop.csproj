@@ -1,68 +1,88 @@
-﻿  <Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <OutputType>Exe</OutputType>
+        <OutputType>Exe</OutputType>
+        <DebugType>portable</DebugType>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <OutputType>WinExe</OutputType>
+        <OutputType>WinExe</OutputType>
+        <DebugType>embedded</DebugType>
     </PropertyGroup>
 
     <PropertyGroup>
-      <TargetFramework>net7.0</TargetFramework>
-      <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-      <AnalysisLevel>latest</AnalysisLevel>
-      <LangVersion>latest</LangVersion>
-      <NoWarn>1701;1702;1705;1591;1573;CA1031;CA1822</NoWarn>
-      <Nullable>enable</Nullable>
-      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-      <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-      <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-      <InvariantGlobalization>true</InvariantGlobalization>
-      <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
-      <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
+        <TargetFramework>net7.0</TargetFramework>
+        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <LangVersion>latest</LangVersion>
+        <NoWarn>1701;1702;1705;1591;1573;CA1031;CA1822</NoWarn>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+        <InvariantGlobalization>false</InvariantGlobalization>
+        <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
+        <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
+        <Version>1.0.6</Version>
     </PropertyGroup>
-
     <PropertyGroup>
-      <Authors>Fabricio Gonzalez</Authors>
-      <Company>Fabricio Gonzalez Dev Ltd</Company>
-      <NeutralLanguage>en-US</NeutralLanguage>
-      <AssemblyTitle>Project Avalonia</AssemblyTitle>
-      <Description>
-        Open-source, non-custodial, privacy focused Bitcoin wallet for Windows, Linux, and Mac. Built-in Tor, coinjoin, payjoin and coin control features.
-      </Description>
-      <Copyright>MIT</Copyright>
-      <PackageId>Project Avalonia</PackageId>
-      <AssemblyTitle>Project Avalonia</AssemblyTitle>
-      <Company>Fabricio Gonzalez Dev</Company>
-      <PackageTags>project;avalonia</PackageTags>
-      <RepositoryType>git</RepositoryType>
-      <RepositoryUrl>https://github.com/zkSNACKs/WalletWasabi/</RepositoryUrl>
-      <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-      <PackageIcon>Assets\logo.ico</PackageIcon>
-      <Product>Project Avalonia</Product>
-      <!-- owners is not supported in MSBuild -->
-      <AvaloniaVersion>0.10.18</AvaloniaVersion>
+        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Authors>Fabricio Gonzalez</Authors>
+        <Company>Fabricio Gonzalez Dev Ltd</Company>
+        <NeutralLanguage>pt-BR</NeutralLanguage>
+        <AssemblyTitle>Project Avalonia</AssemblyTitle>
+        <Description>
+            Open-source, non-custodial, privacy focused Bitcoin wallet for Windows, Linux, and Mac. Built-in Tor, coinjoin, payjoin and coin control features.
+        </Description>
+        <Copyright>MIT</Copyright>
+        <PackageId>Project Avalonia</PackageId>
+        <AssemblyTitle>Project Avalonia</AssemblyTitle>
+        <Company>Fabricio Gonzalez Dev</Company>
+        <PackageTags>project;avalonia</PackageTags>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/FabricioGonzalez/ProjetoAcessibilidade</RepositoryUrl>
+        <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+        <PackageIcon>Assets\logo.ico</PackageIcon>
+        <Product>Project Avalonia</Product>
+        <!-- owners is not supported in MSBuild -->
+        <AvaloniaVersion>11.0.3</AvaloniaVersion>
+        <PackageProjectUrl>https://github.com/FabricioGonzalez/ProjetoAcessibilidade</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
-      <AvaloniaResource Include="Assets\**" />
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Assets\avalonia-logo.ico" />
-      <None Remove="Assets\logo.ico" />
+        <None Remove="Assets\avalonia-logo.ico" />
+        <None Remove="Assets\logo.ico" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
-      <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia" Version="11.0.3" />
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.3" />
+        <PackageReference Include="Avalonia.Skia" Version="11.0.3" />
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
+        <PackageReference Include="ReactiveUI" Version="19.4.1" />
+        <PackageReference Include="System.Reactive" Version="6.0.0" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj" />
-      <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+        <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj" />
     </ItemGroup>
-
     <ItemGroup>
-      <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+        <Content Include="..\..\..\Data\Database\GestorProjetosArpa.db">
+            <Link>GestorProjetosArpa.db</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
-  </Project>
+    <ItemGroup>
+      <None Include="..\..\..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
+</Project>

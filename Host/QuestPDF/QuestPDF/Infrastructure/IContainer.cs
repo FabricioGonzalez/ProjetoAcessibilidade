@@ -2,6 +2,10 @@
 {
     public interface IContainer
     {
-        IElement? Child { get; set; }
+        IElement? Child
+        {
+            get;
+            set;
+        }
     }
 }

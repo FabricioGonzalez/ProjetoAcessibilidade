@@ -1,0 +1,18 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:properties="clr-namespace:ProjectAvalonia.Properties"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="interfaces:IConclusionEditingBody"
+             x:CompileBindings="True"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.EditingBody.ConclusionItem">
+    <Grid RowDefinitions="40 1*">
+        <Label Content="{x:Static properties:Resources.ConclusionLabel}" />
+
+        <TextBox Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 Text="{Binding  ConclusionBody}"
+                 AcceptsReturn="True" AcceptsTab="True" />
+    </Grid>
+</UserControl>

@@ -6,22 +6,27 @@ namespace QuestPDF.Fluent
 {
     public static class TranslateExtensions
     {
-        private static IContainer Translate(this IContainer element, Action<Translate> handler)
+        private static IContainer Translate(
+            this IContainer element
+            , Action<Translate> handler
+        )
         {
             var translate = element as Translate ?? new Translate();
-            handler(translate);
-            
-            return element.Element(translate);
+            handler(obj: translate);
+
+            return element.Element(child: translate);
         }
 
-        public static IContainer TranslateX(this IContainer element, float value, Unit unit = Unit.Point)
-        {
-            return element.Translate(x => x.TranslateX += value.ToPoints(unit));
-        }
-        
-        public static IContainer TranslateY(this IContainer element, float value, Unit unit = Unit.Point)
-        {
-            return element.Translate(x => x.TranslateY += value.ToPoints(unit));
-        }
+        public static IContainer TranslateX(
+            this IContainer element
+            , float value
+            , Unit unit = Unit.Point
+        ) => element.Translate(handler: x => x.TranslateX += value.ToPoints(unit: unit));
+
+        public static IContainer TranslateY(
+            this IContainer element
+            , float value
+            , Unit unit = Unit.Point
+        ) => element.Translate(handler: x => x.TranslateY += value.ToPoints(unit: unit));
     }
 }

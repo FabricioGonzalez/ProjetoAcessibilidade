@@ -3,13 +3,13 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:ProjectAvalonia.PDFPreviewer.Views"
-    xmlns:material="using:Material.Icons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:quest="clr-namespace:QuestPDF.Previewer;assembly=ProjectAvalonia"
+    xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:viewModels="using:ProjectAvalonia.Features.PDFViewer.ViewModels"
+    xmlns:pdfViewer="clr-namespace:ProjectAvalonia.Features.PDFViewer"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:CompileBindings="True"
     x:DataType="viewModels:PreviewerViewModel"
     mc:Ignorable="d">
     <Panel>
@@ -33,7 +33,7 @@
                 FontSize="14"
                 FontWeight="Regular"
                 IsHitTestVisible="False"
-                Text="Imprimir Documento"
+                Text="{x:Static p:Resources.Print_Page_Title}"
                 TextAlignment="Center" />
 
             <SplitView
@@ -41,9 +41,38 @@
                 Grid.Column="0"
                 DisplayMode="Inline"
                 IsPaneOpen="True"
-                PaneBackground="{StaticResource SystemBaseLowColor}">
+                PaneBackground="{DynamicResource AppDarkBackgroundBrush}">
                 <SplitView.Pane>
-                    <StackPanel
+                    <DockPanel Margin="0 4">
+                        <!--<Grid DockPanel.Dock="Top" ColumnDefinitions="*" RowDefinitions="auto 4 1*" Margin="4,0"
+                              HorizontalAlignment="Stretch">
+                            <TextBlock Text="Impressoras" Grid.Row="0" />
+                            <ComboBox Grid.Row="2" SelectedValue="{Binding SelectedPrinter}"
+                                      ItemsSource="{Binding AvailablePrinters}"
+                                      DisplayMemberBinding="{Binding Name}" HorizontalAlignment="Stretch" />
+                        </Grid>
+
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*" RowDefinitions="auto 4 1*" Margin="4,0"
+                              HorizontalAlignment="Stretch">
+                            <TextBlock Text="Cópias" Grid.Row="0" />
+                            <NumericUpDown Grid.Row="2" ShowButtonSpinner="True" FormatString="0" Value="0"
+                                           ParsingNumberStyle="Integer"
+                                           Minimum="1"
+                                           HorizontalAlignment="Stretch"
+                                           HorizontalContentAlignment="Right" />
+                        </Grid>-->
+
+                        <Grid ColumnDefinitions="1* 8 1*" Margin="8,0" HorizontalAlignment="Stretch"
+                              VerticalAlignment="Bottom">
+                            <Button Grid.Column="0" Content="Imprimir" HorizontalAlignment="Stretch"
+                                    Classes="action" Command="{Binding PrintDocumentCommand}" />
+                            <Button Grid.Column="2" Content="Cancelar" Command="{Binding CancelCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalContentAlignment="Center"
+                                    Classes="outlined" />
+                        </Grid>
+                    </DockPanel>
+                    <!--<StackPanel
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="32"
@@ -57,11 +86,9 @@
                             VerticalAlignment="Bottom"
                             Command="{Binding ShowPdfCommand, Mode=OneTime}"
                             CornerRadius="100"
-                            ToolTip.Tip="Gerar PDF">
+                            ToolTip.Tip="{x:Static p:Resources.Generate_Document_ToolTip}">
                             <Viewbox Width="24" Height="24">
-                                <Canvas Width="24" Height="24">
-                                    <Path Data="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H13C12.59,21.75 12.2,21.44 11.86,21.1C11.53,20.77 11.25,20.4 11,20H6V4H13V9H18V10.18C18.71,10.34 19.39,10.61 20,11V8L14,2M20.31,18.9C21.64,16.79 21,14 18.91,12.68C16.8,11.35 14,12 12.69,14.08C11.35,16.19 12,18.97 14.09,20.3C15.55,21.23 17.41,21.23 18.88,20.32L22,23.39L23.39,22L20.31,18.9M16.5,19A2.5,2.5 0 0,1 14,16.5A2.5,2.5 0 0,1 16.5,14A2.5,2.5 0 0,1 19,16.5A2.5,2.5 0 0,1 16.5,19Z" Fill="White" />
-                                </Canvas>
+                                <PathIcon Data="{StaticResource pdf_regular}" />
                             </Viewbox>
                         </Button>
 
@@ -71,15 +98,15 @@
                             VerticalAlignment="Bottom"
                             Command="{Binding PrintCommand, Mode=OneTime}"
                             CornerRadius="100"
-                            ToolTip.Tip="Imprimir">
+                            ToolTip.Tip="{x:Static p:Resources.Print_Document_ToolTip}">
                             <Viewbox Width="24" Height="24">
-                                <material:MaterialIcon Foreground="White" Kind="Printer" />
+                                <PathIcon Data="{StaticResource printer_regular}" />
                             </Viewbox>
                         </Button>
-                    </StackPanel>
+                    </StackPanel>-->
                 </SplitView.Pane>
                 <SplitView.Content>
-                    <quest:PreviewerControl
+                    <pdfViewer:PreviewerControl
                         Grid.Row="1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"

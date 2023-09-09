@@ -1,110 +1,120 @@
 using System;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Threading;
-
 using ProjectAvalonia.Common.Helpers;
 
 namespace ProjectAvalonia.Common.Controls;
 
 public enum RevealMode
 {
-    Manual,
-    PointerOver
+    Manual
+    , PointerOver
 }
 
 public class AdorningContentControl : ContentControl
 {
-    private IDisposable? _subscription;
-
     public static readonly StyledProperty<Control> AdornmentProperty =
-        AvaloniaProperty.Register<AdorningContentControl, Control>(nameof(Adornment));
+        AvaloniaProperty.Register<AdorningContentControl, Control>(name: nameof(Adornment));
 
     public static readonly StyledProperty<RevealMode> RevealModeProperty =
-        AvaloniaProperty.Register<AdorningContentControl, RevealMode>(nameof(RevealMode), RevealMode.PointerOver);
+        AvaloniaProperty.Register<AdorningContentControl, RevealMode>(name: nameof(RevealMode)
+            , defaultValue: RevealMode.PointerOver);
 
     public static readonly StyledProperty<bool> IsAdornmentVisibleProperty =
-        AvaloniaProperty.Register<AdorningContentControl, bool>(nameof(IsAdornmentVisible), true);
+        AvaloniaProperty.Register<AdorningContentControl, bool>(name: nameof(IsAdornmentVisible), defaultValue: true);
+
+    private IDisposable? _subscription;
 
     public Control Adornment
     {
-        get => GetValue(AdornmentProperty);
-        set => SetValue(AdornmentProperty, value);
+        get => GetValue(property: AdornmentProperty);
+        set => SetValue(property: AdornmentProperty, value: value);
     }
 
     public RevealMode RevealMode
     {
-        get => GetValue(RevealModeProperty);
-        set => SetValue(RevealModeProperty, value);
+        get => GetValue(property: RevealModeProperty);
+        set => SetValue(property: RevealModeProperty, value: value);
     }
 
     public bool IsAdornmentVisible
     {
-        get => GetValue(IsAdornmentVisibleProperty);
-        set => SetValue(IsAdornmentVisibleProperty, value);
+        get => GetValue(property: IsAdornmentVisibleProperty);
+        set => SetValue(property: IsAdornmentVisibleProperty, value: value);
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged(
+        AvaloniaPropertyChangedEventArgs change
+    )
     {
-        base.OnPropertyChanged(change);
+        base.OnPropertyChanged(change: change);
 
         if (change.Property == IsPointerOverProperty)
         {
-            Dispatcher.UIThread.Post(OnPointerOverChanged);
+            Dispatcher.UIThread.Post(action: OnPointerOverChanged);
         }
         else if (change.Property == AdornmentProperty)
         {
-            InvalidateAdornmentVisible(change.OldValue.GetValueOrDefault<Control?>(), change.NewValue.GetValueOrDefault<Control?>());
+            var (oldValue, newValue) = change.GetOldAndNewValue<Control?>();
+            InvalidateAdornmentVisible(oldValue: oldValue
+                , newValue: newValue);
         }
         else if (change.Property == IsAdornmentVisibleProperty)
         {
-            if (change.NewValue.GetValueOrDefault<bool>())
+            if (change.GetNewValue<bool>())
             {
-                AdornerHelper.AddAdorner(this, Adornment);
+                AdornerHelper.AddAdorner(visual: this, adorner: Adornment);
             }
             else
             {
-                AdornerHelper.RemoveAdorner(this, Adornment);
+                AdornerHelper.RemoveAdorner(visual: this, adorner: Adornment);
             }
         }
     }
 
-    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    protected override void OnDetachedFromVisualTree(
+        VisualTreeAttachmentEventArgs e
+    )
     {
-        base.OnDetachedFromVisualTree(e);
+        base.OnDetachedFromVisualTree(e: e);
 
         _subscription?.Dispose();
 
-        InvalidateAdornmentVisible(null, null);
+        InvalidateAdornmentVisible(oldValue: null, newValue: null);
     }
 
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    protected override void OnAttachedToVisualTree(
+        VisualTreeAttachmentEventArgs e
+    )
     {
-        base.OnAttachedToVisualTree(e);
+        base.OnAttachedToVisualTree(e: e);
 
-        InvalidateAdornmentVisible(null, Adornment);
+        InvalidateAdornmentVisible(oldValue: null, newValue: Adornment);
 
         OnPointerOverChanged();
     }
 
-    private void InvalidateAdornmentVisible(Control? oldValue, Control? newValue)
+    private void InvalidateAdornmentVisible(
+        Control? oldValue
+        , Control? newValue
+    )
     {
         _subscription?.Dispose();
 
-        if (oldValue is { })
+        if (oldValue is not null)
         {
-            AdornerHelper.RemoveAdorner(this, oldValue);
+            AdornerHelper.RemoveAdorner(visual: this, adorner: oldValue);
         }
 
-        if (newValue is { })
+        if (newValue is not null)
         {
-            _subscription = newValue.GetObservable(IsPointerOverProperty)
-                .Subscribe(_ => Dispatcher.UIThread.Post(OnPointerOverChanged));
+            _subscription = newValue.GetObservable(property: IsPointerOverProperty)
+                .Subscribe(onNext: _ => Dispatcher.UIThread.Post(action: OnPointerOverChanged));
 
             if (IsAdornmentVisible)
             {
-                AdornerHelper.AddAdorner(this, Adornment);
+                AdornerHelper.AddAdorner(visual: this, adorner: Adornment);
             }
         }
     }

@@ -1,20 +1,23 @@
-﻿using Core.Enuns;
+﻿using ProjetoAcessibilidade.Core.Enuns;
 
-namespace Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Observations;
+
 public class AppFormDataItemObservationModel : IAppFormDataItemContract
 {
-    public string Topic
+    public AppFormDataItemObservationModel(
+        string observation
+        , string id
+        , string topic
+        , AppFormDataType type = AppFormDataType.Observação
+    )
+        : base(id: id, topic: topic, type: type)
     {
-        get;
-        set;
+        Observation = observation;
     }
-    public AppFormDataType Type
-    {
-        get;
-        set;
-    } = AppFormDataType.Observação;
+
     public string Observation
     {
-        get; set;
+        get;
+        set;
     }
 }

@@ -2,11 +2,9 @@
     x:Class="ProjectAvalonia.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-    xmlns:language="using:ProjectAvalonia.Properties"
+    xmlns:conv="clr-namespace:ProjectAvalonia.Common.Converters;assembly=ProjectAvalonia"
     xmlns:local="using:ProjectAvalonia"
-    xmlns:models="using:ProjectAvalonia.Common.Models"
-    xmlns:notification="clr-namespace:Avalonia.Notification;assembly=Notification.Avalonia">
+    xmlns:models="using:ProjectAvalonia.Common.Models">
 
     <Application.DataTemplates>
         <local:ViewLocator />
@@ -20,35 +18,29 @@
     </Application.DataTemplates>
 
     <Application.Resources>
-        <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
+                    <conv:SizePercentageConverter x:Key="SizePercentageConverter" />
+                    <conv:CheckingValueByTypeConverter x:Key="CheckingValueByTypeConverter" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceInclude x:Key='Default' Source="/Styles/Themes/LightResources.axaml" />
+                <ResourceInclude x:Key='Light' Source="/Styles/Themes/LightResources.axaml" />
+                <ResourceInclude x:Key='Dark' Source="/Styles/Themes/DarkResources.axaml" />
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+
     </Application.Resources>
 
     <Application.Styles>
-
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/EditableTextBlock.xaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Styles/Themes/BaseDark.axaml" />
+        <FluentTheme />
+        <StyleInclude Source="avares://ProjectAvalonia/Styles/Themes/Base.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Icons/Icons.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Icons/IconsSmall.axaml" />
+        <StyleInclude Source="avares://ProjectAvalonia/Icons/IconsLarge.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Styles/Styles.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ContentArea.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/InfoMessage.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/Dialog.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ProgressRingArc.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ProgressRing.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TagControl.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TagsBox.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/NavBarItem.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TileButton.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/QuestionControl.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/PreviewItem.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/AdorningContentControl.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TileControl.axaml" />
-        <!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/StatusItem.axaml" />-->
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/PrivacyContentControl.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/LabelsItemsPresenter.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/SuggestionItem.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ClipboardCopyButton.axaml" />
-        <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/CopyableItem.axaml" />
-        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
-
     </Application.Styles>
 </Application>

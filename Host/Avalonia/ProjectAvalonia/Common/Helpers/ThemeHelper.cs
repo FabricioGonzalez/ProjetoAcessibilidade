@@ -1,43 +1,46 @@
-using System;
-using System.Linq;
-
-using Avalonia;
-using Avalonia.Markup.Xaml.Styling;
+using Avalonia.Styling;
 
 namespace ProjectAvalonia.Common.Helpers;
 
 public enum Theme
 {
-    Dark,
-    Light
+    Dark
+    , Light
 }
 
 public static class ThemeHelper
 {
     public static Theme CurrentTheme
     {
-        get; private set;
+        get;
     }
 
-    public static void ApplyTheme(Theme theme)
+    public static void ApplyTheme(
+        Theme theme
+    )
     {
-        if (Application.Current is { })
+        if (Avalonia.Application.Current is not null)
         {
-            var currentTheme = Application.Current.Styles.Select(x => (StyleInclude)x)
-                .FirstOrDefault(x => x.Source is { } && x.Source.AbsolutePath.Contains("Themes"));
-
-            if (currentTheme is { })
+            var requestedTheme = theme switch
             {
-                var themeIndex = Application.Current.Styles.IndexOf(currentTheme);
+                Theme.Light => ThemeVariant.Light, Theme.Dark => ThemeVariant.Dark, _ => ThemeVariant.Default
+            };
+            Avalonia.Application.Current.RequestedThemeVariant = requestedTheme;
+            /*var currentTheme = Domain.Application.Current.Styles.Select(selector: x => (StyleInclude)x)
+                .FirstOrDefault(predicate: x =>
+                    x.Source is not null && x.Source.AbsolutePath.Contains(value: "Themes"));
 
-                var newTheme = new StyleInclude(new Uri("avares://ProjectAvalonia/App.axaml"))
+            if (currentTheme is not null)
+            {
+                var themeIndex = Domain.Application.Current.Styles.IndexOf(item: currentTheme);
+
+                var newTheme = new StyleInclude(baseUri: new Uri(uriString: "avares://ProjectAvalonia/App.axaml"))
                 {
-                    Source = new Uri($"avares://ProjectAvalonia/Styles/Themes/Base{theme}.axaml")
+                    Source = new Uri(uriString: $"avares://ProjectAvalonia/Styles/Themes/Base{theme}.axaml")
                 };
 
                 CurrentTheme = theme;
-                Application.Current.Styles[themeIndex] = newTheme;
-            }
+                Domain.Application.Current.Styles[index: themeIndex] = newTheme;*/
         }
     }
 }

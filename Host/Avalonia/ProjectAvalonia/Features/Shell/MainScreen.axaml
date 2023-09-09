@@ -7,82 +7,57 @@
     xmlns:navbar="using:ProjectAvalonia.Features.NavBar"
     xmlns:shell="clr-namespace:ProjectAvalonia.Features.Shell"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.ViewModels"
+    xmlns:commanding1="clr-namespace:ProjectAvalonia.Common.Controls.Commanding"
     d:DesignHeight="1000"
     d:DesignWidth="1000"
     x:CompileBindings="True"
     x:DataType="viewModels:MainViewModel">
 
-    <DockPanel IsEnabled="{Binding IsMainContentEnabled^}">
-        <shell:TitleBar DockPanel.Dock="Top" />
-        <DockPanel>
-            <navbar:NavBar DataContext="{Binding NavBar}" DockPanel.Dock="Left" />
-            <Border
-                x:Name="ContentPart"
-                BorderBrush="{DynamicResource TileBorderColor}"
-                BorderThickness="1,1,0,0"
-                ClipToBounds="True"
-                CornerRadius="10 0 0 0">
-                <Panel>
-                    <Border
-                        Background="{DynamicResource RegionColor}"
-                        ClipToBounds="True"
-                        CornerRadius="10 0 0 0"
-                        IsHitTestVisible="False" />
-                    <Panel Height="100" VerticalAlignment="Bottom">
-                        <!--<spectrum:SpectrumControl
-                            Classes.fireEffect="{Binding CurrentWallet^.CoinJoinStateViewModel.IsInCriticalPhase, FallbackValue=False}"
-                            IsActive="{Binding IsCoinJoinActive}"
-                            IsDockEffectVisible="{Binding CurrentWallet^.IsMusicBoxVisible^, FallbackValue=False}"
-                            Opacity="0.6">
-                            <spectrum:SpectrumControl.Styles>
-                                <Style Selector="spectrum|SpectrumControl.fireEffect">
-                                    <Setter Property="Foreground" Value="{StaticResource OrangeCoinColor}" />
-                                </Style>
-                                <Style Selector="spectrum|SpectrumControl">
-                                    <Setter Property="Foreground" Value="{DynamicResource SystemAccentColor}" />
-                                </Style>
-                            </spectrum:SpectrumControl.Styles>
-                            <spectrum:SpectrumControl.Transitions>
-                                <Transitions>
-                                    <BrushTransition
-                                        Easing="{StaticResource FluentEasing}"
-                                        Property="Foreground"
-                                        Duration="0:0:2" />
-                                </Transitions>
-                            </spectrum:SpectrumControl.Transitions>
-                        </spectrum:SpectrumControl>-->
-                    </Panel>
-                    <DockPanel>
-                        <DockPanel.Styles>
-                            <Style Selector="ContentControl c|ContentArea /template/ Panel#PART_ButtonArea">
-                                <Setter Property="IsVisible" Value="False" />
-                            </Style>
+  <DockPanel IsEnabled="{Binding IsMainContentEnabled^}">
+    <shell:TitleBar DockPanel.Dock="Top"/>
 
-                            <Style Selector="c|ContentArea /template/ StackPanel#PART_Header">
-                                <Setter Property="Margin" Value="31 26 31 0" />
-                            </Style>
-                        </DockPanel.Styles>
-                        <!--<wallets:MusicControlsView
-                            Height="66"
-                            HorizontalAlignment="Center"
-                            DataContext="{Binding CurrentWallet^}"
-                            DockPanel.Dock="Bottom" />-->
-                        <ContentControl ClipToBounds="False" Content="{Binding MainScreen.CurrentPage}" />
-                    </DockPanel>
-                    <Border
-                        Margin="0,0,-5,-5"
-                        BoxShadow="inset 0 0 5 0 #000000"
-                        ClipToBounds="True"
-                        CornerRadius="10 0 0 0"
-                        IsHitTestVisible="False" />
-                    <!--<statusIcon:StatusIcon
-                        Margin="10"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        DataContext="{Binding StatusIcon}"
-                        Foreground="{DynamicResource AcrylicTrimForeground}" />-->
-                </Panel>
-            </Border>
-        </DockPanel>
+    <commanding1:ToolBar
+        Margin="0,2"
+         DockPanel.Dock="Top"
+        x:CompileBindings="True"
+        DataContext="{Binding ToolBarMenu, Mode=OneWay}" />
+    <DockPanel>
+      <navbar:NavBar DataContext="{Binding NavBar}" DockPanel.Dock="Left" />
+      <Border
+          x:Name="ContentPart"
+          BorderBrush="{DynamicResource TileBorderColor}"
+          BorderThickness="1,1,0,0"
+          ClipToBounds="True"
+          CornerRadius="10 0 0 0">
+        <Panel>
+          <Border
+              Background="{DynamicResource RegionColor}"
+              ClipToBounds="True"
+              CornerRadius="10 0 0 0"
+              IsHitTestVisible="False" />
+          <Panel Height="30" VerticalAlignment="Bottom">
+            <TextBlock Text="{Binding ErrorMessage, Mode=TwoWay}" />
+          </Panel>
+          <DockPanel>
+            <DockPanel.Styles>
+              <Style Selector="ContentControl c|ContentArea /template/ Panel#PART_ButtonArea">
+                <Setter Property="IsVisible" Value="False" />
+              </Style>
+
+              <Style Selector="c|ContentArea /template/ StackPanel#PART_Header">
+                <Setter Property="Margin" Value="31 26 31 0" />
+              </Style>
+            </DockPanel.Styles>
+            <ContentControl ClipToBounds="False" Content="{Binding MainScreen.CurrentPage}" />
+          </DockPanel>
+          <Border
+              Margin="0,0,-5,-5"
+              BoxShadow="inset 0 0 5 0 #000000"
+              ClipToBounds="True"
+              CornerRadius="10 0 0 0"
+              IsHitTestVisible="False" />
+        </Panel>
+      </Border>
     </DockPanel>
+  </DockPanel>
 </UserControl>

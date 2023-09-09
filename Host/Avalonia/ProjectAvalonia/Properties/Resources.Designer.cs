@@ -61,7 +61,151 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Auto copiar.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Checkbox.
+        /// </summary>
+        public static string Add_Checkbox_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Checkbox_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Condição.
+        /// </summary>
+        public static string Add_Condition_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Condition_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Item Existente.
+        /// </summary>
+        public static string Add_Existing_Folder_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Add_Existing_Folder_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Item.
+        /// </summary>
+        public static string Add_Folder_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Add_Folder_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Selecione um item para adicionar ao projeto.
+        /// </summary>
+        public static string Add_Item_Dialog_Caption {
+            get {
+                return ResourceManager.GetString("Add_Item_Dialog_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar item de Relatório.
+        /// </summary>
+        public static string Add_Item_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Item_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Lei.
+        /// </summary>
+        public static string Add_Law_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Law_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar uma nova opção.
+        /// </summary>
+        public static string Add_Option_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Option_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Opções.
+        /// </summary>
+        public static string Add_Options_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Options_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar um Resultado.
+        /// </summary>
+        public static string Add_Result_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Result_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Regra.
+        /// </summary>
+        public static string Add_Rule_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Rule_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar item de Relatório.
+        /// </summary>
+        public static string Add_Solution_Item_Menu_Item {
+            get {
+                return ResourceManager.GetString("Add_Solution_Item_Menu_Item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Item de Texto.
+        /// </summary>
+        public static string Add_Text_Item_ToolTip {
+            get {
+                return ResourceManager.GetString("Add_Text_Item_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do Item.
+        /// </summary>
+        public static string AddItemNameLabel {
+            get {
+                return ResourceManager.GetString("AddItemNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Configurações Avançadas.
+        /// </summary>
+        public static string AdvancedSettingsViewNavLabel {
+            get {
+                return ResourceManager.GetString("AdvancedSettingsViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Aparência.
+        /// </summary>
+        public static string AppearanceLabel {
+            get {
+                return ResourceManager.GetString("AppearanceLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Auto Copiar.
         /// </summary>
         public static string AutoCopyBehaviorLabel {
             get {
@@ -70,7 +214,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Baixar versão mais atual automaticamente.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Baixar as últimas atualizações automaticamente.
         /// </summary>
         public static string AutoDownloadLabel {
             get {
@@ -79,7 +223,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Auto colar.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Auto Colar.
         /// </summary>
         public static string AutoPasteBehaviorLabel {
             get {
@@ -93,6 +237,96 @@ namespace ProjectAvalonia.Properties {
         public static string CancelActionLabel {
             get {
                 return ResourceManager.GetString("CancelActionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Tópico.
+        /// </summary>
+        public static string CheckboxContainerTopicLabel {
+            get {
+                return ResourceManager.GetString("CheckboxContainerTopicLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Tópico.
+        /// </summary>
+        public static string CheckboxItemTopicLabel {
+            get {
+                return ResourceManager.GetString("CheckboxItemTopicLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Checkbox.
+        /// </summary>
+        public static string CheckboxItemTypeLabel {
+            get {
+                return ResourceManager.GetString("CheckboxItemTypeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Valor.
+        /// </summary>
+        public static string CheckboxItemValueLabel {
+            get {
+                return ResourceManager.GetString("CheckboxItemValueLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Marcado.
+        /// </summary>
+        public static string CheckedValueLabel {
+            get {
+                return ResourceManager.GetString("CheckedValueLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Endereço da empresa.
+        /// </summary>
+        public static string Company_Address_Watermark {
+            get {
+                return ResourceManager.GetString("Company_Address_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Logo da empresa.
+        /// </summary>
+        public static string Company_Logo_FilePath_Watermark {
+            get {
+                return ResourceManager.GetString("Company_Logo_FilePath_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da empresa.
+        /// </summary>
+        public static string Company_Name_Watermark {
+            get {
+                return ResourceManager.GetString("Company_Name_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Conclusão.
+        /// </summary>
+        public static string ConclusionLabel {
+            get {
+                return ResourceManager.GetString("ConclusionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Condições.
+        /// </summary>
+        public static string Conditions_Label {
+            get {
+                return ResourceManager.GetString("Conditions_Label", resourceCulture);
             }
         }
         
@@ -115,7 +349,25 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Tema Noturno.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Criar nova Regra.
+        /// </summary>
+        public static string Create_Rules_Button {
+            get {
+                return ResourceManager.GetString("Create_Rules_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Modo Noturno.
+        /// </summary>
+        public static string DarkModeLabel {
+            get {
+                return ResourceManager.GetString("DarkModeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Modo Noturno.
         /// </summary>
         public static string DarkThemeLabel {
             get {
@@ -124,7 +376,25 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Ativar Renderização por GPU.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Deletar imagem.
+        /// </summary>
+        public static string Delete_Image_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Delete_Image_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Editar Regra.
+        /// </summary>
+        public static string Edit_Rules_Button {
+            get {
+                return ResourceManager.GetString("Edit_Rules_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Ativar a Aceleração por GPU..
         /// </summary>
         public static string EnabledGPULabel {
             get {
@@ -133,7 +403,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Quando a placa de video(GPU) está habilitada para renderizar a interface de usuário(UI). Usar a GPU ao invés da CPU pode melhor a performance..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Indica quando a Aceleração por GPU está ativa para renderizar a tela. Usar a GPU ao invés do CPU pode levar à ganhos de performance..
         /// </summary>
         public static string EnabledGPUTooltip {
             get {
@@ -142,7 +412,277 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Manter aplicativo rodando em background.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Excluir Condição.
+        /// </summary>
+        public static string Exclude_Condition_ToolTip {
+            get {
+                return ResourceManager.GetString("Exclude_Condition_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Excluir.
+        /// </summary>
+        public static string Exclude_File_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Exclude_File_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Excluir Pasta.
+        /// </summary>
+        public static string Exclude_Folder_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Exclude_Folder_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Excluir Resultado.
+        /// </summary>
+        public static string Exclude_Result_ToolTip {
+            get {
+                return ResourceManager.GetString("Exclude_Result_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Excluir Regra.
+        /// </summary>
+        public static string Exclude_Rule_ToolTip {
+            get {
+                return ResourceManager.GetString("Exclude_Rule_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da Pasta.
+        /// </summary>
+        public static string Folder_Name_Watermark {
+            get {
+                return ResourceManager.GetString("Folder_Name_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Configurações Gerais.
+        /// </summary>
+        public static string GeneralSettingsViewNavLabel {
+            get {
+                return ResourceManager.GetString("GeneralSettingsViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Gerar PDF.
+        /// </summary>
+        public static string Generate_Document_ToolTip {
+            get {
+                return ResourceManager.GetString("Generate_Document_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Maior que.
+        /// </summary>
+        public static string GreaterOperationLabel {
+            get {
+                return ResourceManager.GetString("GreaterOperationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Igual ou maior que.
+        /// </summary>
+        public static string GreaterThanOperationLabel {
+            get {
+                return ResourceManager.GetString("GreaterThanOperationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Contém.
+        /// </summary>
+        public static string HasOperationLabel {
+            get {
+                return ResourceManager.GetString("HasOperationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Está.
+        /// </summary>
+        public static string IsOperationLabel {
+            get {
+                return ResourceManager.GetString("IsOperationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Itens de Relatório.
+        /// </summary>
+        public static string ItemFormDataLabel {
+            get {
+                return ResourceManager.GetString("ItemFormDataLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Conteúdo da Lei.
+        /// </summary>
+        public static string ItemLawItemContentLabel {
+            get {
+                return ResourceManager.GetString("ItemLawItemContentLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Identificador da Lei.
+        /// </summary>
+        public static string ItemLawItemIdLabel {
+            get {
+                return ResourceManager.GetString("ItemLawItemIdLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Leis.
+        /// </summary>
+        public static string ItemLawItemsLabel {
+            get {
+                return ResourceManager.GetString("ItemLawItemsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome do Item.
+        /// </summary>
+        public static string ItemNameLabel {
+            get {
+                return ResourceManager.GetString("ItemNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Itens.
+        /// </summary>
+        public static string Items_Label {
+            get {
+                return ResourceManager.GetString("Items_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Selecione o idioma.
+        /// </summary>
+        public static string LanguageSelectorLabel {
+            get {
+                return ResourceManager.GetString("LanguageSelectorLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Conteúdo da Lei.
+        /// </summary>
+        public static string Law_Body_Watermark {
+            get {
+                return ResourceManager.GetString("Law_Body_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Identificador de Lei.
+        /// </summary>
+        public static string Law_Id_Watermark {
+            get {
+                return ResourceManager.GetString("Law_Id_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Leis.
+        /// </summary>
+        public static string Laws_Label {
+            get {
+                return ResourceManager.GetString("Laws_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Menor que.
+        /// </summary>
+        public static string LessOperationLabel {
+            get {
+                return ResourceManager.GetString("LessOperationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Igual ou Menor que.
+        /// </summary>
+        public static string LessThanOperationLabel {
+            get {
+                return ResourceManager.GetString("LessThanOperationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Lei do Cabeçalho do Relatório.
+        /// </summary>
+        public static string MainLawLabel {
+            get {
+                return ResourceManager.GetString("MainLawLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Próximo.
+        /// </summary>
+        public static string NextActionLabel {
+            get {
+                return ResourceManager.GetString("NextActionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nenhuma Solução Aberta.
+        /// </summary>
+        public static string No_Solution_Open_Label {
+            get {
+                return ResourceManager.GetString("No_Solution_Open_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Obrigatório.
+        /// </summary>
+        public static string ObrigatorityLabel {
+            get {
+                return ResourceManager.GetString("ObrigatorityLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Observações.
+        /// </summary>
+        public static string Observation_Label {
+            get {
+                return ResourceManager.GetString("Observation_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Observações.
+        /// </summary>
+        public static string Observation_Watermark {
+            get {
+                return ResourceManager.GetString("Observation_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Manter o processo rodando em segundo plano.
         /// </summary>
         public static string onClosedBehaviorLabel {
             get {
@@ -151,7 +691,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Iniciar o aplicativo juntamente ao Windows.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Iniciar juntamente ao Windows.
         /// </summary>
         public static string onStartupBehaviorLabel {
             get {
@@ -160,7 +700,178 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Reiniciar o aplicativo.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Operações.
+        /// </summary>
+        public static string Operation_Label {
+            get {
+                return ResourceManager.GetString("Operation_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Marcar como Invalido.
+        /// </summary>
+        public static string Option_Mark_As_Invalid_MenuItem {
+            get {
+                return ResourceManager.GetString("Option_Mark_As_Invalid_MenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Opções.
+        /// </summary>
+        public static string Options_Label {
+            get {
+                return ResourceManager.GetString("Options_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Imprimir.
+        /// </summary>
+        public static string Print_Document_ToolTip {
+            get {
+                return ResourceManager.GetString("Print_Document_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Imprimir Documento.
+        /// </summary>
+        public static string Print_Page_Title {
+            get {
+                return ResourceManager.GetString("Print_Page_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Adicionar Nova Pasta à Solução.
+        /// </summary>
+        public static string Project_Add_Folder_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Project_Add_Folder_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Salvar Item de Relatório Atual.
+        /// </summary>
+        public static string Project_Item_Save_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Project_Item_Save_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Responsável pelo Projeto.
+        /// </summary>
+        public static string Project_Responsable_Watermark {
+            get {
+                return ResourceManager.GetString("Project_Responsable_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Projeto.
+        /// </summary>
+        public static string ProjectViewNavLabel {
+            get {
+                return ResourceManager.GetString("ProjectViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Remover Checkbox.
+        /// </summary>
+        public static string Remove_Checkbox_ToolTip {
+            get {
+                return ResourceManager.GetString("Remove_Checkbox_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Remover Grupo.
+        /// </summary>
+        public static string Remove_Group_ToolTip {
+            get {
+                return ResourceManager.GetString("Remove_Group_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Remove LawRemover Leis.
+        /// </summary>
+        public static string Remove_Law_Tooltip {
+            get {
+                return ResourceManager.GetString("Remove_Law_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Renomear.
+        /// </summary>
+        public static string Rename_File_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Rename_File_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Renomer Item.
+        /// </summary>
+        public static string Rename_Folder_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Rename_Folder_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Data do Relatório.
+        /// </summary>
+        public static string Report_Date_Calendar_Header {
+            get {
+                return ResourceManager.GetString("Report_Date_Calendar_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a UF.
+        /// </summary>
+        public static string Report_State_Watermark {
+            get {
+                return ResourceManager.GetString("Report_State_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Configurações do Relatório.
+        /// </summary>
+        public static string ReportSettingsViewNavLabel {
+            get {
+                return ResourceManager.GetString("ReportSettingsViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Email do Responsável.
+        /// </summary>
+        public static string Responsable_Mail_Address_Watermark {
+            get {
+                return ResourceManager.GetString("Responsable_Mail_Address_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Telefone do Responsável.
+        /// </summary>
+        public static string Responsable_Phone_Number_Watermark {
+            get {
+                return ResourceManager.GetString("Responsable_Phone_Number_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Reiniciar a Aplicação.
         /// </summary>
         public static string RestartAppLabel {
             get {
@@ -169,7 +880,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a As modificações serão aplicadas após o aplicativo ser reiniciado..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a As Alterações serão aplicadas após reiniciar a aplicação.
         /// </summary>
         public static string RestartNotificationLabel {
             get {
@@ -178,7 +889,25 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Gerenciar aparência, e outras configurações.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Pesquisar itens.
+        /// </summary>
+        public static string Search_Solution_Items_Watermark {
+            get {
+                return ResourceManager.GetString("Search_Solution_Items_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Procurar por Configurações / Funcionalidades Avançadas.
+        /// </summary>
+        public static string SearchBoxLabel {
+            get {
+                return ResourceManager.GetString("SearchBoxLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Gerencia a aparência e outras configurações.
         /// </summary>
         public static string SettingsPageCaption {
             get {
@@ -187,7 +916,34 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Terminando os preparativos para finalizar a aplicação..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Configurações.
+        /// </summary>
+        public static string SettingsPageLabel {
+            get {
+                return ResourceManager.GetString("SettingsPageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Configurações.
+        /// </summary>
+        public static string SettingsViewNavLabel {
+            get {
+                return ResourceManager.GetString("SettingsViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A aplicação está desligando.
+        /// </summary>
+        public static string ShutdownDialogTitleLabel {
+            get {
+                return ResourceManager.GetString("ShutdownDialogTitleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Preparando-se para desligar.
         /// </summary>
         public static string ShutdownMessagePart1 {
             get {
@@ -196,7 +952,7 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Pode levar algum  tempo para finalizarmos, por favor aguarde....
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Isso pode demorar a finalizar... Por favor, aguarde....
         /// </summary>
         public static string ShutdownMessagePart2 {
             get {
@@ -214,11 +970,218 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a O Tema está sendo Alterarado... Aguarde....
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Criar Solução.
+        /// </summary>
+        public static string Solution_Create_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Solution_Create_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Explorador de Solução.
+        /// </summary>
+        public static string Solution_Explorer_Label {
+            get {
+                return ResourceManager.GetString("Solution_Explorer_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Local da Solução.
+        /// </summary>
+        public static string Solution_Folder_Watermark {
+            get {
+                return ResourceManager.GetString("Solution_Folder_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da Solução.
+        /// </summary>
+        public static string Solution_Name_Watermark {
+            get {
+                return ResourceManager.GetString("Solution_Name_Watermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Abrir Solução.
+        /// </summary>
+        public static string Solution_Open_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Solution_Open_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Imprimir Solução.
+        /// </summary>
+        public static string Solution_Print_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Solution_Print_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Criar Template de Relatório.
+        /// </summary>
+        public static string Template_Edit_Create_Item_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Create_Item_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Exportar Dados.
+        /// </summary>
+        public static string Template_Edit_Export_Items_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Export_Items_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Importar Dadaos.
+        /// </summary>
+        public static string Template_Edit_Imports_Item_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Imports_Item_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Abrir Template de Relatório.
+        /// </summary>
+        public static string Template_Edit_Open_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Open_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Salvar Template de Relatório.
+        /// </summary>
+        public static string Template_Edit_Save_Item_ToolBarItem {
+            get {
+                return ResourceManager.GetString("Template_Edit_Save_Item_ToolBarItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Template.
+        /// </summary>
+        public static string Template_Tab_Header {
+            get {
+                return ResourceManager.GetString("Template_Tab_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Edição de Template.
+        /// </summary>
+        public static string TemplateEditViewNavLabel {
+            get {
+                return ResourceManager.GetString("TemplateEditViewNavLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Unidade de Medida.
+        /// </summary>
+        public static string TextBoxItemMeasurementUnitLabel {
+            get {
+                return ResourceManager.GetString("TextBoxItemMeasurementUnitLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Tópico.
+        /// </summary>
+        public static string TextBoxItemTopicLabel {
+            get {
+                return ResourceManager.GetString("TextBoxItemTopicLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Texto.
+        /// </summary>
+        public static string TextItemTypeLabel {
+            get {
+                return ResourceManager.GetString("TextItemTypeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O Tema está sendo alterado... Por favor, aguarde.
         /// </summary>
         public static string ThemeChangingLabel {
             get {
                 return ResourceManager.GetString("ThemeChangingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Escuro, Claro, Tema.
+        /// </summary>
+        public static string ThemeKeyWords {
+            get {
+                return ResourceManager.GetString("ThemeKeyWords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Então.
+        /// </summary>
+        public static string Then_Label {
+            get {
+                return ResourceManager.GetString("Then_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Desmarcado.
+        /// </summary>
+        public static string UncheckedValueLabel {
+            get {
+                return ResourceManager.GetString("UncheckedValueLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Regras de Validação.
+        /// </summary>
+        public static string Validation_Rules_Label {
+            get {
+                return ResourceManager.GetString("Validation_Rules_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Regras de Validação.
+        /// </summary>
+        public static string Validation_Rules_Tab_Header {
+            get {
+                return ResourceManager.GetString("Validation_Rules_Tab_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Checagem de valor.
+        /// </summary>
+        public static string ValueCheckLabel {
+            get {
+                return ResourceManager.GetString("ValueCheckLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Quando.
+        /// </summary>
+        public static string When_Label {
+            get {
+                return ResourceManager.GetString("When_Label", resourceCulture);
             }
         }
     }

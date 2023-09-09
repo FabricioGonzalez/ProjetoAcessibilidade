@@ -1,6 +1,5 @@
-﻿using MediatR;
+﻿namespace ProjetoAcessibilidade.Core.Common;
 
-namespace Core.Common;
-public class BaseEvent : INotification
+public class BaseEvent
 {
 }

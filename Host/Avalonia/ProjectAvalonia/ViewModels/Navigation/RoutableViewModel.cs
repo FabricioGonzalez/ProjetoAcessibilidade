@@ -4,6 +4,8 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 
@@ -11,28 +13,17 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Navigation;
 
-public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
+public abstract partial class RoutableViewModel
+    : ViewModelBase
+        , INavigatable
+    , IToolBarHost
 {
-    [AutoNotify] private bool _isBusy;
-    [AutoNotify] private bool _enableCancelOnPressed;
-    [AutoNotify] private bool _enableCancelOnEscape;
+    private CompositeDisposable? _currentDisposable;
     [AutoNotify] private bool _enableBack;
     [AutoNotify] private bool _enableCancel;
+    [AutoNotify] private bool _enableCancelOnEscape;
+    [AutoNotify] private bool _enableCancelOnPressed;
     [AutoNotify] private bool _isActive;
-
-    public abstract string Title
-    {
-        get; protected set;
-    }
-
-    private CompositeDisposable? _currentDisposable;
-
-    public NavigationTarget CurrentTarget
-    {
-        get; internal set;
-    }
-
-    public virtual NavigationTarget DefaultTarget => NavigationTarget.HomeScreen;
 
     protected RoutableViewModel()
     {
@@ -40,32 +31,97 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
         CancelCommand = ReactiveCommand.Create(() => Navigate().Clear());
     }
 
-    public virtual string IconName { get; protected set; } = "navigation_regular";
-    public virtual string IconNameFocused { get; protected set; } = "navigation_regular";
+    public abstract string Title
+    {
+        get;
+        protected set;
+    }
+
+    public abstract string? LocalizedTitle
+    {
+        get;
+        protected set;
+    }
+
+    public NavigationTarget CurrentTarget
+    {
+        get;
+        internal set;
+    }
+
+    public virtual NavigationTarget DefaultTarget => NavigationTarget.HomeScreen;
+
+    public virtual string IconName
+    {
+        get;
+        protected set;
+    } = "navigation_regular";
+
+    public virtual string IconNameFocused
+    {
+        get;
+        protected set;
+    } = "navigation_regular";
 
     public ICommand? NextCommand
     {
-        get; protected set;
+        get;
+        protected set;
     }
 
     public ICommand? SkipCommand
     {
-        get; protected set;
+        get;
+        protected set;
     }
 
     public ICommand BackCommand
     {
-        get; protected set;
+        get;
+        protected set;
     }
 
     public ICommand CancelCommand
     {
-        get; protected set;
+        get;
+        protected set;
     }
 
-    private void DoNavigateTo(bool isInHistory)
+    public abstract MenuViewModel? ToolBar
     {
-        if (_currentDisposable is { })
+        get;
+
+    }
+
+    public void OnNavigatedTo(
+        bool isInHistory
+    ) => DoNavigateTo(isInHistory);
+
+    public void OnNavigatedTo(
+        bool isInHistory
+        , object Parameter = null
+    ) => DoNavigateTo(isInHistory, Parameter);
+
+    void INavigatable.OnNavigatedFrom(
+        bool isInHistory
+    ) => DoNavigateFrom(isInHistory);
+
+    public void SetTitle(
+        string localizedString
+    )
+    {
+        if (!string.IsNullOrWhiteSpace(localizedString))
+        {
+            Title = localizedString.GetLocalized();
+            LocalizedTitle = localizedString.GetLocalized();
+        }
+    }
+
+    private void DoNavigateTo(
+        bool isInHistory
+    )
+    {
+        if (_currentDisposable is not null)
         {
             throw new Exception("Can't navigate to something that has already been navigated to.");
         }
@@ -74,9 +130,13 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
 
         OnNavigatedTo(isInHistory, _currentDisposable);
     }
-    private void DoNavigateTo(bool isInHistory, object? Parameter = null)
+
+    private void DoNavigateTo(
+        bool isInHistory
+        , object? Parameter = null
+    )
     {
-        if (_currentDisposable is { })
+        if (_currentDisposable is not null)
         {
             throw new Exception("Can't navigate to something that has already been navigated to.");
         }
@@ -84,20 +144,34 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
         _currentDisposable = new CompositeDisposable();
 
         if (Parameter is null)
+        {
             OnNavigatedTo(isInHistory, _currentDisposable);
+        }
 
         else
+        {
             OnNavigatedTo(isInHistory, _currentDisposable, Parameter);
+        }
     }
 
-    protected virtual void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables)
-    {
-    }
-    protected virtual void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables, object? Parameter = null)
+    protected virtual void OnNavigatedTo(
+        bool isInHistory
+        , CompositeDisposable disposables
+    )
     {
     }
 
-    private void DoNavigateFrom(bool isInHistory)
+    protected virtual void OnNavigatedTo(
+        bool isInHistory
+        , CompositeDisposable disposables
+        , object? Parameter = null
+    )
+    {
+    }
+
+    private void DoNavigateFrom(
+        bool isInHistory
+    )
     {
         OnNavigatedFrom(isInHistory);
 
@@ -112,17 +186,21 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
         return Navigate(currentTarget);
     }
 
-    public static INavigationStack<RoutableViewModel> Navigate(NavigationTarget currentTarget)
-    {
-        return currentTarget switch
+    public static INavigationStack<RoutableViewModel> Navigate(
+        NavigationTarget currentTarget
+    ) =>
+        currentTarget switch
         {
-            NavigationTarget.HomeScreen => NavigationState.Instance.HomeScreenNavigation,
-            NavigationTarget.DialogScreen => NavigationState.Instance.DialogScreenNavigation,
-            NavigationTarget.FullScreen => NavigationState.Instance.FullScreenNavigation,
-            NavigationTarget.CompactDialogScreen => NavigationState.Instance.CompactDialogScreenNavigation,
-            _ => throw new NotSupportedException(),
+            NavigationTarget.HomeScreen => NavigationState.Instance.HomeScreenNavigation
+            ,
+            NavigationTarget.DialogScreen => NavigationState.Instance.DialogScreenNavigation
+            ,
+            NavigationTarget.FullScreen => NavigationState.Instance.FullScreenNavigation
+            ,
+            NavigationTarget.CompactDialogScreen => NavigationState.Instance.CompactDialogScreenNavigation
+            ,
+            _ => throw new NotSupportedException()
         };
-    }
 
     public void SetActive()
     {
@@ -149,39 +227,35 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
         IsActive = true;
     }
 
-    public void OnNavigatedTo(bool isInHistory)
-    {
-        DoNavigateTo(isInHistory);
-    }
-    public void OnNavigatedTo(bool isInHistory, object Parameter = null)
-    {
-        DoNavigateTo(isInHistory, Parameter);
-    }
-
-    void INavigatable.OnNavigatedFrom(bool isInHistory)
-    {
-        DoNavigateFrom(isInHistory);
-    }
-
-    protected virtual void OnNavigatedFrom(bool isInHistory)
+    protected virtual void OnNavigatedFrom(
+        bool isInHistory
+    )
     {
     }
 
-    protected void EnableAutoBusyOn(params ICommand[] commands)
+    protected void EnableAutoBusyOn(
+        params ICommand[] commands
+    )
     {
         foreach (var command in commands)
         {
             (command as IReactiveCommand)?.IsExecuting
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Skip(1)
-                .Subscribe(x => _isBusy = x);
+                .ToProperty(this, x => x.IsBusy, out _isBusy);
         }
     }
 
-    public async Task<DialogResult<TResult>> NavigateDialogAsync<TResult>(DialogViewModelBase<TResult> dialog)
+    public async Task<DialogResult<TResult>> NavigateDialogAsync<TResult>(
+        DialogViewModelBase<TResult> dialog
+    )
         => await NavigateDialogAsync(dialog, CurrentTarget);
 
-    public static async Task<DialogResult<TResult>> NavigateDialogAsync<TResult>(DialogViewModelBase<TResult> dialog, NavigationTarget target, NavigationMode navigationMode = NavigationMode.Normal)
+    public static async Task<DialogResult<TResult>> NavigateDialogAsync<TResult>(
+        DialogViewModelBase<TResult> dialog
+        , NavigationTarget target
+        , NavigationMode navigationMode = NavigationMode.Normal
+    )
     {
         var dialogTask = dialog.GetDialogResultAsync();
 
@@ -194,7 +268,12 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
         return result;
     }
 
-    protected async Task ShowErrorAsync(string title, string message, string caption, NavigationTarget target = NavigationTarget.Default)
+    protected async Task ShowErrorAsync(
+        string title
+        , string message
+        , string caption
+        , NavigationTarget target = NavigationTarget.Default
+    )
     {
         var dialog = new ShowErrorDialogViewModel(message, title, caption);
 
@@ -207,7 +286,11 @@ public abstract partial class RoutableViewModel : ViewModelBase, INavigatable
         await NavigateDialogAsync(dialog, navigationTarget);
     }
 
-    protected void SetupCancel(bool enableCancel, bool enableCancelOnEscape, bool enableCancelOnPressed)
+    protected void SetupCancel(
+        bool enableCancel
+        , bool enableCancelOnEscape
+        , bool enableCancelOnPressed
+    )
     {
         EnableCancel = enableCancel;
         EnableCancelOnEscape = enableCancelOnEscape;

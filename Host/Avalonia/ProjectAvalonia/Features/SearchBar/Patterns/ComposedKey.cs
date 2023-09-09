@@ -4,7 +4,9 @@ namespace ProjectAvalonia.Features.SearchBar.Patterns;
 
 public class ComposedKey : ValueObject
 {
-    public ComposedKey(params object[] keys)
+    public ComposedKey(
+        params object[] keys
+    )
     {
         Keys = keys;
     }
@@ -14,8 +16,5 @@ public class ComposedKey : ValueObject
         get;
     }
 
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        return Keys;
-    }
+    protected override IEnumerable<object> GetEqualityComponents() => Keys;
 }

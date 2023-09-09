@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <id>7a521b80-99cf-4119-9ff7-dee48f36c78b</id>
+    <name>Entradas(Portas)</name>
+    <template_name>Entradas Portas Externo</template_name>
+    <table>
+        <text_item>
+            <id>4e403941-e673-40a2-be58-883095a49bc6</id>
+            <topic>Porta possui vão livre de:</topic>
+            <type>text</type>
+            <value/>
+            <measurement_unit xsi:nil="true"/>
+        </text_item>
+        <checkbox_items>
+            <id>b929c7d5-cdcb-4329-b64f-39ee4f19abc1</id>
+            <topic>Porta Principal:</topic>
+            <type>checkbox</type>
+            <checkboxes>
+                <checkbox_item>
+                    <id>e98094ec-c281-4ff6-9ccd-675fd79bc9ba</id>
+                    <topic>Piso tátil no(s) degrau(s)?</topic>
+                    <options>
+                        <option>
+                            <id>6a8d1678-33e2-4f70-8ad8-348aab3e6d2b</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>61d87f12-298d-4194-9676-d47243dca0cb</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>4ec853e0-0754-4a6f-936f-46bf8b166710</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>f386ee06-68bc-44f6-9cf2-cf550f03c250</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>63ca623b-7a46-4c00-9af7-10cd5892fa5f</id>
+                    <topic>Proteção anti-impacto na porta?</topic>
+                    <options>
+                        <option>
+                            <id>9c61c60d-f2a9-4873-afbb-c220ecd926f6</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>2341797a-3104-4380-bb45-396d2dc1ac7c</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>675acbf3-e9f9-44a8-ade5-c0e29d580521</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>99dbd768-024b-4ade-80da-ea4ed70cbb53</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>29bfdb3c-4f71-44bf-848a-5d2bd3764700</id>
+                    <topic>Adesivo Puxe/Empurre com Braille?</topic>
+                    <options>
+                        <option>
+                            <id>3b9162ec-f842-4bab-b09e-530c106a3e18</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>3213c9cd-0a27-460f-b432-a2e52d1bdb27</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>1e12321f-e3b7-46e5-8793-5bae68b8732e</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>343df126-6251-47b3-a2b3-77d24e26ffee</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>02030dbe-6ceb-4045-8fc1-1f5c00d68bb8</id>
+                    <topic>Adesivo S.I.A. na porta?</topic>
+                    <options>
+                        <option>
+                            <id>976f736a-6009-46fd-8046-e9f2c27eedae</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>c7ff18fa-4f97-4b65-8f5f-478c78205fc9</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>5912d4b6-2f7d-4da3-a3a1-352b5b3234e3</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>a74cdb1c-9156-4e03-99b6-e1355f8eaa04</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>8307e50a-d48d-4655-b8ba-89b37410ccda</id>
+                    <topic>Fechadura Eletromagnética?</topic>
+                    <options>
+                        <option>
+                            <id>f64f996a-a4c3-49f7-a7d2-95fc0f00eddb</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>4a68a6a5-77d8-4588-a91a-6f8e7eb5bb14</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>50a834e6-ed7a-4cff-a2ea-1a616e012c29</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>b46584e8-447c-4f32-b867-d9b482877c7f</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>528daf76-cea9-48f2-95a0-792cffc4a647</id>
+                    <topic>Maçanetas type alavanca altura entre 0,90m e 1,10m?</topic>
+                    <options>
+                        <option>
+                            <id>11f81cee-f071-40f9-b2f0-22d167b30337</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>a6ff4c90-4adf-4bcd-a4ef-0e93208cf65f</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>3014212b-3951-419f-8574-c3bc381106b4</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>5f9061d2-7923-4611-9811-4e9b98df072a</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>a41bd33e-2674-44ce-b77f-151e64219cc1</id>
+                    <topic>Largura livre mínima de 0,80m e altura de 2,10m?</topic>
+                    <options>
+                        <option>
+                            <id>a2fd009b-8ffe-4327-a73b-824b03b7bfb6</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>b605251c-9872-441a-9ab5-84fbf4a8d313</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>43f07842-6273-44af-b030-5dc3f814a28c</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>cbe21c28-a75c-43b1-a4b7-b0e17f8d5412</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>4c64088b-d38c-4f7f-a86e-45eed49c50c5</id>
+                    <topic>Em caso da necessidade de portas giratórias ou catracas, existe outro
+                        acesso vinculado à rota acessível?
+                    </topic>
+                    <options>
+                        <option>
+                            <id>157f6e7e-35c4-434d-889f-a422a16b6712</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>2e92f550-61a8-49ae-97c1-08fc3b601dc2</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>d1544078-8962-46f9-976d-eb879f202297</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>d54c338b-aa6b-47ad-ace5-84022d296d00</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>265200b1-858e-4c79-ba7f-d17175c13c28</id>
+                    <topic>Possui largura mínima de 1,50m em frente à porta (sentido da abertura)?</topic>
+                    <options>
+                        <option>
+                            <id>f2b2a882-7509-4191-afcf-d8b18b4909f8</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>9c00a60c-f151-4fd5-97db-e2eac44b2c69</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>49421f1e-b9fd-4e93-8789-2bc5cbf0b02f</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>38c3fe0a-6e06-48f3-943e-2027527722c7</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>753107af-149c-4c6c-9f38-d282caece677</id>
+                    <topic>Possui largura mínima de 1,20m em frente à porta (sentido contrário da
+                        abertura)?
+                    </topic>
+                    <options>
+                        <option>
+                            <id>ef1de6e5-2652-403c-9170-55ad95d7bd53</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>f6815f71-a908-4e84-95c7-842c5bf8e45d</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>6ff1810a-5864-48e3-97cb-373189ee26d1</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>29bdd7a4-993f-4318-a6bf-165e9aa19028</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>2c59bb75-d72e-4a4e-a0f8-88a6ed0a79dc</id>
+                    <topic>Possui espaço lateral à porta (sentido da abertura) de, no mínimo, 0,60m
+                        que possibilite a aproximação à maçaneta?
+                    </topic>
+                    <options>
+                        <option>
+                            <id>406595e6-1bd2-457c-8047-645c924ccfb3</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>f47460ab-64e7-4ed8-9fe4-08fb7eb81ba9</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>14745e74-bb32-422f-982a-741db220882c</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>b5072867-9611-4b64-8d3b-826d194ca918</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+                <checkbox_item>
+                    <id>d9a596ce-3ea6-4e1e-8d99-7d26eb88920a</id>
+                    <topic>Possui espaço lateral à porta (sentido contrário da abertura) de, no
+                        mínimo, 0,30m que possibilite a aproximação à maçaneta?
+                    </topic>
+                    <options>
+                        <option>
+                            <id>2ca48b51-f8ac-40e0-813d-a1cc34a7bc14</id>
+                            <value>Sim</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>112bba80-f7fb-4bd0-94ee-af1d50d80770</id>
+                            <value>Não</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>63695dcc-7a44-47fd-8ad5-3c4943d621b1</id>
+                            <value>Adequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                        <option>
+                            <id>077e8197-2b76-4ec9-96b4-e4335b27a052</id>
+                            <value>Inadequado</value>
+                            <is_checked>false</is_checked>
+                        </option>
+                    </options>
+                </checkbox_item>
+            </checkboxes>
+        </checkbox_items>
+    </table>
+    <observations>
+        <observation>
+            <id></id>
+            <text></text>
+        </observation>
+    </observations>
+    <images>
+        <image>
+            <id></id>
+            <path></path>
+            <observation></observation>
+        </image>
+    </images>
+    <law>
+        <law_item>
+            <id>NBR9050/20</id>
+            <content>
+                4.6.6.1 As maçanetas devem preferencialmente ser do type
+                alavanca, possuir pelo menos 100 mm de comprimento e acabamento sem arestas e
+                recurvado na extremidade, apresentando uma distância mínima de 40 mm da
+                superfície da porta. Devem ser instaladas a uma altura que pode variar entre
+                0,80 m e 1,10 m do piso acabado.
+
+                5.4.1 Sinalização de portas e passagens Portas e passagens
+                devem possuir informação visual, associada a sinalização tátil ou sonora,
+                conforme Tabela 1. Devem ser sinalizadas com números e/ou letras e/ou
+                pictogramas e ter sinais com texto em relevo, incluindo Braille.
+
+                6.11.2.2 No deslocamento frontal, quando as portas abrirem
+                no sentido do deslocamento do usuário, deve existir um espaço livre de 0,30 m
+                entre a parede e a porta, e quando abrirem no sentido oposto ao deslocamento do
+                usuário, deve existir um espaço livre de 0,60 m, contíguo à maçaneta, conforme a
+                Figura 81. Na impraticabilidade da existência destes espaços livres, deve-se
+                garantir equipamento de automação da abertura e fechamento das portas através de
+                botoeira ou sensor, conforme 6.11.2.9 e 6.11.2.10
+
+                6.11.2.4 As portas, quando abertas, devem ter um vão livre,
+                de no mínimo 0,80 m de largura e 2,10 m de altura. Em portas de duas ou mais
+                folhas, pelo menos uma delas deve ter o vão livre de 0,80 m.
+            </content>
+        </law_item>
+    </law>
+</item>

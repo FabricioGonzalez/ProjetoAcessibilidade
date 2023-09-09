@@ -1,15 +1,18 @@
 using System;
-
 using Avalonia.Threading;
 
 namespace ProjectAvalonia.Common.Controls.Spectrum;
 
 public abstract class SpectrumDataSource
 {
-    private float[] _averaged;
-    private DispatcherTimer _timer;
+    private readonly float[] _averaged;
+    private readonly DispatcherTimer _timer;
 
-    public SpectrumDataSource(int numBins, int numAverages, TimeSpan mixInterval)
+    public SpectrumDataSource(
+        int numBins
+        , int numAverages
+        , TimeSpan mixInterval
+    )
     {
         Bins = new float[numBins];
         _averaged = new float[numBins];
@@ -23,8 +26,6 @@ public abstract class SpectrumDataSource
 
         NumAverages = numAverages;
     }
-
-    public event EventHandler<bool>? GeneratingDataStateChanged;
 
     public int NumAverages
     {
@@ -40,21 +41,25 @@ public abstract class SpectrumDataSource
 
     protected int MidPointBins => NumBins / 2;
 
-    private void TimerOnTick(object? sender, EventArgs e)
-    {
-        OnMixData();
-    }
+    public event EventHandler<bool>? GeneratingDataStateChanged;
+
+    private void TimerOnTick(
+        object? sender
+        , EventArgs e
+    ) => OnMixData();
 
     protected abstract void OnMixData();
 
-    public void Render(ref float[] data)
+    public void Render(
+        ref float[] data
+    )
     {
-        for (int i = 0; i < NumBins; i++)
+        for (var i = 0; i < NumBins; i++)
         {
             _averaged[i] -= _averaged[i] / NumAverages;
             _averaged[i] += Bins[i] / NumAverages;
 
-            data[i] = Math.Max(data[i], _averaged[i]);
+            data[i] = Math.Max(val1: data[i], val2: _averaged[i]);
         }
     }
 
@@ -70,8 +75,7 @@ public abstract class SpectrumDataSource
         OnGeneratingDataStateChanged(isGenerating: false);
     }
 
-    private void OnGeneratingDataStateChanged(bool isGenerating)
-    {
-        GeneratingDataStateChanged?.Invoke(this, isGenerating);
-    }
+    private void OnGeneratingDataStateChanged(
+        bool isGenerating
+    ) => GeneratingDataStateChanged?.Invoke(sender: this, e: isGenerating);
 }

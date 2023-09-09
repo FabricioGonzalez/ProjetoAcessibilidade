@@ -2,7 +2,6 @@
     x:Class="ProjectAvalonia.Features.Settings.Views.GeneralSettingsTabView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:conv="using:ProjectAvalonia.Common.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
@@ -37,6 +36,20 @@
         <DockPanel>
             <TextBlock Text="{x:Static p:Resources.AutoPasteBehaviorLabel}" />
             <ToggleSwitch IsChecked="{Binding AutoPaste}" />
+        </DockPanel>
+
+        <DockPanel>
+            <ComboBox
+                HorizontalAlignment="Stretch"
+                ItemsSource="{Binding Languages}"
+                PlaceholderText="{x:Static p:Resources.LanguageSelectorLabel}"
+                SelectedItem="{Binding Language, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </DockPanel>
         <!-- Temporarily remove from settings view for release
     TODO: Make Custom change address active/implement.

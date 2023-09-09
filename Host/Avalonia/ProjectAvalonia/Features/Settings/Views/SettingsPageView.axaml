@@ -29,7 +29,7 @@
     </UserControl.Styles>
 
     <c:ContentArea
-        Title="{Binding Title}"
+        Title="{Binding LocalizedTitle, FallbackValue={Binding Title}}"
         Caption="{x:Static p:Resources.SettingsPageCaption}"
         EnableNext="True"
         NextContent="{x:Static p:Resources.ConfirmActionLabel}"
@@ -53,17 +53,23 @@
             </c:InfoMessage>
 
             <TabControl SelectedIndex="{Binding SelectedTab, Mode=TwoWay}">
-                <TabItem Header="General">
+                <TabItem Header="{Binding GeneralSettingsTab.LocalizedTitle}">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <v:GeneralSettingsTabView DataContext="{Binding GeneralSettingsTab}" />
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem Header="Advanced">
+                <TabItem Header="{Binding AdvancedSettingsTab.LocalizedTitle}">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <v:AdvancedSettingsTabView DataContext="{Binding AdvancedSettingsTab}" />
                     </ScrollViewer>
                 </TabItem>
+
+              <TabItem Header="{Binding ReportSettingsTab.LocalizedTitle}">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                  <v:ReportSettingsTabView DataContext="{Binding ReportSettingsTab}" />
+                </ScrollViewer>
+              </TabItem>
 
             </TabControl>
         </DockPanel>

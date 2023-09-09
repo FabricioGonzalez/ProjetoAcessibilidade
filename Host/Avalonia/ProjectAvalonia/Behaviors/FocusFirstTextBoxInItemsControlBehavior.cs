@@ -1,5 +1,4 @@
 using System;
-
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Xaml.Interactivity;
@@ -22,7 +21,10 @@ internal class FocusFirstTextBoxInItemsControlBehavior : Behavior<ItemsControl>
         AssociatedObject!.LayoutUpdated -= OnLayoutUpdated;
     }
 
-    private void OnLayoutUpdated(object? sender, EventArgs e)
+    private void OnLayoutUpdated(
+        object? sender
+        , EventArgs e
+    )
     {
         AssociatedObject!.LayoutUpdated -= OnLayoutUpdated;
         AssociatedObject.FindLogicalDescendantOfType<TextBox>()?.Focus();

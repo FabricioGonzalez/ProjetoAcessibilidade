@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="ProductComponents">
+
+      <ComponentRef Id="MainAppShortcut"/>
+      <!--<ComponentRef Id="StartWith"/>-->
+      <!--<ComponentGroupRef Id="AppRegisteredFileTypes"/>-->
+      
+      <Component Id="DatabaseFile" Guid="{B9E62D4C-3EFF-4CB2-BE0B-73AA13033F45}" Directory="LocalAppDataProductDatabaseFolder">
+        <File Id="file55AFCC1189AB4A3AB4BAD5B" KeyPath="yes" Source="$(var.ProjectAvalonia.Desktop.ProjectDir)bin\Release\net7.0\win-$(var.Platform)\publish\GestorProjetosArpa.db"/>
+      </Component>
+    </ComponentGroup>
+
+    <DirectoryRef Id="INSTALLFOLDER"
+                  FileSource="$(var.ProjectAvalonia.Desktop.ProjectDir)bin\Release\net7.0\win-$(var.Platform)\publish">
+      <Component Id="MainAppShortcut" Guid="{DAE9B942-8B0C-4A4C-B52C-FD24E912109F}">
+        <!--Remove Start Menu Items -->
+
+        <Shortcut Id="MainAppShortcut" Name="!(loc.ProductName_$(var.Platform))"
+                 Target="[INSTALLFOLDER]!(loc.InstalledExe)"
+                  Directory="InstallProgramMenuFolder"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="icon.ico"/>
+
+        <RegistryValue Id="RefShortcutKey" Root="HKCU" Key="SOFTWARE\!(loc.ProductNameFolder)" Name="Shortcut"
+                       Value="1" Type="integer" KeyPath="yes"/>
+
+ 
+          <Registry Id='rgkey' Root='HKCR' Key='.prja' Action='write' Type='string' Value='GestorProjetosArpa.prja' />
+          <Registry Id='rgkey1' Root='HKCR' Key='GestorProjetosArpa.prja' Action='write' Type='string' Value='Acme Foobar data file' />
+          <Registry Id='rgkey2' Root='HKCR' Key='GestorProjetosArpa.prja\DefaultIcon' Action='write' Type='string' Value='[INSTALLDIR]!(loc.InstalledExe),1' />       
+
+          <ProgId Id='GestorProjetosArpa.prja' Description='Solução de Projeto'>
+
+            <Extension Id='prja' ContentType='application/prja'>
+              <Verb  Id='open' Command='Open' TargetFile='fil1C4D8F6656D929CEF53B540F86F772FE' Argument='open="%1"' />
+              <Verb Id='print' Command='Print' TargetFile='fil1C4D8F6656D929CEF53B540F86F772FE' Argument='print="%1"' />
+            </Extension>
+          </ProgId>
+   
+
+        <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall"/>
+
+        <RemoveFolder Id='RemoveLocalAppDataProductFolder' Directory='LocalAppDataProductFolder' On='uninstall' />
+        <RemoveFolder Id='RemoveLocalAppDataProductCacheDataFolder' Directory='LocalAppDataProductCacheDataFolder' On='uninstall' />
+        <RemoveFolder Id='LocalAppDataProductDatabaseFolder' Directory='LocalAppDataProductDatabaseFolder' On='uninstall' />
+        <RemoveFolder Id='RemoveLocalAppDataProductSettingsFolder' Directory='LocalAppDataProductSettingsFolder' On='uninstall' />
+        <RemoveFolder Id='RemoveLocalAppDataProductSettingsLogsFolder' Directory='LocalAppDataProductSettingsLogsFolder' On='uninstall' />
+        <RemoveFolder Id='RemoveLocalAppDataProductSettingsUiSettingsFolder' Directory='LocalAppDataProductSettingsUiSettingsFolder' On='uninstall' />
+        <RemoveFolder Id='RemoveLocalAppDataProductTemplatesFolder' Directory='LocalAppDataProductTemplatesFolder' On='uninstall' />
+        <RemoveFolder Id='RemoveTemplateFilesDirectory' Directory='TemplateFilesDirectory' On='uninstall' />
+        <RemoveFolder Id='RemoveRulesFilesDirectory' Directory='RulesFilesDirectory' On='uninstall' />
+
+      </Component>
+
+      <!--<Component Id="StartWith" Guid="{6D77CD3D-9179-4A9C-9B88-57668EBCE14E}" KeyPath="no">
+                <Shortcut Id="startmenuShortcut" Directory="ProgramMenuFolder" Name="!(loc.ProductName_$(var.Platform))"
+                          Icon="icon.ico"
+                          IconIndex="0" WorkingDirectory="APPLICATIONFOLDER" Advertise="yes"/>
+
+                 Capabilities keys for Vista/7 "Set Program Access and Defaults" 
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities"
+                               Name="ApplicationDescription"
+                               Value="!(loc.ApplicationDescription)" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities" Name="ApplicationIcon"
+                               Value="[APPLICATIONFOLDER]!(loc.InstalledExe),0" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities" Name="ApplicationName"
+                               Value="!(loc.ApplicationName)" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities\DefaultIcon"
+                               Value="[APPLICATIONFOLDER]!(loc.InstalledExe),1" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities\FileAssociations"
+                               Name=".!(loc.ProjectExtension)"
+                               Value="!(loc.ProductNameFolder).Document" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities\MIMEAssociations"
+                               Name="application/!(loc.ProjectExtension)"
+                               Value="!(loc.ProductNameFolder).Document" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\!(loc.ProductNameFolder)\Capabilities\shell\Open\command"
+                               Value="&quot;[APPLICATIONFOLDER]!(loc.InstalledExe)&quot; &quot;%1&quot;" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="!(loc.ProductNameFolder)"
+                               Value="SOFTWARE\MyApp\Capabilities" Type="string"/>
+
+                 App Paths to support Start,Run -> "myapp" 
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\!(loc.InstalledExe)"
+                               Value="[!(loc.InstalledExe)]" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\!(loc.InstalledExe)"
+                               Name="Path" Value="[APPLICATIONFOLDER]" Type="string"/>
+
+                 Extend to the "open with" list + Win7 jump menu pinning  
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\!(loc.InstalledExe)\SupportedTypes"
+                               Name=".!(loc.ProjectExtension)"
+                               Value="" Type="string"/>
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\!(loc.InstalledExe)\shell\open"
+                               Name="FriendlyAppName" Value="!(loc.ApplicationName)" Type="string"/>
+
+                 MyApp.Document ProgID 
+                <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\!(loc.ProductNameFolder).Projeto"
+                               Name="FriendlyTypeName"
+                               Value="!(loc.DescXYZ)" Type="string"/>
+                <ProgId Id="!(loc.ProductNameFolder).Document" Description="!(loc.DescXYZ)" Icon="icon.ico"
+                        Advertise="yes">
+                    <Extension Id="!(loc.ProjectExtension)">
+                        <Verb Id="open" Command="!(loc.ExplorerMenuOpenPrja)" Argument="&quot;%1&quot;"/>
+                        <MIME Advertise="yes" ContentType="application/!(loc.ProjectExtension)" Default="yes"/>
+                    </Extension>
+                </ProgId>
+
+                 Optional: add an 'Edit with XYZ' to 'right click' even when not associated 
+                <RegistryValue Root="HKLM"
+                               Key="SOFTWARE\Classes\SystemFileAssociations\.!(loc.ProjectExtension)\shell\print.!(loc.InstalledExe)"
+                               Value="!(loc.ExplorerMenuPrintPrja)" Type="string"/>
+                <RegistryValue Root="HKLM"
+                               Key="SOFTWARE\Classes\SystemFileAssociations\.!(loc.ProjectExtension)\shell\print.!(loc.InstalledExe)\command"
+                               Value="&quot;[APPLICATIONFOLDER]MyApp.exe&quot; &quot;%1&quot;" Type="string"/>
+            </Component>-->
+    </DirectoryRef>
+
+    <!--<ComponentGroup Id='AppRegisteredFileTypes'>
+      
+   
+    </ComponentGroup>-->
+
+    <DirectoryRef Id="TemplateFilesDirectory"
+                  FileSource="$(var.ProjectAvalonia.ProjectDir)Specifications\Templates\Itens">
+    </DirectoryRef>
+
+    <DirectoryRef Id="RulesFilesDirectory"
+                  FileSource="$(var.ProjectAvalonia.ProjectDir)Specifications\Templates\ValidationRules">
+    </DirectoryRef>
+  </Fragment>
+
+</Wix>

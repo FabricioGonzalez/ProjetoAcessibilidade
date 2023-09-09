@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="ProductName_x86">Gestor de Projetos ARPA (32bit)</String>
+    <String Id="ProductName_x64">Gestor de Projetos ARPA (64bit)</String>
+    <String Id="Language">1033</String>
+    <String Id="Company">Fabricio Gonzalez</String>
+
+    <String Id="ProductNameFolder">Gestor de Projetos ARPA</String>
+    <String Id="ApplicationName">Gestor de Projetos ARPA</String>
+
+    <String Id="InstalledExe">ProjectAvalonia.Desktop.exe</String>
+
+    <String Id="ApplicationDescription">Gestor de Projetos ARPA</String>
+    <String Id="Description">Gestor de Projetos ARPA</String>
+    <String Id="Keywords">Gestor de Projetos</String>
+    <String Id="Comments">Gestor de Projetos ARPA</String>
+    <String Id="DescXYZ">Gestor de Projetos ARPA</String>
+    <String Id="ProjectExtension">prja</String>
+    <String Id="ExplorerMenuOpenPrja">Abrir Projeto</String>
+    <String Id="ExplorerMenuPrintPrja">Imprimir Projeto</String>
+
+    <String Id="DowngradeErrorMessage">A newer version of Gestor de Projetos ARPA is already installed.</String>
+</WixLocalization>

@@ -1,59 +1,84 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
-
+using System.Threading;
 using ProjectAvalonia.Common.Validation;
-
 using ReactiveUI;
 
-namespace ProjectAvalonia.ViewModels;
+namespace ProjectAvalonia.Common.ViewModels;
 
-public class ViewModelBase : ReactiveObject, INotifyDataErrorInfo, IRegisterValidationMethod
+public class ViewModelBase
+    : ReactiveObject
+        , INotifyDataErrorInfo
+        , IRegisterValidationMethod
 {
-    private Validations _validations;
+    private readonly CancellationTokenSource _cancellationToken;
+    private readonly Validations _validations;
+    protected string _errorMessage;
+
+    protected ObservableAsPropertyHelper<bool> _isBusy = ObservableAsPropertyHelper<bool>.Default();
 
     public ViewModelBase()
     {
+        _cancellationToken = new CancellationTokenSource();
         _validations = new Validations();
         _validations.ErrorsChanged += OnValidations_ErrorsChanged;
         PropertyChanged += ViewModelBase_PropertyChanged;
     }
 
-    public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+    public bool IsBusy => _isBusy.Value;
+
+    public string? ErrorMessage
+    {
+        get => _errorMessage;
+        set => this.RaiseAndSetIfChanged(backingField: ref _errorMessage, newValue: value);
+    }
 
     protected IValidations Validations => _validations;
 
+    public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
     bool INotifyDataErrorInfo.HasErrors => Validations.Any;
 
-    protected void ClearValidations()
+    IEnumerable INotifyDataErrorInfo.GetErrors(
+        string? propertyName
+    ) => _validations.GetErrors(propertyName: propertyName);
+
+    void IRegisterValidationMethod.RegisterValidationMethod(
+        string propertyName
+        , ValidateMethod validateMethod
+    ) => ((IRegisterValidationMethod)_validations).RegisterValidationMethod(propertyName: propertyName
+        , validateMethod: validateMethod);
+
+    public CancellationToken GetCancellationToken() => _cancellationToken.Token;
+
+    public void CancelCurrentRunningTask()
     {
-        _validations.Clear();
+        if (!_cancellationToken.IsCancellationRequested || _cancellationToken.TryReset())
+        {
+            _cancellationToken.Cancel();
+        }
     }
 
-    private void OnValidations_ErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
-    {
-        ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(e.PropertyName));
-    }
+    protected void ClearValidations() => _validations.Clear();
 
-    private void ViewModelBase_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void OnValidations_ErrorsChanged(
+        object? sender
+        , DataErrorsChangedEventArgs e
+    ) => ErrorsChanged?.Invoke(sender: this, e: new DataErrorsChangedEventArgs(propertyName: e.PropertyName));
+
+    private void ViewModelBase_PropertyChanged(
+        object? sender
+        , PropertyChangedEventArgs e
+    )
     {
-        if (string.IsNullOrWhiteSpace(e.PropertyName))
+        if (string.IsNullOrWhiteSpace(value: e.PropertyName))
         {
             _validations.Validate();
         }
         else
         {
-            _validations.ValidateProperty(e.PropertyName);
+            _validations.ValidateProperty(propertyName: e.PropertyName);
         }
-    }
-
-    IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName)
-    {
-        return _validations.GetErrors(propertyName);
-    }
-
-    void IRegisterValidationMethod.RegisterValidationMethod(string propertyName, ValidateMethod validateMethod)
-    {
-        ((IRegisterValidationMethod)_validations).RegisterValidationMethod(propertyName, validateMethod);
     }
 }

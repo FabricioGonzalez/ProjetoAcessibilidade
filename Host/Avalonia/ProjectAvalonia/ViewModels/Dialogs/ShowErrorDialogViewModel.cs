@@ -8,7 +8,11 @@ public class ShowErrorDialogViewModel : DialogViewModelBase<bool>
 {
     private string _title;
 
-    public ShowErrorDialogViewModel(string message, string title, string caption)
+    public ShowErrorDialogViewModel(
+        string message
+        , string title
+        , string caption
+    )
     {
         Message = message;
         _title = title;
@@ -16,9 +20,9 @@ public class ShowErrorDialogViewModel : DialogViewModelBase<bool>
 
         NextCommand = ReactiveCommand.Create(() => Close());
 
-        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
+        SetupCancel(false, true, true);
     }
-
+    public override MenuViewModel? ToolBar => null;
     public string Message
     {
         get;
@@ -34,4 +38,10 @@ public class ShowErrorDialogViewModel : DialogViewModelBase<bool>
         get => _title;
         protected set => this.RaiseAndSetIfChanged(ref _title, value);
     }
+
+    public override string? LocalizedTitle
+    {
+        get;
+        protected set;
+    } = null;
 }

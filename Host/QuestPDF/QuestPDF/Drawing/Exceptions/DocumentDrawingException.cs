@@ -6,17 +6,19 @@ namespace QuestPDF.Drawing.Exceptions
     {
         public DocumentDrawingException()
         {
-            
         }
 
-        public DocumentDrawingException(string message) : base(message)
+        public DocumentDrawingException(
+            string message
+        ) : base(message: message)
         {
-            
         }
 
-        public DocumentDrawingException(string message, Exception inner) : base(message, inner)
+        public DocumentDrawingException(
+            string message
+            , Exception inner
+        ) : base(message: message, innerException: inner)
         {
-            
         }
     }
 }

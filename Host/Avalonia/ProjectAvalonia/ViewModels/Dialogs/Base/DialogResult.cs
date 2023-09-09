@@ -2,7 +2,10 @@ namespace ProjectAvalonia.ViewModels.Dialogs.Base;
 
 public readonly struct DialogResult<TResult>
 {
-    public DialogResult(TResult? result, DialogResultKind kind)
+    public DialogResult(
+        TResult? result
+        , DialogResultKind kind
+    )
     {
         Result = result;
         Kind = kind;

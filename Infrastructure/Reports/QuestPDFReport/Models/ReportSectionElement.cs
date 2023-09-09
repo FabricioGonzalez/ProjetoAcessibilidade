@@ -4,7 +4,13 @@ public abstract class ReportSectionElement
 {
     public string Label
     {
-        get; set;
+        get;
+        set;
+    }
+
+    public string Id
+    {
+        get;
+        set;
     }
 }
-

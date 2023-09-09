@@ -1,22 +1,25 @@
-﻿namespace Core.Entities.Solution.ItemsGroup;
+﻿namespace ProjetoAcessibilidade.Core.Entities.Solution.ItemsGroup;
 
 public class ItemModel
 {
-    public object Id
+    public string? Id
     {
         get;
         set;
     }
+
     public string Name
     {
         get;
         set;
     }
+
     public string ItemPath
     {
         get;
         set;
     }
+
     public string TemplateName
     {
         get;

@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Text;
-
 using Newtonsoft.Json;
 
 namespace ProjectAvalonia.Common.Models;
-[JsonObject(MemberSerialization.OptIn)]
+
+[JsonObject(memberSerialization: MemberSerialization.OptIn)]
 public record SerializableException
 {
     [JsonConstructor]
-    protected SerializableException(string exceptionType, string message, string stackTrace, SerializableException innerException)
+    protected SerializableException(
+        string exceptionType
+        , string message
+        , string stackTrace
+        , SerializableException innerException
+    )
     {
         ExceptionType = exceptionType;
         Message = message;
@@ -16,11 +21,13 @@ public record SerializableException
         InnerException = innerException;
     }
 
-    public SerializableException(Exception ex)
+    public SerializableException(
+        Exception ex
+    )
     {
-        if (ex.InnerException is { })
+        if (ex.InnerException is not null)
         {
-            InnerException = new SerializableException(ex.InnerException);
+            InnerException = new SerializableException(ex: ex.InnerException);
         }
 
         ExceptionType = ex.GetType().FullName;
@@ -53,24 +60,23 @@ public record SerializableException
         get;
     }
 
-    public static string ToBase64String(SerializableException exception)
+    public static string ToBase64String(
+        SerializableException exception
+    ) => Convert.ToBase64String(inArray: Encoding.UTF8.GetBytes(s: JsonConvert.SerializeObject(value: exception)));
+
+    public static SerializableException FromBase64String(
+        string base64String
+    )
     {
-        return Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(exception)));
+        var json = Encoding.UTF8.GetString(bytes: Convert.FromBase64String(s: base64String));
+        return JsonConvert.DeserializeObject<SerializableException>(value: json);
     }
 
-    public static SerializableException FromBase64String(string base64String)
-    {
-        var json = Encoding.UTF8.GetString(Convert.FromBase64String(base64String));
-        return JsonConvert.DeserializeObject<SerializableException>(json);
-    }
-
-    public override string ToString()
-    {
-        return string.Join(
-            Environment.NewLine + Environment.NewLine,
+    public override string ToString() =>
+        string.Join(
+            separator: Environment.NewLine + Environment.NewLine,
             $"Exception type: {ExceptionType}",
             $"Message: {Message}",
             $"Stack Trace: {StackTrace}",
             $"Inner Exception: {InnerException}");
-    }
 }

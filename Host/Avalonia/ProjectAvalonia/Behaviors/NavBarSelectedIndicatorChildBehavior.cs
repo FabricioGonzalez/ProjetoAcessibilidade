@@ -2,9 +2,9 @@ using System;
 using System.Collections.Specialized;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.ReactiveUI;
 using Avalonia.Threading;
 
 namespace ProjectAvalonia.Behaviors;
@@ -13,56 +13,57 @@ public class NavBarSelectedIndicatorChildBehavior : AttachedToVisualTreeBehavior
 {
     public static readonly AttachedProperty<Control> NavBarItemParentProperty =
         AvaloniaProperty.RegisterAttached<NavBarSelectedIndicatorChildBehavior, Control, Control>(
-            "NavBarItemParent");
+            name: "NavBarItemParent");
 
-    public static Control GetNavBarItemParent(Control element)
-    {
-        return element.GetValue(NavBarItemParentProperty);
-    }
+    public static Control GetNavBarItemParent(
+        Control element
+    ) => element.GetValue(property: NavBarItemParentProperty);
 
-    public static void SetNavBarItemParent(Control element, Control value)
-    {
-        element.SetValue(NavBarItemParentProperty, value);
-    }
+    public static void SetNavBarItemParent(
+        Control element
+        , Control value
+    ) => element.SetValue(property: NavBarItemParentProperty, value: value);
 
-    private void OnLoaded(CompositeDisposable disposable)
+    private void OnLoaded(
+        CompositeDisposable disposable
+    )
     {
         if (AssociatedObject is null)
         {
             return;
         }
 
-        var sharedState = NavBarSelectedIndicatorParentBehavior.GetParentState(AssociatedObject);
+        var sharedState = NavBarSelectedIndicatorParentBehavior.GetParentState(element: AssociatedObject);
         if (sharedState is null)
         {
             Detach();
             return;
         }
 
-        var parent = GetNavBarItemParent(AssociatedObject);
+        var parent = GetNavBarItemParent(element: AssociatedObject);
 
-        Observable.FromEventPattern<NotifyCollectionChangedEventArgs>(parent.Classes, "CollectionChanged")
-            .Select(_ => parent.Classes)
-            .Select(x => x.Contains(":selected")
-                         && !x.Contains(":pressed")
-                         && !x.Contains(":dragging")
-                         && x.Contains(":selectable"))
+        Observable.FromEventPattern<NotifyCollectionChangedEventArgs>(target: parent.Classes
+                , eventName: "CollectionChanged")
+            .Select(selector: _ => parent.Classes)
+            .Select(selector: x => x.Contains(item: ":selected")
+                                   && !x.Contains(item: ":pressed")
+                                   && !x.Contains(item: ":dragging")
+                                   && x.Contains(item: ":selectable"))
             .DistinctUntilChanged()
-            .Where(x => x)
-            .ObserveOn(AvaloniaScheduler.Instance)
-            .Subscribe(_ => sharedState.AnimateIndicatorAsync(AssociatedObject))
-            .DisposeWith(disposable);
+            .Where(predicate: x => x)
+            .ObserveOn(scheduler: AvaloniaScheduler.Instance)
+            .Subscribe(onNext: _ => sharedState.AnimateIndicatorAsync(next: AssociatedObject))
+            .DisposeWith(compositeDisposable: disposable);
 
         AssociatedObject.Opacity = 0;
 
-        if (parent.Classes.Contains(":selected"))
+        if (parent.Classes.Contains(item: ":selected"))
         {
-            sharedState.SetActive(AssociatedObject);
+            sharedState.SetActive(initial: AssociatedObject);
         }
     }
 
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
-    {
-        Dispatcher.UIThread.Post(() => OnLoaded(disposable), DispatcherPriority.Loaded);
-    }
+    protected override void OnAttachedToVisualTree(
+        CompositeDisposable disposable
+    ) => Dispatcher.UIThread.Post(action: () => OnLoaded(disposable: disposable), priority: DispatcherPriority.Loaded);
 }

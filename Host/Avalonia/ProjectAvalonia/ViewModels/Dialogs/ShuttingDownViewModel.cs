@@ -10,21 +10,32 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Dialogs;
 
-[NavigationMetaData(Title = Constants.ShuttingDownLabel)]
+[NavigationMetaData(Title = Constants.ShuttingDownLabel, LocalizedTitle = "ShutdownDialogTitleLabel")]
 public partial class ShuttingDownViewModel : RoutableViewModel
 {
     private readonly ApplicationViewModel _applicationViewModel;
     private readonly bool _restart;
 
-    public ShuttingDownViewModel(ApplicationViewModel applicationViewModel, bool restart)
+    public ShuttingDownViewModel(
+        ApplicationViewModel applicationViewModel
+        , bool restart
+    )
     {
         _applicationViewModel = applicationViewModel;
         _restart = restart;
         NextCommand = CancelCommand;
     }
 
-    protected override void OnNavigatedTo(bool isInHistory, CompositeDisposable disposables)
+    public override string? LocalizedTitle
     {
+        get;
+        protected set;
+    } = null;
+    public override MenuViewModel? ToolBar => null;
+    protected override void OnNavigatedTo(
+        bool isInHistory
+        , CompositeDisposable disposables
+    ) =>
         Observable
             .Interval(TimeSpan.FromSeconds(5))
             .ObserveOn(RxApp.MainThreadScheduler)
@@ -37,5 +48,4 @@ public partial class ShuttingDownViewModel : RoutableViewModel
                 }
             })
             .DisposeWith(disposables);
-    }
 }

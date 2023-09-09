@@ -1,25 +1,28 @@
+using System.Reactive;
 using System.Threading.Tasks;
-using System.Windows.Input;
-
+using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.NavBar;
 
 public enum NavBarItemSelectionMode
 {
-    Selected = 0,
-    Button = 1,
-    Toggle = 2
+    Selected = 0
+    , Button = 1
+    , Toggle = 2
 }
 
-public abstract class NavBarItemViewModel : RoutableViewModel
+public abstract class NavBarItemViewModel
+    : RoutableViewModel
+        , INavBarItemViewModel
 {
     private readonly NavigationMode _defaultNavigationMode;
     private bool _isSelected;
 
-    protected NavBarItemViewModel(NavigationMode defaultNavigationMode = NavigationMode.Clear)
+    protected NavBarItemViewModel(
+        NavigationMode defaultNavigationMode = NavigationMode.Clear
+    )
     {
         _defaultNavigationMode = defaultNavigationMode;
         SelectionMode = NavBarItemSelectionMode.Selected;
@@ -28,7 +31,8 @@ public abstract class NavBarItemViewModel : RoutableViewModel
 
     public NavBarItemSelectionMode SelectionMode
     {
-        get; protected init;
+        get;
+        protected init;
     }
 
     public bool IsSelectable => SelectionMode == NavBarItemSelectionMode.Selected;
@@ -51,12 +55,18 @@ public abstract class NavBarItemViewModel : RoutableViewModel
         }
     }
 
-    public ICommand OpenCommand
+    public ReactiveCommand<bool, Unit> OpenCommand
     {
         get;
     }
 
-    private async Task OnOpenCommandExecutedAsync(bool enableReSelection = false)
+    public virtual void Toggle()
+    {
+    }
+
+    private async Task OnOpenCommandExecutedAsync(
+        bool enableReSelection = false
+    )
     {
         if (!enableReSelection && IsSelected)
         {
@@ -67,7 +77,9 @@ public abstract class NavBarItemViewModel : RoutableViewModel
         await OnOpen(_defaultNavigationMode);
     }
 
-    protected virtual Task OnOpen(NavigationMode defaultNavigationMode)
+    protected virtual Task OnOpen(
+        NavigationMode defaultNavigationMode
+    )
     {
         if (SelectionMode == NavBarItemSelectionMode.Toggle)
         {
@@ -79,9 +91,5 @@ public abstract class NavBarItemViewModel : RoutableViewModel
         }
 
         return Task.CompletedTask;
-    }
-
-    public virtual void Toggle()
-    {
     }
 }

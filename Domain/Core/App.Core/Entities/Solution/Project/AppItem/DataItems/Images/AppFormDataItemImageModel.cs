@@ -1,20 +1,23 @@
-﻿using Core.Enuns;
+﻿using Core.Entities.Solution.Project.AppItem.DataItems.Images;
 
-namespace Core.Entities.Solution.Project.AppItem.DataItems.Images;
+using ProjetoAcessibilidade.Core.Enuns;
+
+namespace ProjetoAcessibilidade.Core.Entities.Solution.Project.AppItem.DataItems.Images;
+
 public class AppFormDataItemImageModel : IAppFormDataItemContract
 {
-    public string Topic
+    public AppFormDataItemImageModel(
+        string id
+        , string topic
+        , AppFormDataType type = AppFormDataType.Image
+    )
+        : base(id: id, topic: topic, type: type)
     {
-        get;
-        set;
     }
-    public AppFormDataType Type
-    {
-        get;
-        set;
-    } = AppFormDataType.Image;
+
     public ICollection<ImagesItem> ImagesItems
     {
-        get; set;
+        get;
+        set;
     }
 }

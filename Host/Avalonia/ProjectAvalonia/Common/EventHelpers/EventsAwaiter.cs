@@ -3,39 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 
 namespace ProjectAvalonia.Common.EventHelpers;
 
 /// <summary>
-/// Source: https://stackoverflow.com/a/42117130/2061103
+///     Source: https://stackoverflow.com/a/42117130/2061103
 /// </summary>
 public class EventsAwaiter<TEventArgs>
 {
-    public EventsAwaiter(Action<EventHandler<TEventArgs>> subscribe, Action<EventHandler<TEventArgs>> unsubscribe, int count)
+    public EventsAwaiter(
+        Action<EventHandler<TEventArgs>> subscribe
+        , Action<EventHandler<TEventArgs>> unsubscribe
+        , int count
+    )
     {
-        Guard.MinimumAndNotNull(nameof(count), count, smallest: 0);
+        Guard.MinimumAndNotNull(parameterName: nameof(count), value: count, smallest: 0);
 
-        var eventsArrived = new List<TaskCompletionSource<TEventArgs>>(count);
+        var eventsArrived = new List<TaskCompletionSource<TEventArgs>>(capacity: count);
 
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
-            eventsArrived.Add(new TaskCompletionSource<TEventArgs>());
+            eventsArrived.Add(item: new TaskCompletionSource<TEventArgs>());
         }
 
         EventsArrived = eventsArrived;
-        Tasks = EventsArrived.Select(x => x.Task).ToArray();
+        Tasks = EventsArrived.Select(selector: x => x.Task).ToArray();
         Unsubscribe = unsubscribe;
 
-        subscribe(SubscriptionEventHandler);
+        subscribe(obj: SubscriptionEventHandler);
     }
 
-    /// <remarks>Guards <see cref="EventsArrived"/>.</remarks>
-    private object Lock { get; } = new();
+    /// <remarks>Guards <see cref="EventsArrived" />.</remarks>
+    private object Lock
+    {
+        get;
+    } = new();
 
-    /// <remarks>Guarded by <see cref="Lock"/>.</remarks>
+    /// <remarks>Guarded by <see cref="Lock" />.</remarks>
     protected IReadOnlyList<TaskCompletionSource<TEventArgs>> EventsArrived
     {
         get;
@@ -51,24 +57,33 @@ public class EventsAwaiter<TEventArgs>
         get;
     }
 
-    private void SubscriptionEventHandler(object? sender, TEventArgs e)
+    private void SubscriptionEventHandler(
+        object? sender
+        , TEventArgs e
+    )
     {
         lock (Lock)
         {
-            var firstUnfinished = EventsArrived.FirstOrDefault(x => !x.Task.IsCompleted);
-            firstUnfinished?.TrySetResult(e);
+            var firstUnfinished = EventsArrived.FirstOrDefault(predicate: x => !x.Task.IsCompleted);
+            firstUnfinished?.TrySetResult(result: e);
 
             // This is guaranteed to happen only once.
-            if (Tasks.All(x => x.IsCompleted))
+            if (Tasks.All(predicate: x => x.IsCompleted))
             {
-                Unsubscribe(SubscriptionEventHandler);
+                Unsubscribe(obj: SubscriptionEventHandler);
             }
         }
     }
 
-    public async Task<IEnumerable<TEventArgs>> WaitAsync(TimeSpan timeout)
-        => await Task.WhenAll(Tasks).WithAwaitCancellationAsync(timeout).ConfigureAwait(false);
+    public async Task<IEnumerable<TEventArgs>> WaitAsync(
+        TimeSpan timeout
+    )
+        => await Task.WhenAll(tasks: Tasks).WithAwaitCancellationAsync(timeout: timeout)
+            .ConfigureAwait(continueOnCapturedContext: false);
 
-    public async Task<IEnumerable<TEventArgs>> WaitAsync(CancellationToken token)
-        => await Task.WhenAll(Tasks).WithAwaitCancellationAsync(token).ConfigureAwait(false);
+    public async Task<IEnumerable<TEventArgs>> WaitAsync(
+        CancellationToken token
+    )
+        => await Task.WhenAll(tasks: Tasks).WithAwaitCancellationAsync(cancellationToken: token)
+            .ConfigureAwait(continueOnCapturedContext: false);
 }

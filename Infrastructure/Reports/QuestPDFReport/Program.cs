@@ -1,18 +1,22 @@
-﻿using Common;
-
-using QuestPDF.Previewer;
+﻿using QuestPDF.Previewer;
 
 using QuestPDFReport;
 using QuestPDFReport.ReportSettings;
 
-var path = "C:\\Users\\Ti\\Documents\\Teste\\Teste.prja";
+using XmlDatasource.Solution;
+using XmlDatasource.Solution.DTO;
 
-var res = Path.Combine(Directory.GetParent(path).FullName, Constants.AppProjectItemsFolderName);
+var path = "D:\\PC\\Documents\\Teste 3\\Teste 3.prja";
 
-res = Constants.AppItemsTemplateFolder;
 
-var model = await DataSource.GetReport(res, Constants.AppProjectTemplateExtension);
+var solutionReader = new SolutionDatasourceImpl();
 
-var Report = new StandardReport(model);
+var result = solutionReader.ReadSolution(path)
+    .Match(Succ: success => success, Fail: failure => new SolutionItemRoot());
 
-// Report.ShowInPreviewer();
+var model = await DataSource.GetReport(
+    result, "Legislação Vigente: NBR 9.050/15, NBR 16.537/16, Decreto Nº 5296 de 02.12.2004 e Lei Federal 13.146/16");
+
+var report = new StandardReport(model);
+
+await report.ShowInPreviewerAsync();

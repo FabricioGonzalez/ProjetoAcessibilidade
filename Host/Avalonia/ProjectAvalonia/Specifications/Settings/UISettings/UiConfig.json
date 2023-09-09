@@ -1,0 +1,17 @@
+﻿{
+  "Oobe": true,
+  "WindowState": "Maximized",
+  "FeeTarget": 2,
+  "FeeDisplayUnit": 0,
+  "Autocopy": false,
+  "AutoPaste": false,
+  "IsCustomChangeAddress": false,
+  "PrivacyMode": false,
+  "DarkModeEnabled": false,
+  "LastSelectedWallet": null,
+  "RunOnSystemStartup": true,
+  "HideOnClose": false,
+  "SendAmountConversionReversed": false,
+  "WindowWidth": 1424.0,
+  "WindowHeight": 750.0
+}

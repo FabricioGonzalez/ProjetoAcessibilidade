@@ -1,15 +1,14 @@
 using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.ViewModels.Dialogs.Base;
 
 /// <summary>
-/// Base ViewModel class for Dialogs that returns a value back.
-/// Do not reuse all types derived from this after calling ShowDialogAsync.
-/// Spawn a new instance instead after that.
+///     Base ViewModel class for Dialogs that returns a value back.
+///     Do not reuse all types derived from this after calling ShowDialogAsync.
+///     Spawn a new instance instead after that.
 /// </summary>
 /// <typeparam name="TResult">The type of the value to be returned when the dialog is finished.</typeparam>
 public abstract class DialogViewModelBase<TResult> : DialogViewModelBase
@@ -21,31 +20,35 @@ public abstract class DialogViewModelBase<TResult> : DialogViewModelBase
     {
         _currentTaskCompletionSource = new TaskCompletionSource<DialogResult<TResult>>();
 
-        _disposable = this.WhenAnyValue(x => x.IsDialogOpen)
-                          .Skip(1) // Skip the initial value change (which is false).
-                          .DistinctUntilChanged()
-                          .Subscribe(OnIsDialogOpenChanged);
+        _disposable = this.WhenAnyValue(property1: x => x.IsDialogOpen)
+            .Skip(count: 1) // Skip the initial value change (which is false).
+            .DistinctUntilChanged()
+            .Subscribe(onNext: OnIsDialogOpenChanged);
 
-        BackCommand = ReactiveCommand.Create(() => Close(DialogResultKind.Back));
+        BackCommand = ReactiveCommand.Create(execute: () => Close(kind: DialogResultKind.Back));
 
-        CancelCommand = ReactiveCommand.Create(() =>
+        CancelCommand = ReactiveCommand.Create(execute: () =>
         {
-            Close(DialogResultKind.Cancel);
+            Close(kind: DialogResultKind.Cancel);
             Navigate().Clear();
         });
     }
 
-    protected override void OnNavigatedFrom(bool isInHistory)
+    protected override void OnNavigatedFrom(
+        bool isInHistory
+    )
     {
         if (!isInHistory)
         {
-            Close(DialogResultKind.Cancel);
+            Close(kind: DialogResultKind.Cancel);
         }
 
-        base.OnNavigatedFrom(isInHistory);
+        base.OnNavigatedFrom(isInHistory: isInHistory);
     }
 
-    private void OnIsDialogOpenChanged(bool dialogState)
+    private void OnIsDialogOpenChanged(
+        bool dialogState
+    )
     {
         // Triggered when closed abruptly (via the dialog overlay or the back button).
         if (!dialogState)
@@ -55,18 +58,21 @@ public abstract class DialogViewModelBase<TResult> : DialogViewModelBase
     }
 
     /// <summary>
-    /// Method to be called when the dialog intends to close
-    /// and ready to pass a value back to the caller.
+    ///     Method to be called when the dialog intends to close
+    ///     and ready to pass a value back to the caller.
     /// </summary>
     /// <param name="result">The return value of the dialog</param>
-    protected void Close(DialogResultKind kind = DialogResultKind.Normal, TResult? result = default)
+    protected void Close(
+        DialogResultKind kind = DialogResultKind.Normal
+        , TResult? result = default
+    )
     {
         if (_currentTaskCompletionSource!.Task.IsCompleted)
         {
             return;
         }
 
-        _currentTaskCompletionSource.SetResult(new DialogResult<TResult>(result, kind));
+        _currentTaskCompletionSource.SetResult(result: new DialogResult<TResult>(result: result, kind: kind));
 
         _disposable.Dispose();
 
@@ -78,7 +84,7 @@ public abstract class DialogViewModelBase<TResult> : DialogViewModelBase
     }
 
     /// <summary>
-    /// Gets the dialog result.
+    ///     Gets the dialog result.
     /// </summary>
     /// <returns>The value to be returned when the dialog is finished.</returns>
     public Task<DialogResult<TResult>> GetDialogResultAsync()
@@ -89,7 +95,7 @@ public abstract class DialogViewModelBase<TResult> : DialogViewModelBase
     }
 
     /// <summary>
-    /// Method that is triggered when the dialog is closed.
+    ///     Method that is triggered when the dialog is closed.
     /// </summary>
     protected virtual void OnDialogClosed()
     {

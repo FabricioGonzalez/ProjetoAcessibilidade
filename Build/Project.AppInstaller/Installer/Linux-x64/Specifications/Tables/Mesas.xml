@@ -7,7 +7,7 @@
             <tipo>checkbox</tipo>
             <checkboxes>
                 <checkboxitem item="1">
-                    <topico>Possui mesa com altura do tampo entre 75cm a 85cm?</topico>
+                    <topic>Possui mesa com altura do tampo entre 75cm a 85cm?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -20,7 +20,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="2">
-                    <topico>Possui altura livre de 73cm sob a mesa?</topico>
+                    <topic>Possui altura livre de 73cm sob a mesa?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -33,7 +33,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="3">
-                    <topico>Possui tampo com largura mínima de 0,90m?</topico>
+                    <topic>Possui tampo com largura mínima de 0,90m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -46,7 +46,7 @@
                     </opcoes>
                 </checkboxitem>
                 <checkboxitem item="4">
-                    <topico>Profundidade livre mínima de 0,50m?</topico>
+                    <topic>Profundidade livre mínima de 0,50m?</topic>
                     <opcoes>
                         <opcao item="1">
                             <checked>false</checked>
@@ -62,7 +62,9 @@
         </itemtabela>
         <itemtabela item="2">
             <tipo>text</tipo>
-            <topico>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo S.I.A, Adesivo S.I.A, display de mesa ou não possui);</topico>
+            <topic>Descreva se o balcão/mesa possui alguma sinalização (Placa aérea c/adesivo S.I.A, Adesivo S.I.A,
+                display de mesa ou não possui);
+            </topic>
             <value></value>
         </itemtabela>
         <itemtabela item="3">
@@ -71,19 +73,30 @@
         </itemtabela>
         <itemtabela item="4">
             <tipo>images</tipo>
-            <images />
+            <images/>
         </itemtabela>
     </tabela>
     <lei>
         <leiitem item="1">
             <id>NBR9050/20</id>
             <descricao>
-                <itemdescricao item="1">9.3.1.3 As mesas ou superfícies de trabalho acessíveis devem possuir tampo com largura mínima de 0,90 m e altura entre 0,75 m e 0,85 m do piso</itemdescricao>
-                <itemdescricao item="2">acabado, assegurando-se largura livre mínima sob a superfície de 0,80 m, conforme Figura 135.</itemdescricao>
-                <itemdescricao item="3">9.3.1.4 Deve ser assegurada altura livre sob o tampo de no mínimo 0,73 m, com profundidade livre mínima de 0,50 m, de modo que a P.C.R. tenha</itemdescricao>
-                <itemdescricao item="4">a possibilidade de avançar sob a mesa ou superfície, conforme Figura 135.</itemdescricao>
-                <itemdescricao item="5">9.3.1.5 Sempre que a mesa ou superfície de trabalho acessível for utilizada por uma única pessoa, esta pode ser adequada conforme </itemdescricao>
-                <itemdescricao item="6">necessidades específicas do usuário, objetivando a melhoria das condições de conforto e autonomia.</itemdescricao>
+                <itemdescricao item="1">9.3.1.3 As mesas ou superfícies de trabalho acessíveis devem possuir tampo com
+                    largura mínima de 0,90 m e altura entre 0,75 m e 0,85 m do piso
+                </itemdescricao>
+                <itemdescricao item="2">acabado, assegurando-se largura livre mínima sob a superfície de 0,80 m,
+                    conforme Figura 135.
+                </itemdescricao>
+                <itemdescricao item="3">9.3.1.4 Deve ser assegurada altura livre sob o tampo de no mínimo 0,73 m, com
+                    profundidade livre mínima de 0,50 m, de modo que a P.C.R. tenha
+                </itemdescricao>
+                <itemdescricao item="4">a possibilidade de avançar sob a mesa ou superfície, conforme Figura 135.
+                </itemdescricao>
+                <itemdescricao item="5">9.3.1.5 Sempre que a mesa ou superfície de trabalho acessível for utilizada por
+                    uma única pessoa, esta pode ser adequada conforme
+                </itemdescricao>
+                <itemdescricao item="6">necessidades específicas do usuário, objetivando a melhoria das condições de
+                    conforto e autonomia.
+                </itemdescricao>
             </descricao>
         </leiitem>
     </lei>

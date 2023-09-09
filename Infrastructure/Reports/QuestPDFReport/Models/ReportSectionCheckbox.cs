@@ -1,8 +1,25 @@
 ﻿namespace QuestPDFReport.Models;
+
 public class ReportSectionCheckbox : ReportSectionElement
 {
+    public ReportSectionCheckbox(
+        string label
+        , string id
+    )
+    {
+        Label = label;
+        Id = id;
+    }
+
     public List<CheckboxModel> Checkboxes
     {
-        get; set;
+        get;
+        set;
+    } = new();
+
+    public List<TextModel> TextItems
+    {
+        get;
+        set;
     } = new();
 }

@@ -1,0 +1,13 @@
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <WrapPanel
+            MaxHeight="400"
+            Margin="10"
+            ItemHeight="50"
+            ItemWidth="50"
+            Orientation="Vertical" />
+    </Design.PreviewWith>
+    <Style>
+        <Style.Resources />
+    </Style>
+</Styles>
