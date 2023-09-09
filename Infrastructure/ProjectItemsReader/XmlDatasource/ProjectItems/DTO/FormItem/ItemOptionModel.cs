@@ -11,13 +11,15 @@ public class ItemOptionModel : ItemFormData
     public ItemOptionModel(
         string value
         , string id
-        , bool isChecked = false
+        , bool isChecked = false,
+        bool isInvalid = false
     )
         : base(id: id)
     {
         Id = id;
         Value = value;
         IsChecked = isChecked;
+        IsInvalid = isInvalid;
     }
 
     [XmlElement(elementName: "value")]
@@ -27,7 +29,7 @@ public class ItemOptionModel : ItemFormData
         set;
     }
 
-    [XmlElement(elementName: "isInvalid")]
+    [XmlElement(elementName: "is_invalid")]
     public bool IsInvalid
     {
         get;

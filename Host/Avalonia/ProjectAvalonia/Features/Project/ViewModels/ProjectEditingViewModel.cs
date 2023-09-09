@@ -114,7 +114,7 @@ public class ProjectEditingViewModel
         IItemViewModel? editing
     )
     {
-        if (editing is { } item && !EditingItems.Any(x => x.Id == item.Id))
+        if (editing is { } item && !EditingItems.Any(x => x.ItemPath == item.ItemPath))
         {
             if (item is SolutionItemViewModel solution)
             {
@@ -276,10 +276,8 @@ public static class Extension
                                     new ItemOptionModel(
                                         id: option.Id,
                                         value: option.Value,
-                                        isChecked: option.IsChecked)
-                                    {
-                                        IsInvalid = option.IsInvalid
-                                    }).ToList()
+                                        isChecked: option.IsChecked,
+                                        isInvalid:option.IsInvalid)).ToList()
                             }).ToList()
                     }
                     ,

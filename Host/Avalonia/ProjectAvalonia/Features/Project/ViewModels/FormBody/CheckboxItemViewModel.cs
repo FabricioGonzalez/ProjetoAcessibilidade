@@ -64,7 +64,7 @@ public partial class CheckboxItemViewModel
                         value =>
                         {
                             return value is "checked" or "unchecked"
-                                ? (it.CheckingValue.Value != value, it.Result.Select(result => result.ResultValue))
+                                ? (it.CheckingValue.Value == value, it.Result.Select(result => result.ResultValue))
                                 : (false, new List<string>());
                         }));
 
@@ -81,14 +81,16 @@ public partial class CheckboxItemViewModel
                         var item = evaluationResult.Results
                             .Where(it => !exsits(it));
 
-                        observations.RemoveMany(item
-                            .Select(it => new ObservationState { Observation = it }));
+                        item
+                            .Select(it => new ObservationState { Observation = it })
+                            .IterateOn(obs => observations.Remove(obs));
                     }
 
                     if (Rules.SelectMany(ruleSet => ruleSet.ValidaitonRules.Where(rule =>
                             rule.Type == AppValidation.GetOperationByValue("Obrigatority"))).Any())
                     {
                         IsInvalid = false;
+                        prop.Sender.IsInvalid = false;
                     }
                 });
             })
@@ -129,6 +131,7 @@ public partial class CheckboxItemViewModel
                                 rule.Type == AppValidation.GetOperationByValue("Obrigatority"))).Any())
                     {
                         IsInvalid = true;
+                        prop.Sender.IsInvalid = true;
                     }
                 });
 

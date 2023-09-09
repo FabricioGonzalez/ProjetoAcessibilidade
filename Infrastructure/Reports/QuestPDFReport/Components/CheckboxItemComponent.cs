@@ -1,7 +1,9 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Models;
+
 using SkiaSharp;
 
 namespace QuestPDFReport.Components;
@@ -32,19 +34,13 @@ internal class CheckboxItemComponent : IComponent
                     {
                         layers
                             .PrimaryLayer()
-                            .Background(
-                                item.IsChecked
-                                    ? Colors.Red
-                                        .Lighten1
-                                    : Colors
-                                        .White)
                             .Canvas((
                                 canvas
                                 , size
                             ) =>
                             {
-                                DrawRoundedRectangle(color: Colors.White, isStroke: false);
-                                DrawRoundedRectangle(color: Colors.Black, isStroke: true);
+                                DrawRoundedRectangle();
+                                /*DrawRoundedRectangle(color: Colors.Black, isStroke: true);*/
 
                                 if (item.IsChecked)
                                 {
@@ -65,26 +61,38 @@ internal class CheckboxItemComponent : IComponent
                                 {
                                     using var paint = new SKPaint
                                     {
-                                        Color = SKColor.Parse(color), IsStroke = isStroke, StrokeWidth = 1
-                                        , IsAntialias = true
+                                        Color = SKColor.Parse(color),
+                                        IsStroke = isStroke,
+                                        StrokeWidth = 1
+                                        ,
+                                        IsAntialias = true
                                     };
 
                                     canvas.DrawLine(p0: new SKPoint(x: fromX, y: fromY), p1: new SKPoint(x: toX, y: toY)
                                         , paint: paint);
                                 }
 
-                                void DrawRoundedRectangle(
-                                    string color
-                                    , bool isStroke
-                                )
+                                void DrawRoundedRectangle()
                                 {
-                                    using var paint = new SKPaint
+                                    using var fillPaint = new SKPaint
                                     {
-                                        Color = SKColor.Parse(color), IsStroke = isStroke, StrokeWidth = 1
-                                        , IsAntialias = true
+                                        Color = SKColor.Parse(Colors.Red.Lighten1),
+                                        IsStroke = false,
+                                        StrokeWidth = 1,
+                                        IsAntialias = true
                                     };
-
-                                    canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: paint);
+                                    using var strokePaint = new SKPaint
+                                    {
+                                        Color = SKColor.Parse(Colors.Black),
+                                        IsStroke = true,
+                                        StrokeWidth = 1,
+                                        IsAntialias = true
+                                    };
+                                    if (item.IsValid)
+                                    {
+                                        canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: fillPaint);
+                                    }
+                                    canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: strokePaint);
                                 }
                             });
                     });

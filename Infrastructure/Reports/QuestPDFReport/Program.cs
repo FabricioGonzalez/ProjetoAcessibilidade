@@ -6,7 +6,7 @@ using QuestPDFReport.ReportSettings;
 using XmlDatasource.Solution;
 using XmlDatasource.Solution.DTO;
 
-var path = "C:\\Users\\Fabricio\\Documents\\Teste 3\\Teste 3.prja";
+var path = "D:\\PC\\Documents\\Teste 3\\Teste 3.prja";
 
 
 var solutionReader = new SolutionDatasourceImpl();

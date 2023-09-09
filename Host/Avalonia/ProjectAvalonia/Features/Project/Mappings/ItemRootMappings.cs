@@ -35,11 +35,7 @@ public static class ItemRootMappings
                                         .ToList()
                                     , Options = child.Options.Select(option =>
                                         new ItemOptionModel(value: option.Value, id: option.Id
-                                            , isChecked: option.IsChecked)
-                                        {
-                                            Id = option.Id, Value = option.Value, IsChecked = option.IsChecked
-                                            , IsInvalid = option.IsInvalid
-                                        }).ToList()
+                                            , isChecked: option.IsChecked,isInvalid: option.IsInvalid)).ToList()
                                 }).ToList()
                         };
                     }

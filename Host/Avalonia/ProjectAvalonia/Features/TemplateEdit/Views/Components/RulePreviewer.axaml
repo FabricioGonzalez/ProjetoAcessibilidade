@@ -31,7 +31,7 @@
                             <DataTemplate x:DataType="validationTypes:ValidationRuleState">
                                 <Grid ColumnDefinitions="1* 96">
                                     <TextBox Text="{Binding ValidationRuleName,Mode=TwoWay}" />
-                                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <StackPanel Grid.Column="1" Spacing="18" HorizontalAlignment="Center" Orientation="Horizontal">
                                         <controls:IconButton Icon="{StaticResource clipboard_text_regular}"
                                                              Click="EditRuleButtonClicked"
                                                              IconSize="14"

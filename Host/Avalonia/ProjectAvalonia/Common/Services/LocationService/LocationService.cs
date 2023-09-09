@@ -23,4 +23,7 @@ public class LocationService : ILocationService
     ) =>
         _repository.GetAllCitiesByUf(codigoUf)
             .Select(it => new Cidade(CodigoUf: it.CodigoUf, Nome: it.Nome));
+    public Uf GetUfByName(string uf) => _repository.GetAllUf()
+        .Select(it => new Uf(Code: it.CodigoUf, ShortName: it.UfShortName, Name: it.Name))
+        .FirstOrDefault(it => it.ShortName == uf);
 }

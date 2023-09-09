@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Reactive.Linq;
+
 using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.Models;
 using ReactiveUI;
@@ -23,6 +25,11 @@ public class SolutionState : ReactiveObject
     )
     {
         _locationService = locationService;
+
+        this.WhenAnyValue(it => it.Report.CompanyInfo.Endereco.Uf)
+            .Where(it => !string.IsNullOrWhiteSpace(it))
+            .InvokeCommand(LoadCities);
+
     }
 
     public SearchSolutionTexts SearchSolutionTexts
@@ -30,9 +37,14 @@ public class SolutionState : ReactiveObject
         get;
     } = new();
 
-    public ReactiveCommand<int, Unit> LoadCities => ReactiveCommand.CreateRunInBackground<int>(uf =>
+    public ReactiveCommand<string, Unit> LoadCities => ReactiveCommand.CreateRunInBackground<string>(uf =>
     {
-        SearchSolutionTexts.Cidades = new ObservableCollection<Cidade>(_locationService.GetCidades(uf));
+        SearchSolutionTexts.Cidades = new ObservableCollection<Cidade>(
+            _locationService
+            .GetCidades(
+                _locationService.GetUfByName(uf).Code
+                )
+            );
     });
 
     public ReactiveCommand<Unit, Unit> LoadUFs => ReactiveCommand.CreateRunInBackground(() =>

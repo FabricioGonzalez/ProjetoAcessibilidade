@@ -8,8 +8,6 @@ public class SolutionEditItemViewModel
     : ReactiveObject
         , IEditingItemViewModel
 {
-    /*private readonly IMediator _mediator;*/
-
     public SolutionEditItemViewModel(
         string itemName
         , string id
@@ -18,7 +16,6 @@ public class SolutionEditItemViewModel
         , bool isSaved = true
     )
     {
-        /*_mediator ??= Locator.Current.GetService<IMediator>();*/
 
         ItemName = itemName;
         ItemPath = itemPath;

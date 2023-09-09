@@ -70,6 +70,7 @@
                                 Height="18"
                                 HorizontalAlignment="Right"
                                 Icon="{StaticResource cancel_regular}"
+								Command="{Binding ExcludeConditionCommand}"
                                 IconSize="16"
                                 ToolTip.Tip="{x:Static p:Resources.Exclude_Rule_ToolTip}" />
                         </Grid>

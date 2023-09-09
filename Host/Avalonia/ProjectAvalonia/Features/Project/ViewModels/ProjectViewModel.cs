@@ -252,8 +252,6 @@ public partial class ProjectViewModel
                 await _editableItemService.SaveEditingItem(itemContent: edit.ToItemRoot().ToAppModelState()
                     , path: edit.ItemPath);
             }
-
-            /*await ProjectEditingViewModel.SelectedItem.SaveItemCommand.Execute();*/
         }
     }
 

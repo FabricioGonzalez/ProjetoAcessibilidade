@@ -55,7 +55,6 @@ public class SolutionService
         , SolutionState solution
     ) =>
         await _solutionDatasource.SaveSolution(solutionPath: path, dataToWrite: solution.ToSolutionItemRoot());
-    /*_solutionDatasource.CreateFolders(path);*/
 }
 
 public static class SolutionRootMapping
@@ -132,7 +131,11 @@ public static class SolutionRootMapping
     ) =>
         new()
         {
-            Bairro = endereco.Bairro, Cidade = endereco.Cidade, Logradouro = endereco.Logradouro
+            Bairro = endereco.Bairro, 
+            Cidade = endereco.Cidade, 
+            UF = endereco.Uf,
+            Cep = endereco.Cep,
+            Logradouro = endereco.Logradouro
             , Numero = endereco.Numero
         };
 
@@ -216,7 +219,11 @@ public static class SolutionStateMapping
     ) =>
         new()
         {
-            Bairro = endereco.Bairro, Cidade = endereco.Cidade, Logradouro = endereco.Logradouro
+            Bairro = endereco.Bairro, 
+            Cidade = endereco.Cidade, 
+            Cep = endereco.Cep,
+            Uf = endereco.UF,
+            Logradouro = endereco.Logradouro
             , Numero = endereco.Numero
         };
 

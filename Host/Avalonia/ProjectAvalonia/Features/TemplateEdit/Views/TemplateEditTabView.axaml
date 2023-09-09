@@ -67,7 +67,6 @@
                             <DataTemplate>
                                 <StackPanel Margin="0,8" Spacing="8">
                                     <Grid ColumnDefinitions="1* 1* 0.1*">
-                                        <TextBox Margin="4,0,4,0" Text="{Binding Topic}" />
                                         <ComboBox
                                             Grid.Row="0"
                                             Grid.Column="1"

@@ -23,6 +23,12 @@ public class EnderecoItem
     {
         get;
         set;
+    }   
+    [XmlElement("cep")]
+    public string Cep
+    {
+        get;
+        set;
     }
 
     [XmlElement("cidade")]

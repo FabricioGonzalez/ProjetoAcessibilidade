@@ -261,7 +261,7 @@ public static class DataSource
                                             .Select(optionModel =>
                                                 new CheckboxModel(isChecked: optionModel.IsChecked
                                                     , value: optionModel.Value
-                                                    , isValid: options.IsInvalid ?? false));
+                                                    , isValid: optionModel.IsInvalid));
 
                                         var reportCheckbox = new ReportSectionCheckbox(
                                             label: options.Topic,

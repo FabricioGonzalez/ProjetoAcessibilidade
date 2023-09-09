@@ -1,7 +1,11 @@
-﻿using Common.Linq;
+﻿using System.Text;
+
+using Common.Linq;
+
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Models;
 
 namespace QuestPDFReport.Components;
@@ -177,26 +181,26 @@ public class SectionTemplate : IComponent
                                                                                     });
                                                                             });
                                                                         });
-
-                                                                    formBody
-                                                                        .Item()
-                                                                        .Background(Colors.Yellow.Medium)
-                                                                        .Column(items =>
-                                                                        {
-                                                                            items
-                                                                                .Item()
-                                                                                .Element(x =>
-                                                                                    ObservationElement(x: x
-                                                                                        , observation: item
-                                                                                            .Observation));
-                                                                        });
+                                                                    if (item.Observation.Any())
+                                                                        formBody
+                                                                            .Item()
+                                                                            .Column(items =>
+                                                                            {
+                                                                                items
+                                                                                    .Item()
+                                                                                    .Element(x =>
+                                                                                        ObservationElement(x: x
+                                                                                            , observation: item
+                                                                                                .Observation));
+                                                                            });
                                                                 });
                                                     });
                                                 column
                                                     .Item()
                                                     .Element(x => LawItemsElement(container: x, models: item.Laws));
 
-                                                if (item.Images.Any())
+                                                if (item.Images.Any() 
+                                                && item.Images.All(it => !string.IsNullOrWhiteSpace(it.ImagePath)))
                                                 {
                                                     column
                                                         .Item()
@@ -212,7 +216,8 @@ public class SectionTemplate : IComponent
                                                                 var image = new ReportImage
                                                                 {
                                                                     ImagePath = item.ImagePath
-                                                                    , Observation = item.Observation
+                                                                    ,
+                                                                    Observation = item.Observation
                                                                 };
                                                                 grid
                                                                     .Item()
@@ -233,12 +238,14 @@ public class SectionTemplate : IComponent
         , IEnumerable<ObservationSectionElement> observation
     ) => x.ExtendHorizontal().Column(column =>
     {
-        _ = column.Item().LabelCell().Text("Observações");
+        column.Item().LabelCell().Text("Observações");
+        var sb = new StringBuilder();
 
-        _ = observation.IterateOn(item =>
+        observation.IterateOn(item =>
         {
-            _ = column.Item().ValueCell().Text(item.Observation);
+            sb.AppendLine(item.Observation);
         });
+        column.Item().ValueCell().Background(Colors.Yellow.Medium).Text(sb.ToString());
     });
 
 
@@ -257,7 +264,8 @@ public class SectionTemplate : IComponent
                 {
                     var image = new ReportImage
                     {
-                        ImagePath = item.ImagePath, Observation = item.Observation
+                        ImagePath = item.ImagePath,
+                        Observation = item.Observation
                     };
                     grid
                         .Item()
@@ -271,15 +279,26 @@ public class SectionTemplate : IComponent
         , IEnumerable<LawSectionElement> models
     ) =>
         container
-            .Padding(2)
             .ExtendHorizontal()
-            .Column(column =>
+        .Column(col =>
+        {
+            col.Item().LabelCell().Text("Legislação").Weight(FontWeight.SemiBold);
+            col.Item().Column(column =>
             {
-                _ = models.IterateOn(item =>
+                models.IterateOn(item =>
                 {
-                    _ = column.Item().LabelCell().Text(item.LawId);
+                    column.Item()
+                     .LabelCell()
+                     .Text(item.LawId)
+                     .FontColor(Colors.Red.Medium);
 
-                    _ = column.Item().ValueCell().Text(item.LawContent);
+                    column.Item()
+                    .Background(Colors.LightBlue.Lighten2)
+                    .PaddingHorizontal(2)
+                    .Text(item.LawContent)
+                    .Weight(FontWeight.SemiBold);
                 });
             });
+        });
+
 }

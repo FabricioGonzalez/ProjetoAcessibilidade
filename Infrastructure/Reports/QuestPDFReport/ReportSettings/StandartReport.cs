@@ -1,10 +1,14 @@
-﻿using Common.Linq;
+﻿using System.Drawing;
+
+using Common.Linq;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using QuestPDFReport.Components;
 using QuestPDFReport.Models;
+
+using SkiaSharp;
 
 namespace QuestPDFReport.ReportSettings;
 
@@ -599,6 +603,141 @@ public class StandardReport : IDocument
 
                         column.Item().PageBreak();
                     });
+
+                    column.Item().LabelCell().Text("Legenda");
+                    column.Item()
+                    .Height(80)
+                    .ValueCell()
+                    .Column(legendColumn =>
+                    {
+                        legendColumn.Item().Height(15).Row(row => {
+                            row.ConstantItem(15)
+                             .Layers(layers =>
+                             {
+                                 layers
+                                     .PrimaryLayer()
+                                     .Canvas((
+                                         canvas
+                                         , size
+                                     ) =>
+                                     {
+                                         using var fillPaint = new SKPaint
+                                         {
+                                             Color = SKColor.Parse(Colors.Red.Lighten1),
+                                             IsStroke = false,
+                                             StrokeWidth = 1,
+                                             IsAntialias = true
+                                         };
+                                         using var strokePaint = new SKPaint
+                                         {
+                                             Color = SKColor.Parse(Colors.Black),
+                                             IsStroke = true,
+                                             StrokeWidth = 1,
+                                             IsAntialias = true
+                                         };
+
+                                         canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: fillPaint);
+                                         canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: strokePaint);
+                                     });
+                             });
+
+                            row.AutoItem().PaddingHorizontal(4).Text("ITENS QUE NÃO ATENDEM À NBR9050/15");
+                        });
+
+                        legendColumn.Item().Height(15).Row(row => {
+                            row.ConstantItem(15)
+                             .Layers(layers =>
+                             {
+                                 layers
+                                     .PrimaryLayer()
+                                     .Canvas((
+                                         canvas
+                                         , size
+                                     ) =>
+                                     {
+                                         using var fillPaint = new SKPaint
+                                         {
+                                             Color = SKColor.Parse(Colors.LightBlue.Lighten2),
+                                             IsStroke = false,
+                                             StrokeWidth = 1,
+                                             IsAntialias = true
+                                         };
+                                         using var strokePaint = new SKPaint
+                                         {
+                                             Color = SKColor.Parse(Colors.Black),
+                                             IsStroke = true,
+                                             StrokeWidth = 1,
+                                             IsAntialias = true
+                                         };
+
+                                         canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: fillPaint);
+                                         canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: strokePaint);
+                                     });
+                             });
+
+                            row.AutoItem().PaddingHorizontal(4).Text("LEGISLAÇÃO");
+                        });
+                        legendColumn.Item().Height(15).Row(row => {
+                            row.ConstantItem(15)
+                             .Layers(layers =>
+                             {
+                                 layers
+                                     .PrimaryLayer()
+                                     .Canvas((
+                                         canvas
+                                         , size
+                                     ) =>
+                                     {
+                                         using var paint = new SKPaint
+                                         {
+                                             Color = SKColor.Parse(Colors.Black),
+                                             IsStroke = true,
+                                             StrokeWidth = 1,
+                                             IsAntialias = true
+                                         };
+
+                                         canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: paint);
+                                     });
+                             });
+
+                            row.AutoItem().PaddingHorizontal(4).Text("ITENS EM CONFORMIDADE COM À NBR9050/20");
+                        });
+                        legendColumn.Item().Height(15).Row(row => { 
+                            row.ConstantItem(15)
+                            .Layers(layers =>
+                            {
+                                layers
+                                    .PrimaryLayer()
+                                    .Canvas((
+                                        canvas
+                                        , size
+                                    ) =>
+                                    {
+                                        using var fillPaint = new SKPaint
+                                        {
+                                            Color = SKColor.Parse(Colors.Yellow.Medium),
+                                            IsStroke = false,
+                                            StrokeWidth = 1,
+                                            IsAntialias = true
+                                        };
+                                        using var strokePaint = new SKPaint
+                                        {
+                                            Color = SKColor.Parse(Colors.Black),
+                                            IsStroke = true,
+                                            StrokeWidth = 1,
+                                            IsAntialias = true
+                                        };
+
+                                        canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: fillPaint);
+                                        canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: strokePaint);
+                                        
+                                    });
+                            });
+
+                            row.AutoItem().PaddingHorizontal(4).Text("OBSERVAÇÕES");
+                        });
+                    });
+
 
                     column.Item().Section("conclusao").LabelCell().Text("Conclusão");
                     column.Item().ValueCell().Text(nestedModel.Conclusion);

@@ -40,6 +40,8 @@
     <Optimize>true</Optimize>
     <PlatformTarget>x64</PlatformTarget>
     <SuppressIces>ICE38;</SuppressIces>
+    <SuppressAllWarnings>False</SuppressAllWarnings>
+    <Pedantic>False</Pedantic>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components.wxs" />

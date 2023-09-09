@@ -19,7 +19,6 @@ public class TableOfContentsTemplate : IComponent
     {
         get;
     }
-
     public void Compose(
         IContainer container
     )
@@ -36,7 +35,8 @@ public class TableOfContentsTemplate : IComponent
                         .Text("Sumário")
                         .Style(Typography.Headline);
 
-                    decoration.Content().Column(column =>
+                    decoration.Content()
+                    .Column(column =>
                     {
                         column.Spacing(5);
 
@@ -72,6 +72,11 @@ public class TableOfContentsTemplate : IComponent
                                 });
                             });
                         });
+
+                        column.Item()
+                                    .Element(con => DrawLink(con, Locations.Count + 1
+                                        , "Conclusão",
+                                        "conclusao"));
                     });
                 });
         }

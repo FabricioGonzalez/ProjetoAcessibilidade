@@ -35,7 +35,7 @@ public partial class EditRuleDialogViewModel : DialogViewModelBase<IValidationRu
     public ReactiveCommand<IConditionState, Unit> ExcludeResultCommand => ReactiveCommand.Create<IConditionState>(
         conditionState =>
         {
-            conditionState.Result.Add(new());
+            conditionState.Result.Clear();
         });
 
     public ReactiveCommand<IConditionState, Unit> AddResultCommand => ReactiveCommand.Create<IConditionState>(
