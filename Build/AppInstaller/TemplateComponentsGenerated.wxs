@@ -2,49 +2,49 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="TemplateFilesDirectory">
-            <Component Id="cmp2A712EEA240E6C596A9F67626FFD3536" Guid="{8D658F65-5176-4A5D-B65C-86E7708AC557}">
+            <Component Id="cmp2A712EEA240E6C596A9F67626FFD3536" Guid="{4E9E2A7B-A842-45AB-B3B1-CFBE67A3E9D8}">
                 <File Id="fil913F57A56742A99D189A711F3A9BE976" KeyPath="yes" Source="$(var.TemplatesPath)\Acesso a Equipamentos.xml" />
             </Component>
-            <Component Id="cmp61D3BE886A4F2BDF2A26A48740535268" Guid="{45AD0C94-C5A0-4612-A7BB-AFB98DF5008E}">
+            <Component Id="cmp61D3BE886A4F2BDF2A26A48740535268" Guid="{5435565E-FDAB-4F53-A38B-13D510FAED4D}">
                 <File Id="fil92B663BBBFF1407B3B62E3E85C72A1E4" KeyPath="yes" Source="$(var.TemplatesPath)\Acesso.xml" />
             </Component>
-            <Component Id="cmp63E320284E319D10D70B20436F66E404" Guid="{9C5EE665-14C9-4FB2-B11C-1B680200D97F}">
+            <Component Id="cmp63E320284E319D10D70B20436F66E404" Guid="{7AD1321A-8187-4075-A372-F42AC06F4482}">
                 <File Id="fil7D961CA17A5B2A072E57A04EAE47B668" KeyPath="yes" Source="$(var.TemplatesPath)\Balcão de Atendimento Recepção.xml" />
             </Component>
-            <Component Id="cmpAC7F6C2848EF458D1C66369A292C2A50" Guid="{BCE3FAF9-C754-4ABC-BBFB-764ED7C2AA4A}">
+            <Component Id="cmpAC7F6C2848EF458D1C66369A292C2A50" Guid="{F7D8891F-913D-4046-A699-3FA7361CED0C}">
                 <File Id="fil067C5F8DC8F1B37A11F34A93AD89C072" KeyPath="yes" Source="$(var.TemplatesPath)\Circulação Horizontal.xml" />
             </Component>
-            <Component Id="cmpAD796F43F1C5270EEF6BF5A89603A61D" Guid="{9F0BA2D9-42BE-4C7D-BF42-8829CD411DF4}">
+            <Component Id="cmpAD796F43F1C5270EEF6BF5A89603A61D" Guid="{A653D4CC-DB65-4AB5-8240-0A43DBF73686}">
                 <File Id="fil605B64765657F82C61543E78F88BFEE2" KeyPath="yes" Source="$(var.TemplatesPath)\Circulação Vertical.xml" />
             </Component>
-            <Component Id="cmp370ACB9C8B185825EFFDCEFF0344A2A0" Guid="{834ACA62-0654-487B-BA17-472277A5C45E}">
+            <Component Id="cmp370ACB9C8B185825EFFDCEFF0344A2A0" Guid="{0E1A7B2E-DD6F-4AA7-A188-065A6E3E9887}">
                 <File Id="fil1126CE50C4E159D4FEBD81F4B41F6D62" KeyPath="yes" Source="$(var.TemplatesPath)\Entradas Portas Externo.xml" />
             </Component>
-            <Component Id="cmp5C3A2C29A50D30BD91C3452C80C155EB" Guid="{9C21E710-A459-45FA-AFE6-6872402E6E94}">
+            <Component Id="cmp5C3A2C29A50D30BD91C3452C80C155EB" Guid="{3079A580-B664-4D3E-BFAD-B5B326C803F7}">
                 <File Id="filAA4FF7110423908B738048E111E6FF7A" KeyPath="yes" Source="$(var.TemplatesPath)\Entradas Portas Interno.xml" />
             </Component>
-            <Component Id="cmpF29A071BF50772B9FD0056A28941CCC6" Guid="{8ABB2F08-0C34-4851-B040-03307F6C22EE}">
+            <Component Id="cmpF29A071BF50772B9FD0056A28941CCC6" Guid="{157F900B-F6C3-436B-B6FB-75A8B060EDDB}">
                 <File Id="fil228FF71D51AC9C383533AA7DCEB026A6" KeyPath="yes" Source="$(var.TemplatesPath)\Mapa Tátil.xml" />
             </Component>
-            <Component Id="cmp3D62F4C6BF56E27653AB136CADFCC795" Guid="{DB0D13D3-766F-4907-B38D-CB13A68DA061}">
+            <Component Id="cmp3D62F4C6BF56E27653AB136CADFCC795" Guid="{B8912635-4CB5-40A9-A61E-B46C666B4B5C}">
                 <File Id="filC5C5CB7307D7411B4421F6E5F07F91A9" KeyPath="yes" Source="$(var.TemplatesPath)\Mesas.xml" />
             </Component>
-            <Component Id="cmpF82D5183469E498EF8A099CCA47EEBFE" Guid="{1891B8DE-C8ED-4B8B-9DB3-37267379CAA3}">
+            <Component Id="cmpF82D5183469E498EF8A099CCA47EEBFE" Guid="{3AD03D95-F8C1-4D87-A6F5-0B0645147711}">
                 <File Id="fil9636D47ABD527F68A066C170821B1C78" KeyPath="yes" Source="$(var.TemplatesPath)\Piso Tátil.xml" />
             </Component>
-            <Component Id="cmp70809B43F49A4C37E7438A63258DFFE2" Guid="{8850D91D-5F69-4B92-B19C-48EB9FD2CA7B}">
+            <Component Id="cmp70809B43F49A4C37E7438A63258DFFE2" Guid="{7E3D8365-9582-4810-877C-06A0603A30CD}">
                 <File Id="fil3EE778B13010C776A1A38199DC166AA1" KeyPath="yes" Source="$(var.TemplatesPath)\Portas de Emergência.xml" />
             </Component>
-            <Component Id="cmpB709E5E7AAB4241DA7DD5A07983D1CF1" Guid="{6C949422-475D-46AA-9DED-266B3EB05D98}">
+            <Component Id="cmpB709E5E7AAB4241DA7DD5A07983D1CF1" Guid="{AD6ECA5D-C25F-40AB-8C57-6753A4224352}">
                 <File Id="fil0EB3D21814A14AF648B17E839D4D6935" KeyPath="yes" Source="$(var.TemplatesPath)\Sanitários Comuns.xml" />
             </Component>
-            <Component Id="cmp1D038F7BB1BB9BA8E3031A4A3C28341E" Guid="{73CF7926-CF5F-47CA-8E0F-3FCA7DDD2068}">
+            <Component Id="cmp1D038F7BB1BB9BA8E3031A4A3C28341E" Guid="{9127F5C7-DA96-4F62-A1A9-D7C6AFD11F79}">
                 <File Id="filB8A06CCE97FA0959D3110AB1FA0E403F" KeyPath="yes" Source="$(var.TemplatesPath)\Sánitario Acessível.xml" />
             </Component>
-            <Component Id="cmpDE62B9A632253EE5D764651CA2118E68" Guid="{FF3112CB-0DFB-4803-85E2-E4DAF5B7FFF4}">
+            <Component Id="cmpDE62B9A632253EE5D764651CA2118E68" Guid="{6EF8DDF7-E6A1-4455-B442-FACC67AB79E2}">
                 <File Id="filC364301AA4C957353AA6AF6471E8C2F3" KeyPath="yes" Source="$(var.TemplatesPath)\Teste 2.xml" />
             </Component>
-            <Component Id="cmp07D093F64B39433D35B8FD6C3C7FDF06" Guid="{DDC556B3-63BA-46F9-A3F9-F1044B5E580F}">
+            <Component Id="cmp07D093F64B39433D35B8FD6C3C7FDF06" Guid="{F55EA63C-E9B1-4C97-BF95-73DCE9D70CCA}">
                 <File Id="fil3E933D128B54BA10CDFD5DA3D6C74413" KeyPath="yes" Source="$(var.TemplatesPath)\TEstes.xml" />
             </Component>
         </DirectoryRef>

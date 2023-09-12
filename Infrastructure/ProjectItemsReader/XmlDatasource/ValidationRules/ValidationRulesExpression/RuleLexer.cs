@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
+
 using XmlDatasource.ValidationRules.DTO;
 
 namespace XmlDatasource.ValidationRules.ValidationRulesExpression;
@@ -73,15 +74,21 @@ public class RuleLexer
     ) =>
         op switch
         {
-            "<" => double.Parse(s: left, provider: CultureInfo.InvariantCulture) <
-                   double.Parse(s: right, provider: CultureInfo.InvariantCulture)
-            , ">" => double.Parse(s: left, provider: CultureInfo.InvariantCulture) >
-                     double.Parse(s: right, provider: CultureInfo.InvariantCulture)
-            , "<=" => double.Parse(s: left, provider: CultureInfo.InvariantCulture) >=
-                      double.Parse(s: right, provider: CultureInfo.InvariantCulture)
-            , ">=" => double.Parse(s: left, provider: CultureInfo.InvariantCulture) <=
-                      double.Parse(s: right, provider: CultureInfo.InvariantCulture)
-            , "is" => left.Equals(right), "has" => left.Contains(right.Replace(oldValue: "$", newValue: "")), _ => false
+            "<" => double.Parse(s: left, provider: CultureInfo.CurrentUICulture) <
+                   double.Parse(s: right, provider: CultureInfo.CurrentUICulture)
+            ,
+            ">" => double.Parse(s: left, provider: CultureInfo.CurrentUICulture) >
+                     double.Parse(s: right, provider: CultureInfo.CurrentUICulture)
+            ,
+            "<=" => double.Parse(s: left, provider: CultureInfo.CurrentUICulture) >=
+                      double.Parse(s: right, provider: CultureInfo.CurrentUICulture)
+            ,
+            ">=" => double.Parse(s: left, provider: CultureInfo.CurrentUICulture) <=
+                      double.Parse(s: right, provider: CultureInfo.CurrentUICulture)
+            ,
+            "is" => left.Equals(right),
+            "has" => left.Contains(right.Replace(oldValue: "$", newValue: "")),
+            _ => false
         };
 
     public Func<bool> MountEvaluation(

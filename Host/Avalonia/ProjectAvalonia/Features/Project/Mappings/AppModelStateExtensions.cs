@@ -1,9 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+
 using DynamicData.Binding;
+
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
+
 using XmlDatasource.ProjectItems.DTO;
 using XmlDatasource.ProjectItems.DTO.FormItem;
 
@@ -17,7 +20,9 @@ public static class AppModelStateExtensions
     {
         var toReturn = new AppModelState
         {
-            Id = itemRoot.Id, ItemName = itemRoot.ItemName, ItemTemplate = itemRoot.TemplateName
+            Id = itemRoot.Id,
+            ItemName = itemRoot.ItemName,
+            ItemTemplate = itemRoot.TemplateName
         };
         toReturn.LoadItemData(
             itemRoot
@@ -29,16 +34,20 @@ public static class AppModelStateExtensions
                         {
                             return new FormItemContainer
                             {
-                                Topic = checkbox.Topic, Body = new CheckboxContainerItemState(checkbox.Topic)
+                                Topic = checkbox.Topic,
+                                Body = new CheckboxContainerItemState(checkbox.Topic)
                                 {
-                                    Id = checkbox.Id, Children = new ObservableCollectionExtended<CheckboxItemState>(
+                                    Id = checkbox.Id,
+                                    Children = new ObservableCollectionExtended<CheckboxItemState>(
                                         checkbox.Children
                                             .Select(
                                                 checkboxItem =>
                                                 {
                                                     return new CheckboxItemState
                                                     {
-                                                        Id = checkboxItem.Id, Topic = checkboxItem.Topic, TextItems =
+                                                        Id = checkboxItem.Id,
+                                                        Topic = checkboxItem.Topic,
+                                                        TextItems =
                                                             new ObservableCollectionExtended<TextItemState>(
                                                                 checkboxItem.TextItems.Select(
                                                                     textItem =>
@@ -49,13 +58,17 @@ public static class AppModelStateExtensions
                                                                             textData: textItem.TextData,
                                                                             measurementUnit: textItem.MeasurementUnit);
                                                                     }))
-                                                        , Options = new ObservableCollectionExtended<OptionsItemState>(
+                                                        ,
+                                                        Options = new ObservableCollectionExtended<OptionsItemState>(
                                                             checkboxItem.Options
                                                                 .Select(
                                                                     opt => new OptionsItemState
                                                                     {
-                                                                        Id = opt.Id, IsChecked = opt.IsChecked
-                                                                        , Value = opt.Value
+                                                                        Id = opt.Id,
+                                                                        IsChecked = opt.IsChecked
+                                                                        ,
+                                                                        Value = opt.Value,
+                                                                        IsInvalid = opt.IsInvalid
                                                                     }))
                                                     };
                                                 }))
@@ -67,7 +80,8 @@ public static class AppModelStateExtensions
                         {
                             return new FormItemContainer
                             {
-                                Topic = text.Topic, Body = new TextItemState(
+                                Topic = text.Topic,
+                                Body = new TextItemState(
                                     id: text.Id,
                                     topic: text.Topic,
                                     textData: text.TextData,
@@ -81,7 +95,9 @@ public static class AppModelStateExtensions
         {
             ImagesItems = new ObservableCollection<ImageItemState>(itemRoot.Images.Select(it => new ImageItemState
             {
-                Id = it.Id, ImageObservation = it.ImageObservation, ImagePath = it.ImagePath
+                Id = it.Id,
+                ImageObservation = it.ImageObservation,
+                ImagePath = it.ImagePath
             }))
         };
         toReturn.ObservationContainer = new ObservationContainerItemState

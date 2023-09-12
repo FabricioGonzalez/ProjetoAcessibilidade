@@ -1,5 +1,8 @@
 ﻿using System.Xml.Serialization;
+
+using LanguageExt;
 using LanguageExt.Common;
+
 using XmlDatasource.ValidationRules.DTO;
 
 namespace XmlDatasource.ValidationRules;
@@ -27,19 +30,28 @@ public sealed class ValidationRulesDatasourceImpl
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
             return new Result<ValidationItemRoot>(e);
         }
     }
 
-    public async Task CreateRules(
+    public async Task<Result<Unit>> CreateRules(
         ValidationItemRoot rule
         , string path
     ) =>
         await Task.Run(() =>
         {
-            using var writer =
-                new StreamWriter(File.Create(path));
-            validationItemsSerealizer.Serialize(textWriter: writer, o: rule);
+            try
+            {
+                using var writer =
+               new StreamWriter(File.Create(path));
+                validationItemsSerealizer.Serialize(textWriter: writer, o: rule);
+
+                return new Result<Unit>();
+            }
+            catch (Exception e)
+            {
+                return new Result<Unit>(e);
+            }
+
         });
 }

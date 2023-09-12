@@ -1,6 +1,9 @@
 ﻿using System.Text;
 using System.Xml.Serialization;
+
+using LanguageExt;
 using LanguageExt.Common;
+
 using XmlDatasource.ProjectItems.DTO;
 
 namespace XmlDatasource.ProjectItems;
@@ -9,7 +12,7 @@ public sealed class ProjectItemDatasourceImpl
 {
     private readonly XmlSerializer _serializer = new(typeof(ItemRoot));
 
-    public async Task SaveContentItem(
+    public async Task<Result<Unit>> SaveContentItem(
         string path
         , ItemRoot item
     ) =>
@@ -19,11 +22,12 @@ public sealed class ProjectItemDatasourceImpl
             {
                 using var writer = new StreamWriter(path);
                 _serializer.Serialize(textWriter: writer, o: item);
+
+                return new Result<Unit>();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return new Result<Unit>(e);
             }
         });
 
@@ -50,20 +54,27 @@ public sealed class ProjectItemDatasourceImpl
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
             return new Result<ItemRoot>(e);
         }
     }
 
-    public async Task SaveConclusionItem(
+    public async Task<Result<Unit>> SaveConclusionItem(
         string conclusionItemPath
         , string conclusionBody
     )
     {
-        using var writer = new StreamWriter(path: conclusionItemPath, encoding: Encoding.UTF8
-            , options: new FileStreamOptions { Mode = FileMode.Create, Access = FileAccess.Write });
+        try
         {
-            await writer.WriteAsync(conclusionBody);
+            using var writer = new StreamWriter(path: conclusionItemPath, encoding: Encoding.UTF8
+                , options: new FileStreamOptions { Mode = FileMode.Create, Access = FileAccess.Write });
+            {
+                await writer.WriteAsync(conclusionBody);
+            }
+            return new Result<Unit>();
+        }
+        catch (Exception ex)
+        {
+            return new Result<Unit>(ex);
         }
     }
 }
