@@ -90,7 +90,8 @@ public partial class CheckboxItemViewModel
                             rule.Type == AppValidation.GetOperationByValue("Obrigatority"))).Any())
                     {
                         IsInvalid = false;
-                        prop.Sender.IsInvalid = false;
+                        Options
+                         .Options.First(it => it.Id == prop.Sender.Id).IsInvalid = false;
                     }
                 });
             })
@@ -131,7 +132,8 @@ public partial class CheckboxItemViewModel
                                 rule.Type == AppValidation.GetOperationByValue("Obrigatority"))).Any())
                     {
                         IsInvalid = true;
-                        prop.Sender.IsInvalid = true;
+                        Options
+                        .Options.First(it => it.Id == prop.Sender.Id).IsInvalid = true;
                     }
                 });
 

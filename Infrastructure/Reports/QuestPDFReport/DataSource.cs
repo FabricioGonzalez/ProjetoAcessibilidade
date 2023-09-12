@@ -275,16 +275,16 @@ public static class DataSource
                                 }
                             });
 
-                            _ = data.Images.IterateOn(image =>
-                            {
-                                section.Images = section.Images.Append(new ImageSectionElement
-                                {
-                                    ImagePath = image.ImagePath,
-                                    Observation = image.ImageObservation
-                                });
-                            });
+                            data.Images.IterateOn(image =>
+                             {
+                                 section.Images = section.Images.Append(new ImageSectionElement
+                                 {
+                                     ImagePath = image.ImagePath,
+                                     Observation = image.ImageObservation
+                                 });
+                             });
 
-                            _ = data.Observations.IterateOn(observation =>
+                            data.Observations.IterateOn(observation =>
                             {
                                 section.Observation = section.Observation.Append(new ObservationSectionElement
                                 {
@@ -292,7 +292,7 @@ public static class DataSource
                                 });
                             });
 
-                            _ = data.LawList.IterateOn(law =>
+                            data.LawList.IterateOn(law =>
                             {
                                 section.Laws = section.Laws.Append(new LawSectionElement
                                 {

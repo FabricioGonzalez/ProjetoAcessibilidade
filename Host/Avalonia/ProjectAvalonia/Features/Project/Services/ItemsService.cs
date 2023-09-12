@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+
 using Common;
 using Common.Linq;
+
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
+
 using XmlDatasource.ExplorerItems;
 using XmlDatasource.ProjectItems;
 
@@ -28,7 +31,11 @@ public sealed class ItemsService
     }
 
     public IEnumerable<ItemState> LoadAllItems() => _explorerItems.GetAllAppTemplates()
-        .Match(Succ: s => s.Select(it => it.ToItemState()), Fail: f => Enumerable.Empty<ItemState>());
+        .Match(Succ: s => s.Select(it => it.ToItemState()), Fail: f =>
+        {
+            Logger.LogError(f);
+            return Enumerable.Empty<ItemState>();
+        });
 
     /*public ItemState MoveItem(
         ItemState item

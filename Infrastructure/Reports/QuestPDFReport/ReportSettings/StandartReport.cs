@@ -1,10 +1,10 @@
-﻿using System.Drawing;
+﻿using Common.Linq;
 
-using Common.Linq;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Components;
 using QuestPDFReport.Models;
 
@@ -29,7 +29,8 @@ public class StandardReport : IDocument
     public DocumentMetadata GetMetadata() =>
         new()
         {
-            Title = Model.Title, DocumentLayoutExceptionThreshold = 1000000000
+            Title = Model.Title,
+            DocumentLayoutExceptionThreshold = 1000000000
         };
 
     public void Compose(
@@ -63,8 +64,6 @@ public class StandardReport : IDocument
                         text.Span("Página ");
 
                         text.CurrentPageNumber();
-                        /*text.Span(" / ");
-                        text.TotalPages();*/
                     });
             });
 
@@ -333,7 +332,10 @@ public class StandardReport : IDocument
                         .ExtendHorizontal()
                         .Element(it => it
                             .Component(new CapeComponent(new CapeContainer
-                                { CompanyInfo = Model.CompanyInfo, Partners = Model.Partners })));
+                            {
+                                CompanyInfo = Model.CompanyInfo,
+                                Partners = Model.Partners
+                            })));
 
                     column.Item().PageBreak();
 
@@ -604,13 +606,16 @@ public class StandardReport : IDocument
                         column.Item().PageBreak();
                     });
 
-                    column.Item().LabelCell().Text("Legenda");
+                    column.Item()
+                    .LabelCell()
+                    .Text("Legenda");
                     column.Item()
                     .Height(80)
                     .ValueCell()
                     .Column(legendColumn =>
                     {
-                        legendColumn.Item().Height(15).Row(row => {
+                        legendColumn.Item().Height(15).Row(row =>
+                        {
                             row.ConstantItem(15)
                              .Layers(layers =>
                              {
@@ -641,10 +646,11 @@ public class StandardReport : IDocument
                                      });
                              });
 
-                            row.AutoItem().PaddingHorizontal(4).Text("ITENS QUE NÃO ATENDEM À NBR9050/15");
+                            row.AutoItem().PaddingHorizontal(4).Text("ITENS QUE NÃO ATENDEM À NBR9050/20");
                         });
 
-                        legendColumn.Item().Height(15).Row(row => {
+                        legendColumn.Item().Height(15).Row(row =>
+                        {
                             row.ConstantItem(15)
                              .Layers(layers =>
                              {
@@ -677,7 +683,8 @@ public class StandardReport : IDocument
 
                             row.AutoItem().PaddingHorizontal(4).Text("LEGISLAÇÃO");
                         });
-                        legendColumn.Item().Height(15).Row(row => {
+                        legendColumn.Item().Height(15).Row(row =>
+                        {
                             row.ConstantItem(15)
                              .Layers(layers =>
                              {
@@ -702,7 +709,8 @@ public class StandardReport : IDocument
 
                             row.AutoItem().PaddingHorizontal(4).Text("ITENS EM CONFORMIDADE COM À NBR9050/20");
                         });
-                        legendColumn.Item().Height(15).Row(row => { 
+                        legendColumn.Item().Height(15).Row(row =>
+                        {
                             row.ConstantItem(15)
                             .Layers(layers =>
                             {
@@ -730,7 +738,7 @@ public class StandardReport : IDocument
 
                                         canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: fillPaint);
                                         canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: strokePaint);
-                                        
+
                                     });
                             });
 

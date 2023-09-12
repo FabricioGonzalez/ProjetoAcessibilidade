@@ -6,13 +6,13 @@ public class ItemOptionModel : ItemFormData
 {
     public ItemOptionModel()
     {
-    }
 
+    }
     public ItemOptionModel(
         string value
-        , string id
-        , bool isChecked = false,
-        bool isInvalid = false
+        , string id,
+          bool isInvalid
+        , bool isChecked = false
     )
         : base(id: id)
     {

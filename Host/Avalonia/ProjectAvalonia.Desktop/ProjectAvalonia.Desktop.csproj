@@ -23,7 +23,7 @@
         <InvariantGlobalization>false</InvariantGlobalization>
         <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
         <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
-        <Version>1.0.6</Version>
+        <Version>1.0.7</Version>
     </PropertyGroup>
     <PropertyGroup>
         <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
@@ -33,9 +33,7 @@
         <Company>Fabricio Gonzalez Dev Ltd</Company>
         <NeutralLanguage>pt-BR</NeutralLanguage>
         <AssemblyTitle>Project Avalonia</AssemblyTitle>
-        <Description>
-            Open-source, non-custodial, privacy focused Bitcoin wallet for Windows, Linux, and Mac. Built-in Tor, coinjoin, payjoin and coin control features.
-        </Description>
+        <Description></Description>
         <Copyright>MIT</Copyright>
         <PackageId>Project Avalonia</PackageId>
         <AssemblyTitle>Project Avalonia</AssemblyTitle>
