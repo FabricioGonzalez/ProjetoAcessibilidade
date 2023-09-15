@@ -4,13 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:ProjectAvalonia.Common.Controls;assembly=ProjectAvalonia"
     xmlns:controls="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components;assembly=ProjectAvalonia"
+    xmlns:conv="clr-namespace:ProjectAvalonia.Common.Converters;assembly=ProjectAvalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
-    xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
     xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
+    xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
@@ -48,21 +49,23 @@
                         Margin="4,0"
                         Content="{x:Static p:Resources.Items_Label}" />
 
-                    <c:IconButton Grid.Row="0"
-                                  Grid.Column="1"
-                                  Width="24"
-                                  Height="24"
-                                  Margin="8,0"
-                                  HorizontalAlignment="Right"
-                                  Command="{Binding AddItemCommand}"
-                                  Icon="{StaticResource add_regular}"
-                                  IconSize="20"
-                                  ToolTip.Tip="{x:Static p:Resources.Add_Item_ToolTip}" />
+                    <c:IconButton
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Width="24"
+                        Height="24"
+                        Margin="8,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding AddItemCommand}"
+                        Icon="{StaticResource add_regular}"
+                        IconSize="20"
+                        ToolTip.Tip="{x:Static p:Resources.Add_Item_ToolTip}" />
 
-                    <ItemsControl Grid.Column="0"
-                                  Grid.Row="1"
-                                  Grid.ColumnSpan="2"
-                                  ItemsSource="{Binding EditingItem.FormData}">
+                    <ItemsControl
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        ItemsSource="{Binding EditingItem.FormData}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,8" Spacing="8">
@@ -72,23 +75,16 @@
                                             Grid.Column="1"
                                             Margin="2,0"
                                             HorizontalAlignment="Stretch"
-                                            ItemsSource="{x:Static validationTypes:AppValidation.checkingRuleTypes}"
-                                            SelectedValueBinding="{Binding Value}"
                                             DisplayMemberBinding="{Binding LocalizationKey}"
-                                            SelectedValue="{Binding Type, Mode=TwoWay}">
-                                            <!--<ComboBox.ItemTemplate>
-                                                <DataTemplate DataType="enums:AppFormDataType">
-                                                    <TextBlock Text="{Binding}" />
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>-->
-                                        </ComboBox>
+                                            ItemsSource="{x:Static validationTypes:AppValidation.checkingRuleTypes}"
+                                            SelectedItem="{Binding Type, Mode=OneWay, Converter={StaticResource TypeToCheckingTypeConverter}}"
+                                            SelectedValue="{Binding Type, Mode=TwoWay}"
+                                            SelectedValueBinding="{Binding Value}" />
 
                                         <c:IconButton
                                             Grid.Column="2"
                                             Width="24"
                                             Height="24"
-                                            Icon="{StaticResource dismiss_regular}"
-                                            IconSize="16"
                                             Margin="8,0"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Top"
@@ -96,6 +92,8 @@
                                             Classes="function"
                                             Command="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).RemoveItemCommand}"
                                             CommandParameter="{Binding}"
+                                            Icon="{StaticResource dismiss_regular}"
+                                            IconSize="16"
                                             ToolTip.Tip="{x:Static p:Resources.Remove_Group_ToolTip}" />
                                     </Grid>
                                     <controls:ReportContainer Content="{Binding Body, Mode=OneWay}" CornerRadius="4" />
@@ -120,22 +118,24 @@
                         Margin="4,0"
                         Content="{x:Static p:Resources.Laws_Label}" />
 
-                    <c:IconButton Grid.Row="0"
-                                  Grid.Column="1"
-                                  Width="24"
-                                  Height="24"
-                                  Margin="8,0"
-                                  HorizontalAlignment="Right"
-                                  Command="{Binding AddLawCommand}"
-                                  Icon="{StaticResource add_regular}"
-                                  IconSize="20"
-                                  ToolTip.Tip="{x:Static p:Resources.Add_Law_ToolTip}" />
+                    <c:IconButton
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Width="24"
+                        Height="24"
+                        Margin="8,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding AddLawCommand}"
+                        Icon="{StaticResource add_regular}"
+                        IconSize="20"
+                        ToolTip.Tip="{x:Static p:Resources.Add_Law_ToolTip}" />
 
-                    <ItemsControl Grid.Column="0"
-                                  Grid.Row="1"
-                                  Grid.ColumnSpan="2"
-                                  Padding="4"
-                                  ItemsSource="{Binding EditingItem.LawItems, Mode=TwoWay}">
+                    <ItemsControl
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Padding="4"
+                        ItemsSource="{Binding EditingItem.LawItems, Mode=TwoWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border
@@ -150,24 +150,26 @@
                                             Text="{Binding LawId}"
                                             UseFloatingWatermark="True"
                                             Watermark="{x:Static p:Resources.Law_Id_Watermark}" />
-                                        <c:IconButton Grid.Row="0"
-                                                      Grid.Column="1"
-                                                      Width="24"
-                                                      Height="24"
-                                                      Margin="8,0"
-                                                      HorizontalAlignment="Right"
-                                                      Command="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).RemoveLawCommand}"
-                                                      CommandParameter="{Binding}"
-                                                      Icon="{StaticResource cancel_regular}"
-                                                      IconSize="20"
-                                                      ToolTip.Tip="{x:Static p:Resources.Remove_Law_Tooltip}" />
-                                        <TextBox Grid.Column="0"
-                                                 Grid.Row="2"
-                                                 Grid.ColumnSpan="2"
-                                                 Text="{Binding LawContent}"
-                                                 TextWrapping="Wrap"
-                                                 UseFloatingWatermark="True"
-                                                 Watermark="{x:Static p:Resources.Law_Body_Watermark}" />
+                                        <c:IconButton
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Width="24"
+                                            Height="24"
+                                            Margin="8,0"
+                                            HorizontalAlignment="Right"
+                                            Command="{Binding $parent[views:TemplateEditTabView].((interfaces:ITemplateEditTabViewModel)DataContext).RemoveLawCommand}"
+                                            CommandParameter="{Binding}"
+                                            Icon="{StaticResource cancel_regular}"
+                                            IconSize="20"
+                                            ToolTip.Tip="{x:Static p:Resources.Remove_Law_Tooltip}" />
+                                        <TextBox
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            Text="{Binding LawContent}"
+                                            TextWrapping="Wrap"
+                                            UseFloatingWatermark="True"
+                                            Watermark="{x:Static p:Resources.Law_Body_Watermark}" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>

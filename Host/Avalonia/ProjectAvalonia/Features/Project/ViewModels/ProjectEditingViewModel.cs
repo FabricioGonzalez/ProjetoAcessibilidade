@@ -179,6 +179,7 @@ public static class Extension
                 new(state.FormData.ToViewForm(rules, observations)
                     .Append(new ImageContainerFormItemViewModel(new(state.ImageContainer
                         .ImagesItems
+                        .Where(image => !string.IsNullOrWhiteSpace(image.ImagePath))
                         .Select(it => new ImageViewModel(it.ImagePath, it.ImageObservation, it.Id))
                     ))).Append(new ObservationFormItem(observations))
                 )));
@@ -277,7 +278,7 @@ public static class Extension
                                         id: option.Id,
                                         value: option.Value,
                                         isChecked: option.IsChecked,
-                                        isInvalid:option.IsInvalid)).ToList()
+                                        isInvalid: option.IsInvalid)).ToList()
                             }).ToList()
                     }
                     ,
@@ -290,6 +291,7 @@ public static class Extension
             .Form
             .Where(x => x is IImageFormItemViewModel)
             .Cast<IImageFormItemViewModel>()
+            .Where(it => it.ImageItems.All(image => !string.IsNullOrWhiteSpace(image.ImagePath)))
             .SelectMany(x => x.ImageItems)
             .Select(x => new ImageItem { Id = x.Id, ImagePath = x.ImagePath, ImageObservation = x.ImageObservation })
             .ToList();

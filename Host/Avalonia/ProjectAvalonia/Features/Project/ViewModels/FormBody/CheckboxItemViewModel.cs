@@ -40,6 +40,20 @@ public partial class CheckboxItemViewModel
         Rules = rules;
 
         this.WhenAnyValue(vm => vm.Options)
+        .Select(op => op.Options)
+        .Select(op => op
+        .ToObservableChangeSet()
+        .AutoRefreshOnObservable(x => x.WhenAnyValue(it => it.IsInvalid))
+        .DisposeMany())
+        .Switch()
+        .WhenPropertyChanged(propertyAccessor: prop => prop.IsInvalid, notifyOnInitialValue: true)
+        .Subscribe(it =>
+        {
+            if (it?.Value is { } val)
+                IsInvalid = val;
+        });
+
+        this.WhenAnyValue(vm => vm.Options)
             .Select(op => op.Options)
             .Select(op => op
                 .ToObservableChangeSet()
@@ -132,8 +146,7 @@ public partial class CheckboxItemViewModel
                                 rule.Type == AppValidation.GetOperationByValue("Obrigatority"))).Any())
                     {
                         IsInvalid = true;
-                        Options
-                        .Options.First(it => it.Id == prop.Sender.Id).IsInvalid = true;
+                        Options.Options.First(it => it.Id == prop.Sender.Id).IsInvalid = true;
                     }
                 });
 

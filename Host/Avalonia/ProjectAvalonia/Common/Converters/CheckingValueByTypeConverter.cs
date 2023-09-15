@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
+
 using Avalonia.Data.Converters;
+
 using ProjectAvalonia.Models.ValidationTypes;
 
 namespace ProjectAvalonia.Common.Converters;
@@ -15,7 +17,7 @@ public class CheckingValueByTypeConverter : IValueConverter
         if (parameter is string ss && !string.IsNullOrWhiteSpace(ss) && ss == "false")
             return !operation;
 
-            return operation;
+        return operation;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>

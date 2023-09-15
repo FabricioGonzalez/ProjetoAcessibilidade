@@ -35,6 +35,7 @@ public static class AppModelStateExtensions
                             return new FormItemContainer
                             {
                                 Topic = checkbox.Topic,
+                                Type = Presentation.Enums.AppFormDataType.Checkbox,
                                 Body = new CheckboxContainerItemState(checkbox.Topic)
                                 {
                                     Id = checkbox.Id,
@@ -81,6 +82,7 @@ public static class AppModelStateExtensions
                             return new FormItemContainer
                             {
                                 Topic = text.Topic,
+                                Type = Presentation.Enums.AppFormDataType.Text,
                                 Body = new TextItemState(
                                     id: text.Id,
                                     topic: text.Topic,

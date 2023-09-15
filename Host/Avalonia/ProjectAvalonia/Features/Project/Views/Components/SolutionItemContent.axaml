@@ -2,181 +2,229 @@
     x:Class="ProjectAvalonia.Features.Project.Views.Components.SolutionItemContent"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:states="clr-namespace:ProjectAvalonia.Presentation.States;assembly=ProjectAvalonia.Presentation"
-    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
     x:DataType="states:SolutionState"
-    mc:Ignorable="d" >
-	<Interaction.Behaviors>
-		<EventTriggerBehavior EventName="Loaded">
-			<InvokeCommandAction Command="{Binding LoadUFs}" />
-		</EventTriggerBehavior>
-	</Interaction.Behaviors>
-    <ScrollViewer>
+    mc:Ignorable="d">
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Loaded">
+            <InvokeCommandAction Command="{Binding LoadUFs}" />
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+    <ScrollViewer Padding="8">
         <StackPanel Spacing="4">
-            <SelectableTextBlock Margin="8,0" Text="Informações do Projeto" Focusable="False" FontWeight="DemiBold" />
-            <Grid ColumnDefinitions="*" Margin="24,0">
+            <SelectableTextBlock
+                Margin="8,0"
+                Focusable="False"
+                FontWeight="DemiBold"
+                Text="Informações do Projeto" />
+            <Grid Margin="24,0" ColumnDefinitions="*">
                 <StackPanel Spacing="4">
-                    <SelectableTextBlock Text="Nome da Empresa" Focusable="False" />
+                    <SelectableTextBlock Focusable="False" Text="Nome da Empresa" />
                     <TextBox Text="{Binding Report.CompanyInfo.NomeEmpresa}" />
                 </StackPanel>
             </Grid>
 
-            <Grid ColumnDefinitions="1* 8 1*" Margin="24,0">
+            <Grid Margin="24,0" ColumnDefinitions="1* 8 1*">
                 <StackPanel Spacing="4">
-                    <SelectableTextBlock Text="Responsável pela Vistoria" Focusable="False" />
+                    <SelectableTextBlock Focusable="False" Text="Responsável pela Vistoria" />
                     <TextBox Text="{Binding Report.ManagerInfo.Responsavel}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Spacing="4">
-                    <SelectableTextBlock Text="Data do Relatório" Focusable="False" />
-                    <CalendarDatePicker HorizontalAlignment="Stretch" IsTodayHighlighted="True"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0"
-                                        Background="{DynamicResource TextControlBackground}"
-                                        SelectedDate="{Binding Report.CompanyInfo.Data}" />
+                    <SelectableTextBlock Focusable="False" Text="Data do Relatório" />
+                    <CalendarDatePicker
+                        HorizontalAlignment="Stretch"
+                        Background="{DynamicResource TextControlBackground}"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        IsTodayHighlighted="True"
+                        SelectedDate="{Binding Report.CompanyInfo.Data}" />
                 </StackPanel>
             </Grid>
 
-            <Grid ColumnDefinitions="1* 8 1*" Margin="24,0">
+            <Grid Margin="24,0" ColumnDefinitions="1* 8 1*">
                 <StackPanel Spacing="4">
-                    <SelectableTextBlock Text="Telefone para Contato" Focusable="False" />
+                    <SelectableTextBlock Focusable="False" Text="Telefone para Contato" />
                     <TextBox Text="{Binding Report.ManagerInfo.Telefone}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Spacing="4">
-                    <SelectableTextBlock Text="Email para Contato" Focusable="False" />
+                    <SelectableTextBlock Focusable="False" Text="Email para Contato" />
                     <TextBox Text="{Binding Report.CompanyInfo.Email}" />
                 </StackPanel>
             </Grid>
 
-            <Grid ColumnDefinitions="1* 8 1*" Margin="24,0">
+            <Grid Margin="24,0" ColumnDefinitions="1* 8 1*">
                 <StackPanel Spacing="4">
-                    <SelectableTextBlock Text="Gerenciadora" Focusable="False" />
+                    <SelectableTextBlock Focusable="False" Text="Gerenciadora" />
                     <TextBox Text="{Binding Report.ManagerInfo.NomeEmpresa}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Spacing="4">
-                    <SelectableTextBlock Text="Site da Gerenciadora" Focusable="False" />
+                    <SelectableTextBlock Focusable="False" Text="Site da Gerenciadora" />
                     <TextBox Text="{Binding Report.ManagerInfo.WebSite}" />
                 </StackPanel>
             </Grid>
 
-            <Grid ColumnDefinitions="1*" Margin="24,0" RowDefinitions="32,1*">
-                <SelectableTextBlock Margin="8,0" Focusable="False" Text="Endereço" FontWeight="DemiBold" />
+            <Grid
+                Margin="24,0"
+                ColumnDefinitions="1*"
+                RowDefinitions="32,1*">
+                <SelectableTextBlock
+                    Margin="8,0"
+                    Focusable="False"
+                    FontWeight="DemiBold"
+                    Text="Endereço" />
                 <StackPanel Grid.Row="1" Margin="24,0">
                     <Grid ColumnDefinitions="0.8* 4 0.3* 4 0.6*">
                         <StackPanel Spacing="4">
-                            <SelectableTextBlock Text="Logradouro" Focusable="False" />
+                            <SelectableTextBlock Focusable="False" Text="Logradouro" />
                             <TextBox Text="{Binding Report.CompanyInfo.Endereco.Logradouro}" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="4">
-                            <SelectableTextBlock Text="Número" Focusable="False" />
+                            <SelectableTextBlock Focusable="False" Text="Número" />
                             <TextBox Text="{Binding Report.CompanyInfo.Endereco.Numero}" />
                         </StackPanel>
                         <StackPanel Grid.Column="4" Spacing="4">
-                            <SelectableTextBlock Text="Bairro" Focusable="False" />
+                            <SelectableTextBlock Focusable="False" Text="Bairro" />
                             <TextBox Text="{Binding Report.CompanyInfo.Endereco.Bairro}" />
                         </StackPanel>
                     </Grid>
                     <Grid ColumnDefinitions="1* 8 0.4* 8 1*">
                         <StackPanel Spacing="4">
-                            <SelectableTextBlock Text="Estado" Focusable="False" />
-                            <ComboBox HorizontalAlignment="Stretch"
-                                      Name="StateContainer"
-                                      BorderBrush="Transparent"
-                                      IsTextSearchEnabled="True"
-                                      ItemsSource="{Binding SearchSolutionTexts.UFs}"
-                                      TextSearch.Text="{Binding SearchSolutionTexts.SearchUf}"
-                                      DisplayMemberBinding="{Binding Name}"
-                                      SelectedValue="{Binding Report.CompanyInfo.Endereco.Uf}"
-                                      SelectedValueBinding="{Binding ShortName}"
-                                      BorderThickness="0" />
+                            <SelectableTextBlock Focusable="False" Text="Estado" />
+                            <ComboBox
+                                Name="StateContainer"
+                                HorizontalAlignment="Stretch"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                DisplayMemberBinding="{Binding Name}"
+                                IsTextSearchEnabled="True"
+                                ItemsSource="{Binding SearchSolutionTexts.UFs}"
+                                SelectedItem="{Binding SearchSolutionTexts.SelectedUf}"
+                                SelectedValueBinding="{Binding ShortName}"
+                                TextSearch.Text="{Binding SearchSolutionTexts.SearchUf}" />
+                            <!--  SelectedValue="{Binding Report.CompanyInfo.Endereco.Uf}"  -->
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="4">
-                            <SelectableTextBlock Text="CEP" Focusable="False" />
-                            <MaskedTextBox HorizontalAlignment="Stretch" Mask="00000-000"
-										   IsUndoEnabled="True"
-                                     Text="{Binding Report.CompanyInfo.Endereco.Cep}" />
+                            <SelectableTextBlock Focusable="False" Text="CEP" />
+                            <MaskedTextBox
+                                HorizontalAlignment="Stretch"
+                                IsUndoEnabled="True"
+                                Mask="00000-000"
+                                Text="{Binding Report.CompanyInfo.Endereco.Cep}" />
                         </StackPanel>
                         <StackPanel Grid.Column="4" Spacing="4">
-                            <SelectableTextBlock Text="Cidade" Focusable="False" />
-                            <ComboBox HorizontalAlignment="Stretch"
-                                      IsTextSearchEnabled="True"
-                                      TextSearch.Text="{Binding SearchSolutionTexts.SearchCidade}"
-                                      Name="CityContainer"
-                                      BorderBrush="Transparent"
-                                      BorderThickness="0"
-                                      ItemsSource="{Binding SearchSolutionTexts.Cidades}"
-                                      DisplayMemberBinding="{Binding Nome}"
-                                      SelectedValue="{Binding Report.CompanyInfo.Endereco.Cidade}"
-                                      SelectedValueBinding="{Binding Nome}" />
+                            <SelectableTextBlock Focusable="False" Text="Cidade" />
+                            <ComboBox
+                                Name="CityContainer"
+                                HorizontalAlignment="Stretch"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                DisplayMemberBinding="{Binding Nome}"
+                                IsTextSearchEnabled="True"
+                                ItemsSource="{Binding SearchSolutionTexts.Cidades}"
+                                SelectedItem="{Binding SearchSolutionTexts.SelectedCidade}"
+                                SelectedValue="{Binding Report.CompanyInfo.Endereco.Cidade}"
+                                SelectedValueBinding="{Binding Nome}"
+                                TextSearch.Text="{Binding SearchSolutionTexts.SearchCidade}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
             </Grid>
-            <SelectableTextBlock Margin="8,0" Text="Informações da Solução" Focusable="False" FontWeight="DemiBold" />
+            <SelectableTextBlock
+                Margin="8,0"
+                Focusable="False"
+                FontWeight="DemiBold"
+                Text="Informações da Solução" />
             <StackPanel Spacing="4">
-                <SelectableTextBlock Text="Nome da Solução" Focusable="False" />
+                <SelectableTextBlock Focusable="False" Text="Nome da Solução" />
                 <TextBox Text="{Binding FileName}" />
             </StackPanel>
             <Grid ColumnDefinitions="1* 64">
-                <StackPanel Spacing="4" Grid.Column="0">
-                    <SelectableTextBlock Text="Local da Solução" Focusable="False" />
-                    <TextBox Text="{Binding FilePath}" IsReadOnly="True" />
+                <StackPanel Grid.Column="0" Spacing="4">
+                    <SelectableTextBlock Focusable="False" Text="Local da Solução" />
+                    <TextBox IsReadOnly="True" Text="{Binding FilePath}" />
                 </StackPanel>
-                <controls:IconButton Grid.Column="1" Click="SolutionItemPathSelector_OnClick"
-                                     Icon="{StaticResource file_open_24_rounded}"
-                                     IconSize="18" Width="18"
-                                     Height="18" />
+                <controls:IconButton
+                    Grid.Column="1"
+                    Width="18"
+                    Height="18"
+                    Click="SolutionItemPathSelector_OnClick"
+                    Icon="{StaticResource file_open_24_rounded}"
+                    IconSize="18" />
             </Grid>
             <Grid ColumnDefinitions="1* 64">
-                <StackPanel Spacing="4" Grid.Column="0">
-                    <SelectableTextBlock Text="Logo da Responsável" Focusable="False" />
+                <StackPanel Grid.Column="0" Spacing="4">
+                    <SelectableTextBlock Focusable="False" Text="Logo da Responsável" />
                     <TextBox Text="{Binding Report.CompanyInfo.Logo}" />
                 </StackPanel>
-                <controls:IconButton Grid.Column="1" Click="CompanyLogoPathSelector_OnClick"
-                                     Icon="{StaticResource file_open_24_rounded}"
-                                     IconSize="18" Width="18"
-                                     Height="18" />
+                <controls:IconButton
+                    Grid.Column="1"
+                    Width="18"
+                    Height="18"
+                    Click="CompanyLogoPathSelector_OnClick"
+                    Icon="{StaticResource file_open_24_rounded}"
+                    IconSize="18" />
             </Grid>
             <Grid ColumnDefinitions="1* 64">
-                <StackPanel Spacing="4" Grid.Column="0">
-                    <SelectableTextBlock Text="Logo da Gerenciadora" Focusable="False" />
+                <StackPanel Grid.Column="0" Spacing="4">
+                    <SelectableTextBlock Focusable="False" Text="Logo da Gerenciadora" />
                     <TextBox Text="{Binding Report.ManagerInfo.LogoPath}" />
                 </StackPanel>
-                <controls:IconButton Grid.Column="1" Click="ManagerLogoPathSelector_OnClick"
-                                     Icon="{StaticResource file_open_24_rounded}"
-                                     IconSize="18" Width="18"
-                                     Height="18" />
+                <controls:IconButton
+                    Grid.Column="1"
+                    Width="18"
+                    Height="18"
+                    Click="ManagerLogoPathSelector_OnClick"
+                    Icon="{StaticResource file_open_24_rounded}"
+                    IconSize="18" />
             </Grid>
             <DockPanel Margin="8,0">
-                <controls:IconButton Margin="16,0" Icon="{StaticResource add_circle_regular}"
-                                     Command="{Binding Report.AddItemToPartnerCommand}" IconSize="12"
-                                     Width="12" Height="12"
-                                     DockPanel.Dock="Right" />
-                <SelectableTextBlock Text="Parceiros" FontWeight="DemiBold" Focusable="False" />
+                <controls:IconButton
+                    Width="12"
+                    Height="12"
+                    Margin="16,0"
+                    Command="{Binding Report.AddItemToPartnerCommand}"
+                    DockPanel.Dock="Right"
+                    Icon="{StaticResource add_circle_regular}"
+                    IconSize="12" />
+                <SelectableTextBlock
+                    Focusable="False"
+                    FontWeight="DemiBold"
+                    Text="Parceiros" />
             </DockPanel>
 
-            <ItemsControl ItemsSource="{Binding Report.Partners,Mode=OneWay}">
+            <ItemsControl ItemsSource="{Binding Report.Partners, Mode=OneWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="1* 8 0.3* 4 0.6* 8 0.2*" Margin="0,2,0,2">
+                        <Grid Margin="0,2,0,2" ColumnDefinitions="*, 8, *, 8, *">
                             <StackPanel Spacing="4">
-                                <SelectableTextBlock Text="Nome do Parceiro" Focusable="False" />
+                                <SelectableTextBlock Focusable="False" Text="Nome do Parceiro" />
                                 <TextBox Text="{Binding Name}" />
                             </StackPanel>
                             <StackPanel Grid.Column="2" Spacing="4">
-                                <SelectableTextBlock Text="Site do Parceiro" Focusable="False" />
+                                <SelectableTextBlock Focusable="False" Text="Site do Parceiro" />
                                 <TextBox Text="{Binding Website}" />
                             </StackPanel>
 
-                            <TextBlock Grid.Column="2" Text="{Binding Logo}" VerticalAlignment="Center" />
-                            <controls:IconButton Grid.Column="4" Click="PartnerLogoItemPathSelector_OnClick"
-                                                 Icon="{StaticResource file_open_24_rounded}"
-                                                 IconSize="12" Width="12"
-                                                 Height="12" />
+                            <TextBox
+                                Grid.Column="4"
+                                VerticalAlignment="Bottom"
+                                IsReadOnly="False"
+                                Text="{Binding Logo}">
+                                <TextBox.InnerRightContent>
+                                    <controls:IconButton
+                                        Width="12"
+                                        Height="12"
+                                        Click="PartnerLogoItemPathSelector_OnClick"
+                                        Icon="{StaticResource file_open_24_rounded}"
+                                        IconSize="14" />
+                                </TextBox.InnerRightContent>
+                            </TextBox>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
