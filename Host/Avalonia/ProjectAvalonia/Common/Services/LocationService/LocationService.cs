@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.Models;
+
 using SqliteDatasource.Internals;
 
 namespace ProjectAvalonia.Common.Services.LocationService;

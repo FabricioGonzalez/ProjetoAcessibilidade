@@ -24,12 +24,13 @@
                     <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
                     <conv:SizePercentageConverter x:Key="SizePercentageConverter" />
                     <conv:CheckingValueByTypeConverter x:Key="CheckingValueByTypeConverter" />
+                    <conv:TypeToCheckingTypeConverter x:Key="TypeToCheckingTypeConverter" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceInclude x:Key='Default' Source="/Styles/Themes/LightResources.axaml" />
-                <ResourceInclude x:Key='Light' Source="/Styles/Themes/LightResources.axaml" />
-                <ResourceInclude x:Key='Dark' Source="/Styles/Themes/DarkResources.axaml" />
+                <ResourceInclude x:Key="Default" Source="/Styles/Themes/LightResources.axaml" />
+                <ResourceInclude x:Key="Light" Source="/Styles/Themes/LightResources.axaml" />
+                <ResourceInclude x:Key="Dark" Source="/Styles/Themes/DarkResources.axaml" />
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
 

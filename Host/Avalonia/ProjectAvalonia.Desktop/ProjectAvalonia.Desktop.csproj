@@ -23,7 +23,7 @@
         <InvariantGlobalization>false</InvariantGlobalization>
         <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
         <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
-        <Version>1.0.7</Version>
+        <Version>1.0.8</Version>
     </PropertyGroup>
     <PropertyGroup>
         <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>

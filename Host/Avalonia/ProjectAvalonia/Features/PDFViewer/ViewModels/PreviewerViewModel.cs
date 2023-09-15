@@ -18,7 +18,7 @@ using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Models;
-using ProjectAvalonia.Features.Project.Services;
+using ProjectAvalonia.Features.Project.Mappings;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Navigation;

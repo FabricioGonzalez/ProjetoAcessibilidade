@@ -2,18 +2,22 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.Models.ValidationTypes;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.Views.Components;
@@ -95,8 +99,10 @@ public partial class RulePreviewer : UserControl
         , RoutedEventArgs e
     ) => ValidationRules.Add(new ValidationRuleState
     {
-        ValidationRuleName = "Inicial", Conditions = new ObservableCollection<IConditionState>()
-        , Type = new ValueCheckOperation()
+        ValidationRuleName = "Inicial",
+        Conditions = new ObservableCollection<IConditionState>()
+        ,
+        Type = new ValueCheckOperation()
     });
 
     private async void EditRuleButtonClicked(
@@ -142,7 +148,8 @@ public partial class RulePreviewer : UserControl
                     {
                         source.Add(new ValidationRuleContainerState
                         {
-                            TargetContainerId = ContainerId, ValidaitonRules = ValidationRules
+                            TargetContainerId = ContainerId,
+                            ValidaitonRules = ValidationRules
                         });
                         return;
                     }
@@ -162,6 +169,9 @@ public partial class RulePreviewer : UserControl
     private void RemoveRuleButtonClicked(
         object? sender
         , RoutedEventArgs e
-    ) =>
-        throw new NotImplementedException();
+    )
+    {
+        if (sender is Control button && button.DataContext is ValidationRuleState rule)
+            ValidationRules.Remove(rule);
+    }
 }
