@@ -1,40 +1,63 @@
 ﻿using System;
+using System.Security;
 using QuestPDF.Drawing;
+using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SkiaSharp;
 
 namespace QuestPDF.Elements
 {
-    public class DynamicImage : Element
+    /// <summary>
+    /// Generates an image based on the given resolution.
+    /// </summary>
+    /// <param name="size">Desired resolution of the image in pixels.</param>
+    /// <returns>An image in PNG, JPEG, or WEBP image format returned as byte array.</returns>
+    public delegate byte[] GenerateDynamicImageDelegate(ImageSize size);
+    
+    internal class DynamicImage : Element
     {
-        public Func<Size, byte[]>? Source
+        internal int? TargetDpi { get; set; }
+        internal ImageCompressionQuality? CompressionQuality { get; set; }
+        internal bool UseOriginalImage { get; set; }
+        public GenerateDynamicImageDelegate? Source { get; set; }
+        
+        internal override SpacePlan Measure(Size availableSpace)
         {
-            get;
-            set;
+            return availableSpace.IsNegative() 
+                ? SpacePlan.Wrap() 
+                : SpacePlan.FullRender(availableSpace);
         }
 
-        public override SpacePlan Measure(
-            Size availableSpace
-        ) => SpacePlan.FullRender(width: availableSpace.Width, height: availableSpace.Height);
-
-        public override void Draw(
-            Size availableSpace
-        )
+        internal override void Draw(Size availableSpace)
         {
-            var imageData = Source?.Invoke(arg: availableSpace);
-
+            var targetResolution = GetTargetResolution(availableSpace, TargetDpi.Value);
+            var imageData = Source?.Invoke(targetResolution);
+            
             if (imageData == null)
+                return;
+
+            using var originalImage = SKImage.FromEncodedData(imageData);
+            
+            if (UseOriginalImage)
             {
+                Canvas.DrawImage(originalImage, Position.Zero, availableSpace);
                 return;
             }
+            
+            using var compressedImage = originalImage.CompressImage(CompressionQuality.Value);
 
-            var imageElement = new Image
-            {
-                publicImage = SKImage.FromEncodedData(data: imageData)
-            };
+            var targetImage = Helpers.Helpers.GetImageWithSmallerSize(originalImage, compressedImage);
+            Canvas.DrawImage(targetImage, Position.Zero, availableSpace);
+        }
 
-            imageElement.Initialize(pageContext: PageContext, canvas: Canvas);
-            imageElement.Draw(availableSpace: availableSpace);
+        private static ImageSize GetTargetResolution(Size availableSize, int targetDpi)
+        {
+            var scalingFactor = targetDpi / (float)DocumentSettings.DefaultRasterDpi;
+
+            return new ImageSize(
+                (int)(availableSize.Width * scalingFactor),
+                (int)(availableSize.Height * scalingFactor)
+            );
         }
     }
 }

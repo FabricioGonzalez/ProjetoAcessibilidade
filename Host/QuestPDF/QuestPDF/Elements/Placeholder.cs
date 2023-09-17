@@ -4,39 +4,31 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class Placeholder : IComponent
+    internal class Placeholder : IComponent
     {
+        public string Text { get; set; }
         private static readonly byte[] ImageData;
 
         static Placeholder()
         {
-            ImageData = Helpers.Helpers.LoadEmbeddedResource(resourceName: "QuestPDF.Resources.ImagePlaceholder.png");
+            ImageData = Helpers.Helpers.LoadEmbeddedResource("QuestPDF.Resources.ImagePlaceholder.png");
         }
 
-        public string Text
+        public void Compose(IContainer container)
         {
-            get;
-            set;
-        }
-
-        public void Compose(
-            IContainer container
-        ) =>
             container
-                .Background(color: Colors.Grey.Lighten2)
-                .Padding(value: 5)
+                .Background(Colors.Grey.Lighten2)
+                .Padding(5)
                 .AlignMiddle()
                 .AlignCenter()
-                .Element(handler: x =>
+                .Element(x =>
                 {
-                    if (string.IsNullOrWhiteSpace(value: Text))
-                    {
-                        x.MaxHeight(value: 32).Image(imageData: ImageData, scaling: ImageScaling.FitArea);
-                    }
+                    if (string.IsNullOrWhiteSpace(Text))
+                        x.MaxHeight(32).Image(ImageData).FitArea();
+                    
                     else
-                    {
-                        x.Text(text: Text).FontSize(value: 14);
-                    }
+                        x.Text(Text).FontSize(14);
                 });
+        }
     }
 }

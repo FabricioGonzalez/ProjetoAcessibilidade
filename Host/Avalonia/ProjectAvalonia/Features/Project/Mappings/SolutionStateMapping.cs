@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 
+using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.ProjectItems;
@@ -15,7 +16,7 @@ public static class SolutionStateMapping
         this SolutionItemRoot root
         , ILocationService locationService
     ) =>
-        new(locationService)
+        new(locationService,new FilePickerService())
         {
             Report = root.Report.ToSolutionReportState(),
             FilePath = root.SolutionPath
@@ -27,7 +28,7 @@ public static class SolutionStateMapping
     public static SolutionReportState ToSolutionReportState(
         this ReportItem report
     ) =>
-        new()
+        new(new FilePickerService())
         {
             SolutionName = report.SolutionName,
             ManagerInfo = report.Manager.ToManagerInfoState()
@@ -71,7 +72,7 @@ public static class SolutionStateMapping
     public static CompanyInfoState ToCompanyInfoState(
         this CompanyInfoItem companyInfo
     ) =>
-        new()
+        new(new FilePickerService())
         {
             NomeEmpresa = companyInfo.NomeEmpresa,
             Data = companyInfo.Data.DateTime,

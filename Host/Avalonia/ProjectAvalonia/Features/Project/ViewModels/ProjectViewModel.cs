@@ -44,6 +44,7 @@ public partial class ProjectViewModel
         , IProjectViewModel
 {
     private readonly EditableItemService _editableItemService;
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
     private readonly ItemsService _itemsService;
     private readonly ILocationService _locationService;
@@ -105,8 +106,9 @@ public partial class ProjectViewModel
         _itemsService = itemsService;
         _editableItemService = editableItemService;
         _locationService = locationService;
+        _editableItemsNavigationService = new();
         ProjectEditingViewModel = new ProjectEditingViewModel(solutionService: _solutionService
-            , editableItemService: editableItemService, validationRulesService: validationRulesService);
+            , editableItemService: editableItemService, validationRulesService: validationRulesService, _editableItemsNavigationService);
 
         ProjectPrintPreviewViewModel = new PreviewerViewModel();
     }
@@ -299,8 +301,6 @@ public partial class ProjectViewModel
              .InvokeAsync(
                  () =>
                  {
-
-
                      this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
                  });
     }
@@ -316,13 +316,16 @@ public partial class ProjectViewModel
             await _solutionService.CreateSolution(
                 path: result.Result.local
                 , solution: result.Result.solution);
-            Dispatcher.UIThread.Post(() =>
+
+            await ReadSolutionAndOpen(result.Result.local);
+
+           /* Dispatcher.UIThread.Post(() =>
             {
                 ProjectExplorerViewModel =
                     new ProjectExplorerViewModel(state: result.Result.solution, itemsService: _itemsService
                         , solutionService: _solutionService);
                 this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
-            });
+            });*/
         }
     }
 

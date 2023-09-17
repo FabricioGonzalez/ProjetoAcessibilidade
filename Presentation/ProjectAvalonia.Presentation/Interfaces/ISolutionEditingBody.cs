@@ -7,6 +7,6 @@ public interface ISolutionEditingBody
 {
 }
 
-public interface IEditingBody : INotifyPropertyChanged
+public interface IEditingBody : INotifyPropertyChanged,IDisposable
 {
 }

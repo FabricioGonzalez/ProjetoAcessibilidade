@@ -2,36 +2,27 @@
 
 namespace QuestPDF.Elements
 {
-    public class Section
-        : ContainerElement
-            , IStateResettable
+    internal class Section : ContainerElement, IStateResettable
     {
-        public string LocationName
+        public string SectionName { get; set; }
+        private bool IsRendered { get; set; }
+        
+        public void ResetState()
         {
-            get;
-            set;
+            IsRendered = false;
         }
-
-        private bool IsRendered
-        {
-            get;
-            set;
-        }
-
-        public void ResetState() => IsRendered = false;
-
-        public override void Draw(
-            Size availableSpace
-        )
+        
+        internal override void Draw(Size availableSpace)
         {
             if (!IsRendered)
             {
-                Canvas.DrawSection(sectionName: LocationName);
+                var targetName = PageContext.GetDocumentLocationName(SectionName);
+                Canvas.DrawSection(targetName);
                 IsRendered = true;
             }
-
-            PageContext.SetSectionPage(name: LocationName);
-            base.Draw(availableSpace: availableSpace);
+            
+            PageContext.SetSectionPage(SectionName);
+            base.Draw(availableSpace);
         }
     }
 }

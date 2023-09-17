@@ -3,20 +3,14 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class ShowEntire
-        : ContainerElement
-            , ICacheable
+    internal class ShowEntire : ContainerElement, ICacheable
     {
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
+        internal override SpacePlan Measure(Size availableSpace)
         {
-            var childMeasurement = base.Measure(availableSpace: availableSpace);
+            var childMeasurement = base.Measure(availableSpace);
 
             if (childMeasurement.Type == SpacePlanType.FullRender)
-            {
                 return childMeasurement;
-            }
 
             return SpacePlan.Wrap();
         }

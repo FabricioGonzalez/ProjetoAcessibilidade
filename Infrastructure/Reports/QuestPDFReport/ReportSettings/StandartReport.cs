@@ -26,7 +26,7 @@ public class StandardReport : IDocument
         get;
     }
 
-    public DocumentMetadata GetMetadata() =>
+    public QuestPDF.Infrastructure.DocumentMetadata GetMetadata() =>
         new()
         {
             Title = Model.Title,

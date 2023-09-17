@@ -22,8 +22,6 @@ public class EditingItemViewModel
         , string templateName = null
     )
     {
-        /*_mediator ??= Locator.Current.GetService<IMediator>();*/
-
         ItemName = itemName;
         ItemPath = itemPath;
         DisplayName = string.Join(separator: Path.DirectorySeparatorChar,
@@ -101,5 +99,10 @@ public class EditingItemViewModel
     public ReactiveCommand<Unit, Unit> SaveItemCommand
     {
         get;
+    }
+
+    public void Dispose()
+    {
+    
     }
 }

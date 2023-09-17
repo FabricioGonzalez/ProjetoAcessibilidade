@@ -1,34 +1,32 @@
 ﻿using QuestPDF.Drawing;
+using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class PageBreak
-        : Element
-            , IStateResettable
+    internal class PageBreak : Element, IStateResettable
     {
-        private bool IsRendered
+        private bool IsRendered { get; set; }
+        
+        public void ResetState()
         {
-            get;
-            set;
+            IsRendered = false;
         }
 
-        public void ResetState() => IsRendered = false;
-
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
+        internal override SpacePlan Measure(Size availableSpace)
         {
+            if (availableSpace.IsNegative())
+                return SpacePlan.Wrap();
+            
             if (IsRendered)
-            {
-                return SpacePlan.FullRender(width: 0, height: 0);
-            }
+                return SpacePlan.FullRender(0, 0);
 
-            return SpacePlan.PartialRender(size: Size.Zero);
+            return SpacePlan.PartialRender(Size.Zero);
         }
 
-        public override void Draw(
-            Size availableSpace
-        ) => IsRendered = true;
+        internal override void Draw(Size availableSpace)
+        {
+            IsRendered = true;
+        }
     }
 }

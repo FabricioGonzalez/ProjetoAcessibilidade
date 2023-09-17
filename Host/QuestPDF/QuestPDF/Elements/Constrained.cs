@@ -1,98 +1,73 @@
 using System;
+using System.Linq;
 using QuestPDF.Drawing;
 using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class Constrained
-        : ContainerElement
-            , ICacheable
+    internal class Constrained : ContainerElement, ICacheable, IContentDirectionAware
     {
-        public float? MinWidth
-        {
-            get;
-            set;
-        }
+        public ContentDirection ContentDirection { get; set; }
+        
+        public float? MinWidth { get; set; }
+        public float? MaxWidth { get; set; }
 
-        public float? MaxWidth
-        {
-            get;
-            set;
-        }
+        public float? MinHeight { get; set; }
+        public float? MaxHeight { get; set; }
 
-        public float? MinHeight
-        {
-            get;
-            set;
-        }
-
-        public float? MaxHeight
-        {
-            get;
-            set;
-        }
-
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
+        internal override SpacePlan Measure(Size availableSpace)
         {
             if (MinWidth > availableSpace.Width + Size.Epsilon)
-            {
                 return SpacePlan.Wrap();
-            }
-
+            
             if (MinHeight > availableSpace.Height + Size.Epsilon)
-            {
                 return SpacePlan.Wrap();
-            }
-
+            
             var available = new Size(
-                width: Min(x: MaxWidth, y: availableSpace.Width),
-                height: Min(x: MaxHeight, y: availableSpace.Height));
+                Min(MaxWidth, availableSpace.Width),
+                Min(MaxHeight, availableSpace.Height));
 
-            var measurement = base.Measure(availableSpace: available);
+            var measurement = base.Measure(available);
 
             if (measurement.Type == SpacePlanType.Wrap)
-            {
                 return SpacePlan.Wrap();
-            }
-
+            
             var actualSize = new Size(
-                width: Max(x: MinWidth, y: measurement.Width),
-                height: Max(x: MinHeight, y: measurement.Height));
-
+                Max(MinWidth, measurement.Width),
+                Max(MinHeight, measurement.Height));
+            
             if (measurement.Type == SpacePlanType.FullRender)
-            {
-                return SpacePlan.FullRender(size: actualSize);
-            }
-
+                return SpacePlan.FullRender(actualSize);
+            
             if (measurement.Type == SpacePlanType.PartialRender)
-            {
-                return SpacePlan.PartialRender(size: actualSize);
-            }
-
+                return SpacePlan.PartialRender(actualSize);
+            
             throw new NotSupportedException();
         }
-
-        public override void Draw(
-            Size availableSpace
-        )
+        
+        internal override void Draw(Size availableSpace)
         {
-            var available = new Size(
-                width: Min(x: MaxWidth, y: availableSpace.Width),
-                height: Min(x: MaxHeight, y: availableSpace.Height));
-
-            Child?.Draw(availableSpace: available);
+            var size = new Size(
+                Min(MaxWidth, availableSpace.Width),
+                Min(MaxHeight, availableSpace.Height));
+            
+            var offset = ContentDirection == ContentDirection.LeftToRight
+                ? Position.Zero
+                : new Position(availableSpace.Width - size.Width, 0);
+            
+            Canvas.Translate(offset);
+            base.Draw(size);
+            Canvas.Translate(offset.Reverse());
         }
-
-        private static float Min(
-            float? x
-            , float y
-        ) => x.HasValue ? Math.Min(val1: x.Value, val2: y) : y;
-
-        private static float Max(
-            float? x
-            , float y
-        ) => x.HasValue ? Math.Max(val1: x.Value, val2: y) : y;
+        
+        private static float Min(float? x, float y)
+        {
+            return x.HasValue ? Math.Min(x.Value, y) : y; 
+        }
+        
+        private static float Max(float? x, float y)
+        {
+            return x.HasValue ? Math.Max(x.Value, y) : y;
+        }
     }
 }

@@ -19,13 +19,16 @@ public class SolutionState : ReactiveObject
 
     private string _logoPath = "";
 
-    private SolutionReportState _report = new();
+    private SolutionReportState _report;
 
     public SolutionState(
-        ILocationService locationService
+        ILocationService locationService,
+        IFilePickerService fileService
     )
     {
         _locationService = locationService;
+
+        _report = new(fileService);
 
         this.WhenAnyValue(it => it.Report.CompanyInfo.Endereco.Uf)
             .Where(it => !string.IsNullOrWhiteSpace(it))

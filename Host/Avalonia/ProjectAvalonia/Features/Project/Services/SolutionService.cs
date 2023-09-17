@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Common;
 
 using ProjectAvalonia.Common.Logging;
+using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Features.Project.Mappings;
 using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
@@ -37,7 +38,7 @@ public class SolutionService
             {
                 Logger.LogError(fail);
 
-                return new SolutionState(_locationService);
+                return new SolutionState(_locationService,new FilePickerService());
             });
     }
 
@@ -58,6 +59,13 @@ public class SolutionService
     public async Task SaveSolution(
         string path
         , SolutionState solution
-    ) =>
+    )
+    {
+        if (!path.Contains($"{solution.FileName}{Constants.AppProjectSolutionExtension}"))
+        {
+            path = Path.Combine(path, $"{solution.FileName}{Constants.AppProjectSolutionExtension}");
+        }
+
         await _solutionDatasource.SaveSolution(solutionPath: path, dataToWrite: solution.ToSolutionItemRoot());
+    }
 }

@@ -39,4 +39,8 @@ public class EditingBodyViewModel
     {
         get;
     }
+
+    public void Dispose()
+    {
+    }
 }

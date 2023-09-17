@@ -48,7 +48,9 @@ public class ProjectExplorerViewModel
             , itemPath: Path.Combine(path1: Path.GetDirectoryName(state.FilePath), path2: "conclusion.prjc")
             , name: "Conclusão", templateName: "");
 
-        SolutionRootItem.LocationItems = new ObservableCollection<ISolutionLocationItem>(SolutionState.LocationItems
+        SolutionRootItem.LocationItems = new ObservableCollection<ISolutionLocationItem>(
+            SolutionState
+            .LocationItems
             .Select(
                 model =>
                 {

@@ -1,0 +1,145 @@
+<UserControl
+	x:Class="ProjectAvalonia.Features.Project.Views.Components.SolutionBody.ClientSection"
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:states="clr-namespace:ProjectAvalonia.Presentation.States;assembly=ProjectAvalonia.Presentation"
+	Padding="8"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+	x:CompileBindings="True"
+	x:DataType="states:SolutionState"
+	mc:Ignorable="d">
+	<Grid ColumnDefinitions="* * * 12 * * *" RowDefinitions="* * * * *">
+		<StackPanel
+			Grid.Row="0"
+			Grid.Column="0"
+			Grid.ColumnSpan="3"
+			Spacing="4">
+			<TextBlock Classes="header_title" Text="Nome da Empresa" />
+			<TextBox Text="{Binding Report.CompanyInfo.NomeEmpresa}" />
+		</StackPanel>
+		<StackPanel
+			Grid.Row="0"
+			Grid.Column="4"
+			Grid.ColumnSpan="3"
+			Spacing="4">
+			<TextBlock Classes="header_title" Text="Email da Empresa" />
+			<TextBox />
+		</StackPanel>
+		<StackPanel
+			Grid.Row="1"
+			Grid.Column="0"
+			Grid.ColumnSpan="3"
+			Spacing="4">
+			<TextBlock Classes="header_title" Text="Logo da Empresa" />
+			<TextBox IsReadOnly="True" Text="{Binding Report.CompanyInfo.Logo}">
+				<TextBox.InnerRightContent>
+					<controls:IconButton
+						Grid.Column="1"
+						Width="28"
+						Height="28"
+						Command="{Binding Report.CompanyInfo.SelectLogoCompanyCommand}"
+						Icon="{StaticResource file_open_24_rounded}"
+						IconSize="16" />
+				</TextBox.InnerRightContent>
+			</TextBox>
+		</StackPanel>
+		<StackPanel
+			Grid.Row="1"
+			Grid.Column="4"
+			Grid.ColumnSpan="3"
+			Spacing="4">
+			<TextBlock Classes="header_title" Text="Telefone da Empresa" />
+			<TextBox />
+		</StackPanel>
+
+		<Grid
+			Grid.Row="2"
+			Grid.Column="0"
+			Grid.ColumnSpan="7"
+			ColumnDefinitions="1*"
+			RowDefinitions="32,1*">
+			<SelectableTextBlock
+				Classes="header_title"
+				Focusable="False"
+				Text="Endereço" />
+
+			<StackPanel Grid.Row="1">
+				<Grid ColumnDefinitions="0.8* 4 0.3* 4 0.6*">
+					<StackPanel Spacing="4">
+						<SelectableTextBlock
+							Classes="header_title"
+							Focusable="False"
+							Text="Logradouro" />
+						<TextBox Text="{Binding Report.CompanyInfo.Endereco.Logradouro}" />
+					</StackPanel>
+					<StackPanel Grid.Column="2" Spacing="4">
+						<SelectableTextBlock
+							Classes="header_title"
+							Focusable="False"
+							Text="Número" />
+						<TextBox Text="{Binding Report.CompanyInfo.Endereco.Numero}" />
+					</StackPanel>
+					<StackPanel Grid.Column="4" Spacing="4">
+						<SelectableTextBlock
+							Classes="header_title"
+							Focusable="False"
+							Text="Bairro" />
+						<TextBox Text="{Binding Report.CompanyInfo.Endereco.Bairro}" />
+					</StackPanel>
+				</Grid>
+				<Grid ColumnDefinitions="1* 8 0.4* 8 1*">
+					<StackPanel Spacing="4">
+						<SelectableTextBlock
+							Classes="header_title"
+							Focusable="False"
+							Text="Estado" />
+						<ComboBox
+							Name="StateContainer"
+							HorizontalAlignment="Stretch"
+							BorderBrush="Transparent"
+							BorderThickness="0"
+							DisplayMemberBinding="{Binding Name}"
+							IsTextSearchEnabled="True"
+							ItemsSource="{Binding SearchSolutionTexts.UFs}"
+							SelectedItem="{Binding SearchSolutionTexts.SelectedUf}"
+							SelectedValueBinding="{Binding ShortName}"
+							TextSearch.Text="{Binding SearchSolutionTexts.SearchUf}" />
+					</StackPanel>
+					<StackPanel Grid.Column="2" Spacing="4">
+						<SelectableTextBlock
+							Classes="header_title"
+							Focusable="False"
+							Text="CEP" />
+						<MaskedTextBox
+							HorizontalAlignment="Stretch"
+							IsUndoEnabled="True"
+							Mask="00000-000"
+							Text="{Binding Report.CompanyInfo.Endereco.Cep}" />
+					</StackPanel>
+					<StackPanel Grid.Column="4" Spacing="4">
+						<SelectableTextBlock
+							Classes="header_title"
+							Focusable="False"
+							Text="Cidade" />
+						<ComboBox
+							Name="CityContainer"
+							HorizontalAlignment="Stretch"
+							BorderBrush="Transparent"
+							BorderThickness="0"
+							DisplayMemberBinding="{Binding Nome}"
+							IsTextSearchEnabled="True"
+							ItemsSource="{Binding SearchSolutionTexts.Cidades}"
+							SelectedItem="{Binding SearchSolutionTexts.SelectedCidade}"
+							SelectedValue="{Binding Report.CompanyInfo.Endereco.Cidade}"
+							SelectedValueBinding="{Binding Nome}"
+							TextSearch.Text="{Binding SearchSolutionTexts.SearchCidade}" />
+					</StackPanel>
+				</Grid>
+			</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>

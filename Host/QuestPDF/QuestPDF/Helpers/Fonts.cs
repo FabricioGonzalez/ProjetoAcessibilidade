@@ -1,5 +1,8 @@
 ﻿namespace QuestPDF.Helpers
 {
+    /// <summary>
+    /// Contains a collection of fonts defined by the PDF standard.
+    /// </summary>
     public class Fonts
     {
         public const string Arial = "Arial";
@@ -13,6 +16,7 @@
         public const string CourierNew = "Courier New";
         public const string Georgia = "Georgia";
         public const string Impact = "Impact";
+        public const string Lato = "Lato";
         public const string LucidaConsole = "Lucida Console";
         public const string SegoeSD = "Segoe SD";
         public const string SegoeUI = "Segoe UI";

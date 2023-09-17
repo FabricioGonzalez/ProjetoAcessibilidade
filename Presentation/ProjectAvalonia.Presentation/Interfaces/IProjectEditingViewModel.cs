@@ -12,7 +12,7 @@ public interface IProjectEditingViewModel : INotifyPropertyChanged
         get;
     }
 
-    public ObservableCollection<IEditingItemViewModel> EditingItems
+    public ReadOnlyObservableCollection<IEditingItemViewModel> EditingItems
     {
         get;
     }

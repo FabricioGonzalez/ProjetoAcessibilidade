@@ -3,30 +3,12 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Drawing.Proxy
 {
-    public class DebugStackItem
+    internal class DebugStackItem
     {
-        public IElement Element
-        {
-            get;
-            set;
-        }
+        public IElement Element { get; internal set; }
+        public Size AvailableSpace { get; internal set; }
+        public SpacePlan SpacePlan { get; internal set; }
 
-        public Size AvailableSpace
-        {
-            get;
-            set;
-        }
-
-        public SpacePlan SpacePlan
-        {
-            get;
-            set;
-        }
-
-        public ICollection<DebugStackItem> Stack
-        {
-            get;
-            set;
-        } = new List<DebugStackItem>();
+        public ICollection<DebugStackItem> Stack { get; internal set; } = new List<DebugStackItem>();
     }
 }

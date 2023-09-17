@@ -14,13 +14,13 @@ public class DesignTimeProjectEditingViewModel
         get;
     } = new DesignTimeEditingItemViewModel();
 
-    public ObservableCollection<IEditingItemViewModel> EditingItems
+    public ReadOnlyObservableCollection<IEditingItemViewModel> EditingItems
     {
         get;
-    } = new()
+    }/* = new()
     {
         new DesignTimeEditingItemViewModel(), new DesignTimeEditingItemViewModel()
-    };
+    };*/
 
     public ReactiveCommand<IItemViewModel, Unit> AddItemToEdit
     {

@@ -3,41 +3,37 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class Unconstrained
-        : ContainerElement
-            , ICacheable
+    internal class Unconstrained : ContainerElement, IContentDirectionAware, ICacheable
     {
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
+        public ContentDirection ContentDirection { get; set; }
+        
+        internal override SpacePlan Measure(Size availableSpace)
         {
-            var childSize = base.Measure(availableSpace: Size.Max);
-
+            var childSize = base.Measure(Size.Max);
+            
             if (childSize.Type == SpacePlanType.PartialRender)
-            {
-                return SpacePlan.PartialRender(width: 0, height: 0);
-            }
-
+                return SpacePlan.PartialRender(0, 0);
+            
             if (childSize.Type == SpacePlanType.FullRender)
-            {
-                return SpacePlan.FullRender(width: 0, height: 0);
-            }
-
+                return SpacePlan.FullRender(0, 0);
+            
             return childSize;
         }
 
-        public override void Draw(
-            Size availableSpace
-        )
+        internal override void Draw(Size availableSpace)
         {
-            var measurement = base.Measure(availableSpace: Size.Max);
-
+            var measurement = base.Measure(Size.Max);
+            
             if (measurement.Type == SpacePlanType.Wrap)
-            {
                 return;
-            }
 
-            base.Draw(availableSpace: measurement);
+            var translate = ContentDirection == ContentDirection.RightToLeft
+                ? new Position(-measurement.Width, 0)
+                : Position.Zero;
+            
+            Canvas.Translate(translate);
+            base.Draw(measurement);
+            Canvas.Translate(translate.Reverse());
         }
     }
 }

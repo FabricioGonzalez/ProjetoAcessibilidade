@@ -35,7 +35,9 @@ public class SectionTemplate : IComponent
                 {
                     columns.RelativeColumn();
                 });
-                Model.Groups.IterateOn(group =>
+                Model
+                .Groups
+                .IterateOn(group =>
                 {
                     root.Cell()
                         .Border(0.6f)
@@ -92,7 +94,9 @@ public class SectionTemplate : IComponent
                                                                         .Item()
                                                                         .Column(items =>
                                                                         {
-                                                                            _ = item.Parts.IterateOn(item =>
+                                                                            item
+                                                                            .Parts
+                                                                            .IterateOn(item =>
                                                                             {
                                                                                 items
                                                                                     .Item()
@@ -197,23 +201,26 @@ public class SectionTemplate : IComponent
                                                     });
                                                 column
                                                     .Item()
-                                                    .Element(x => LawItemsElement(container: x, models: item.Laws));
+                                                    .Element(x =>
+                                                    LawItemsElement(container: x, models: item.Laws));
 
-                                                if (item.Images.Any() 
-                                                && item.Images.All(it => !string.IsNullOrWhiteSpace(it.ImagePath)))
+                                                if (item.Images.Any())
                                                 {
                                                     column
                                                         .Item()
                                                         .ExtendHorizontal()
-                                                        .MaxHeight(120)
                                                         .Grid(grid =>
                                                         {
                                                             grid.Spacing(5);
                                                             grid.Columns(2);
 
-                                                            item.Images.IterateOn(item =>
+                                                            item
+                                                            .Images
+                                                            .Where(it =>
+                                               !string.IsNullOrWhiteSpace(it.ImagePath))
+                                                            .IterateOn(item =>
                                                             {
-                                                                var image = new ReportImage
+                                                                var image = new ReportImage(160,160)
                                                                 {
                                                                     ImagePath = item.ImagePath
                                                                     ,
@@ -221,8 +228,8 @@ public class SectionTemplate : IComponent
                                                                 };
                                                                 grid
                                                                     .Item()
-                                                                    .AlignCenter()
-                                                                    .Element(it => it.Component(image));
+                                                                    .Element(
+                                                                    it => it.Component(image));
                                                             });
                                                         });
                                                 }
@@ -262,7 +269,7 @@ public class SectionTemplate : IComponent
 
                 _ = models.IterateOn(item =>
                 {
-                    var image = new ReportImage
+                    var image = new ReportImage(160,160)
                     {
                         ImagePath = item.ImagePath,
                         Observation = item.Observation
@@ -282,7 +289,7 @@ public class SectionTemplate : IComponent
             .ExtendHorizontal()
         .Column(col =>
         {
-            col.Item().LabelCell().Text("Legislação").Weight(FontWeight.SemiBold);
+            col.Item().LabelCell().Text("Legislação").SemiBold();
             col.Item().Column(column =>
             {
                 models.IterateOn(item =>
@@ -296,7 +303,7 @@ public class SectionTemplate : IComponent
                     .Background(Colors.LightBlue.Lighten2)
                     .PaddingHorizontal(2)
                     .Text(item.LawContent)
-                    .Weight(FontWeight.SemiBold);
+                    .SemiBold();
                 });
             });
         });

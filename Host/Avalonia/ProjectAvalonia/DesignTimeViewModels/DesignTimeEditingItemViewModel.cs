@@ -59,4 +59,9 @@ public class DesignTimeEditingItemViewModel
     {
         get;
     }
+
+    public void Dispose()
+    {
+    
+    }
 }

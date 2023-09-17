@@ -1,6 +1,6 @@
 ﻿namespace QuestPDF.Infrastructure
 {
-    public interface IStateResettable
+    internal interface IStateResettable
     {
         void ResetState();
     }

@@ -236,7 +236,7 @@ public partial class PreviewerViewModel : RoutableViewModel
             // get a stream over the encoded data
             var stream = encoded.AsStream();
 
-            var bitmap = Image.FromStream(stream);
+            var bitmap = System.Drawing.Image.FromStream(stream);
 
             ev.Graphics.DrawImage(image: bitmap, x: 0, y: 0);
             PageCounter++;

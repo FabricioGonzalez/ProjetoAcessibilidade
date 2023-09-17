@@ -5,33 +5,21 @@ using SkiaSharp;
 
 namespace QuestPDF.Drawing
 {
-    public class ImageCanvas : SkiaCanvasBase
+    internal class ImageCanvas : SkiaCanvasBase
     {
-        public ImageCanvas(
-            DocumentMetadata metadata
-        )
+        private ImageGenerationSettings Settings { get; }
+        private SKSurface Surface { get; set; }
+
+        internal ICollection<byte[]> Images { get; } = new List<byte[]>();
+        
+        public ImageCanvas(ImageGenerationSettings settings)
         {
-            Metadata = metadata;
+            Settings = settings;
         }
-
-        private DocumentMetadata Metadata
-        {
-            get;
-        }
-
-        private SKSurface Surface
-        {
-            get;
-            set;
-        }
-
-        public ICollection<byte[]> Images
-        {
-            get;
-        } = new List<byte[]>();
-
+        
         public override void BeginDocument()
         {
+            
         }
 
         public override void EndDocument()
@@ -40,26 +28,23 @@ namespace QuestPDF.Drawing
             Surface?.Dispose();
         }
 
-        public override void BeginPage(
-            Size size
-        )
+        public override void BeginPage(Size size)
         {
-            var scalingFactor = Metadata.RasterDpi / (float)PageSizes.PointsPerInch;
-            var imageInfo = new SKImageInfo(width: (int)(size.Width * scalingFactor)
-                , height: (int)(size.Height * scalingFactor));
-
-            Surface = SKSurface.Create(info: imageInfo);
+            var scalingFactor = Settings.RasterDpi / (float) PageSizes.PointsPerInch;
+            var imageInfo = new SKImageInfo((int) (size.Width * scalingFactor), (int) (size.Height * scalingFactor));
+            
+            Surface = SKSurface.Create(imageInfo);
             Canvas = Surface.Canvas;
-
-            Canvas.Scale(s: scalingFactor);
+            
+            Canvas.Scale(scalingFactor);
         }
 
         public override void EndPage()
         {
             Canvas.Save();
-            var image = Surface.Snapshot().Encode(format: SKEncodedImageFormat.Png, quality: 100).ToArray();
-            Images.Add(item: image);
-
+            var image = Surface.Snapshot().Encode(Settings.ImageFormat.ToSkImageFormat(), Settings.ImageCompressionQuality.ToQualityValue()).ToArray();
+            Images.Add(image);
+            
             Canvas.Dispose();
             Surface.Dispose();
         }

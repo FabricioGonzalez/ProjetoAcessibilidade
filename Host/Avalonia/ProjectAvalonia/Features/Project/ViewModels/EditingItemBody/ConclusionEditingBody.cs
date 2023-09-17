@@ -14,4 +14,8 @@ public class ConclusionEditingBody
         get => _conclusionBody;
         set => this.RaiseAndSetIfChanged(ref _conclusionBody, value);
     }
+
+    public void Dispose()
+    {
+    }
 }

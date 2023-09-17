@@ -8,194 +8,176 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements.Text
 {
-    public class TextBlock
-        : Element
-            , IStateResettable
+    internal class TextBlock : Element, IStateResettable, IContentDirectionAware
     {
-        public HorizontalAlignment Alignment
-        {
-            get;
-            set;
-        } = HorizontalAlignment.Left;
+        public ContentDirection ContentDirection { get; set; }
+        
+        public HorizontalAlignment? Alignment { get; set; }
+        public List<ITextBlockItem> Items { get; set; } = new List<ITextBlockItem>();
 
-        public List<ITextBlockItem> Items
-        {
-            get;
-            set;
-        } = new();
+        public string Text => string.Join(" ", Items.OfType<TextBlockSpan>().Select(x => x.Text));
 
-        public string Text => string.Join(separator: " "
-            , values: Items.Where(predicate: x => x is TextBlockSpan).Cast<TextBlockSpan>()
-                .Select(selector: x => x.Text));
+        private Queue<ITextBlockItem> RenderingQueue { get; set; }
+        private int CurrentElementIndex { get; set; }
 
-        private Queue<ITextBlockItem> RenderingQueue
-        {
-            get;
-            set;
-        }
-
-        private int CurrentElementIndex
-        {
-            get;
-            set;
-        }
+        private bool FontFallbackApplied { get; set; } = false;
 
         public void ResetState()
         {
-            RenderingQueue = new Queue<ITextBlockItem>(collection: Items);
+            ApplyFontFallback();
+            InitializeQueue();
             CurrentElementIndex = 0;
+
+            void InitializeQueue()
+            {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+                if (RenderingQueue == null)
+                {
+                    RenderingQueue = new Queue<ITextBlockItem>(Items);
+                    return;
+                }
+                
+                RenderingQueue.Clear();
+            
+                foreach (var item in Items)
+                    RenderingQueue.Enqueue(item);
+            }
+
+            void ApplyFontFallback()
+            {
+                if (FontFallbackApplied)
+                    return;
+
+                Items = Items.ApplyFontFallback().ToList();
+                FontFallbackApplied = true;
+            }
+        }
+        
+        void SetDefaultAlignment()
+        {
+            if (Alignment.HasValue)
+                return;
+
+            Alignment = ContentDirection == ContentDirection.LeftToRight
+                ? HorizontalAlignment.Left
+                : HorizontalAlignment.Right;
         }
 
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
+        internal override SpacePlan Measure(Size availableSpace)
         {
+            SetDefaultAlignment();
+            
             if (!RenderingQueue.Any())
-            {
-                return SpacePlan.FullRender(size: Size.Zero);
-            }
-
-            var lines = DivideTextItemsIntoLines(availableWidth: availableSpace.Width
-                , availableHeight: availableSpace.Height).ToList();
+                return SpacePlan.FullRender(Size.Zero);
+            
+            var lines = DivideTextItemsIntoLines(availableSpace.Width, availableSpace.Height).ToList();
 
             if (!lines.Any())
-            {
                 return SpacePlan.Wrap();
-            }
-
-            var width = lines.Max(selector: x => x.Width);
-            var height = lines.Sum(selector: x => x.LineHeight);
+            
+            var width = lines.Max(x => x.Width);
+            var height = lines.Sum(x => x.LineHeight);
 
             if (width > availableSpace.Width + Size.Epsilon || height > availableSpace.Height + Size.Epsilon)
-            {
                 return SpacePlan.Wrap();
-            }
 
             var fullyRenderedItemsCount = lines
-                .SelectMany(selector: x => x.Elements)
-                .GroupBy(keySelector: x => x.Item)
-                .Count(predicate: x => x.Any(predicate: y => y.Measurement.IsLast));
-
+                .SelectMany(x => x.Elements)
+                .GroupBy(x => x.Item)
+                .Count(x => x.Any(y => y.Measurement.IsLast));
+            
             if (fullyRenderedItemsCount == RenderingQueue.Count)
-            {
-                return SpacePlan.FullRender(width: width, height: height);
-            }
-
-            return SpacePlan.PartialRender(width: width, height: height);
+                return SpacePlan.FullRender(width, height);
+            
+            return SpacePlan.PartialRender(width, height);
         }
 
-        public override void Draw(
-            Size availableSpace
-        )
+        internal override void Draw(Size availableSpace)
         {
-            var lines = DivideTextItemsIntoLines(availableWidth: availableSpace.Width
-                , availableHeight: availableSpace.Height).ToList();
-
+            SetDefaultAlignment();
+            
+            var lines = DivideTextItemsIntoLines(availableSpace.Width, availableSpace.Height).ToList();
+            
             if (!lines.Any())
-            {
                 return;
-            }
-
-            var heightOffset = 0f;
-            var widthOffset = 0f;
+            
+            var topOffset = 0f;
 
             foreach (var line in lines)
             {
-                widthOffset = 0f;
+                var leftOffset = GetAlignmentOffset(line.Width);
 
-                var alignmentOffset = GetAlignmentOffset(lineWidth: line.Width);
-
-                Canvas.Translate(vector: new Position(x: alignmentOffset, y: 0));
-                Canvas.Translate(vector: new Position(x: 0, y: -line.Ascent));
-
-                foreach (var item in line.Elements)
+                foreach (var item in line.Elements.Where(x => x.Measurement.Width > 0.0))
                 {
                     var textDrawingRequest = new TextDrawingRequest
                     {
-                        Canvas = Canvas, PageContext = PageContext, StartIndex = item.Measurement.StartIndex
-                        , EndIndex = item.Measurement.EndIndex
-                        , TextSize = new Size(width: item.Measurement.Width, height: line.LineHeight)
-                        , TotalAscent = line.Ascent
+                        Canvas = Canvas,
+                        PageContext = PageContext,
+                        
+                        StartIndex = item.Measurement.StartIndex,
+                        EndIndex = item.Measurement.EndIndex,
+                        
+                        TextSize = new Size(item.Measurement.Width, line.LineHeight),
+                        TotalAscent = line.Ascent
                     };
-
-                    item.Item.Draw(request: textDrawingRequest);
-
-                    Canvas.Translate(vector: new Position(x: item.Measurement.Width, y: 0));
-                    widthOffset += item.Measurement.Width;
+                
+                    var canvasOffset = ContentDirection == ContentDirection.LeftToRight
+                        ? new Position(leftOffset, topOffset - line.Ascent)
+                        : new Position(availableSpace.Width - leftOffset - item.Measurement.Width, topOffset - line.Ascent);
+                    
+                    Canvas.Translate(canvasOffset);
+                    item.Item.Draw(textDrawingRequest);
+                    Canvas.Translate(canvasOffset.Reverse());
+                    
+                    leftOffset += item.Measurement.Width;
                 }
-
-                Canvas.Translate(vector: new Position(x: -alignmentOffset, y: 0));
-                Canvas.Translate(vector: new Position(x: -line.Width, y: line.Ascent));
-                Canvas.Translate(vector: new Position(x: 0, y: line.LineHeight));
-
-                heightOffset += line.LineHeight;
+                
+                topOffset += line.LineHeight;
             }
 
-            Canvas.Translate(vector: new Position(x: 0, y: -heightOffset));
-
             lines
-                .SelectMany(selector: x => x.Elements)
-                .GroupBy(keySelector: x => x.Item)
-                .Where(predicate: x => x.Any(predicate: y => y.Measurement.IsLast))
-                .Select(selector: x => x.Key)
+                .SelectMany(x => x.Elements)
+                .GroupBy(x => x.Item)
+                .Where(x => x.Any(y => y.Measurement.IsLast))
+                .Select(x => x.Key)
                 .ToList()
-                .ForEach(action: x => RenderingQueue.Dequeue());
+                .ForEach(x => RenderingQueue.Dequeue());
 
             var lastElementMeasurement = lines.Last().Elements.Last().Measurement;
             CurrentElementIndex = lastElementMeasurement.IsLast ? 0 : lastElementMeasurement.NextIndex;
-
+            
             if (!RenderingQueue.Any())
-            {
                 ResetState();
-            }
-
-            float GetAlignmentOffset(
-                float lineWidth
-            )
+            
+            float GetAlignmentOffset(float lineWidth)
             {
-                if (Alignment == HorizontalAlignment.Left)
-                {
-                    return 0;
-                }
-
                 var emptySpace = availableSpace.Width - lineWidth;
 
-                if (Alignment == HorizontalAlignment.Right)
+                return Alignment switch
                 {
-                    return emptySpace;
-                }
-
-                if (Alignment == HorizontalAlignment.Center)
-                {
-                    return emptySpace / 2;
-                }
-
-                throw new ArgumentException();
+                    HorizontalAlignment.Left => ContentDirection == ContentDirection.LeftToRight ? 0 : emptySpace,
+                    HorizontalAlignment.Center => emptySpace / 2,
+                    HorizontalAlignment.Right => ContentDirection == ContentDirection.LeftToRight ? emptySpace : 0,
+                    _ => 0
+                };
             }
         }
 
-        public IEnumerable<TextLine> DivideTextItemsIntoLines(
-            float availableWidth
-            , float availableHeight
-        )
+        public IEnumerable<TextLine> DivideTextItemsIntoLines(float availableWidth, float availableHeight)
         {
-            var queue = new Queue<ITextBlockItem>(collection: RenderingQueue);
+            var queue = new Queue<ITextBlockItem>(RenderingQueue);
             var currentItemIndex = CurrentElementIndex;
             var currentHeight = 0f;
 
             while (queue.Any())
             {
                 var line = GetNextLine();
-
+                
                 if (!line.Elements.Any())
-                {
                     yield break;
-                }
-
+                
                 if (currentHeight + line.LineHeight > availableHeight + Size.Epsilon)
-                {
                     yield break;
-                }
 
                 currentHeight += line.LineHeight;
                 yield return line;
@@ -206,48 +188,48 @@ namespace QuestPDF.Elements.Text
                 var currentWidth = 0f;
 
                 var currentLineElements = new List<TextLineElement>();
-
+            
                 while (true)
                 {
                     if (!queue.Any())
-                    {
                         break;
-                    }
 
                     var currentElement = queue.Peek();
-
+                    
                     var measurementRequest = new TextMeasurementRequest
                     {
-                        Canvas = Canvas, PageContext = PageContext, StartIndex = currentItemIndex
-                        , AvailableWidth = availableWidth - currentWidth
-                        , IsFirstElementInLine = !currentLineElements.Any()
+                        Canvas = Canvas,
+                        PageContext = PageContext,
+                        
+                        StartIndex = currentItemIndex,
+                        AvailableWidth = availableWidth - currentWidth,
+                        
+                        IsFirstElementInBlock = currentElement == Items.First(),
+                        IsFirstElementInLine = !currentLineElements.Any()
                     };
-
-                    var measurementResponse = currentElement.Measure(request: measurementRequest);
-
+                
+                    var measurementResponse = currentElement.Measure(measurementRequest);
+                
                     if (measurementResponse == null)
-                    {
                         break;
-                    }
-
-                    currentLineElements.Add(item: new TextLineElement
+                    
+                    currentLineElements.Add(new TextLineElement
                     {
-                        Item = currentElement, Measurement = measurementResponse
+                        Item = currentElement,
+                        Measurement = measurementResponse
                     });
 
                     currentWidth += measurementResponse.Width;
                     currentItemIndex = measurementResponse.NextIndex;
-
+                    
                     if (!measurementResponse.IsLast)
-                    {
                         break;
-                    }
 
                     currentItemIndex = 0;
                     queue.Dequeue();
                 }
 
-                return TextLine.From(elements: currentLineElements);
+                return TextLine.From(currentLineElements);
             }
         }
     }

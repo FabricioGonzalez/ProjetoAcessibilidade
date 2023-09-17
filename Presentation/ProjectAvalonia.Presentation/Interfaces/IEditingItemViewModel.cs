@@ -4,7 +4,7 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface IEditingItemViewModel : INotifyPropertyChanged
+public interface IEditingItemViewModel : INotifyPropertyChanged,IDisposable
 {
     public string ItemName
     {

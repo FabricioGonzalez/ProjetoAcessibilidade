@@ -1,23 +1,23 @@
 using QuestPDF.Drawing;
+using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class Empty : Element
+    internal class Empty : Element
     {
-        public static Empty Instance
+        internal static Empty Instance { get; } = new Empty();
+        
+        internal override SpacePlan Measure(Size availableSpace)
         {
-            get;
-        } = new();
+            return availableSpace.IsNegative() 
+                ? SpacePlan.Wrap() 
+                : SpacePlan.FullRender(0, 0);
+        }
 
-        public override SpacePlan Measure(
-            Size availableSpace
-        ) => SpacePlan.FullRender(width: 0, height: 0);
-
-        public override void Draw(
-            Size availableSpace
-        )
+        internal override void Draw(Size availableSpace)
         {
+            
         }
     }
 }

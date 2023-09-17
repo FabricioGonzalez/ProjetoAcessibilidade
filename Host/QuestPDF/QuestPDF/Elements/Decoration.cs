@@ -2,151 +2,116 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using QuestPDF.Drawing;
+using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class DecorationItemRenderingCommand
+    internal class DecorationItemRenderingCommand
     {
-        public Element Element
-        {
-            get;
-            set;
-        }
-
-        public SpacePlan Measurement
-        {
-            get;
-            set;
-        }
-
-        public Position Offset
-        {
-            get;
-            set;
-        }
+        public Element Element { get; set; }
+        public SpacePlan Measurement { get; set; }
+        public Position Offset { get; set; }
     }
-
-    public class Decoration
-        : Element
-            , ICacheable
+    
+    internal class Decoration : Element, ICacheable, IContentDirectionAware
     {
-        public Element Before
-        {
-            get;
-            set;
-        } = new Empty();
+        public ContentDirection ContentDirection { get; set; }
+        
+        internal Element Before { get; set; } = new Empty();
+        internal Element Content { get; set; } = new Empty();
+        internal Element After { get; set; } = new Empty();
 
-        public Element Content
-        {
-            get;
-            set;
-        } = new Empty();
-
-        public Element After
-        {
-            get;
-            set;
-        } = new Empty();
-
-        public override IEnumerable<Element?> GetChildren()
+        internal override IEnumerable<Element?> GetChildren()
         {
             yield return Before;
             yield return Content;
             yield return After;
         }
-
-        public override void CreateProxy(
-            Func<Element?, Element?> create
-        )
+        
+        internal override void CreateProxy(Func<Element?, Element?> create)
         {
-            Before = create(arg: Before);
-            Content = create(arg: Content);
-            After = create(arg: After);
+            Before = create(Before);
+            Content = create(Content);
+            After = create(After);
         }
 
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
+        internal override SpacePlan Measure(Size availableSpace)
         {
-            var renderingCommands = PlanLayout(availableSpace: availableSpace).ToList();
+            var renderingCommands = PlanLayout(availableSpace).ToList();
 
-            if (renderingCommands.Any(predicate: x => x.Measurement.Type == SpacePlanType.Wrap))
-            {
+            if (renderingCommands.Any(x => x.Measurement.Type == SpacePlanType.Wrap))
                 return SpacePlan.Wrap();
-            }
 
-            var width = renderingCommands.Max(selector: x => x.Measurement.Width);
-            var height = renderingCommands.Sum(selector: x => x.Measurement.Height);
-            var size = new Size(width: width, height: height);
-
+            var width = renderingCommands.Max(x => x.Measurement.Width);
+            var height = renderingCommands.Sum(x => x.Measurement.Height);
+            var size = new Size(width, height);
+            
             if (width > availableSpace.Width + Size.Epsilon || height > availableSpace.Height + Size.Epsilon)
-            {
                 return SpacePlan.Wrap();
-            }
-
-            var willBeFullyRendered =
-                renderingCommands.All(predicate: x => x.Measurement.Type == SpacePlanType.FullRender);
+            
+            var willBeFullyRendered = renderingCommands.All(x => x.Measurement.Type == SpacePlanType.FullRender);
 
             return willBeFullyRendered
-                ? SpacePlan.FullRender(size: size)
-                : SpacePlan.PartialRender(size: size);
+                ? SpacePlan.FullRender(size)
+                : SpacePlan.PartialRender(size);
         }
 
-        public override void Draw(
-            Size availableSpace
-        )
+        internal override void Draw(Size availableSpace)
         {
-            var renderingCommands = PlanLayout(availableSpace: availableSpace).ToList();
-            var width = renderingCommands.Max(selector: x => x.Measurement.Width);
-
+            var renderingCommands = PlanLayout(availableSpace).ToList();
+            var width = renderingCommands.Max(x => x.Measurement.Width);
+            
             foreach (var command in renderingCommands)
             {
-                var elementSize = new Size(width: width, height: command.Measurement.Height);
-
-                Canvas.Translate(vector: command.Offset);
-                command.Element.Draw(availableSpace: elementSize);
-                Canvas.Translate(vector: command.Offset.Reverse());
+                var elementSize = new Size(width, command.Measurement.Height);
+                
+                var offset = ContentDirection == ContentDirection.LeftToRight
+                    ? command.Offset
+                    : new Position(availableSpace.Width - width, command.Offset.Y);
+                
+                Canvas.Translate(offset);
+                command.Element.Draw(elementSize);
+                Canvas.Translate(offset.Reverse());
             }
         }
 
-        private IEnumerable<DecorationItemRenderingCommand> PlanLayout(
-            Size availableSpace
-        )
+        private IEnumerable<DecorationItemRenderingCommand> PlanLayout(Size availableSpace)
         {
-            SpacePlan GetDecorationMeasurement(
-                Element element
-            )
+            SpacePlan GetDecorationMeasurement(Element element)
             {
-                var measurement = element.Measure(availableSpace: availableSpace);
-
-                return measurement.Type == SpacePlanType.FullRender
-                    ? measurement
+                var measurement = element.Measure(availableSpace);
+                
+                return measurement.Type == SpacePlanType.FullRender 
+                    ? measurement 
                     : SpacePlan.Wrap();
             }
-
-            var beforeMeasurement = GetDecorationMeasurement(element: Before);
-            var afterMeasurement = GetDecorationMeasurement(element: After);
-
-            var contentSpace = new Size(width: availableSpace.Width
-                , height: availableSpace.Height - beforeMeasurement.Height - afterMeasurement.Height);
-            var contentMeasurement = Content.Measure(availableSpace: contentSpace);
+            
+            var beforeMeasurement = GetDecorationMeasurement(Before);
+            var afterMeasurement = GetDecorationMeasurement(After);
+            
+            var contentSpace = new Size(availableSpace.Width, availableSpace.Height - beforeMeasurement.Height - afterMeasurement.Height);
+            var contentMeasurement = Content.Measure(contentSpace);
 
             yield return new DecorationItemRenderingCommand
             {
-                Element = Before, Measurement = beforeMeasurement, Offset = Position.Zero
+                Element = Before,
+                Measurement = beforeMeasurement,
+                Offset = Position.Zero
+            };
+            
+            yield return new DecorationItemRenderingCommand
+            {
+                Element = Content,
+                Measurement = contentMeasurement,
+                Offset = new Position(0, beforeMeasurement.Height)
             };
 
             yield return new DecorationItemRenderingCommand
             {
-                Element = Content, Measurement = contentMeasurement
-                , Offset = new Position(x: 0, y: beforeMeasurement.Height)
-            };
-
-            yield return new DecorationItemRenderingCommand
-            {
-                Element = After, Measurement = afterMeasurement
-                , Offset = new Position(x: 0, y: beforeMeasurement.Height + contentMeasurement.Height)
+                Element = After,
+                Measurement = afterMeasurement,
+                Offset = new Position(0, beforeMeasurement.Height + contentMeasurement.Height)
             };
         }
     }

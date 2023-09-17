@@ -1,0 +1,61 @@
+<UserControl
+	x:Class="ProjectAvalonia.Features.Project.Views.Components.SolutionBody.PartnerSection"
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+  Padding="8"
+	mc:Ignorable="d">
+	<Grid RowDefinitions="80 *">
+		<Grid
+			Grid.Row="0"
+			ColumnDefinitions="* *">
+			<Button
+				Grid.Column="1"
+				Classes="action"
+				Command="{Binding Report.AddItemToPartnerCommand}"
+				Content="Adicionar Parceiro"
+        HorizontalAlignment="Right"
+				DockPanel.Dock="Right" />
+			<SelectableTextBlock
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				Focusable="False"
+				FontWeight="DemiBold"
+				Text="Parceiros" />
+		</Grid>
+		<ItemsControl Grid.Row="1" ItemsSource="{Binding Report.Partners, Mode=OneWay}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Grid Margin="0,2,0,2" ColumnDefinitions="*, 8, *, 8, *">
+						<StackPanel Spacing="4">
+							<SelectableTextBlock Focusable="False" Text="Nome do Parceiro" />
+							<TextBox Text="{Binding Name}" />
+						</StackPanel>
+						<StackPanel Grid.Column="2" Spacing="4">
+							<SelectableTextBlock Focusable="False" Text="Site do Parceiro" />
+							<TextBox Text="{Binding Website}" />
+						</StackPanel>
+
+						<TextBox
+							Grid.Column="4"
+							VerticalAlignment="Bottom"
+							IsReadOnly="False"
+							Text="{Binding Logo}">
+							<TextBox.InnerRightContent>
+								<controls:IconButton
+									Width="12"
+									Height="12"
+									Icon="{StaticResource file_open_24_rounded}"
+									IconSize="14" />
+							</TextBox.InnerRightContent>
+						</TextBox>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</Grid>
+</UserControl>

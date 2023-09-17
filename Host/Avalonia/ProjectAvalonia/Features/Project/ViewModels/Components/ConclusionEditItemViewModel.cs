@@ -16,8 +16,6 @@ public class ConclusionEditItemViewModel
         , bool isSaved = true
     )
     {
-        /*_mediator ??= Locator.Current.GetService<IMediator>();*/
-
         ItemName = itemName;
         ItemPath = itemPath;
         DisplayName = itemName;
@@ -91,4 +89,6 @@ public class ConclusionEditItemViewModel
     {
         get;
     }
+
+    public void Dispose() => throw new System.NotImplementedException();
 }

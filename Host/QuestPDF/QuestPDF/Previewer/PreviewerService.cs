@@ -1,4 +1,5 @@
 ﻿#if NET6_0_OR_GREATER
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,33 +7,26 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
-
 using QuestPDF.Drawing;
 
 namespace QuestPDF.Previewer
 {
     internal class PreviewerService
     {
-        private int Port
-        {
-            get;
-        }
-        private HttpClient HttpClient
-        {
-            get;
-        }
+        private int Port { get; }
+        private HttpClient HttpClient { get; }
+        
+        public  event Action? OnPreviewerStopped;
 
-        public event Action? OnPreviewerStopped;
-
-        private const int RequiredPreviewerVersionMajor = 2022;
-        private const int RequiredPreviewerVersionMinor = 12;
-
+        private const int RequiredPreviewerVersionMajor = 2023;
+        private const int RequiredPreviewerVersionMinor = 6;
+        
         public PreviewerService(int port)
         {
             Port = port;
             HttpClient = new()
             {
-                BaseAddress = new Uri($"http://localhost:{port}/"),
+                BaseAddress = new Uri($"http://localhost:{port}/"), 
                 Timeout = TimeSpan.FromSeconds(1)
             };
         }
@@ -46,7 +40,7 @@ namespace QuestPDF.Previewer
                 StartPreviewer();
                 await WaitForConnection();
             }
-
+            
             var previewerVersion = await GetPreviewerVersion();
             CheckVersionCompatibility(previewerVersion);
         }
@@ -63,13 +57,13 @@ namespace QuestPDF.Previewer
                 return false;
             }
         }
-
+        
         private async Task<Version> GetPreviewerVersion()
         {
             using var result = await HttpClient.GetAsync("/version");
             return await result.Content.ReadFromJsonAsync<Version>();
         }
-
+        
         private void StartPreviewer()
         {
             try
@@ -84,7 +78,7 @@ namespace QuestPDF.Previewer
                         CreateNoWindow = true
                     }
                 };
-
+                
                 process.Start();
 
                 Task.Run(async () =>
@@ -106,18 +100,23 @@ namespace QuestPDF.Previewer
             if (version.Major == RequiredPreviewerVersionMajor && version.Minor == RequiredPreviewerVersionMinor)
                 return;
 
-            throw new Exception($"Previewer version is not compatible. Possible solutions: " +
-                                $"1) Update the QuestPDF library to newer version. " +
-                                $"2) Update the QuestPDF previewer tool using the following command: 'dotnet tool update --global QuestPDF.Previewer --version {RequiredPreviewerVersionMajor}.{RequiredPreviewerVersionMinor}'");
+            var newLine = Environment.NewLine;
+            var newParagraph = newLine + newLine;
+            
+            throw new Exception($"The QuestPDF Previewer application is not compatible. Possible solutions: {newParagraph}" +
+                                $"1) Change the QuestPDF library to the {version.Major}.{version.Minor}.X version to match the Previewer application version. {newParagraph}" +
+                                $"2) Recommended: install the QuestPDF Previewer tool in a proper version using the following commands: {newParagraph}"+
+                                $"dotnet tool uninstall --global QuestPDF.Previewer {newLine}"+
+                                $"dotnet tool update --global QuestPDF.Previewer --version {RequiredPreviewerVersionMajor}.{RequiredPreviewerVersionMinor} {newParagraph}");
         }
-
+        
         private async Task WaitForConnection()
         {
             using var cancellationTokenSource = new CancellationTokenSource();
             cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(10));
-
-            var cancellationToken = cancellationTokenSource.Token;
-
+            
+            var cancellationToken = cancellationTokenSource.Token; 
+            
             while (true)
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(250));
@@ -131,13 +130,13 @@ namespace QuestPDF.Previewer
                     break;
             }
         }
-
+        
         public async Task RefreshPreview(ICollection<PreviewerPicture> pictures)
         {
             using var multipartContent = new MultipartFormDataContent();
 
             var pages = new List<PreviewerRefreshCommand.Page>();
-
+            
             foreach (var picture in pictures)
             {
                 var page = new PreviewerRefreshCommand.Page
@@ -145,7 +144,7 @@ namespace QuestPDF.Previewer
                     Width = picture.Size.Width,
                     Height = picture.Size.Height
                 };
-
+                
                 pages.Add(page);
 
                 var pictureStream = picture.Picture.Serialize().AsStream();
@@ -156,7 +155,7 @@ namespace QuestPDF.Previewer
             {
                 Pages = pages
             };
-
+            
             multipartContent.Add(JsonContent.Create(command), "command");
 
             using var _ = await HttpClient.PostAsync("/update/preview", multipartContent);

@@ -37,17 +37,23 @@ public class ProjectEditingViewModel
     private readonly EditableItemService _editableItemService;
     private readonly SolutionService _solutionService;
     private readonly ValidationRulesService _validationRulesService;
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
 
     public ProjectEditingViewModel(
         SolutionService solutionService
         , EditableItemService editableItemService
-        , ValidationRulesService validationRulesService
-    )
+        , ValidationRulesService validationRulesService,
+        EditingItemsNavigationService editableItemsNavigationService)
     {
         _solutionService = solutionService;
         _editableItemService = editableItemService;
         _validationRulesService = validationRulesService;
-        EditingItems = new ObservableCollection<IEditingItemViewModel>();
+        _editableItemsNavigationService = editableItemsNavigationService;
+
+
+        _editableItemsNavigationService.ExportList()
+            .Bind(out _editingItems)
+            .Subscribe();
 
         AddItemToEdit = ReactiveCommand.CreateFromTask<IItemViewModel>(AddItem);
 
@@ -61,7 +67,9 @@ public class ProjectEditingViewModel
             {
                 if (x?.IsSaved == true)
                 {
-                    _ = EditingItems.Remove(x);
+                    _editableItemsNavigationService.RemoveItem(x);
+                    SelectedItem = null;
+                    this.RaisePropertyChanged(nameof(SelectedItem));
                     return;
                 }
 
@@ -72,7 +80,9 @@ public class ProjectEditingViewModel
                 if ((await RoutableViewModel.NavigateDialogAsync(dialog: dialog,
                         target: NavigationTarget.CompactDialogScreen)).Result.Item2)
                 {
-                    EditingItems.Remove(x);
+                    _editableItemsNavigationService.RemoveItem(x);
+                    SelectedItem = null;
+                    this.RaisePropertyChanged(nameof(SelectedItem));
                 }
             });
 
@@ -97,10 +107,8 @@ public class ProjectEditingViewModel
         private set;
     }
 
-    public ObservableCollection<IEditingItemViewModel> EditingItems
-    {
-        get;
-    }
+    public ReadOnlyObservableCollection<IEditingItemViewModel> _editingItems;
+    public ReadOnlyObservableCollection<IEditingItemViewModel> EditingItems => _editingItems;
 
     private IObservable<IEditingItemViewModel?> WhenAnyItemClosed() =>
         // Select the documents into a list of Observables
@@ -114,7 +122,8 @@ public class ProjectEditingViewModel
         IItemViewModel? editing
     )
     {
-        if (editing is { } item && !EditingItems.Any(x => x.ItemPath == item.ItemPath))
+        if (editing is { } item 
+            && !EditingItems.Any(x => x.ItemPath == item.ItemPath))
         {
             if (item is SolutionItemViewModel solution)
             {
@@ -124,7 +133,7 @@ public class ProjectEditingViewModel
                     , itemPath: solution.ItemPath
                     , body: new SolutionItemBody(result), isSaved: false);
 
-                EditingItems.Add(solutionItem);
+                _editableItemsNavigationService.AddItem(solutionItem);
             }
 
             if (item is ConclusionItemViewModel conclusion)
@@ -133,7 +142,7 @@ public class ProjectEditingViewModel
                     , itemPath: conclusion.ItemPath
                     , body: new ConclusionEditingBody(), isSaved: false);
 
-                EditingItems.Add(conclusionItem);
+                _editableItemsNavigationService.AddItem(conclusionItem);
 
             }
 
@@ -146,7 +155,7 @@ public class ProjectEditingViewModel
                 {
                     var observations = new SourceList<ObservationState>();
 
-                    EditingItems.Add(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
+                    _editableItemsNavigationService.AddItem(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
                         , observations));
                 }
             }
@@ -154,7 +163,7 @@ public class ProjectEditingViewModel
 
         else
         {
-            if (EditingItems.FirstOrDefault(x => !x.Id.Equals(editing.Id)) is { } editingItem)
+            if (EditingItems.FirstOrDefault(x => x.ItemPath == editing.ItemPath) is { } editingItem)
             {
                 SelectedItem = editingItem;
                 this.RaisePropertyChanged(nameof(SelectedItem));

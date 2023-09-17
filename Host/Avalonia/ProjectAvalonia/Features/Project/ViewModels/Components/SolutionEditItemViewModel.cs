@@ -90,4 +90,9 @@ public class SolutionEditItemViewModel
     {
         get;
     }
+
+    public void Dispose()
+    {
+        
+    }
 }
