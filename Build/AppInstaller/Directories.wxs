@@ -20,10 +20,10 @@
                           <Directory Id="LocalAppDataProductSettingsUiSettingsFolder" Name="UISettings"/>
                       </Directory>
 
-                      <Directory Id="LocalAppDataProductTemplatesFolder" Name="Templates">
+                      <!--<Directory Id="LocalAppDataProductTemplatesFolder" Name="Templates">
                           <Directory Id="TemplateFilesDirectory" Name="Itens"/>
                           <Directory Id="RulesFilesDirectory" Name="Validation Templates"/>
-                      </Directory>
+                      </Directory>-->
                   </Directory>
               </Directory>
 

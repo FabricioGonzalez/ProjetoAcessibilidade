@@ -1,5 +1,6 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Components;
 
 namespace QuestPDFReport.ReportSettings;
@@ -39,7 +40,7 @@ internal class CapeComponent : IComponent
 
             column.Item().Height(20);
 
-            column.Item().AlignCenter().Text(Cape.CompanyInfo.Data.ToString("dd/MM/yyyy"));
+            column.Item().AlignCenter().Text(Cape.ManagerInfo.ReportDate.ToString("dd/MM/yyyy"));
 
             column.Item().Height(110);
 
@@ -48,13 +49,21 @@ internal class CapeComponent : IComponent
                 column.Item()
                     .Row(row =>
                     {
-                        foreach (var cape in capeItem)
-                        {
-                            row.RelativeItem(0.5f)
-                                .AlignCenter()
-                                .Element(ele =>
-                                    ele.Component(new PartnerComponent(cape)));
-                        }
+                        if (capeItem.Length > 0)
+                            row.RelativeItem(0.4f)
+                               /*.AlignCenter()*/
+                               .AlignRight()
+                               .Element(ele =>
+                                   ele.Component(new PartnerComponent(capeItem[0])));
+
+                        row.RelativeColumn(0.1f).Text("");
+
+                        if (capeItem.Length > 1)
+                            row.RelativeItem(0.4f)
+                                   /*.AlignCenter()*/
+                                   .AlignLeft()
+                                   .Element(ele =>
+                                       ele.Component(new PartnerComponent(capeItem[1])));
                     });
             }
         });

@@ -160,7 +160,7 @@ public static class DataSource
                 Data = new ReportHeaderField
                 {
                     Label = "Data da Vistoria",
-                    Value = solutionModel.Report.CompanyInfo.Data.ToString("dd.MM.yyyy")
+                    Value = solutionModel.Report.Manager.ReportDate.ToString("dd.MM.yyyy")
                 }
                 ,
                 Empresa = new ReportHeaderField
@@ -197,7 +197,12 @@ public static class DataSource
             StandardLaw =
               standardLaw
             ,
-            Partners = solutionModel.Report.Partners,
+            Partners = solutionModel.Report.Partners.Prepend(new PartnerItem()
+            {
+                NomeEmpresa = solutionModel.Report.Manager.NomeEmpresa,
+                PartnerLogo = solutionModel.Report.Manager.LogoPath,
+                WebSite = solutionModel.Report.Manager.WebSite
+            }),
             CompanyInfo = solutionModel.Report.CompanyInfo
             ,
             ManagerInfo = solutionModel.Report.Manager

@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;

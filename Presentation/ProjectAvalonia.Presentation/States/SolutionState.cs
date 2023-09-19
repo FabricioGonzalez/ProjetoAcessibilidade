@@ -2,6 +2,8 @@
 using System.Reactive;
 using System.Reactive.Linq;
 
+using Common;
+
 using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.Models;
 
@@ -12,6 +14,7 @@ namespace ProjectAvalonia.Presentation.States;
 public class SolutionState : ReactiveObject
 {
     private readonly ILocationService _locationService;
+    private readonly IFilePickerService _fileService;
     private string _fileName = "";
     private string _filePath = "";
 
@@ -27,8 +30,9 @@ public class SolutionState : ReactiveObject
     )
     {
         _locationService = locationService;
+        _fileService = fileService;
 
-        _report = new(fileService);
+        _report = new(_fileService);
 
         this.WhenAnyValue(it => it.Report.CompanyInfo.Endereco.Uf)
             .Where(it => !string.IsNullOrWhiteSpace(it))
@@ -42,6 +46,15 @@ public class SolutionState : ReactiveObject
 
             });
     }
+    public ReactiveCommand<Unit, Unit> SelectSolutionPathCommand => ReactiveCommand.Create(() =>
+    {
+        Observable
+        .FromAsync(_fileService.GetFolderAsync)
+        .Where(it => !string.IsNullOrWhiteSpace(it))
+            .Subscribe(val => FilePath = Path.Combine(val, FileName, $"{FileName}{Constants.AppProjectSolutionExtension}"),
+                error => Console.WriteLine(error));
+    }, this.WhenAnyValue(vm => vm.FileName).Select(it => !string.IsNullOrWhiteSpace(it)));
+
 
     public SearchSolutionTexts SearchSolutionTexts
     {

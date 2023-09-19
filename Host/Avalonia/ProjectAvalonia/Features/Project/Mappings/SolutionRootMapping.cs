@@ -17,6 +17,7 @@ public static class SolutionRootMapping
         {
             Report = state.Report.ToSolutionReportItem()
             ,
+
             ProjectItems =
                 new List<ProjectItems>(state.LocationItems.Select(it => it.ToProjectItem()))
             ,
@@ -29,6 +30,7 @@ public static class SolutionRootMapping
         new()
         {
             SolutionName = report.SolutionName,
+            Revisao = report.Revisao,
             Manager = report.ManagerInfo.ToManagerInfoItem()
             ,
             Partners =
@@ -73,9 +75,9 @@ public static class SolutionRootMapping
         new()
         {
             NomeEmpresa = companyInfo.NomeEmpresa,
-            Data = companyInfo.Data.Value,
             Email = companyInfo.Email,
             LogoPath = companyInfo.Logo,
+            Telefone = companyInfo.Telefone,
             Endereco = companyInfo.Endereco.ToEnderecoItem()
         };
 
@@ -87,6 +89,7 @@ public static class SolutionRootMapping
             NomeEmpresa = managerInfo.NomeEmpresa,
             LogoPath = managerInfo.LogoPath
             ,
+
             Responsavel = managerInfo.Responsavel,
             Telefone = managerInfo.Telefone,
             Email = managerInfo.Email

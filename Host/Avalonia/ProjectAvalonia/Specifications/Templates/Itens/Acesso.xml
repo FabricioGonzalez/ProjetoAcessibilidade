@@ -25,10 +25,7 @@
             <checkboxes>
                 <checkbox_item>
                     <id>96ad1a03-3402-4714-9a0f-5c2bdc5cc4a5</id>
-                    <topic>Há garantia de pelo menos, um dos acessos ao seu interior, com
-                        comunicação com todas as suas dependências e serviços, livre de barreiras e
-                        de obstáculos?
-                    </topic>
+                    <topic>Há garantia de pelo menos, um dos acessos ao seu interior, com comunicação com todas as suas dependências e serviços, livre de barreiras e de obstáculos?</topic>
                     <options>
                         <option>
                             <id>165edd03-85e9-4a4c-ba60-aad1f23ed37f</id>
@@ -44,11 +41,7 @@
                 </checkbox_item>
                 <checkbox_item>
                     <id>9fa8ce35-446d-43b4-97d1-900989e49570</id>
-                    <topic>Há a possibilidade de ampliação do número de acessos livres de
-                        obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há
-                        sinalização informativa, indicativa edirecional da localização das entradas
-                        acessíveis?
-                    </topic>
+                    <topic>Há a possibilidade de ampliação do número de acessos livres de obstáculos na edificação? Caso todas as entradas não sejam acessíveis, há sinalização informativa, indicativa edirecional da localização das entradas acessíveis?</topic>
                     <options>
                         <option>
                             <id>2229a76d-4bfe-4125-814b-487ae9c54c4a</id>
@@ -119,9 +112,7 @@
                 </checkbox_item>
                 <checkbox_item>
                     <id>cba2e595-16f1-41ba-9e3f-486022cf3322</id>
-                    <topic>Possui sinalização direcional dos acessos da edificação até o balcão de
-                        informação?
-                    </topic>
+                    <topic>Possui sinalização direcional dos acessos da edificação até o balcão de informação?</topic>
                     <options>
                         <option>
                             <id>ee130844-551c-40df-8ab2-cd91e0cffdb9</id>
@@ -154,10 +145,7 @@
     <law>
         <law_item>
             <id>NBR9050/20</id>
-            <content>
-                A Figura 26 mostra as alturas recomendadas para o
-                posicionamento de diferentes types de comandos e controles.
-            </content>
+            <content>A Figura 26 mostra as alturas recomendadas para o posicionamento de diferentes types de comandos e controles.</content>
         </law_item>
     </law>
 </item>

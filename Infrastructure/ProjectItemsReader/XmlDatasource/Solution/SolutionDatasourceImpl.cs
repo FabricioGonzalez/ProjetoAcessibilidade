@@ -1,6 +1,9 @@
 ﻿using System.Xml.Serialization;
+
 using Common;
+
 using LanguageExt.Common;
+
 using XmlDatasource.Solution.DTO;
 
 namespace XmlDatasource.Solution;
@@ -15,10 +18,8 @@ public sealed class SolutionDatasourceImpl
     ) =>
         await Task.Run(() =>
         {
-            dataToWrite.Report.Partners = dataToWrite.Report.Partners.Take(1..).ToList();
-
             using var writer =
-                new StreamWriter(File.Create(solutionPath));
+      new StreamWriter(File.Create(solutionPath));
             solutionSerealizer.Serialize(textWriter: writer, o: dataToWrite);
         });
 
@@ -62,8 +63,16 @@ public sealed class SolutionDatasourceImpl
         string solutionPath
     )
     {
-        Directory.CreateDirectory(Path.Combine(path1: solutionPath, path2: Constants.AppProjectItemsFolderName));
-        Directory.CreateDirectory(Path.Combine(path1: solutionPath
+        var directory = string.Join(Path.DirectorySeparatorChar, solutionPath.Split(Path.DirectorySeparatorChar)[..^1]);
+
+        Directory.CreateDirectory(directory);
+
+        Directory.CreateDirectory(
+            Path.Combine(path1: directory
+            , path2: Constants.AppProjectItemsFolderName));
+
+        Directory.CreateDirectory(
+            Path.Combine(path1: directory
             , path2: Constants.AppValidationRulesTemplateFolderName));
     }
 
@@ -79,12 +88,6 @@ public sealed class SolutionDatasourceImpl
                 var sol = (SolutionItemRoot)result;
 
                 sol.SolutionPath = solutionPath;
-
-                sol.Report.Partners = sol.Report.Partners.Prepend(new PartnerItem
-                {
-                    PartnerLogo = sol.Report.CompanyInfo.LogoPath, NomeEmpresa = sol.Report.CompanyInfo.NomeEmpresa
-                    , WebSite = sol.Report.Manager.WebSite
-                }).ToList();
 
                 return new Result<SolutionItemRoot>(sol);
             }

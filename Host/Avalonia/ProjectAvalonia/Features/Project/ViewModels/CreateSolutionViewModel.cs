@@ -5,6 +5,7 @@ using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -32,16 +33,11 @@ public class CreateSolutionViewModel : DialogViewModelBase<(string local, Soluti
             .ObserveOn(scheduler: RxApp.MainThreadScheduler);
 
         var nextCommandCanExecute = this
-            .WhenAnyValue(
-                property1: x => x.IsDialogOpen,
-                property2: x => x.SolutionModel,
-                selector: delegate
-                {
-                    // This will fire validations before return canExecute value.
-                    this.RaisePropertyChanged(propertyName: nameof(SolutionModel));
-
-                    return IsDialogOpen;
-                })
+            .WhenAnyValue(vm => vm.SolutionModel.FileName,
+            vm => vm.SolutionModel.FilePath)
+            .Select(vals =>
+            !string.IsNullOrWhiteSpace(vals.Item1)
+            && !string.IsNullOrWhiteSpace(vals.Item2))
             .ObserveOn(scheduler: RxApp.MainThreadScheduler);
 
         var cancelCommandCanExecute = this

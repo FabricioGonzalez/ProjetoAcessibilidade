@@ -14,6 +14,13 @@ public sealed class SolutionReportState : ReactiveObject
 
     private ObservableCollection<PartnerLogoState> _partners;
 
+    private int _revisao;
+    public int Revisao
+    {
+        get => _revisao;
+        set => this.RaiseAndSetIfChanged(ref _revisao, value);
+    }
+
     public SolutionReportState(IFilePickerService service)
     {
         _companyInfo = new(service);

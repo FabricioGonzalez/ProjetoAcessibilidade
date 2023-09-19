@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 using ProjectAvalonia.Common.Services;
@@ -14,29 +15,33 @@ public static class SolutionStateMapping
 {
     public static SolutionState ToSolutionState(
         this SolutionItemRoot root
-        , ILocationService locationService
+        , ILocationService locationService,
+        IFilePickerService service
     ) =>
-        new(locationService,new FilePickerService())
+        new(locationService, service)
         {
-            Report = root.Report.ToSolutionReportState(),
+            Report = root.Report.ToSolutionReportState(service),
             FilePath = root.SolutionPath
             ,
+            FileName = Path.GetFileNameWithoutExtension(root.SolutionPath),
             LocationItems =
                 new ObservableCollection<LocationItemState>(root.ProjectItems.Select(it => it.ToLocationItem()))
         };
 
     public static SolutionReportState ToSolutionReportState(
-        this ReportItem report
+        this ReportItem report,
+        IFilePickerService service
     ) =>
         new(new FilePickerService())
         {
             SolutionName = report.SolutionName,
-            ManagerInfo = report.Manager.ToManagerInfoState()
+            ManagerInfo = report.Manager.ToManagerInfoState(service)
             ,
+            Revisao = report.Revisao,
             Partners =
                 new ObservableCollection<PartnerLogoState>(report.Partners.Select(it => it.ToPartnerLogoState()))
             ,
-            CompanyInfo = report.CompanyInfo.ToCompanyInfoState()
+            CompanyInfo = report.CompanyInfo.ToCompanyInfoState(service)
         };
 
     public static LocationItemState ToLocationItem(
@@ -70,12 +75,13 @@ public static class SolutionStateMapping
         };
 
     public static CompanyInfoState ToCompanyInfoState(
-        this CompanyInfoItem companyInfo
-    ) =>
-        new(new FilePickerService())
+        this CompanyInfoItem companyInfo,
+        IFilePickerService service)
+     =>
+        new(service)
         {
             NomeEmpresa = companyInfo.NomeEmpresa,
-            Data = companyInfo.Data.DateTime,
+            Responsavel = companyInfo.Responsavel,
             Email = companyInfo.Email
             ,
             Logo = companyInfo.LogoPath,
@@ -83,13 +89,15 @@ public static class SolutionStateMapping
         };
 
     public static ManagementCompanyInfoState ToManagerInfoState(
-        this ManagementCompanyInfo managerInfo
+        this ManagementCompanyInfo managerInfo,
+        IFilePickerService service
     ) =>
-        new()
+        new(service)
         {
             NomeEmpresa = managerInfo.NomeEmpresa,
             LogoPath = managerInfo.LogoPath
             ,
+            ReportDate = managerInfo.ReportDate,
             Responsavel = managerInfo.Responsavel,
             Telefone = managerInfo.Telefone,
             Email = managerInfo.Email

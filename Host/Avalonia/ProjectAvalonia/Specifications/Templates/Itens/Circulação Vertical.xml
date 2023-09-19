@@ -433,9 +433,7 @@
         </checkbox_items>
         <text_item>
             <id>5d0b5808-ef9a-4855-9036-effd891454e6</id>
-            <topic>type de porta (automática-abertura lateral, automática-abertura central,
-                manual-eixo vertical):
-            </topic>
+            <topic>type de porta (automática-abertura lateral, automática-abertura central, manual-eixo vertical):</topic>
             <type>text</type>
             <value/>
             <measurement_unit/>

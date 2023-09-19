@@ -1,6 +1,5 @@
 ﻿using Common.Linq;
 
-using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -334,6 +333,7 @@ public class StandardReport : IDocument
                             .Component(new CapeComponent(new CapeContainer
                             {
                                 CompanyInfo = Model.CompanyInfo,
+                                ManagerInfo = Model.ManagerInfo,
                                 Partners = Model.Partners
                             })));
 
