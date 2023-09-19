@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -29,9 +30,12 @@ public interface ICheckboxItemViewModel : INotifyPropertyChanged
         get;
     }
 
-    public ReactiveCommand<Unit, Unit> InvalidateItemCommand => ReactiveCommand.Create(() =>
+    public ReactiveCommand<string, Unit> InvalidateItemCommand => ReactiveCommand.Create<string>((optionId) =>
     {
-        IsInvalid = !IsInvalid;
+        Options.Options.FirstOrDefault(it => it.Id == optionId).IsInvalid = !IsInvalid;
+        /*
+
+                IsInvalid = !IsInvalid;*/
     });
 
     public ObservableCollection<ITextFormItemViewModel> TextItems

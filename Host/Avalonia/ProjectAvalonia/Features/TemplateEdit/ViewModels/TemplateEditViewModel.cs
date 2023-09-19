@@ -250,8 +250,8 @@ public partial class TemplateEditViewModel
                     })
                     .Reduce(() => Task.CompletedTask);
             }),
-            icon: "save_data_24_rounded".GetIcon(),
-            gesture: "Ctrl+S"));
+            icon: "cloud_download_regular".GetIcon(),
+            gesture: "Ctrl+I"));
 
         listBuilder.Add(new MenuItemModel(
             label: "Template_Edit_Export_Items_ToolBarItem".GetLocalized(),
@@ -264,8 +264,8 @@ public partial class TemplateEditViewModel
                     })
                     .Reduce(() => Task.CompletedTask);
             }),
-            icon: "save_data_24_rounded".GetIcon(),
-            gesture: "Ctrl+S"));
+            icon: "cloud_upload_regular".GetIcon(),
+            gesture: "Ctrl+E"));
 
         return listBuilder;
     }
