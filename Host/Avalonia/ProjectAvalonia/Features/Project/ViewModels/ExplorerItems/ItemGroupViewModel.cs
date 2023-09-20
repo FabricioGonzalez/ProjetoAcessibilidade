@@ -6,10 +6,13 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using Common;
 using Common.Linq;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -17,6 +20,7 @@ using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -34,13 +38,16 @@ public class ItemGroupViewModel
         string name
         , string itemPath
         , ItemsService itemsService
-        , Func<Task> SaveSolution
+        , Func<Task> SaveSolution,
+        ISolutionLocationItem parent
     )
     {
         _itemsService = itemsService;
         _saveSolution = SaveSolution;
         Name = name;
         ItemPath = itemPath;
+
+        Parent = parent;
 
         Items = new ObservableCollection<IItemViewModel>();
         CommitFolderCommand = ReactiveCommand.CreateFromTask(CommitFolder);
@@ -159,6 +166,13 @@ public class ItemGroupViewModel
         get => _inEditing;
         set => this.RaiseAndSetIfChanged(backingField: ref _inEditing, newValue: value);
     }
+    private ISolutionLocationItem _parent;
+
+    public ISolutionLocationItem Parent
+    {
+        get => _parent;
+        set => this.RaiseAndSetIfChanged(backingField: ref _parent, newValue: value);
+    }
 
     public void TransformFrom(
         List<ItemState> items
@@ -223,17 +237,6 @@ public class ItemGroupViewModel
             Items.Add(
                 item);
             await _saveSolution();
-            /*
-            _ = (await _mediator.Send(
-                    new CreateItemCommand(
-                        path,
-                        dialogResult.Result.TemplateName),
-                    CancellationToken.None))
-                .IfFail(error =>
-                {
-                    NotificationHelpers.Show("Erro ao criar item", error.Message);
-                });
-                */
 
             return item;
         }

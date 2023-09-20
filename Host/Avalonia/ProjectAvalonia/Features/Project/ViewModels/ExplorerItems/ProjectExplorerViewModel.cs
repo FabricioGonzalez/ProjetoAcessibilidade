@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
+
 using Common;
 using Common.Optional;
+
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.Services;
@@ -16,6 +19,7 @@ using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.ExplorerItems;
@@ -48,7 +52,8 @@ public class ProjectExplorerViewModel
             , itemPath: Path.Combine(path1: Path.GetDirectoryName(state.FilePath), path2: "conclusion.prjc")
             , name: "Conclusão", templateName: "");
 
-        SolutionRootItem.LocationItems = new ObservableCollection<ISolutionLocationItem>(
+        SolutionRootItem
+            .LocationItems = new ObservableCollection<ISolutionLocationItem>(
             SolutionState
             .LocationItems
             .Select(
@@ -84,7 +89,9 @@ public class ProjectExplorerViewModel
                                 await SaveSolution();
                             }
                         })
-                        , Items = new ObservableCollection<IItemGroupViewModel>(model.ItemGroup.Select(
+                    };
+
+                    solutionLocation.Items = new ObservableCollection<IItemGroupViewModel>(model.ItemGroup.Select(
                             vm =>
                             {
                                 ItemGroupViewModel item = null;
@@ -95,7 +102,8 @@ public class ProjectExplorerViewModel
                                         , path2: Constants.AppProjectItemsFolderName
                                         , path3: model.Name, path4: vm.Name),
                                     itemsService: _itemsService,
-                                    SaveSolution: async () => await SaveSolution())
+                                    SaveSolution: async () => await SaveSolution(),
+                                    solutionLocation)
                                 {
                                     ExcludeFolderCommand = ReactiveCommand.CreateFromTask(async () =>
                                     {
@@ -125,8 +133,7 @@ public class ProjectExplorerViewModel
 
                                 return item;
                             }
-                        ))
-                    };
+                        ));
 
                     solutionLocation.MoveItemCommand = ReactiveCommand.CreateFromTask(SaveSolution);
 
@@ -234,16 +241,21 @@ public class ProjectExplorerViewModel
         SolutionState.LocationItems = new ObservableCollection<LocationItemState>(SolutionRootItem.LocationItems.Select(
             it => new LocationItemState
             {
-                Name = it.Name, ItemGroup = new ObservableCollection<ItemGroupState>(
+                Name = it.Name,
+                ItemGroup = new ObservableCollection<ItemGroupState>(
                     it.Items.Select(itemGroup =>
                         new ItemGroupState
                         {
-                            Name = itemGroup.Name, Items = new ObservableCollection<ItemState>(itemGroup.Items.Select(
+                            Name = itemGroup.Name,
+                            Items = new ObservableCollection<ItemState>(itemGroup.Items.Select(
                                 item =>
                                     new ItemState
                                     {
-                                        Name = item.Name, TemplateName = item.TemplateName, ItemPath = item.ItemPath
-                                        , Id = item.Id
+                                        Name = item.Name,
+                                        TemplateName = item.TemplateName,
+                                        ItemPath = item.ItemPath
+                                        ,
+                                        Id = item.Id
                                     }))
                         }))
             }));

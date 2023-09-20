@@ -5,15 +5,19 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using Common.Linq;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -109,7 +113,7 @@ public class SolutionLocationItemViewModel
     public ObservableCollection<IItemGroupViewModel> Items
     {
         get;
-        init;
+        set;
     }
 
     public string Name
@@ -181,7 +185,8 @@ public class SolutionLocationItemViewModel
                 itemPath: Path.Combine(path1: ItemPath
                     , path2: result.Result),
                 itemsService: _itemsService,
-                SaveSolution: SaveSolution
+                SaveSolution: SaveSolution,
+                this
             );
 
             Items.Add(item);
