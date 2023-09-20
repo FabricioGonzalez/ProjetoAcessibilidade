@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Avalonia.Controls;
@@ -92,10 +91,10 @@ public sealed class ProjectExplorerItemDNDBehavior : DropHandlerBase
                 var collection = sourceItem.Parent.Items;
 
                 SwapItem(collection, collection.IndexOf(sourceItem), collection.IndexOf(targetItem));
-
+                sourceItem.Parent.MoveItemCommand.Execute();
             }
 
-            Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem.ItemPath, targetItem.ItemPath);
+            /*Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem.ItemPath, targetItem.ItemPath);*/
             return true;
         }
 
@@ -120,8 +119,9 @@ public sealed class ProjectExplorerItemDNDBehavior : DropHandlerBase
 
                 SwapItem(collection, collection.IndexOf(sourceItem3), collection.IndexOf(targetItem3));
 
+                sourceItem3.MoveItemCommand.Execute();
             }
-            Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem3.ItemPath, targetItem3.ItemPath);
+            /*Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem3.ItemPath, targetItem3.ItemPath);*/
             return true;
         }
 
@@ -144,9 +144,10 @@ public sealed class ProjectExplorerItemDNDBehavior : DropHandlerBase
                 var collection = (treeView.ItemsSource as IEnumerable<ISolutionLocationItem>).ToList();
 
                 SwapItem(collection, collection.IndexOf(sourceItem5), collection.IndexOf(targetItem5));
+                sourceItem5.MoveItemCommand.Execute();
             }
 
-            Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem5.ItemPath, targetItem5.ItemPath);
+            /*Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem5.ItemPath, targetItem5.ItemPath);*/
             return true;
         }
         return false;
