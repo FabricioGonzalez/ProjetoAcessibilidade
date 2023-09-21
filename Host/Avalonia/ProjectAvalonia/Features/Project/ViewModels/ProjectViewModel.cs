@@ -287,7 +287,8 @@ public partial class ProjectViewModel
         var data = new ProjectExplorerViewModel(
                          state: result,
                          itemsService: _itemsService,
-                         solutionService: _solutionService
+                         solutionService: _solutionService,
+                         _editableItemsNavigationService
                      )
         {
             SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
@@ -319,13 +320,13 @@ public partial class ProjectViewModel
 
             await ReadSolutionAndOpen(result.Result.local);
 
-           /* Dispatcher.UIThread.Post(() =>
-            {
-                ProjectExplorerViewModel =
-                    new ProjectExplorerViewModel(state: result.Result.solution, itemsService: _itemsService
-                        , solutionService: _solutionService);
-                this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
-            });*/
+            /* Dispatcher.UIThread.Post(() =>
+             {
+                 ProjectExplorerViewModel =
+                     new ProjectExplorerViewModel(state: result.Result.solution, itemsService: _itemsService
+                         , solutionService: _solutionService);
+                 this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
+             });*/
         }
     }
 

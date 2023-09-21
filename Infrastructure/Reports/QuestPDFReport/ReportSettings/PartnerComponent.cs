@@ -1,6 +1,8 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Components;
+
 using XmlDatasource.Solution.DTO;
 
 namespace QuestPDFReport.ReportSettings;
@@ -24,14 +26,14 @@ internal class PartnerComponent : IComponent
             .Column(col =>
             {
                 col.Item()
-                    .Height(120)
+                    .Height(100)
                     .ScaleHorizontal(1.1f)
                     .Element(it =>
                     {
                         it.Component(new CapeImage { ImagePath = _partnerItem.PartnerLogo });
                     });
 
-                col.Item().Height(15);
+                col.Item().Height(2);
                 col.Item().AlignCenter().Text(_partnerItem.WebSite);
             });
 }

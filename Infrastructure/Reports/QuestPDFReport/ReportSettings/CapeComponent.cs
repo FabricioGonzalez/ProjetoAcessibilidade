@@ -50,18 +50,18 @@ internal class CapeComponent : IComponent
                     .Row(row =>
                     {
                         if (capeItem.Length > 0)
-                            row.RelativeItem(0.4f)
+                            row.RelativeItem(0.5f)
                                /*.AlignCenter()*/
-                               .AlignRight()
+                               .AlignCenter()
                                .Element(ele =>
                                    ele.Component(new PartnerComponent(capeItem[0])));
 
                         row.RelativeColumn(0.1f).Text("");
 
                         if (capeItem.Length > 1)
-                            row.RelativeItem(0.4f)
+                            row.RelativeItem(0.5f)
                                    /*.AlignCenter()*/
-                                   .AlignLeft()
+                                   .AlignCenter()
                                    .Element(ele =>
                                        ele.Component(new PartnerComponent(capeItem[1])));
                     });

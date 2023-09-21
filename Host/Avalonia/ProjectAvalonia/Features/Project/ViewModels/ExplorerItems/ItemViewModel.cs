@@ -4,12 +4,15 @@ using System.Linq;
 using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Common;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -20,6 +23,7 @@ public partial class ItemViewModel
 {
     private readonly ItemsService _itemsService;
     private readonly Func<Task> _saveSolution;
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
     private bool _isEditing;
 
     [AutoNotify]
@@ -32,16 +36,19 @@ public partial class ItemViewModel
         , string templateName
         , IItemGroupViewModel parent
         , ItemsService itemsService
-        , Func<Task> saveSolution
+        , Func<Task> saveSolution,
+        EditingItemsNavigationService editableItemsNavigationService
     )
     {
         ItemPath = itemPath;
         Id = id;
+
         Name = name;
         TemplateName = templateName;
         Parent = parent;
         _itemsService = itemsService;
         _saveSolution = saveSolution;
+        _editableItemsNavigationService = editableItemsNavigationService;
         CommitFileCommand = ReactiveCommand.CreateFromTask<IItemGroupViewModel>(CommitFile);
         SelectItemToEditCommand = ReactiveCommand.Create<IItemViewModel>(SelectItemToEdit);
         ExcludeFileCommand =
@@ -176,8 +183,15 @@ public partial class ItemViewModel
 
             _itemsService.RenameFile(oldPath: ItemPath, newPath: newPath);
 
-            ItemPath = newPath;
+            _editableItemsNavigationService.AlterItem((item) =>
+            {
+                item.ItemPath = newPath;
+                item.ItemName = Path.GetFileNameWithoutExtension(newPath);
 
+                return item;
+            }, it => it.ItemPath == path);
+
+            ItemPath = newPath;
 
             await _saveSolution();
         }

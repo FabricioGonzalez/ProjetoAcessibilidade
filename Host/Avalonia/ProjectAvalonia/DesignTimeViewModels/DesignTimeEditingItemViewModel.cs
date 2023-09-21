@@ -1,6 +1,9 @@
 ﻿using System.Reactive;
+
 using Avalonia.Input;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -32,7 +35,7 @@ public class DesignTimeEditingItemViewModel
 
     public string ItemName
     {
-        get;
+        get; set;
     } = "Teste";
 
     public string Id
@@ -47,7 +50,7 @@ public class DesignTimeEditingItemViewModel
 
     public string ItemPath
     {
-        get;
+        get; set;
     }
 
     public ReactiveCommand<Unit, Unit> SaveItemCommand
@@ -62,6 +65,6 @@ public class DesignTimeEditingItemViewModel
 
     public void Dispose()
     {
-    
+
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel;
 using System.Reactive;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
 
-public interface IEditingItemViewModel : INotifyPropertyChanged,IDisposable
+public interface IEditingItemViewModel : INotifyPropertyChanged, IDisposable
 {
     public string ItemName
     {
-        get;
+        get; set;
     }
 
     public string DisplayName
@@ -33,7 +34,7 @@ public interface IEditingItemViewModel : INotifyPropertyChanged,IDisposable
 
     public string ItemPath
     {
-        get;
+        get; set;
     }
 
     public IEditingBody Body

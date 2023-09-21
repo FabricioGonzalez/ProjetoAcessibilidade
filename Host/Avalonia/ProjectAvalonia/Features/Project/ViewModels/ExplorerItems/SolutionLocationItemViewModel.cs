@@ -27,7 +27,7 @@ public class SolutionLocationItemViewModel
         , ISolutionLocationItem
 {
     private readonly ItemsService _itemsService;
-
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
     private readonly Func<Task> SaveSolution;
 
     /*private IObservable<IItemViewModel?> WhenAnyItemIsSelected() =>
@@ -43,12 +43,13 @@ public class SolutionLocationItemViewModel
         string name
         , string itemPath
         , Func<Task> saveSolution
-        , ItemsService itemsService
+        , ItemsService itemsService,
+        EditingItemsNavigationService editableItemsNavigationService
     )
     {
         SaveSolution = saveSolution;
         _itemsService = itemsService;
-
+        _editableItemsNavigationService = editableItemsNavigationService;
         Name = name;
         ItemPath = itemPath;
 
@@ -186,7 +187,8 @@ public class SolutionLocationItemViewModel
                     , path2: result.Result),
                 itemsService: _itemsService,
                 SaveSolution: SaveSolution,
-                this
+                this,
+                _editableItemsNavigationService
             );
 
             Items.Add(item);

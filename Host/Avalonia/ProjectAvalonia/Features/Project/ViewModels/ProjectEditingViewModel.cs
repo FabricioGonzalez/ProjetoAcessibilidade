@@ -122,9 +122,17 @@ public class ProjectEditingViewModel
         IItemViewModel? editing
     )
     {
-        if (editing is { } item 
-            && !EditingItems.Any(x => x.ItemPath == item.ItemPath))
+
+
+        if (editing is { } item)
         {
+            if (EditingItems.FirstOrDefault(x => x.ItemPath == editing.ItemPath) is { } editingItem)
+            {
+                SelectedItem = editingItem;
+                this.RaisePropertyChanged(nameof(SelectedItem));
+                return;
+            }
+
             if (item is SolutionItemViewModel solution)
             {
                 var result = _solutionService.GetSolution(solution.ItemPath);
@@ -158,15 +166,6 @@ public class ProjectEditingViewModel
                     _editableItemsNavigationService.AddItem(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
                         , observations));
                 }
-            }
-        }
-
-        else
-        {
-            if (EditingItems.FirstOrDefault(x => x.ItemPath == editing.ItemPath) is { } editingItem)
-            {
-                SelectedItem = editingItem;
-                this.RaisePropertyChanged(nameof(SelectedItem));
             }
         }
     }

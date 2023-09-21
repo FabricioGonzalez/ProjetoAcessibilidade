@@ -31,7 +31,7 @@ public class ItemGroupViewModel
 {
     private readonly ItemsService _itemsService;
     private readonly Func<Task> _saveSolution;
-
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
     private bool _inEditing;
 
     public ItemGroupViewModel(
@@ -39,7 +39,8 @@ public class ItemGroupViewModel
         , string itemPath
         , ItemsService itemsService
         , Func<Task> SaveSolution,
-        ISolutionLocationItem parent
+        ISolutionLocationItem parent,
+        EditingItemsNavigationService editableItemsNavigationService
     )
     {
         _itemsService = itemsService;
@@ -48,7 +49,7 @@ public class ItemGroupViewModel
         ItemPath = itemPath;
 
         Parent = parent;
-
+        _editableItemsNavigationService = editableItemsNavigationService;
         Items = new ObservableCollection<IItemViewModel>();
         CommitFolderCommand = ReactiveCommand.CreateFromTask(CommitFolder);
         AddProjectItemCommand = ReactiveCommand.CreateFromTask(AddProjectItem);
@@ -81,6 +82,8 @@ public class ItemGroupViewModel
                         Items.Remove(x);
 
                         await SaveSolution();
+
+                        _editableItemsNavigationService.RemoveItem((it) => it.ItemPath == x.ItemPath);
 
                         if (result.Item1)
                         {
@@ -186,7 +189,9 @@ public class ItemGroupViewModel
                 name: item.Name,
                 templateName: item.TemplateName,
                 parent: this,
-                itemsService: _itemsService, saveSolution: _saveSolution);
+                itemsService: _itemsService,
+                saveSolution: _saveSolution,
+                _editableItemsNavigationService);
 
             Items.Add(itemToAdd);
         }
@@ -232,7 +237,7 @@ public class ItemGroupViewModel
                 name: dialogResult.Result.Name,
                 templateName: dialogResult.Result.TemplateName,
                 parent: this,
-                itemsService: _itemsService, saveSolution: _saveSolution);
+                itemsService: _itemsService, saveSolution: _saveSolution, _editableItemsNavigationService);
 
             Items.Add(
                 item);

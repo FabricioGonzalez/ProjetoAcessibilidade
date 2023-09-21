@@ -1,10 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Newtonsoft.Json.Linq;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Http;
@@ -33,7 +36,20 @@ public class AppClient
         get;
         private set;
     } = ushort.Parse(AppConstants.BackendMajorVersion);
+    public async Task GetTemplates()
+    {
+        using var message = new HttpRequestMessage(HttpMethod.Get, AppConstants.TemplateReleaseURL);
+        message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ProjetoAcessibilidade"
+            , "2.0"));
+        var response = await HttpClient.SendAsync(message, CancellationToken.None)
+            .ConfigureAwait(false);
+        var jsonResponse = JObject.Parse(await response.Content
+            .ReadAsStringAsync(CancellationToken.None)
+            .ConfigureAwait(false));
 
+        Debug.WriteLine(jsonResponse.ToString());
+
+    }
     public async Task<Version> GetVersionFromGithub()
     {
         using var message = new HttpRequestMessage(HttpMethod.Get, AppConstants.ReleaseURL);

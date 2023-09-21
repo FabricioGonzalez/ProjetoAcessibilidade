@@ -32,18 +32,21 @@ public class ProjectExplorerViewModel
     private readonly SolutionService _solutionService;
     private IItemViewModel _selectedItem;
     private ISolutionGroupViewModel _solutionGroupView;
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
 
     public ProjectExplorerViewModel(
         SolutionState state
         , ItemsService itemsService
         , SolutionService solutionService
-    )
+,
+EditingItemsNavigationService editableItemsNavigationService)
     {
         SolutionState = state;
         _itemsService = itemsService;
         _solutionService = solutionService;
 
         SolutionRootItem = new SolutionGroupViewModel();
+        _editableItemsNavigationService = editableItemsNavigationService;
 
         SolutionRootItem.SolutionItem = new SolutionItemViewModel(id: "", itemPath: state.FilePath
             , name: Path.GetFileNameWithoutExtension(state.FilePath), templateName: "");
@@ -67,7 +70,7 @@ public class ProjectExplorerViewModel
                         itemPath: Path.Combine(path1: location, path2: Constants.AppProjectItemsFolderName
                             , path3: model.Name),
                         saveSolution: async () => await SaveSolution(),
-                        itemsService: _itemsService)
+                        itemsService: _itemsService, _editableItemsNavigationService)
                     {
                         ExcludeFolderCommand = ReactiveCommand.CreateFromTask(async () =>
                         {
@@ -103,7 +106,7 @@ public class ProjectExplorerViewModel
                                         , path3: model.Name, path4: vm.Name),
                                     itemsService: _itemsService,
                                     SaveSolution: async () => await SaveSolution(),
-                                    solutionLocation)
+                                    solutionLocation,_editableItemsNavigationService)
                                 {
                                     ExcludeFolderCommand = ReactiveCommand.CreateFromTask(async () =>
                                     {
@@ -120,6 +123,8 @@ public class ProjectExplorerViewModel
                                             if (result.Item1)
                                             {
                                                 _itemsService.ExcludeFolder(item.ItemPath);
+
+
                                             }
 
                                             await SaveSolution();
@@ -170,7 +175,8 @@ public class ProjectExplorerViewModel
                     itemPath: Path.Combine(path1: Directory.GetParent(SolutionState.FilePath).FullName
                         , path2: Constants.AppProjectItemsFolderName, path3: result.Result),
                     saveSolution: async () => await SaveSolution(),
-                    itemsService: _itemsService);
+                    itemsService: _itemsService,
+                    _editableItemsNavigationService);
 
                 SolutionRootItem.LocationItems.Add(item);
 
@@ -183,6 +189,7 @@ public class ProjectExplorerViewModel
         CreateFolderCommand
             .DoAsync(async _ => await SaveSolution())
             .Subscribe();
+        _editableItemsNavigationService = editableItemsNavigationService;
     }
 
     public ReactiveCommand<IItemViewModel, Unit> SetEditingItem
