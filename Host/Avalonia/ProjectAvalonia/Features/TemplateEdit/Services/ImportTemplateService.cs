@@ -53,14 +53,10 @@ public class ImportTemplateService
         {
             if (item.FullName.Split('/')[0] == "Rules")
             {
-
-
                 item.ExtractToFile(Path.Combine(Constants.AppValidationRulesTemplateFolder, item.FullName.Split('/')[1]), true);
             }
             if (item.FullName.Split('/')[0] == "Templates")
             {
-
-
                 item.ExtractToFile(Path.Combine(Constants.AppItemsTemplateFolder, item.FullName.Split('/')[1]), true);
             }
         }

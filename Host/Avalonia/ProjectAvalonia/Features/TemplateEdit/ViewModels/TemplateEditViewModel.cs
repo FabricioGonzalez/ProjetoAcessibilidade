@@ -273,7 +273,7 @@ IFilePickerService filePickerService)
             command: ReactiveCommand.CreateRunInBackground(async () =>
             {
                 await _exportTemplateService.ExportItemsAsync();
-                await _exportTemplateService.ExportRulesAsync();
+                /*await _exportTemplateService.ExportRulesAsync();*/
             }),
             icon: "cloud_upload_regular".GetIcon(),
             gesture: "Ctrl+E"));
