@@ -255,7 +255,6 @@
         <Folder Include="Features\Project\States\" />
         <Folder Include="Features\Project\Strategies\SolutionDatasourceStrategy\" />
         <Folder Include="Features\Settings\Services\" />
-        <Folder Include="Features\TemplateEdit\Services\" />
     </ItemGroup>
     <ItemGroup>
         <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
@@ -264,5 +263,8 @@
         <Reference Include="Microsoft.Extensions.Hosting.Abstractions">
             <HintPath>..\ProjectAvalonia.Desktop\bin\Debug\net7.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
         </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Features\TemplateEdit\Views\ImportDialogView.axaml" />
     </ItemGroup>
 </Project>

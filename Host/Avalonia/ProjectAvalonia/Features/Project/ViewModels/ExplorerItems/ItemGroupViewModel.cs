@@ -53,7 +53,7 @@ public class ItemGroupViewModel
         Items = new ObservableCollection<IItemViewModel>();
         CommitFolderCommand = ReactiveCommand.CreateFromTask(CommitFolder);
         AddProjectItemCommand = ReactiveCommand.CreateFromTask(AddProjectItem);
-        RenameFolderCommand = ReactiveCommand.Create(() => RenameItem());
+        RenameFolderCommand = ReactiveCommand.Create(RenameItem);
 
         // Whenever the list of documents change, calculate a new Observable
         // to represent whenever any of the *current* documents have been
@@ -263,6 +263,25 @@ public class ItemGroupViewModel
                 Items.IterateOn(it =>
                 {
                     var childPath = it.ItemPath.Split(Path.DirectorySeparatorChar)[^1];
+
+                    var pathIt = Path.Combine(path1: newPath, path2: childPath);
+
+                    _editableItemsNavigationService.AlterItem((item) =>
+                    {
+                        item.ItemPath = pathIt;
+
+                        item.ItemName = pathIt.GetFileNameWithoutExtension();
+
+                        item.DisplayName = pathIt
+                        .SplitPath(new Range(^3, ^1), Path.DirectorySeparatorChar)
+                        .Append(item.ItemName)
+                        .JoinPath(Path.DirectorySeparatorChar);
+
+                        return item;
+                    }, it2 =>
+                    {
+                        return it2.ItemPath == it.ItemPath;
+                    });
 
                     it.ItemPath = Path.Combine(path1: newPath, path2: childPath);
                 });

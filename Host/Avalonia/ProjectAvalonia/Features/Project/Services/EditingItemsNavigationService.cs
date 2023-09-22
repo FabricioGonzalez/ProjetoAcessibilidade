@@ -25,8 +25,8 @@ public class EditingItemsNavigationService : ReactiveObject
     public void AlterItem(Func<IEditingItemViewModel, IEditingItemViewModel> editor, Func<IEditingItemViewModel, bool> itemGetter)
     {
         var item = editingItems.Items.FirstOrDefault(itemGetter);
-
-        editingItems.Replace(item, editor(item));
+        if (item is { } i)
+            editingItems.Replace(i, editor(item));
     }
     public void AddItem(IEditingItemViewModel item)
     {

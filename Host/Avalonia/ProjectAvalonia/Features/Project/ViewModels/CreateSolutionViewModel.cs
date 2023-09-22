@@ -1,6 +1,5 @@
 ﻿using System.Reactive.Linq;
 
-using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.ViewModels;
@@ -12,15 +11,18 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
 
 public class CreateSolutionViewModel : DialogViewModelBase<(string local, SolutionState solution)>
 {
+    private readonly IFilePickerService _fileDialogService;
+
     public CreateSolutionViewModel(
         string title
-        , ILocationService _locationService
+        , ILocationService _locationService,
+        IFilePickerService fileDialogService
         , string caption = ""
     )
     {
         Title = title;
-
-        SolutionModel = new SolutionState(_locationService, new FilePickerService());
+        _fileDialogService = fileDialogService;
+        SolutionModel = new SolutionState(_locationService, _fileDialogService);
 
         Title = title;
         Caption = caption;

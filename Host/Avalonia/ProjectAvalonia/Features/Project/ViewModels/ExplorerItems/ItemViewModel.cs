@@ -73,7 +73,7 @@ public partial class ItemViewModel
 
         _ = ExcludeFileCommand.Subscribe();
 
-        RenameFileCommand = ReactiveCommand.Create(() => RenameFile());
+        RenameFileCommand = ReactiveCommand.Create(RenameFile);
     }
 
     public string Id
@@ -187,6 +187,11 @@ public partial class ItemViewModel
             {
                 item.ItemPath = newPath;
                 item.ItemName = Path.GetFileNameWithoutExtension(newPath);
+
+                item.DisplayName = string.Join(Path.DirectorySeparatorChar,
+                    newPath
+                    .Split(Path.DirectorySeparatorChar)[^3..^1]
+                    .Append(Path.GetFileNameWithoutExtension(newPath)));
 
                 return item;
             }, it => it.ItemPath == path);

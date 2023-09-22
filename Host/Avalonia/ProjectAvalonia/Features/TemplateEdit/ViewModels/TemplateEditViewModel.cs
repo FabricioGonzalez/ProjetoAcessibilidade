@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
@@ -16,9 +17,11 @@ using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
+using ProjectAvalonia.Features.TemplateEdit.Services;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels.Components;
 using ProjectAvalonia.Models;
 using ProjectAvalonia.Presentation.Interfaces;
+using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
@@ -49,6 +52,10 @@ public partial class TemplateEditViewModel
     private readonly EditableItemService _editableItemService;
     private readonly ItemsService _itemsService;
     private readonly ValidationRulesService _validationRulesService;
+    private readonly ExportTemplateService _exportTemplateService;
+    private readonly IFilePickerService _filePickerService;
+    private readonly ImportTemplateService _importTemplateService;
+    private readonly ImportDialogViewModel importDialogViewModel;
 
     private IEditableItemViewModel _selectedItem;
 
@@ -56,13 +63,22 @@ public partial class TemplateEditViewModel
         ITemplateEditTabViewModel templateEditTab
         , ItemValidationViewModel itemValidationTab
         , ItemsService itemsService
-        , EditableItemService _editableItemService
+        , EditableItemService editableItemService
         , ValidationRulesService validationRulesService
-    )
+,
+ImportTemplateService importTemplateService,
+ExportTemplateService exportTemplateService,
+IFilePickerService filePickerService)
     {
         _itemsService = itemsService;
-        this._editableItemService = _editableItemService;
+        _editableItemService = editableItemService;
         _validationRulesService = validationRulesService;
+        _exportTemplateService = exportTemplateService;
+        _filePickerService = filePickerService;
+        _importTemplateService = importTemplateService;
+
+        importDialogViewModel = new(importTemplateService: _importTemplateService, _filePickerService);
+
         SetupCancel(
             enableCancel: false,
             enableCancelOnEscape: true,
@@ -120,6 +136,8 @@ public partial class TemplateEditViewModel
                     item.InEditMode = true;
                 }
             });
+        _importTemplateService = importTemplateService;
+        _exportTemplateService = exportTemplateService;
     }
 
 
@@ -243,12 +261,9 @@ public partial class TemplateEditViewModel
             label: "Template_Edit_Imports_Item_ToolBarItem".GetLocalized(),
             command: ReactiveCommand.CreateRunInBackground(async () =>
             {
-                await TemplateEditTab.EditingItem.ToOption()
-                    .Map(async item =>
-                    {
-                        await SaveItemData(item);
-                    })
-                    .Reduce(() => Task.CompletedTask);
+                var result = await NavigateDialogAsync(importDialogViewModel, NavigationTarget.DialogScreen);
+
+                Debug.WriteLine(result.Result);
             }),
             icon: "cloud_download_regular".GetIcon(),
             gesture: "Ctrl+I"));
@@ -257,12 +272,8 @@ public partial class TemplateEditViewModel
             label: "Template_Edit_Export_Items_ToolBarItem".GetLocalized(),
             command: ReactiveCommand.CreateRunInBackground(async () =>
             {
-                await TemplateEditTab.EditingItem.ToOption()
-                    .Map(async item =>
-                    {
-                        await SaveItemData(item);
-                    })
-                    .Reduce(() => Task.CompletedTask);
+                await _exportTemplateService.ExportItemsAsync();
+                await _exportTemplateService.ExportRulesAsync();
             }),
             icon: "cloud_upload_regular".GetIcon(),
             gesture: "Ctrl+E"));

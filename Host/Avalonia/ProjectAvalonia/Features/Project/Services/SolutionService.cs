@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Common;
 
 using ProjectAvalonia.Common.Logging;
-using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Features.Project.Mappings;
 using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
@@ -16,30 +15,32 @@ namespace ProjectAvalonia.Features.Project.Services;
 public class SolutionService
 {
     private readonly ILocationService _locationService;
+    private readonly IFilePickerService _filePickerService;
     private readonly SolutionDatasourceImpl _solutionDatasource;
 
     public SolutionService(
         SolutionDatasourceImpl datasourceImpl
-        , ILocationService locationService
+        , ILocationService locationService,
+        IFilePickerService filePickerService
     )
     {
         _solutionDatasource = datasourceImpl;
         _locationService = locationService;
+        _filePickerService = filePickerService;
     }
 
     public SolutionState GetSolution(
         string path
     )
     {
-        var filePicker = new FilePickerService();
         var result = _solutionDatasource.ReadSolution(path);
 
-        return result.Match(Succ: succ => succ.ToSolutionState(_locationService, filePicker)
+        return result.Match(Succ: succ => succ.ToSolutionState(_locationService, _filePickerService)
             , Fail: fail =>
             {
                 Logger.LogError(fail);
 
-                return new SolutionState(_locationService, filePicker);
+                return new SolutionState(_locationService, _filePickerService);
             });
     }
 

@@ -24,4 +24,11 @@ internal class FilePickerService : IFilePickerService
 
         return data.Match(suc => suc.Path.LocalPath, fail => string.Empty);
     }
+
+    public async Task<string> GetZipFilesAsync()
+    {
+        var data = await FileDialogHelper.GetZipFilesAsync();
+
+        return data.Match(suc => suc.Path.LocalPath, fail => string.Empty);
+    }
 }

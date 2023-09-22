@@ -58,9 +58,11 @@ public class SolutionEditItemViewModel
         get; set;
     }
 
+    private string _displayName = "";
+
     public string DisplayName
     {
-        get;
+        get => _displayName; set => this.RaiseAndSetIfChanged(ref _displayName, value);
     }
 
     public string TemplateName

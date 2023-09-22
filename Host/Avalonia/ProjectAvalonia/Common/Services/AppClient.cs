@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -36,20 +35,7 @@ public class AppClient
         get;
         private set;
     } = ushort.Parse(AppConstants.BackendMajorVersion);
-    public async Task GetTemplates()
-    {
-        using var message = new HttpRequestMessage(HttpMethod.Get, AppConstants.TemplateReleaseURL);
-        message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ProjetoAcessibilidade"
-            , "2.0"));
-        var response = await HttpClient.SendAsync(message, CancellationToken.None)
-            .ConfigureAwait(false);
-        var jsonResponse = JObject.Parse(await response.Content
-            .ReadAsStringAsync(CancellationToken.None)
-            .ConfigureAwait(false));
 
-        Debug.WriteLine(jsonResponse.ToString());
-
-    }
     public async Task<Version> GetVersionFromGithub()
     {
         using var message = new HttpRequestMessage(HttpMethod.Get, AppConstants.ReleaseURL);

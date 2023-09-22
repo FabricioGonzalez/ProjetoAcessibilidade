@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 
-using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Presentation.Interfaces.Services;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.ProjectItems;
@@ -32,7 +31,7 @@ public static class SolutionStateMapping
         this ReportItem report,
         IFilePickerService service
     ) =>
-        new(new FilePickerService())
+        new(service)
         {
             SolutionName = report.SolutionName,
             ManagerInfo = report.Manager.ToManagerInfoState(service)

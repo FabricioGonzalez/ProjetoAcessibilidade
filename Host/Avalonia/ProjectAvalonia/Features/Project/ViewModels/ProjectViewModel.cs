@@ -48,7 +48,7 @@ public partial class ProjectViewModel
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
     private readonly ItemsService _itemsService;
     private readonly ILocationService _locationService;
-
+    private readonly IFilePickerService _filePickerService;
     private readonly SolutionService _solutionService;
 
     public ProjectViewModel()
@@ -99,13 +99,15 @@ public partial class ProjectViewModel
         , ItemsService itemsService
         , EditableItemService editableItemService
         , ValidationRulesService validationRulesService
-        , ILocationService locationService
+        , ILocationService locationService,
+        IFilePickerService filePickerService
     ) : this()
     {
         _solutionService = solutionService;
         _itemsService = itemsService;
         _editableItemService = editableItemService;
         _locationService = locationService;
+        _filePickerService = filePickerService;
         _editableItemsNavigationService = new();
         ProjectEditingViewModel = new ProjectEditingViewModel(solutionService: _solutionService
             , editableItemService: editableItemService, validationRulesService: validationRulesService, _editableItemsNavigationService);
@@ -309,7 +311,7 @@ public partial class ProjectViewModel
     private async Task CreateSolution()
     {
         var dialogResult = await NavigateDialogAsync(
-            dialog: new CreateSolutionViewModel(title: "Criar Solução", _locationService: _locationService)
+            dialog: new CreateSolutionViewModel(title: "Criar Solução", _locationService: _locationService, fileDialogService: _filePickerService)
             , target: NavigationTarget.CompactDialogScreen);
 
         if (dialogResult is { Kind: DialogResultKind.Normal } result)

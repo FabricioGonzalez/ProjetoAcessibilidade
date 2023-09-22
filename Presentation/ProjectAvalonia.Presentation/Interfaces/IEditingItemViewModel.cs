@@ -14,7 +14,7 @@ public interface IEditingItemViewModel : INotifyPropertyChanged, IDisposable
 
     public string DisplayName
     {
-        get;
+        get; set;
     }
 
     public string TemplateName
