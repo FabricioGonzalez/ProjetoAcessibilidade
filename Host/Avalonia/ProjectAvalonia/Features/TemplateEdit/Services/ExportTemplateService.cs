@@ -1,10 +1,10 @@
 ﻿using System.IO;
-using System.IO.Compression;
-using System.Text;
 using System.Threading.Tasks;
 
 using Common;
 using Common.Linq;
+
+using Ionic.Zip;
 
 using ProjectAvalonia.Presentation.Interfaces.Services;
 
@@ -29,19 +29,23 @@ public class ExportTemplateService
             {
                 File.Delete(path);
             }
+            using ZipFile zip = new ZipFile();
 
-            using var newZip = ZipFile.Open(path, ZipArchiveMode.Create, Encoding.GetEncoding(866));
+            zip.AddDirectory(path);
+
+            zip.AddDirectory(path);
 
             Directory.GetFiles(Constants.AppValidationRulesTemplateFolder)
                 .IterateOn(it =>
                 {
-                    newZip.CreateEntryFromFile(it, Path.Combine("Rules", Path.GetFileName(it)));
+                    zip.AddFile(it, Path.Combine("Rules", Path.GetFileName(it)));
                 });
             Directory.GetFiles(Constants.AppItemsTemplateFolder)
                 .IterateOn(it =>
                 {
-                    newZip.CreateEntryFromFile(it, Path.Combine("Templates", Path.GetFileName(it)));
+                    zip.AddFile(it, Path.Combine("Templates", Path.GetFileName(it)));
                 });
+            zip.Save(path);
         }
     }
 

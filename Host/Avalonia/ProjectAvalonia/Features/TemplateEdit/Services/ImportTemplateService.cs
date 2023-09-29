@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using System.IO.Compression;
+
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Common;
+
+using Ionic.Zip;
 
 using Newtonsoft.Json.Linq;
 
@@ -47,17 +49,20 @@ public class ImportTemplateService
         IoHelpers.EnsureDirectoryExists(Constants.AppValidationRulesTemplateFolder);
         IoHelpers.EnsureDirectoryExists(Constants.AppItemsTemplateFolder);
 
-        using var zipFile = ZipFile.OpenRead(ZipPath);
+        using ZipFile zip = new ZipFile(ZipPath, System.Text.Encoding.UTF8);
 
-        foreach (var item in zipFile.Entries)
+        foreach (var item in zip.Entries)
         {
-            if (item.FullName.Split('/')[0] == "Rules")
+            var rule = item.FileName.Split('/');
+            if (rule[0] == "Rules")
             {
-                item.ExtractToFile(Path.Combine(Constants.AppValidationRulesTemplateFolder, item.FullName.Split('/')[1]), true);
+                using var sw = new FileStream(Path.Combine(Constants.AppValidationRulesTemplateFolder, $"{rule[1]}"), new FileStreamOptions() { Mode = FileMode.Create, Access = FileAccess.Write });
+                item.Extract(sw);
             }
-            if (item.FullName.Split('/')[0] == "Templates")
+            if (rule[0] == "Templates")
             {
-                item.ExtractToFile(Path.Combine(Constants.AppItemsTemplateFolder, item.FullName.Split('/')[1]), true);
+                using var sw = new FileStream(Path.Combine(Constants.AppItemsTemplateFolder, $"{rule[1]}"), new FileStreamOptions() { Mode = FileMode.Create, Access = FileAccess.Write });
+                item.Extract(sw);
             }
         }
 
