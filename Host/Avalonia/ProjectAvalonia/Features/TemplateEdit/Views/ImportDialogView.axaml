@@ -19,10 +19,7 @@
 		EnableNext="True"
 		NextContent="{x:Static p:Resources.NextActionLabel}"
 		ScrollViewer.VerticalScrollBarVisibility="Disabled">
-		<Grid
-			ColumnDefinitions="* * * *"
-			RowDefinitions="* * *"
-			ShowGridLines="True">
+		<Grid ColumnDefinitions="* * * *" RowDefinitions="* * *">
 			<StackPanel
 				Grid.Column="1"
 				Grid.ColumnSpan="2"

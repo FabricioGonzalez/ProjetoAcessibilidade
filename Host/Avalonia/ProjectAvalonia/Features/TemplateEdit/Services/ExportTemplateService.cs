@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 using Common;
@@ -29,7 +31,12 @@ public class ExportTemplateService
             {
                 File.Delete(path);
             }
-            using ZipFile zip = new ZipFile();
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            var iso = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
+
+            using ZipFile zip = new ZipFile(file, iso);
 
             zip.AddDirectory(path);
 

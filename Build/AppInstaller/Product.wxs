@@ -2,9 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
     <?if $(var.Platform)=x64?>
-    <?define ProductCode="{7B85D727-2FE7-4CA2-A2C5-4A65A7C5736D}"?>
+    <?define ProductCode="{E34EB79C-9428-4283-A649-DE79B4695D50}"?>
     <?else?>
-    <?define ProductCode="{ED008F28-E948-4064-8A20-0B8BB5690607}"?>
+    <?define ProductCode="{6E7FC4C6-72E1-47D6-B4A7-47399EEB6C5C}"?>
     <?endif?>
 
     <?define UpgradeCode="{71519238-953F-465E-B1D2-6B4AE96E39FF}"?>

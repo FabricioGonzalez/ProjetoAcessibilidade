@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -49,25 +51,39 @@ public class ImportTemplateService
         IoHelpers.EnsureDirectoryExists(Constants.AppValidationRulesTemplateFolder);
         IoHelpers.EnsureDirectoryExists(Constants.AppItemsTemplateFolder);
 
-        using ZipFile zip = new ZipFile(ZipPath, System.Text.Encoding.UTF8);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+        var iso = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
+
+        using ZipFile zip = new ZipFile(ZipPath, iso);
 
         foreach (var item in zip.Entries)
         {
             var rule = item.FileName.Split('/');
-            if (rule[0] == "Rules")
+
+            var path = rule[0] switch
             {
-                using var sw = new FileStream(Path.Combine(Constants.AppValidationRulesTemplateFolder, $"{rule[1]}"), new FileStreamOptions() { Mode = FileMode.Create, Access = FileAccess.Write });
-                item.Extract(sw);
-            }
-            if (rule[0] == "Templates")
-            {
-                using var sw = new FileStream(Path.Combine(Constants.AppItemsTemplateFolder, $"{rule[1]}"), new FileStreamOptions() { Mode = FileMode.Create, Access = FileAccess.Write });
-                item.Extract(sw);
-            }
+                "Rules" => Path.Combine(Constants.AppValidationRulesTemplateFolder, rule[1]),
+                "Templates" => Path.Combine(Constants.AppItemsTemplateFolder, rule[1]),
+                _ => ""
+            };
+            using var sw = new FileStream(path, new FileStreamOptions() { Mode = FileMode.Create, Access = FileAccess.Write });
+
+            item.Extract(sw);
+
         }
 
     }
+    /*  private string Decode(string name)
+      {
+          Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+          var iso = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
+          var utf8 = Encoding.GetEncoding("ISO-8859-1");
+          var utfBytes = utf8.GetBytes(name);
+          var isoBytes = Encoding.Convert(utf8, iso, utfBytes);
+          return iso.GetString(isoBytes);
+      }*/
     private async Task<string> GetTemplatesFromGithub(string selectedFile)
     {
         using var message = new HttpRequestMessage(HttpMethod.Get, AppConstants.TemplateReleaseURL);
