@@ -13,11 +13,15 @@ namespace QuestPDFReport.ReportSettings;
 
 public class StandardReport : IDocument
 {
+    private readonly bool strechImages;
+
     public StandardReport(
-        IReport model
+        IReport model,
+        bool strechImages
     )
     {
         Model = model;
+        this.strechImages = strechImages;
     }
 
     private IReport Model
@@ -452,7 +456,7 @@ public class StandardReport : IDocument
     {
         column.Item()
             .Element(it =>
-                it.Component(new SectionTemplate(section)));
+                it.Component(new SectionTemplate(section, strechImages)));
 
         column.Item().PageBreak();
     }

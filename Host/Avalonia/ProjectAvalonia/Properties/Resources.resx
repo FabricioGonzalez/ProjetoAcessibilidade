@@ -492,4 +492,7 @@
   <data name="MainLawLabel" xml:space="preserve">
     <value>Lei do Cabeçalho do Relatório</value>
   </data>
+  <data name="ImageBehaviorLabel" xml:space="preserve">
+    <value>Permite esticar Imagens?</value>
+  </data>
 </root>

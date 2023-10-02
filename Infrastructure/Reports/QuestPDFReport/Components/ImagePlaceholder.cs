@@ -6,6 +6,8 @@ namespace QuestPDFReport.Components;
 
 public class ReportImage : IComponent
 {
+    private readonly bool strecth;
+
     public static bool Solid
     {
         get;
@@ -35,10 +37,11 @@ public class ReportImage : IComponent
         get;
         set;
     }
-    public ReportImage(float width, float height)
+    public ReportImage(float width, float height, bool strecth = false)
     {
         Width = width;
         Height = height;
+        this.strecth = strecth;
     }
     public void Compose(
         IContainer container
@@ -50,14 +53,29 @@ public class ReportImage : IComponent
             container
                 .Column(decoration =>
                 {
-                    decoration
-                        .Item()
-                        .ExtendHorizontal()
-                        .Height(Height)
-                        .MaxHeight(Height)
-                        .Image(image)
-                        .FitUnproportionally()
-                        .WithCompressionQuality(ImageCompressionQuality.Medium);
+                    if (strecth)
+                    {
+                        decoration
+                         .Item()
+                         .ExtendHorizontal()
+                         .Height(Height)
+                         .MaxHeight(Height)
+                         .Image(image)
+                         .WithCompressionQuality(ImageCompressionQuality.Medium)
+                         .FitUnproportionally();
+                    }
+                    else
+                    {
+                        decoration
+                         .Item()
+                         .ExtendHorizontal()
+                         .AlignCenter()
+                         .Height(Height)
+                         .MaxHeight(Height)
+                         .Image(image)
+                         .WithCompressionQuality(ImageCompressionQuality.Medium)
+                         .FitArea();
+                    }
 
                     decoration
                         .Item()

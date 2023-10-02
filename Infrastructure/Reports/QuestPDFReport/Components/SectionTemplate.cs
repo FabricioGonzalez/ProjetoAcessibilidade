@@ -12,11 +12,18 @@ namespace QuestPDFReport.Components;
 
 public class SectionTemplate : IComponent
 {
+    private bool strechImages;
+
     public SectionTemplate(
         ReportLocationGroup model
     )
     {
         Model = model;
+    }
+
+    public SectionTemplate(ReportLocationGroup model, bool strechImages) : this(model)
+    {
+        this.strechImages = strechImages;
     }
 
     public ReportLocationGroup Model
@@ -82,7 +89,7 @@ public class SectionTemplate : IComponent
                                                     .Element(x =>
                                                     LawItemsElement(container: x, models: item.Laws));
 
-                                                ImageItems(item, column);
+                                                ImageItems(item, column, strechImages);
                                             });
                                     });
                                 });
@@ -125,7 +132,7 @@ public class SectionTemplate : IComponent
             });
     }
 
-    private void ImageItems(ReportSection item, ColumnDescriptor column)
+    private void ImageItems(ReportSection item, ColumnDescriptor column, bool StrechImages = false)
     {
         if (item.Images.Any())
         {
@@ -143,7 +150,7 @@ public class SectionTemplate : IComponent
                         !string.IsNullOrWhiteSpace(it.ImagePath))
                     .IterateOn(item =>
                     {
-                        var image = new ReportImage(160, 160)
+                        var image = new ReportImage(160, 160, StrechImages)
                         {
                             ImagePath = item.ImagePath
                             ,

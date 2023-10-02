@@ -32,6 +32,10 @@ public partial class ReportSettingsViewModel : SettingsTabViewModelBase
            .Skip(1)
            .Subscribe(x => ServicesConfig.UiConfig.DefaultLawContent = x);
 
+        this.WhenAnyValue(x => x.ImageStretching)
+          .ObserveOn(RxApp.TaskpoolScheduler)
+          .Skip(1)
+          .Subscribe(x => ServicesConfig.UiConfig.ImageStrecthing = x);
     }
 
     public override string? LocalizedTitle
@@ -55,5 +59,11 @@ public partial class ReportSettingsViewModel : SettingsTabViewModelBase
     {
         get => lawContent;
         set => this.RaiseAndSetIfChanged(ref lawContent, value);
+    }
+    private bool imageStrecthing;
+    public bool ImageStretching
+    {
+        get => imageStrecthing;
+        set => this.RaiseAndSetIfChanged(ref imageStrecthing, value);
     }
 }
