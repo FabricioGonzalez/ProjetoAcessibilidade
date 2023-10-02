@@ -2,7 +2,11 @@
 
 namespace QuestPDF.Elements
 {
-    public class Container : ContainerElement
+    internal class Container : ContainerElement
     {
+        internal Container()
+        {
+            
+        }
     }
 }

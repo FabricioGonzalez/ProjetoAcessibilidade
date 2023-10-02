@@ -3,66 +3,43 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class Border : ContainerElement
+    internal class Border : ContainerElement
     {
-        public string Color
-        {
-            get;
-            set;
-        } = Colors.Black;
+        public string Color { get; set; } = Colors.Black;
 
-        public float Top
-        {
-            get;
-            set;
-        }
+        public float Top { get; set; }
+        public float Right { get; set; }
+        public float Bottom { get; set; }
+        public float Left { get; set; }
 
-        public float Right
+        internal override void Draw(Size availableSpace)
         {
-            get;
-            set;
-        }
-
-        public float Bottom
-        {
-            get;
-            set;
-        }
-
-        public float Left
-        {
-            get;
-            set;
-        }
-
-        public override void Draw(
-            Size availableSpace
-        )
-        {
-            base.Draw(availableSpace: availableSpace);
-
+            base.Draw(availableSpace);
+            
             Canvas.DrawRectangle(
-                vector: new Position(x: -Left / 2, y: -Top / 2),
-                size: new Size(width: availableSpace.Width + Left / 2 + Right / 2, height: Top),
-                color: Color);
-
+                new Position(-Left/2, -Top/2), 
+                new Size(availableSpace.Width + Left/2 + Right/2, Top), 
+                Color);
+            
             Canvas.DrawRectangle(
-                vector: new Position(x: -Left / 2, y: -Top / 2),
-                size: new Size(width: Left, height: availableSpace.Height + Top / 2 + Bottom / 2),
-                color: Color);
-
+                new Position(-Left/2, -Top/2), 
+                new Size(Left, availableSpace.Height + Top/2 + Bottom/2), 
+                Color);
+            
             Canvas.DrawRectangle(
-                vector: new Position(x: -Left / 2, y: availableSpace.Height - Bottom / 2),
-                size: new Size(width: availableSpace.Width + Left / 2 + Right / 2, height: Bottom),
-                color: Color);
-
+                new Position(-Left/2, availableSpace.Height-Bottom/2), 
+                new Size(availableSpace.Width + Left/2 + Right/2, Bottom), 
+                Color);
+            
             Canvas.DrawRectangle(
-                vector: new Position(x: availableSpace.Width - Right / 2, y: -Top / 2),
-                size: new Size(width: Right, height: availableSpace.Height + Top / 2 + Bottom / 2),
-                color: Color);
+                new Position(availableSpace.Width-Right/2, -Top/2), 
+                new Size(Right, availableSpace.Height + Top/2 + Bottom/2), 
+                Color);
         }
 
-        public override string ToString() =>
-            $"Border: Top({Top}) Right({Right}) Bottom({Bottom}) Left({Left}) Color({Color})";
+        public override string ToString()
+        {
+            return $"Border: Top({Top}) Right({Right}) Bottom({Bottom}) Left({Left}) Color({Color})";
+        }
     }
 }

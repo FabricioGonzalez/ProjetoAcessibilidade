@@ -3,7 +3,7 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements.Text.Items
 {
-    public class TextBlockSectionlLink : TextBlockSpan
+    internal class TextBlockSectionlLink : TextBlockSpan
     {
         public string SectionName
         {

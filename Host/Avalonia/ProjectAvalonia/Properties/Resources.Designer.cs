@@ -511,6 +511,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Permite esticar Imagens?.
+        /// </summary>
+        public static string ImageBehaviorLabel {
+            get {
+                return ResourceManager.GetString("ImageBehaviorLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Está.
         /// </summary>
         public static string IsOperationLabel {

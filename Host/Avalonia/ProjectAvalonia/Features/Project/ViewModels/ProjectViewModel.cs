@@ -44,10 +44,11 @@ public partial class ProjectViewModel
         , IProjectViewModel
 {
     private readonly EditableItemService _editableItemService;
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
     private readonly ObservableAsPropertyHelper<bool> _isSolutionOpen;
     private readonly ItemsService _itemsService;
     private readonly ILocationService _locationService;
-
+    private readonly IFilePickerService _filePickerService;
     private readonly SolutionService _solutionService;
 
     public ProjectViewModel()
@@ -98,15 +99,18 @@ public partial class ProjectViewModel
         , ItemsService itemsService
         , EditableItemService editableItemService
         , ValidationRulesService validationRulesService
-        , ILocationService locationService
+        , ILocationService locationService,
+        IFilePickerService filePickerService
     ) : this()
     {
         _solutionService = solutionService;
         _itemsService = itemsService;
         _editableItemService = editableItemService;
         _locationService = locationService;
+        _filePickerService = filePickerService;
+        _editableItemsNavigationService = new();
         ProjectEditingViewModel = new ProjectEditingViewModel(solutionService: _solutionService
-            , editableItemService: editableItemService, validationRulesService: validationRulesService);
+            , editableItemService: editableItemService, validationRulesService: validationRulesService, _editableItemsNavigationService);
 
         ProjectPrintPreviewViewModel = new PreviewerViewModel();
     }
@@ -285,7 +289,8 @@ public partial class ProjectViewModel
         var data = new ProjectExplorerViewModel(
                          state: result,
                          itemsService: _itemsService,
-                         solutionService: _solutionService
+                         solutionService: _solutionService,
+                         _editableItemsNavigationService
                      )
         {
             SetEditingItem = ReactiveCommand.Create<IItemViewModel>(item =>
@@ -299,8 +304,6 @@ public partial class ProjectViewModel
              .InvokeAsync(
                  () =>
                  {
-
-
                      this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
                  });
     }
@@ -308,7 +311,7 @@ public partial class ProjectViewModel
     private async Task CreateSolution()
     {
         var dialogResult = await NavigateDialogAsync(
-            dialog: new CreateSolutionViewModel(title: "Criar Solução", _locationService: _locationService)
+            dialog: new CreateSolutionViewModel(title: "Criar Solução", _locationService: _locationService, fileDialogService: _filePickerService)
             , target: NavigationTarget.CompactDialogScreen);
 
         if (dialogResult is { Kind: DialogResultKind.Normal } result)
@@ -316,13 +319,16 @@ public partial class ProjectViewModel
             await _solutionService.CreateSolution(
                 path: result.Result.local
                 , solution: result.Result.solution);
-            Dispatcher.UIThread.Post(() =>
-            {
-                ProjectExplorerViewModel =
-                    new ProjectExplorerViewModel(state: result.Result.solution, itemsService: _itemsService
-                        , solutionService: _solutionService);
-                this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
-            });
+
+            await ReadSolutionAndOpen(result.Result.local);
+
+            /* Dispatcher.UIThread.Post(() =>
+             {
+                 ProjectExplorerViewModel =
+                     new ProjectExplorerViewModel(state: result.Result.solution, itemsService: _itemsService
+                         , solutionService: _solutionService);
+                 this.RaisePropertyChanged(nameof(ProjectExplorerViewModel));
+             });*/
         }
     }
 

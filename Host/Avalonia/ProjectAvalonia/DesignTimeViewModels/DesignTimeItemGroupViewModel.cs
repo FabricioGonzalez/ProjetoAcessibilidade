@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
+
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -70,6 +72,11 @@ public class DesignTimeItemGroupViewModel
     public ReactiveCommand<Unit, Unit> MoveItemCommand
     {
         get;
+    }
+    public ISolutionLocationItem Parent
+    {
+        get => throw new System.NotImplementedException();
+        set => throw new System.NotImplementedException();
     }
 
     public void RemoveItem(

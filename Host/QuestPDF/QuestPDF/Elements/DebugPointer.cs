@@ -1,17 +1,10 @@
-﻿namespace QuestPDF.Elements
-{
-    public class DebugPointer : Container
-    {
-        public string Target
-        {
-            get;
-            set;
-        }
+﻿using System.ComponentModel;
 
-        public bool Highlight
-        {
-            get;
-            set;
-        }
+namespace QuestPDF.Elements
+{
+    internal class DebugPointer : Container
+    {
+        public string Target { get; set; }
+        public bool Highlight { get; set; }
     }
 }

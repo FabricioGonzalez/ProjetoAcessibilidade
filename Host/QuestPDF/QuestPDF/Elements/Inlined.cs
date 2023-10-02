@@ -1,281 +1,252 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using QuestPDF.Drawing;
 using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class InlinedElement : Container
+    internal class InlinedElement : Container
     {
+
     }
 
-    public enum InlinedAlignment
+    internal enum InlinedAlignment
     {
-        Left
-        , Center
-        , Right
-        , Justify
-        , SpaceAround
+        Left,
+        Center,
+        Right,
+        Justify,
+        SpaceAround
     }
 
-    public class Inlined
-        : Element
-            , IStateResettable
+    internal struct InlinedMeasurement
     {
-        public List<InlinedElement> Elements
-        {
-            get;
-            set;
-        } = new();
+        public Element Element { get; set; }
+        public SpacePlan Size { get; set; }
+    }
+    
+    internal class Inlined : Element, IStateResettable, IContentDirectionAware
+    {
+        public ContentDirection ContentDirection { get; set; }
+        
+        public List<InlinedElement> Elements { get; internal set; } = new List<InlinedElement>();
+        private Queue<InlinedElement> ChildrenQueue { get; set; }
 
-        private Queue<InlinedElement> ChildrenQueue
+        internal float VerticalSpacing { get; set; }
+        internal float HorizontalSpacing { get; set; }
+        
+        internal InlinedAlignment? ElementsAlignment { get; set; }
+        internal VerticalAlignment BaselineAlignment { get; set; }
+        
+        public void ResetState()
         {
-            get;
-            set;
+            ChildrenQueue = new Queue<InlinedElement>(Elements);
         }
-
-        public float VerticalSpacing
+        
+        internal override IEnumerable<Element?> GetChildren()
         {
-            get;
-            set;
+            return Elements;
         }
-
-        public float HorizontalSpacing
+        
+        internal override SpacePlan Measure(Size availableSpace)
         {
-            get;
-            set;
-        }
-
-        public InlinedAlignment ElementsAlignment
-        {
-            get;
-            set;
-        }
-
-        public VerticalAlignment BaselineAlignment
-        {
-            get;
-            set;
-        }
-
-        public void ResetState() => ChildrenQueue = new Queue<InlinedElement>(collection: Elements);
-
-        public override IEnumerable<Element?> GetChildren() => Elements;
-
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
-        {
+            SetDefaultAlignment();   
+            
             if (!ChildrenQueue.Any())
-            {
-                return SpacePlan.FullRender(size: Size.Zero);
-            }
-
-            var lines = Compose(availableSize: availableSpace);
+                return SpacePlan.FullRender(Size.Zero);
+            
+            var lines = Compose(availableSpace);
 
             if (!lines.Any())
-            {
                 return SpacePlan.Wrap();
-            }
 
             var lineSizes = lines
-                .Select(selector: line =>
+                .Select(line =>
                 {
-                    var size = GetLineSize(elements: line);
+                    var size = GetLineSize(line);
 
                     var widthWithSpacing = size.Width + (line.Count - 1) * HorizontalSpacing;
-                    return new Size(width: widthWithSpacing, height: size.Height);
+                    return new Size(widthWithSpacing, size.Height);
                 })
                 .ToList();
+            
+            var width = lineSizes.Max(x => x.Width);
+            var height = lineSizes.Sum(x => x.Height) + (lines.Count - 1) * VerticalSpacing;
+            var targetSize = new Size(width, height);
 
-            var width = lineSizes.Max(selector: x => x.Width);
-            var height = lineSizes.Sum(selector: x => x.Height) + (lines.Count - 1) * VerticalSpacing;
-            var targetSize = new Size(width: width, height: height);
-
-            var isPartiallyRendered = lines.Sum(selector: x => x.Count) != ChildrenQueue.Count;
+            var isPartiallyRendered = lines.Sum(x => x.Count) != ChildrenQueue.Count;
 
             if (isPartiallyRendered)
-            {
-                return SpacePlan.PartialRender(size: targetSize);
-            }
-
-            return SpacePlan.FullRender(size: targetSize);
+                return SpacePlan.PartialRender(targetSize);
+            
+            return SpacePlan.FullRender(targetSize);
         }
 
-        public override void Draw(
-            Size availableSpace
-        )
+        internal override void Draw(Size availableSpace)
         {
-            var lines = Compose(availableSize: availableSpace);
+            SetDefaultAlignment();
+            
+            var lines = Compose(availableSpace);
             var topOffset = 0f;
-
+            
             foreach (var line in lines)
             {
-                var height = line
-                    .Select(selector: x => x.Measure(availableSpace: Size.Max))
-                    .Where(predicate: x => x.Type != SpacePlanType.Wrap)
-                    .Max(selector: x => x.Height);
-
-                DrawLine(elements: line);
+                var height = line.Max(x => x.Size.Height);
+                
+                DrawLine(line);
 
                 topOffset += height + VerticalSpacing;
-                Canvas.Translate(vector: new Position(x: 0, y: height + VerticalSpacing));
+                Canvas.Translate(new Position(0, height + VerticalSpacing));
             }
+            
+            Canvas.Translate(new Position(0, -topOffset));
+            lines.SelectMany(x => x).ToList().ForEach(x => ChildrenQueue.Dequeue());
+            
+            if (!ChildrenQueue.Any())
+                ResetState();
 
-            Canvas.Translate(vector: new Position(x: 0, y: -topOffset));
-            lines.SelectMany(selector: x => x).ToList().ForEach(action: x => ChildrenQueue.Dequeue());
-
-            void DrawLine(
-                ICollection<InlinedElement> elements
-            )
+            void DrawLine(ICollection<InlinedMeasurement> lineMeasurements)
             {
-                var lineSize = GetLineSize(elements: elements);
+                var lineSize = GetLineSize(lineMeasurements);
 
                 var elementOffset = ElementOffset();
                 var leftOffset = AlignOffset();
-                Canvas.Translate(vector: new Position(x: leftOffset, y: 0));
-
-                foreach (var element in elements)
+                
+                foreach (var measurement in lineMeasurements)
                 {
-                    var size = (Size)element.Measure(availableSpace: Size.Max);
-                    var baselineOffset = BaselineOffset(elementSize: size, lineHeight: lineSize.Height);
+                    var size = (Size)measurement.Size;
+                    var baselineOffset = BaselineOffset(size, lineSize.Height);
 
                     if (size.Height == 0)
-                    {
-                        size = new Size(width: size.Width, height: lineSize.Height);
-                    }
-
-                    Canvas.Translate(vector: new Position(x: 0, y: baselineOffset));
-                    element.Draw(availableSpace: size);
-                    Canvas.Translate(vector: new Position(x: 0, y: -baselineOffset));
+                        size = new Size(size.Width, lineSize.Height);
+                    
+                    var offset = ContentDirection == ContentDirection.LeftToRight
+                        ? new Position(leftOffset, baselineOffset)
+                        : new Position(availableSpace.Width - size.Width - leftOffset, baselineOffset);
+                    
+                    Canvas.Translate(offset);
+                    measurement.Element.Draw(size);
+                    Canvas.Translate(offset.Reverse());
 
                     leftOffset += size.Width + elementOffset;
-                    Canvas.Translate(vector: new Position(x: size.Width + elementOffset, y: 0));
                 }
-
-                Canvas.Translate(vector: new Position(x: -leftOffset, y: 0));
 
                 float ElementOffset()
                 {
                     var difference = availableSpace.Width - lineSize.Width;
 
-                    if (elements.Count == 1)
-                    {
+                    if (lineMeasurements.Count == 1)
                         return 0;
-                    }
 
                     return ElementsAlignment switch
                     {
-                        InlinedAlignment.Justify => difference / (elements.Count - 1)
-                        , InlinedAlignment.SpaceAround => difference / (elements.Count + 1), _ => HorizontalSpacing
+                        InlinedAlignment.Justify => difference / (lineMeasurements.Count - 1),
+                        InlinedAlignment.SpaceAround => difference / (lineMeasurements.Count + 1),
+                        _ => HorizontalSpacing
                     };
                 }
 
                 float AlignOffset()
                 {
-                    var difference = availableSpace.Width - lineSize.Width - (elements.Count - 1) * HorizontalSpacing;
+                    var emptySpace = availableSpace.Width - lineSize.Width - (lineMeasurements.Count - 1) * HorizontalSpacing;
 
                     return ElementsAlignment switch
                     {
-                        InlinedAlignment.Left => 0, InlinedAlignment.Justify => 0
-                        , InlinedAlignment.SpaceAround => elementOffset, InlinedAlignment.Center => difference / 2
-                        , InlinedAlignment.Right => difference, _ => 0
+                        InlinedAlignment.Left => ContentDirection == ContentDirection.LeftToRight ? 0 : emptySpace,
+                        InlinedAlignment.Justify => 0,
+                        InlinedAlignment.SpaceAround => elementOffset,
+                        InlinedAlignment.Center => emptySpace / 2,
+                        InlinedAlignment.Right => ContentDirection == ContentDirection.LeftToRight ? emptySpace : 0,
+                        _ => 0
                     };
                 }
-
-                float BaselineOffset(
-                    Size elementSize
-                    , float lineHeight
-                )
+                
+                float BaselineOffset(Size elementSize, float lineHeight)
                 {
                     var difference = lineHeight - elementSize.Height;
 
                     return BaselineAlignment switch
                     {
-                        VerticalAlignment.Top => 0, VerticalAlignment.Middle => difference / 2, _ => difference
+                        VerticalAlignment.Top => 0,
+                        VerticalAlignment.Middle => difference / 2,
+                        _ => difference
                     };
                 }
             }
         }
 
-        private Size GetLineSize(
-            ICollection<InlinedElement> elements
-        )
+        void SetDefaultAlignment()
         {
-            var sizes = elements
-                .Select(selector: x => x.Measure(availableSpace: Size.Max))
-                .Where(predicate: x => x.Type != SpacePlanType.Wrap)
-                .ToList();
+            if (ElementsAlignment.HasValue)
+                return;
 
-            var width = sizes.Sum(selector: x => x.Width);
-            var height = sizes.Max(selector: x => x.Height);
-
-            return new Size(width: width, height: height);
+            ElementsAlignment = ContentDirection == ContentDirection.LeftToRight
+                ? InlinedAlignment.Left
+                : InlinedAlignment.Right;
         }
-
-        // list of lines, each line is a list of elements
-        private ICollection<ICollection<InlinedElement>> Compose(
-            Size availableSize
-        )
+        
+        Size GetLineSize(ICollection<InlinedMeasurement> measurements)
         {
-            var queue = new Queue<InlinedElement>(collection: ChildrenQueue);
-            var result = new List<ICollection<InlinedElement>>();
+            var width = measurements.Sum(x => x.Size.Width);
+            var height = measurements.Max(x => x.Size.Height);
+
+            return new Size(width, height);
+        }
+        
+        // list of lines, each line is a list of elements
+        private ICollection<ICollection<InlinedMeasurement>> Compose(Size availableSize)
+        {
+            var queue = new Queue<InlinedElement>(ChildrenQueue);
+            var result = new List<ICollection<InlinedMeasurement>>();
 
             var topOffset = 0f;
-
+            
             while (true)
             {
                 var line = GetNextLine();
-
+                
                 if (!line.Any())
-                {
                     break;
-                }
 
-                var height = line
-                    .Select(selector: x => x.Measure(availableSpace: availableSize))
-                    .Where(predicate: x => x.Type != SpacePlanType.Wrap)
-                    .Max(selector: x => x.Height);
-
+                var height = line.Max(x => x.Size.Height);
+                
                 if (topOffset + height > availableSize.Height + Size.Epsilon)
-                {
                     break;
-                }
 
                 topOffset += height + VerticalSpacing;
-                result.Add(item: line);
+                result.Add(line);
             }
 
             return result;
 
-            ICollection<InlinedElement> GetNextLine()
+            ICollection<InlinedMeasurement> GetNextLine()
             {
-                var result = new List<InlinedElement>();
+                var result = new List<InlinedMeasurement>();
                 var leftOffset = GetInitialAlignmentOffset();
-
+                
                 while (true)
                 {
                     if (!queue.Any())
-                    {
                         break;
-                    }
-
+                    
                     var element = queue.Peek();
-                    var size = element.Measure(availableSpace: Size.Max);
-
+                    var size = element.Measure(new Size(availableSize.Width, Size.Max.Height));
+                    
                     if (size.Type == SpacePlanType.Wrap)
-                    {
                         break;
-                    }
-
+                    
                     if (leftOffset + size.Width > availableSize.Width + Size.Epsilon)
-                    {
                         break;
-                    }
 
                     queue.Dequeue();
                     leftOffset += size.Width + HorizontalSpacing;
-                    result.Add(item: element);
+                    
+                    result.Add(new InlinedMeasurement
+                    {
+                        Element = element,
+                        Size = size
+                    });    
                 }
 
                 return result;
@@ -287,7 +258,8 @@ namespace QuestPDF.Elements
 
                 return ElementsAlignment switch
                 {
-                    InlinedAlignment.SpaceAround => HorizontalSpacing * 2, _ => 0
+                    InlinedAlignment.SpaceAround => HorizontalSpacing * 2,
+                    _ => 0
                 };
             }
         }

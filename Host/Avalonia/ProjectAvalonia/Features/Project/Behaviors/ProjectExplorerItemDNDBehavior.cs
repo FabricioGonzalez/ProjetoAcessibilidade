@@ -1,8 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.DragAndDrop;
+
 using ProjectAvalonia.Features.Project.ViewModels;
+using ProjectAvalonia.Presentation.Interfaces;
 
 namespace ProjectAvalonia.Features.Project.Behaviors;
 
@@ -13,30 +17,64 @@ public sealed class ProjectExplorerItemDNDBehavior : DropHandlerBase
         , DragEventArgs e
         , object? sourceContext
         , object? targetContext
-    ) =>
-        base.Enter(sender: sender, e: e, sourceContext: sourceContext, targetContext: targetContext);
+    )
+    {
+        if (sourceContext is IItemViewModel sourceItem && targetContext is IItemViewModel targetItem)
+        {
+            Console.WriteLine("Entering source -> {0} \n target -> {1}", sourceItem.ItemPath, targetItem.ItemPath);
+        }
 
-    public override void Over(
+        if (sourceContext is IItemViewModel sourceItem2 && targetContext is IItemGroupViewModel targetItem2)
+        {
+            Console.WriteLine("Entering source -> {0} \n target -> {1}", sourceItem2.ItemPath, targetItem2.ItemPath);
+        }
+    }*/
+
+    /*public override void Over(
         object? sender
         , DragEventArgs e
         , object? sourceContext
         , object? targetContext
-    ) =>
-        base.Over(sender: sender, e: e, sourceContext: sourceContext, targetContext: targetContext);
+    )
+    {
+        if (sourceContext is IItemViewModel sourceItem && targetContext is IItemViewModel targetItem)
+        {
+            Console.WriteLine("Over source -> {0} \n target -> {1}", sourceItem.ItemPath, targetItem.ItemPath);
+        }
 
-    public override void Drop(
+        if (sourceContext is IItemViewModel sourceItem2 && targetContext is IItemGroupViewModel targetItem2)
+        {
+            Console.WriteLine("Over  source -> {0} \n target -> {1}", sourceItem2.ItemPath, targetItem2.ItemPath);
+        }
+
+    }*/
+
+    /*public override void Drop(
         object? sender
         , DragEventArgs e
         , object? sourceContext
         , object? targetContext
-    ) =>
-        base.Drop(sender: sender, e: e, sourceContext: sourceContext, targetContext: targetContext);
+    )
+    {
+        if (sourceContext is IItemViewModel sourceItem && targetContext is IItemViewModel targetItem)
+        {
+            Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem.ItemPath, targetItem.ItemPath);
+        }
 
-    public override void Leave(
+        if (sourceContext is IItemViewModel sourceItem2 && targetContext is IItemGroupViewModel targetItem2)
+        {
+            Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem2.ItemPath, targetItem2.ItemPath);
+        }
+
+    }*/
+
+    /*public override void Leave(
         object? sender
         , RoutedEventArgs e
-    ) =>
-        base.Leave(sender: sender, e: e);*/
+    )
+    {
+    }*/
+
 
     private bool Validate<T>(
         TreeView treeView
@@ -45,88 +83,73 @@ public sealed class ProjectExplorerItemDNDBehavior : DropHandlerBase
         , object? targetContext
         , bool bExecute
     )
-        where T : ItemViewModel
     {
-        if (sourceContext is not T sourceNode
-            || targetContext is not ItemGroupViewModel vm
-            || treeView.GetVisualAt(e.GetPosition(treeView)) is not Control targetControl
-            || targetControl.DataContext is not ItemGroupViewModel targetNode)
+        if (sourceContext is IItemViewModel sourceItem && targetContext is IItemViewModel targetItem)
         {
-            return false;
-        }
-
-        var sourceParent = sourceNode.Parent;
-        var targetParent = targetNode;
-        var sourceNodes = sourceParent is not null ? sourceParent.Items : vm.Items;
-        var targetNodes = targetParent is not null ? targetParent.Items : vm.Items;
-
-        if (sourceNodes is not null && targetNodes is not null)
-        {
-            var sourceIndex = sourceNodes.IndexOf(sourceNode);
-            /*var targetIndex = targetNodes.IndexOf(targetNode);*/
-
-            if (sourceIndex < 0 /*|| targetIndex < 0*/)
+            if (bExecute && e.DragEffects == DragDropEffects.Move)
             {
-                return false;
+                var collection = sourceItem.Parent.Items;
+
+                SwapItem(collection, collection.IndexOf(sourceItem), collection.IndexOf(targetItem));
+                sourceItem.Parent.MoveItemCommand.Execute();
             }
 
-            switch (e.DragEffects)
-            {
-                case DragDropEffects.Copy:
-                {
-                    /*if (bExecute)
-                    {
-                        var clone = new ItemViewModel();
-                        InsertItem(targetNodes, clone, targetIndex + 1);
-                    }*/
-
-                    return true;
-                }
-                case DragDropEffects.Move:
-                {
-                    if (bExecute)
-                    {
-                        if (sourceNodes == targetNodes)
-                        {
-                            MoveItem(items: sourceNodes, sourceIndex: sourceIndex
-                                , targetIndex: targetNode.Items.Count - 1);
-                        }
-                        else
-                        {
-                            sourceNode.Parent = targetParent;
-
-                            sourceNode.CanMoveCommand.Execute(targetParent);
-                            MoveItem(sourceItems: sourceNodes, targetItems: targetNodes, sourceIndex: sourceIndex
-                                , targetIndex: targetNode.Items.Count - 1);
-                        }
-                    }
-
-                    return true;
-                }
-                case DragDropEffects.Link:
-                {
-                    if (bExecute)
-                    {
-                        if (sourceNodes == targetNodes)
-                        {
-                            SwapItem(items: sourceNodes, sourceIndex: sourceIndex
-                                , targetIndex: targetNode.Items.Count - 1);
-                        }
-                        else
-                        {
-                            sourceNode.Parent = targetParent;
-                            /*targetNode. = sourceParent;*/
-
-                            SwapItem(sourceItems: sourceNodes, targetItems: targetNodes, sourceIndex: sourceIndex
-                                , targetIndex: targetNode.Items.Count - 1);
-                        }
-                    }
-
-                    return true;
-                }
-            }
+            /*Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem.ItemPath, targetItem.ItemPath);*/
+            return true;
         }
 
+        /*if (sourceContext is IItemViewModel sourceItem2 && targetContext is IItemGroupViewModel targetItem2)
+        {
+            if (bExecute && e.DragEffects == DragDropEffects.Move)
+            {
+                sourceItem2.Parent.Items.Remove(sourceItem2);
+                targetItem2.Items.Add(sourceItem2);
+
+            }
+
+            Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem2.ItemPath, targetItem2.ItemPath);
+            return true;
+        }*/
+
+        if (sourceContext is IItemGroupViewModel sourceItem3 && targetContext is IItemGroupViewModel targetItem3)
+        {
+            if (bExecute && e.DragEffects == DragDropEffects.Move)
+            {
+                var collection = sourceItem3.Parent.Items;
+
+                SwapItem(collection, collection.IndexOf(sourceItem3), collection.IndexOf(targetItem3));
+
+                sourceItem3.MoveItemCommand.Execute();
+            }
+            /*Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem3.ItemPath, targetItem3.ItemPath);*/
+            return true;
+        }
+
+        /*if (sourceContext is IItemGroupViewModel sourceItem4 && targetContext is ISolutionLocationItem targetItem4)
+        {
+            if (bExecute && e.DragEffects == DragDropEffects.Move)
+            {
+                sourceItem4.Parent.Items.Remove(sourceItem4);
+                targetItem4.Items.Add(sourceItem4);
+
+            }
+            Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem4.ItemPath, targetItem4.ItemPath);
+            return true;
+        }*/
+
+        if (sourceContext is ISolutionLocationItem sourceItem5 && targetContext is ISolutionLocationItem targetItem5)
+        {
+            if (bExecute && e.DragEffects == DragDropEffects.Move)
+            {
+                var collection = (treeView.ItemsSource as IEnumerable<ISolutionLocationItem>).ToList();
+
+                SwapItem(collection, collection.IndexOf(sourceItem5), collection.IndexOf(targetItem5));
+                sourceItem5.MoveItemCommand.Execute();
+            }
+
+            /*Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem5.ItemPath, targetItem5.ItemPath);*/
+            return true;
+        }
         return false;
     }
 
@@ -138,13 +161,22 @@ public sealed class ProjectExplorerItemDNDBehavior : DropHandlerBase
         , object? state
     )
     {
-        if (e.Source is Control && sender is TreeView treeView)
+        if (e.Source is Control && sender is TreeViewItem treeView && GetTreeViewFromChildren(treeView) is TreeView tree)
         {
-            return Validate<ItemViewModel>(treeView: treeView, e: e, sourceContext: sourceContext
-                , targetContext: targetContext, bExecute: false);
+            return Validate<ItemViewModel>(treeView: tree, e: e, sourceContext: sourceContext
+           , targetContext: targetContext, bExecute: false);
+
         }
 
         return false;
+    }
+
+    public TreeView GetTreeViewFromChildren(TreeViewItem treeViewItem)
+    {
+        if (treeViewItem.Parent is TreeView tree)
+            return tree;
+
+        return GetTreeViewFromChildren((TreeViewItem)treeViewItem.Parent);
     }
 
     public override bool Execute(
@@ -155,9 +187,9 @@ public sealed class ProjectExplorerItemDNDBehavior : DropHandlerBase
         , object? state
     )
     {
-        if (e.Source is Control && sender is TreeView treeView)
+        if (e.Source is Control && sender is TreeViewItem treeView && GetTreeViewFromChildren(treeView) is TreeView tree)
         {
-            return Validate<ItemViewModel>(treeView: treeView, e: e, sourceContext: sourceContext
+            return Validate<ItemViewModel>(treeView: tree, e: e, sourceContext: sourceContext
                 , targetContext: targetContext, bExecute: true);
         }
 

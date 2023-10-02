@@ -12,6 +12,7 @@ using Common;
 
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Models;
+using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.LocationService;
 using ProjectAvalonia.Common.Validation;
 using ProjectAvalonia.Common.ViewModels;
@@ -23,6 +24,7 @@ using ProjectAvalonia.Features.Project.ViewModels.Components;
 using ProjectAvalonia.Features.SearchBar;
 using ProjectAvalonia.Features.SearchBar.Sources;
 using ProjectAvalonia.Features.Settings.ViewModels;
+using ProjectAvalonia.Features.TemplateEdit.Services;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
@@ -178,23 +180,47 @@ public partial class MainViewModel : ViewModelBase
         var xmlProjectItemDatasource = new ProjectItemDatasourceImpl();
         var xmlValidationRulesDatasource = new ValidationRulesDatasourceImpl();
         var locationService = new LocationService();
+        var fileDialogService = new FilePickerService();
+
+        var importItemsService = new ImportTemplateService(httpClient: ServicesConfig.UpdateManager.HttpClient,
+            filePickerService: fileDialogService);
+
+        var exportItemsService = new ExportTemplateService(filePickerService: fileDialogService);
 
         var solutionManipulation =
-            new SolutionService(datasourceImpl: xmlSolutionDatasource, locationService: locationService);
+            new SolutionService(datasourceImpl: xmlSolutionDatasource,
+            locationService: locationService,
+            filePickerService: fileDialogService);
+
         var itemsService = new ItemsService(explorerItems: xmlExplorerItemsDatasource
             , projectItemDatasource: xmlProjectItemDatasource);
+
         var editableItemService = new EditableItemService(xmlProjectItemDatasource);
+
         var validationRulesService = new ValidationRulesService(xmlValidationRulesDatasource);
 
         var itemValidationViewModel = new ItemValidationViewModel();
+
         var templateEditTab = new TemplateEditTabViewModel();
+
         _settingsPage = new SettingsPageViewModel();
+
         _templatePage = new TemplateEditViewModel(templateEditTab: templateEditTab
-            , itemValidationTab: itemValidationViewModel, itemsService: itemsService
-            , _editableItemService: editableItemService, validationRulesService: validationRulesService);
-        _projectPage = new ProjectViewModel(solutionService: solutionManipulation, itemsService: itemsService
-            , editableItemService: editableItemService, validationRulesService: validationRulesService
-            , locationService: locationService);
+            , itemValidationTab: itemValidationViewModel,
+            itemsService: itemsService
+            , editableItemService: editableItemService,
+            validationRulesService: validationRulesService,
+            importTemplateService: importItemsService,
+            exportTemplateService: exportItemsService,
+            filePickerService: fileDialogService);
+
+        _projectPage = new ProjectViewModel(solutionService: solutionManipulation,
+            itemsService: itemsService
+            , editableItemService: editableItemService,
+            validationRulesService: validationRulesService
+            , locationService: locationService,
+            filePickerService: fileDialogService);
+
         _previewPrintPage = new PreviewerViewModel();
         _navBar = new NavBarViewModel();
     }

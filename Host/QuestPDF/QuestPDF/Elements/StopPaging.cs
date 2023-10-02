@@ -4,24 +4,21 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class StopPaging : ContainerElement
+    internal class StopPaging : ContainerElement
     {
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
+        internal override SpacePlan Measure(Size availableSpace)
         {
             if (Child == null)
-            {
-                return SpacePlan.FullRender(size: Size.Zero);
-            }
+                return SpacePlan.FullRender(Size.Zero);
 
-            var measurement = Child.Measure(availableSpace: availableSpace);
+            var measurement = Child.Measure(availableSpace);
 
             return measurement.Type switch
             {
-                SpacePlanType.Wrap => SpacePlan.FullRender(size: Size.Zero)
-                , SpacePlanType.PartialRender => SpacePlan.FullRender(size: measurement)
-                , SpacePlanType.FullRender => measurement, _ => throw new ArgumentOutOfRangeException()
+                SpacePlanType.Wrap => SpacePlan.FullRender(Size.Zero),
+                SpacePlanType.PartialRender => SpacePlan.FullRender(measurement),
+                SpacePlanType.FullRender => measurement,
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
     }

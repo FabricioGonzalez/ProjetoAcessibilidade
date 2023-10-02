@@ -23,7 +23,7 @@ internal class CheckboxItemComponent : IComponent
         IContainer container
     ) =>
         container
-            .Height(20)
+            .MaxHeight(16)
             .Row(row =>
             {
                 row.Spacing(5);
@@ -40,7 +40,6 @@ internal class CheckboxItemComponent : IComponent
                             ) =>
                             {
                                 DrawRoundedRectangle();
-                                /*DrawRoundedRectangle(color: Colors.Black, isStroke: true);*/
 
                                 if (item.IsChecked)
                                 {
@@ -97,7 +96,9 @@ internal class CheckboxItemComponent : IComponent
                             });
                     });
 
-                row.AutoItem()
-                    .Text(item.Value);
+                row
+                .AutoItem()
+                .Text(item.Value)
+                .SemiBold();
             });
 }

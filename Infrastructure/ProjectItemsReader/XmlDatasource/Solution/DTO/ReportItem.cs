@@ -34,12 +34,12 @@ public class ReportItem
         set;
     } = "";
 
-    [XmlElement(elementName: "phone")]
+    [XmlElement(elementName: "revision")]
     public int Revisao
     {
         get;
         set;
-    }
+    } = 0;
 }
 
 public class ManagementCompanyInfo
@@ -50,6 +50,13 @@ public class ManagementCompanyInfo
         get;
         set;
     } = "";
+
+    [XmlElement(elementName: "report_data")]
+    public DateTime ReportDate
+    {
+        get;
+        set;
+    } = DateTime.Now;
 
     [XmlElement(elementName: "logo_path")]
     public string LogoPath
@@ -113,19 +120,12 @@ public sealed class PartnerItem
 
 public sealed class CompanyInfoItem
 {
-    /*[XmlElement(elementName: "phone")]
+    [XmlElement(elementName: "phone")]
     public string Telefone
     {
         get;
         set;
-    } = "";*/
-
-    [XmlElement(elementName: "report_data")]
-    public DateTimeOffset Data
-    {
-        get;
-        set;
-    } = DateTime.Now;
+    } = "";
 
     [XmlElement(elementName: "address")]
     public EnderecoItem Endereco
@@ -154,4 +154,10 @@ public sealed class CompanyInfoItem
         get;
         set;
     } = "";
+    [XmlElement(elementName: "responsavel")]
+    public string Responsavel
+    {
+        get;
+        set;
+    }
 }

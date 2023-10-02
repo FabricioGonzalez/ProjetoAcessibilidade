@@ -2,9 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
     <?if $(var.Platform)=x64?>
-    <?define ProductCode="{3EB8D7CD-AA35-480B-83DE-A33E7BC5D3AD}"?>
+    <?define ProductCode="{5D06C026-8AC9-4C44-9AFC-029711AEBF3A}"?>
     <?else?>
-    <?define ProductCode="{ACD09530-F163-4DE1-A3C4-D49118015E90}"?>
+    <?define ProductCode="{9124B679-BF46-4A99-A5C5-D23E768928CC}"?>
     <?endif?>
 
     <?define UpgradeCode="{71519238-953F-465E-B1D2-6B4AE96E39FF}"?>
@@ -47,8 +47,8 @@
         <Feature Id="ProductFeature" Title="!(loc.ProductName_$(var.Platform))" Level="1">
             <ComponentGroupRef Id="ProductComponents"/>
             <ComponentGroupRef Id="PublishedComponents"/>
-            <ComponentGroupRef Id="RulesFiles"/>
-            <ComponentGroupRef Id="TemplateFiles"/>
+            <!--<ComponentGroupRef Id="RulesFiles"/>
+            <ComponentGroupRef Id="TemplateFiles"/>-->
         </Feature>
     </Product>
     <Fragment>

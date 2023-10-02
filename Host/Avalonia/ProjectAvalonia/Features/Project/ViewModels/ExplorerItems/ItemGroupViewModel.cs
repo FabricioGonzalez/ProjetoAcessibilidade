@@ -6,10 +6,13 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using Common;
 using Common.Linq;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -17,6 +20,7 @@ using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -27,14 +31,16 @@ public class ItemGroupViewModel
 {
     private readonly ItemsService _itemsService;
     private readonly Func<Task> _saveSolution;
-
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
     private bool _inEditing;
 
     public ItemGroupViewModel(
         string name
         , string itemPath
         , ItemsService itemsService
-        , Func<Task> SaveSolution
+        , Func<Task> SaveSolution,
+        ISolutionLocationItem parent,
+        EditingItemsNavigationService editableItemsNavigationService
     )
     {
         _itemsService = itemsService;
@@ -42,10 +48,12 @@ public class ItemGroupViewModel
         Name = name;
         ItemPath = itemPath;
 
+        Parent = parent;
+        _editableItemsNavigationService = editableItemsNavigationService;
         Items = new ObservableCollection<IItemViewModel>();
         CommitFolderCommand = ReactiveCommand.CreateFromTask(CommitFolder);
         AddProjectItemCommand = ReactiveCommand.CreateFromTask(AddProjectItem);
-        RenameFolderCommand = ReactiveCommand.Create(() => RenameItem());
+        RenameFolderCommand = ReactiveCommand.Create(RenameItem);
 
         // Whenever the list of documents change, calculate a new Observable
         // to represent whenever any of the *current* documents have been
@@ -74,6 +82,8 @@ public class ItemGroupViewModel
                         Items.Remove(x);
 
                         await SaveSolution();
+
+                        _editableItemsNavigationService.RemoveItem((it) => it.ItemPath == x.ItemPath);
 
                         if (result.Item1)
                         {
@@ -159,6 +169,13 @@ public class ItemGroupViewModel
         get => _inEditing;
         set => this.RaiseAndSetIfChanged(backingField: ref _inEditing, newValue: value);
     }
+    private ISolutionLocationItem _parent;
+
+    public ISolutionLocationItem Parent
+    {
+        get => _parent;
+        set => this.RaiseAndSetIfChanged(backingField: ref _parent, newValue: value);
+    }
 
     public void TransformFrom(
         List<ItemState> items
@@ -172,7 +189,9 @@ public class ItemGroupViewModel
                 name: item.Name,
                 templateName: item.TemplateName,
                 parent: this,
-                itemsService: _itemsService, saveSolution: _saveSolution);
+                itemsService: _itemsService,
+                saveSolution: _saveSolution,
+                _editableItemsNavigationService);
 
             Items.Add(itemToAdd);
         }
@@ -218,22 +237,11 @@ public class ItemGroupViewModel
                 name: dialogResult.Result.Name,
                 templateName: dialogResult.Result.TemplateName,
                 parent: this,
-                itemsService: _itemsService, saveSolution: _saveSolution);
+                itemsService: _itemsService, saveSolution: _saveSolution, _editableItemsNavigationService);
 
             Items.Add(
                 item);
             await _saveSolution();
-            /*
-            _ = (await _mediator.Send(
-                    new CreateItemCommand(
-                        path,
-                        dialogResult.Result.TemplateName),
-                    CancellationToken.None))
-                .IfFail(error =>
-                {
-                    NotificationHelpers.Show("Erro ao criar item", error.Message);
-                });
-                */
 
             return item;
         }
@@ -255,6 +263,25 @@ public class ItemGroupViewModel
                 Items.IterateOn(it =>
                 {
                     var childPath = it.ItemPath.Split(Path.DirectorySeparatorChar)[^1];
+
+                    var pathIt = Path.Combine(path1: newPath, path2: childPath);
+
+                    _editableItemsNavigationService.AlterItem((item) =>
+                    {
+                        item.ItemPath = pathIt;
+
+                        item.ItemName = pathIt.GetFileNameWithoutExtension();
+
+                        item.DisplayName = pathIt
+                        .SplitPath(new Range(^3, ^1), Path.DirectorySeparatorChar)
+                        .Append(item.ItemName)
+                        .JoinPath(Path.DirectorySeparatorChar);
+
+                        return item;
+                    }, it2 =>
+                    {
+                        return it2.ItemPath == it.ItemPath;
+                    });
 
                     it.ItemPath = Path.Combine(path1: newPath, path2: childPath);
                 });

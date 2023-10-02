@@ -36,12 +36,11 @@ public class CapeImage : IComponent
     {
         if (!string.IsNullOrWhiteSpace(ImagePath))
         {
-            var s = ImagePath;
-            using var stream = new FileStream(path: s, mode: FileMode.Open);
+            var image = Image.FromFile(ImagePath);
 
             container
                 .ScaleToFit()
-                .Image(fileStream: stream, scaling: ImageScaling.FitArea);
+                .Image(image).FitArea();
         }
         else
         {

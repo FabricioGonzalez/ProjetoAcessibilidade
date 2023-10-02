@@ -3,28 +3,17 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Elements
 {
-    public class EnsureSpace
-        : ContainerElement
-            , ICacheable
+    internal class EnsureSpace : ContainerElement, ICacheable
     {
         public const float DefaultMinHeight = 150;
+        public float MinHeight { get; set; } = DefaultMinHeight;
 
-        public float MinHeight
+        internal override SpacePlan Measure(Size availableSpace)
         {
-            get;
-            set;
-        } = DefaultMinHeight;
-
-        public override SpacePlan Measure(
-            Size availableSpace
-        )
-        {
-            var measurement = base.Measure(availableSpace: availableSpace);
+            var measurement = base.Measure(availableSpace);
 
             if (measurement.Type == SpacePlanType.PartialRender && availableSpace.Height < MinHeight)
-            {
                 return SpacePlan.Wrap();
-            }
 
             return measurement;
         }

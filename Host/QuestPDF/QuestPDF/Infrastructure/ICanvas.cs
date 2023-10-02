@@ -1,52 +1,21 @@
+using QuestPDF.Drawing;
 using SkiaSharp;
 
 namespace QuestPDF.Infrastructure
 {
     public interface ICanvas
     {
-        void Translate(
-            Position vector
-        );
+        public void Translate(Position vector);
 
-        void DrawRectangle(
-            Position vector
-            , Size size
-            , string color
-        );
+        public void DrawRectangle(Position vector, Size size, string color);
+        public void DrawText(SKTextBlob skTextBlob, Position position, TextStyle style);
+        public void DrawImage(SKImage image, Position position, Size size);
 
-        void DrawText(
-            string text
-            , Position position
-            , TextStyle style
-        );
+        public void DrawHyperlink(string url, Size size);
+        public void DrawSectionLink(string sectionName, Size size);
+        public  void DrawSection(string sectionName);
 
-        void DrawImage(
-            SKImage image
-            , Position position
-            , Size size
-        );
-
-        void DrawHyperlink(
-            string url
-            , Size size
-        );
-
-        void DrawSectionLink(
-            string sectionName
-            , Size size
-        );
-
-        void DrawSection(
-            string sectionName
-        );
-
-        void Rotate(
-            float angle
-        );
-
-        void Scale(
-            float scaleX
-            , float scaleY
-        );
+        public void Rotate(float angle);
+        public void Scale(float scaleX, float scaleY);
     }
 }

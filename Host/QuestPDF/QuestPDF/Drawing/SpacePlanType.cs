@@ -1,9 +1,9 @@
 ﻿namespace QuestPDF.Drawing
 {
-    public enum SpacePlanType
+    internal enum SpacePlanType
     {
-        Wrap
-        , PartialRender
-        , FullRender
+        Wrap,
+        PartialRender,
+        FullRender
     }
 }

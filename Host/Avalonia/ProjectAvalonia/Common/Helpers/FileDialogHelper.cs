@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
+
 using LanguageExt.Common;
 
 namespace ProjectAvalonia.Common.Helpers;
@@ -224,9 +226,26 @@ public static class FileDialogHelper
         var files = await GetProvider()
             .OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                Title = "Abrir file", FileTypeFilter = new List<FilePickerFileType>
+                Title = "Abrir file",
+                FileTypeFilter = new List<FilePickerFileType>
                 {
                     new("Arquivo de projeto") { Patterns = new[] { "*.prja" } }
+                }
+            });
+
+        return files.Any()
+            ? new Result<IStorageFile>(files.First())
+            : new Result<IStorageFile>(new IOException("No file was Selected"));
+    }
+    public static async Task<Result<IStorageFile>> GetZipFilesAsync()
+    {
+        var files = await GetProvider()
+            .OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "Abrir file",
+                FileTypeFilter = new List<FilePickerFileType>
+                {
+                    new("Zip") { Patterns = new[] { "*.zip" } }
                 }
             });
 
@@ -240,7 +259,8 @@ public static class FileDialogHelper
         var files = await GetProvider()
             .OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                Title = "Abrir file", FileTypeFilter = new List<FilePickerFileType>
+                Title = "Abrir file",
+                FileTypeFilter = new List<FilePickerFileType>
                 {
                     FilePickerFileTypes.ImageAll
                 }
@@ -260,8 +280,11 @@ public static class FileDialogHelper
     {
         var files = await GetProvider().SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Title = title, ShowOverwritePrompt = showOverwritePrompt, FileTypeChoices = fileTypes
-            , SuggestedFileName = suggestedName
+            Title = title,
+            ShowOverwritePrompt = showOverwritePrompt,
+            FileTypeChoices = fileTypes
+            ,
+            SuggestedFileName = suggestedName
         });
 
         return files is { } file

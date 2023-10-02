@@ -2,36 +2,15 @@
 
 namespace QuestPDF.Elements.Text.Calculation
 {
-    public class TextMeasurementRequest
+    internal class TextMeasurementRequest
     {
-        public ICanvas Canvas
-        {
-            get;
-            set;
-        }
-
-        public IPageContext PageContext
-        {
-            get;
-            set;
-        }
-
-        public int StartIndex
-        {
-            get;
-            set;
-        }
-
-        public float AvailableWidth
-        {
-            get;
-            set;
-        }
-
-        public bool IsFirstElementInLine
-        {
-            get;
-            set;
-        }
+        public ICanvas Canvas { get; set; }
+        public IPageContext PageContext { get; set; }
+        
+        public int StartIndex { get; set; }
+        public float AvailableWidth { get; set; }
+        
+        public bool IsFirstElementInBlock { get; set; }
+        public bool IsFirstElementInLine { get; set; }
     }
 }

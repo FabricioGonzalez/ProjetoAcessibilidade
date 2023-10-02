@@ -166,7 +166,7 @@ public sealed class ItemsService
         , string newPath
     )
     {
-        if (File.Exists(oldPath))
+        if (File.Exists(oldPath) && !File.Exists(newPath))
         {
             File.Move(sourceFileName: oldPath, destFileName: newPath);
             return;
@@ -180,7 +180,7 @@ public sealed class ItemsService
         , string newPath
     )
     {
-        if (Directory.Exists(oldPath))
+        if (Directory.Exists(oldPath) && !Directory.Exists(newPath))
         {
             Directory.Move(sourceDirName: oldPath, destDirName: newPath);
         }

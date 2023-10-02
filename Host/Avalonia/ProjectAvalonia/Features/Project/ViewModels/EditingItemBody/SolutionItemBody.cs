@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Reactive.Disposables;
+
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.Models;
 using ProjectAvalonia.Presentation.States;
@@ -17,7 +19,7 @@ public partial class SolutionItemBody
     [AutoNotify] private string _logoPath = "";
     [AutoNotify] private Uf _selectedUf;
     [AutoNotify] private ReadOnlyObservableCollection<Uf> _ufList;
-
+    private CompositeDisposable disposables = new();
     public SolutionItemBody(
         SolutionState solutionState
     )
@@ -69,5 +71,10 @@ public partial class SolutionItemBody
     public ReactiveCommand<Unit, Unit> ChooseLogoPath
     {
         get;
+    }
+
+    public void Dispose()
+    {
+        disposables.Dispose();
     }
 }

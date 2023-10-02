@@ -1,7 +1,10 @@
 ﻿using Common.Linq;
+
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+
 using QuestPDFReport.Models;
+
 using SkiaSharp;
 
 namespace QuestPDFReport.Components;
@@ -67,7 +70,7 @@ public class TableOfContentsTemplate : IComponent
                                             .Element(
                                                 c => DrawDeepLink(c, $"{itemIndex}.{groupIndex}.{partIndex}"
                                                     , part.Title,
-                                                    $"{it.Title} - {group.Title} - {part.Title}"));
+                                                    $"{it.Title} - {group.Title} - {part.Title}", 16));
                                     });
                                 });
                             });
@@ -111,7 +114,8 @@ public class TableOfContentsTemplate : IComponent
                         // best to statically cache
                         using var paint = new SKPaint
                         {
-                            StrokeWidth = space.Height, PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
+                            StrokeWidth = space.Height,
+                            PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
                         };
 
                         canvas.DrawLine(0, 0, space.Width, 0, paint);
@@ -129,10 +133,11 @@ public class TableOfContentsTemplate : IComponent
         IContainer container
         , string pageNumber
         , string itemName
-        , string nestedItemId
+        , string nestedItemId,
+        int paddingLeft = 8
     ) =>
         container
-            .PaddingLeft(8)
+            .PaddingLeft(paddingLeft)
             .SectionLink(nestedItemId)
             .Row(row =>
             {
@@ -152,7 +157,8 @@ public class TableOfContentsTemplate : IComponent
                         // best to statically cache
                         using var paint = new SKPaint
                         {
-                            StrokeWidth = space.Height, PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
+                            StrokeWidth = space.Height,
+                            PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
                         };
 
                         canvas.DrawLine(0, 0, space.Width, 0, paint);

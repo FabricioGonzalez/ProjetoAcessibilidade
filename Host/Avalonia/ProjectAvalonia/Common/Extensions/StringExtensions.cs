@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ProjectAvalonia.Common.Extensions;
 
@@ -36,6 +38,37 @@ public static class StringExtensions
         }
 
         return me;
+    }
+
+    public static IEnumerable<string> SplitPath(this string value, Range range, string separator)
+    {
+        return value.Split(separator)[range];
+    }
+    public static IEnumerable<string> SplitPath(this string value, Range range, char separator)
+    {
+        return value.Split(separator)[range];
+    }
+    public static IEnumerable<string> SplitPath(this string value, string separator)
+    {
+        return value.Split(separator);
+    }
+    public static IEnumerable<string> SplitPath(this string value, char separator)
+    {
+        return value.Split(separator);
+    }
+
+    public static string JoinPath(this IEnumerable<string> value, string separator)
+    {
+        return string.Join(separator, value);
+    }
+    public static string JoinPath(this IEnumerable<string> value, char separator)
+    {
+        return string.Join(separator, value);
+    }
+
+    public static string GetFileNameWithoutExtension(this string value)
+    {
+        return Path.GetFileNameWithoutExtension(value);
     }
 
     public static string ToTitleCase(

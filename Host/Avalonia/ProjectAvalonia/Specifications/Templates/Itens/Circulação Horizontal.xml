@@ -70,9 +70,7 @@
                 </checkbox_item>
                 <checkbox_item>
                     <id>2dc33a4e-2a8e-4805-a4e2-0dabac42cc70</id>
-                    <topic>Possui forrações, tapetes e carpetes embutido no piso e nívelados,
-                        firmemente fixados ao piso e com felpas de, no máximo, 6mm?
-                    </topic>
+                    <topic>Possui forrações, tapetes e carpetes embutido no piso e nívelados, firmemente fixados ao piso e com felpas de, no máximo, 6mm?</topic>
                     <options>
                         <option>
                             <id>4047c4d3-f4aa-4c0d-8141-e3b7d2eb973b</id>
@@ -141,35 +139,15 @@
     <law>
         <law_item>
             <id>NBR9050/15</id>
-            <content>
-                6.11.1 Corredores
-                Os corredores devem ser dimensionados de acordo com o fluxo
-                de pessoas, assegurando uma faixa livre de barreiras ou
-                obstáculos, conforme 6.12.6.
-                As larguras mínimas para corredores em edificações e equipamentos urbanos são:
-
+            <content> 6.11.1 Corredores Os corredores devem ser dimensionados de acordo com o fluxo de pessoas, assegurando uma faixa livre de barreiras ou obstáculos, conforme 6.12.6. As larguras mínimas para corredores em edificações e equipamentos urbanos são:
                 a) 0,90m para corredores de uso comum com extensão de 4,00m;
-
-                b) 1,20m para corredores de uso comum com extensão até 10,0m; e 1,50m para
-                corredorescom extensão superior a 10,0m;
-
+                b) 1,20m para corredores de uso comum com extensão até 10,0m; e 1,50m para corredorescom extensão superior a 10,0m;
                 c) 1,50m para corredores de uso público;
+                d) maior que 1,50m para grandes fluxos de pessoas, conforme aplicação da equação apresentada em 6.12.6.
 
-                d) maior que 1,50m para grandes fluxos de pessoas, conforme aplicação da equação
-                apresentada em 6.12.6.
+                6.11.1.1 Em edificações e equipamentos urbanos existentes, onde a adequação dos corredores seja impraticável, devem ser implantados bolsões de retorno com dimensões que permitam a manobra completa de uma cadeira de rodas (180°), sendo no mínimo um bolsão a cada 1,50m para grande fluxos de pessoas, conforme aplicação da equação aprensetada em 6.12.6.
 
-                6.11.1.1 Em edificações e equipamentos urbanos existentes,
-                onde a adequação dos corredores seja impraticável, devem ser
-                implantados bolsões de retorno com dimensões que permitam a
-                manobra completa de uma cadeira de rodas (180°), sendo no
-                mínimo um bolsão a cada 1,50m para grande fluxos de
-                pessoas, conforme aplicação da equação aprensetada em 6.12.6.
-
-                6.11.1.2 Para transposição de obstáculos, objetos e
-                elementos com no máximo de 0,40m de extensão, a largura mínima do
-                corredor deve ser de 0,80m, conforme 4.3.2. Acima de 0,40m
-                de extensão, a largura mínima deve ser de 0,90m.
-            </content>
+                6.11.1.2 Para transposição de obstáculos, objetos e elementos com no máximo de 0,40m de extensão, a largura mínima do corredor deve ser de 0,80m, conforme 4.3.2. Acima de 0,40m de extensão, a largura mínima deve ser de 0,90m.</content>
         </law_item>
     </law>
 </item>

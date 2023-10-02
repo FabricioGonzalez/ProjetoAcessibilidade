@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using QuestPDF.Drawing;
 using QuestPDF.Elements;
 using QuestPDF.Elements.Text;
 using QuestPDF.Elements.Text.Items;
@@ -11,144 +12,149 @@ namespace QuestPDF.Fluent
 {
     public class TextSpanDescriptor
     {
-        public TextSpanDescriptor(
-            TextStyle textStyle
-        )
+        internal TextStyle TextStyle = TextStyle.Default;
+        internal Action<TextStyle> AssignTextStyle { get; }
+
+        internal TextSpanDescriptor(Action<TextStyle> assignTextStyle)
         {
-            TextStyle = textStyle;
+            AssignTextStyle = assignTextStyle;
         }
 
-        public TextStyle TextStyle
+        internal void MutateTextStyle(Func<TextStyle, TextStyle> handler)
         {
-            get;
+            TextStyle = handler(TextStyle);
+            AssignTextStyle(TextStyle);
         }
     }
 
-    public delegate string PageNumberFormatter(
-        int? pageNumber
-    );
-
+    /// <summary>
+    /// Transforms a page number into a custom text format (e.g., roman numerals).
+    /// </summary>
+    /// <remarks>
+    /// When <paramref name="pageNumber"/> is null, the delegate should return a default placeholder text of a typical length.
+    /// </remarks>
+    public delegate string PageNumberFormatter(int? pageNumber);
+    
     public class TextPageNumberDescriptor : TextSpanDescriptor
     {
-        public TextPageNumberDescriptor(
-            TextStyle textStyle
-        ) : base(textStyle)
+        internal Action<PageNumberFormatter> AssignFormatFunction { get; }
+        
+        internal TextPageNumberDescriptor(Action<TextStyle> assignTextStyle, Action<PageNumberFormatter> assignFormatFunction) : base(assignTextStyle)
         {
+            AssignFormatFunction = assignFormatFunction;
+            AssignFormatFunction(x => x?.ToString());
         }
 
-        public PageNumberFormatter FormatFunction
+        /// <summary>
+        /// Provides the capability to render the page number in a custom text format (e.g., roman numerals).
+        /// <a href="https://www.questpdf.com/api-reference/text.html#page-numbers">Lear more</a>
+        /// </summary>
+        /// <param name="formatter">The function designated to modify the number into text. When given a null input, a typical-sized placeholder text must be produced.</param>
+        public TextPageNumberDescriptor Format(PageNumberFormatter formatter)
         {
-            get;
-            private set;
-        } = x => x?.ToString() ?? string.Empty;
-
-        public TextPageNumberDescriptor Format(
-            PageNumberFormatter formatter
-        )
-        {
-            FormatFunction = formatter ?? FormatFunction;
+            AssignFormatFunction(formatter);
             return this;
         }
     }
-
+    
     public class TextDescriptor
     {
-        private ICollection<TextBlock> TextBlocks
-        {
-            get;
-        } = new List<TextBlock>();
+        private ICollection<TextBlock> TextBlocks { get; } = new List<TextBlock>();
+        private TextStyle? DefaultStyle { get; set; }
+        internal HorizontalAlignment? Alignment { get; set; }
+        private float Spacing { get; set; } = 0f;
 
-        private TextStyle DefaultStyle
-        {
-            get;
-            set;
-        } = TextStyle.Default;
-
-        public HorizontalAlignment Alignment
-        {
-            get;
-            set;
-        } = HorizontalAlignment.Left;
-
-        private float Spacing
-        {
-            get;
-            set;
-        } = 0f;
-
-        public void DefaultTextStyle(
-            TextStyle style
-        )
+        /// <summary>
+        /// Applies a consistent text style for the whole content within this <see cref="TextExtensions.Text">Text</see> element.
+        /// </summary>
+        /// <param name="style">The TextStyle object to override the default inherited text style.</param>
+        public void DefaultTextStyle(TextStyle style)
         {
             DefaultStyle = style;
         }
-
-        public void DefaultTextStyle(
-            Func<TextStyle, TextStyle> style
-        )
+        
+        /// <summary>
+        /// Applies a consistent text style for the whole content within this <see cref="TextExtensions.Text">Text</see> element.
+        /// </summary>
+        /// <param name="handler">Handler to modify the default inherited text style.</param>
+        public void DefaultTextStyle(Func<TextStyle, TextStyle> style)
         {
             DefaultStyle = style(TextStyle.Default);
         }
-
+  
+        /// <summary>
+        /// Aligns text horizontally to the left side.
+        /// </summary>
         public void AlignLeft()
         {
             Alignment = HorizontalAlignment.Left;
         }
-
+        
+        /// <summary>
+        /// Aligns text horizontally to the center, ensuring equal space on both left and right sides.
+        /// </summary>
         public void AlignCenter()
         {
             Alignment = HorizontalAlignment.Center;
         }
-
+        
+        /// <summary>
+        /// Aligns content horizontally to the right side.
+        /// </summary>
         public void AlignRight()
         {
             Alignment = HorizontalAlignment.Right;
         }
 
-        public void ParagraphSpacing(
-            float value
-            , Unit unit = Unit.Point
-        )
+        /// <summary>
+        /// Adjusts the gap between successive paragraphs (separated by line breaks).
+        /// </summary>
+        public void ParagraphSpacing(float value, Unit unit = Unit.Point)
         {
             Spacing = value.ToPoints(unit);
         }
 
-        private void AddItemToLastTextBlock(
-            ITextBlockItem item
-        )
+        private void AddItemToLastTextBlock(ITextBlockItem item)
         {
             if (!TextBlocks.Any())
                 TextBlocks.Add(new TextBlock());
+            
+            var lastTextBlock = TextBlocks.Last();
 
-            TextBlocks.Last().Items.Add(item);
+            // TextBlock with only one Span with empty text is a special case.
+            // It represents an empty line with a given text style (e.g. text height).
+            // When more content is put to text block, the first items should be ignored (removed in this case).
+            // This change fixes inconsistent line height problem.
+            if (lastTextBlock.Items.Count == 1 && lastTextBlock.Items[0] is TextBlockSpan { Text: "" })
+            {
+                lastTextBlock.Items[0] = item;
+                return;
+            }
+            
+            lastTextBlock.Items.Add(item);
         }
-
-        [Obsolete(
-            "This element has been renamed since version 2022.3. Please use the overload that returns a TextSpanDescriptor object which allows to specify text style.")]
-        public void Span(
-            string? text
-            , TextStyle style
-        )
+        
+        [Obsolete("This element has been renamed since version 2022.3. Please use the overload that returns a TextSpanDescriptor object which allows to specify text style.")]
+        public void Span(string? text, TextStyle style)
         {
             Span(text).Style(style);
         }
-
-        public TextSpanDescriptor Span(
-            string? text
-        )
+        
+        /// <summary>
+        /// Appends the given text to the current paragraph.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.spanDescriptor"]/*' />
+        public TextSpanDescriptor Span(string? text)
         {
-            var style = DefaultStyle.Clone();
-            var descriptor = new TextSpanDescriptor(style);
-
             if (text == null)
-                return descriptor;
-
+                return new TextSpanDescriptor(_ => { });
+ 
             var items = text
                 .Replace("\r", string.Empty)
                 .Split(new[] { '\n' }, StringSplitOptions.None)
                 .Select(x => new TextBlockSpan
                 {
-                    Text = x, Style = style
+                    Text = x
                 })
                 .ToList();
 
@@ -157,235 +163,267 @@ namespace QuestPDF.Fluent
             items
                 .Skip(1)
                 .Select(x => new TextBlock
-                {
+                {   
                     Items = new List<ITextBlockItem> { x }
                 })
                 .ToList()
                 .ForEach(TextBlocks.Add);
 
-            return descriptor;
+            return new TextSpanDescriptor(x => items.ForEach(y => y.Style = x));
         }
 
-        public TextSpanDescriptor Line(
-            string? text
-        )
+        /// <summary>
+        /// Appends a line with the provided text followed by an environment-specific newline character.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.spanDescriptor"]/*' />
+        public TextSpanDescriptor Line(string? text)
         {
             text ??= string.Empty;
             return Span(text + Environment.NewLine);
         }
 
+        /// <summary>
+        /// Appends a blank line.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.spanDescriptor"]/*' />
         public TextSpanDescriptor EmptyLine()
         {
             return Span(Environment.NewLine);
         }
-
-        private TextPageNumberDescriptor PageNumber(
-            Func<IPageContext, int?> pageNumber
-        )
+        
+        private TextPageNumberDescriptor PageNumber(Func<IPageContext, int?> pageNumber)
         {
-            var style = DefaultStyle.Clone();
-            var descriptor = new TextPageNumberDescriptor(DefaultStyle);
-
-            AddItemToLastTextBlock(new TextBlockPageNumber
-            {
-                Source = context => descriptor.FormatFunction(pageNumber(context)), Style = style
-            });
-
-            return descriptor;
+            var textBlockItem = new TextBlockPageNumber();
+            AddItemToLastTextBlock(textBlockItem);
+            
+            return new TextPageNumberDescriptor(x => textBlockItem.Style = x, x => textBlockItem.Source = context => x(pageNumber(context)));
         }
 
+        /// <summary>
+        /// Appends text showing the current page number.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.pageNumberDescriptor"]/*' />
         public TextPageNumberDescriptor CurrentPageNumber()
         {
             return PageNumber(x => x.CurrentPage);
         }
-
+        
+        /// <summary>
+        /// Appends text showing the total number of pages in the document.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.pageNumberDescriptor"]/*' />
         public TextPageNumberDescriptor TotalPages()
         {
-            return PageNumber(x => x.GetLocation(PageContext.DocumentLocation)?.Length);
+            return PageNumber(x => x.DocumentLength);
         }
 
-        [Obsolete(
-            "This element has been renamed since version 2022.3. Please use the BeginPageNumberOfSection method.")]
-        public void PageNumberOfLocation(
-            string locationName
-            , TextStyle? style = null
-        )
+        [Obsolete("This element has been renamed since version 2022.3. Please use the BeginPageNumberOfSection method.")]
+        public void PageNumberOfLocation(string sectionName, TextStyle? style = null)
         {
-            BeginPageNumberOfSection(locationName).Style(style);
+            BeginPageNumberOfSection(sectionName).Style(style);
         }
-
-        public TextPageNumberDescriptor BeginPageNumberOfSection(
-            string locationName
-        )
+        
+        /// <summary>
+        /// Appends text showing the number of the first page of the specified <see cref="ElementExtensions.Section">Section</see>.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="param.sectionName"]/*' />
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.pageNumberDescriptor"]/*' />
+        public TextPageNumberDescriptor BeginPageNumberOfSection(string sectionName)
         {
-            var result =
-                PageNumber(x =>
-                {
-                    var result = x.GetLocation(locationName)?.PageStart;
-
-                    return result;
-                });
-            return result;
+            return PageNumber(x => x.GetLocation(sectionName)?.PageStart);
         }
-
-        public TextPageNumberDescriptor EndPageNumberOfSection(
-            string locationName
-        )
+        
+        /// <summary>
+        /// Appends text showing the number of the last page of the specified <see cref="ElementExtensions.Section">Section</see>.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="param.sectionName"]/*' />
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.pageNumberDescriptor"]/*' />
+        public TextPageNumberDescriptor EndPageNumberOfSection(string sectionName)
         {
-            var result =
-                PageNumber(x =>
-                {
-                    var result = x.GetLocation(locationName)?.PageEnd;
-
-                    return result;
-                });
-            return result;
+            return PageNumber(x => x.GetLocation(sectionName)?.PageEnd);
         }
-
-        public TextPageNumberDescriptor PageNumberWithinSection(
-            string locationName
-        )
+        
+        /// <summary>
+        /// Appends text showing the page number relative to the beginning of the given <see cref="ElementExtensions.Section">Section</see>.
+        /// </summary>
+        /// <example>
+        /// For a section spanning pages 20 to 50, page 35 will show as 15.
+        /// </example>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="param.sectionName"]/*' />
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.pageNumberDescriptor"]/*' />
+        public TextPageNumberDescriptor PageNumberWithinSection(string sectionName)
         {
-            var result =
-                PageNumber(x => x.CurrentPage + 1 - x.GetLocation(locationName)?.PageEnd);
-            return result;
+            return PageNumber(x => x.CurrentPage + 1 - x.GetLocation(sectionName)?.PageStart);
         }
-
-        public TextPageNumberDescriptor TotalPagesWithinSection(
-            string locationName
-        )
+        
+        /// <summary>
+        /// Appends text showing the total number of pages within the given <see cref="ElementExtensions.Section">Section</see>.
+        /// </summary>
+        /// <example>
+        /// For a section spanning pages 20 to 50, the total is 30 pages.
+        /// </example>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="param.sectionName"]/*' />
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.pageNumberDescriptor"]/*' />
+        public TextPageNumberDescriptor TotalPagesWithinSection(string sectionName)
         {
-            var result = PageNumber(x => x.GetLocation(locationName)?.Length);
-
-            return result;
+            return PageNumber(x => x.GetLocation(sectionName)?.Length);
         }
-
-        public TextSpanDescriptor SectionLink(
-            string? text
-            , string sectionName
-        )
+        
+        /// <summary>
+        /// Creates a clickable text that navigates the user to a specified <see cref="ElementExtensions.Section">Section</see>.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="param.sectionName"]/*' />
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.spanDescriptor"]/*' />
+        public TextSpanDescriptor SectionLink(string? text, string sectionName)
         {
             if (IsNullOrEmpty(sectionName))
-                throw new ArgumentException(nameof(sectionName));
-
-            var style = DefaultStyle.Clone();
-            var descriptor = new TextSpanDescriptor(style);
+                throw new ArgumentException("Section name cannot be null or empty", nameof(sectionName));
 
             if (IsNullOrEmpty(text))
-                return descriptor;
+                return new TextSpanDescriptor(_ => { });
 
-            AddItemToLastTextBlock(new TextBlockSectionlLink
+            var textBlockItem = new TextBlockSectionLink
             {
-                Style = style, Text = text, SectionName = sectionName
-            });
+                Text = text,
+                SectionName = sectionName
+            };
 
-            return descriptor;
+            AddItemToLastTextBlock(textBlockItem);
+            return new TextSpanDescriptor(x => textBlockItem.Style = x);
         }
-
+        
         [Obsolete("This element has been renamed since version 2022.3. Please use the SectionLink method.")]
-        public void publicLocation(
-            string? text
-            , string locationName
-            , TextStyle? style = null
-        )
+        public void InternalLocation(string? text, string locationName, TextStyle? style = null)
         {
             SectionLink(text, locationName).Style(style);
         }
-
-        public TextSpanDescriptor Hyperlink(
-            string? text
-            , string url
-        )
+        
+        /// <summary>
+        /// Creates a clickable text that redirects the user to a specific webpage.
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="param.url"]/*' />
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.spanDescriptor"]/*' />
+        public TextSpanDescriptor Hyperlink(string? text, string url)
         {
             if (IsNullOrEmpty(url))
-                throw new ArgumentException(nameof(url));
-
-            var style = DefaultStyle.Clone();
-            var descriptor = new TextSpanDescriptor(style);
+                throw new ArgumentException("Url cannot be null or empty", nameof(url));
 
             if (IsNullOrEmpty(text))
-                return descriptor;
-
-            AddItemToLastTextBlock(new TextBlockHyperlink
+                return new TextSpanDescriptor(_ => { });
+            
+            var textBlockItem = new TextBlockHyperlink
             {
-                Style = style, Text = text, Url = url
-            });
+                Text = text,
+                Url = url
+            };
 
-            return descriptor;
+            AddItemToLastTextBlock(textBlockItem);
+            return new TextSpanDescriptor(x => textBlockItem.Style = x);
         }
-
+        
         [Obsolete("This element has been renamed since version 2022.3. Please use the Hyperlink method.")]
-        public void ExternalLocation(
-            string? text
-            , string url
-            , TextStyle? style = null
-        )
+        public void ExternalLocation(string? text, string url, TextStyle? style = null)
         {
             Hyperlink(text, url).Style(style);
         }
-
+        
+        /// <summary>
+        /// Embeds custom content within the text.
+        /// </summary>
+        /// <remarks>
+        /// The container must fit within one line and can not span multiple pages.
+        /// </remarks>
+        /// <returns>A container for the embedded content. Populate using the Fluent API.</returns>
         public IContainer Element()
         {
             var container = new Container();
-
+                
             AddItemToLastTextBlock(new TextBlockElement
             {
                 Element = container
             });
-
+            
             return container.AlignBottom().MinimalBox();
         }
-
-        public void Compose(
-            IContainer container
-        )
+        
+        /// <summary>
+        /// Embeds custom content within the text.
+        /// </summary>
+        /// <remarks>
+        /// The container must fit within one line and can not span multiple pages.
+        /// </remarks>
+        /// <param name="handler">Delegate to populate the embedded container with custom content.</param>
+        public void Element(Action<IContainer> handler)
         {
-            TextBlocks.ToList().ForEach(x => x.Alignment = Alignment);
+            var container = new Container();
+            handler(container.AlignBottom().MinimalBox());
+                
+            AddItemToLastTextBlock(new TextBlockElement
+            {
+                Element = container
+            });
+        }
+        
+        internal void Compose(IContainer container)
+        {
+            TextBlocks.ToList().ForEach(x => x.Alignment ??= Alignment);
+            
+            if (DefaultStyle != null)
+                container = container.DefaultTextStyle(DefaultStyle);
 
-            container.DefaultTextStyle(DefaultStyle).Column(column =>
+            if (TextBlocks.Count == 1)
+            {
+                container.Element(TextBlocks.First());
+                return;
+            }
+            
+            container.Column(column =>
             {
                 column.Spacing(Spacing);
 
                 foreach (var textBlock in TextBlocks)
                     column.Item().Element(textBlock);
-            });
+            }); 
         }
     }
-
+    
     public static class TextExtensions
     {
-        public static void Text(
-            this IContainer element
-            , Action<TextDescriptor> content
-        )
+        /// <summary>
+        /// Draws rich formatted text.
+        /// </summary>
+        /// <param name="content">Handler to define the content of the text elements (e.g.: paragraphs, spans, hyperlinks, page numbers).</param>
+        public static void Text(this IContainer element, Action<TextDescriptor> content)
         {
             var descriptor = new TextDescriptor();
-
+            
             if (element is Alignment alignment)
                 descriptor.Alignment = alignment.Horizontal;
-
+            
             content?.Invoke(descriptor);
             descriptor.Compose(element);
         }
-
-        [Obsolete(
-            "This element has been renamed since version 2022.3. Please use the overload that returns a TextSpanDescriptor object which allows to specify text style.")]
-        public static void Text(
-            this IContainer element
-            , object? text
-            , TextStyle style
-        )
+        
+        [Obsolete("This method has been deprecated since version 2022.3. Please use the overload that returns a TextSpanDescriptor object which allows to specify text style.")]
+        public static void Text(this IContainer element, object? text, TextStyle style)
         {
             element.Text(text).Style(style);
         }
 
-        public static TextSpanDescriptor Text(
-            this IContainer element
-            , object? text
-        )
+        [Obsolete("This method has been deprecated since version 2022.12. Please use an overload where the text parameter is passed explicitly as a string.")]
+        public static TextSpanDescriptor Text(this IContainer element, object? text)
         {
-            var descriptor = (TextSpanDescriptor)null;
-            element.Text(x => descriptor = x.Span(text?.ToString()));
+            return element.Text(text?.ToString());
+        }
+
+        /// <summary>
+        /// Draws the provided text on the page
+        /// </summary>
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="text.returns.spanDescriptor"]/*' />
+        public static TextSpanDescriptor Text(this IContainer element, string? text)
+        {
+            var descriptor = (TextSpanDescriptor) null!;
+            element.Text(x => descriptor = x.Span(text));
             return descriptor;
         }
     }

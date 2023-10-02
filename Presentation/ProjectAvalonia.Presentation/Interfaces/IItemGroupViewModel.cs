@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
+
 using ProjectAvalonia.Presentation.States.ProjectItems;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.Interfaces;
@@ -19,7 +21,10 @@ public interface IItemGroupViewModel : INotifyPropertyChanged
         get;
         set;
     }
-
+    public ISolutionLocationItem Parent
+    {
+        get; set;
+    }
     public ObservableCollection<IItemViewModel> Items
     {
         get;

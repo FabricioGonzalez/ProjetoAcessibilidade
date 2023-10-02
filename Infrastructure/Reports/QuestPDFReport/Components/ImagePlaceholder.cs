@@ -6,6 +6,8 @@ namespace QuestPDFReport.Components;
 
 public class ReportImage : IComponent
 {
+    private readonly bool strecth;
+
     public static bool Solid
     {
         get;
@@ -24,33 +26,65 @@ public class ReportImage : IComponent
         set;
     }
 
+    public float Height
+    {
+        get;
+        set;
+    }
+
+    public float Width
+    {
+        get;
+        set;
+    }
+    public ReportImage(float width, float height, bool strecth = false)
+    {
+        Width = width;
+        Height = height;
+        this.strecth = strecth;
+    }
     public void Compose(
         IContainer container
     )
     {
         if (!string.IsNullOrWhiteSpace(ImagePath))
         {
-            var s = ImagePath;
-            using var stream = new FileStream(path: s, mode: FileMode.Open);
+            var image = Image.FromFile(ImagePath);
             container
-                /*.Height(value: 1, unit: Unit.Inch)*/
-                .Decoration(decoration =>
+                .Column(decoration =>
                 {
-                    decoration
-                        .Before()
-                        .Border(0.25f)
-                        .BorderColor(Colors.Grey.Medium)
-                        .ExtendHorizontal()
-                        .Image(fileStream: stream, scaling: ImageScaling.FitArea);
+                    if (strecth)
+                    {
+                        decoration
+                         .Item()
+                         .ExtendHorizontal()
+                         .Height(Height)
+                         .MaxHeight(Height)
+                         .Image(image)
+                         .WithCompressionQuality(ImageCompressionQuality.Medium)
+                         .FitUnproportionally();
+                    }
+                    else
+                    {
+                        decoration
+                         .Item()
+                         .ExtendHorizontal()
+                         .AlignCenter()
+                         .Height(Height)
+                         .MaxHeight(Height)
+                         .Image(image)
+                         .WithCompressionQuality(ImageCompressionQuality.Medium)
+                         .FitArea();
+                    }
 
                     decoration
-                        .Content()
+                        .Item()
                         .Border(0.25f)
                         .BorderColor(Colors.Grey.Medium)
-                        .Column(col =>
+                        .Decoration(col =>
                         {
-                            col.Item().LabelCell().AlignCenter().Text("Comentários");
-                            col.Item().ValueCell().Background(Colors.Grey.Lighten1).Text(Observation);
+                            col.Before().ExtendHorizontal().AlignCenter().Text("Comentários").Bold();
+                            col.Content().ExtendHorizontal().Background(Colors.Grey.Lighten5).Text(Observation);
                         });
                 });
         }

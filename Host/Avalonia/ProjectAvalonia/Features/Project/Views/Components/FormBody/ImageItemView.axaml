@@ -8,13 +8,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
     xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+    xmlns:desingViewModel="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:CompileBindings="True"
     x:DataType="interfaces:IImageItemViewModel"
     mc:Ignorable="d">
     <Design.DataContext>
-        <viewModels:ImageViewModel />
+      <desingViewModel:DesignTimeImageViewModel />
     </Design.DataContext>
 
     <DockPanel
@@ -36,9 +37,10 @@
             AcceptsTab="True"
             DockPanel.Dock="Bottom"
             Text="{Binding ImageObservation}" />
-        <Viewbox Height="350" Stretch="UniformToFill">
-            <Image asyncImageLoader:ImageLoader.Source="{Binding ImagePath, Mode=TwoWay}" />
-        </Viewbox>
+        <!--<Viewbox Height="350" Stretch="Uniform" >-->
+      <asyncImageLoader:AdvancedImage  Source="{Binding ImagePath}" Height="350" HorizontalAlignment="Stretch" />
+            <!--<Image  Stretch="UniformToFill" Source="{Binding ImagePath}" />-->
+        <!--</Viewbox>-->
     </DockPanel>
 
 </UserControl>

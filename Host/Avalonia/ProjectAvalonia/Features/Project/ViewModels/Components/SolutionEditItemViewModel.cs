@@ -1,5 +1,7 @@
 ﻿using System.Reactive;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
@@ -53,12 +55,14 @@ public class SolutionEditItemViewModel
 
     public string ItemName
     {
-        get;
+        get; set;
     }
+
+    private string _displayName = "";
 
     public string DisplayName
     {
-        get;
+        get => _displayName; set => this.RaiseAndSetIfChanged(ref _displayName, value);
     }
 
     public string TemplateName
@@ -78,7 +82,7 @@ public class SolutionEditItemViewModel
 
     public string ItemPath
     {
-        get;
+        get; set;
     }
 
     public ReactiveCommand<Unit, Unit> CloseItemCommand
@@ -89,5 +93,10 @@ public class SolutionEditItemViewModel
     public ReactiveCommand<Unit, Unit> SaveItemCommand
     {
         get;
+    }
+
+    public void Dispose()
+    {
+
     }
 }

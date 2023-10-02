@@ -493,4 +493,7 @@
   <data name="MainLawLabel" xml:space="preserve">
     <value>Report Law Header</value>
   </data>
+  <data name="ImageBehaviorLabel" xml:space="preserve">
+    <value>Is Image Strecthing allowed?</value>
+  </data>
 </root>

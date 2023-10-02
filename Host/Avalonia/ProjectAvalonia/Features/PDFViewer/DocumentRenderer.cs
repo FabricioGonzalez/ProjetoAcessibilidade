@@ -61,7 +61,7 @@ public class DocumentRenderer : INotifyPropertyChanged
     {
         var canvas = new PreviewerCanvas();
 
-        DocumentGenerator.RenderDocument(canvas: canvas, document: document);
+        DocumentGenerator.RenderDocument(canvas: canvas, document: document,document.GetSettings());
 
         foreach (var pages in Pages)
         {

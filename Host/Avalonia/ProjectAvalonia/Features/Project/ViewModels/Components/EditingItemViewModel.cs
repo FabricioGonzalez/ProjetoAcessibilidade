@@ -1,8 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Reactive;
+
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
@@ -22,12 +24,10 @@ public class EditingItemViewModel
         , string templateName = null
     )
     {
-        /*_mediator ??= Locator.Current.GetService<IMediator>();*/
-
         ItemName = itemName;
         ItemPath = itemPath;
         DisplayName = string.Join(separator: Path.DirectorySeparatorChar,
-            value: ItemPath.Split(Path.DirectorySeparatorChar)[^3 ..^1]
+            value: ItemPath.Split(Path.DirectorySeparatorChar)[^3..^1]
                 .Append(Path.GetFileNameWithoutExtension(itemPath)).ToArray());
 
         Id = id;
@@ -55,11 +55,13 @@ public class EditingItemViewModel
         Body = body;
         TemplateName = templateName;
     }
+    private string _displayName = "";
 
     public string DisplayName
     {
-        get;
+        get => _displayName; set => this.RaiseAndSetIfChanged(ref _displayName, value);
     }
+
 
     public string TemplateName
     {
@@ -68,7 +70,7 @@ public class EditingItemViewModel
 
     public string ItemPath
     {
-        get;
+        get; set;
     }
 
 
@@ -80,7 +82,7 @@ public class EditingItemViewModel
 
     public string ItemName
     {
-        get;
+        get; set;
     }
 
     public string Id
@@ -101,5 +103,10 @@ public class EditingItemViewModel
     public ReactiveCommand<Unit, Unit> SaveItemCommand
     {
         get;
+    }
+
+    public void Dispose()
+    {
+
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System.Reactive;
+
 using Avalonia.Input;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.DesignTimeViewModels;
@@ -14,10 +17,13 @@ public class DesignTimeEditingItemViewModel
         get;
     } = new(key: Key.S, modifiers: KeyModifiers.Control);
 
+    private string _displayName = "";
+
     public string DisplayName
     {
-        get;
+        get => _displayName; set => this.RaiseAndSetIfChanged(ref _displayName, value);
     }
+
 
     public string TemplateName
     {
@@ -32,7 +38,7 @@ public class DesignTimeEditingItemViewModel
 
     public string ItemName
     {
-        get;
+        get; set;
     } = "Teste";
 
     public string Id
@@ -47,7 +53,7 @@ public class DesignTimeEditingItemViewModel
 
     public string ItemPath
     {
-        get;
+        get; set;
     }
 
     public ReactiveCommand<Unit, Unit> SaveItemCommand
@@ -58,5 +64,10 @@ public class DesignTimeEditingItemViewModel
     public ReactiveCommand<Unit, Unit> CloseItemCommand
     {
         get;
+    }
+
+    public void Dispose()
+    {
+
     }
 }

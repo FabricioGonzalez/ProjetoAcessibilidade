@@ -9,6 +9,11 @@ public class CapeContainer
         get;
         set;
     }
+    public ManagementCompanyInfo ManagerInfo
+    {
+        get;
+        set;
+    }
 
     public IEnumerable<PartnerItem> Partners
     {

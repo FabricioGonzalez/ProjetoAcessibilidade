@@ -1,5 +1,4 @@
-﻿using QuestPDF.Drawing;
-using QuestPDF.Fluent;
+﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
@@ -32,13 +31,13 @@ public class DifferentHeadersTemplate : IDocument
             column.Item().ShowOnce().Padding(value: 5).AlignMiddle().Row(handler: row =>
             {
                 row.RelativeItem(size: 2).AlignMiddle().Text(text: "PRIMARY HEADER")
-                    .FontColor(value: Colors.Grey.Darken3).FontSize(value: 30).Bold();
+                    .FontColor( Colors.Grey.Darken3).FontSize(value: 30).Bold();
                 row.RelativeItem().AlignRight().MinimalBox().AlignMiddle().Background(color: Colors.Blue.Darken2)
                     .Padding(value: 30);
             });
             column.Item().SkipOnce().Padding(value: 5).Row(handler: row =>
             {
-                row.RelativeItem(size: 2).Text(text: "SECONDARY HEADER").FontColor(value: Colors.Grey.Darken3)
+                row.RelativeItem(size: 2).Text(text: "SECONDARY HEADER").FontColor( Colors.Grey.Darken3)
                     .FontSize(value: 30).Bold();
                 row.RelativeItem().AlignRight().MinimalBox().Background(color: Colors.Blue.Lighten4).Padding(value: 15);
             });

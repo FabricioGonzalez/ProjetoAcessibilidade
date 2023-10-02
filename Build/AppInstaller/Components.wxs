@@ -48,9 +48,9 @@
         <RemoveFolder Id='RemoveLocalAppDataProductSettingsFolder' Directory='LocalAppDataProductSettingsFolder' On='uninstall' />
         <RemoveFolder Id='RemoveLocalAppDataProductSettingsLogsFolder' Directory='LocalAppDataProductSettingsLogsFolder' On='uninstall' />
         <RemoveFolder Id='RemoveLocalAppDataProductSettingsUiSettingsFolder' Directory='LocalAppDataProductSettingsUiSettingsFolder' On='uninstall' />
-        <RemoveFolder Id='RemoveLocalAppDataProductTemplatesFolder' Directory='LocalAppDataProductTemplatesFolder' On='uninstall' />
-        <RemoveFolder Id='RemoveTemplateFilesDirectory' Directory='TemplateFilesDirectory' On='uninstall' />
-        <RemoveFolder Id='RemoveRulesFilesDirectory' Directory='RulesFilesDirectory' On='uninstall' />
+        <!--<RemoveFolder Id='RemoveLocalAppDataProductTemplatesFolder' Directory='LocalAppDataProductTemplatesFolder' On='uninstall' />-->
+        <!--<RemoveFolder Id='RemoveTemplateFilesDirectory' Directory='TemplateFilesDirectory' On='uninstall' />
+        <RemoveFolder Id='RemoveRulesFilesDirectory' Directory='RulesFilesDirectory' On='uninstall' />-->
 
       </Component>
 
@@ -120,13 +120,13 @@
    
     </ComponentGroup>-->
 
-    <DirectoryRef Id="TemplateFilesDirectory"
+    <!--<DirectoryRef Id="TemplateFilesDirectory"
                   FileSource="$(var.ProjectAvalonia.ProjectDir)Specifications\Templates\Itens">
     </DirectoryRef>
 
     <DirectoryRef Id="RulesFilesDirectory"
                   FileSource="$(var.ProjectAvalonia.ProjectDir)Specifications\Templates\ValidationRules">
-    </DirectoryRef>
+    </DirectoryRef>-->
   </Fragment>
 
 </Wix>

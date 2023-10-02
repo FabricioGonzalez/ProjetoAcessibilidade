@@ -5,15 +5,19 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
 using Common.Linq;
+
 using DynamicData;
 using DynamicData.Binding;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -23,7 +27,7 @@ public class SolutionLocationItemViewModel
         , ISolutionLocationItem
 {
     private readonly ItemsService _itemsService;
-
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
     private readonly Func<Task> SaveSolution;
 
     /*private IObservable<IItemViewModel?> WhenAnyItemIsSelected() =>
@@ -39,19 +43,20 @@ public class SolutionLocationItemViewModel
         string name
         , string itemPath
         , Func<Task> saveSolution
-        , ItemsService itemsService
+        , ItemsService itemsService,
+        EditingItemsNavigationService editableItemsNavigationService
     )
     {
         SaveSolution = saveSolution;
         _itemsService = itemsService;
-
+        _editableItemsNavigationService = editableItemsNavigationService;
         Name = name;
         ItemPath = itemPath;
 
         Items = new ObservableCollection<IItemGroupViewModel>();
         CommitFolderCommand = ReactiveCommand.CreateFromTask(CommitFolder);
         AddProjectItemCommand = ReactiveCommand.CreateFromTask(AddProjectItem);
-        RenameFolderCommand = ReactiveCommand.Create(() => RenameFile());
+        RenameFolderCommand = ReactiveCommand.Create(RenameFile);
 
         // Whenever the list of documents change, calculate a new Observable
         // to represent whenever any of the *current* documents have been
@@ -109,12 +114,12 @@ public class SolutionLocationItemViewModel
     public ObservableCollection<IItemGroupViewModel> Items
     {
         get;
-        init;
+        set;
     }
 
     public string Name
     {
-        get;
+        get; set;
     }
 
     public string ItemPath
@@ -181,7 +186,9 @@ public class SolutionLocationItemViewModel
                 itemPath: Path.Combine(path1: ItemPath
                     , path2: result.Result),
                 itemsService: _itemsService,
-                SaveSolution: SaveSolution
+                SaveSolution: SaveSolution,
+                this,
+                _editableItemsNavigationService
             );
 
             Items.Add(item);
@@ -211,10 +218,38 @@ public class SolutionLocationItemViewModel
                     var childPath = it.ItemPath.Split(Path.DirectorySeparatorChar)[^1];
 
                     it.ItemPath = Path.Combine(path1: newPath, path2: childPath);
+
+                    _editableItemsNavigationService.AlterItem((item) =>
+                    {
+                        item.ItemPath = it.ItemPath
+                        .SplitPath(Path.DirectorySeparatorChar)
+                        .Append(Path.GetFileName(item.ItemPath))
+                        .JoinPath(Path.DirectorySeparatorChar);
+
+                        item.ItemName = item.ItemPath.GetFileNameWithoutExtension();
+
+                        item.DisplayName = it.ItemPath
+                        .SplitPath(new Range(^2, ^0), Path.DirectorySeparatorChar)
+                        .Append(item.ItemName)
+                        .JoinPath(Path.DirectorySeparatorChar);
+
+                        return item;
+                    }, it2 =>
+                    {
+
+                        var itemPath = it2
+                        .ItemPath
+                        .SplitPath(new Range(^2, ^0), Path.DirectorySeparatorChar)
+                        .Prepend(path);
+
+                        var joinedPath = itemPath.JoinPath(Path.DirectorySeparatorChar);
+
+                        return it2.ItemPath == joinedPath;
+                    });
                 });
             }
 
-            _itemsService.RenameFolder(oldPath: ItemPath, newPath: newPath);
+            _itemsService.RenameFolder(oldPath: path, newPath: newPath);
 
             ItemPath = newPath;
 

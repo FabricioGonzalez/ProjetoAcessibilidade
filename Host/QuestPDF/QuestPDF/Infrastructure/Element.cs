@@ -1,49 +1,26 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using QuestPDF.Drawing;
 
 namespace QuestPDF.Infrastructure
 {
-    public abstract class Element : IElement
+    internal abstract class Element : IElement
     {
-        public IPageContext PageContext
-        {
-            get;
-            set;
-        }
-
-        public ICanvas Canvas
-        {
-            get;
-            set;
-        }
-
-        public virtual IEnumerable<Element?> GetChildren()
+        internal IPageContext PageContext { get; set; }
+        internal ICanvas Canvas { get; set; }
+        
+        internal virtual IEnumerable<Element?> GetChildren()
         {
             yield break;
         }
 
-        public virtual void Initialize(
-            IPageContext pageContext
-            , ICanvas canvas
-        )
+        internal virtual void CreateProxy(Func<Element?, Element?> create)
         {
-            PageContext = pageContext;
-            Canvas = canvas;
+            
         }
-
-        public virtual void CreateProxy(
-            Func<Element?, Element?> create
-        )
-        {
-        }
-
-        public abstract SpacePlan Measure(
-            Size availableSpace
-        );
-
-        public abstract void Draw(
-            Size availableSpace
-        );
+        
+        internal abstract SpacePlan Measure(Size availableSpace);
+        internal abstract void Draw(Size availableSpace);
     }
 }

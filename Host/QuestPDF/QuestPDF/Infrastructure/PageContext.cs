@@ -1,55 +1,62 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace QuestPDF.Infrastructure
 {
-    public class PageContext : IPageContext
+    internal class PageContext : IPageContext
     {
-        public const string DocumentLocation = "document";
+        public int DocumentLength { get; private set; }
+        private List<DocumentLocation> Locations { get; } = new();
+        
+        public int CurrentDocumentId { get; private set; }
+        public int CurrentPage { get; private set; }
 
-        private List<DocumentLocation> Locations
+        internal void SetDocumentId(int id)
         {
-            get;
-        } = new();
-
-        public int CurrentPage
+            CurrentDocumentId = id;
+        }
+        
+        internal void ResetPageNumber()
         {
-            get;
-            private set;
+            CurrentPage = 0;
+        }
+        
+        internal void IncrementPageNumber()
+        {
+            CurrentPage++;
+            DocumentLength = Math.Max(DocumentLength, CurrentPage);
         }
 
-        public void SetSectionPage(
-            string name
-        )
+        public void SetSectionPage(string name)
         {
-            var location = GetLocation(name: name);
+            var location = GetLocation(name);
 
             if (location == null)
             {
                 location = new DocumentLocation
                 {
-                    Name = name, PageStart = CurrentPage, PageEnd = CurrentPage
+                    DocumentId = CurrentDocumentId,
+                    Name = name,
+                    PageStart = CurrentPage,
+                    PageEnd = CurrentPage
                 };
-
-                Locations.Add(item: location);
+                
+                Locations.Add(location);
             }
 
             if (location.PageEnd < CurrentPage)
-            {
                 location.PageEnd = CurrentPage;
-            }
         }
 
-        public DocumentLocation? GetLocation(
-            string name
-        ) => Locations.FirstOrDefault(predicate: x => x.Name == name);
-
-        public void SetPageNumber(
-            int number
-        )
+        public DocumentLocation? GetLocation(string name)
         {
-            CurrentPage = number;
-            SetSectionPage(name: DocumentLocation);
+            return Locations.Find(x => x.DocumentId == CurrentDocumentId && x.Name == name);
+        }
+        
+        public string GetDocumentLocationName(string locationName)
+        {
+            return $"{CurrentDocumentId} | {locationName}";
         }
     }
 }

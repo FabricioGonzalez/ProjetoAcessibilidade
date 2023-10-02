@@ -17,6 +17,6 @@ var result = solutionReader.ReadSolution(path)
 var model = await DataSource.GetReport(
     result, "Legislação Vigente: NBR 9.050/15, NBR 16.537/16, Decreto Nº 5296 de 02.12.2004 e Lei Federal 13.146/16");
 
-var report = new StandardReport(model);
+var report = new StandardReport(model, false);
 
 await report.ShowInPreviewerAsync();

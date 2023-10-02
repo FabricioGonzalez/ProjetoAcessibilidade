@@ -2,18 +2,9 @@
 
 namespace QuestPDF.Elements.Text.Calculation
 {
-    public class TextLineElement
+    internal class TextLineElement
     {
-        public ITextBlockItem Item
-        {
-            get;
-            set;
-        }
-
-        public TextMeasurementResult Measurement
-        {
-            get;
-            set;
-        }
+        public ITextBlockItem Item { get; set; }
+        public TextMeasurementResult Measurement { get; set; }
     }
 }

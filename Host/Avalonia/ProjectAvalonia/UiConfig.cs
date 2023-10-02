@@ -217,4 +217,12 @@ public class UiConfig : ConfigBase
         get => _windowHeight;
         internal set => RaiseAndSetIfChanged(field: ref _windowHeight, value: value);
     }
+
+    [DefaultValue(value: false)]
+    [JsonProperty(PropertyName = "ImageStrecthing", DefaultValueHandling = DefaultValueHandling.Populate)]
+    public bool ImageStrecthing
+    {
+        get;
+        internal set;
+    }
 }

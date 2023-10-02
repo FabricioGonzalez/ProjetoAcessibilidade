@@ -31,4 +31,8 @@ public class DesingTimeEditingBodyViewModel
         , new DesignTimeCheckboxFormItem(), new DesignTimeImageContainerFormItemViewModel()
         , new DesignTimeObservationFormItem()
     };
+
+    public void Dispose()
+    {
+    }
 }

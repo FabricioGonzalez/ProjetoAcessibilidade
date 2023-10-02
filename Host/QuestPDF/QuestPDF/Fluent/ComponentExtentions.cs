@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using QuestPDF.Drawing.Exceptions;
 using QuestPDF.Helpers;
@@ -7,32 +6,23 @@ using QuestPDF.Infrastructure;
 
 namespace QuestPDF.Fluent
 {
-    class ComponentDescriptor<T>
-        where T : IComponent
+    class ComponentDescriptor<T> where T : IComponent
     {
-        public ComponentDescriptor(
-            T component
-        )
+        public T Component { get; }
+        
+        public ComponentDescriptor(T component)
         {
             Component = component;
         }
 
-        public T Component
-        {
-            get;
-        }
-
-        public IContainer Slot(
-            Expression<Func<T, ISlot>> selector
-        )
+        public IContainer Slot(Expression<Func<T, ISlot>> selector)
         {
             try
             {
                 var existingValue = Component.GetPropertyValue(selector);
 
                 if (existingValue != null)
-                    throw new DocumentComposeException(
-                        $"The slot {selector.GetPropertyName()} of the component {(typeof(T).Name)} was already used.");
+                    throw new DocumentComposeException($"The slot {selector.GetPropertyName()} of the component {(typeof(T).Name)} was already used.");
 
                 var slot = new Slot();
                 Component.SetPropertyValue(selector, slot);
@@ -44,60 +34,43 @@ namespace QuestPDF.Fluent
             }
             catch
             {
-                throw new DocumentComposeException(
-                    "Every slot in a component should be a public property with getter and setter.");
+                throw new DocumentComposeException("Every slot in a component should be a public property with getter and setter.");
             }
         }
     }
-
+    
     public static class ComponentExtensions
     {
-        public static void Component<T>(
-            this IContainer element
-            , T component
-        )
-            where T : IComponent
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="component"]/*' />
+        /// <param name="component">Instance of the class implementing the <see cref="IComponent"></see> interface.</param>
+        public static void Component<T>(this IContainer element, T component) where T : IComponent
         {
             element.Component(component, null);
         }
-
-        public static void Component<T>(
-            this IContainer element
-        )
-            where T : IComponent, new()
+        
+        /// <include file='../Resources/Documentation.xml' path='documentation/doc[@for="component"]/*' />
+        public static void Component<T>(this IContainer element) where T : IComponent, new()
         {
             element.Component(new T(), null);
         }
 
-        static void Component<T>(
-            this IContainer element
-            , T component
-            , Action<ComponentDescriptor<T>>? handler = null
-        )
-            where T : IComponent
+        static void Component<T>(this IContainer element, T component, Action<ComponentDescriptor<T>>? handler = null) where T : IComponent
         {
             var descriptor = new ComponentDescriptor<T>(component);
             handler?.Invoke(descriptor);
 
-            if (Debugger.IsAttached)
+            if (System.Diagnostics.Debugger.IsAttached)
                 element = element.DebugPointer(component.GetType().Name, highlight: false);
 
             component.Compose(element.Container());
         }
-
-        static void Component<T>(
-            this IContainer element
-            , Action<ComponentDescriptor<T>>? handler = null
-        )
-            where T : IComponent, new()
+        
+        static void Component<T>(this IContainer element, Action<ComponentDescriptor<T>>? handler = null) where T : IComponent, new()
         {
             element.Component(new T(), handler);
         }
 
-        static void Slot(
-            this IContainer element
-            , ISlot slot
-        )
+        static void Slot(this IContainer element, ISlot slot)
         {
             var child = (slot as Slot)?.Child;
             element.Element(child);

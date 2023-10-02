@@ -2,21 +2,15 @@
 
 namespace QuestPDF.Elements
 {
-    public class Rotate : ContainerElement
+    internal class Rotate : ContainerElement
     {
-        public float Angle
-        {
-            get;
-            set;
-        } = 0;
+        public float Angle { get; set; } = 0;
 
-        public override void Draw(
-            Size availableSpace
-        )
+        internal override void Draw(Size availableSpace)
         {
-            Canvas.Rotate(angle: Angle);
-            Child?.Draw(availableSpace: availableSpace);
-            Canvas.Rotate(angle: -Angle);
+            Canvas.Rotate(Angle);
+            Child?.Draw(availableSpace);
+            Canvas.Rotate(-Angle);
         }
     }
 }

@@ -15,15 +15,18 @@ namespace ProjectAvalonia.Features.Project.Services;
 public class SolutionService
 {
     private readonly ILocationService _locationService;
+    private readonly IFilePickerService _filePickerService;
     private readonly SolutionDatasourceImpl _solutionDatasource;
 
     public SolutionService(
         SolutionDatasourceImpl datasourceImpl
-        , ILocationService locationService
+        , ILocationService locationService,
+        IFilePickerService filePickerService
     )
     {
         _solutionDatasource = datasourceImpl;
         _locationService = locationService;
+        _filePickerService = filePickerService;
     }
 
     public SolutionState GetSolution(
@@ -32,12 +35,12 @@ public class SolutionService
     {
         var result = _solutionDatasource.ReadSolution(path);
 
-        return result.Match(Succ: succ => succ.ToSolutionState(_locationService)
+        return result.Match(Succ: succ => succ.ToSolutionState(_locationService, _filePickerService)
             , Fail: fail =>
             {
                 Logger.LogError(fail);
 
-                return new SolutionState(_locationService);
+                return new SolutionState(_locationService, _filePickerService);
             });
     }
 
@@ -46,18 +49,31 @@ public class SolutionService
         , SolutionState solution
     )
     {
-        var solutionPath = Path.Combine(path1: path
-            , path2: $"{solution.FileName}{Constants.AppProjectSolutionExtension}");
+        /*if (!path.Contains($"{solution.FileName}{Constants.AppProjectSolutionExtension}"))
+        {
+            solutionPath = Path.Combine(path, $"{solution.FileName}{Constants.AppProjectSolutionExtension}");
+        }*/
 
-        solution.Report.SolutionName = solution.FileName;
+        /*var solutionPath = Path.Combine(path1: path
+            , path2: $"{solution.FileName}{Constants.AppProjectSolutionExtension}");*/
 
-        await _solutionDatasource.SaveSolution(solutionPath: solutionPath, dataToWrite: solution.ToSolutionItemRoot());
+        /*solution.Report.SolutionName = solution.FileName;*/
         _solutionDatasource.CreateFolders(path);
+
+        await _solutionDatasource.SaveSolution(solutionPath: path, dataToWrite: solution.ToSolutionItemRoot());
+
     }
 
     public async Task SaveSolution(
         string path
         , SolutionState solution
-    ) =>
+    )
+    {
+        if (!path.Contains($"{solution.FileName}{Constants.AppProjectSolutionExtension}"))
+        {
+            path = Path.Combine(path, $"{solution.FileName}{Constants.AppProjectSolutionExtension}");
+        }
+
         await _solutionDatasource.SaveSolution(solutionPath: path, dataToWrite: solution.ToSolutionItemRoot());
+    }
 }

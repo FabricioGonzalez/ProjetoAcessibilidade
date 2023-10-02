@@ -48,8 +48,8 @@
     <Compile Include="ComponentsGenerated.wxs" />
     <Compile Include="Directories.wxs" />
     <Compile Include="Product.wxs" />
-    <Compile Include="RulesComponentsGenerated.wxs" />
-    <Compile Include="TemplateComponentsGenerated.wxs" />
+    <!--<Compile Include="RulesComponentsGenerated.wxs" />
+    <Compile Include="TemplateComponentsGenerated.wxs" />-->
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Common.wxl" />
@@ -106,12 +106,12 @@
     </GetAssemblyIdentity>
     <!-- Define some Variable we need -->
     <PropertyGroup>
-      <DefineConstants>BuildVersion=%(AssemblyVersion.Version);BasePath=..\..\Host\Avalonia\ProjectAvalonia.Desktop\bin\$(Configuration)\net7.0\win-$(Platform)\publish;TemplatesPath=..\..\Host\Avalonia\ProjectAvalonia\Specifications\Templates\Itens;RulesPath=..\..\Host\Avalonia\ProjectAvalonia\Specifications\Templates\ValidationRules</DefineConstants>
+      <DefineConstants>BuildVersion=%(AssemblyVersion.Version);BasePath=..\..\Host\Avalonia\ProjectAvalonia.Desktop\bin\$(Configuration)\net7.0\win-$(Platform)\publish;</DefineConstants>
     </PropertyGroup>
     <!--Harvests file components form publish folder-->
     <HeatDirectory OutputFile="ComponentsGenerated.wxs" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" DirectoryRefId="INSTALLFOLDER" ComponentGroupName="PublishedComponents" SuppressCom="true" Directory="..\..\Host\Avalonia\ProjectAvalonia.Desktop\bin\$(Configuration)\net7.0\win-$(Platform)\publish" PreprocessorVariable="var.BasePath" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" />
-    <HeatDirectory OutputFile="TemplateComponentsGenerated.wxs" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" DirectoryRefId="TemplateFilesDirectory" ComponentGroupName="TemplateFiles" SuppressCom="true" Directory="..\..\Host\Avalonia\ProjectAvalonia\Specifications\Templates\Itens" PreprocessorVariable="var.TemplatesPath" SuppressFragments="true" SuppressRegistry="false" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" />
-    <HeatDirectory OutputFile="RulesComponentsGenerated.wxs" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" DirectoryRefId="RulesFilesDirectory" ComponentGroupName="RulesFiles" SuppressCom="true" Directory="..\..\Host\Avalonia\ProjectAvalonia\Specifications\Templates\ValidationRules" PreprocessorVariable="var.RulesPath" SuppressFragments="true" SuppressRegistry="false" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" />
+    <!--<HeatDirectory OutputFile="TemplateComponentsGenerated.wxs" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" DirectoryRefId="TemplateFilesDirectory" ComponentGroupName="TemplateFiles" SuppressCom="true" Directory="..\..\Host\Avalonia\ProjectAvalonia\Specifications\Templates\Itens" PreprocessorVariable="var.TemplatesPath" SuppressFragments="true" SuppressRegistry="false" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" />
+    <HeatDirectory OutputFile="RulesComponentsGenerated.wxs" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" DirectoryRefId="RulesFilesDirectory" ComponentGroupName="RulesFiles" SuppressCom="true" Directory="..\..\Host\Avalonia\ProjectAvalonia\Specifications\Templates\ValidationRules" PreprocessorVariable="var.RulesPath" SuppressFragments="true" SuppressRegistry="false" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" />-->
   </Target>
   <Target Name="AfterBuild">
   </Target>

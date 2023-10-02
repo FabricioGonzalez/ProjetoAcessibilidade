@@ -28,11 +28,10 @@ public class PhotoTemplate : IComponent
             .Column(handler: column =>
             {
                 column.Spacing(value: 5);
-                column.Item().Element(handler: PhotoWithMaps);
                 column.Item().Element(handler: PhotoDetails);
             });
 
-    private void PhotoWithMaps(
+   /* private void PhotoWithMaps(
         IContainer container
     ) =>
         container
@@ -40,14 +39,17 @@ public class PhotoTemplate : IComponent
             {
                 row.RelativeItem(size: 2).AspectRatio(ratio: 4 / 3f).Component<ReportImage>();
 
-                row.RelativeItem().PaddingLeft(value: 5).Column(handler: column =>
+                row
+                .RelativeItem()
+                .PaddingLeft(value: 5)
+                .Column(handler: column =>
                 {
                     column.Spacing(value: 7f);
 
                     column.Item().AspectRatio(ratio: 4 / 3f).Component<ReportImage>();
                     column.Item().AspectRatio(ratio: 4 / 3f).Component<ReportImage>();
                 });
-            });
+            });*/
 
     private void PhotoDetails(
         IContainer container

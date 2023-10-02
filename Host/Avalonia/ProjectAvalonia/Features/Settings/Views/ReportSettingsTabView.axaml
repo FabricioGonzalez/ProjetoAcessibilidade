@@ -1,14 +1,25 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             xmlns:vm="using:ProjectAvalonia.Features.Settings.ViewModels"
-             x:DataType="vm:ReportSettingsViewModel"
-               xmlns:p="clr-namespace:ProjectAvalonia.Properties"
-             x:Class="ProjectAvalonia.Features.Settings.Views.ReportSettingsTabView">
-  <StackPanel>
-    <TextBlock Text="{x:Static p:Resources.MainLawLabel}"/>
-    <TextBox Text="{Binding LawContent}" Height="250" HorizontalAlignment="Stretch"/>
-  </StackPanel>
+<UserControl
+	x:Class="ProjectAvalonia.Features.Settings.Views.ReportSettingsTabView"
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+	xmlns:vm="using:ProjectAvalonia.Features.Settings.ViewModels"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+	x:DataType="vm:ReportSettingsViewModel"
+	mc:Ignorable="d">
+	<StackPanel Classes="settingsLayout">
+		<TextBlock Text="{x:Static p:Resources.MainLawLabel}" />
+		<TextBox
+			Height="250"
+			HorizontalAlignment="Stretch"
+			Text="{Binding LawContent}" />
+		<DockPanel>
+			<TextBlock Text="{x:Static p:Resources.ImageBehaviorLabel}" />
+			<ToggleSwitch IsChecked="{Binding ImageStretching}" />
+		</DockPanel>
+
+	</StackPanel>
 </UserControl>

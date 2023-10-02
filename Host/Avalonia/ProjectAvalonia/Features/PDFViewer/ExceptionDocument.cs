@@ -1,5 +1,4 @@
 ﻿using System;
-using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -36,7 +35,7 @@ public class ExceptionDocument : IDocument
                 .BorderBottom(value: 2)
                 .BorderColor(color: Colors.Red.Medium)
                 .PaddingBottom(value: 5)
-                .Text(text: "Ooops! Something went wrong...").FontSize(value: 28).FontColor(value: Colors.Red.Medium)
+                .Text(text: "Ooops! Something went wrong...").FontSize(value: 28).FontColor(Colors.Red.Medium)
                 .Bold();
 
             page.Content().PaddingVertical(value: 20).Column(handler: column =>
@@ -55,7 +54,7 @@ public class ExceptionDocument : IDocument
                     if (currentException != null)
                     {
                         column.Item().PaddingVertical(value: 15).LineHorizontal(size: 2)
-                            .LineColor(value: Colors.Red.Medium);
+                            .LineColor( Colors.Red.Medium);
                     }
                 }
             });

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Reactive.Disposables;
@@ -86,7 +85,7 @@ public partial class PreviewerViewModel : RoutableViewModel
             {
                 var report = new StandardReport(await DataSource.GetReport(
                     path: prop,
-                    extension: Constants.AppProjectItemExtension));
+                    extension: Constants.AppProjectItemExtension), ServicesConfig.UiConfig.ImageStrecthing);
 
                 Document = report;
             });
@@ -95,9 +94,10 @@ public partial class PreviewerViewModel : RoutableViewModel
             .WhereNotNull()
             .SubscribeAsync(async prop =>
             {
-                var report = new StandardReport(await DataSource.GetReport(
-                    prop.ToSolutionItemRoot(), ServicesConfig.UiConfig.DefaultLawContent /*,
-                    Constants.AppProjectItemExtension*/));
+                var reportData = await DataSource.GetReport(
+                    prop.ToSolutionItemRoot(), ServicesConfig.UiConfig.DefaultLawContent);
+
+                var report = new StandardReport(reportData, ServicesConfig.UiConfig.ImageStrecthing);
 
                 Document = report;
             });
@@ -236,7 +236,7 @@ public partial class PreviewerViewModel : RoutableViewModel
             // get a stream over the encoded data
             var stream = encoded.AsStream();
 
-            var bitmap = Image.FromStream(stream);
+            var bitmap = System.Drawing.Image.FromStream(stream);
 
             ev.Graphics.DrawImage(image: bitmap, x: 0, y: 0);
             PageCounter++;

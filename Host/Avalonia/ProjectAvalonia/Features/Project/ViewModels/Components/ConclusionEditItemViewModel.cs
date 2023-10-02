@@ -1,5 +1,7 @@
 ﻿using System.Reactive;
+
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels.Components;
@@ -16,8 +18,6 @@ public class ConclusionEditItemViewModel
         , bool isSaved = true
     )
     {
-        /*_mediator ??= Locator.Current.GetService<IMediator>();*/
-
         ItemName = itemName;
         ItemPath = itemPath;
         DisplayName = itemName;
@@ -54,13 +54,15 @@ public class ConclusionEditItemViewModel
 
     public string ItemName
     {
-        get;
+        get; set;
     }
+    private string _displayName = "";
 
     public string DisplayName
     {
-        get;
+        get => _displayName; set => this.RaiseAndSetIfChanged(ref _displayName, value);
     }
+
 
     public string TemplateName
     {
@@ -79,7 +81,7 @@ public class ConclusionEditItemViewModel
 
     public string ItemPath
     {
-        get;
+        get; set;
     }
 
     public ReactiveCommand<Unit, Unit> CloseItemCommand
@@ -91,4 +93,6 @@ public class ConclusionEditItemViewModel
     {
         get;
     }
+
+    public void Dispose() => throw new System.NotImplementedException();
 }

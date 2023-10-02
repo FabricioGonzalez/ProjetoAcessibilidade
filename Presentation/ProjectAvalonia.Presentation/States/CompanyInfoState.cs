@@ -1,9 +1,15 @@
-﻿using ReactiveUI;
+﻿using System.Reactive;
+using System.Reactive.Linq;
+
+using ProjectAvalonia.Presentation.Interfaces.Services;
+
+using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States;
 
 public sealed class CompanyInfoState : ReactiveObject
 {
+    private readonly IFilePickerService service;
     private DateTime? _data = DateTime.Now;
 
     private string _email = "";
@@ -17,6 +23,19 @@ public sealed class CompanyInfoState : ReactiveObject
 
     private string _telefone = "";
 
+    public CompanyInfoState(IFilePickerService service)
+    {
+        this.service = service;
+    }
+
+    public ReactiveCommand<Unit, Unit> SelectLogoCompanyCommand => ReactiveCommand.Create(() =>
+    {
+        Observable
+        .FromAsync(service.GetImagesAsync)
+        .Where(it => !string.IsNullOrWhiteSpace(it))
+            .Subscribe(val => Logo = val,
+                error => Console.WriteLine(error));
+    });
     public string NomeEmpresa
     {
         get => _nomeEmpresa;
