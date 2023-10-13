@@ -496,4 +496,7 @@
   <data name="ImageBehaviorLabel" xml:space="preserve">
     <value>Is Image Strecthing allowed?</value>
   </data>
+  <data name="Open_On_Explorer_Item_Menu_Header" xml:space="preserve">
+    <value>Open on Explorer</value>
+  </data>
 </root>

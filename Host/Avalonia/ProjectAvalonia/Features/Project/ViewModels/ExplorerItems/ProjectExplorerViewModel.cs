@@ -5,12 +5,15 @@ using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 
+using Avalonia.Threading;
+
 using Common;
 using Common.Optional;
 
 using DynamicData.Binding;
 
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.ViewModels;
 using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Features.Project.ViewModels.Dialogs;
@@ -106,7 +109,7 @@ EditingItemsNavigationService editableItemsNavigationService)
                                         , path3: model.Name, path4: vm.Name),
                                     itemsService: _itemsService,
                                     SaveSolution: async () => await SaveSolution(),
-                                    solutionLocation,_editableItemsNavigationService)
+                                    solutionLocation, _editableItemsNavigationService)
                                 {
                                     ExcludeFolderCommand = ReactiveCommand.CreateFromTask(async () =>
                                     {
@@ -156,7 +159,10 @@ EditingItemsNavigationService editableItemsNavigationService)
             {
                 await SaveSolution();
             });*/
-
+        RevealOnExplorerCommand = ReactiveCommand.CreateFromTask<string>(async (path) =>
+        {
+            await IoHelpers.OpenBrowserAsync(path);
+        });
 
         CreateFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -220,6 +226,10 @@ EditingItemsNavigationService editableItemsNavigationService)
     {
         get;
     }
+    public ReactiveCommand<string, Unit> RevealOnExplorerCommand
+    {
+        get;
+    }
 
     public SolutionState SolutionState
     {
@@ -245,7 +255,9 @@ EditingItemsNavigationService editableItemsNavigationService)
 
     private async Task SaveSolution()
     {
-        SolutionState.LocationItems = new ObservableCollection<LocationItemState>(SolutionRootItem.LocationItems.Select(
+        SolutionState.LocationItems = new ObservableCollection<LocationItemState>(SolutionRootItem
+            .LocationItems
+            .Select(
             it => new LocationItemState
             {
                 Name = it.Name,
@@ -266,6 +278,11 @@ EditingItemsNavigationService editableItemsNavigationService)
                                     }))
                         }))
             }));
+
+        Dispatcher.UIThread.Invoke(() =>
+        {
+            this.RaisePropertyChanged(nameof(SolutionState.LocationItems));
+        });
 
         await _solutionService.SaveSolution(path: SolutionState.FilePath, solution: SolutionState);
 

@@ -96,6 +96,15 @@ public partial class MainViewModel : ViewModelBase
 
         UiServices.Initialize();
 
+        Observable.FromEventPattern<UpdateStatus>(it => ServicesConfig.UpdateManager.UpdateAvailableToGet += it, it => ServicesConfig.UpdateManager.UpdateAvailableToGet -= it)
+            .Subscribe(it =>
+            {
+                NotificationHelpers.Show("Atualização Disponível", "Há uma Atualização disponivel para instalação. \n Clique aqui para instalar!", () =>
+                {
+                    ServicesConfig.UpdateManager.StartInstallingNewVersion();
+                });
+            });
+
         CreateDI();
 
         NavigationManager.RegisterType(_navBar);

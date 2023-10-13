@@ -12,6 +12,7 @@
 	xmlns:p="clr-namespace:ProjectAvalonia.Properties"
 	xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
 	xmlns:views="clr-namespace:ProjectAvalonia.Features.Project.Views"
+	xmlns:vm="clr-namespace:ProjectAvalonia.Features.Project.ViewModels.ExplorerItems;assembly=ProjectAvalonia"
 	d:DesignHeight="450"
 	d:DesignWidth="800"
 	x:DataType="interfaces:IProjectExplorerViewModel"
@@ -96,6 +97,10 @@
 							<StackPanel.ContextMenu>
 								<ContextMenu>
 									<MenuItem Command="{Binding AddProjectItemCommand}" Header="{x:Static p:Resources.Add_Folder_Item_Menu_Header}" />
+									<MenuItem
+										Command="{Binding $parent[views:ProjectExplorerView].((vm:ProjectExplorerViewModel)DataContext).RevealOnExplorerCommand}"
+										CommandParameter="{Binding ItemPath}"
+										Header="{x:Static p:Resources.Open_On_Explorer_Item_Menu_Header}" />
 									<MenuItem Command="{Binding AddExistingItemCommand}" Header="{x:Static p:Resources.Add_Existing_Folder_Item_Menu_Header}" />
 									<MenuItem Command="{Binding RenameFolderCommand}" Header="{x:Static p:Resources.Rename_Folder_Item_Menu_Header}" />
 									<MenuItem Command="{Binding ExcludeFolderCommand}" Header="{x:Static p:Resources.Exclude_Folder_Item_Menu_Header}" />
@@ -117,6 +122,10 @@
 								<ContextMenu>
 									<MenuItem Command="{Binding AddProjectItemCommand}" Header="{x:Static p:Resources.Add_Folder_Item_Menu_Header}" />
 									<MenuItem Command="{Binding AddExistingItemCommand}" Header="{x:Static p:Resources.Add_Existing_Folder_Item_Menu_Header}" />
+									<MenuItem
+										Command="{Binding $parent[views:ProjectExplorerView].((vm:ProjectExplorerViewModel)DataContext).RevealOnExplorerCommand}"
+										CommandParameter="{Binding ItemPath}"
+										Header="{x:Static p:Resources.Open_On_Explorer_Item_Menu_Header}" />
 									<MenuItem Command="{Binding RenameFolderCommand}" Header="{x:Static p:Resources.Rename_Folder_Item_Menu_Header}" />
 									<MenuItem Command="{Binding ExcludeFolderCommand}" Header="{x:Static p:Resources.Exclude_Folder_Item_Menu_Header}" />
 								</ContextMenu>

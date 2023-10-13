@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
+
+using Common.Linq;
+
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Presentation.Interfaces;
+
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Project.ViewModels;
@@ -21,31 +25,22 @@ public class ImageContainerFormItemViewModel
 
         AddPhotoCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            (await FileDialogHelper.GetImagesAsync())
+            (await FileDialogHelper.GetMultipleImagesAsync())
                 .IfSucc(succ =>
                 {
-                    var image = new ImageViewModel(imagePath: succ.Path.LocalPath, imageObservation: ""
-                        , id: Guid.NewGuid().ToString());
+                    succ.IterateOn(it =>
+                    {
+                        var image = new ImageViewModel(imagePath: it.Path.LocalPath, imageObservation: ""
+                       , id: Guid.NewGuid().ToString());
 
-                    ImageItems.Add(image);
+                        ImageItems.Add(image);
+                    });
                 });
-
-            /*Option<string>.Some(await FileDialogHelper.ShowOpenFileDialogAsync("Get Images"))
-                .Map(item =>
-                {
-                    return new ImageViewModel(item, "", Guid.NewGuid().ToString());
-                })
-                .Match(item =>
-                {
-                    ImageItems.Add(item);
-
-                    return Empty.Value;
-                }, () => Empty.Value);*/
         });
 
         RemoveImageCommand = ReactiveCommand.Create<IImageItemViewModel>(image =>
         {
-            _ = ImageItems.Remove(image);
+            ImageItems.Remove(image);
         });
     }
 

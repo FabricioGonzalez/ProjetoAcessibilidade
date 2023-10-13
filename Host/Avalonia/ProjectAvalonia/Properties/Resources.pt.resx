@@ -495,4 +495,7 @@
   <data name="ImageBehaviorLabel" xml:space="preserve">
     <value>Permite esticar Imagens?</value>
   </data>
+  <data name="Open_On_Explorer_Item_Menu_Header" xml:space="preserve">
+    <value>Revelar no Explorador de Arquivos</value>
+  </data>
 </root>

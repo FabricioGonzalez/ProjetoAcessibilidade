@@ -1,41 +1,41 @@
 <Window
-    x:Class="ProjectAvalonia.Views.MainWindow"
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:ProjectAvalonia.Behaviors"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="using:Avalonia.Xaml.Interactivity"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shell="clr-namespace:ProjectAvalonia.Features.Shell"
-    xmlns:viewModels="clr-namespace:ProjectAvalonia.ViewModels"
-    x:Name="mainWindow"
-    Title="Gestor de Projeto ARPA"
-    MinWidth="720"
-    MinHeight="480"
-    d:DesignHeight="459"
-    d:DesignWidth="536"
-    x:CompileBindings="True"
-    x:DataType="viewModels:MainViewModel"
-    Background="Transparent"
-    ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
-    ExtendClientAreaTitleBarHeightHint="50"
-    ExtendClientAreaToDecorationsHint="True"
-    Focusable="{Binding SearchBar.IsSearchListVisible}"
-    Icon="/Assets/logo.ico"
-    TransparencyLevelHint="AcrylicBlur"
-    WindowStartupLocation="CenterScreen"
-    WindowState="{Binding WindowState, Mode=TwoWay}"
-    mc:Ignorable="d">
-    <Window.Styles>
-        <Style Selector="TitleBar">
-            <Setter Property="Foreground" Value="{DynamicResource AcrylicTrimForeground}" />
-        </Style>
-    </Window.Styles>
-    <i:Interaction.Behaviors>
-        <behaviors:RegisterNotificationHostBehavior />
-    </i:Interaction.Behaviors>
+	x:Class="ProjectAvalonia.Views.MainWindow"
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:behaviors="using:ProjectAvalonia.Behaviors"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:i="using:Avalonia.Xaml.Interactivity"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:shell="clr-namespace:ProjectAvalonia.Features.Shell"
+	xmlns:viewModels="clr-namespace:ProjectAvalonia.ViewModels"
+	x:Name="mainWindow"
+	Title="Gestor de Projeto ARPA"
+	MinWidth="720"
+	MinHeight="480"
+	d:DesignHeight="459"
+	d:DesignWidth="536"
+	x:CompileBindings="True"
+	x:DataType="viewModels:MainViewModel"
+	Background="Transparent"
+	ExtendClientAreaChromeHints="Default, PreferSystemChrome, OSXThickTitleBar"
+	ExtendClientAreaTitleBarHeightHint="50"
+	ExtendClientAreaToDecorationsHint="True"
+	Focusable="{Binding SearchBar.IsSearchListVisible}"
+	Icon="/Assets/logo.ico"
+	TransparencyLevelHint="AcrylicBlur"
+	WindowStartupLocation="CenterScreen"
+	WindowState="{Binding WindowState, Mode=TwoWay}"
+	mc:Ignorable="d">
+	<Window.Styles>
+		<Style Selector="TitleBar">
+			<Setter Property="Foreground" Value="{DynamicResource AcrylicTrimForeground}" />
+		</Style>
+	</Window.Styles>
+	<i:Interaction.Behaviors>
+		<behaviors:RegisterNotificationHostBehavior />
+	</i:Interaction.Behaviors>
 
-    <Panel Margin="{Binding #mainWindow.OffScreenMargin}">
-        <shell:Shell />
-    </Panel>
+	<Panel Margin="{Binding #mainWindow.OffScreenMargin}">
+		<shell:Shell />
+	</Panel>
 </Window>

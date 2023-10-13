@@ -709,6 +709,15 @@ namespace ProjectAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Revelar no Explorador de Arquivos.
+        /// </summary>
+        public static string Open_On_Explorer_Item_Menu_Header {
+            get {
+                return ResourceManager.GetString("Open_On_Explorer_Item_Menu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Operações.
         /// </summary>
         public static string Operation_Label {

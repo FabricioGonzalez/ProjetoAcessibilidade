@@ -49,33 +49,50 @@ public class ReportImage : IComponent
     {
         if (!string.IsNullOrWhiteSpace(ImagePath))
         {
-            var image = Image.FromFile(ImagePath);
             container
                 .Column(decoration =>
                 {
-                    if (strecth)
+                    if (File.Exists(ImagePath))
                     {
-                        decoration
-                         .Item()
-                         .ExtendHorizontal()
-                         .Height(Height)
-                         .MaxHeight(Height)
-                         .Image(image)
-                         .WithCompressionQuality(ImageCompressionQuality.Medium)
-                         .FitUnproportionally();
+                        var image = Image.FromFile(ImagePath);
+                        if (strecth)
+                        {
+                            decoration
+                             .Item()
+                             .ExtendHorizontal()
+                             .Height(Height)
+                             .MaxHeight(Height)
+                             .Image(image)
+                             .WithCompressionQuality(ImageCompressionQuality.Medium)
+                             .FitUnproportionally();
+                        }
+                        else
+                        {
+                            decoration
+                             .Item()
+                             .ExtendHorizontal()
+                             .AlignCenter()
+                             .Height(Height)
+                             .MaxHeight(Height)
+                             .Image(image)
+                             .WithCompressionQuality(ImageCompressionQuality.Medium)
+                             .FitArea();
+                        }
                     }
                     else
                     {
                         decoration
-                         .Item()
-                         .ExtendHorizontal()
-                         .AlignCenter()
-                         .Height(Height)
-                         .MaxHeight(Height)
-                         .Image(image)
-                         .WithCompressionQuality(ImageCompressionQuality.Medium)
-                         .FitArea();
+                             .Item()
+                             .ExtendHorizontal()
+                             .AlignCenter()
+                             .AlignMiddle()
+                             .Height(Height)
+                             .MaxHeight(Height)
+                             .Text("Imagem não Encontrada")
+                             .Style(Typography.Title);
+
                     }
+
 
                     decoration
                         .Item()

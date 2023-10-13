@@ -271,6 +271,24 @@ public static class FileDialogHelper
             : new Result<IStorageFile>(new IOException("No file was Selected"));
     }
 
+    public static async Task<Result<IEnumerable<IStorageFile>>> GetMultipleImagesAsync()
+    {
+        var files = await GetProvider()
+            .OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "Abrir file",
+                AllowMultiple = true,
+                FileTypeFilter = new List<FilePickerFileType>
+                {
+                    FilePickerFileTypes.ImageAll
+                }
+            });
+
+        return files.Any()
+            ? new Result<IEnumerable<IStorageFile>>(files)
+            : new Result<IEnumerable<IStorageFile>>(new IOException("No file was Selected"));
+    }
+
     public static async Task<Result<IStorageFile>> SaveFile(
         string suggestedName
         , List<FilePickerFileType> fileTypes

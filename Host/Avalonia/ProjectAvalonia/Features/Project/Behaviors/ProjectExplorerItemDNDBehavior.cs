@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 
 using Avalonia.Controls;
@@ -141,13 +141,20 @@ public sealed class ProjectExplorerItemDNDBehavior : DropHandlerBase
         {
             if (bExecute && e.DragEffects == DragDropEffects.Move)
             {
-                var collection = (treeView.ItemsSource as IEnumerable<ISolutionLocationItem>).ToList();
+                var items = ((ISolutionGroupViewModel)((TreeViewItem)treeView.Items?.Last()).DataContext);
 
-                SwapItem(collection, collection.IndexOf(sourceItem5), collection.IndexOf(targetItem5));
+                var collection = items?.LocationItems;
+
+                var sourceIndex = collection.IndexOf(sourceItem5);
+                var targetIndex = collection.IndexOf(targetItem5);
+
+                SwapItem(collection, sourceIndex, targetIndex);
                 sourceItem5.MoveItemCommand.Execute();
+
+                Console.WriteLine("Droping source -> {0} at {2} \n target -> {1} at {3}", sourceItem5.ItemPath, targetItem5.ItemPath, sourceIndex, targetIndex);
             }
 
-            /*Console.WriteLine("Droping source -> {0} \n target -> {1}", sourceItem5.ItemPath, targetItem5.ItemPath);*/
+
             return true;
         }
         return false;
