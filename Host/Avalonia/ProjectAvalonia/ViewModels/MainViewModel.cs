@@ -95,20 +95,19 @@ public partial class MainViewModel : ViewModelBase
             compactDialogScreenNavigation: CompactDialogScreen);
 
         UiServices.Initialize();
-
-        Observable.FromEventPattern<UpdateStatus>(it => ServicesConfig.UpdateManager.UpdateAvailableToGet += it, it => ServicesConfig.UpdateManager.UpdateAvailableToGet -= it)
-            .Subscribe(it =>
-            {
-                NotificationHelpers.Show("Atualização Disponível", "Há uma Atualização disponivel para instalação. \n Clique aqui para instalar!", () =>
-                {
-                    ServicesConfig.UpdateManager.StartInstallingNewVersion();
-                });
-            });
-
         CreateDI();
 
         NavigationManager.RegisterType(_navBar);
         RegisterViewModels();
+
+        Observable.FromEventPattern<UpdateStatus>(it => ServicesConfig.UpdateManager.UpdateAvailableToGet += it, it => ServicesConfig.UpdateManager.UpdateAvailableToGet -= it)
+          .Subscribe(it =>
+          {
+              NotificationHelpers.Show(title: "Atualização Disponível", message: "Há uma Atualização disponivel para instalação. \n Clique aqui para instalar!", time: 0, onClick: () =>
+              {
+                  ServicesConfig.UpdateManager.StartInstallingNewVersion();
+              });
+          });
 
         RxApp.MainThreadScheduler.Schedule(async () => await _navBar.InitialiseAsync());
 
@@ -155,6 +154,8 @@ public partial class MainViewModel : ViewModelBase
                  CompactDialogScreen.CurrentPage is { IsBusy: true };
 
         SearchBar = CreateSearchBar();
+
+
     }
 
     public IObservable<bool> IsMainContentEnabled
