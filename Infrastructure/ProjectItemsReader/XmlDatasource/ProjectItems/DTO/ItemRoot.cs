@@ -27,11 +27,11 @@ public class ItemRoot
         set;
     }
 
-    [XmlArray("table")]
-    [XmlArrayItem("checkbox_items", Type = typeof(ItemFormDataCheckboxModel))]
-    [XmlArrayItem("text_item", Type = typeof(ItemFormDataTextModel))]
+    [XmlArray("table", IsNullable = true)]
+    [XmlArrayItem("checkbox_items", IsNullable = true, Type = typeof(ItemFormDataCheckboxModel))]
+    [XmlArrayItem("text_item", IsNullable = true, Type = typeof(ItemFormDataTextModel))]
 
-    public List<ItemFormDataContainer> FormData
+    public List<ItemFormDataContainer>? FormData
     {
         get;
         set;

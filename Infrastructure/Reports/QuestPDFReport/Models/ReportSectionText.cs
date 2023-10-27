@@ -3,11 +3,10 @@
 public class ReportSectionText : ReportSectionElement
 {
     public ReportSectionText(
-        string text
+        string id
+        , string text
         , string label
-        , string id
-,
-string measurementUnit)
+        , string measurementUnit)
     {
         Text = text;
         Label = label;
@@ -20,8 +19,10 @@ string measurementUnit)
         get;
         set;
     }
+
     public string MeasurementUnit
     {
-        get; set;
+        get;
+        set;
     } = "";
 }

@@ -1,18 +1,15 @@
 ﻿using System.Text;
-
 using Common.Linq;
-
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-
 using QuestPDFReport.Models;
 
 namespace QuestPDFReport.Components;
 
 public class SectionTemplate : IComponent
 {
-    private bool strechImages;
+    private readonly bool strechImages;
 
     public SectionTemplate(
         ReportLocationGroup model
@@ -43,94 +40,93 @@ public class SectionTemplate : IComponent
                     columns.RelativeColumn();
                 });
                 Model
-                .Groups
-                .IterateOn(group =>
-                {
-                    root.Cell()
-                        .Border(0.6f)
-                        .BorderColor(Colors.Grey.Darken1)
-                        .Section($"{Model.Title} - {group.Title}")
-                        .Decoration(decoration =>
-                        {
-                            GroupItemHeader(group, decoration);
+                    .Groups
+                    .IterateOn(group =>
+                    {
+                        root.Cell()
+                            .Border(0.6f)
+                            .BorderColor(Colors.Grey.Darken1)
+                            .Section($"{Model.Title} - {group.Title}")
+                            .Decoration(decoration =>
+                            {
+                                GroupItemHeader(group, decoration);
 
-                            decoration
-                                .Content()
-                                .Border(0.75f)
-                                .BorderColor(Colors.Grey.Medium)
-                                .Column(col =>
-                                {
-                                    group.Parts.IterateOn(item =>
+                                decoration
+                                    .Content()
+                                    .Border(0.75f)
+                                    .BorderColor(Colors.Grey.Medium)
+                                    .Column(col =>
                                     {
-                                        col.Item()
-                                            .Section($"{Model.Title} - {group.Title} - {item.Title}")
-                                            .Column(column =>
-                                            {
-                                                column
-                                                .Item()
-                                                /*.PaddingVertical(2)*/
-                                                .Decoration(contentDecoration =>
-                                                    {
-                                                        FormBodyTitle(item, contentDecoration);
+                                        group.Parts.IterateOn(item =>
+                                        {
+                                            col.Item()
+                                                .Section($"{Model.Title} - {group.Title} - {item.Title}")
+                                                .Column(column =>
+                                                {
+                                                    column
+                                                        .Item()
+                                                        /*.PaddingVertical(2)*/
+                                                        .Decoration(contentDecoration =>
+                                                        {
+                                                            FormBodyTitle(item, contentDecoration);
 
-                                                        contentDecoration
-                                                            .Content()
-                                                           .PaddingVertical(2)
-                                                            .Column(
-                                                                formBody =>
-                                                                {
-                                                                    FormParts(item, formBody);
+                                                            contentDecoration
+                                                                .Content()
+                                                                .PaddingVertical(2)
+                                                                .Column(
+                                                                    formBody =>
+                                                                    {
+                                                                        FormParts(item, formBody);
 
-                                                                    ObservationItem(item, formBody);
-                                                                });
-                                                    });
-                                                column
-                                                    .Item()
-                                                    .Element(x =>
-                                                    LawItemsElement(container: x, models: item.Laws));
+                                                                        ObservationItem(item, formBody);
+                                                                    });
+                                                        });
+                                                    column
+                                                        .Item()
+                                                        .Element(x =>
+                                                            LawItemsElement(x, item.Laws));
 
-                                                ImageItems(item, column, strechImages);
-                                            });
+                                                    ImageItems(item, column, strechImages);
+                                                });
+                                        });
                                     });
-                                });
-                        });
-                });
+                            });
+                    });
             });
 
-    private void FormParts(ReportSection item, ColumnDescriptor formBody)
-    {
+    private void FormParts(ReportSection item, ColumnDescriptor formBody) =>
         formBody
             .Item()
             .Column(items =>
             {
                 item
-                .Parts
-                .IterateOn(item =>
-                {
-                    items
-                    .Item()
-                    .ValueCell()
-                    .Column(partColumn =>
+                    .Parts
+                    .IterateOn(formItem =>
                     {
-                        if (item is not
-                    ReportSectionTitle)
-                        {
-                            if (item is
-                        ReportSectionText text)
+                        items
+                            .Item()
+                            .ValueCell()
+                            .Column(partColumn =>
                             {
-                                FormTextItem(item, partColumn, text);
-                            }
-                            if (item is
-                        ReportSectionCheckbox
-                        checkboxes)
-                            {
-                                FormCheckboxItem(item, partColumn, checkboxes);
-                            }
-                        }
+                                if (formItem is not
+                                    ReportSectionTitle)
+                                {
+                                    if (formItem is
+                                        ReportSectionText text)
+                                    {
+                                        FormTextItem(partColumn, formItem.Label, text.Text, text.MeasurementUnit);
+                                    }
+
+                                    if (formItem is
+                                        ReportSectionCheckbox
+                                        checkboxes)
+                                    {
+                                        FormCheckboxItem(formItem, partColumn, checkboxes);
+                                    }
+                                }
+                            });
                     });
-                });
             });
-    }
 
     private void ImageItems(ReportSection item, ColumnDescriptor column, bool StrechImages = false)
     {
@@ -145,22 +141,21 @@ public class SectionTemplate : IComponent
                     grid.Columns(2);
 
                     item
-                    .Images
-                    .Where(it =>
-                        !string.IsNullOrWhiteSpace(it.ImagePath))
-                    .IterateOn(item =>
-                    {
-                        var image = new ReportImage(160, 160, StrechImages)
+                        .Images
+                        .Where(it =>
+                            !string.IsNullOrWhiteSpace(it.ImagePath))
+                        .IterateOn(item =>
                         {
-                            ImagePath = item.ImagePath
-                            ,
-                            Observation = item.Observation
-                        };
-                        grid
-                            .Item()
-                            .Element(
-                            it => it.Component(image));
-                    });
+                            var image = new ReportImage(160, 160, StrechImages)
+                            {
+                                ImagePath = item.ImagePath,
+                                Observation = item.Observation
+                            };
+                            grid
+                                .Item()
+                                .Element(
+                                    it => it.Component(image));
+                        });
                 });
         }
     }
@@ -168,6 +163,7 @@ public class SectionTemplate : IComponent
     private void ObservationItem(ReportSection item, ColumnDescriptor formBody)
     {
         if (item.Observation.Any())
+        {
             formBody
                 .Item()
                 .Column(items =>
@@ -175,11 +171,13 @@ public class SectionTemplate : IComponent
                     items
                         .Item()
                         .Element(x =>
-                            ObservationElement(x: x, observation: item.Observation));
+                            ObservationElement(x, item.Observation));
                 });
+        }
     }
 
-    private void FormCheckboxItem(ReportSectionElement item, ColumnDescriptor partColumn, ReportSectionCheckbox checkboxes)
+    private void FormCheckboxItem(ReportSectionElement item, ColumnDescriptor partColumn,
+        ReportSectionCheckbox checkboxes)
     {
         partColumn
             .Item()
@@ -190,12 +188,12 @@ public class SectionTemplate : IComponent
                     .RelativeItem(0.90f)
                     .Text(item.Label)
                     .SemiBold()
-                    .WrapAnywhere(true);
+                    .WrapAnywhere();
 
                 checkboxRow
                     .AutoItem()
                     .AlignRight()
-                     .AlignMiddle()
+                    .AlignMiddle()
                     .Row(
                         innerCheckboxRow =>
                         {
@@ -205,48 +203,62 @@ public class SectionTemplate : IComponent
                                     CheckboxItemComponent =>
                                         new CheckboxItemComponent(CheckboxItemComponent))
                                 .IterateOn(CheckboxItemComponent =>
-                                        innerCheckboxRow
-                                            .AutoItem()
-                                            /*.Width(50)*/
-                                            .Element(it => it.Component(CheckboxItemComponent)));
+                                    innerCheckboxRow
+                                        .AutoItem()
+                                        /*.Width(50)*/
+                                        .Element(it => it.Component(CheckboxItemComponent)));
                         });
+
+                partColumn.Item().Column(col =>
+                {
+                    checkboxes.TextItems.IterateOn(it =>
+                    {
+                        FormTextItem(col, it.Label, it.Text, it.MeasurementUnit, hasBorder: true);
+                    });
+                });
             });
     }
 
-    private void FormTextItem(ReportSectionElement item, ColumnDescriptor partColumn, ReportSectionText text)
+    private void FormTextItem(ColumnDescriptor partColumn, string label, string text, string measurementUnit,
+        bool hasBorder = false)
     {
-        partColumn
+        var element = partColumn
             .Item()
-            .ExtendHorizontal()
-            .Row(row =>
-            {
-                row
+            .ExtendHorizontal();
+        if (hasBorder)
+        {
+            element = element.BorderBottom(0.1f);
+        }
+
+        element.Row(row =>
+        {
+            row
                 .AutoItem()
                 .PaddingHorizontal(2)
                 .AlignMiddle()
-                .Text(item.Label)
+                .Text(label)
                 .SemiBold()
                 .WrapAnywhere(false);
 
-                row
+            row
                 .RelativeItem()
                 .PaddingRight(4)
-                .Text(text.Text)
+                .Text(text)
                 .WrapAnywhere(false);
 
-                row
+            row
                 .AutoItem()
                 .AlignRight()
                 .AlignMiddle()
-                .Text(text.MeasurementUnit)
+                .Text(measurementUnit)
                 .FontSize(10)
                 .SemiBold()
                 .FontColor(Colors.Black);
-            });
+        });
     }
 
-    private void FormBodyTitle(ReportSection item, DecorationDescriptor contentDecoration)
-    {
+
+    private void FormBodyTitle(ReportSection item, DecorationDescriptor contentDecoration) =>
         contentDecoration
             .Before()
             .ShowOnce()
@@ -259,21 +271,18 @@ public class SectionTemplate : IComponent
                     .Style(Typography.SubLine)
                     .FontColor(Colors.Black);
             });
-    }
 
-    private void GroupItemHeader(ReportSectionGroup group, DecorationDescriptor decoration)
-    {
+    private void GroupItemHeader(ReportSectionGroup group, DecorationDescriptor decoration) =>
         decoration
-           .Before()
-           .PaddingBottom(4)
-           .PaddingHorizontal(2)
-           .Border(0.1f)
-           .BorderColor(Colors.Grey.Lighten1)
-           .ShowOnce()
-           .Text(group.Title)
-           .Style(Typography.Headline)
-           .FontColor(Colors.Red.Medium);
-    }
+            .Before()
+            .PaddingBottom(4)
+            .PaddingHorizontal(2)
+            .Border(0.1f)
+            .BorderColor(Colors.Grey.Lighten1)
+            .ShowOnce()
+            .Text(group.Title)
+            .Style(Typography.Headline)
+            .FontColor(Colors.Red.Medium);
 
     private void ObservationElement(
         IContainer x
@@ -320,31 +329,30 @@ public class SectionTemplate : IComponent
         , IEnumerable<LawSectionElement> models
     ) =>
         container
-        .ExtendHorizontal()
-         .Border(0.2f)
-         .BorderColor(Colors.Grey.Darken1)
-        .PaddingVertical(4)
-        .Column(col =>
-        {
-            col.Item().LabelCell().Text("Legislação").SemiBold();
-            col.Item().Column(column =>
+            .ExtendHorizontal()
+            .Border(0.2f)
+            .BorderColor(Colors.Grey.Darken1)
+            .PaddingVertical(4)
+            .Column(col =>
             {
-                models.IterateOn(item =>
+                col.Item().LabelCell().Text("Legislação").SemiBold();
+                col.Item().Column(column =>
                 {
-                    column.Item()
-                     .LabelCell()
-                     .Text(item.LawId)
-                     .FontColor(Colors.Red.Medium);
+                    models.IterateOn(item =>
+                    {
+                        column.Item()
+                            .LabelCell()
+                            .Text(item.LawId)
+                            .FontColor(Colors.Red.Medium);
 
-                    column.Item()
-                    .Background(Colors.LightBlue.Lighten2)
-                    .Border(0.2f)
-                    .BorderColor(Colors.Grey.Darken1)
-                    .PaddingHorizontal(2)
-                    .Text(item.LawContent)
-                    .SemiBold();
+                        column.Item()
+                            .Background(Colors.LightBlue.Lighten2)
+                            .Border(0.2f)
+                            .BorderColor(Colors.Grey.Darken1)
+                            .PaddingHorizontal(2)
+                            .Text(item.LawContent)
+                            .SemiBold();
+                    });
                 });
             });
-        });
-
 }

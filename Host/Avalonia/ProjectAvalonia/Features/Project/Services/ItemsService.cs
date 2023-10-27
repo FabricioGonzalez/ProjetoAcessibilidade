@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-
 using Common;
 using Common.Linq;
-
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States.ProjectItems;
-
 using XmlDatasource.ExplorerItems;
 using XmlDatasource.ProjectItems;
 
@@ -31,7 +28,7 @@ public sealed class ItemsService
     }
 
     public IEnumerable<ItemState> LoadAllItems() => _explorerItems.GetAllAppTemplates()
-        .Match(Succ: s => s.Select(it => it.ToItemState()), Fail: f =>
+        .Match(s => s.Select(it => it.ToItemState()), f =>
         {
             Logger.LogError(f);
             return Enumerable.Empty<ItemState>();
@@ -75,12 +72,12 @@ public sealed class ItemsService
         {
             if (File.GetAttributes(item.EntryPath) == FileAttributes.Directory && File.Exists(item.EntryPath))
             {
-                Directory.Move(sourceDirName: item.EntryPath, destDirName: desiredItem.EntryPath);
+                Directory.Move(item.EntryPath, desiredItem.EntryPath);
 
                 return desiredItem;
             }
 
-            File.Move(sourceFileName: item.EntryPath, destFileName: desiredItem.EntryPath);
+            File.Move(item.EntryPath, desiredItem.EntryPath);
 
             return desiredItem;
         }
@@ -131,12 +128,12 @@ public sealed class ItemsService
             if (!File.Exists(it.ItemPath))
             {
                 var item = await _projectItemDatasource.GetContentItem(Path.Combine(
-                    path1: Constants.AppItemsTemplateFolder
-                    , path2: $"{it.TemplateName}{Constants.AppProjectTemplateExtension}"));
+                    Constants.AppItemsTemplateFolder
+                    , $"{it.TemplateName}{Constants.AppProjectTemplateExtension}"));
 
                 item.IfSucc(async fileResult =>
                 {
-                    await _projectItemDatasource.SaveContentItem(path: it.ItemPath, item: fileResult);
+                    await _projectItemDatasource.SaveContentItem(it.ItemPath, fileResult);
                 });
             }
         });
@@ -147,7 +144,7 @@ public sealed class ItemsService
     {
         if (Directory.Exists(argItemPath))
         {
-            Directory.Delete(path: argItemPath, recursive: true);
+            Directory.Delete(argItemPath, true);
         }
     }
 
@@ -165,14 +162,11 @@ public sealed class ItemsService
         string oldPath
         , string newPath
     )
-    {
+        {
         if (File.Exists(oldPath) && !File.Exists(newPath))
         {
-            File.Move(sourceFileName: oldPath, destFileName: newPath);
-            return;
+            File.Move(oldPath, newPath);
         }
-
-        File.Create(newPath);
     }
 
     public void RenameFolder(
@@ -182,7 +176,7 @@ public sealed class ItemsService
     {
         if (Directory.Exists(oldPath) && !Directory.Exists(newPath))
         {
-            Directory.Move(sourceDirName: oldPath, destDirName: newPath);
+            Directory.Move(oldPath, newPath);
         }
     }
 }

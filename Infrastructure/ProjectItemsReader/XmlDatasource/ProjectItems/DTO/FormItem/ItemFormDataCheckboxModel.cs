@@ -13,14 +13,14 @@ public class ItemFormDataCheckboxModel : ItemFormDataContainer
         , string topic
         , ItemFormDataEnum type = ItemFormDataEnum.Checkbox
     )
-        : base(id: id, topic: topic, type: type)
+        : base(id, topic, type)
     {
         Children = new List<ItemFormDataCheckboxChildModel>();
     }
 
-    [XmlArray(elementName: "checkboxes")]
-    [XmlArrayItem(elementName: "checkbox_item")]
-    public List<ItemFormDataCheckboxChildModel> Children
+    [XmlArray("checkboxes", IsNullable = true)]
+    [XmlArrayItem("checkbox_item", IsNullable = true)]
+    public List<ItemFormDataCheckboxChildModel>? Children
     {
         get;
         set;

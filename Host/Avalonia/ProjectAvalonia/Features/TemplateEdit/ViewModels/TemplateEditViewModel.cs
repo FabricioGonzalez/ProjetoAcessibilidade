@@ -6,12 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
-
 using Common;
 using Common.Optional;
-
 using DynamicData.Binding;
-
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.NavBar;
@@ -26,7 +23,6 @@ using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
 using ProjectAvalonia.Presentation.States.LawItemState;
 using ProjectAvalonia.ViewModels;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.TemplateEdit.ViewModels;
@@ -50,14 +46,12 @@ public partial class TemplateEditViewModel
         , ITemplateEditViewModel
 {
     private readonly EditableItemService _editableItemService;
+    private readonly ExportTemplateService _exportTemplateService;
+    private readonly ImportDialogViewModel _importDialogViewModel;
     private readonly ItemsService _itemsService;
     private readonly ValidationRulesService _validationRulesService;
-    private readonly ExportTemplateService _exportTemplateService;
-    private readonly IFilePickerService _filePickerService;
-    private readonly ImportTemplateService _importTemplateService;
-    private readonly ImportDialogViewModel importDialogViewModel;
 
-    private IEditableItemViewModel _selectedItem;
+    private IEditableItemViewModel? _selectedItem;
 
     public TemplateEditViewModel(
         ITemplateEditTabViewModel templateEditTab
@@ -65,24 +59,23 @@ public partial class TemplateEditViewModel
         , ItemsService itemsService
         , EditableItemService editableItemService
         , ValidationRulesService validationRulesService
-,
-ImportTemplateService importTemplateService,
-ExportTemplateService exportTemplateService,
-IFilePickerService filePickerService)
+        ,
+        ImportTemplateService importTemplateService,
+        ExportTemplateService exportTemplateService,
+        IFilePickerService filePickerService)
     {
         _itemsService = itemsService;
         _editableItemService = editableItemService;
         _validationRulesService = validationRulesService;
         _exportTemplateService = exportTemplateService;
-        _filePickerService = filePickerService;
-        _importTemplateService = importTemplateService;
+        var importTemplateService1 = importTemplateService;
 
-        importDialogViewModel = new(importTemplateService: _importTemplateService, _filePickerService);
+        _importDialogViewModel = new ImportDialogViewModel(importTemplateService1, filePickerService);
 
         SetupCancel(
-            enableCancel: false,
-            enableCancelOnEscape: true,
-            enableCancelOnPressed: true);
+            false,
+            true,
+            true);
 
         SelectionMode = NavBarItemSelectionMode.Button;
 
@@ -104,25 +97,25 @@ IFilePickerService filePickerService)
             {
             });
         LoadAllItems = ReactiveCommand.CreateRunInBackground(
-            execute: LoadItems,
+            LoadItems,
             outputScheduler: RxApp.MainThreadScheduler);
 
         ExcludeItemCommand = ReactiveCommand.CreateFromTask(
             async () =>
             {
                 var dialog = new DeleteDialogViewModel(
-                    message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
-                    , caption: "");
+                    "O item seguinte será excluido ao confirmar. Deseja continuar?", "Deletar Item"
+                    , "");
 
-                if ((await NavigateDialogAsync(dialog: dialog,
-                        target: NavigationTarget.CompactDialogScreen)).Result.Item2)
+                if ((await NavigateDialogAsync(dialog,
+                        NavigationTarget.CompactDialogScreen)).Result.Item2)
                 {
                     if (SelectedItem is { } item)
                     {
                         Items?.Remove(item);
 
-                        var path = Path.Combine(path1: Constants.AppItemsTemplateFolder
-                            , path2: $"{item?.TemplateName ?? item.Name}{Constants.AppProjectTemplateExtension}");
+                        var path = Path.Combine(Constants.AppItemsTemplateFolder
+                            , $"{item?.TemplateName ?? item.Name}{Constants.AppProjectTemplateExtension}");
 
                         _itemsService.ExcludeFile(path);
                     }
@@ -136,7 +129,6 @@ IFilePickerService filePickerService)
                     item.InEditMode = true;
                 }
             });
-        _importTemplateService = importTemplateService;
         _exportTemplateService = exportTemplateService;
     }
 
@@ -151,11 +143,11 @@ IFilePickerService filePickerService)
         {
             if (item.ItemPath is { Length: <= 0 })
             {
-                item.ItemPath = Path.Combine(path1: Constants.AppItemsTemplateFolder
-                    , path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");
+                item.ItemPath = Path.Combine(Constants.AppItemsTemplateFolder
+                    , $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");
             }
 
-            await LoadItemReport(path: item.ItemPath, itemTemplateName: item.TemplateName);
+            await LoadItemReport(item.ItemPath, item.TemplateName);
         });
 
     public override string? LocalizedTitle
@@ -173,7 +165,7 @@ IFilePickerService filePickerService)
     public IEditableItemViewModel? SelectedItem
     {
         get => _selectedItem;
-        set => this.RaiseAndSetIfChanged(backingField: ref _selectedItem, newValue: value);
+        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
     }
 
     public ITemplateEditTabViewModel TemplateEditTab
@@ -224,8 +216,8 @@ IFilePickerService filePickerService)
             gesture: "Ctrl+Shift+O"));*/
 
         listBuilder.Add(new MenuItemModel(
-            label: "Template_Edit_Create_Item_ToolBarItem".GetLocalized(),
-            command: ReactiveCommand.Create(() =>
+            "Template_Edit_Create_Item_ToolBarItem".GetLocalized(),
+            ReactiveCommand.Create(() =>
             {
                 Items?.Add(new EditableItemViewModel(CommitItemCommand)
                 {
@@ -236,14 +228,14 @@ IFilePickerService filePickerService)
                     ItemPath = ""
                 });
             }),
-            icon: "solution_create_24_rounded".GetIcon(),
-            gesture: "Ctrl+Shift+N"));
+            "solution_create_24_rounded".GetIcon(),
+            "Ctrl+Shift+N"));
 
         listBuilder.Add(new MenuItemSeparatorModel());
 
         listBuilder.Add(new MenuItemModel(
-            label: "Template_Edit_Save_Item_ToolBarItem".GetLocalized(),
-            command: ReactiveCommand.CreateRunInBackground(async () =>
+            "Template_Edit_Save_Item_ToolBarItem".GetLocalized(),
+            ReactiveCommand.CreateRunInBackground(async () =>
             {
                 await TemplateEditTab.EditingItem.ToOption()
                     .Map(async item =>
@@ -252,31 +244,31 @@ IFilePickerService filePickerService)
                     })
                     .Reduce(() => Task.CompletedTask);
             }),
-            icon: "save_data_24_rounded".GetIcon(),
-            gesture: "Ctrl+S"));
+            "save_data_24_rounded".GetIcon(),
+            "Ctrl+S"));
 
         listBuilder.Add(new MenuItemSeparatorModel());
 
         listBuilder.Add(new MenuItemModel(
-            label: "Template_Edit_Imports_Item_ToolBarItem".GetLocalized(),
-            command: ReactiveCommand.CreateRunInBackground(async () =>
+            "Template_Edit_Imports_Item_ToolBarItem".GetLocalized(),
+            ReactiveCommand.CreateRunInBackground(async () =>
             {
-                var result = await NavigateDialogAsync(importDialogViewModel, NavigationTarget.DialogScreen);
+                var result = await NavigateDialogAsync(_importDialogViewModel, NavigationTarget.DialogScreen);
 
                 Debug.WriteLine(result.Result);
             }),
-            icon: "cloud_download_regular".GetIcon(),
-            gesture: "Ctrl+I"));
+            "cloud_download_regular".GetIcon(),
+            "Ctrl+I"));
 
         listBuilder.Add(new MenuItemModel(
-            label: "Template_Edit_Export_Items_ToolBarItem".GetLocalized(),
-            command: ReactiveCommand.CreateRunInBackground(async () =>
+            "Template_Edit_Export_Items_ToolBarItem".GetLocalized(),
+            ReactiveCommand.CreateRunInBackground(async () =>
             {
                 await _exportTemplateService.ExportItemsAsync();
                 /*await _exportTemplateService.ExportRulesAsync();*/
             }),
-            icon: "cloud_upload_regular".GetIcon(),
-            gesture: "Ctrl+E"));
+            "cloud_upload_regular".GetIcon(),
+            "Ctrl+E"));
 
         return listBuilder;
     }
@@ -319,16 +311,29 @@ IFilePickerService filePickerService)
 
         itemContent.LawItems = new ObservableCollection<LawStateItem>();
 
-        _itemsService.RenameFile(
-            oldPath: Path.Combine(path1: Constants.AppItemsTemplateFolder
-                , path2: $"{itemContent.ItemTemplate}{Constants.AppProjectTemplateExtension}"),
-            newPath: Path.Combine(path1: Constants.AppItemsTemplateFolder
-                , path2: $"{item.TemplateName}{Constants.AppProjectTemplateExtension}")
-        );
+        var fileName = Path.Combine(Constants.AppItemsTemplateFolder
+            , $"{item.TemplateName}{Constants.AppProjectTemplateExtension}");
+
+        var oldFile = Path.Combine(Constants.AppItemsTemplateFolder
+            , $"{itemContent.ItemTemplate}{Constants.AppProjectTemplateExtension}");
+        IoHelpers.EnsureContainingDirectoryExists(oldFile);
+
+        if (IoHelpers.CheckIfFileExists(oldFile))
+        {
+            _itemsService.RenameFile(
+                oldFile,
+                fileName
+            );
+        }
+        else
+        {
+            File.Create(fileName);
+        }
+
         itemContent.ItemTemplate = item.TemplateName;
 
         await _editableItemService.CreateTemplateEditingItem(itemContent);
-        await _validationRulesService.CraeteRules(rules: TemplateEditTab.EditingItemRules, itemName: item.TemplateName);
+        await _validationRulesService.CraeteRules(TemplateEditTab.EditingItemRules, item.TemplateName);
     }
 
     private async Task SaveItemData(
@@ -339,6 +344,6 @@ IFilePickerService filePickerService)
         item.Id = Guid.NewGuid().ToString();
 
         await _editableItemService.CreateTemplateEditingItem(item);
-        await _validationRulesService.CraeteRules(rules: TemplateEditTab.EditingItemRules, itemName: item.ItemTemplate);
+        await _validationRulesService.CraeteRules(TemplateEditTab.EditingItemRules, item.ItemTemplate);
     }
 }

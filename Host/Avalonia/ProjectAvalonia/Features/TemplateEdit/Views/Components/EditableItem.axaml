@@ -8,6 +8,7 @@
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views"
+    xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
     d:DesignHeight="25"
     d:DesignWidth="200"
     x:CompileBindings="True"
@@ -18,7 +19,7 @@
     </Design.DataContext>
     <controls:EditableTextBlock
         HorizontalAlignment="Stretch"
-        Command="{Binding $parent[views:TemplateEditView].((interfaces:ITemplateEditViewModel)DataContext).CommitItemCommand}"
+        CommitCommand="{Binding $parent[views:TemplateEditView].((viewModels:TemplateEditViewModel)DataContext).CommitItemCommand}"
         CommandParameter="{Binding}"
         InEditMode="{Binding InEditMode, Mode=TwoWay}"
         Text="{Binding TemplateName, Mode=TwoWay}"

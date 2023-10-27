@@ -1,10 +1,7 @@
 ﻿using Common;
 using Common.Linq;
-
 using QuestPDF.Helpers;
-
 using QuestPDFReport.Models;
-
 using XmlDatasource.ProjectItems;
 using XmlDatasource.ProjectItems.DTO.FormItem;
 using XmlDatasource.Solution.DTO;
@@ -25,16 +22,16 @@ public static class DataSource
                 new()
                 {
                     Label = "Scope", Value = "public activities"
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Author", Value = "Marcin Ziąbek"
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Date", Value = DateTime.Now.ToString("g")
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Status", Value = "Completed, found 2 issues"
                 }
@@ -47,10 +44,10 @@ public static class DataSource
             HeaderFields = new FieldsContainer()
         };
 
-        var res = Path.Combine(path1: Directory.GetParent(path).FullName
-            , path2: Constants.AppProjectItemsFolderName);
+        var res = Path.Combine(Directory.GetParent(path).FullName
+            , Constants.AppProjectItemsFolderName);
 
-        var items = Directory.GetFiles(path: res, searchPattern: $"*{extension}");
+        var items = Directory.GetFiles(res, $"*{extension}");
 
         /*var repository = new ProjectItemContentRepositoryImpl();*/
 
@@ -128,7 +125,7 @@ public static class DataSource
     public static async Task<IReport> GetReport(
         SolutionItemRoot solutionModel,
         string standardLaw
-    /*, string extension*/
+        /*, string extension*/
     )
     {
         var report = new NestedReportModel
@@ -138,73 +135,60 @@ public static class DataSource
             {
                 Local = new ReportHeaderField
                 {
-                    Label = "Local"
-                    ,
+                    Label = "Local",
                     Value =
                         $"{solutionModel.Report.CompanyInfo.Endereco.Logradouro},{solutionModel.Report.CompanyInfo.Endereco.Numero},{solutionModel.Report.CompanyInfo.Endereco.Bairro},{solutionModel.Report.CompanyInfo.Endereco.Cidade}"
-                }
-                ,
+                },
                 Revisao = new ReportHeaderField
                 {
-                    Label = "Revisão"
-                    ,
+                    Label = "Revisão",
                     Value = solutionModel.Report.Revisao.ToString()
-                }
-                ,
+                },
                 Uf = new ReportHeaderField
                 {
                     Label = "UF",
                     Value = $"{solutionModel.Report.CompanyInfo.Endereco.UF}"
-                }
-                ,
+                },
                 Data = new ReportHeaderField
                 {
                     Label = "Data da Vistoria",
                     Value = solutionModel.Report.Manager.ReportDate.ToString("dd.MM.yyyy")
-                }
-                ,
+                },
                 Empresa = new ReportHeaderField
                 {
                     Label = "Empresa",
                     Value = solutionModel.Report.CompanyInfo.NomeEmpresa
-                }
-                ,
+                },
                 Responsavel = new ReportHeaderField
                 {
                     Label = "Responsável pelo levantamento",
                     Value = solutionModel.Report.Manager.Responsavel
-                }
-                ,
+                },
                 Email = new ReportHeaderField
                 {
                     Label = "E-mail",
                     Value = solutionModel.Report.CompanyInfo.Email
-                }
-                ,
+                },
                 Telefone = new ReportHeaderField
                 {
                     Label = "Telefone",
                     Value = solutionModel.Report.Manager.Telefone
-                }
-                ,
+                },
                 Gerenciadora = new ReportHeaderField
                 {
                     Label = "Gerenciadora",
                     Value = solutionModel.Report.Manager.NomeEmpresa
                 }
-            }
-            ,
+            },
             StandardLaw =
-              standardLaw
-            ,
-            Partners = solutionModel.Report.Partners.Prepend(new PartnerItem()
+                standardLaw,
+            Partners = solutionModel.Report.Partners.Prepend(new PartnerItem
             {
                 NomeEmpresa = solutionModel.Report.Manager.NomeEmpresa,
                 PartnerLogo = solutionModel.Report.Manager.LogoPath,
                 WebSite = solutionModel.Report.Manager.WebSite
             }),
-            CompanyInfo = solutionModel.Report.CompanyInfo
-            ,
+            CompanyInfo = solutionModel.Report.CompanyInfo,
             ManagerInfo = solutionModel.Report.Manager
         };
 
@@ -254,25 +238,30 @@ public static class DataSource
                                     {
                                         section.Parts.Add(
                                             new ReportSectionTitle(
-                                                Topic: checkbox.Topic,
-                                                id: checkbox.Id
+                                                checkbox.Topic,
+                                                checkbox.Id
                                             ));
                                     }
 
-                                    foreach (var options in checkbox.Children)
+                                    foreach (var checkboxItem in checkbox.Children)
                                     {
-                                        var checkboxModels = options
+                                        var checkboxModels = checkboxItem
                                             .Options
                                             .Select(optionModel =>
-                                                new CheckboxModel(isChecked: optionModel.IsChecked
-                                                    , value: optionModel.Value
-                                                    , isValid: optionModel.IsInvalid));
+                                                new CheckboxModel(optionModel.IsChecked
+                                                    , optionModel.Value
+                                                    , optionModel.IsInvalid));
 
                                         var reportCheckbox = new ReportSectionCheckbox(
-                                            label: options.Topic,
-                                            id: options.Id)
+                                            checkboxItem.Topic,
+                                            checkboxItem.Id)
                                         {
-                                            Checkboxes = checkboxModels.ToList()
+                                            Checkboxes = checkboxModels.ToList(),
+                                            TextItems = checkboxItem
+                                                .TextItems
+                                                .Select(it =>
+                                                    new TextModel(it.TextData, it.Topic, it.MeasurementUnit))
+                                                .ToList()
                                         };
 
                                         section.Parts.Add(reportCheckbox);
@@ -281,13 +270,13 @@ public static class DataSource
                             });
 
                             data.Images.IterateOn(image =>
-                             {
-                                 section.Images = section.Images.Append(new ImageSectionElement
-                                 {
-                                     ImagePath = image.ImagePath,
-                                     Observation = image.ImageObservation
-                                 });
-                             });
+                            {
+                                section.Images = section.Images.Append(new ImageSectionElement
+                                {
+                                    ImagePath = image.ImagePath,
+                                    Observation = image.ImageObservation
+                                });
+                            });
 
                             data.Observations.IterateOn(observation =>
                             {
@@ -315,16 +304,16 @@ public static class DataSource
             report.Locations.Add(Location);
         });
 
-        if (!File.Exists(Path.Combine(path1: Directory.GetParent(solutionModel.SolutionPath).FullName
-                , path2: "conclusion.prjc")))
+        if (!File.Exists(Path.Combine(Directory.GetParent(solutionModel.SolutionPath).FullName
+                , "conclusion.prjc")))
         {
-            File.Create(Path.Combine(path1: Directory.GetParent(solutionModel.SolutionPath).FullName
-                , path2: "conclusion.prjc")).Close();
+            File.Create(Path.Combine(Directory.GetParent(solutionModel.SolutionPath).FullName
+                , "conclusion.prjc")).Close();
         }
 
         report.Conclusion =
-            File.ReadAllText(Path.Combine(path1: Directory.GetParent(solutionModel.SolutionPath).FullName
-                , path2: "conclusion.prjc"));
+            File.ReadAllText(Path.Combine(Directory.GetParent(solutionModel.SolutionPath).FullName
+                , "conclusion.prjc"));
 
         return report;
     }
@@ -334,11 +323,9 @@ public static class DataSource
         return new ReportModel
         {
             Title = "Sample Report Document",
-            HeaderFields = new FieldsContainer()
-            ,
-            LogoData = Helpers.GetImage("Logo.png")
-            ,
-            Sections = Enumerable.Range(start: 0, count: 40).Select(x => GenerateSection()).ToList()
+            HeaderFields = new FieldsContainer(),
+            LogoData = Helpers.GetImage("Logo.png"),
+            Sections = Enumerable.Range(0, 40).Select(x => GenerateSection()).ToList()
             /* Photos = Enumerable.Range(0, 25).Select(x => GetReportPhotos()).ToList()*/
         };
 
@@ -349,16 +336,16 @@ public static class DataSource
                 new()
                 {
                     Label = "Scope", Value = "public activities"
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Author", Value = "Marcin Ziąbek"
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Date", Value = DateTime.Now.ToString("g")
-                }
-                , new()
+                },
+                new()
                 {
                     Label = "Status", Value = "Completed, found 2 issues"
                 }
@@ -368,13 +355,13 @@ public static class DataSource
         ReportSection GenerateSection()
         {
             var sectionLength = Helpers.Random.NextDouble() > 0.75
-                ? Helpers.Random.Next(minValue: 20, maxValue: 40)
-                : Helpers.Random.Next(minValue: 5, maxValue: 10);
+                ? Helpers.Random.Next(20, 40)
+                : Helpers.Random.Next(5, 10);
 
             return new ReportSection
             {
                 Title = Placeholders.Label(),
-                Parts = Enumerable.Range(start: 0, count: sectionLength)
+                Parts = Enumerable.Range(0, sectionLength)
                     .Select(x => GetRandomElement())
                     .ToList()
             };
@@ -418,24 +405,24 @@ public static class DataSource
 
         ReportSectionCheckbox GetCheckboxElement()
         {
-            return new ReportSectionCheckbox(label: Placeholders.Label(), id: Guid.NewGuid().ToString())
+            return new ReportSectionCheckbox(Placeholders.Label(), Guid.NewGuid().ToString())
             {
                 Checkboxes = new List<CheckboxModel>
                 {
-                    new(isChecked: false, value: Placeholders.Label())
-                    , new(isChecked: true, value: Placeholders.Label())
+                    new(false, Placeholders.Label()),
+                    new(true, Placeholders.Label())
                 }
             };
         }
 
         ReportSectionTitle GetTitleElement()
         {
-            return new ReportSectionTitle(Topic: Placeholders.Label(), id: Guid.NewGuid().ToString());
+            return new ReportSectionTitle(Placeholders.Label(), Guid.NewGuid().ToString());
         }
 
         ReportSectionMap GetMapElement()
         {
-            return new ReportSectionMap(label: "Location", id: Guid.NewGuid().ToString())
+            return new ReportSectionMap("Location", Guid.NewGuid().ToString())
             {
                 Location = Helpers.RandomLocation()
             };
@@ -454,10 +441,8 @@ public static class DataSource
         {
             return new ReportPhoto
             {
-                Comments = Placeholders.Sentence()
-                ,
-                Date = DateTime.Now - TimeSpan.FromDays(Helpers.Random.NextDouble() * 100)
-                ,
+                Comments = Placeholders.Sentence(),
+                Date = DateTime.Now - TimeSpan.FromDays(Helpers.Random.NextDouble() * 100),
                 Location = Helpers.RandomLocation()
             };
         }

@@ -34,17 +34,17 @@ public class ItemFormDataCheckboxChildModel : ItemFormData
         set;
     }
 
-    [XmlArray("options")]
-    [XmlArrayItem("option")]
-    public List<ItemOptionModel> Options
+    [XmlArray("options", IsNullable = true)]
+    [XmlArrayItem("option", IsNullable = true)]
+    public List<ItemOptionModel>? Options
     {
         get;
         set;
     }
 
-    [XmlArray("texts")]
-    [XmlArrayItem("text_item")]
-    public List<ItemFormDataTextModel> TextItems
+    [XmlArray("texts", IsNullable = true)]
+    [XmlArrayItem("text_item", IsNullable = true)]
+    public List<ItemFormDataTextModel>? TextItems
     {
         get;
         set;
