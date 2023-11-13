@@ -5,11 +5,8 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-
 using Avalonia.Controls;
-
 using Common;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
@@ -28,9 +25,7 @@ using ProjectAvalonia.Features.TemplateEdit.Services;
 using ProjectAvalonia.Features.TemplateEdit.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
 using ProjectAvalonia.ViewModels.Navigation;
-
 using ReactiveUI;
-
 using XmlDatasource.ExplorerItems;
 using XmlDatasource.ProjectItems;
 using XmlDatasource.Solution;
@@ -57,9 +52,9 @@ public partial class MainViewModel : ViewModelBase
     [AutoNotify] private string _title = Constants.AppName;
 
     [AutoNotify] private MenuViewModel? _toolBarMenu;
-    [AutoNotify] private WindowState _windowState;
 
     [AutoNotify] private string _version;
+    [AutoNotify] private WindowState _windowState;
 
     protected MainViewModel()
     {
@@ -94,20 +89,24 @@ public partial class MainViewModel : ViewModelBase
             fullScreenNavigation: FullScreen,
             compactDialogScreenNavigation: CompactDialogScreen);
 
-        UiServices.Initialize();
+        /*UiServices.Initialize();*/
         CreateDI();
 
         NavigationManager.RegisterType(_navBar);
         RegisterViewModels();
 
-        Observable.FromEventPattern<UpdateStatus>(it => ServicesConfig.UpdateManager.UpdateAvailableToGet += it, it => ServicesConfig.UpdateManager.UpdateAvailableToGet -= it)
-          .Subscribe(it =>
-          {
-              NotificationHelpers.Show(title: "Atualização Disponível", message: "Há uma Atualização disponivel para instalação. \n Clique aqui para instalar!", time: 0, onClick: () =>
-              {
-                  ServicesConfig.UpdateManager.StartInstallingNewVersion();
-              });
-          });
+        Observable.FromEventPattern<UpdateStatus>(
+                addHandler: it => ServicesConfig.UpdateManager.UpdateAvailableToGet += it,
+                removeHandler: it => ServicesConfig.UpdateManager.UpdateAvailableToGet -= it)
+            .Subscribe(it =>
+            {
+                NotificationHelpers.Show(title: "Atualização Disponível"
+                    , message: "Há uma Atualização disponivel para instalação. \n Clique aqui para instalar!", time: 5
+                    , onClick: () =>
+                    {
+                        ServicesConfig.UpdateManager.StartInstallingNewVersion();
+                    });
+            });
 
         RxApp.MainThreadScheduler.Schedule(async () => await _navBar.InitialiseAsync());
 
@@ -154,8 +153,6 @@ public partial class MainViewModel : ViewModelBase
                  CompactDialogScreen.CurrentPage is { IsBusy: true };
 
         SearchBar = CreateSearchBar();
-
-
     }
 
     public IObservable<bool> IsMainContentEnabled
@@ -199,8 +196,8 @@ public partial class MainViewModel : ViewModelBase
 
         var solutionManipulation =
             new SolutionService(datasourceImpl: xmlSolutionDatasource,
-            locationService: locationService,
-            filePickerService: fileDialogService);
+                locationService: locationService,
+                filePickerService: fileDialogService);
 
         var itemsService = new ItemsService(explorerItems: xmlExplorerItemsDatasource
             , projectItemDatasource: xmlProjectItemDatasource);
@@ -251,13 +248,12 @@ public partial class MainViewModel : ViewModelBase
             Parameter: projectPath);
 
     public async Task PrintProject(
-string path
+        string path
     )
     {
         await OpenProject(projectPath: path);
 
         await _projectPage.PrintProjectCommand.Execute();
-
     }
 
     public void Initialize()

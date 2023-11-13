@@ -42,6 +42,8 @@
         <Compile Remove="Features\TemplateEditing\**" />
         <Compile Remove="Features\TemplateRules\**" />
         <Compile Remove="Languages\**" />
+        <Content Include="obj\Debug\net7.0\project.assets.json" />
+        <Content Include="obj\Debug\project.assets.json" />
         <EmbeddedResource Remove="Behaviors\DragDropHandlers\**" />
         <EmbeddedResource Remove="Features\ItemValidation\**" />
         <EmbeddedResource Remove="Features\TemplateEditing\**" />

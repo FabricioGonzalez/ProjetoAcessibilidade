@@ -8,7 +8,6 @@ namespace ProjectAvalonia.Common.Controls;
 
 public class LabelsItemsPresenter
     : ItemsControl
-        , IStyleable
 {
     public static readonly StyledProperty<IBrush> ForegroundProperty =
         AvaloniaProperty.Register<LabelsItemsPresenter, IBrush>(name: "Foreground");
@@ -37,7 +36,7 @@ public class LabelsItemsPresenter
         set => SetValue(property: BorderBrushProperty, value: value);
     }
 
-    Type IStyleable.StyleKey => typeof(LabelsItemsPresenter);
+    protected override Type StyleKeyOverride => typeof(LabelsItemsPresenter);
 
     /*protected override void PanelCreated(
         Panel panel

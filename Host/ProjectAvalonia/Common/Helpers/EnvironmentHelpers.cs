@@ -27,7 +27,7 @@ public static class EnvironmentHelpers
         string appName
     )
     {
-        if (DataDirDict.TryGetValue(appName, out var dataDir))
+        if (DataDirDict.TryGetValue(key: appName, value: out var dataDir))
         {
             return dataDir;
         }
@@ -39,7 +39,7 @@ public static class EnvironmentHelpers
             var home = Environment.GetEnvironmentVariable("HOME");
             if (!string.IsNullOrEmpty(home))
             {
-                directory = Path.Combine(home, "." + appName.ToLowerInvariant());
+                directory = Path.Combine(path1: home, path2: "." + appName.ToLowerInvariant());
                 Logger.LogInfo(
                     $"Using HOME environment variable for initializing application data at `{directory}`.");
             }
@@ -53,7 +53,7 @@ public static class EnvironmentHelpers
             var localAppData = Environment.GetEnvironmentVariable("APPDATA");
             if (!string.IsNullOrEmpty(localAppData))
             {
-                directory = Path.Combine(localAppData, appName);
+                directory = Path.Combine(path1: localAppData, path2: appName);
                 Logger.LogInfo(
                     $"Using APPDATA environment variable for initializing application data at `{directory}`.");
             }
@@ -65,14 +65,14 @@ public static class EnvironmentHelpers
 
         if (Directory.Exists(directory))
         {
-            DataDirDict.TryAdd(appName, directory);
+            DataDirDict.TryAdd(key: appName, value: directory);
             return directory;
         }
 
         Logger.LogInfo($"Creating data directory at `{directory}`.");
         Directory.CreateDirectory(directory);
 
-        DataDirDict.TryAdd(appName, directory);
+        DataDirDict.TryAdd(key: appName, value: directory);
         return directory;
     }
 
@@ -104,7 +104,7 @@ public static class EnvironmentHelpers
         }
 
         var fileNameWithoutExtension =
-            fileName.TrimEnd(".cs", StringComparison.InvariantCultureIgnoreCase);
+            fileName.TrimEnd(trimString: ".cs", comparisonType: StringComparison.InvariantCultureIgnoreCase);
         return fileNameWithoutExtension;
     }
 
@@ -117,7 +117,7 @@ public static class EnvironmentHelpers
         , bool waitForExit = true
     )
     {
-        var escapedArgs = cmd.Replace("\"", "\\\"");
+        var escapedArgs = cmd.Replace(oldValue: "\"", newValue: "\\\"");
 
         var startInfo = new ProcessStartInfo
         {
@@ -178,7 +178,7 @@ public static class EnvironmentHelpers
         {
             if (!fullBaseDirectory.StartsWith('/'))
             {
-                fullBaseDirectory = fullBaseDirectory.Insert(0, "/");
+                fullBaseDirectory = fullBaseDirectory.Insert(startIndex: 0, value: "/");
             }
         }
 
@@ -188,7 +188,7 @@ public static class EnvironmentHelpers
     public static string GetExecutablePath()
     {
         var fullBaseDir = GetFullBaseDirectory();
-        var executablePath = Path.Combine(fullBaseDir, Constants.ExecutableName);
+        var executablePath = Path.Combine(path1: fullBaseDir, path2: Constants.ExecutableName);
         executablePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? $"{executablePath}.exe"
             : $"{executablePath}";
@@ -199,7 +199,7 @@ public static class EnvironmentHelpers
 
         var assemblyName = Assembly.GetEntryAssembly()?.GetName().Name ??
                            throw new NullReferenceException("Assembly or Assembly's Name was null.");
-        var fluentExecutable = Path.Combine(fullBaseDir, assemblyName);
+        var fluentExecutable = Path.Combine(path1: fullBaseDir, path2: assemblyName);
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? $"{fluentExecutable}.exe"
             : $"{fluentExecutable}";
@@ -209,6 +209,6 @@ public static class EnvironmentHelpers
     {
         var versInfo = FileVersionInfo.GetVersionInfo(GetExecutablePath());
 
-        return versInfo?.ProductVersion;
+        return $"{versInfo?.ProductMajorPart}.{versInfo?.ProductMinorPart}.{versInfo?.ProductBuildPart}";
     }
 }

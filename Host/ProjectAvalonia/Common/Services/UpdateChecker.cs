@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using ProjectAvalonia.Common.Bases;
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Models;
 
 namespace ProjectAvalonia.Common.Services;
@@ -53,6 +54,16 @@ public class UpdateChecker : PeriodicRunner
         if (newUpdateStatus != UpdateStatus)
         {
             UpdateStatus = newUpdateStatus;
+
+            if (newUpdateStatus.ClientUpToDate)
+            {
+                NotificationHelpers.Show(title: "Novo update disponivel!",
+                    message: $"""
+                              Versão {newUpdateStatus.ClientVersion} Disponivel para downlaod
+                              Clique para Instalar!
+                              """);
+            }
+
             UpdateStatusChanged?.Invoke(sender: this, e: newUpdateStatus);
         }
     }

@@ -21,6 +21,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+
                 <ResourceDictionary>
                     <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
                     <conv:SizePercentageConverter x:Key="SizePercentageConverter" />
@@ -39,6 +40,7 @@
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="/Styles/Themes/Fluent.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Styles/Themes/Base.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Icons/Icons.axaml" />
         <StyleInclude Source="avares://ProjectAvalonia/Icons/IconsSmall.axaml" />
