@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
     <PropertyGroup>
-      <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+        <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -15,14 +15,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
-        <PackageReference Include="SkiaSharp" Version="2.88.3" />
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3"/>
+        <PackageReference Include="SkiaSharp" Version="2.88.3"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Host\QuestPDF\QuestPDF\QuestPDF.csproj" />
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-        <ProjectReference Include="..\..\ProjectItemsReader\XmlDatasource\XmlDatasource.csproj" />
+        <ProjectReference Include="..\..\..\Host\QuestPDF\QuestPDF.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\ProjectItemsReader\XmlDatasource\XmlDatasource.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -9,20 +9,16 @@ namespace ProjectAvalonia.Common.Helpers;
 public static class NotificationHelpers
 {
     private const int DefaultNotificationTimeout = 10;
-    private static WindowNotificationManager? NotificationManager;
+    private static WindowNotificationManager? _notificationManager;
 
     public static void SetNotificationManager(
         Window host
-    )
-    {
-        var notificationManager = new WindowNotificationManager(host: host)
+    ) =>
+        _notificationManager = new WindowNotificationManager(host: TopLevel.GetTopLevel(host))
         {
             Position = NotificationPosition.BottomRight, MaxItems = 4
             , Margin = new Thickness(left: 0, top: 0, right: 15, bottom: 40)
         };
-
-        NotificationManager = notificationManager;
-    }
 
     public static void Show(
         string title
@@ -30,9 +26,9 @@ public static class NotificationHelpers
         , Action? onClick = null
     )
     {
-        if (NotificationManager is { } nm)
+        if (_notificationManager is { } nm)
         {
-            Dispatcher.UIThread.Invoke(() =>
+            Dispatcher.UIThread.Post(() =>
                 nm.Show(
                     content: new Notification(title: title
                         , message: message, type: NotificationType.Information
@@ -45,18 +41,26 @@ public static class NotificationHelpers
         , string message
         , int time
         , Action? onClick = null
-    )
-    {
-        if (NotificationManager is { } nm)
-        {
-            Dispatcher.UIThread.Invoke(() => nm.Show(
-                content: new Notification(title: title
-                    , message: message, type: NotificationType.Information
-                    , expiration: TimeSpan.FromSeconds(value: time), onClick: onClick)));
-        }
-    }
+    ) =>
+        _notificationManager?.Show(
+            content: new Notification(title: title
+                , message: message, type: NotificationType.Information
+                , expiration: TimeSpan.FromSeconds(value: time), onClick: onClick));
+
+    public static void ShowMain(
+        string title
+        , string message
+        , int time
+        , NotificationType type = NotificationType.Information
+        , Action? onClick = null
+    ) =>
+        _notificationManager?.Show(
+            content: new Notification(
+                title: title
+                , message: message, type: type
+                , expiration: TimeSpan.FromSeconds(value: time), onClick: onClick));
 
     public static void Show(
         object viewModel
-    ) => NotificationManager?.Show(content: viewModel);
+    ) => _notificationManager?.Show(content: viewModel);
 }

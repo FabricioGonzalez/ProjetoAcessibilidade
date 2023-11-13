@@ -6,8 +6,10 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Common;
 using ProjectAvalonia.Common.Helpers;
+using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Common.Services;
 using ProjectAvalonia.Common.Services.LocationService;
@@ -98,15 +100,23 @@ public partial class MainViewModel : ViewModelBase
         Observable.FromEventPattern<UpdateStatus>(
                 addHandler: it => ServicesConfig.UpdateManager.UpdateAvailableToGet += it,
                 removeHandler: it => ServicesConfig.UpdateManager.UpdateAvailableToGet -= it)
+            .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(it =>
             {
-                NotificationHelpers.Show(title: "Atualização Disponível"
-                    , message: "Há uma Atualização disponivel para instalação. \n Clique aqui para instalar!", time: 5
-                    , onClick: () =>
-                    {
-                        ServicesConfig.UpdateManager.StartInstallingNewVersion();
-                    });
+                Logger.LogDebug(it.EventArgs.ClientVersion.ToString());
+                RxApp.MainThreadScheduler.Schedule(dueTime: DateTimeOffset.Now.AddSeconds(5), action: () =>
+                {
+                    NotificationHelpers.ShowMain(title: "Atualização Disponível"
+                        , message: "Há uma Atualização disponivel para instalação.\n Clique aqui para instalar!"
+                        , time: 0,
+                        type: NotificationType.Success
+                        , onClick: () =>
+                        {
+                            AppLifetimeHelper.Shutdown();
+                        });
+                });
             });
+
 
         RxApp.MainThreadScheduler.Schedule(async () => await _navBar.InitialiseAsync());
 
@@ -114,6 +124,7 @@ public partial class MainViewModel : ViewModelBase
             .Where(state => state != WindowState.Minimized)
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(state => ServicesConfig.UiConfig.WindowState = state.ToString());
+
 
         IsMainContentEnabled = this.WhenAnyValue(
                 property1: x => x.DialogScreen.IsDialogOpen,
@@ -144,6 +155,8 @@ public partial class MainViewModel : ViewModelBase
                 page.SetActive();
 
                 ToolBarMenu = MainScreen?.CurrentPage?.ToolBar;
+
+                /*NotificationHelpers.Show(title: "Ok", message: "Initialize page!!!");*/
             })
             .Subscribe();
 

@@ -55,7 +55,7 @@ public class UpdateChecker : PeriodicRunner
         {
             UpdateStatus = newUpdateStatus;
 
-            if (newUpdateStatus.ClientUpToDate)
+            if (!newUpdateStatus.ClientUpToDate)
             {
                 NotificationHelpers.Show(title: "Novo update disponivel!",
                     message: $"""

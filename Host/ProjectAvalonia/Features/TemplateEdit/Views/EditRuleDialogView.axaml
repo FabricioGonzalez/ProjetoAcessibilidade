@@ -6,7 +6,7 @@
              xmlns:p="clr-namespace:ProjectAvalonia.Properties"
              xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
              xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
-             xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Views.Components"
+             xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Components"
              x:CompileBindings="True"
              x:DataType="viewModels:EditRuleDialogViewModel"
              mc:Ignorable="d"
@@ -70,7 +70,7 @@
                                 Height="18"
                                 HorizontalAlignment="Right"
                                 Icon="{StaticResource cancel_regular}"
-								Command="{Binding ExcludeConditionCommand}"
+                                Command="{Binding ExcludeConditionCommand}"
                                 IconSize="16"
                                 ToolTip.Tip="{x:Static p:Resources.Exclude_Rule_ToolTip}" />
                         </Grid>

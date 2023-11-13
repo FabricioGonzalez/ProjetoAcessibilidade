@@ -144,7 +144,7 @@
                         <StackPanel>
                             <PathIcon Classes="new size24" />
                             <LayoutTransformControl>
-                                <c:FadeOutTextControl Text="{Binding Title}" />
+                                <c:FadeOutTextControl Text="{Binding LocalizedTitle}" />
                             </LayoutTransformControl>
                         </StackPanel>
                     </c:NavBarItem>
@@ -154,7 +154,26 @@
 
         <!-- Separator -->
         <Separator DockPanel.Dock="Bottom" />
-
+        <ItemsControl ItemsSource="{Binding TopItems}"
+                      DockPanel.Dock="Bottom">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ReversibleStackPanel ReverseOrder="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.DataTemplates>
+                <DataTemplate DataType="vm:NavBarItemViewModel">
+                    <c:NavBarItem Command="{Binding OpenCommand}">
+                        <StackPanel>
+                            <PathIcon Classes="new size24" />
+                            <LayoutTransformControl>
+                                <c:FadeOutTextControl Text="{Binding LocalizedTitle}" />
+                            </LayoutTransformControl>
+                        </StackPanel>
+                    </c:NavBarItem>
+                </DataTemplate>
+            </ItemsControl.DataTemplates>
+        </ItemsControl>
         <!-- Wallet List -->
         <!--<DockPanel MaxWidth="75" LastChildFill="True">
             <ListBox ItemsSource="{Binding Wallets}"

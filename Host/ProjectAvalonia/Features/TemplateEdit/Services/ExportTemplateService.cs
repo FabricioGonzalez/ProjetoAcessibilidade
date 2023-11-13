@@ -15,7 +15,9 @@ public class ExportTemplateService
 {
     private readonly IFilePickerService _filePickerService;
 
-    public ExportTemplateService(IFilePickerService filePickerService)
+    public ExportTemplateService(
+        IFilePickerService filePickerService
+    )
     {
         _filePickerService = filePickerService;
     }
@@ -26,7 +28,7 @@ public class ExportTemplateService
         {
             if (await _filePickerService.GetFolderAsync() is { } file)
             {
-                var path = Path.Combine(file, "ItensExportados.zip");
+                var path = Path.Combine(path1: file, path2: "ItensExportados.zip");
 
                 if (File.Exists(path))
                 {
@@ -37,15 +39,15 @@ public class ExportTemplateService
 
                 var iso = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
 
-                using var zip = new ZipFile(path, iso);
-                
+                using var zip = new ZipFile(fileName: path, encoding: iso);
+
                 /*zip.AddDirectory(path);*/
                 if (Directory.Exists(Constants.AppValidationRulesTemplateFolder))
                 {
                     Directory.GetFiles(Constants.AppValidationRulesTemplateFolder)
                         .IterateOn(it =>
                         {
-                            zip.AddFile(it, Path.Combine("Rules", Path.GetFileName(it)));
+                            zip.AddFile(fileName: it, directoryPathInArchive: "Rules");
                         });
                 }
 
@@ -54,7 +56,7 @@ public class ExportTemplateService
                     Directory.GetFiles(Constants.AppItemsTemplateFolder)
                         .IterateOn(it =>
                         {
-                            zip.AddFile(it, Path.Combine("Templates", Path.GetFileName(it)));
+                            zip.AddFile(fileName: it, directoryPathInArchive: "Templates");
                         });
                 }
 

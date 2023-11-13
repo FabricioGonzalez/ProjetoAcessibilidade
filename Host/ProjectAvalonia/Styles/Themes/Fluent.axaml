@@ -13,10 +13,11 @@
         <MergeResourceInclude Source="/Common/Controls/CurrencyEntryBox.axaml" />
         <MergeResourceInclude Source="/Common/Controls/Dialog.axaml" />
         <MergeResourceInclude Source="/Common/Controls/DualCurrencyEntryBox.axaml" />
-        <MergeResourceInclude Source="/Common/Controls/FadeOutTextControl.axaml" />
+
         <MergeResourceInclude Source="/Common/Controls/HistoryPlaceholderPanel.axaml" />
         <MergeResourceInclude Source="/Common/Controls/InfoMessage.axaml" />
         <MergeResourceInclude Source="/Common/Controls/LabelsItemsPresenter.axaml" />-->
+                <MergeResourceInclude Source="/Common/Controls/FadeOutTextControl.axaml" />
                 <MergeResourceInclude Source="/Common/Controls/NavBarItem.axaml" />
                 <!--<MergeResourceInclude Source="/Common/Controls/PreviewItem.axaml" />-->
                 <!--<MergeResourceInclude Source="/Common/Controls/PrivacyBar.axaml" />

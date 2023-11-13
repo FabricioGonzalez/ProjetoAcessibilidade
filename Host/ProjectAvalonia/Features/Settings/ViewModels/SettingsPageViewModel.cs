@@ -1,13 +1,11 @@
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Windows.Input;
-
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Models;
 using ProjectAvalonia.Features.NavBar;
 using ProjectAvalonia.ViewModels;
 using ProjectAvalonia.ViewModels.Dialogs.Base;
-
 using ReactiveUI;
 
 namespace ProjectAvalonia.Features.Settings.ViewModels;
@@ -34,14 +32,16 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
         _selectedTab = 0;
         SelectionMode = NavBarItemSelectionMode.Button;
 
-        SetupCancel(false, true, true);
+        SetTitle("SettingsViewNavLabel");
+
+        SetupCancel(enableCancel: false, enableCancelOnEscape: true, enableCancelOnPressed: true);
 
         GeneralSettingsTab = new GeneralSettingsTabViewModel();
         AdvancedSettingsTab = new AdvancedSettingsTabViewModel();
         ReportSettingsTab = new ReportSettingsViewModel();
 
         RestartCommand = ReactiveCommand.Create(() =>
-            AppLifetimeHelper.Shutdown(true, true));
+            AppLifetimeHelper.Shutdown(withShutdownPrevention: true, restart: true));
         NextCommand = CancelCommand;
     }
 
@@ -59,11 +59,14 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
     {
         get;
     }
+
     public ReportSettingsViewModel ReportSettingsTab
     {
         get;
     }
+
     public override MenuViewModel? ToolBar => null;
+
     public override string? LocalizedTitle
     {
         get;
@@ -80,7 +83,7 @@ public partial class SettingsPageViewModel : DialogViewModelBase<Unit>
         , CompositeDisposable disposables
     )
     {
-        base.OnNavigatedTo(isInHistory, disposables);
+        base.OnNavigatedTo(isInHistory: isInHistory, disposables: disposables);
 
         IsModified = SettingsTabViewModelBase.CheckIfRestartIsNeeded();
 

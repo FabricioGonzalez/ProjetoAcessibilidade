@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
-    xmlns:editingTab="clr-namespace:ProjectAvalonia.Features.Project.Views.Components.EditingTab"
+    xmlns:editingTab="clr-namespace:ProjectAvalonia.Features.Project.Components.EditingTab"
     xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
@@ -28,12 +28,12 @@
         TabStripPlacement="Top">
         <TabControl.ItemTemplate>
             <DataTemplate>
-                <editingTab:EditingTabHeader />
+                <editingTab:EditingHeader />
             </DataTemplate>
         </TabControl.ItemTemplate>
         <TabControl.ContentTemplate>
             <DataTemplate DataType="interfaces:IEditingItemViewModel">
-                <editingTab:EditingContent />
+                <editingTab:EditContent />
             </DataTemplate>
         </TabControl.ContentTemplate>
     </TabControl>

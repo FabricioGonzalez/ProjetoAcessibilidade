@@ -1,0 +1,19 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:CompileBindings="True"
+             x:DataType="interfaces:ILawListViewModel"
+             x:Class="ProjectAvalonia.Features.Project.Components.LawItem">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeLawListViewModel />
+    </Design.DataContext>
+    <StackPanel Margin="4,4" Spacing="2">
+        <TextBlock FontWeight="Bold" Text="{Binding LawId}" />
+        <Separator BorderBrush="{DynamicResource SystemAccentColor}" />
+        <TextBlock Text="{Binding LawContent}" TextWrapping="Wrap" />
+    </StackPanel>
+</UserControl>

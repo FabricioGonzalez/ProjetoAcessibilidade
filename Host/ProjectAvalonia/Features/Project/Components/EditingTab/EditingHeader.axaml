@@ -1,0 +1,30 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:interfaces="clr-namespace:ProjectAvalonia.Presentation.Interfaces;assembly=ProjectAvalonia.Presentation"
+             xmlns:designTimeViewModels="clr-namespace:ProjectAvalonia.DesignTimeViewModels"
+             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+             mc:Ignorable="d" d:DesignWidth="64" d:DesignHeight="32"
+             x:DataType="interfaces:IEditingItemViewModel"
+             x:Class="ProjectAvalonia.Features.Project.Components.EditingTab.EditingHeader"
+             x:CompileBindings="True">
+    <Design.DataContext>
+        <designTimeViewModels:DesignTimeEditingItemViewModel />
+    </Design.DataContext>
+    <DockPanel>
+        <controls:IconButton DockPanel.Dock="Right"
+                             Width="16"
+                             Height="16"
+                             IconSize="12"
+                             Background="{DynamicResource OptimizePrivacyOptionSelectedColor}"
+                             Foreground="White"
+                             Margin="4,0"
+                             Icon="{StaticResource dismiss_regular}"
+                             Command="{Binding CloseItemCommand}" />
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,4,0"
+                   Background="Transparent"
+                   FontSize="12"
+                   Text="{Binding DisplayName, Mode=OneWay}" />
+    </DockPanel>
+</UserControl>

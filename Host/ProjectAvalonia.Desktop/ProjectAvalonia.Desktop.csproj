@@ -68,11 +68,11 @@
         <PackageReference Include="System.Reactive" Version="6.0.0"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\Shared\Common\Common.csproj"/>
         <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <Content Include="..\..\..\Data\Database\GestorProjetosArpa.db">
+        <Content Include="..\..\Data\Database\GestorProjetosArpa.db">
             <Link>GestorProjetosArpa.db</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>

@@ -47,7 +47,8 @@ public class FadeOutTextBlock : TextBlock
             if (hasCollapsed)
             {
                 using var _ = context.PushOpacityMask(mask: FadeoutOpacityMask, bounds: Bounds);
-                TextLayout.Draw(context: context, origin: origin + new Point(x: TextLayout.OverhangLeading, y: 0));
+                TextLayout.Draw(context: context
+                    , origin: origin + new Point(x: TextLayout.OverhangLeading, y: 0));
             }
             else
             {

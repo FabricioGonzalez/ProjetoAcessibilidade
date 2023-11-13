@@ -123,6 +123,33 @@
         <entry key="Host/Avalonia/ProjectAvalonia/Views/Dialogs/ShowErrorDialogView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Views/Dialogs/ShuttingdownDialogView.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/Avalonia/ProjectAvalonia/Views/MainWindow.axaml" value="Host/Avalonia/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/App.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Common/Controls/FadeOutTextControl.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/NavBar/NavBar.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/NavBar/NavBarItemContainer.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingBody/EditingForm.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingBody/EditingFormView.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingBody/EditingItem.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingBody/EditingItemView.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingTab/EditContent.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingTab/EditingContent.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingTab/EditingHeader.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingTab/EditingTabContent.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/EditingTab/EditingTabHeader.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/SolutionBody/PartnerForm.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Components/SolutionItemContent.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/Project/Dialogs/CreateFolderView.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/TemplateEdit/Components/CbEditContainer.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/TemplateEdit/Views/Components/EditableItem.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/TemplateEdit/Views/Components/ReportContainer.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/TemplateEdit/Views/Components/RulePreviewer.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/TemplateEdit/Views/ImportDialogView.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/TemplateEdit/Views/ItemValidationView.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Features/TemplateEdit/Views/TemplateEditTabView.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Styles/NotificationCard.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Styles/Styles.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Styles/Themes/Fluent.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
+        <entry key="Host/ProjectAvalonia/Views/MainWindow.axaml" value="Host/ProjectAvalonia.Desktop/ProjectAvalonia.Desktop.csproj" />
         <entry key="Host/QuestPDF/QuestPDF.Previewer/PreviewerApp.axaml" value="Host/QuestPDF/QuestPDF.Previewer/QuestPDF.Previewer.csproj" />
       </map>
     </option>
