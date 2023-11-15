@@ -1,6 +1,8 @@
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
+using Avalonia.Input;
 using Avalonia.Layout;
 
 namespace ProjectAvalonia.Common.Controls;
@@ -8,26 +10,28 @@ namespace ProjectAvalonia.Common.Controls;
 /// <summary>
 ///     Container for NavBarItems.
 /// </summary>
-[PseudoClasses(":horizontal", ":vertical", ":selectable", ":selected")]
-public class NavBarItem : Button
+[PseudoClasses(":horizontal", ":vertical", ":selected")]
+public class NavBarItem : ContentControl
 {
+    public static readonly StyledProperty<ICommand?> CommandProperty =
+        AvaloniaProperty.Register<NavBarItem, ICommand?>(nameof(Command));
+
     public static readonly StyledProperty<IconElement> IconProperty =
-        AvaloniaProperty.Register<NavBarItem, IconElement>(name: nameof(Icon));
+        AvaloniaProperty.Register<NavBarItem, IconElement>(nameof(Icon));
 
     public static readonly StyledProperty<Orientation> IndicatorOrientationProperty =
         AvaloniaProperty.Register<NavBarItem, Orientation>(name: nameof(IndicatorOrientation)
             , defaultValue: Orientation.Vertical);
 
-    public static readonly StyledProperty<bool> IsSelectableProperty =
-        AvaloniaProperty.Register<NavBarItem, bool>(name: nameof(IsSelectable));
-
-    public static readonly StyledProperty<bool> IsSelectedProperty =
-        AvaloniaProperty.Register<NavBarItem, bool>(name: nameof(IsSelected));
-
     public NavBarItem()
     {
-        UpdateIndicatorOrientationPseudoClasses(orientation: IndicatorOrientation);
-        UpdatePseudoClass(pseudoClass: ":selectable", value: IsSelectable);
+        UpdateIndicatorOrientationPseudoClasses(IndicatorOrientation);
+    }
+
+    public ICommand? Command
+    {
+        get => GetValue(CommandProperty);
+        set => SetValue(property: CommandProperty, value: value);
     }
 
     /// <summary>
@@ -35,7 +39,7 @@ public class NavBarItem : Button
     /// </summary>
     public IconElement Icon
     {
-        get => GetValue(property: IconProperty);
+        get => GetValue(IconProperty);
         set => SetValue(property: IconProperty, value: value);
     }
 
@@ -44,47 +48,31 @@ public class NavBarItem : Button
     /// </summary>
     public Orientation IndicatorOrientation
     {
-        get => GetValue(property: IndicatorOrientationProperty);
+        get => GetValue(IndicatorOrientationProperty);
         set => SetValue(property: IndicatorOrientationProperty, value: value);
-    }
-
-    /// <summary>
-    ///     Gets or sets flag indicating whether item supports selected state.
-    /// </summary>
-    public bool IsSelectable
-    {
-        get => GetValue(property: IsSelectableProperty);
-        set => SetValue(property: IsSelectableProperty, value: value);
-    }
-
-    /// <summary>
-    ///     Gets or sets if the item is selected or not.
-    /// </summary>
-    public bool IsSelected
-    {
-        get => GetValue(property: IsSelectedProperty);
-        set => SetValue(property: IsSelectedProperty, value: value);
     }
 
     protected override void OnPropertyChanged(
         AvaloniaPropertyChangedEventArgs change
     )
     {
-        base.OnPropertyChanged(change: change);
+        base.OnPropertyChanged(change);
 
         if (change.Property == IndicatorOrientationProperty)
         {
-            UpdateIndicatorOrientationPseudoClasses(orientation: change.GetNewValue<Orientation>());
+            UpdateIndicatorOrientationPseudoClasses(change.GetNewValue<Orientation>());
         }
+    }
 
-        if (change.Property == IsSelectableProperty)
-        {
-            UpdatePseudoClass(pseudoClass: ":selectable", value: change.GetNewValue<bool>());
-        }
+    protected override void OnPointerPressed(
+        PointerPressedEventArgs e
+    )
+    {
+        base.OnPointerPressed(e);
 
-        if (change.Property == IsSelectedProperty)
+        if (Command != null && Command.CanExecute(default))
         {
-            UpdatePseudoClass(pseudoClass: ":selected", value: change.GetNewValue<bool>());
+            Command.Execute(default);
         }
     }
 

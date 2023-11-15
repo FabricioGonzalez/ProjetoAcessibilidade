@@ -19,7 +19,7 @@
 	<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ProgressRing.axaml" />
 	<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TagControl.axaml" />
 	<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TagsBox.axaml" />
-	<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/NavBarItem.axaml" />
+	<!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/NavBarItem.axaml" />-->
 	<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/TileButton.axaml" />
 	<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/QuestionControl.axaml" />
 	<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/PreviewItem.axaml" />

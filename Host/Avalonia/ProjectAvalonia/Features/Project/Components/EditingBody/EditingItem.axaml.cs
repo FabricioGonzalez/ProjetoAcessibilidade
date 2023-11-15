@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace ProjectAvalonia.Features.Project.Views.Components.EditingBody;
 
-public partial class EditingItemView : UserControl
+public partial class EditingItem: UserControl
 {
-    public EditingItemView()
+    public EditingItem()
     {
         InitializeComponent();
 

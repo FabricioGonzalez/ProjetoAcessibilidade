@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ProjectAvalonia.Features.Project.Views.Components.EditingBody;
+namespace ProjectAvalonia.Features.Project.Views.Components.EditingTab;
 
-public partial class EditingFormView : UserControl
+public partial class EditingHeader : UserControl
 {
-    public EditingFormView()
+    public EditingHeader()
     {
         InitializeComponent();
     }

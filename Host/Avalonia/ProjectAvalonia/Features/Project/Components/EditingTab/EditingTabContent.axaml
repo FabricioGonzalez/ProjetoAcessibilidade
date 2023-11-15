@@ -20,7 +20,7 @@
             <editingBody:ConclusionItem DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate DataType="interfaces:IEditingBodyViewModel">
-            <editingBody:EditingItemView DataContext="{Binding}" />
+			<editingBody:EditingItem DataContext="{Binding}" />
         </DataTemplate>
     </UserControl.DataTemplates>
 </UserControl>

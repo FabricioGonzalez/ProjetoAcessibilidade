@@ -28,7 +28,7 @@
         TabStripPlacement="Top">
         <TabControl.ItemTemplate>
             <DataTemplate>
-                <editingTab:EditingTabHeader />
+				<editingTab:EditingHeader />
             </DataTemplate>
         </TabControl.ItemTemplate>
         <TabControl.ContentTemplate>

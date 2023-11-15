@@ -7,19 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="ExplorerItems\"/>
-        <Folder Include="ProjectItems\DTO\"/>
-        <Folder Include="Solution\DTO\"/>
-        <Folder Include="ValidationRules\DTO\"/>
-        <Folder Include="ValidationRules\ValidationRulesExpression\"/>
+        <Folder Include="ExplorerItems\" />
+        <Folder Include="ProjectItems\DTO\" />
+        <Folder Include="Solution\DTO\" />
+        <Folder Include="ValidationRules\DTO\" />
+        <Folder Include="ValidationRules\ValidationRulesExpression\" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.13" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>
 
 </Project>
