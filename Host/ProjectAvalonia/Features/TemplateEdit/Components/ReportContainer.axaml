@@ -1,0 +1,28 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.TemplateEdit.Components.ReportContainer"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:formItemState="clr-namespace:ProjectAvalonia.Presentation.States.FormItemState;assembly=ProjectAvalonia.Presentation"
+    xmlns:local="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Components;assembly=ProjectAvalonia"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="formItemState:FormItemStateBase"
+    mc:Ignorable="d">
+    <UserControl.DataTemplates>
+
+        <DataTemplate DataType="{x:Type formItemState:CheckboxContainerItemState}">
+            <local:CbEditContainer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type formItemState:TextItemState}">
+            <local:TextContainer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+</UserControl>

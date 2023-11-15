@@ -1,0 +1,32 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.Project.Views.CreateSolutionView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:ProjectAvalonia.Common.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="using:ProjectAvalonia.Properties"
+    xmlns:project="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+    xmlns:components="clr-namespace:ProjectAvalonia.Features.Project.Components"
+    Width="800"
+    Height="450"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="project:CreateSolutionViewModel"
+    x:CompileBindings="True"
+    xml:lang="pt-br"
+    mc:Ignorable="d">
+    <c:ContentArea
+        Title="{Binding Title}"
+        Padding="4"
+        CancelContent="{x:Static p:Resources.CancelActionLabel}"
+        Caption="{Binding Caption}"
+        EnableBack="{Binding EnableBack}"
+        EnableCancel="{Binding EnableCancel}"
+        EnableNext="True"
+        NextContent="{x:Static p:Resources.ContinueActionLabel}">
+        <ScrollViewer>
+            <components:SolutionItemContent DataContext="{Binding SolutionModel}" />
+        </ScrollViewer>
+    </c:ContentArea>
+</UserControl>

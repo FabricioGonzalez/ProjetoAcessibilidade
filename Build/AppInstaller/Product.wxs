@@ -2,9 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
     <?if $(var.Platform)=x64?>
-    <?define ProductCode="{A15A5BDB-8F0B-4B8B-AB6F-B6AA81F11689}"?>
+    <?define ProductCode="{947469DE-A7E7-4942-962F-4B7A993BA1F5}"?>
     <?else?>
-    <?define ProductCode="{B94AC91F-4525-49B1-82F6-BD3D6C18A2FC}"?>
+    <?define ProductCode="{807D1FB1-B3A2-4C1B-8048-D154FD0D7AEB}"?>
     <?endif?>
 
     <?define UpgradeCode="{71519238-953F-465E-B1D2-6B4AE96E39FF}"?>
@@ -38,11 +38,47 @@
 
         <Property Id="ARPURLINFOABOUT"
                   Value="https://github.com/FabricioGonzalez/ProjetoAcessibilidade/blob/master/README.md"/>
+        <!-- Add/Remove programs: https://www.firegiant.com/wix/tutorial/com-expression-syntax-miscellanea/add-or-remove-programs-entries/ -->
+        <!-- any comments -->
+        <Property Id='ARPCOMMENTS'>!(loc.Description)</Property>
+        <!-- URL for general info about the product -->
+        <!-- To suppress the Repair functionality, use: -->
+        <Property Id='ARPNOREPAIR'>1</Property>
 
-        <UIRef Id="WixUI_Minimal"/>
-        <WixVariable Id="WixUILicenseRtf" Overridable="no" Value="$(var.ProjectDir)\Assets\License.rtf"/>
-        <WixVariable Id="WixUIDialogBmp" Overridable="no" Value="$(var.ProjectDir)\Assets\Background.bmp"/>
-        <WixVariable Id="WixUIBannerBmp" Overridable="no" Value="$(var.ProjectDir)\Assets\Banner.bmp"/>
+        <!-- Create a basic UI for the installer. Skip terms and conditions: https://stackoverflow.com/a/32215759/2061103 -->
+        <UI>
+            <UIRef Id="WixUI_InstallDir"/>
+            <Publish Dialog="WelcomeDlg"
+                     Control="Next"
+                     Event="NewDialog"
+                     Value="VerifyReadyDlg"
+                     Order="99">1
+            </Publish>
+            <Publish Dialog="VerifyReadyDlg"
+                     Control="Back"
+                     Event="NewDialog"
+                     Value="WelcomeDlg"
+                     Order="99">1
+            </Publish>
+            <Publish Dialog="ExitDialog"
+                     Control="Finish"
+                     Event="DoAction"
+                     Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
+            </Publish>
+        </UI>
+
+        <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="Thank you for helping the world staying private."/>
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Wasabi Wallet"/>
+        <Property Id="WixShellExecTarget" Value="[INSTALLFOLDER]!(loc.InstalledExe)"/>
+
+        <CustomAction Id="LaunchApplication"
+                      BinaryKey="WixCA"
+                      DllEntry="WixShellExec"
+                      Impersonate="yes"/>
+        <!-- <UIRef Id="WixUI_Minimal"/>
+         <WixVariable Id="WixUILicenseRtf" Overridable="no" Value="$(var.ProjectDir)\Assets\License.rtf"/>
+         <WixVariable Id="WixUIDialogBmp" Overridable="no" Value="$(var.ProjectDir)\Assets\Background.bmp"/>
+         <WixVariable Id="WixUIBannerBmp" Overridable="no" Value="$(var.ProjectDir)\Assets\Banner.bmp"/>-->
 
         <Feature Id="ProductFeature" Title="!(loc.ProductName_$(var.Platform))" Level="1">
             <ComponentGroupRef Id="ProductComponents"/>

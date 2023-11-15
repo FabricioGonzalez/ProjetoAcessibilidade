@@ -1,0 +1,114 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+             xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+             xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.TemplateEdit.ViewModels"
+             xmlns:validationTypes="clr-namespace:ProjectAvalonia.Models.ValidationTypes"
+             xmlns:components="clr-namespace:ProjectAvalonia.Features.TemplateEdit.Components"
+             x:CompileBindings="True"
+             x:DataType="viewModels:EditRuleDialogViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
+             x:Class="ProjectAvalonia.Features.TemplateEdit.Views.EditRuleDialogView">
+    <controls:ContentArea
+        FocusNext="True"
+        EnableCancel="True"
+        EnableNext="True"
+        CancelContent="{x:Static p:Resources.CancelActionLabel}"
+        NextContent="{x:Static p:Resources.ConfirmActionLabel}"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <controls:ContentArea.Title>
+            <TextBlock Text="{Binding LocalizedTitle}" TextAlignment="Center" />
+        </controls:ContentArea.Title>
+        <Grid ColumnDefinitions="0.2* 0.5* 0.3* 0.2*" RowDefinitions="48 1*">
+            <Label
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Content="{x:Static p:Resources.Validation_Rules_Label}"
+                FontWeight="DemiBold" />
+            <ScrollViewer Grid.Column="0"
+                          Grid.Row="1"
+                          Grid.ColumnSpan="4"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch">
+                <Grid RowDefinitions="48 1*">
+                    <Border
+                        BorderBrush="{DynamicResource AppElevationBrush}"
+                        BorderThickness="0.3"
+                        BoxShadow="{DynamicResource AppElevationShadow}"
+                        CornerRadius="4">
+                        <Grid ColumnDefinitions="0.2* 8 0.4* 40">
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="4,0"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.Operation_Label}"
+                                FontWeight="DemiBold" />
+                            <ComboBox
+                                Grid.Column="2"
+                                Height="24"
+                                Margin="4,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                ItemsSource="{x:Static validationTypes:AppValidation.operationTypes}"
+                                SelectedItem="{Binding ValidationRuleState.Type}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:CompileBindings="False">
+                                        <TextBlock Text="{Binding LocalizationKey}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <controls:IconButton
+                                Grid.Column="3"
+                                Width="18"
+                                Height="18"
+                                HorizontalAlignment="Right"
+                                Icon="{StaticResource cancel_regular}"
+                                Command="{Binding ExcludeConditionCommand}"
+                                IconSize="16"
+                                ToolTip.Tip="{x:Static p:Resources.Exclude_Rule_ToolTip}" />
+                        </Grid>
+                    </Border>
+
+                    <Border
+                        Grid.Row="1"
+                        BorderBrush="{DynamicResource AppElevationBrush}"
+                        BorderThickness="0.3"
+                        BoxShadow="{DynamicResource AppElevationShadow}"
+                        CornerRadius="4">
+                        <Grid ColumnDefinitions="1* 48" RowDefinitions="40 8 1.2*">
+                            <Label Content="{x:Static p:Resources.Conditions_Label}"
+                                   FontWeight="DemiBold" />
+                            <controls:IconButton Grid.Row="0"
+                                                 Grid.Column="1"
+                                                 Width="18"
+                                                 Height="18"
+                                                 HorizontalAlignment="Right"
+                                                 Icon="{StaticResource add_circle_regular}"
+                                                 IconSize="16"
+                                                 Command="{Binding AddConditionCommand}"
+                                                 ToolTip.Tip="{x:Static p:Resources.Add_Condition_ToolTip}" />
+                            <ItemsControl Grid.Column="0"
+                                          Grid.Row="2"
+                                          Grid.ColumnSpan="2"
+                                          CornerRadius="4"
+                                          ItemsSource="{Binding ValidationRuleState.Conditions}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <components:ConditionDialog DataContext="{Binding .}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </controls:ContentArea>
+</UserControl>

@@ -1,6 +1,10 @@
 {
   "sdk": {
+<<<<<<< HEAD
     "version": "8.0.0",
+=======
+    "version": "7.0.0",
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f
     "rollForward": "latestMajor",
     "allowPrerelease": true
   }

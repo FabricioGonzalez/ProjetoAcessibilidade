@@ -107,20 +107,36 @@
       },
       "Avalonia.Controls.ColorPicker": {
         "type": "Transitive",
+<<<<<<< HEAD
         "resolved": "11.0.5",
         "contentHash": "N9RpqrDxyN52YSM6N6ViDWnE9XvC3bacZGlg0EH+uYOnxBZuh02kYw4UDa7S+TUdRXVc9HpmHpL3Y/sf/ydVTw==",
         "dependencies": {
           "Avalonia": "11.0.5",
           "Avalonia.Remote.Protocol": "11.0.5"
+=======
+        "resolved": "11.0.0",
+        "contentHash": "3DFOX5RI6LlAMLYId8JUX0EeRW867KIObtPCPpElzhGKGISIgyEg4znpjFkqONgsEQkB29S2Q+FFctuu2TRkUA==",
+        "dependencies": {
+          "Avalonia": "11.0.0",
+          "Avalonia.Remote.Protocol": "11.0.0"
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f
         }
       },
       "Avalonia.Controls.DataGrid": {
         "type": "Transitive",
+<<<<<<< HEAD
         "resolved": "11.0.5",
         "contentHash": "5ULaodkNkChEWE/xuRrSh6dpBExpvFDFSItdX7sDOxGqNwovaKk0+4HmzvXeQGntUeMsaAcDddZxoG+pUJ8PSA==",
         "dependencies": {
           "Avalonia": "11.0.5",
           "Avalonia.Remote.Protocol": "11.0.5"
+=======
+        "resolved": "11.0.0",
+        "contentHash": "bUEsP11CPoI0BtMW9c0MP9zqTHePSGpYIYM7dndD9+bUEHZfhD7Af8Uw/+GeBbmRu1tm4xLGefcq0O9zmEKrqA==",
+        "dependencies": {
+          "Avalonia": "11.0.0",
+          "Avalonia.Remote.Protocol": "11.0.0"
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f
         }
       },
       "Avalonia.Controls.TreeDataGrid": {
@@ -134,6 +150,7 @@
       },
       "Avalonia.Diagnostics": {
         "type": "Transitive",
+<<<<<<< HEAD
         "resolved": "11.0.5",
         "contentHash": "RoG+0sUlyoOlhAFc2rpkQzmJN7ztTqWqtB5mEZav3JacFLQ5npBrlLbcj9ewj2RQa+9zLiA9JmOlhK5zFprCnw==",
         "dependencies": {
@@ -141,6 +158,15 @@
           "Avalonia.Controls.ColorPicker": "11.0.5",
           "Avalonia.Controls.DataGrid": "11.0.5",
           "Avalonia.Themes.Simple": "11.0.5",
+=======
+        "resolved": "11.0.0",
+        "contentHash": "ywtDV66UTDGU9kB2WWBtQTXjSsZLd9kivHwk4UeY4LLY1v6LzmoiYGSsLA8ViltnaOjH3Dw7ARuaz47gnQleng==",
+        "dependencies": {
+          "Avalonia": "11.0.0",
+          "Avalonia.Controls.ColorPicker": "11.0.0",
+          "Avalonia.Controls.DataGrid": "11.0.0",
+          "Avalonia.Themes.Simple": "11.0.0",
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f
           "Microsoft.CodeAnalysis.CSharp.Scripting": "3.8.0",
           "Microsoft.CodeAnalysis.Common": "3.8.0"
         }
@@ -177,10 +203,17 @@
       },
       "Avalonia.Themes.Simple": {
         "type": "Transitive",
+<<<<<<< HEAD
         "resolved": "11.0.5",
         "contentHash": "kDRQMs0nndFdRSeDedhGOg4NL5lw/QiTJJ9CzzuRUq7M8RzJIZz8clHh1CJZira5JZDYD3lpRmhIeNafk6bNqw==",
         "dependencies": {
           "Avalonia": "11.0.5"
+=======
+        "resolved": "11.0.0",
+        "contentHash": "V83yZctUwvP96v1tgZNNDABw9McUOP7Q//Dkchw4JCOFO3wuVoCOU/Jr855dVf7E8+sDY8Ppkk2o1njgVHsjPQ==",
+        "dependencies": {
+          "Avalonia": "11.0.0"
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f
         }
       },
       "Avalonia.Win32": {
@@ -1197,6 +1230,7 @@
       "projectavalonia": {
         "type": "Project",
         "dependencies": {
+<<<<<<< HEAD
           "AsyncImageLoader.Avalonia": "[3.2.1, )",
           "Avalonia": "[11.0.5, )",
           "Avalonia.Controls.TreeDataGrid": "[11.0.1, )",
@@ -1205,6 +1239,15 @@
           "Avalonia.ReactiveUI": "[11.0.5, )",
           "Avalonia.Skia": "[11.0.5, )",
           "Avalonia.Themes.Fluent": "[11.0.5, )",
+=======
+          "AsyncImageLoader.Avalonia": "[3.2.0, )",
+          "Avalonia": "[11.0.3, )",
+          "Avalonia.Controls.TreeDataGrid": "[11.0.0, )",
+          "Avalonia.Desktop": "[11.0.0, )",
+          "Avalonia.ReactiveUI": "[11.0.3, )",
+          "Avalonia.Skia": "[11.0.3, )",
+          "Avalonia.Themes.Fluent": "[11.0.3, )",
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f
           "Avalonia.Xaml.Interactions": "[11.0.2, )",
           "Avalonia.Xaml.Interactions.DragAndDrop": "[11.0.2, )",
           "Avalonia.Xaml.Interactivity": "[11.0.2, )",

@@ -1,0 +1,68 @@
+<UserControl
+    x:Class="ProjectAvalonia.Features.Project.Components.SolutionBody.PartnerForm"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Padding="8"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{DynamicResource AcrylicTrimBackground}"
+    CornerRadius="6"
+    mc:Ignorable="d">
+    <StackPanel Spacing="6">
+        <Grid ColumnDefinitions="* *">
+            <Button
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Classes="action"
+                Command="{Binding Report.AddItemToPartnerCommand}"
+                Content="Adicionar Parceiro"
+                DockPanel.Dock="Right" />
+            <SelectableTextBlock
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Focusable="False"
+                FontWeight="DemiBold"
+                Text="Parceiros" />
+        </Grid>
+        <ItemsControl ItemsSource="{Binding Report.Partners, Mode=OneWay}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2,0,2" ColumnDefinitions="*, 8, *, 8, *, 28">
+                        <StackPanel Spacing="4">
+                            <SelectableTextBlock Focusable="False" Text="Nome do Parceiro" />
+                            <TextBox Text="{Binding Name}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Spacing="4">
+                            <SelectableTextBlock Focusable="False" Text="Site do Parceiro" />
+                            <TextBox Text="{Binding Website}" />
+                        </StackPanel>
+
+                        <TextBox
+                            Grid.Column="4"
+                            VerticalAlignment="Bottom"
+                            IsReadOnly="False"
+                            Text="{Binding Logo}">
+                            <TextBox.InnerRightContent>
+                                <controls:IconButton
+                                    Width="28"
+                                    Height="28"
+                                    Icon="{StaticResource file_open_24_rounded}"
+                                    IconSize="16" />
+                            </TextBox.InnerRightContent>
+                        </TextBox>
+                        <controls:IconButton
+                            Grid.Column="5"
+                            Width="24"
+                            Height="28"
+                            VerticalAlignment="Bottom"
+                            Icon="{StaticResource cancel_regular}"
+                            IconSize="16" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

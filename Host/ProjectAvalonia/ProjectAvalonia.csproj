@@ -1,0 +1,395 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup>
+
+        <TargetFramework>net7.0</TargetFramework>
+        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <NoWarn>1701;1702;1705;1591;1573;CA1031</NoWarn>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\$(TargetFramework)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+        <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia</PathMap>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+        <AvaloniaVersion>11.0.5</AvaloniaVersion>
+        <AvaloniaInteractivityVersion>11.0.2</AvaloniaInteractivityVersion>
+        <AvaloniaNameGeneratorBehavior>OnlyProperties</AvaloniaNameGeneratorBehavior>
+        <SignAssembly>False</SignAssembly>
+
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    </PropertyGroup>
+    <ItemGroup>
+<<<<<<< HEAD:Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj
+        <AvaloniaResource Include="Assets\**" />
+        <AvaloniaXaml Remove="Behaviors\DragDropHandlers\**" />
+        <AvaloniaXaml Remove="Features\ItemValidation\**" />
+        <AvaloniaXaml Remove="Features\TemplateEditing\**" />
+        <AvaloniaXaml Remove="Features\TemplateRules\**" />
+        <AvaloniaXaml Remove="Languages\**" />
+        <Compile Remove="Behaviors\DragDropHandlers\**" />
+        <Compile Remove="Features\ItemValidation\**" />
+        <Compile Remove="Features\TemplateEditing\**" />
+        <Compile Remove="Features\TemplateRules\**" />
+        <Compile Remove="Languages\**" />
+        <Content Include="obj\Debug\net7.0\project.assets.json" />
+        <Content Include="obj\Debug\project.assets.json" />
+        <EmbeddedResource Remove="Behaviors\DragDropHandlers\**" />
+        <EmbeddedResource Remove="Features\ItemValidation\**" />
+        <EmbeddedResource Remove="Features\TemplateEditing\**" />
+        <EmbeddedResource Remove="Features\TemplateRules\**" />
+        <EmbeddedResource Remove="Languages\**" />
+        <None Remove="Behaviors\DragDropHandlers\**" />
+        <None Remove="Features\ItemValidation\**" />
+        <None Remove="Features\TemplateEditing\**" />
+        <None Remove="Features\TemplateRules\**" />
+        <None Remove="Languages\**" />
+        <Content Remove="C:\Users\Ti\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
+        <None Remove=".gitignore" />
+        <None Remove="Views\EditableTextBlock.xaml" />
+=======
+        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaXaml Remove="Behaviors\DragDropHandlers\**"/>
+        <AvaloniaXaml Remove="Features\ItemValidation\**"/>
+        <AvaloniaXaml Remove="Features\TemplateEditing\**"/>
+        <AvaloniaXaml Remove="Features\TemplateRules\**"/>
+        <AvaloniaXaml Remove="Languages\**"/>
+        <Compile Remove="Behaviors\DragDropHandlers\**"/>
+        <Compile Remove="Features\ItemValidation\**"/>
+        <Compile Remove="Features\TemplateEditing\**"/>
+        <Compile Remove="Features\TemplateRules\**"/>
+        <Compile Remove="Languages\**"/>
+        <Content Include="obj\Debug\net7.0\project.assets.json"/>
+        <Content Include="obj\Debug\project.assets.json"/>
+        <EmbeddedResource Remove="Behaviors\DragDropHandlers\**"/>
+        <EmbeddedResource Remove="Features\ItemValidation\**"/>
+        <EmbeddedResource Remove="Features\TemplateEditing\**"/>
+        <EmbeddedResource Remove="Features\TemplateRules\**"/>
+        <EmbeddedResource Remove="Languages\**"/>
+        <None Remove="Behaviors\DragDropHandlers\**"/>
+        <None Remove="Features\ItemValidation\**"/>
+        <None Remove="Features\TemplateEditing\**"/>
+        <None Remove="Features\TemplateRules\**"/>
+        <None Remove="Languages\**"/>
+        <Content Remove="C:\Users\Ti\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico"/>
+        <None Remove=".gitignore"/>
+        <None Remove="Views\EditableTextBlock.xaml"/>
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f:Host/ProjectAvalonia/ProjectAvalonia.csproj
+        <Compile Update="Common\Controls\Commanding\Toolbar.axaml.cs">
+            <DependentUpon>ToolBar.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Common\Controls\IconButton.axaml.cs">
+            <DependentUpon>IconButton.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+<<<<<<< HEAD:Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj
+        <Compile Update="Features\Project\Components\EditingBody\EditingForm.axaml.cs">
+          <DependentUpon>EditingForm.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Project\Components\EditingBody\EditingItem.axaml.cs">
+          <DependentUpon>EditingItem.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Project\Components\EditingBody\SolutionItem.axaml.cs">
+            <DependentUpon>SolutionItem.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Project\Components\EditingTab\EditingHeader.axaml.cs">
+          <DependentUpon>EditingHeader.axaml</DependentUpon>
+=======
+        <Compile Update="Features\Project\Views\Components\ObservationItem.axaml.cs">
+            <DependentUpon>ObservationItem.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Project\Views\Components\OptionsContainer.axaml.cs">
+            <DependentUpon>OptionsContainer.axaml</DependentUpon>
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f:Host/ProjectAvalonia/ProjectAvalonia.csproj
+        </Compile>
+        <EmbeddedResource Update="Properties\Resources.en.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <Content Remove="C:\Users\Fabricio\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico"/>
+        <AvaloniaXaml Remove="Features\TemplateEdit\Views\Components\ComboEditBox.axaml"/>
+        <Compile Update="Specifications\ComboEditBox.axaml.cs">
+            <DependentUpon>ComboEditBox.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+<<<<<<< HEAD:Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj
+        <None Remove="Specifications\Templates\Itens\Teste 2.xml" />
+        <None Remove="Specifications\Templates\Itens\TEstes.xml" />
+        <Compile Remove="Features\Project\ProjectExplorer\ViewModels\ExplorerViewModel.cs" />
+        <Compile Remove="Common\Bases\StateManagement\Subscriptions.cs" />
+        <Compile Remove="Common\Bases\StateManagement\Store.cs" />
+        <Compile Remove="Common\Bases\StateManagement\State.cs" />
+        <Compile Remove="Common\Bases\StateManagement\IStore.cs" />
+        <Compile Remove="Common\Bases\StateManagement\IStateComponent.cs" />
+        <Compile Remove="Common\Bases\StateManagement\IAction.cs" />
+        <Compile Update="Features\Project\Components\SolutionItemContent.axaml.cs">
+            <DependentUpon>SolutionItemContent.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+=======
+        <None Remove="Specifications\Templates\Itens\Teste 2.xml"/>
+        <None Remove="Specifications\Templates\Itens\TEstes.xml"/>
+        <Compile Remove="Features\Project\ProjectExplorer\ViewModels\ExplorerViewModel.cs"/>
+        <Compile Remove="Common\Bases\StateManagement\Subscriptions.cs"/>
+        <Compile Remove="Common\Bases\StateManagement\Store.cs"/>
+        <Compile Remove="Common\Bases\StateManagement\State.cs"/>
+        <Compile Remove="Common\Bases\StateManagement\IStore.cs"/>
+        <Compile Remove="Common\Bases\StateManagement\IStateComponent.cs"/>
+        <Compile Remove="Common\Bases\StateManagement\IAction.cs"/>
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f:Host/ProjectAvalonia/ProjectAvalonia.csproj
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="Assets\avalonia-logo.ico"/>
+        <Content Include="Assets\Fonts\Objectivity-Light.otf"/>
+        <Content Include="Assets\Fonts\Objectivity-Regular.otf"/>
+        <Content Include="Assets\Fonts\RobotoMono-Regular.ttf"/>
+        <Content Include="Assets\Loading\loading.png"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!--This helps with theme dll-s trimming.
+	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
+	https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
+        <TrimmableAssembly Include="Avalonia.Themes.Fluent"/>
+        <TrimmableAssembly Include="Avalonia.Themes.Default"/>
+    </ItemGroup>
+    <ItemGroup>
+<<<<<<< HEAD:Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj
+        <PackageReference Include="AsyncImageLoader.Avalonia" Version="3.2.1" />
+        <PackageReference Include="Avalonia" Version="11.0.5" />
+        <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.0.1" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
+        <PackageReference Include="Avalonia.Skia" Version="11.0.5" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5" />
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="$(AvaloniaInteractivityVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Interactions.DragAndDrop" Version="$(AvaloniaInteractivityVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="$(AvaloniaInteractivityVersion)" />
+        <PackageReference Include="Dock.Avalonia" Version="11.0.0.2" />
+        <PackageReference Include="DotNetZip" Version="1.16.0" />
+        <PackageReference Include="DynamicData" Version="8.1.1" />
+        <PackageReference Include="LanguageExt.Core" Version="4.4.7" />
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+        <PackageReference Include="Microsoft.Win32.SystemEvents" Version="7.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Notification.Avalonia" Version="2.0.1" />
+        <PackageReference Include="ReactiveUI" Version="19.5.1" />
+        <PackageReference Include="ReactiveUI.Validation" Version="3.1.7" />
+        <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.8.6" />
+        <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
+=======
+        <PackageReference Include="AsyncImageLoader.Avalonia" Version="3.2.0"/>
+        <PackageReference Include="Avalonia" Version="11.0.3"/>
+        <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)"/>
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.3"/>
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.3"/>
+        <PackageReference Include="Avalonia.Skia" Version="11.0.3"/>
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.3"/>
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.2"/>
+        <PackageReference Include="Avalonia.Xaml.Interactions.DragAndDrop" Version="11.0.2"/>
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.2"/>
+        <PackageReference Include="Dock.Avalonia" Version="11.0.0"/>
+        <PackageReference Include="DotNetZip" Version="1.16.0"/>
+        <PackageReference Include="DynamicData" Version="7.14.2"/>
+        <PackageReference Include="LanguageExt.Core" Version="4.4.3"/>
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
+        <PackageReference Include="Microsoft.Win32.SystemEvents" Version="7.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Notification.Avalonia" Version="2.0.0"/>
+        <PackageReference Include="ReactiveUI" Version="19.4.1"/>
+        <PackageReference Include="ReactiveUI.Validation" Version="3.1.7"/>
+        <PackageReference Include="SkiaSharp" Version="2.88.3"/>
+        <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.7.1"/>
+        <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0"/>
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f:Host/ProjectAvalonia/ProjectAvalonia.csproj
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Infrastructure\Databases\SqliteDatasource\SqliteDatasource.csproj"/>
+        <ProjectReference Include="..\..\Infrastructure\ProjectItemsReader\XmlDatasource\XmlDatasource.csproj"/>
+        <ProjectReference Include="..\..\Infrastructure\Reports\QuestPDFReport\QuestPDFReport.csproj"/>
+        <ProjectReference Include="..\..\Presentation\ProjectAvalonia.Presentation\ProjectAvalonia.Presentation.csproj"/>
+        <ProjectReference Include="..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\QuestPDF\QuestPDF.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ProjectAvalonia.Generators\ProjectAvalonia.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Specifications\Itens.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\Itens.xsd">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens.xsd</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Acesso a Equipamentos.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso a Equipamentos.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Acesso.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Acesso.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Balcão de Atendimento Recepção.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Balcão de Atendimento Recepção.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Circulação Horizontal.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Horizontal.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Circulação Vertical.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Circulação Vertical.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Entradas Portas Externo.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Externo.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Entradas Portas Interno.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Entradas Portas Interno.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Mapa Tátil.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mapa Tátil.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Mesas.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Mesas.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Piso Tátil.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Piso Tátil.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Portas de Emergência.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Portas de Emergência.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Sanitários Comuns.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sanitários Comuns.xml</LinuxPath>
+        </None>
+        <None Update="Specifications\ValidationRules\Sánitario Acessível.vldr">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <LinuxPath>$HOME/'Gestor de Projeto ARPA'/Templates/Itens/Sánitario Acessível.xml</LinuxPath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <UpToDateCheckInput Remove="Features\Project\Views\ProjectView.axaml"/>
+        <UpToDateCheckInput Remove="Features\TemplateEdit\Views\Components\CbEditContainer.axaml"/>
+        <UpToDateCheckInput Remove="Features\TemplateEdit\Views\Components\ConditionDialog.axaml"/>
+        <UpToDateCheckInput Remove="Features\TemplateEdit\Views\Components\EditableItem.axaml"/>
+        <UpToDateCheckInput Remove="Features\TemplateEdit\Views\Components\ReportContainer.axaml"/>
+        <UpToDateCheckInput Remove="Features\TemplateEdit\Views\Components\RulePreviewer.axaml"/>
+        <UpToDateCheckInput Remove="Features\TemplateEdit\Views\Components\TextContainer.axaml"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Features\PDFViewer\Views\PreviewerView.axaml.cs">
+            <DependentUpon>PreviewerView.axaml</DependentUpon>
+        </Compile>
+<<<<<<< HEAD:Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj
+        <Compile Update="Features\Project\Dialogs\DeleteDialogView.axaml.cs">
+            <DependentUpon>DeleteDialogView.axaml</DependentUpon>
+        </Compile>
+=======
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f:Host/ProjectAvalonia/ProjectAvalonia.csproj
+        <Compile Update="Features\TemplateEdit\Views\ItemValidationView.axaml.cs">
+            <DependentUpon>ItemValidationView.axaml</DependentUpon>
+        </Compile>
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\Resources.pt.resx">
+            <LastGenOutput>Resources.pt.Designer.cs</LastGenOutput>
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <EditorConfigFiles Remove="C:\Users\Ti\Documents\Projetos\ProjetoAcessibilidade\Host\Avalonia\ProjectAvalonia\.editorconfig"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Common\Bases\AvaloniaDeps\"/>
+        <Folder Include="Common\Bases\StateManagement\"/>
+        <Folder Include="Features\PDFViewer\Services\"/>
+        <Folder Include="Features\Project\ProjectExplorer\Services\"/>
+        <Folder Include="Features\Project\ProjectExplorer\ViewModels\"/>
+        <Folder Include="Features\Project\States\"/>
+        <Folder Include="Features\Project\Strategies\SolutionDatasourceStrategy\"/>
+        <Folder Include="Features\Settings\Services\"/>
+    </ItemGroup>
+    <ItemGroup>
+<<<<<<< HEAD:Host/Avalonia/ProjectAvalonia/ProjectAvalonia.csproj
+      <UpToDateCheckInput Remove="Features\TemplateEdit\Views\ImportDialogView.axaml" />
+=======
+        <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+            <HintPath>..\ProjectAvalonia.Desktop\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Extensions.Hosting.Abstractions">
+            <HintPath>..\ProjectAvalonia.Desktop\bin\Debug\net7.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <UpToDateCheckInput Remove="Features\TemplateEdit\Views\ImportDialogView.axaml"/>
+    </ItemGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="Features\Project\Components\EditingBody\EditingForm.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\EditingBody\EditingItem.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\EditingBody\SolutionItem.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\ExplorerItems\ItemGroupView.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\ExplorerItems\ItemView.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\CheckboxGroupView.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\CheckboxItemView.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\ImageContainerView.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\ImageItemView.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\LawItem.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\ObservationItem.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\OptionItem.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\OptionsContainer.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\FormBody\TextBoxItem.axaml"/>
+        <AdditionalFiles Include="Features\Project\Components\SolutionItemContent.axaml"/>
+        <AdditionalFiles Include="Features\Project\Dialogs\CreateFolderView.axaml"/>
+        <AdditionalFiles Include="Features\Project\Dialogs\DeleteDialogView.axaml"/>
+        <AdditionalFiles Include="Features\TemplateEdit\Components\CbEditContainer.axaml"/>
+        <AdditionalFiles Include="Features\TemplateEdit\Components\ConditionDialog.axaml"/>
+        <AdditionalFiles Include="Features\TemplateEdit\Components\EditableItem.axaml"/>
+        <AdditionalFiles Include="Features\TemplateEdit\Components\ReportContainer.axaml"/>
+        <AdditionalFiles Include="Features\TemplateEdit\Components\RulePreviewer.axaml"/>
+        <AdditionalFiles Include="Features\TemplateEdit\Components\TextContainer.axaml"/>
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f:Host/ProjectAvalonia/ProjectAvalonia.csproj
+    </ItemGroup>
+</Project>

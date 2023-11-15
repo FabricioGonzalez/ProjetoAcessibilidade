@@ -1,0 +1,40 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls">
+
+    <Design.PreviewWith>
+        <Panel Width="75" Background="DarkGray">
+            <controls:FadeOutTextControl Text="This is Very Long Text" />
+        </Panel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:FadeOutTextControl}" TargetType="controls:FadeOutTextControl">
+
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="10" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <TextBlock Name="PART_TrimmedTextBlock"
+                               Text="{TemplateBinding Text}"
+                               TextTrimming="CharacterEllipsis"
+<<<<<<< HEAD:Host/Avalonia/ProjectAvalonia/Common/Controls/FadeOutTextControl.axaml
+=======
+                               TextWrapping="Wrap"
+>>>>>>> d1a922c2b15b1ed4309eb6c79bac6e8d9315b26f:Host/ProjectAvalonia/Common/Controls/FadeOutTextControl.axaml
+                               TextAlignment="{TemplateBinding HorizontalAlignment}"
+                               FontSize="{TemplateBinding FontSize}"
+                               Opacity="0" />
+                    <controls:FadeOutTextBlock Name="PART_NoTrimTextBlock"
+                                               TextAlignment="{TemplateBinding HorizontalAlignment}"
+                                               FontSize="{TemplateBinding FontSize}"
+                                               Text="{TemplateBinding Text}"
+                                               TextTrimming="None" />
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+    </ControlTheme>
+
+</ResourceDictionary>
