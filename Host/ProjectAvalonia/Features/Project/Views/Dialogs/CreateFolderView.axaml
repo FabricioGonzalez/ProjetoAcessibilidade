@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="ProjectAvalonia.Features.Project.Dialogs.CreateFolderView"
+    x:Class="ProjectAvalonia.Features.Project.Views.Dialogs.CreateFolderView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"

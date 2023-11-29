@@ -43,8 +43,8 @@ public class EditingItemsNavigationService : ReactiveObject
     {
         var item = editingItems.Items.FirstOrDefault(getter);
 
-        item.Dispose();
+        item?.Dispose();
 
-        editingItems.Remove(item);
+        editingItems?.Remove(item);
     }
 }

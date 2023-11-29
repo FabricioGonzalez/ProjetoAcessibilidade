@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ProjectAvalonia.Features.Project.Dialogs;
+namespace ProjectAvalonia.Features.Project.Views.Dialogs;
 
 public partial class DeleteDialogView : UserControl
 {
