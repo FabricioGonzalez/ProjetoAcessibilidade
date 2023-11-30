@@ -15,5 +15,5 @@ public class ImagesModel
     {
         get;
         set;
-    }
+    } = new();
 }

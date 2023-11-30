@@ -148,8 +148,8 @@ EditingItemsNavigationService editableItemsNavigationService)
                     return solutionLocation;
                 }));
 
-        var changeSet = SolutionRootItem.LocationItems
-            .ToObservableChangeSet();
+        /* var changeSet = SolutionRootItem.LocationItems
+             .ToObservableChangeSet();*/
 
         /*changeSet
             .AutoRefreshOnObservable(document => document.AddProjectItemCommand.IsExecuting)
@@ -159,10 +159,8 @@ EditingItemsNavigationService editableItemsNavigationService)
             {
                 await SaveSolution();
             });*/
-        RevealOnExplorerCommand = ReactiveCommand.CreateFromTask<string>(async (path) =>
-        {
-            await IoHelpers.OpenBrowserAsync(path);
-        });
+
+        RevealOnExplorerCommand = ReactiveCommand.CreateFromTask<string>(IoHelpers.OpenBrowserAsync);
 
         CreateFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -190,6 +188,86 @@ EditingItemsNavigationService editableItemsNavigationService)
             }
 
             return Optional<IItemGroupViewModel>.None();
+        });
+
+
+        ExcludeItemFromSolution = ReactiveCommand.CreateRunInBackground<dynamic?>(async excludeO =>
+        {
+            Func<Task> r = excludeO switch
+            {
+                IItemViewModel iv => async () =>
+                {
+                    var dialog = new DeleteDialogViewModel(
+                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                        title: "Deletar Item",
+                        caption: "");
+                    var result = (await RoutableViewModel.NavigateDialogAsync(
+                        dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result;
+                    if (result.ok)
+                    {
+                        foreach (var s in SolutionRootItem.LocationItems)
+                        {
+                            s.Items.FirstOrDefault(it => it.ItemPath == iv.Parent.ItemPath)?.Items.Remove(iv);
+
+                            _editableItemsNavigationService.RemoveItem((it) => it.ItemPath == iv.ItemPath);
+                        }
+
+                        await SaveSolution();
+                    }
+                }
+                ,
+                IItemGroupViewModel ig => async () =>
+                {
+                    var dialog = new DeleteDialogViewModel(
+                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                        title: "Deletar Item",
+                        caption: "");
+                    var result = (await RoutableViewModel.NavigateDialogAsync(
+                        dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result;
+                    if (result.ok)
+                    {
+                        foreach (var s in SolutionRootItem.LocationItems)
+                        {
+                            var it = s.Items.FirstOrDefault(it => it.ItemPath == ig.ItemPath);
+
+                            s.Items.Remove(it);
+                        }
+
+                        await SaveSolution();
+                    }
+                }
+                ,
+                ISolutionLocationItem sgi => async () =>
+                {
+                    var dialog = new DeleteDialogViewModel(
+                        message: "O item seguinte será excluido ao confirmar. Deseja continuar?",
+                        title: "Deletar Item",
+                        caption: "");
+                    var result = (await RoutableViewModel.NavigateDialogAsync(
+                        dialog: dialog,
+                        target: NavigationTarget.CompactDialogScreen)).Result;
+                    if (result.ok)
+                    {
+                        SolutionRootItem.LocationItems.Remove(sgi);
+
+                        await SaveSolution();
+                    }
+                }
+                ,
+                _ => () =>
+                {
+                    Dispatcher.UIThread.Invoke(() =>
+                    {
+                        NotificationHelpers.ShowMain("Erro", "Nenhum item foi encontrado", 10, Avalonia.Controls.Notifications.NotificationType.Error);
+                    });
+
+                    return Task.CompletedTask;
+                }
+            };
+            await r();
+
         });
 
         CreateFolderCommand
@@ -230,7 +308,10 @@ EditingItemsNavigationService editableItemsNavigationService)
     {
         get;
     }
-
+    public ReactiveCommand<dynamic?, Unit> ExcludeItemFromSolution
+    {
+        get;
+    }
     public SolutionState SolutionState
     {
         get;
@@ -244,6 +325,7 @@ EditingItemsNavigationService editableItemsNavigationService)
         SolutionRootItem.LocationItems
             .Select(x => x.AddProjectItemCommand.Select(s => s))
             .Merge();*/
+
     /*private IObservable<IItemGroupViewModel?> WhenAnyItemWasMoved() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,
@@ -251,7 +333,6 @@ EditingItemsNavigationService editableItemsNavigationService)
         SolutionRootItem.LocationItems
             .Select(x => x.MoveItemCommand.Select(_ => x))
             .Merge();*/
-
 
     private async Task SaveSolution()
     {
@@ -311,6 +392,7 @@ EditingItemsNavigationService editableItemsNavigationService)
                 SolutionState?.FilePath,
                 SolutionState),
             CancellationToken.None);*/
+
     /*private IObservable<ISolutionLocationItem?> WhenAnyFolderIsDeleted() =>
         // Select the documents into a list of Observables
         // who return the Document to close when signaled,

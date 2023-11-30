@@ -34,35 +34,6 @@ public sealed class ItemsService
             return Enumerable.Empty<ItemState>();
         });
 
-    /*public ItemState MoveItem(
-        ItemState item
-        , string desiredPath
-    )
-    {
-        if (File.GetAttributes(item.ItemPath) == FileAttributes.Directory && File.Exists(item.ItemPath))
-        {
-            Directory.Move(sourceDirName: item.ItemPath, destDirName: desiredPath);
-
-            item.ItemPath =
-                Path.Combine(
-                    path1: string.Join(separator: Path.DirectorySeparatorChar
-                        , value: desiredPath.Split(Path.DirectorySeparatorChar)[..^1]), path2: item.Name);
-
-            return item;
-        }
-
-        File.Move(sourceFileName: item.ItemPath, destFileName: desiredPath);
-
-        item.ItemPath =
-            Path.Combine(
-                path1: string.Join(separator: Path.DirectorySeparatorChar
-                    , value: desiredPath.Split(Path.DirectorySeparatorChar)[..^1])
-                , path2: $"{item.Name}{Constants.AppProjectItemExtension}");
-
-        return item;
-    }
-    */
-
     public ExplorerEntry MoveItem(
         ExplorerEntry item
         , ExplorerEntry desiredItem
@@ -87,7 +58,6 @@ public sealed class ItemsService
             return item;
         }
     }
-
 
     public void SyncSolutionItems(
         ISolutionGroupViewModel solutionRootItem

@@ -13,24 +13,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="publicAppFiles\**"/>
-        <EmbeddedResource Remove="publicAppFiles\**"/>
-        <None Remove="publicAppFiles\**"/>
+        <Compile Remove="publicAppFiles\**" />
+        <EmbeddedResource Remove="publicAppFiles\**" />
+        <None Remove="publicAppFiles\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="LanguageExt.Core" Version="4.4.3"/>
+        <PackageReference Include="LanguageExt.Core" Version="4.4.7" />
     </ItemGroup>
 
 
     <ItemGroup>
-        <Folder Include="ExplorerItems\Mappers\"/>
-        <Folder Include="ProjectItems\Mappers\"/>
-        <Folder Include="ValidationRules\Mappers\"/>
+        <Folder Include="ExplorerItems\Mappers\" />
+        <Folder Include="ProjectItems\Mappers\" />
+        <Folder Include="ValidationRules\Mappers\" />
     </ItemGroup>
 
 </Project>

@@ -34,7 +34,7 @@ public class CapeImage : IComponent
         IContainer container
     )
     {
-        if (!string.IsNullOrWhiteSpace(ImagePath))
+        if (!string.IsNullOrWhiteSpace(ImagePath) && File.Exists(ImagePath))
         {
             var image = Image.FromFile(ImagePath);
 

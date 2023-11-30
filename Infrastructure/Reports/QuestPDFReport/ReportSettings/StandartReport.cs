@@ -1,5 +1,6 @@
 ﻿using Common.Linq;
 
+using QuestPDF;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -22,6 +23,9 @@ public class StandardReport : IDocument
     {
         Model = model;
         this.strechImages = strechImages;
+        Settings.License = LicenseType.Community;
+        Settings.DocumentLayoutExceptionThreshold = 1000000000;
+        Settings.CheckIfAllTextGlyphsAreAvailable = false;
     }
 
     private IReport Model
@@ -33,7 +37,6 @@ public class StandardReport : IDocument
         new()
         {
             Title = Model.Title,
-            DocumentLayoutExceptionThreshold = 1000000000
         };
 
     public void Compose(
@@ -42,6 +45,12 @@ public class StandardReport : IDocument
         container
             .Page(page =>
             {
+                TextStyle
+   .Default
+   .FontFamily(Fonts.Calibri)
+   .Fallback(x => x.FontFamily("Segoe UI Emoji"))
+   .Fallback(x => x.FontFamily("Microsoft PhagsPa"));
+
                 page
                     .DefaultTextStyle(Typography.Normal);
 

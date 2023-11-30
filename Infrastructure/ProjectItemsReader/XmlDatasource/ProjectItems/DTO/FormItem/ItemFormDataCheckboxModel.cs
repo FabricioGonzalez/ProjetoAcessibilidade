@@ -24,5 +24,5 @@ public class ItemFormDataCheckboxModel : ItemFormDataContainer
     {
         get;
         set;
-    }
+    } = new();
 }

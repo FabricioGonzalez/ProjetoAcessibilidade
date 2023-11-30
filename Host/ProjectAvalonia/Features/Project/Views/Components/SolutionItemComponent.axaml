@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+              xmlns:behaviors="clr-namespace:ProjectAvalonia.Behaviors"
+	           xmlns:controls="clr-namespace:ProjectAvalonia.Common.Controls"
+             xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+             xmlns:viewModels="clr-namespace:ProjectAvalonia.Features.Project.ViewModels"
+	           xmlns:views="clr-namespace:ProjectAvalonia.Features.Project.Views"
+             xmlns:vm="clr-namespace:ProjectAvalonia.Features.Project.ViewModels.ExplorerItems;assembly=ProjectAvalonia"
+             x:Class="ProjectAvalonia.Features.Project.Views.Components.SolutionItemComponent">
+  <StackPanel Orientation="Horizontal" Spacing="2">
+    <PathIcon Data="{StaticResource folder_regular}" />
+    <controls:EditableTextBlock
+      Command="{Binding RenameFolderCommand}"
+      CommitCommand="{Binding CommitFolderCommand}"
+      EditText="{Binding Name, Mode=TwoWay}"
+      InEditMode="{Binding InEditing}"
+      Text="{Binding Name, Mode=OneWay}" />
+    <StackPanel.ContextFlyout>
+      <MenuFlyout>
+        <MenuItem Command="{Binding AddProjectItemCommand}" Header="{x:Static p:Resources.Add_Folder_Item_Menu_Header}" />
+        <MenuItem
+          Command="{Binding $parent[views:ProjectExplorerView].((vm:ProjectExplorerViewModel)DataContext).RevealOnExplorerCommand}"
+          CommandParameter="{Binding ItemPath}"
+          Header="{x:Static p:Resources.Open_On_Explorer_Item_Menu_Header}" />
+        <MenuItem Command="{Binding AddExistingItemCommand}" Header="{x:Static p:Resources.Add_Existing_Folder_Item_Menu_Header}" />
+        <MenuItem Command="{Binding RenameFolderCommand}" Header="{x:Static p:Resources.Rename_Folder_Item_Menu_Header}" />
+        <MenuItem CommandParameter="{Binding $self.DataContext,Mode=OneWay}" Command="{Binding $parent[views:ProjectExplorerView].((vm:ProjectExplorerViewModel)DataContext).ExcludeItemFromSolution}" Header="{x:Static p:Resources.Exclude_Folder_Item_Menu_Header}" />
+      </MenuFlyout>
+    </StackPanel.ContextFlyout>
+  </StackPanel>
+</UserControl>

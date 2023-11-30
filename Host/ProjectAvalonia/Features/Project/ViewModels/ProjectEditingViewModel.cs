@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+
+using Common.Linq;
 
 using DynamicData;
 using DynamicData.Binding;
@@ -73,7 +76,7 @@ public class ProjectEditingViewModel
                     return;
                 }
 
-                var dialog = new DeleteDialogViewModel(
+                /*var dialog = new DeleteDialogViewModel(
                     message: "O item seguinte será excluido ao confirmar. Deseja continuar?", title: "Deletar Item"
                     , caption: "");
 
@@ -83,7 +86,7 @@ public class ProjectEditingViewModel
                     _editableItemsNavigationService.RemoveItem(x);
                     SelectedItem = null;
                     this.RaisePropertyChanged(nameof(SelectedItem));
-                }
+                }*/
             });
 
         observableItems
@@ -162,6 +165,7 @@ public class ProjectEditingViewModel
                 if (!string.IsNullOrWhiteSpace(getItem.ItemName) && getItem.FormData is not null)
                 {
                     var observations = new SourceList<ObservationState>();
+                    observations.AddRange(getItem.ObservationContainer.Observations.Select(it => new ObservationState() { Observation = it.Observation }));
 
                     _editableItemsNavigationService.AddItem(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
                         , observations));
@@ -258,63 +262,64 @@ public static class Extension
         appModel.ItemName = itemName;
         appModel.TemplateName = templateName;
 
-        appModel.FormData = viewModel.Form
-            .Where(x => x is not IImageFormItemViewModel && x is not IObservationFormItemViewModel)
-            .Select<IFormViewModel, ItemFormDataContainer>(formData =>
+        appModel.FormData = new();
+        appModel.Images = new();
+        appModel.Observations = new();
+        foreach (var formItem in viewModel.Form)
+        {
+            if (formItem is IImageFormItemViewModel image)
             {
-                return formData switch
+                image.ImageItems.IterateOn(it =>
                 {
-                    TextFormItemViewModel text => new ItemFormDataTextModel(id: text.Id, topic: text.Topic,
-                        textData: text.TextData,
-                        measurementUnit: text.MeasurementUnit ?? "")
-                    ,
-                    CheckboxFormItem checkbox => new ItemFormDataCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
+                    if (!string.IsNullOrWhiteSpace(it.ImagePath) && File.Exists(it.ImagePath))
                     {
-                        Children = checkbox.CheckboxItems.Select(
-                            child => new ItemFormDataCheckboxChildModel(id: child.Id, topic: child.Topic
-                                , isInvalid: child.IsInvalid)
-                            {
-                                TextItems = child.TextItems.Select(textItem =>
-                                    new ItemFormDataTextModel(
-                                        id: textItem.Id,
-                                        topic: textItem.Topic,
-                                        textData: textItem.TextData,
-                                        measurementUnit: textItem.MeasurementUnit ?? "")).ToList()
-                                ,
-                                Options = child.Options.Options.Select(option =>
-                                    new ItemOptionModel(
-                                        id: option.Id,
-                                        value: option.Value,
-                                        isChecked: option.IsChecked,
-                                        isInvalid: option.IsInvalid)).ToList()
-                            }).ToList()
+                        appModel.Images.Add(new ImageItem { Id = it.Id, ImagePath = it.ImagePath, ImageObservation = it.ImageObservation });
                     }
-                    ,
-                    _ => throw new ArgumentOutOfRangeException(paramName: nameof(formData), actualValue: formData
-                        , message: null)
-                };
-            }).ToList();
+                });
+            }
+            if (formItem is IObservationFormItemViewModel observation)
+            {
 
-        appModel.Images = viewModel
-            .Form
-            .Where(x => x is IImageFormItemViewModel)
-            .Cast<IImageFormItemViewModel>()
-            .Where(it => it.ImageItems.All(image => !string.IsNullOrWhiteSpace(image.ImagePath)))
-            .SelectMany(x => x.ImageItems)
-            .Select(x => new ImageItem { Id = x.Id, ImagePath = x.ImagePath, ImageObservation = x.ImageObservation })
-            .ToList();
+                observation.Observations.IterateOn(it =>
+                {
+                    if (!string.IsNullOrWhiteSpace(it.Observation))
+                        appModel.Observations.Add(new ObservationModel { Id = Guid.NewGuid().ToString(), Observation = it.Observation });
+                });
+            }
 
-        var result = viewModel
-            .Form
-            .Where(x => x is IObservationFormItemViewModel)
-            .Cast<IObservationFormItemViewModel>();
+            if (formItem is TextFormItemViewModel text)
+            {
+                appModel.FormData?.Add(new ItemFormDataTextModel(id: text.Id, topic: text.Topic,
+                    textData: text.TextData,
+                    measurementUnit: text.MeasurementUnit ?? ""));
+            }
 
-        appModel.Observations = result
-            .SelectMany(x => x.Observations)
-            .Where(it => it.Observation.Length > 0)
-            .Select(it => new ObservationModel { Id = Guid.NewGuid().ToString(), Observation = it.Observation })
-            .ToList();
-
+            if (formItem is CheckboxFormItem checkbox)
+            {
+                appModel.FormData?.Add(new ItemFormDataCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
+                {
+                    Children = checkbox.CheckboxItems.Select(
+                        child => new ItemFormDataCheckboxChildModel(id: child.Id, topic: child.Topic
+                            , isInvalid: child.IsInvalid)
+                        {
+                            TextItems = child.TextItems.Select(textItem =>
+                                new ItemFormDataTextModel(
+                                    id: textItem.Id,
+                                    topic: textItem.Topic,
+                                    textData: textItem.TextData,
+                                    measurementUnit: textItem.MeasurementUnit ?? "")).ToList()
+                            ,
+                            Options = child.Options.Options.Select(option =>
+                                new ItemOptionModel(
+                                    id: option.Id,
+                                    value: option.Value,
+                                    isChecked: option.IsChecked,
+                                    isInvalid: option.IsInvalid)).ToList()
+                        }).ToList()
+                });
+            }
+        }
+      
         appModel.LawList = viewModel.LawList.Select(x => new ItemLaw { LawId = x.LawId, LawTextContent = x.LawContent })
             .ToList();
 

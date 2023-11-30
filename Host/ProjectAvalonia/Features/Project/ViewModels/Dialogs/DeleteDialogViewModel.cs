@@ -6,7 +6,7 @@ using ReactiveUI;
 namespace ProjectAvalonia.Features.Project.ViewModels.Dialogs;
 
 public class DeleteDialogViewModel
-    : DialogViewModelBase<(bool, bool)>
+    : DialogViewModelBase<(bool deleteForever, bool ok)>
         , IDeleteDialogViewModel
 {
     private bool _deleteForever;

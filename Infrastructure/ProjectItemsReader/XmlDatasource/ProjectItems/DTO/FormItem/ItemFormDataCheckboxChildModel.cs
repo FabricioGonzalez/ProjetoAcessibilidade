@@ -40,7 +40,7 @@ public class ItemFormDataCheckboxChildModel : ItemFormData
     {
         get;
         set;
-    }
+    } = new();
 
     [XmlArray("texts", IsNullable = true)]
     [XmlArrayItem("text_item", IsNullable = true)]
@@ -48,5 +48,5 @@ public class ItemFormDataCheckboxChildModel : ItemFormData
     {
         get;
         set;
-    }
+    } = new();
 }
