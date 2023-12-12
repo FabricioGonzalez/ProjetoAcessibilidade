@@ -2,12 +2,13 @@
 
 namespace XmlDatasource.ProjectItems.DTO;
 
-public class ImageItem
+public sealed class ImageItem
 {
+
     public ImageItem()
     {
+        
     }
-
     public ImageItem(
         string id
         , string imagePath

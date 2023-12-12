@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Common;
 
+using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Presentation.States;
 

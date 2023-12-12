@@ -13,6 +13,8 @@ using Avalonia.Threading;
 
 using Common;
 
+using LanguageExt;
+
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Logging;
@@ -26,6 +28,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
 using QuestPDFReport;
+using QuestPDFReport.Models;
 using QuestPDFReport.ReportSettings;
 
 using ReactiveUI;
@@ -41,7 +44,7 @@ namespace ProjectAvalonia.Features.PDFViewer.ViewModels;
     Caption = "Print Report",
     Order = 1,
     Category = "Print",
-    Keywords = new[] { "Print" },
+    Keywords = ["Print"],
     IconName = "printer_regular",
     Searchable = false,
     NavBarPosition = NavBarPosition.None,
@@ -56,7 +59,7 @@ public partial class PreviewerViewModel : RoutableViewModel
     [AutoNotify] private float _scrollViewportSize;
 
     [AutoNotify] private Printer? _selectedPrinter;
-    [AutoNotify] private SolutionState _solutionModel;
+    [AutoNotify] private SolutionState? _solutionModel;
 
     [AutoNotify] private string _solutionPath;
 
@@ -90,34 +93,41 @@ public partial class PreviewerViewModel : RoutableViewModel
                 Document = report;
             });
 
-        this.WhenAnyValue(vm => vm.SolutionModel)
-            .WhereNotNull()
-            .SubscribeAsync(async prop =>
-            {
-                var reportData = await DataSource.GetReport(
-                    prop.ToSolutionItemRoot(), ServicesConfig.UiConfig.DefaultLawContent);
-
-                var report = new StandardReport(reportData, ServicesConfig.UiConfig.ImageStrecthing);
-
-                Document = report;
-            });
-
-        this.WhenAnyValue(vm => vm.Document)
-            .Subscribe(prop =>
-            {
-                UpdateDocument(prop);
-            });
-
         this.WhenAnyValue(vm => vm.ScrollViewportSize)
             .Subscribe(prop =>
             {
                 VerticalScrollbarVisible = prop < 1;
             });
 
-        ShowPdfCommand = ReactiveCommand.Create(ShowPdf);
+        /*ShowPdfCommand = ReactiveCommand.CreateFromTask(ShowPdf);*/
         ShowDocumentationCommand = ReactiveCommand.Create(() =>
             OpenLink("https://www.questpdf.com/documentation/api-reference.html"));
         PrintCommand = ReactiveCommand.Create(() => OpenLink("https://github.com/sponsors/QuestPDF"));
+
+
+        LoadPdfCommand = ReactiveCommand.CreateRunInBackground<SolutionState, Task>(async report =>
+        {
+            var obs = Observable.Return(true);
+
+            obs.ToProperty(this, x => x.IsBusy, out _isBusy).Dispose();
+
+            SolutionModel = null;
+
+            SolutionModel = report;
+
+            var data = await DataSource
+                .GetReport(solutionModel: report.ToSolutionItemRoot(),
+                standardLaw: ServicesConfig.UiConfig.DefaultLawContent);
+
+            var result = new StandardReport(data,
+                strechImages: ServicesConfig.UiConfig.ImageStrecthing);
+
+            Document = result;
+
+            await UpdateDocument(Document);
+            obs = Observable.Return(false);
+            obs.ToProperty(this, x => x.IsBusy, out _isBusy).Dispose();
+        });
     }
 
     public ObservableCollection<Printer> AvailablePrinters
@@ -140,7 +150,12 @@ public partial class PreviewerViewModel : RoutableViewModel
             this.RaiseAndSetIfChanged(backingField: ref _verticalScrollbarVisible, newValue: value));
     }
 
-    public ReactiveCommand<Unit, Unit> ShowPdfCommand
+    public ReactiveCommand<Unit, Task> ShowPdfCommand
+    {
+        get;
+    }
+
+    public ReactiveCommand<SolutionState, Task> LoadPdfCommand
     {
         get;
     }
@@ -166,10 +181,7 @@ public partial class PreviewerViewModel : RoutableViewModel
         protected set;
     }
 
-    public ReactiveCommand<Unit, Unit> PrintDocumentCommand => ReactiveCommand.CreateRunInBackground(execute: () =>
-    {
-        PrintDocument();
-    } /*, canExecute: this.WhenAnyValue(vm => vm.SelectedPrinter).Select(it => it is not null)*/);
+    public ReactiveCommand<Unit, Task> PrintDocumentCommand => ReactiveCommand.CreateRunInBackground(PrintDocument);
 
     private async Task PrintDocument()
     {
@@ -200,9 +212,34 @@ public partial class PreviewerViewModel : RoutableViewModel
                 {
                     FilePickerFileTypes.Pdf
                 }
-            )).IfSucc(succ =>
+            )).IfSucc(async succ =>
             {
-                Document?.GeneratePdf(succ.Path.LocalPath);
+                var obs = Observable.Return(true);
+
+                obs.ToProperty(this, x => x.IsBusy, out _isBusy).Dispose();
+
+                var filePath = succ.Path.LocalPath;
+
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        Document?.GeneratePdf(filePath);
+
+                    }
+                    catch (Exception exception)
+                    {
+                        new ExceptionDocument(exception).GeneratePdf(filePath);
+                    }
+
+                })
+                        .ContinueWith(t =>
+                        {
+                            OpenLink(filePath);
+                            obs = Observable.Return(false);
+
+                            obs.ToProperty(this, x => x.IsBusy, out _isBusy).Dispose();
+                        });
             });
         }
 
@@ -249,31 +286,15 @@ public partial class PreviewerViewModel : RoutableViewModel
         }
     }
 
-    public PreviewerViewModel SetSolutionPath(
-        string solutionPath
-    )
-    {
-        SolutionPath = solutionPath;
-
-        return this;
-    }
-
     protected override void OnNavigatedTo(
         bool isInHistory
         , CompositeDisposable disposables
         , object? Parameter = null
     )
     {
-        if (Parameter is string path && !string.IsNullOrWhiteSpace(path))
-        {
-            SolutionPath = path;
-        }
-
         if (Parameter is SolutionState solution)
         {
-            SolutionModel = null;
-
-            SolutionModel = solution;
+            LoadPdfCommand.Execute(solution).Subscribe();
         }
     }
 
@@ -288,29 +309,42 @@ public partial class PreviewerViewModel : RoutableViewModel
 
     public void UnregisterHotReloadHandler() => HotReloadManager.UpdateApplicationRequested -= InvalidateDocument;
 
-    private void InvalidateDocument(
+    private async void InvalidateDocument(
         object? sender
         , EventArgs e
-    ) => UpdateDocument(Document);
+    ) => await UpdateDocument(Document);
 
     private Task UpdateDocument(
         IDocument? document
     ) => Task.Run(() => DocumentRenderer.UpdateDocument(document));
 
-    private void ShowPdf()
+    private async Task ShowPdf()
     {
+        var obs = Observable.Return(true);
+
+        obs.ToProperty(this, x => x.IsBusy, out _isBusy).Dispose();
+
         var filePath = Path.Combine(path1: Path.GetTempPath(), path2: $"{Guid.NewGuid():N}.pdf");
-
-        try
+        await Task.Run(() =>
         {
-            Document?.GeneratePdf(filePath);
-        }
-        catch (Exception exception)
-        {
-            new ExceptionDocument(exception).GeneratePdf(filePath);
-        }
+            try
+            {
+                Document?.GeneratePdf(filePath);
 
-        OpenLink(filePath);
+            }
+            catch (Exception exception)
+            {
+                new ExceptionDocument(exception).GeneratePdf(filePath);
+            }
+
+        })
+                .ContinueWith(t =>
+                {
+                    OpenLink(filePath);
+                    obs = Observable.Return(false);
+
+                    obs.ToProperty(this, x => x.IsBusy, out _isBusy).Dispose();
+                });
     }
 
     private void OpenLink(

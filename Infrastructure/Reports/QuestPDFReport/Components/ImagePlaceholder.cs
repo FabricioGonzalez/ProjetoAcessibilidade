@@ -63,7 +63,7 @@ public class ReportImage : IComponent
                              .Height(Height)
                              .MaxHeight(Height)
                              .Image(image)
-                             .WithCompressionQuality(ImageCompressionQuality.Medium)
+                             .WithCompressionQuality(ImageCompressionQuality.Low)
                              .FitUnproportionally();
                         }
                         else
@@ -75,7 +75,7 @@ public class ReportImage : IComponent
                              .Height(Height)
                              .MaxHeight(Height)
                              .Image(image)
-                             .WithCompressionQuality(ImageCompressionQuality.Medium)
+                             .WithCompressionQuality(ImageCompressionQuality.Low)
                              .FitArea();
                         }
                     }

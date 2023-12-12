@@ -26,6 +26,8 @@ public class StandardReport : IDocument
         Settings.License = LicenseType.Community;
         Settings.DocumentLayoutExceptionThreshold = 1000000000;
         Settings.CheckIfAllTextGlyphsAreAvailable = false;
+
+        ImageGenerationSettings.Default.ImageCompressionQuality = ImageCompressionQuality.Medium;
     }
 
     private IReport Model

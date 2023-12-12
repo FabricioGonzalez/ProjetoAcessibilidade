@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 using Avalonia.Threading;
+
+using Common;
+using Common.Helpers;
 
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
@@ -32,10 +37,9 @@ namespace ProjectAvalonia.Features.Project.ViewModels;
     Order = 0,
     LocalizedTitle = "ProjectViewNavLabel",
     Category = "Projetos",
-    Keywords = new[]
-    {
+    Keywords = [
         "Projeto"
-    },
+    ],
     NavBarPosition = NavBarPosition.Top,
     NavigationTarget = NavigationTarget.HomeScreen,
     IconName = "edit_file_regular")]
@@ -226,8 +230,8 @@ public partial class ProjectViewModel
             {
                 var editedSolution = ((SolutionItemBody)solution.Body).SolutionModel;
 
-                ProjectExplorerViewModel.SolutionState.Report.SolutionName = editedSolution.Report.SolutionName;
-                ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Data = editedSolution.Report.CompanyInfo.Data;
+                ProjectExplorerViewModel.SolutionState.Report = editedSolution.Report;
+                /*ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Data = editedSolution.Report.CompanyInfo.Data;
                 ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Email =
                     editedSolution.Report.CompanyInfo.Email;
                 ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Logo = editedSolution.Report.CompanyInfo.Logo;
@@ -237,9 +241,11 @@ public partial class ProjectViewModel
                     editedSolution.Report.CompanyInfo.Endereco;
                 ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.Telefone =
                     editedSolution.Report.CompanyInfo.Telefone;
+                ProjectExplorerViewModel.SolutionState.Report.ManagerInfo.LogoPath =
+                   editedSolution.Report.ManagerInfo.LogoPath;
                 ProjectExplorerViewModel.SolutionState.Report.CompanyInfo.NomeEmpresa =
                     editedSolution.Report.CompanyInfo.NomeEmpresa;
-                ProjectExplorerViewModel.SolutionState.Report.Partners = editedSolution.Report.Partners;
+                ProjectExplorerViewModel.SolutionState.Report.Partners = editedSolution.Report.Partners;*/
 
                 await _solutionService.SaveSolution(path: ProjectExplorerViewModel.SolutionState.FilePath
                     , solution: ProjectExplorerViewModel.SolutionState);
@@ -253,8 +259,16 @@ public partial class ProjectViewModel
 
             if (selected is EditingItemViewModel edit)
             {
+                var path = Path.Combine(ProjectExplorerViewModel
+                    .SolutionState
+                    .FilePath.
+                    Split(Path.DirectorySeparatorChar)[..^1]
+                    .JoinPath(Path.DirectorySeparatorChar),
+                    edit.ItemPath.Split(Path.DirectorySeparatorChar)[^4..]
+                    .JoinPath(Path.DirectorySeparatorChar)).ExistsOrDefault(edit.ItemPath);
+
                 await _editableItemService.SaveEditingItem(itemContent: edit.ToItemRoot().ToAppModelState()
-                    , path: edit.ItemPath);
+                    , path: path);
             }
         }
     }

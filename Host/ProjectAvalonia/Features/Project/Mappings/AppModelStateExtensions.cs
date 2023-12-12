@@ -18,6 +18,10 @@ public static class AppModelStateExtensions
         this ItemRoot itemRoot
     )
     {
+        try
+        {
+
+        
         var toReturn = new AppModelState
         {
             Id = itemRoot.Id,
@@ -95,24 +99,30 @@ public static class AppModelStateExtensions
                     }) ?? Enumerable.Empty<FormItemContainer>());
         toReturn.ImageContainer = new ImageContainerItemState
         {
-            ImagesItems = new ObservableCollection<ImageItemState>(itemRoot.Images.Select(it => new ImageItemState
+            ImagesItems = new ObservableCollection<ImageItemState>(itemRoot?.Images.Select(it => new ImageItemState
             {
                 Id = it.Id,
                 ImageObservation = it.ImageObservation,
                 ImagePath = it.ImagePath
-            }))
+            }) ?? Enumerable.Empty<ImageItemState>())
         };
         toReturn.ObservationContainer = new ObservationContainerItemState
         {
             Observations = new ObservableCollection<ObservationItemState>(
-                itemRoot.Observations.Select(it => new ObservationItemState(topic: "", observation: it.Observation)))
+                itemRoot?.Observations.Select(it => new ObservationItemState(topic: "", observation: it.Observation)) ?? Enumerable.Empty<ObservationItemState>())
         };
         toReturn.LoadLawItems(
             itemRoot
-                .LawList
+                ?.LawList
                 .Select(
                     law =>
-                        new LawStateItem { LawId = law.LawId, LawContent = law.LawTextContent }));
+                        new LawStateItem { LawId = law.LawId, LawContent = law.LawTextContent }) ?? Enumerable.Empty<LawStateItem>());
         return toReturn;
+        }
+        catch (System.Exception)
+        {
+
+            throw;
+        }
     }
 }

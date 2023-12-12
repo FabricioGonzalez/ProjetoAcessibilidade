@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Common;
+using Common.Helpers;
 
 using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Features.Project.Services;
@@ -25,6 +26,8 @@ public partial class ItemViewModel
     private readonly Func<Task> _saveSolution;
     private readonly EditingItemsNavigationService _editableItemsNavigationService;
     private bool _isEditing;
+    [AutoNotify]
+    private bool _notFoundOnSolution = false;
 
     [AutoNotify]
     private string _name;
@@ -71,7 +74,10 @@ public partial class ItemViewModel
                 }
             });
 
-        _ = ExcludeFileCommand.Subscribe();
+
+        NotFoundOnSolution = !File.Exists(Path.Combine(Parent.Parent.ItemPath, Parent.Name, $"{Name}{Constants.AppProjectItemExtension}").ExistsOrDefault(ItemPath));
+
+        ExcludeFileCommand.Subscribe();
 
         RenameFileCommand = ReactiveCommand.Create(RenameFile);
     }
@@ -158,7 +164,7 @@ public partial class ItemViewModel
             .IfFail(error => NotificationHelpers.Show("Erro", error.Message));
             */
 
-        _ = Parent.MoveItemCommand.Execute();
+        Parent.MoveItemCommand.Execute();
     }
 
     private void RenameFile() => InEditing = true;

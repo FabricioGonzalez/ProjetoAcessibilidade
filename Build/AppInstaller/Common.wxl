@@ -9,6 +9,7 @@
     <String Id="ApplicationName">Gestor de Projetos ARPA</String>
 
     <String Id="InstalledExe">ProjectAvalonia.Desktop.exe</String>
+    <String Id="ExecuteAfterInstall">Executar Gestor de Projetos ARPA</String>
 
     <String Id="ApplicationDescription">Gestor de Projetos ARPA</String>
     <String Id="Description">Gestor de Projetos ARPA</String>

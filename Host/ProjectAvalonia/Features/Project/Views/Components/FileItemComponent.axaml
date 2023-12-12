@@ -18,7 +18,9 @@
     <Interaction.Behaviors>
       <behaviors:ExecuteCommandOnDoubleTappedBehavior Command="{Binding $parent[views:ProjectView].((viewModels:ProjectViewModel)DataContext).ProjectEditingViewModel.AddItemToEdit}" CommandParameter="{Binding}" />
     </Interaction.Behaviors>
-    <PathIcon HorizontalAlignment="Left" Data="{StaticResource document_regular}" />
+
+    <PathIcon Classes.Found="{Binding !NotFoundOnSolution}" Classes.NotFound="{Binding NotFoundOnSolution}" HorizontalAlignment="Left" />
+
     <controls:EditableTextBlock
       Command="{Binding RenameFileCommand}"
       CommandParameter="{Binding Parent}"

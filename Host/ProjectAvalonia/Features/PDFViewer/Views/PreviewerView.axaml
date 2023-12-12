@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:ProjectAvalonia.Properties"
+    xmlns:c="using:ProjectAvalonia.Common.Controls"
     xmlns:viewModels="using:ProjectAvalonia.Features.PDFViewer.ViewModels"
     xmlns:pdfViewer="clr-namespace:ProjectAvalonia.Features.PDFViewer"
     d:DesignHeight="450"
@@ -12,39 +13,27 @@
     x:CompileBindings="True"
     x:DataType="viewModels:PreviewerViewModel"
     mc:Ignorable="d">
-    <Panel>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="32" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+  <Panel>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="32" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
 
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="14"
-                FontWeight="Regular"
-                IsHitTestVisible="False"
-                Text="{x:Static p:Resources.Print_Page_Title}"
-                TextAlignment="Center" />
-
-            <SplitView
-                Grid.Row="1"
-                Grid.Column="0"
-                DisplayMode="Inline"
-                IsPaneOpen="True"
-                PaneBackground="{DynamicResource AppDarkBackgroundBrush}">
-                <SplitView.Pane>
-                    <DockPanel Margin="0 4">
-                        <!--<Grid DockPanel.Dock="Top" ColumnDefinitions="*" RowDefinitions="auto 4 1*" Margin="4,0"
+      <SplitView
+          Grid.Row="1"
+          Grid.Column="0"
+          DisplayMode="Inline"
+          IsPaneOpen="True"
+          PaneBackground="{DynamicResource AppDarkBackgroundBrush}">
+        <SplitView.Pane>
+          <DockPanel Margin="0 4">
+            <!--<Grid DockPanel.Dock="Top" ColumnDefinitions="*" RowDefinitions="auto 4 1*" Margin="4,0"
                               HorizontalAlignment="Stretch">
                             <TextBlock Text="Impressoras" Grid.Row="0" />
                             <ComboBox Grid.Row="2" SelectedValue="{Binding SelectedPrinter}"
@@ -61,18 +50,17 @@
                                            HorizontalAlignment="Stretch"
                                            HorizontalContentAlignment="Right" />
                         </Grid>-->
-
-                        <Grid ColumnDefinitions="1* 8 1*" Margin="8,0" HorizontalAlignment="Stretch"
-                              VerticalAlignment="Bottom">
-                            <Button Grid.Column="0" Content="Imprimir" HorizontalAlignment="Stretch"
-                                    Classes="action" Command="{Binding PrintDocumentCommand}" />
-                            <Button Grid.Column="2" Content="Cancelar" Command="{Binding CancelCommand}"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalContentAlignment="Center"
-                                    Classes="outlined" />
-                        </Grid>
-                    </DockPanel>
-                    <!--<StackPanel
+            <Grid ColumnDefinitions="1* 8 1*" Margin="8,0" HorizontalAlignment="Stretch"
+                  VerticalAlignment="Bottom">
+              <Button Grid.Column="0" Content="Imprimir" HorizontalAlignment="Stretch"
+                      Classes="action" Command="{Binding PrintDocumentCommand}" />
+              <Button Grid.Column="2" Content="Cancelar" Command="{Binding CancelCommand}"
+                      HorizontalAlignment="Stretch"
+                      VerticalContentAlignment="Center"
+                      Classes="outlined" />
+            </Grid>
+          </DockPanel>
+          <!--<StackPanel
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="32"
@@ -104,29 +92,39 @@
                             </Viewbox>
                         </Button>
                     </StackPanel>-->
-                </SplitView.Pane>
-                <SplitView.Content>
-                    <pdfViewer:PreviewerControl
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        CurrentScroll="{Binding CurrentScroll, Mode=TwoWay}"
-                        Pages="{Binding DocumentRenderer.Pages, Mode=TwoWay}"
-                        ScrollViewportSize="{Binding ScrollViewportSize, Mode=TwoWay}" />
-                </SplitView.Content>
-            </SplitView>
-            <ScrollBar
-                Grid.Row="1"
-                Grid.Column="1"
-                AllowAutoHide="False"
-                IsVisible="{Binding VerticalScrollbarVisible, Mode=OneWay}"
-                Maximum="1"
-                Minimum="0"
-                Orientation="Vertical"
-                ViewportSize="{Binding ScrollViewportSize, Mode=OneWay}"
-                Value="{Binding CurrentScroll, Mode=TwoWay}" />
-        </Grid>
-    </Panel>
+        </SplitView.Pane>
+        <SplitView.Content>
+          <c:ContentArea
+                 Title="{x:Static p:Resources.Print_Page_Title}"
+                 EnableBack="False"
+                 EnableCancel="False"
+                 EnableNext="False"
+                 EnableSkip="False"
+                 FocusCancel="False"
+                 FocusNext="False"
+                 IsBusy="{Binding IsBusy,Mode=TwoWay}">
+            <pdfViewer:PreviewerControl
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       CurrentScroll="{Binding CurrentScroll, Mode=TwoWay}"
+                       Pages="{Binding DocumentRenderer.Pages, Mode=TwoWay}"
+                       ScrollViewportSize="{Binding ScrollViewportSize, Mode=TwoWay}" />
+          </c:ContentArea>
+        </SplitView.Content>
+      </SplitView>
+      <ScrollBar
+          Grid.Row="1"
+          Grid.Column="1"
+          AllowAutoHide="False"
+          IsVisible="{Binding VerticalScrollbarVisible, Mode=OneWay}"
+          Maximum="1"
+          Minimum="0"
+          Orientation="Vertical"
+          ViewportSize="{Binding ScrollViewportSize, Mode=OneWay}"
+          Value="{Binding CurrentScroll, Mode=TwoWay}" />
+    </Grid>
+  </Panel>
 </UserControl>

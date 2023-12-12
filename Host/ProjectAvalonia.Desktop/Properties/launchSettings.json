@@ -9,7 +9,7 @@
     },
     "Debug PrintProject": {
       "commandName": "Project",
-      "commandLineArgs": "print=\"D:\\PC\\Documents\\Teste 3\\Teste 3.prja\""
+      "commandLineArgs": "print=\"C:\\Users\\Ti\\Documents\\TesteProjeto\\Teste\\Teste.prja\""
     }
   }
 }

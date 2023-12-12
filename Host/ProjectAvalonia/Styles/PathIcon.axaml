@@ -20,5 +20,14 @@
         <Setter Property="Width" Value="28" />
         <Setter Property="Height" Value="28" />
     </Style>
+  
+    <Style Selector="PathIcon.NotFound">
+        <Setter Property="Width" Value="28" />
+      <Setter Property="Data" Value="{StaticResource warning_regular}" />
+    </Style>
+ <Style Selector="PathIcon.Found">
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Data" Value="{StaticResource document_regular}" />
+    </Style>
 
 </Styles>

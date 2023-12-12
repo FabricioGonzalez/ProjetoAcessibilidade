@@ -135,10 +135,13 @@ public class SectionTemplate : IComponent
             column
                 .Item()
                 .ExtendHorizontal()
-                .Grid(grid =>
+                .Table(grid =>
                 {
-                    grid.Spacing(5);
-                    grid.Columns(2);
+                    grid.ColumnsDefinition(columns =>
+                    {
+                        columns.RelativeColumn(0.5f);
+                        columns.RelativeColumn(0.5f);
+                    });
 
                     item
                         .Images
@@ -152,7 +155,8 @@ public class SectionTemplate : IComponent
                                 Observation = item.Observation
                             };
                             grid
-                                .Item()
+                            .Cell()
+                             .ShowEntire()
                                 .Element(
                                     it => it.Component(image));
                         });

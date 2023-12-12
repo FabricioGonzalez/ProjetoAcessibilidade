@@ -7,10 +7,14 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
+using Common;
+using Common.Helpers;
 using Common.Linq;
 
 using DynamicData;
 using DynamicData.Binding;
+
+using LanguageExt.DataTypes.Serialisation;
 
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.ViewModels;
@@ -125,8 +129,6 @@ public class ProjectEditingViewModel
         IItemViewModel? editing
     )
     {
-
-
         if (editing is { } item)
         {
             if (EditingItems.FirstOrDefault(x => x.ItemPath == editing.ItemPath) is { } editingItem)
@@ -159,7 +161,9 @@ public class ProjectEditingViewModel
 
             if (item is ItemViewModel edit)
             {
-                var getItem = await _editableItemService.GetEditingItem(edit.ItemPath);
+                var path = Path.Combine(edit.Parent.Parent.ItemPath, edit.Parent.Name, $"{edit.Name}{Constants.AppProjectItemExtension}").ExistsOrDefault(edit.ItemPath);
+
+                var getItem = await _editableItemService.GetEditingItem(path);
                 var rules = await _validationRulesService.LoadRulesByName(edit.TemplateName);
 
                 if (!string.IsNullOrWhiteSpace(getItem.ItemName) && getItem.FormData is not null)
@@ -167,7 +171,7 @@ public class ProjectEditingViewModel
                     var observations = new SourceList<ObservationState>();
                     observations.AddRange(getItem.ObservationContainer.Observations.Select(it => new ObservationState() { Observation = it.Observation }));
 
-                    _editableItemsNavigationService.AddItem(getItem.ToEditingView(edit.ItemPath, rules.Cast<ValidationRuleContainerState>()
+                    _editableItemsNavigationService.AddItem(getItem.ToEditingView(path, rules.Cast<ValidationRuleContainerState>()
                         , observations));
                 }
             }
@@ -319,7 +323,7 @@ public static class Extension
                 });
             }
         }
-      
+
         appModel.LawList = viewModel.LawList.Select(x => new ItemLaw { LawId = x.LawId, LawTextContent = x.LawContent })
             .ToList();
 

@@ -1,7 +1,13 @@
 ﻿using Common;
+using Common.Helpers;
 using Common.Linq;
+
+using LanguageExt;
+
 using QuestPDF.Helpers;
+
 using QuestPDFReport.Models;
+
 using XmlDatasource.ProjectItems;
 using XmlDatasource.ProjectItems.DTO.FormItem;
 using XmlDatasource.Solution.DTO;
@@ -125,7 +131,6 @@ public static class DataSource
     public static async Task<IReport> GetReport(
         SolutionItemRoot solutionModel,
         string standardLaw
-        /*, string extension*/
     )
     {
         var report = new NestedReportModel
@@ -204,99 +209,105 @@ public static class DataSource
 
             await locationItem.LocationGroups.IterateOnAsync(async groupItem =>
             {
-                var sectionGroup = new ReportSectionGroup();
-
-                sectionGroup.Title = groupItem.Name;
-                sectionGroup.Id = Guid.NewGuid().ToString();
+                var sectionGroup = new ReportSectionGroup
+                {
+                    Title = groupItem.Name,
+                    Id = Guid.NewGuid().ToString()
+                };
 
                 foreach (var itemModel in groupItem.ItemsGroup)
                 {
-                    (await repository.GetContentItem(itemModel.ItemPath))
-                        .IfSucc(data =>
+                    var path = Path.Combine(string.Join(Path.DirectorySeparatorChar, solutionModel.SolutionPath.
+                   Split(Path.DirectorySeparatorChar)[..^1]),
+                  string.Join(Path.DirectorySeparatorChar, itemModel.ItemPath.Split(Path.DirectorySeparatorChar)[^4..]))
+                    .ExistsOrDefault(itemModel.ItemPath);
+
+                    (await repository.GetContentItem(path))
+                    .IfSucc(data =>
+                    {
+                        var section = new ReportSection();
+                        section.Title = itemModel.Name;
+                        section.Id = itemModel.Id;
+
+                        data.FormData?.IterateOn(formData =>
                         {
-                            var section = new ReportSection();
-                            section.Title = itemModel.Name;
-                            section.Id = itemModel.Id;
-
-                            data.FormData.IterateOn(formData =>
+                            if (formData is ItemFormDataTextModel text)
                             {
-                                if (formData is ItemFormDataTextModel text)
+                                section
+                                    .Parts
+                                    .Add(new ReportSectionText(
+                                        label: text.Topic,
+                                        text:
+                                        $"{text.TextData}",
+                                        measurementUnit: text.MeasurementUnit ?? "",
+                                        id: text.Id));
+                            }
+
+                            if (formData is ItemFormDataCheckboxModel checkbox)
+                            {
+                                if (!string.IsNullOrWhiteSpace(checkbox.Topic))
                                 {
-                                    section
-                                        .Parts
-                                        .Add(new ReportSectionText(
-                                            label: text.Topic,
-                                            text:
-                                            $"{text.TextData}",
-                                            measurementUnit: text.MeasurementUnit ?? "",
-                                            id: text.Id));
+                                    section.Parts.Add(
+                                        new ReportSectionTitle(
+                                            checkbox.Topic,
+                                            checkbox.Id
+                                        ));
                                 }
 
-                                if (formData is ItemFormDataCheckboxModel checkbox)
+                                foreach (var checkboxItem in checkbox.Children)
                                 {
-                                    if (!string.IsNullOrWhiteSpace(checkbox.Topic))
+                                    var checkboxModels = checkboxItem
+                                        .Options
+                                        .Select(optionModel =>
+                                            new CheckboxModel(optionModel.IsChecked
+                                                , optionModel.Value
+                                                , optionModel.IsInvalid));
+
+                                    var reportCheckbox = new ReportSectionCheckbox(
+                                        checkboxItem.Topic,
+                                        checkboxItem.Id)
                                     {
-                                        section.Parts.Add(
-                                            new ReportSectionTitle(
-                                                checkbox.Topic,
-                                                checkbox.Id
-                                            ));
-                                    }
+                                        Checkboxes = checkboxModels.ToList(),
+                                        TextItems = checkboxItem
+                                            .TextItems
+                                            .Select(it =>
+                                                new TextModel(it.TextData, it.Topic, it.MeasurementUnit))
+                                            .ToList()
+                                    };
 
-                                    foreach (var checkboxItem in checkbox.Children)
-                                    {
-                                        var checkboxModels = checkboxItem
-                                            .Options
-                                            .Select(optionModel =>
-                                                new CheckboxModel(optionModel.IsChecked
-                                                    , optionModel.Value
-                                                    , optionModel.IsInvalid));
-
-                                        var reportCheckbox = new ReportSectionCheckbox(
-                                            checkboxItem.Topic,
-                                            checkboxItem.Id)
-                                        {
-                                            Checkboxes = checkboxModels.ToList(),
-                                            TextItems = checkboxItem
-                                                .TextItems
-                                                .Select(it =>
-                                                    new TextModel(it.TextData, it.Topic, it.MeasurementUnit))
-                                                .ToList()
-                                        };
-
-                                        section.Parts.Add(reportCheckbox);
-                                    }
+                                    section.Parts.Add(reportCheckbox);
                                 }
-                            });
-
-                            data.Images.IterateOn(image =>
-                            {
-                                section.Images = section.Images.Append(new ImageSectionElement
-                                {
-                                    ImagePath = image.ImagePath,
-                                    Observation = image.ImageObservation
-                                });
-                            });
-
-                            data.Observations.IterateOn(observation =>
-                            {
-                                section.Observation = section.Observation.Append(new ObservationSectionElement
-                                {
-                                    Observation = observation.Observation
-                                });
-                            });
-
-                            data.LawList.IterateOn(law =>
-                            {
-                                section.Laws = section.Laws.Append(new LawSectionElement
-                                {
-                                    LawContent = law.LawTextContent,
-                                    LawId = law.LawId
-                                });
-                            });
-
-                            sectionGroup.Parts.Add(section);
+                            }
                         });
+
+                        data.Images.IterateOn(image =>
+                        {
+                            section.Images = section.Images.Append(new ImageSectionElement
+                            {
+                                ImagePath = image.ImagePath,
+                                Observation = image.ImageObservation
+                            });
+                        });
+
+                        data.Observations.IterateOn(observation =>
+                        {
+                            section.Observation = section.Observation.Append(new ObservationSectionElement
+                            {
+                                Observation = observation.Observation
+                            });
+                        });
+
+                        data.LawList.IterateOn(law =>
+                        {
+                            section.Laws = section.Laws.Append(new LawSectionElement
+                            {
+                                LawContent = law.LawTextContent,
+                                LawId = law.LawId
+                            });
+                        });
+
+                        sectionGroup.Parts.Add(section);
+                    });
                 }
 
                 Location.Groups.Add(sectionGroup);

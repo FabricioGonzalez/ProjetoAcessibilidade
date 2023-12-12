@@ -7,21 +7,21 @@ namespace XmlDatasource.ProjectItems.DTO;
 public class ItemRoot
 {
     [XmlElement("id")]
-    public string Id
+    public string? Id
     {
         get;
         set;
     }
 
     [XmlElement("name")]
-    public string ItemName
+    public string? ItemName
     {
         get;
         set;
     }
 
     [XmlElement("template_name")]
-    public string TemplateName
+    public string? TemplateName
     {
         get;
         set;

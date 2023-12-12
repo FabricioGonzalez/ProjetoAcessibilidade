@@ -73,6 +73,12 @@ public static class SolutionStateMapping
             TemplateName = item.TemplateName
         };
 
+    private static bool isRelativeToSolution(string path)
+    {
+
+        return File.Exists(path);
+    }
+
     public static CompanyInfoState ToCompanyInfoState(
         this CompanyInfoItem companyInfo,
         IFilePickerService service)
@@ -81,8 +87,7 @@ public static class SolutionStateMapping
         {
             NomeEmpresa = companyInfo.NomeEmpresa,
             Responsavel = companyInfo.Responsavel,
-            Email = companyInfo.Email
-            ,
+            Email = companyInfo.Email,
             Logo = companyInfo.LogoPath,
             Endereco = companyInfo.Endereco.ToEnderecoState()
         };
