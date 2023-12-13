@@ -5,7 +5,7 @@
     },
     "Debug OpenProject": {
       "commandName": "Project",
-      "commandLineArgs": "open=\"D:\\PC\\Documents\\Teste 3\\Teste 3.prja\""
+      "commandLineArgs": "open=\"C:\\Users\\Ti\\Documents\\TesteProjeto\\Teste\\Teste.prja\""
     },
     "Debug PrintProject": {
       "commandName": "Project",

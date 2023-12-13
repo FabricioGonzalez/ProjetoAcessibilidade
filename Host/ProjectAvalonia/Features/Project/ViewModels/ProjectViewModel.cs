@@ -267,8 +267,13 @@ public partial class ProjectViewModel
                     edit.ItemPath.Split(Path.DirectorySeparatorChar)[^4..]
                     .JoinPath(Path.DirectorySeparatorChar)).ExistsOrDefault(edit.ItemPath);
 
-                await _editableItemService.SaveEditingItem(itemContent: edit.ToItemRoot().ToAppModelState()
-                    , path: path);
+                edit.ToItemRoot().IfSucc(async succ =>
+                {
+                    await _editableItemService.SaveEditingItem(itemContent: succ, path: path);
+                });
+
+
+
             }
         }
     }

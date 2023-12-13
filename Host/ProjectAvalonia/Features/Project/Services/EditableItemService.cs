@@ -1,13 +1,16 @@
 ﻿using System.IO;
+using System.Reactive;
 using System.Threading.Tasks;
 
 using Common;
 
 using ProjectAvalonia.Common.Extensions;
+using ProjectAvalonia.Common.Helpers;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Presentation.States;
 
 using XmlDatasource.ProjectItems;
+using XmlDatasource.ProjectItems.DTO;
 
 namespace ProjectAvalonia.Features.Project.Services;
 
@@ -36,18 +39,62 @@ public sealed class EditableItemService
     public async Task SaveEditingItem(
         AppModelState itemContent
         , string path
-    ) =>
-        (await _projectItemsDatasource.SaveContentItem(path: path
-            , item: itemContent.ToItemRoot()))
-        .IfFail(fail => Logger.LogError(fail));
+    )
+    {
+        try
+        {
+            _projectItemsDatasource.SaveContentItem(path: path
+            , item: itemContent.ToItemRoot());
+
+            NotificationHelpers.ShowMain("Salvo com sucesso", $"O item {itemContent.ItemName} foi salvo", 1, Avalonia.Controls.Notifications.NotificationType.Success);
+        }
+        catch (System.Exception ex)
+        {
+            Logger.LogError(ex);
+            NotificationHelpers.ShowMain("Erro ao salvar", $"O item {itemContent.ItemName} não foi salvo", 1, Avalonia.Controls.Notifications.NotificationType.Error);
+
+        }
+    }
+
+
+    public async Task SaveEditingItem(
+        ItemRoot itemContent
+        , string path
+    )
+    {
+        try
+        {
+            _projectItemsDatasource.SaveContentItem(path: path
+            , item: itemContent);
+
+            NotificationHelpers.ShowMain("Salvo com sucesso", $"O item {itemContent.ItemName} foi salvo", 1, Avalonia.Controls.Notifications.NotificationType.Success);
+        }
+        catch (System.Exception ex)
+        {
+            Logger.LogError(ex);
+            NotificationHelpers.ShowMain("Erro ao salvar", $"O item {itemContent.ItemName} não foi salvo", 1, Avalonia.Controls.Notifications.NotificationType.Error);
+
+        }
+    }
 
     public async Task CreateTemplateEditingItem(
         AppModelState itemContent
-    ) =>
-        (await _projectItemsDatasource.SaveContentItem(path: Path.Combine(path1: Constants.AppItemsTemplateFolder,
+    )
+    {
+        try
+        {
+            _projectItemsDatasource.SaveContentItem(path: Path.Combine(path1: Constants.AppItemsTemplateFolder,
                 path2: $"{itemContent.ItemTemplate}{Constants.AppProjectTemplateExtension}")
-            , item: itemContent.ToItemRoot()))
-        .IfFail(fail => Logger.LogError(fail));
+            , item: itemContent.ToItemRoot());
+        }
+        catch (System.Exception ex)
+        {
+            Logger.LogError(ex);
+            NotificationHelpers.ShowMain("Erro ao salvar", $"O item {itemContent.ItemName} não foi salvo", 1, Avalonia.Controls.Notifications.NotificationType.Error);
+
+        }
+
+    }
 
 
     public async Task SaveConclusionItem(

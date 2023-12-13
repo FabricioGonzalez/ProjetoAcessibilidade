@@ -1,8 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+
+using LanguageExt.Common;
+
 using ProjectAvalonia.Features.Project.ViewModels;
 using ProjectAvalonia.Presentation.Interfaces;
 using ProjectAvalonia.Presentation.States;
 using ProjectAvalonia.Presentation.States.FormItemState;
+
 using XmlDatasource.ProjectItems.DTO;
 using XmlDatasource.ProjectItems.DTO.FormItem;
 
@@ -16,7 +21,10 @@ public static class ItemRootMappings
     {
         var toReturn = new ItemRoot
         {
-            Id = state.Id, ItemName = state.ItemName, TemplateName = state.ItemTemplate, FormData = state
+            Id = state.Id,
+            ItemName = state.ItemName,
+            TemplateName = state.ItemTemplate,
+            FormData = state
                 .FormData
                 .Select<FormItemContainer, ItemFormDataContainer>(it =>
                 {
@@ -33,9 +41,10 @@ public static class ItemRootMappings
                                                 , textData: innerText.TextData
                                                 , measurementUnit: innerText.MeasurementUnit))
                                         .ToList()
-                                    , Options = child.Options.Select(option =>
+                                    ,
+                                    Options = child.Options.Select(option =>
                                         new ItemOptionModel(value: option.Value, id: option.Id
-                                            , isChecked: option.IsChecked,isInvalid: option.IsInvalid)).ToList()
+                                            , isChecked: option.IsChecked, isInvalid: option.IsInvalid)).ToList()
                                 }).ToList()
                         };
                     }
@@ -49,23 +58,33 @@ public static class ItemRootMappings
                     return new ItemFormDataEmpty();
                 }).ToList()
                 .ToList()
-            , LawList = state.LawItems.Select(law => new ItemLaw(lawId: law.LawId, lawContent: law.LawContent)).ToList()
-            , Images = state.ImageContainer is { } img
+            ,
+            LawList = state.LawItems.Select(law => new ItemLaw(lawId: law.LawId, lawContent: law.LawContent)).ToList()
+            ,
+            Images = state.ImageContainer is { } img
                 ? img?.ImagesItems?.Select(it =>
                     new ImageItem(id: it.Id, imagePath: it.ImagePath, imageObservation: it.ImageObservation)).ToList() ?? []
                 : []
-            , Observations = state.ObservationContainer is { } obs
+            ,
+            Observations = state.ObservationContainer is { } obs
                 ? obs.Observations
                     .Select(it => new ObservationModel(observation: it.Observation, id: it.Id)).ToList()
-                 :[]
+                 : []
         };
 
         return toReturn;
     }
 
-    public static ItemRoot ToItemRoot(
+    public static Result<ItemRoot> ToItemRoot(
         this IEditingItemViewModel state
-    ) =>
-        ((IEditingBodyViewModel)state.Body).ToAppModel(id: state.Id, itemName: state.ItemName
-            , templateName: state.TemplateName);
+    )
+    {
+        if (state.Body is IEditingBodyViewModel body)
+        {
+            return new Result<ItemRoot>(body.ToAppModel(id: state.Id, itemName: state.ItemName
+               , templateName: state.TemplateName));
+        }
+        return new Result<ItemRoot>(new InvalidOperationException("Erro ao mapear objeto"));
+    }
+
 }

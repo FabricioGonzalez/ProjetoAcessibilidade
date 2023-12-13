@@ -103,7 +103,7 @@ public sealed class ItemsService
 
                 item.IfSucc(async fileResult =>
                 {
-                    await _projectItemDatasource.SaveContentItem(it.ItemPath, fileResult);
+                    _projectItemDatasource.SaveContentItem(it.ItemPath, fileResult);
                 });
             }
         });

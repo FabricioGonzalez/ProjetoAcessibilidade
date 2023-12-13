@@ -144,7 +144,8 @@ public class ProjectEditingViewModel
 
                 var solutionItem = new SolutionEditItemViewModel(itemName: solution.Name, id: solution.Id
                     , itemPath: solution.ItemPath
-                    , body: new SolutionItemBody(result), isSaved: false);
+                    , body: new SolutionItemBody(result), _editableItemsNavigationService, isSaved: false)
+                ;
 
                 _editableItemsNavigationService.AddItem(solutionItem);
             }
@@ -153,7 +154,7 @@ public class ProjectEditingViewModel
             {
                 var conclusionItem = new ConclusionEditItemViewModel(itemName: conclusion.Name, id: conclusion.Id
                     , itemPath: conclusion.ItemPath
-                    , body: new ConclusionEditingBody(), isSaved: false);
+                    , body: new ConclusionEditingBody(), _editableItemsNavigationService, isSaved: false);
 
                 _editableItemsNavigationService.AddItem(conclusionItem);
 
@@ -260,73 +261,84 @@ public static class Extension
         , string templateName
     )
     {
-        var appModel = new ItemRoot();
-
-        appModel.Id = id;
-        appModel.ItemName = itemName;
-        appModel.TemplateName = templateName;
-
-        appModel.FormData = new();
-        appModel.Images = new();
-        appModel.Observations = new();
-        foreach (var formItem in viewModel.Form)
+        try
         {
-            if (formItem is IImageFormItemViewModel image)
+
+
+            var appModel = new ItemRoot();
+
+            appModel.Id = id;
+            appModel.ItemName = itemName;
+            appModel.TemplateName = templateName;
+
+            appModel.FormData = new();
+            appModel.Images = new();
+            appModel.Observations = new();
+
+            foreach (var formItem in viewModel.Form)
             {
-                image.ImageItems.IterateOn(it =>
+                if (formItem is IImageFormItemViewModel image)
                 {
-                    if (!string.IsNullOrWhiteSpace(it.ImagePath) && File.Exists(it.ImagePath))
+                    image.ImageItems.DefaultIfEmpty().Where(it => it is not null).IterateOn(it =>
                     {
-                        appModel.Images.Add(new ImageItem { Id = it.Id, ImagePath = it.ImagePath, ImageObservation = it.ImageObservation });
-                    }
-                });
-            }
-            if (formItem is IObservationFormItemViewModel observation)
-            {
-
-                observation.Observations.IterateOn(it =>
-                {
-                    if (!string.IsNullOrWhiteSpace(it.Observation))
-                        appModel.Observations.Add(new ObservationModel { Id = Guid.NewGuid().ToString(), Observation = it.Observation });
-                });
-            }
-
-            if (formItem is TextFormItemViewModel text)
-            {
-                appModel.FormData?.Add(new ItemFormDataTextModel(id: text.Id, topic: text.Topic,
-                    textData: text.TextData,
-                    measurementUnit: text.MeasurementUnit ?? ""));
-            }
-
-            if (formItem is CheckboxFormItem checkbox)
-            {
-                appModel.FormData?.Add(new ItemFormDataCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
-                {
-                    Children = checkbox.CheckboxItems.Select(
-                        child => new ItemFormDataCheckboxChildModel(id: child.Id, topic: child.Topic
-                            , isInvalid: child.IsInvalid)
+                        if (!string.IsNullOrWhiteSpace(it.ImagePath) && File.Exists(it.ImagePath))
                         {
-                            TextItems = child.TextItems.Select(textItem =>
-                                new ItemFormDataTextModel(
-                                    id: textItem.Id,
-                                    topic: textItem.Topic,
-                                    textData: textItem.TextData,
-                                    measurementUnit: textItem.MeasurementUnit ?? "")).ToList()
-                            ,
-                            Options = child.Options.Options.Select(option =>
-                                new ItemOptionModel(
-                                    id: option.Id,
-                                    value: option.Value,
-                                    isChecked: option.IsChecked,
-                                    isInvalid: option.IsInvalid)).ToList()
-                        }).ToList()
-                });
+                            appModel.Images.Add(new ImageItem { Id = it.Id, ImagePath = it.ImagePath, ImageObservation = it.ImageObservation });
+                        }
+                    });
+                }
+                if (formItem is IObservationFormItemViewModel observation)
+                {
+
+                    observation.Observations.DefaultIfEmpty().Where(it => it is not null).IterateOn(it =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(it.Observation))
+                            appModel.Observations.Add(new ObservationModel { Id = Guid.NewGuid().ToString(), Observation = it.Observation });
+                    });
+                }
+
+                if (formItem is TextFormItemViewModel text)
+                {
+                    appModel.FormData?.Add(new ItemFormDataTextModel(id: text.Id, topic: text.Topic,
+                        textData: text.TextData,
+                        measurementUnit: text.MeasurementUnit ?? ""));
+                }
+
+                if (formItem is CheckboxFormItem checkbox)
+                {
+                    appModel.FormData?.Add(new ItemFormDataCheckboxModel(id: checkbox.Id, topic: checkbox.Topic)
+                    {
+                        Children = checkbox.CheckboxItems.DefaultIfEmpty().Where(it => it is not null).Select(
+                            child => new ItemFormDataCheckboxChildModel(id: child.Id, topic: child.Topic
+                                , isInvalid: child.IsInvalid)
+                            {
+                                TextItems = child.TextItems.DefaultIfEmpty().Where(it => it is not null).Select(textItem =>
+                                    new ItemFormDataTextModel(
+                                        id: textItem.Id,
+                                        topic: textItem.Topic,
+                                        textData: textItem.TextData,
+                                        measurementUnit: textItem.MeasurementUnit ?? "")).ToList()
+                                ,
+                                Options = child.Options.Options.DefaultIfEmpty().Where(it => it is not null).Select(option =>
+                                    new ItemOptionModel(
+                                        id: option.Id,
+                                        value: option.Value,
+                                        isChecked: option.IsChecked,
+                                        isInvalid: option.IsInvalid)).ToList()
+                            }).ToList()
+                    });
+                }
             }
+
+            appModel.LawList = viewModel.LawList.DefaultIfEmpty().Where(it => it is not null).Select(x => new ItemLaw { LawId = x.LawId, LawTextContent = x.LawContent })
+                .ToList();
+
+            return appModel;
         }
+        catch (Exception)
+        {
 
-        appModel.LawList = viewModel.LawList.Select(x => new ItemLaw { LawId = x.LawId, LawTextContent = x.LawContent })
-            .ToList();
-
-        return appModel;
+            throw;
+        }
     }
 }

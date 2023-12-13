@@ -24,10 +24,11 @@ public static class AppModelStateExtensions
         
         var toReturn = new AppModelState
         {
-            Id = itemRoot.Id,
-            ItemName = itemRoot.ItemName,
-            ItemTemplate = itemRoot.TemplateName
+            Id = itemRoot?.Id ?? "",
+            ItemName = itemRoot?.ItemName ?? "",
+            ItemTemplate = itemRoot?.TemplateName ?? ""
         };
+
         toReturn.LoadItemData(
             itemRoot
                 ?.FormData
@@ -44,8 +45,8 @@ public static class AppModelStateExtensions
                                 {
                                     Id = checkbox.Id,
                                     Children = new ObservableCollectionExtended<CheckboxItemState>(
-                                        checkbox.Children
-                                            .Select(
+                                        checkbox?.Children
+                                            ?.Select(
                                                 checkboxItem =>
                                                 {
                                                     return new CheckboxItemState
@@ -54,7 +55,7 @@ public static class AppModelStateExtensions
                                                         Topic = checkboxItem.Topic,
                                                         TextItems =
                                                             new ObservableCollectionExtended<TextItemState>(
-                                                                checkboxItem.TextItems.Select(
+                                                                checkboxItem?.TextItems?.Select(
                                                                     textItem =>
                                                                     {
                                                                         return new TextItemState(
@@ -62,11 +63,11 @@ public static class AppModelStateExtensions
                                                                             topic: textItem.Topic,
                                                                             textData: textItem.TextData,
                                                                             measurementUnit: textItem.MeasurementUnit);
-                                                                    }))
+                                                                    }) ?? Enumerable.Empty<TextItemState>())
                                                         ,
                                                         Options = new ObservableCollectionExtended<OptionsItemState>(
-                                                            checkboxItem.Options
-                                                                .Select(
+                                                            checkboxItem?.Options
+                                                                ?.Select(
                                                                     opt => new OptionsItemState
                                                                     {
                                                                         Id = opt.Id,
@@ -74,9 +75,9 @@ public static class AppModelStateExtensions
                                                                         ,
                                                                         Value = opt.Value,
                                                                         IsInvalid = opt.IsInvalid
-                                                                    }))
+                                                                    }) ?? Enumerable.Empty<OptionsItemState>())
                                                     };
-                                                }))
+                                                }) ?? Enumerable.Empty<CheckboxItemState>())
                                 }
                             };
                         }
@@ -96,7 +97,8 @@ public static class AppModelStateExtensions
                         }
 
                         return null;
-                    }) ?? Enumerable.Empty<FormItemContainer>());
+                    }) ?? Enumerable.Empty<FormItemContainer>()
+                );
         toReturn.ImageContainer = new ImageContainerItemState
         {
             ImagesItems = new ObservableCollection<ImageItemState>(itemRoot?.Images.Select(it => new ImageItemState

@@ -12,24 +12,23 @@ public sealed class ProjectItemDatasourceImpl
 {
     private readonly XmlSerializer _serializer = new(typeof(ItemRoot));
 
-    public async Task<Result<Unit>> SaveContentItem(
+    public void SaveContentItem(
         string path
         , ItemRoot item
-    ) =>
-        await Task.Run(() =>
+    )
+    {
+        try
         {
-            try
-            {
-                using var writer = new StreamWriter(path);
-                _serializer.Serialize(textWriter: writer, o: item);
+            using var writer = new StreamWriter(path);
+            _serializer.Serialize(textWriter: writer, o: item);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
 
-                return new Result<Unit>();
-            }
-            catch (Exception e)
-            {
-                return new Result<Unit>(e);
-            }
-        });
+    }
+
 
     public async Task<Result<ItemRoot>> GetContentItem(
         string path

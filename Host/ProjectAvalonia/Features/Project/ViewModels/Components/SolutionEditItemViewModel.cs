@@ -1,5 +1,6 @@
 ﻿using System.Reactive;
 
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Presentation.Interfaces;
 
 using ReactiveUI;
@@ -15,6 +16,7 @@ public class SolutionEditItemViewModel
         , string id
         , string itemPath
         , ISolutionEditingBody body
+        ,EditingItemsNavigationService editableItemsNavigationService
         , bool isSaved = true
     )
     {
@@ -24,8 +26,12 @@ public class SolutionEditItemViewModel
         DisplayName = itemName;
         Id = id;
         IsSaved = isSaved;
+
+        _editableItemsNavigationService = editableItemsNavigationService;
+
         CloseItemCommand = ReactiveCommand.Create(() =>
         {
+                _editableItemsNavigationService?.RemoveItem(this);
         });
         SaveItemCommand = ReactiveCommand.CreateFromTask(
             async () =>
@@ -60,6 +66,8 @@ public class SolutionEditItemViewModel
 
     private string _displayName = "";
 
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
+
     public string DisplayName
     {
         get => _displayName; set => this.RaiseAndSetIfChanged(ref _displayName, value);
@@ -87,7 +95,7 @@ public class SolutionEditItemViewModel
 
     public ReactiveCommand<Unit, Unit> CloseItemCommand
     {
-        get;
+        get;init;
     }
 
     public ReactiveCommand<Unit, Unit> SaveItemCommand

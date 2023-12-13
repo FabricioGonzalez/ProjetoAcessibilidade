@@ -1,5 +1,6 @@
 ﻿using System.Reactive;
 
+using ProjectAvalonia.Features.Project.Services;
 using ProjectAvalonia.Presentation.Interfaces;
 
 using ReactiveUI;
@@ -14,7 +15,8 @@ public class ConclusionEditItemViewModel
         string itemName
         , string id
         , string itemPath
-        , IConclusionEditingBody body
+        , IConclusionEditingBody body,
+        EditingItemsNavigationService editableItemsNavigationService
         , bool isSaved = true
     )
     {
@@ -23,9 +25,14 @@ public class ConclusionEditItemViewModel
         DisplayName = itemName;
         Id = id;
         IsSaved = isSaved;
+        _editableItemsNavigationService = editableItemsNavigationService;
+
+
         CloseItemCommand = ReactiveCommand.Create(() =>
         {
+            _editableItemsNavigationService?.RemoveItem(this);
         });
+
         SaveItemCommand = ReactiveCommand.CreateFromTask(
             async () =>
             {
@@ -57,6 +64,8 @@ public class ConclusionEditItemViewModel
         get; set;
     }
     private string _displayName = "";
+
+    private readonly EditingItemsNavigationService _editableItemsNavigationService;
 
     public string DisplayName
     {
@@ -94,5 +103,8 @@ public class ConclusionEditItemViewModel
         get;
     }
 
-    public void Dispose() => throw new System.NotImplementedException();
+    public void Dispose()
+    {
+
+    }
 }

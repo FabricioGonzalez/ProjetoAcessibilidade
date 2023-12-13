@@ -89,10 +89,10 @@ public class AppModelState : ReactiveObject
         FormData.Add(formItem);
 
     public void LoadItemData(
-        IEnumerable<FormItemContainer>? items
+        IEnumerable<FormItemContainer?> items
     ) =>
         // formDataAggregate.AddRange(items);
-        FormData.AddRange(items);
+        FormData.AddRange(items ?? Enumerable.Empty<FormItemContainer>());
 
     public void RemoveItem(
         FormItemContainer formItem

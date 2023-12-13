@@ -15,7 +15,6 @@ public class ItemFormDataCheckboxModel : ItemFormDataContainer
     )
         : base(id, topic, type)
     {
-        Children = new List<ItemFormDataCheckboxChildModel>();
     }
 
     [XmlArray("checkboxes", IsNullable = true)]

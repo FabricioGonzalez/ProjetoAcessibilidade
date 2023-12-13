@@ -50,6 +50,9 @@ public class ReportImage : IComponent
         if (!string.IsNullOrWhiteSpace(ImagePath))
         {
             container
+                .Border(0.25f)
+                .PaddingVertical(8)
+                .BorderColor(Colors.Grey.Medium)
                 .Column(decoration =>
                 {
                     if (File.Exists(ImagePath))

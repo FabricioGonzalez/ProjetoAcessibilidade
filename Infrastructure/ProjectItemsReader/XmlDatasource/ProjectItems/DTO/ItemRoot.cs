@@ -31,7 +31,7 @@ public class ItemRoot
     [XmlArrayItem("checkbox_items", IsNullable = true, Type = typeof(ItemFormDataCheckboxModel))]
     [XmlArrayItem("text_item", IsNullable = true, Type = typeof(ItemFormDataTextModel))]
 
-    public List<ItemFormDataContainer>? FormData
+    public List<ItemFormDataContainer> FormData
     {
         get;
         set;
