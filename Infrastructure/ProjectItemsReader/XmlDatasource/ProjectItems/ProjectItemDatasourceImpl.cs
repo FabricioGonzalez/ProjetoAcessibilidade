@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Xml.Serialization;
 
 using LanguageExt;
@@ -75,5 +76,12 @@ public sealed class ProjectItemDatasourceImpl
         {
             return new Result<Unit>(ex);
         }
+    }
+
+    public string GetConclusionItem(string itemPath)
+    {
+        using var reader = new StreamReader(itemPath);
+
+        return reader.ReadToEnd(); i
     }
 }

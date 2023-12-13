@@ -154,7 +154,7 @@ public class ProjectEditingViewModel
             {
                 var conclusionItem = new ConclusionEditItemViewModel(itemName: conclusion.Name, id: conclusion.Id
                     , itemPath: conclusion.ItemPath
-                    , body: new ConclusionEditingBody(), _editableItemsNavigationService, isSaved: false);
+                    , body: new ConclusionEditingBody(_editableItemService.GetConclusion(conclusion.ItemPath)), _editableItemsNavigationService, isSaved: false);
 
                 _editableItemsNavigationService.AddItem(conclusionItem);
 

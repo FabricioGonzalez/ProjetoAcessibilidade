@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reactive;
 using System.Threading.Tasks;
 
@@ -111,4 +112,8 @@ public sealed class EditableItemService
         });
     }
 
+    internal string GetConclusion(string itemPath)
+    {
+        return _projectItemsDatasource.GetConclusionItem(itemPath);
+    }
 }
