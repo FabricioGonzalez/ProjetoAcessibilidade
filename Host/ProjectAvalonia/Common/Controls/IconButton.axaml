@@ -46,7 +46,6 @@
         <Setter Property="Height" Value="150" />
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Background" Value="{TemplateBinding Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource TileBorderColor}" />
     </Style>
 

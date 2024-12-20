@@ -21,7 +21,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-
+                <ResourceInclude Source="/Common/Controls/ContentArea.axaml" />
+                <ResourceInclude Source="/Common/Controls/SuggestionItem.axaml" />
+                <ResourceInclude Source="/Styles/Button.axaml" />
+                <ResourceInclude Source="/Common/Controls/ContentArea.axaml" />
                 <ResourceDictionary>
                     <x:Double x:Key="AppMaterialOpacity">0.55</x:Double>
                     <conv:SizePercentageConverter x:Key="SizePercentageConverter" />

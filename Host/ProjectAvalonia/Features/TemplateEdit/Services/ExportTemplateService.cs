@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Common.Linq;
-using Ionic.Zip;
 using ProjectAvalonia.Common.Logging;
 using ProjectAvalonia.Presentation.Interfaces.Services;
 
@@ -39,7 +39,7 @@ public class ExportTemplateService
 
                 var iso = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
 
-                using var zip = new ZipFile(fileName: path, encoding: iso);
+                using var zip = ZipFile.Open(path, ZipArchiveMode.Create);
 
                 /*zip.AddDirectory(path);*/
                 if (Directory.Exists(Constants.AppValidationRulesTemplateFolder))
@@ -47,7 +47,7 @@ public class ExportTemplateService
                     Directory.GetFiles(Constants.AppValidationRulesTemplateFolder)
                         .IterateOn(it =>
                         {
-                            zip.AddFile(fileName: it, directoryPathInArchive: "Rules");
+                            zip.CreateEntryFromFile(it, "Rules");
                         });
                 }
 
@@ -56,11 +56,9 @@ public class ExportTemplateService
                     Directory.GetFiles(Constants.AppItemsTemplateFolder)
                         .IterateOn(it =>
                         {
-                            zip.AddFile(fileName: it, directoryPathInArchive: "Templates");
+                            zip.CreateEntryFromFile(it, "Templates");
                         });
                 }
-
-                zip.Save(path);
             }
         }
         catch (Exception e)

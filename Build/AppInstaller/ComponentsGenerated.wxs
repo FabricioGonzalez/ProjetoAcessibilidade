@@ -659,9 +659,9 @@
             <Component Id="cmp0EDB097376FBE0BE64756815576F1B61" Guid="{4D8D0282-7A77-419D-87ED-AC2DC9B613BC}">
                 <File Id="fil956212AAC02131CE9DBEEFFAA517A9B4" KeyPath="yes" Source="$(var.BasePath)\System.Private.DataContractSerialization.dll" />
             </Component>
-            <Component Id="cmp1BF66780B6F5DC544844F175D2217D45" Guid="{C11F7501-A48C-4C71-99B4-E73A4A489DFC}">
+            <!--<Component Id="cmp1BF66780B6F5DC544844F175D2217D45" Guid="{C11F7501-A48C-4C71-99B4-E73A4A489DFC}">
                 <File Id="fil61B45F4CB4B92624343A3825909B2603" KeyPath="yes" Source="$(var.BasePath)\System.Private.Uri.dll" />
-            </Component>
+            </Component>-->
             <Component Id="cmpD2D406D08D2C2D891122355DB33D02D0" Guid="{1984D0FF-BB51-4F71-AFFF-7351E82234B3}">
                 <File Id="fil30AEEA8E30A25E3F992AFBC4E978B1EC" KeyPath="yes" Source="$(var.BasePath)\System.Private.Xml.dll" />
             </Component>

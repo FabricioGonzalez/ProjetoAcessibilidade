@@ -73,13 +73,13 @@ public partial class PreviewerViewModel : RoutableViewModel
 
         AvailablePrinters.Clear();
 
-        foreach (var item in PrinterSettings.InstalledPrinters)
-        {
-            AvailablePrinters.Add(new Printer
-            {
-                Name = item.ToString()
-            });
-        }
+        // foreach (var item in PrinterSettings.InstalledPrinters)
+        // {
+        //     AvailablePrinters.Add(new Printer
+        //     {
+        //         Name = item.ToString()
+        //     });
+        // }
 
 
         this.WhenAnyValue(vm => vm.SolutionPath)
@@ -250,7 +250,7 @@ public partial class PreviewerViewModel : RoutableViewModel
         }
     }
 
-    private void pd_BeginPrint(
+    /*private void pd_BeginPrint(
         object sender
         , PrintEventArgs ev
     ) =>
@@ -282,9 +282,10 @@ public partial class PreviewerViewModel : RoutableViewModel
         catch (Exception exp)
         {
             Logger.LogError(exp);
-            /*MessageBox.Show("An error occurred whiling printing: " + exp.Message);*/
+            /*MessageBox.Show("An error occurred whiling printing: " + exp.Message);#1#
         }
     }
+    */
 
     protected override void OnNavigatedTo(
         bool isInHistory

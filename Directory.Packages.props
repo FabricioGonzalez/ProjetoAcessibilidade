@@ -1,0 +1,66 @@
+﻿<Project>
+  <PropertyGroup>
+    <AvaloniaVersion>11.2.3</AvaloniaVersion>
+    <AvaloniaInteractivityVersion>11.2.0.1</AvaloniaInteractivityVersion>
+    <ReactiveUiVersion>20.1.63</ReactiveUiVersion>
+    <SystemReactiveVersion>6.0.1</SystemReactiveVersion>
+    <MicrosoftVersion>9.0.0</MicrosoftVersion>
+    <SkiaSharp>3.116.1</SkiaSharp>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Skia" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="AsyncImageLoader.Avalonia" Version="3.3.0" />
+    <PackageVersion Include="Avalonia.Controls.TreeDataGrid" Version="11.1.0" />
+    <PackageVersion Include="Avalonia.Xaml.Interactions" Version="$(AvaloniaInteractivityVersion)" />
+    <PackageVersion Include="Avalonia.Xaml.Interactions.DragAndDrop" Version="$(AvaloniaInteractivityVersion)" />
+    <PackageVersion Include="Avalonia.Xaml.Interactivity" Version="$(AvaloniaInteractivityVersion)" />
+    <PackageVersion Include="Dock.Avalonia" Version="11.2.0" />
+    <PackageVersion Include="MathNet.Numerics" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MicrosoftVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(MicrosoftVersion)" />
+    <PackageVersion Include="Microsoft.Win32.SystemEvents" Version="$(MicrosoftVersion)" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="Notification.Avalonia" Version="2.1.0" />
+    <PackageVersion Include="System.Text.Encoding.CodePages" Version="9.0.0" />
+    <PackageVersion Include="LanguageExt.Core" Version="4.4.9" />
+    <PackageVersion Include="ReactiveUI" Version="20.1.63" />
+    <PackageVersion Include="ReactiveUI.Validation" Version="4.1.1" />
+    <PackageVersion Include="Splat.Microsoft.Extensions.DependencyInjection" Version="15.2.22" />
+    <PackageVersion Include="System.Reactive" Version="6.0.1" />
+    <PackageVersion Include="DynamicData" Version="9.0.4" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.5" />
+    <PackageVersion Include="QuestPDF" Version="2024.12.1" />
+    <PackageVersion Include="DotNetZip" Version="1.16.0" />
+    <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
+    <PackageVersion Include="System.Drawing.Common" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageVersion>
+    <PackageVersion Include="SkiaSharp" Version="$(SkiaSharp)" />
+    <PackageVersion Include="SkiaSharp.HarfBuzz" Version="3.116.1" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="$(SkiaSharp)" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Win32" Version="$(SkiaSharp)" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.macOS" Version="$(SkiaSharp)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageVersion Include="xunit" Version="2.9.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageVersion>
+    <PackageVersion Include="coverlet.collector" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageVersion>
+  </ItemGroup>
+</Project>

@@ -53,7 +53,7 @@ public class ExceptionDocument : IDocument
 
                     if (currentException != null)
                     {
-                        column.Item().PaddingVertical(value: 15).LineHorizontal(size: 2)
+                        column.Item().PaddingVertical(value: 15).LineHorizontal( 2)
                             .LineColor( Colors.Red.Medium);
                     }
                 }

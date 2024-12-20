@@ -10,7 +10,7 @@ public record PreviewPage(
     , Size Size
 );
 
-public sealed class PreviewerCanvas
+/*public sealed class PreviewerCanvas
     : SkiaCanvasBase
         , IRenderingCanvas
 {
@@ -60,4 +60,4 @@ public sealed class PreviewerCanvas
     public override void EndDocument()
     {
     }
-}
+}*/

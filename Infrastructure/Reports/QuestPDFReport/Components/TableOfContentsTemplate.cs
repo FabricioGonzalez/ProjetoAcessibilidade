@@ -118,7 +118,7 @@ public class TableOfContentsTemplate : IComponent
                             PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
                         };
 
-                        canvas.DrawLine(0, 0, space.Width, 0, paint);
+                        /*canvas.DrawLine(0, 0, space.Width, 0, paint);*/
                     });
 
                 row.ConstantItem(40).Text(text =>
@@ -161,7 +161,7 @@ public class TableOfContentsTemplate : IComponent
                             PathEffect = SKPathEffect.CreateDash(new float[] { 1, 3 }, 0)
                         };
 
-                        canvas.DrawLine(0, 0, space.Width, 0, paint);
+                        /*canvas.DrawLine(0, 0, space.Width, 0, paint);*/
                     });
 
                 row.ConstantItem(40).Text(text =>

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -8,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using Common.Linq;
-using Ionic.Zip;
 using Newtonsoft.Json.Linq;
 using ProjectAvalonia.Common.Extensions;
 using ProjectAvalonia.Common.Helpers;
@@ -85,21 +85,21 @@ public class ImportTemplateService
 
         var iso = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
 
-        using var zip = new ZipFile(fileName: ZipPath, encoding: iso);
+        using var zip = ZipFile.OpenRead(ZipPath);
 
         foreach (var item in zip.Entries)
         {
-            var rule = item.FileName.Split('/');
+            var rule = item.FullName.Split('/');
 
             var path = rule[0] switch
             {
                 "Rules" => Path.Combine(path1: Constants.AppValidationRulesTemplateFolder, path2: rule[1])
                 , "Templates" => Path.Combine(path1: Constants.AppItemsTemplateFolder, path2: rule[1]), _ => ""
             };
-            using var sw = new FileStream(path: path
-                , options: new FileStreamOptions { Mode = FileMode.Create, Access = FileAccess.Write });
+            /*using var sw = new FileStream(path: path
+                , options: new FileStreamOptions { Mode = FileMode.Create, Access = FileAccess.Write });*/
 
-            item.Extract(sw);
+            item.ExtractToFile(path);
         }
     }
 

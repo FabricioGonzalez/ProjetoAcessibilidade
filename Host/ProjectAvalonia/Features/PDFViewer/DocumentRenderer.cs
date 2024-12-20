@@ -59,9 +59,9 @@ public class DocumentRenderer : INotifyPropertyChanged
         IDocument document
     )
     {
-        var canvas = new PreviewerCanvas();
+        /*var canvas = new PreviewerCanvas();
 
-        DocumentGenerator.RenderDocument(canvas: canvas, document: document,document.GetSettings());
+        DocumentGenerator.RenderDocument(canvas: canvas, document: document,document.GetSettings());*/
 
         foreach (var pages in Pages)
         {
@@ -71,7 +71,7 @@ public class DocumentRenderer : INotifyPropertyChanged
         Dispatcher.UIThread.Post(action: () =>
         {
             Pages.Clear();
-            Pages = new ObservableCollection<PreviewPage>(collection: canvas.Pictures);
+            /*Pages = new ObservableCollection<PreviewPage>(collection: canvas.Pictures);*/
         });
     }
 }

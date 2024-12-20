@@ -7,193 +7,201 @@ namespace ProjectAvalonia.Common.Controls;
 
 public class ContentArea : ContentControl
 {
-    public static readonly StyledProperty<object> TitleProperty =
-        AvaloniaProperty.Register<ContentArea, object>(name: nameof(Title));
+	public static readonly StyledProperty<object> TitleProperty =
+		AvaloniaProperty.Register<ContentArea, object>(nameof(Title));
 
-    public static readonly StyledProperty<object> CaptionProperty =
-        AvaloniaProperty.Register<ContentArea, object>(name: nameof(Caption));
+	public static readonly StyledProperty<object?> TopContentProperty =
+		AvaloniaProperty.Register<ContentArea, object?>(nameof(TopContent));
 
-    public static readonly StyledProperty<bool> EnableBackProperty =
-        AvaloniaProperty.Register<ContentArea, bool>(name: nameof(EnableBack));
+	public static readonly StyledProperty<object?> BottomContentProperty =
+		AvaloniaProperty.Register<ContentArea, object?>(nameof(BottomContent));
 
-    public static readonly StyledProperty<bool> EnableCancelProperty =
-        AvaloniaProperty.Register<ContentArea, bool>(name: nameof(EnableCancel));
+	public static readonly StyledProperty<object> CaptionProperty =
+		AvaloniaProperty.Register<ContentArea, object>(nameof(Caption));
 
-    public static readonly StyledProperty<bool> EnableNextProperty =
-        AvaloniaProperty.Register<ContentArea, bool>(name: nameof(EnableNext));
+	public static readonly StyledProperty<bool> EnableBackProperty =
+		AvaloniaProperty.Register<ContentArea, bool>(nameof(EnableBack));
 
-    public static readonly StyledProperty<bool> EnableSkipProperty =
-        AvaloniaProperty.Register<ContentArea, bool>(name: nameof(EnableSkip));
+	public static readonly StyledProperty<bool> EnableCancelProperty =
+		AvaloniaProperty.Register<ContentArea, bool>(nameof(EnableCancel));
 
-    public static readonly StyledProperty<bool> FocusNextProperty =
-        AvaloniaProperty.Register<ContentArea, bool>(name: nameof(FocusNext));
+	public static readonly StyledProperty<bool> EnableNextProperty =
+		AvaloniaProperty.Register<ContentArea, bool>(nameof(EnableNext));
 
-    public static readonly StyledProperty<bool> FocusCancelProperty =
-        AvaloniaProperty.Register<ContentArea, bool>(name: nameof(FocusCancel));
+	public static readonly StyledProperty<bool> EnableSkipProperty =
+		AvaloniaProperty.Register<ContentArea, bool>(nameof(EnableSkip));
 
-    public static readonly StyledProperty<object> CancelContentProperty =
-        AvaloniaProperty.Register<ContentArea, object>(name: nameof(CancelContent), defaultValue: "Cancel");
+	public static readonly StyledProperty<bool> FocusNextProperty =
+		AvaloniaProperty.Register<ContentArea, bool>(nameof(FocusNext));
 
-    public static readonly StyledProperty<object> NextContentProperty =
-        AvaloniaProperty.Register<ContentArea, object>(name: nameof(NextContent), defaultValue: "Done");
+	public static readonly StyledProperty<bool> FocusCancelProperty =
+		AvaloniaProperty.Register<ContentArea, bool>(nameof(FocusCancel));
 
-    public static readonly StyledProperty<object> SkipContentProperty =
-        AvaloniaProperty.Register<ContentArea, object>(name: nameof(SkipContent), defaultValue: "Skip");
+	public static readonly StyledProperty<object> CancelContentProperty =
+		AvaloniaProperty.Register<ContentArea, object>(nameof(CancelContent), "Cancel");
 
-    public static readonly StyledProperty<object> FooterContentProperty =
-        AvaloniaProperty.Register<ContentArea, object>(name: nameof(FooterContent));
+	public static readonly StyledProperty<object> NextContentProperty =
+		AvaloniaProperty.Register<ContentArea, object>(nameof(NextContent), "Next");
 
-    public static readonly StyledProperty<bool> IsBusyProperty =
-        AvaloniaProperty.Register<ContentArea, bool>(name: nameof(IsBusy));
+	public static readonly StyledProperty<object> SkipContentProperty =
+		AvaloniaProperty.Register<ContentArea, object>(nameof(NextContent), "Skip");
 
-    public static readonly StyledProperty<IBrush> HeaderBackgroundProperty =
-        AvaloniaProperty.Register<ContentArea, IBrush>(name: nameof(HeaderBackground));
+	public static readonly StyledProperty<bool> IsBusyProperty =
+		AvaloniaProperty.Register<ContentArea, bool>(nameof(IsBusy));
 
-    private ContentPresenter? _captionPresenter;
+	public static readonly StyledProperty<IBrush> HeaderBackgroundProperty =
+		AvaloniaProperty.Register<ContentArea, IBrush>(nameof(HeaderBackground));
 
-    private ContentPresenter? _titlePresenter;
+	private ContentPresenter? _titlePresenter;
+	private ContentPresenter? _captionPresenter;
 
-    public object Title
-    {
-        get => GetValue(property: TitleProperty);
-        set => SetValue(property: TitleProperty, value: value);
-    }
+	public object Title
+	{
+		get => GetValue(TitleProperty);
+		set => SetValue(TitleProperty, value);
+	}
 
-    public object Caption
-    {
-        get => GetValue(property: CaptionProperty);
-        set => SetValue(property: CaptionProperty, value: value);
-    }
+	public object? TopContent
+	{
+		get => GetValue(TopContentProperty);
+		set => SetValue(TopContentProperty, value);
+	}
 
-    public bool EnableBack
-    {
-        get => GetValue(property: EnableBackProperty);
-        set => SetValue(property: EnableBackProperty, value: value);
-    }
+	public object? BottomContent
+	{
+		get => GetValue(BottomContentProperty);
+		set => SetValue(BottomContentProperty, value);
+	}
 
-    public bool EnableCancel
-    {
-        get => GetValue(property: EnableCancelProperty);
-        set => SetValue(property: EnableCancelProperty, value: value);
-    }
+	public object Caption
+	{
+		get => GetValue(CaptionProperty);
+		set => SetValue(CaptionProperty, value);
+	}
 
-    public bool EnableNext
-    {
-        get => GetValue(property: EnableNextProperty);
-        set => SetValue(property: EnableNextProperty, value: value);
-    }
+	public bool EnableBack
+	{
+		get => GetValue(EnableBackProperty);
+		set => SetValue(EnableBackProperty, value);
+	}
 
-    public bool EnableSkip
-    {
-        get => GetValue(property: EnableSkipProperty);
-        set => SetValue(property: EnableSkipProperty, value: value);
-    }
+	public bool EnableCancel
+	{
+		get => GetValue(EnableCancelProperty);
+		set => SetValue(EnableCancelProperty, value);
+	}
 
-    public bool FocusNext
-    {
-        get => GetValue(property: FocusNextProperty);
-        set => SetValue(property: FocusNextProperty, value: value);
-    }
+	public bool EnableNext
+	{
+		get => GetValue(EnableNextProperty);
+		set => SetValue(EnableNextProperty, value);
+	}
 
-    public bool FocusCancel
-    {
-        get => GetValue(property: FocusCancelProperty);
-        set => SetValue(property: FocusCancelProperty, value: value);
-    }
+	public bool EnableSkip
+	{
+		get => GetValue(EnableSkipProperty);
+		set => SetValue(EnableSkipProperty, value);
+	}
 
-    public object CancelContent
-    {
-        get => GetValue(property: CancelContentProperty);
-        set => SetValue(property: CancelContentProperty, value: value);
-    }
+	public bool FocusNext
+	{
+		get => GetValue(FocusNextProperty);
+		set => SetValue(FocusNextProperty, value);
+	}
 
-    public object NextContent
-    {
-        get => GetValue(property: NextContentProperty);
-        set => SetValue(property: NextContentProperty, value: value);
-    }
+	public bool FocusCancel
+	{
+		get => GetValue(FocusCancelProperty);
+		set => SetValue(FocusCancelProperty, value);
+	}
 
-    public object SkipContent
-    {
-        get => GetValue(property: SkipContentProperty);
-        set => SetValue(property: SkipContentProperty, value: value);
-    }
+	public object CancelContent
+	{
+		get => GetValue(CancelContentProperty);
+		set => SetValue(CancelContentProperty, value);
+	}
 
-    public object FooterContent
-    {
-        get => GetValue(property: FooterContentProperty);
-        set => SetValue(property: FooterContentProperty, value: value);
-    }
+	public object NextContent
+	{
+		get => GetValue(NextContentProperty);
+		set => SetValue(NextContentProperty, value);
+	}
 
-    public bool IsBusy
-    {
-        get => GetValue(property: IsBusyProperty);
-        set => SetValue(property: IsBusyProperty, value: value);
-    }
+	public object SkipContent
+	{
+		get => GetValue(SkipContentProperty);
+		set => SetValue(SkipContentProperty, value);
+	}
 
-    public IBrush HeaderBackground
-    {
-        get => GetValue(property: HeaderBackgroundProperty);
-        set => SetValue(property: HeaderBackgroundProperty, value: value);
-    }
+	public bool IsBusy
+	{
+		get => GetValue(IsBusyProperty);
+		set => SetValue(IsBusyProperty, value);
+	}
 
-    protected override bool RegisterContentPresenter(
-        ContentPresenter presenter
-    )
-    {
-        var result = base.RegisterContentPresenter(presenter: presenter);
+	public IBrush HeaderBackground
+	{
+		get => GetValue(HeaderBackgroundProperty);
+		set => SetValue(HeaderBackgroundProperty, value);
+	}
 
-        switch (presenter.Name)
-        {
-            case "PART_TitlePresenter":
-                if (_titlePresenter is not null)
-                {
-                    _titlePresenter.PropertyChanged -= PresenterOnPropertyChanged;
-                }
+	protected override bool RegisterContentPresenter(ContentPresenter presenter)
+	{
+		var result = base.RegisterContentPresenter(presenter);
 
-                _titlePresenter = presenter;
-                _titlePresenter.PropertyChanged += PresenterOnPropertyChanged;
-                result = true;
-                break;
+		if (presenter is not { } contentPresenter)
+		{
+			return result;
+		}
 
-            case "PART_CaptionPresenter":
-                if (_captionPresenter is not null)
-                {
-                    _captionPresenter.PropertyChanged -= PresenterOnPropertyChanged;
-                }
+		switch (presenter.Name)
+		{
+			case "PART_TitlePresenter":
+				if (_titlePresenter is { })
+				{
+					_titlePresenter.PropertyChanged -= PresenterOnPropertyChanged;
+				}
 
-                _captionPresenter = presenter;
-                _captionPresenter.PropertyChanged += PresenterOnPropertyChanged;
-                _captionPresenter.IsVisible = Caption is not null;
-                result = true;
-                break;
-        }
+				_titlePresenter = contentPresenter;
+				_titlePresenter.PropertyChanged += PresenterOnPropertyChanged;
+				result = true;
+				break;
 
-        return result;
-    }
+			case "PART_CaptionPresenter":
+				if (_captionPresenter is { })
+				{
+					_captionPresenter.PropertyChanged -= PresenterOnPropertyChanged;
+				}
 
-    private void PresenterOnPropertyChanged(
-        object? sender
-        , AvaloniaPropertyChangedEventArgs e
-    )
-    {
-        if (e.Property == ContentPresenter.ChildProperty)
-        {
-            var className = sender == _captionPresenter ? "caption" : "title";
+				_captionPresenter = contentPresenter;
+				_captionPresenter.PropertyChanged += PresenterOnPropertyChanged;
+				_captionPresenter.IsVisible = Caption is not null;
+				result = true;
+				break;
+		}
 
-            if (e.OldValue is StyledElement oldValue)
-            {
-                oldValue.Classes.Remove(name: className);
-            }
+		return result;
+	}
 
-            if (e.NewValue is StyledElement newValue)
-            {
-                newValue.Classes.Add(name: className);
-            }
-        }
-        else if (e.Property == CaptionProperty && _captionPresenter is not null)
-        {
-            _captionPresenter.IsVisible = e.NewValue is not null;
-        }
-    }
+	private void PresenterOnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+	{
+		if (e.Property == ContentPresenter.ChildProperty)
+		{
+			var className = sender == _captionPresenter ? "caption" : "title";
+
+			if (e.OldValue is StyledElement oldValue)
+			{
+				oldValue.Classes.Remove(className);
+			}
+
+			if (e.NewValue is StyledElement newValue)
+			{
+				newValue.Classes.Add(className);
+			}
+		}
+		else if (e.Property == CaptionProperty && _captionPresenter is not null)
+		{
+			_captionPresenter.IsVisible = e.NewValue is not null;
+		}
+	}
 }

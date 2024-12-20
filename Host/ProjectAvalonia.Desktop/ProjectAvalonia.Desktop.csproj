@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <AnalysisLevel>latest</AnalysisLevel>
         <LangVersion>latest</LangVersion>
@@ -21,7 +21,7 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
         <InvariantGlobalization>false</InvariantGlobalization>
-        <RuntimeIdentifiers>win7-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
+        <RuntimeIdentifiers>win-x64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
         <PathMap>$(MSBuildProjectDirectory)\=ProjectAvalonia.Desktop</PathMap>
         <Version>1.1.9</Version>
     </PropertyGroup>
@@ -45,31 +45,35 @@
         <PackageIcon>Assets\logo.ico</PackageIcon>
         <Product>Project Avalonia</Product>
         <!-- owners is not supported in MSBuild -->
-        <AvaloniaVersion>11.0.5</AvaloniaVersion>
+        <AvaloniaVersion>11.2.3</AvaloniaVersion>
         <PackageProjectUrl>https://github.com/FabricioGonzalez/ProjetoAcessibilidade</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**" />
+        <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Assets\avalonia-logo.ico" />
-        <None Remove="Assets\logo.ico" />
+        <None Remove="Assets\avalonia-logo.ico"/>
+        <None Remove="Assets\logo.ico"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="LanguageExt.Core" Version="4.4.7" />
-        <PackageReference Include="ReactiveUI" Version="19.5.1" />
-        <PackageReference Include="System.Reactive" Version="6.0.0" />
+        <PackageReference Include="Avalonia"/>
+        <PackageReference Include="Avalonia.Desktop"/>
+        <PackageReference Include="Avalonia.ReactiveUI"/>
+        <PackageReference Include="Avalonia.Skia"/>
+        <PackageReference Include="LanguageExt.Core"/>
+        <PackageReference Include="ReactiveUI"/>
+        <PackageReference Include="System.Text.Json"/>
+        <PackageReference Include="System.Private.Uri"/>
+        <PackageReference Include="System.Drawing.Common"/>
+        <PackageReference Include="System.Reactive"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Common\Common.csproj" />
-        <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj" />
+        <ProjectReference Include="..\..\Shared\Common\Common.csproj"/>
+        <ProjectReference Include="..\ProjectAvalonia\ProjectAvalonia.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="..\..\Data\Database\GestorProjetosArpa.db">

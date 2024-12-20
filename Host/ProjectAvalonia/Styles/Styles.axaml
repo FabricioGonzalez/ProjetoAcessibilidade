@@ -12,7 +12,7 @@
     </Styles.Resources>
 
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/EditableTextBlock.axaml" />
-    <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ContentArea.axaml" />
+    <!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ContentArea.axaml" />-->
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/InfoMessage.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/Dialog.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ProgressRingArc.axaml" />
@@ -29,11 +29,11 @@
     <!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/StatusItem.axaml" />-->
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/PrivacyContentControl.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/LabelsItemsPresenter.axaml" />
-    <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/SuggestionItem.axaml" />
+    <!--<StyleInclude Source="avares://ProjectAvalonia/Common/Controls/SuggestionItem.axaml" />-->
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/ClipboardCopyButton.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Common/Controls/CopyableItem.axaml" />
 
-    <StyleInclude Source="avares://ProjectAvalonia/Styles/Button.axaml" />
+    <!--<StyleInclude Source="avares://ProjectAvalonia/Styles/Button.axaml" />-->
     <StyleInclude Source="avares://ProjectAvalonia/Styles/Checkmark.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Styles/FontSizes.axaml" />
     <StyleInclude Source="avares://ProjectAvalonia/Styles/IconButton.axaml" />

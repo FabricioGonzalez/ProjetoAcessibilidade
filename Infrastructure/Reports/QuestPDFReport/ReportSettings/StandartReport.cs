@@ -446,7 +446,7 @@ public class StandardReport : IDocument
                         IsAntialias = true
                     };
 
-                    canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: fillPaint);
+                    /*canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: fillPaint);*/
                     if (hasBorder)
                     {
                         using var strokePaint = new SKPaint
@@ -457,7 +457,7 @@ public class StandardReport : IDocument
                             IsAntialias = true
                         };
 
-                        canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: strokePaint);
+                        /*canvas.DrawRoundRect(x: 4, y: 2, w: 12, h: 12, rx: 2, ry: 4, paint: strokePaint);*/
                     }
                 });
         });

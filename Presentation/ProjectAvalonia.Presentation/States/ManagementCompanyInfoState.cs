@@ -7,9 +7,8 @@ using ReactiveUI;
 
 namespace ProjectAvalonia.Presentation.States;
 
-public class ManagementCompanyInfoState : ReactiveObject
+public class ManagementCompanyInfoState(IFilePickerService service) : ReactiveObject
 {
-    private readonly IFilePickerService service;
     private string _email = "";
 
     private string _logoPath = "";
@@ -31,10 +30,6 @@ public class ManagementCompanyInfoState : ReactiveObject
             .Subscribe(val => LogoPath = val,
                 error => Console.WriteLine(error));
     });
-    public ManagementCompanyInfoState(IFilePickerService service)
-    {
-        this.service = service;
-    }
 
 
     public DateTime ReportDate

@@ -1,10 +1,8 @@
 ﻿using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-
 using LanguageExt;
 using LanguageExt.Common;
-
 using XmlDatasource.ProjectItems.DTO;
 
 namespace XmlDatasource.ProjectItems;
@@ -27,7 +25,6 @@ public sealed class ProjectItemDatasourceImpl
         {
             throw;
         }
-
     }
 
 
@@ -65,11 +62,11 @@ public sealed class ProjectItemDatasourceImpl
     {
         try
         {
-            using var writer = new StreamWriter(path: conclusionItemPath, encoding: Encoding.UTF8
+            await using var writer = new StreamWriter(path: conclusionItemPath, encoding: Encoding.UTF8
                 , options: new FileStreamOptions { Mode = FileMode.Create, Access = FileAccess.Write });
-            {
-                await writer.WriteAsync(conclusionBody);
-            }
+
+            await writer.WriteAsync(conclusionBody);
+
             return new Result<Unit>();
         }
         catch (Exception ex)
@@ -78,10 +75,12 @@ public sealed class ProjectItemDatasourceImpl
         }
     }
 
-    public string GetConclusionItem(string itemPath)
+    public string GetConclusionItem(
+        string itemPath
+    )
     {
         using var reader = new StreamReader(itemPath);
 
-        return reader.ReadToEnd(); i
+        return reader.ReadToEnd();
     }
 }

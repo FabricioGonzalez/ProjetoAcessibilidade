@@ -23,13 +23,13 @@
         EnableNext="True"
         FocusNext="True"
         NextContent="{x:Static p:Resources.ContinueActionLabel}">
-        <c:ContentArea.FooterContent>
+        <c:ContentArea.BottomContent>
             <TextBox
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Text="{Binding ItemName, Mode=TwoWay}"
                 Watermark="{x:Static p:Resources.AddItemNameLabel}" />
-        </c:ContentArea.FooterContent>
+        </c:ContentArea.BottomContent>
         <ListBox
             CornerRadius="8"
             ItemsSource="{Binding Items, Mode=OneWay}"

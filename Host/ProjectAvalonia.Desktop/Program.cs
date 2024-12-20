@@ -25,7 +25,7 @@ namespace ProjectAvalonia.Desktop;
 
 public class Program
 {
-    private static Global? Global;
+    private static Global? _global;
 
     // Initialization code. Don't use any Avalonia, third-party APIs or any
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
@@ -100,9 +100,9 @@ public class Program
 
             configuration.GetSection("Languages").Bind(configFile);
 
-            Global = CreateGlobal(dataDir: dataDir, uiConfig: uiConfig, config: config,
+            Program._global = CreateGlobal(dataDir: dataDir, uiConfig: uiConfig, config: config,
                 languageManager: new LanguageManager(configFile));
-            ServicesConfig.Initialize(Global);
+            ServicesConfig.Initialize(Program._global);
 
             RxApp.DefaultExceptionHandler = Observer.Create<Exception>(ex =>
             {
@@ -127,7 +127,7 @@ public class Program
                     () =>
                         new App(
                             backendInitialiseAsync: async () =>
-                                await Global.InitializeNoWalletAsync(terminateService)
+                                await Program._global.InitializeNoWalletAsync(terminateService)
                             , startInBg: runGuiInBackground))
                 .UseReactiveUI() /*.StartContainer()*/
                 /*.AddMediator(markers: typeof(Program))*/
@@ -139,7 +139,7 @@ public class Program
                         ? $"Renderer: {glInterface.PrimaryContext.GlInterface.Renderer}"
                         : "Renderer: Avalonia Software");*/
 
-                    ThemeHelper.ApplyTheme(Global.UiConfig.DarkModeEnabled ? Theme.Dark : Theme.Light);
+                    ThemeHelper.ApplyTheme(Program._global.UiConfig.DarkModeEnabled ? Theme.Dark : Theme.Light);
                 })
                 .StartWithClassicDesktopLifetime(args);
         }
@@ -166,8 +166,8 @@ public class Program
             ServicesConfig.UpdateManager.StartInstallingNewVersion();
         }
 
-        AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
-        TaskScheduler.UnobservedTaskException -= TaskScheduler_UnobservedTaskException;
+        AppDomain.CurrentDomain.UnhandledException -= Program.CurrentDomain_UnhandledException;
+        TaskScheduler.UnobservedTaskException -= Program.TaskScheduler_UnobservedTaskException;
 
         Logger.LogSoftwareStopped(Constants.AppName);
 
@@ -235,7 +235,7 @@ public class Program
     {
         Logger.LogSoftwareStopped("Gestor de Projeto ARPA GUI");
 
-        if (Global is { } global)
+        if (Program._global is { } global)
         {
             await global.DisposeAsync().ConfigureAwait(false);
         }
@@ -251,21 +251,17 @@ public class Program
     {
         var innerExceptions = e.Exception.Flatten().InnerExceptions;
 
-        if (innerExceptions.Count == 1 && innerExceptions[0] is SocketException socketException &&
-            socketException.SocketErrorCode == SocketError.OperationAborted)
+        switch (innerExceptions)
         {
-            // Until https://github.com/MetacoSA/NBitcoin/pull/1089 is resolved.
-            Logger.LogTrace(e.Exception);
-        }
-        else if (innerExceptions.Count == 1 && innerExceptions[0] is OperationCanceledException ex &&
-                 ex.Message == "The peer has been disconnected")
-        {
+            case [SocketException { SocketErrorCode: SocketError.OperationAborted }]:
             // Source of this exception is NBitcoin library.
-            Logger.LogTrace(e.Exception);
-        }
-        else
-        {
-            Logger.LogDebug(e.Exception);
+            case [OperationCanceledException { Message: "The peer has been disconnected" }]:
+                // Until https://github.com/MetacoSA/NBitcoin/pull/1089 is resolved.
+                Logger.LogTrace(e.Exception);
+                break;
+            default:
+                Logger.LogDebug(e.Exception);
+                break;
         }
     }
 
